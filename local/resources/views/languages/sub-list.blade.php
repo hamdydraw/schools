@@ -34,11 +34,8 @@
 					 <div class="col-md-6">
 						<fieldset class="form-group">
 						   {{ Form::label($key, $key) }} <br>
-						  {{$value}}
-						   <!--<input type="text" class="form-control" name="{{$key}}"
-					 		required="true" value = "{{$value}}" >-->
-
-
+						  <div class="form-control" id="div_{{$key}}" onclick="$('#{{$key}}').removeAttr('disabled');$('#{{$key}}').show();$('#'+this.id).hide(); " >{{$value}}</div>
+						   <input  style="display:none;" type="text" class="form-control" name="{{$key}}" id="{{$key}}"	required="true" value = "{{$value}}" disabled>
 							</fieldset>
 							</div>
 
@@ -53,8 +50,8 @@
 
 						@if(count($language_data))
 						<div class="buttons text-center">
-							<!--<button class="btn btn-lg btn-primary button" ng-disabled='!formTopics.$valid'
-							>{{ getPhrase('update') }}</button>-->
+							<button class="btn btn-lg btn-primary button" ng-disabled='!formTopics.$valid'
+							>{{ getPhrase('update') }}</button>
 						</div>
 						@endif
 							{!! Form::close() !!}
