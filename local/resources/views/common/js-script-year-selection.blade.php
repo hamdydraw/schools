@@ -84,8 +84,8 @@ data= {  _method: 'post',
 };
 
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
+
 $scope.parent_courses = result.data;
-console.log($scope.parent_courses);
 if($scope.pre_selected_course_parent_id)
 {
 index = httpPreConfig.findIndexInData(
@@ -98,9 +98,7 @@ $scope.getChildCourses($scope.selected_academic_id, $scope.pre_selected_course_p
 
 });
 }
-var flag= null;
-$scope.getChildCourses = function(academic_id, parent_course_id,flag){
-
+$scope.getChildCourses = function(academic_id, parent_course_id){
 $scope.thirdYear=false;
 if(parent_course_id === 28)
 {
@@ -123,12 +121,12 @@ data= {   _method: 'post',
 'parent_course_id': parent_course_id
 };
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
+
 angular.forEach(result.data, function(value, key){
 $scope.courses.push(value.course);
 $scope.courses_object.push(value);
 
 });
-
 $scope.parent_selected = true;
 
 if($scope.pre_selected_course_id)
@@ -181,7 +179,8 @@ if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "tr
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "detainedlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "studentresults"
-|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "id-cards"){
+|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "id-cards")
+{
 $scope.doCall();
 $scope.have_semisters = false;
 $scope.years.current_year    = null;

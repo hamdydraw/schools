@@ -202,6 +202,18 @@
             }, 10);
 
         }
+        $scope.promptAll=function()
+        {
+            $('[id*=selctionAction]').val('promoted');
+        }
+        $scope.stopAll=function()
+        {
+            $('[id*=selctionAction]').val('detained');
+        }
+        $scope.nothingAll=function()
+        {
+            $('[id*=selctionAction]').val('nothing');
+        }
 
     });
 

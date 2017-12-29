@@ -24,8 +24,7 @@ if (isset($user_slug)) {
         $course_id = $user_record->student->course_id;
         $year = $user_record->student->current_year;
         $semister = $user_record->student->current_semister;
-    }
-    else{
+    } else {
         $academic_id = getDefaultAcademicId();
         $course_parent_id = getDefaultParentCourseId();
         $course_id = '';
@@ -72,6 +71,7 @@ if (isset($user_slug)) {
             <input type="hidden" name="extra_academic_id" value="{{$academic_id}}">
         @endif
 
+        {{--الصف الدراسى--}}
         @if(!$user_record)
             <fieldset ng-if="selected_academic_id" class="form-group">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
@@ -102,7 +102,7 @@ if (isset($user_slug)) {
                 </select>
             </fieldset>
         @endif
-
+        {{--الفصل الدراسى--}}
         <fieldset ng-if="selected_course_parent_id" class="form-group">
             <label for="course_id">{{getPhrase('course')}}</label>
             <select
