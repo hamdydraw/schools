@@ -9,7 +9,7 @@
 
 <script>
  
- app.controller('TimetableController', function ($scope, $http, $timeout, httpPreConfig)
+ app.controller('TimetableController', function ($scope, $http, $timeout, httpPreConfig,$location)
   {
     @include('common.js-script-year-selection')
     $scope.parent_courses  = [];
