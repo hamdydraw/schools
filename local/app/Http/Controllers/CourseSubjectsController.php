@@ -330,25 +330,28 @@ class CourseSubjectsController extends Controller
         $subjects_list,
         $total_classes
     ) {
-
         $query = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
-            /*->where('course_id', '=', $course_id)*/
             ->where('year', '=', $current_year)
             ->where('semister', '=', $current_sem)
             ->groupBy('subject_id', 'semister')->get();
 
         $existing_subjects_list = [];
-        foreach ($query as $r) {
-            $existing_subjects_list[] = $r->subject_id;
-            $existing_sesssions_list[] = $r->sessions_needed;
-            $existing_concatenation = array_combine($existing_subjects_list, $existing_sesssions_list);
+        $existing_sesssions_list = [];
+        $existing_concatenation = array();
+        if (count($query) > 0) {
+            foreach ($query as $r) {
+                $existing_subjects_list[] = $r->subject_id;
+                $existing_sesssions_list[] = $r->sessions_needed;
+                $existing_concatenation = array_combine($existing_subjects_list, $existing_sesssions_list);
 
+            }
         }
         $coming_param_concat = array_combine($subjects_list, $total_classes);
         $diff_to_update = array_diff($coming_param_concat, $existing_concatenation);
         $items_to_remove = array_diff($existing_subjects_list, $subjects_list);
         $items_to_add = array_diff($subjects_list, $existing_subjects_list);
+
         //Delete the unwanted/non-submitted items from course subjects table
         if (!env('DEMO_MODE')) {
             foreach ($items_to_remove as $index => $subject_id) {
@@ -382,14 +385,13 @@ class CourseSubjectsController extends Controller
         }
         if ($diff_to_update != null) {
             {
-
-                $record = App\CourseSubject::where('academic_id', '=', $academic_id)
-                    ->where('course_parent_id', '=', $course_parent_id)
-                    /*->where('course_id', '=', $course_id)*/
-                    ->where('year', '=', $current_year)
-                    ->where('semister', '=', $current_sem);
                 foreach ($diff_to_update as $key => $value) {
-                    $recordModified = $record->where('subject_id', '=', $key)->first();
+                    $recordModified = App\CourseSubject::where('academic_id', '=', $academic_id)
+                        ->where('course_parent_id', '=', $course_parent_id)
+                        ->where('year', '=', $current_year)
+                        ->where('semister', '=', $current_sem)
+                        ->where('subject_id', '=', $key)
+                        ->first();
                     $recordModified->sessions_needed = $value;
                     $recordModified->update();
                 }
@@ -705,14 +707,14 @@ class CourseSubjectsController extends Controller
         $year = $request->year;
         $semister = $request->semister;
         //return $course_parent_id;
-        $queryToExcute=App\CourseSubject::where('academic_id', '=', $academic_id)
+        $queryToExcute = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
             ->where('subject_id', '=', $subject_id)
             ->where('year', '=', $year)
             ->where('semister', '=', $semister);
         /*->where('staff_id', '!=', 0)*/
 
-        $toDeleted= $queryToExcute->delete();
+        $toDeleted = $queryToExcute->delete();
         $count = $queryToExcute->count();
         return $count;
 
