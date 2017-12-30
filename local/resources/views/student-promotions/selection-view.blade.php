@@ -247,9 +247,9 @@
                             </div>
                             <hr>
                             <div style="margin-right: 460px;">
-                                <a ng-click="promptAll()" class="btn btn-primary">ترقية الكل</a>
-                                <a ng-click="stopAll()" class="btn btn-danger">ايقاف الكل</a>
-                                <a ng-click="nothingAll()" class="btn btn-info">الكل بدون اجراء</a>
+                                <a ng-click="promptAll()" class="btn btn-primary">{{ getPhrase('promote_all')}}</a>
+                                <a ng-click="stopAll()" class="btn btn-danger">{{ getPhrase('detain_all')}}</a>
+                                <a ng-click="nothingAll()" class="btn btn-info">{{ getPhrase('no_action')}}</a>
                             </div>
                             <br><br>
                             <div class="table-responsive vertical-scroll">
@@ -280,7 +280,7 @@
                                                 <option value="promoted"
                                                         selected="true">{{getPhrase('promoted')}}</option>
                                                 <option value="detained">{{getPhrase('detained')}}</option>
-                                                <option value="nothing">بدون اجراء</option>
+                                                <option value="nothing">{{ getPhrase('no_action')}}</option>
                                             </select>
                                         </td>
                                         <td><textarea cols="20" rows="2" ng-model="remarks[user.id]"
