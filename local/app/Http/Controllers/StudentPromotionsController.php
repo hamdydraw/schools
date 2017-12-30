@@ -110,6 +110,9 @@ class StudentPromotionsController extends Controller
             try {
 
                 foreach ($request->selected_list as $key => $record) {
+                    if ($record == 'nothing'){
+                        continue;
+                    }
                     $studentObject = App\Student::where('user_id', '=', $key)->first();
                     $studentObjectPromotion = App\StudentPromotion::where('student_id', '=',
                         $studentObject->id)->orderBy('id', 'desc')->first();
