@@ -190,7 +190,6 @@ $scope.years.current_year    = null;
 
 $scope.yearChanged     = function (year_number) {
 $scope.resetSemisters();
-
 $scope.year_selected   = true;
 
 academic_id          = $scope.selected_academic_id;

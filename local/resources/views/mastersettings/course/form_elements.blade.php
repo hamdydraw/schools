@@ -63,7 +63,7 @@
 
 						<span class="text-red">*</span>
 
-						{{ Form::text('course_code', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'MBA',
+						{{ Form::text('course_code', $value = rand(1,60000) , $attributes = array('class'=>'form-control', 'placeholder' => 'MBA',
 
 							'ng-model'=>'course_code', 
 
@@ -99,7 +99,7 @@
 						   <span class="text-red">*</span>
 
 						{{Form::select('course_dueration', 
-						array('1'=>1, '2'=>2, '3'=>3, '4',4, '5'=>5,6=>'6','7'=>7,'8'=>8, '9'=>9, '10'=>10), 
+						array('1'=>1),
 						null, ['class'=>'form-control select2',
 						'placeholder'=>'select',
 
@@ -146,7 +146,7 @@
 					</fieldset>
 	
 					<div class="row ">
-					<fieldset ng-if="parent_id!=0" class='form-group col-md-6 helper_step2'>
+					<fieldset ng-if="parent_id==0" class='form-group col-md-6 helper_step2'>
 						{{ Form::label('is_having_semister', getphrase('is_having_semesters')) }}
 						<div class="form-group row">
 							<div class="col-md-6">
@@ -161,7 +161,7 @@
 						</div>
 					</fieldset>
  					
- 					 <fieldset ng-if="parent_id!=0" class='form-group col-md-6 helper_step3'>
+ 					 {{--<fieldset ng-if="parent_id!=0" class='form-group col-md-6 helper_step3'>
 						{{ Form::label('is_having_elective_subjects', getphrase('is_having_electives')) }}
 						<div class="form-group row">
 							<div class="col-md-6">
@@ -174,7 +174,7 @@
 								<label for="paid1"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
 							</div>
 						</div>
-					</fieldset>
+					</fieldset>--}}
 					</div>	
 
 					<fieldset class="form-group helper_step4">
