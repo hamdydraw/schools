@@ -151,19 +151,18 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <fieldset class='form-group col-md-6'>
-                                            {{ Form::label('is_completed', getphrase('is_completed')) }}
                                             <div class="form-group row">
                                                 <div class="col-md-6">
                                                     {{ Form::radio('is_completed', 0, true, array('id'=>'free', 'name'=>'is_completed', 'ng-model'=>'is_completed')) }}
 
                                                     <label for="free"> <span class="fa-stack radio-button"> <i
-                                                                    class="mdi mdi-check active"></i> </span> {{getPhrase('No')}}
+                                                                    class="mdi mdi-check active"></i> </span> {{getPhrase('do_you_want_to_promot_them')}}
                                                     </label>
                                                 </div>
                                                 <div class="col-md-6" ng-show="thirdYear">
                                                     {{ Form::radio('is_completed', 1, false, array('id'=>'paid', 'name'=>'is_completed','ng-model'=>'is_completed')) }}
                                                     <label for="paid"> <span class="fa-stack radio-button"> <i
-                                                                    class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}}
+                                                                    class="mdi mdi-check active"></i> </span> {{getPhrase('do_you_want_to_graduate_them')}}
                                                     </label>
                                                 </div>
                                             </div>

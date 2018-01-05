@@ -58,7 +58,9 @@
             data= {_method: 'post', '_token':httpPreConfig.getToken(), 'academic_id': academic_id};
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
                 result = result.data;
-                $scope.parent_courses = result;
+                angular.forEach(result, function(value, key){
+                    $scope.parent_courses.push(value.course);
+                });
             });
         }
 

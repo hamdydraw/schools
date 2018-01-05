@@ -83,6 +83,7 @@ class TimetableController extends Controller
     {
         $academic_id    = $request->academic_id;
         $course_id      = $request->course_id;
+        $course_parent_id      = $request->parent_course_id;
 
         $year = 1;
         $semister = 0;
@@ -97,7 +98,7 @@ class TimetableController extends Controller
                 ->join('users', 'users.id','=', 'staff.user_id')
                 ->where('users.status', '!=', 0)
                 ->where('course_subject.academic_id', '=', $academic_id)
-                ->where('course_subject.course_id', '=', $course_id)
+                ->where('course_subject.course_id', '=', $course_parent_id)
                 ->where('course_subject.year', '=', $year)
                 ->where('course_subject.semister', '=', $semister)
                 ->select(['course_subject.id as course_subject_id','staff.id as staff_main_id','staff.user_id as staff_user_id',
@@ -643,8 +644,8 @@ class TimetableController extends Controller
        $data['semister']        = $semister;
        $timetable_title         = getPhrase('timetable_for')
                                 .' '.$academic_record->academic_year_title
-                                .' '.$course_parent_record->course_title
-                                .' '.$course_record->course_title;
+                                .' /'.$course_parent_record->course_title
+                                .' /'.$course_record->course_title;
         if($course_record->course_dueration>1) {                                
             $timetable_title .= ' '.$year;
         }

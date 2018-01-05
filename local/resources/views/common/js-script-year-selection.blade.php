@@ -1,4 +1,3 @@
-
 $scope.year_selected             = false;
 
 $scope.selected_academic_id      = '';
@@ -7,6 +6,7 @@ $scope.selected_course_id        = '';
 $scope.selected_year             = '';
 $scope.selected_semister         = 0;
 $scope.courses_object            = [];
+$scope.parent_courses_objects            = [];
 $scope.total_semisters           = 0;
 $scope.semisters                 = [];
 $scope.have_semisters            = false;
@@ -45,7 +45,6 @@ $scope.result_data=[];
 }
 
 $scope.resetCourses = function(){
-
 $scope.selected_course_id = '';
 $scope.courses         = [];
 $scope.resetYears();
@@ -58,7 +57,6 @@ $scope.selected_course_parent_id = '';
 $scope.course_parent_id = '';
 $scope.resetCourses();
 }
-
 
 
 $scope.resetFields = function(){
@@ -85,7 +83,10 @@ data= {  _method: 'post',
 
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
 
-$scope.parent_courses = result.data;
+angular.forEach(result.data, function(value, key){
+$scope.parent_courses.push(value.course);
+$scope.parent_courses_objects.push(value);
+});
 if($scope.pre_selected_course_parent_id)
 {
 index = httpPreConfig.findIndexInData(
@@ -95,7 +96,6 @@ $scope.pre_selected_course_parent_id
 $scope.course_parent_id = $scope.parent_courses[index];
 $scope.getChildCourses($scope.selected_academic_id, $scope.pre_selected_course_parent_id);
 }
-
 });
 }
 $scope.getChildCourses = function(academic_id, parent_course_id){
@@ -121,7 +121,6 @@ data= {   _method: 'post',
 'parent_course_id': parent_course_id
 };
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
-
 angular.forEach(result.data, function(value, key){
 $scope.courses.push(value.course);
 $scope.courses_object.push(value);
@@ -151,29 +150,28 @@ return;
 }
 
 index = httpPreConfig.findIndexInData($scope.courses, 'id', course);
-total_years               = $scope.courses[index].course_dueration;
+{{--total_years               = $scope.courses[index].course_dueration;--}}
 $scope.selected_course_id = $scope.courses[index].id;
 
 
-
-if(total_years==1) {
+{{--if(total_years==1) {
 $scope.selected_semister = 0;
 $scope.selected_year = 1;
-}
+}--}}
 
-$scope.years = { "current_year": "Select","values": ['Select'] };
+{{--$scope.years = { "current_year": "Select","values": ['Select'] };
 for(i=1; i<=total_years; i++)
 {
 $scope.years.values.push(i);
 }
 
-$scope.current_year = 'select';
-if($scope.pre_selected_year)
+$scope.current_year = 'select';--}}
+{{--if($scope.pre_selected_year)
 {
 $scope.years.current_year = $scope.pre_selected_year;
 $scope.current_year = $scope.years.current_year;
 $scope.yearChanged($scope.years.current_year)
-}
+}--}}
 if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "transfers" || $location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-attendance" || $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-marks"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
@@ -184,6 +182,9 @@ if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "tr
 $scope.doCall();
 $scope.have_semisters = false;
 $scope.years.current_year    = null;
+}
+else{
+$scope.yearChanged(1)
 }
 
 }
@@ -199,10 +200,12 @@ $scope.selected_year = year_number;
 year                 = year_number;
 
 
-angular.forEach($scope.courses_object, function(course, key){
-if(course.course.id == course_id){
+angular.forEach($scope.parent_courses_objects, function(course, key){
+if(course.course.id == $scope.selected_course_parent_id){
+
 angular.forEach(course.semister, function(semister, no){
 if(semister.year== year){
+
 if(semister.total_semisters>0)
 {
 semisters =[];
@@ -228,7 +231,6 @@ $scope.have_semisters = false;
 });
 }
 });
-
 
 
 }

@@ -153,11 +153,20 @@ class AcademicCoursesController extends Controller
         $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.id')
             ->select([
                 'course_title',
-                'courses.id'
+                'courses.id',
+                'course_dueration',
+                'is_having_semister',
+                'academic_id'
             ])
             ->where('academic_id', '=', $request->academic_id)
             ->groupBy('course_id')->get();
-        return $records;
+        foreach ($records as $key => $value) {
+            $temp['course'] = $value;
+            $temp['semister'] = $value->semisters();
+
+            $final_records[] = $temp;
+        }
+        return $final_records;
     }
 
     /**
