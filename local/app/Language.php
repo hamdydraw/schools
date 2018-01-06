@@ -44,10 +44,10 @@ class Language extends Model
      $default_language = Language::where('id', '=', $default_language_id)->first();
 
      if($default_language->code != 'en'){
-       $val = $this->getTranslatedPhrase(Language::cleanPhrase($phrase), $default_language->code);
+       //$val = $this->getTranslatedPhrase(Language::cleanPhrase($phrase), $default_language->code);
        $dta =(array) json_decode($default_language->phrases);
        $key_updt= trim(strtolower(Language::cleanPhrase($dta[$phrase])));
-       $dta[$key_updt]=$val;
+       //$dta[$key_updt]=$val;
        DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
      }
 

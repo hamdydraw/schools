@@ -42,7 +42,6 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-
                 users = [];
                 angular.forEach(result.data, function (value, key) {
                     users.push(value);

@@ -512,8 +512,8 @@ class StudentController extends Controller
 
             ->where('course_parent_id','=',$course_parent_id)
             ->where('course_id','=',$course_id)
-            ->where('current_year','=',$year)
-            ->where('current_semister','=',$semister)
+            /*->where('current_year','=',$year)
+            ->where('current_semister','=',$semister)*/
             ->select(['students.user_id as id','users.name', 'roll_no','admission_no', 'course_title','blood_group','mobile','home_phone','image','academic_year_title', 'email', 'current_year', 'current_semister','course_dueration','students.academic_id as academic_id', 'students.course_id as course_id', 'students.user_id as user_id','users.slug'])
             ->get();
         return $records;
