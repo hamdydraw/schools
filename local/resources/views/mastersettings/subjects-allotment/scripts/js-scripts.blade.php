@@ -162,8 +162,8 @@ app.controller('courseSubjectsController', function($scope, $http, $timeout, htt
        * @param  {[type]} item [subject record]
        * @return {[type]}      [description]
        */
-      $scope.removeItem = function(item, source, id,academic_id, course_id, year, semister,user_id) { 
- 
+      $scope.removeItem = function(item, source, id,academic_id, course_id, year, semister,user_id) {
+
         // return;
         httpPreConfig.showConfirmation().then(function(result){
                  

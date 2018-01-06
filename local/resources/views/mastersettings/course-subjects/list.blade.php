@@ -16,31 +16,31 @@
 						</ol>
 					</div>
 				</div>
-								
+
 				<!-- /.row -->
 				<div class="panel panel-custom">
 					<div class="panel-heading">
-						
+
 						<div class="pull-right messages-buttons">
-							 
+
 							<a href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('add_or_edit_course_subjects')}}</a>
-							 
+
 						</div>
 						<h1>{{ $title }}</h1>
 					</div>
 					<div class="panel-body packages">
-						<div > 
+						<div >
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									 
+
 									<th id="helper_step2">{{ getPhrase('academic_year')}}</th>
 									<th>{{ getPhrase('branch')}}</th>
 									<th>{{ getPhrase('course')}}</th>
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 								</tr>
 							</thead>
-							 
+
 						</table>
 						{{csrf_field()}}
 						</div>
@@ -51,7 +51,7 @@
 			<!-- /.container-fluid -->
 		</div>
 @endsection
- 
+
 
 @section('footer_scripts')
 	<script src="{{JS}}angular.js"></script>

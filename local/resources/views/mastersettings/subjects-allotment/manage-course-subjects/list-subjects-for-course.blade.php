@@ -24,10 +24,10 @@
 						</ol>
 					</div>
 				</div>
-					<?php 
+					<?php
 					$subjects_list = [];
 					$angular_keys = [];
-					?>		
+					?>
 
 				<!-- /.row -->
 					{!! Form::open(array('url' => URL_COURSE_SUBJECTS_UPDATE_STAFF, 'method' => 'POST', 'name'=>'formQuiz ', 'novalidate'=>'')) !!}
@@ -38,43 +38,43 @@
 
 				<div class="panel panel-custom academia_visiblelist_fix " data-spy="affix" data-offset-top="0">
 					<div class="panel-heading">
-						
+
 						<div class="pull-right messages-buttons">
-							  
+
 							<button type="submit" class="btn  btn-success button helper_step1" >{{ getPhrase('update')}}</button>
 							<a href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS."staff"}}" class="btn  btn-primary button helper_step2" >{{ getPhrase('list')}}</a>
-							 
+
 						</div>
 						<h1>{{ $title }}</h1>
 					</div>
-					 
+
 					<div class="panel-body packages vertical-scroll" id="window_auto_height">
-					
+
 				 @for($yearno = 1; $yearno <= $record->course_dueration; $yearno++)
 					<h4> {{ getPhrase('year').' '. $yearno }} </h4>
 					<div class="sem-parent-container">
-					
-					
+
+
 					@if($record->is_having_semister)
-					<?php 
+					<?php
 					$semisters = App\CourseSemister::getCourseYearSemisters($course_id, $yearno);
-					
+
 					$total_data = [];
-					
+
 
 					?>
 
 						@for($semister=1; $semister <= $semisters->total_semisters; $semister++)
-						
-						<?php 
+
+						<?php
 						$subjects_list = App\CourseSubject::getCourseSavedSubjects($academic_id, $course_id, $yearno, $semister);
 						$angular_key = $yearno.'_'.$semister;
 
 						?>
 						<small >SEM {{ $semister }}</small>
 
-						@include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview', 
-						array(	
+						@include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview',
+						array(
 							'academic_id' 	=> $academic_id,
 							'course_id' 	=> $course_id,
 							'yearno' 		=> $yearno,
@@ -83,19 +83,19 @@
 							'angular_key'   => $angular_key,
 							))
 							 <?php $angular_keys[] = $angular_key;?>
-						
+
 						@endfor
-						
+
 						@if($semisters->total_semisters == 0)
-						<?php 
+						<?php
 						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $course_id, $yearno, 0);
 						$angular_key = $yearno.'_0';
-						 
-						?>
-						 
 
-						 @include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview', 
-						array(	
+						?>
+
+
+						 @include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview',
+						array(
 							'academic_id' 	=> $academic_id,
 							'course_id' 	=> $course_id,
 							'yearno' 		=> $yearno,
@@ -107,13 +107,13 @@
 						@endif
 
 					@else
-					<?php 
+					<?php
 						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $course_id, $yearno, 0);
 						$angular_key = $yearno.'_0';
 						?>
-						 
-						 @include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview', 
-						array(	
+
+						 @include('mastersettings.subjects-allotment.manage-course-subjects.course-list-subview',
+						array(
 							'academic_id' 	=> $academic_id,
 							'course_id' 	=> $course_id,
 							'yearno' 		=> $yearno,
@@ -134,11 +134,11 @@
 			<!-- /.container-fluid -->
 		</div>
 
-		
+
 @stop
- 
+
 @section('footer_scripts')
 	@include('mastersettings.subjects-allotment.scripts.js-scripts', array('keys'=>$keys))
 	@include('common.alertify')
-@include('common.affix-window-size-script')	
-@stop 
+@include('common.affix-window-size-script')
+@stop

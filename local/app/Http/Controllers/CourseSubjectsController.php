@@ -522,7 +522,6 @@ class CourseSubjectsController extends Controller
 
     public function staffAllotment($academic_id, $course_id)
     {
-
         $academic_record = App\Academic::where('id', '=', $academic_id)->first();
 
         $course_record = App\Course::where('id', '=', $course_id)->first();
@@ -637,7 +636,7 @@ class CourseSubjectsController extends Controller
 
         $selected_list = $request->selected_list;
         $course_id = $request->course_id;
-        $course_parent_id = $request->course_parent_id;
+        /*$course_parent_id = $request->course_parent_id;*/
         $academic_id = $request->academic_id;
         $exception_occured = 0;
 
@@ -649,7 +648,7 @@ class CourseSubjectsController extends Controller
                 $query = App\CourseSubject::
                 where('academic_id', '=', $academic_id)
                     ->where('course_id', '=', $course_id)
-                    ->where('course_parent_id', '=', $course_parent_id)
+                    ->where('course_parent_id', '=', $course_id)
                     ->where('year', '=', $record->year)
                     ->where('semister', '=', $record->semister);
 
@@ -734,13 +733,23 @@ class CourseSubjectsController extends Controller
         $year = $request->year;
         $semister = $request->semister;
         $user_id = $request->user_id;
-        $count = App\Timetable::where('academic_id', '=', $academic_id)
+        $deleteFromSub = App\CourseSubject::where('academic_id', '=', $academic_id)
+            ->where('course_parent_id', '=', $course_id)
+            ->where('subject_id', '=', $subject_id)
+            ->where('year', '=', $year)
+            ->where('semister', '=', $semister)
+            ->first();
+        $deleteFromSub->staff_id=0;
+        $deleteFromSub->update();
+        $queryToExcute = App\Timetable::where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
             ->where('subject_id', '=', $subject_id)
             ->where('year', '=', $year)
             ->where('semister', '=', $semister)
-            ->where('user_id', '=', $user_id)
-            ->count();
+            ->where('user_id', '=', $user_id);
+        $toDeleted = $queryToExcute->delete();
+
+        $count = $queryToExcute->count();
         return $count;
 
     }

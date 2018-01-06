@@ -10,9 +10,9 @@ app.controller('courseSubjectsController', function($scope, $http) {
       $scope.haveSems = 0;
       $scope.selectedYear = 1;
       $scope.selectedSemister = 0;
-      route = '/mastersettings/course-subjects/getCourseYears';  
+      route = '/mastersettings/course-subjects/getCourseYears';
       data= {_method: 'post', '_token':$scope.getToken(), 'course_id': $scope.selectedCourse};
-    
+
       $http.post(route, data).success(function(result, status) {
             /*
             | Pouplate the years based on selected course dueration
@@ -20,9 +20,9 @@ app.controller('courseSubjectsController', function($scope, $http) {
              $('#select_year').populate(result.course_dueration, '#select_year');
              $scope.haveSems = result.is_having_semister;
 
-            
+
             /*
-            | Populate the semisters information based on course and year 
+            | Populate the semisters information based on course and year
             | with common method fillSemisters()
              */
              if($scope.haveSems)
@@ -41,58 +41,58 @@ app.controller('courseSubjectsController', function($scope, $http) {
        $scope.getSavedSubjects();
         if(!$scope.haveSems)
             return;
-      route = '/mastersettings/course-subjects/getSemisters';  
-      data= { 
-              _method     : 'post', 
-              '_token'    : $scope.getToken(), 
+      route = '/mastersettings/course-subjects/getSemisters';
+      data= {
+              _method     : 'post',
+              '_token'    : $scope.getToken(),
               'course_id' : $scope.selectedCourse,
               'year'      : $scope.selectedYear
             };
-    
+
       $http.post(route, data).success(function(result, status) {
-        
+
         if(!result.total_semisters) {
           /*
            | If any specific course year have no semistes then
-           | It will be executing this condition code or 
-           | this is the default option for the courses which have no sems 
-           | for specific year 
+           | It will be executing this condition code or
+           | this is the default option for the courses which have no sems
+           | for specific year
            */
            $('#semister').empty();
           $('#semister').append('<option value="0">No Semisters</option>');
-          
+
           return;
         }
 
         $('#semister')
          .populate(result.total_semisters, '#semister');
-          
+
         });
-    
+
     }
 
     /*
     | Get the selected combination of data as below
     | AcademicID, CourseParentID, CourseID, Year, [Semister]
-    | Make a call to server and fetch if any information is available 
+    | Make a call to server and fetch if any information is available
     | If available display the selected list of subjects
     | If not available leave as it is
      */
     $scope.getSavedSubjects = function() {
-       
-       if(  !$scope.selectedYear 
-            ||  !$scope.selectedParentCourse 
+
+       if(  !$scope.selectedYear
+            ||  !$scope.selectedParentCourse
             ||  !$scope.selectedCourse
             ||  !$scope.academicYear
             ) {
         //As insufficient data selected, could not make a call
-        return; 
+        return;
        }
 
-      route = '/mastersettings/course-subjects/getSavedSubjects'; 
-      data= { 
-              _method     : 'post', 
-              '_token'    : $scope.getToken(), 
+      route = '/mastersettings/course-subjects/getSavedSubjects';
+      data= {
+              _method     : 'post',
+              '_token'    : $scope.getToken(),
               'course_id' : $scope.selectedCourse,
               'year'      : $scope.selectedYear,
               'academicId': $scope.academicYear,
@@ -100,7 +100,7 @@ app.controller('courseSubjectsController', function($scope, $http) {
               'semister'  : $scope.selectedSemister,
             };
 
-  
+
       $http.post(route, data).success(function(result, status) {
            $('#subjects').val(result);
 
@@ -109,7 +109,7 @@ app.controller('courseSubjectsController', function($scope, $http) {
 
     /**
      * Returns the token by fetching if from from form
-     * 
+     *
      */
     $scope.getToken = function(){
       return  $('[name="_token"]').val();
@@ -117,7 +117,7 @@ app.controller('courseSubjectsController', function($scope, $http) {
 
 });
 
- 
+
       /**
       * Intilize select by default
       */
@@ -139,7 +139,7 @@ app.controller('courseSubjectsController', function($scope, $http) {
   	.on('select2:select', function(evt){
 	  	fillCourses($(this).val());
 	});
- 
+
   	 /**
   	  * Intilize select course ddl
   	  */
@@ -159,10 +159,10 @@ app.controller('courseSubjectsController', function($scope, $http) {
   	 */
   	function fillCourses(selected_id)
   	{
-  		
+
   		$('#select_course').select2().empty().trigger('change');
-  		
-		  	route = '/student/courses/'+selected_id;  
+
+		  	route = '/student/courses/'+selected_id;
 		    $.ajax({
 		        url:route,
 		        type: 'post',
@@ -183,7 +183,7 @@ app.controller('courseSubjectsController', function($scope, $http) {
         $(this).append('<option value="'+year+'">'+year+'</option>')
 
     }
- 
+
  function deleteRecordCustom(academic_id, course_id) {
   swal({
       title: "Are you sure?",
@@ -199,10 +199,10 @@ app.controller('courseSubjectsController', function($scope, $http) {
     function(isConfirm) {
       if (isConfirm) {
        var token = $('[name="_token"]').val();
-       route = '/mastersettings/course-subjects/delete/';  
-       data= { 
-          _method     : 'delete', 
-          '_token'    : token, 
+       route = '/mastersettings/course-subjects/delete/';
+       data= {
+          _method     : 'delete',
+          '_token'    : token,
           'course_id' : course_id,
           'academic_id': academic_id,
         };
