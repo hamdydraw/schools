@@ -67,8 +67,7 @@
 
             $('#htmlform').submit();
         }
-        $scope.backCompletedStudent=function(id)
-        {
+        $scope.backCompletedStudent = function (id) {
             route = '{{URL_delete_STUDENTS_COURSE_COMPLETED}}';
             data = {
                 _method: 'post',
@@ -89,6 +88,33 @@
                 $scope.class_title_yer_sem = $scope.result_data[0].academic_year_title + '-' + $scope.result_data[0].course_title + '-' + $scope.result_data[0].current_year + ' ' + 'year' + '-' + $scope.result_data[0].current_semister + ' ' + 'semester' + ' ' + 'Course Completed Student List';
 
 */
+            });
+        }
+        $scope.selectAll = function () {
+            $('[id*=selctionActionCompletedChecked]').attr('checked', 'checked');
+        }
+        $scope.rebackCompleted = function () {
+            $(document).ready(function () {
+                var checkedList = "";
+                $("input:checked").each(function () {
+                    checkedList += $(this).val() + ',';
+                });
+                checkedList = checkedList.slice(0, -1);
+                $.ajax(
+                    {
+                        url: "{{url('/student/reback-completed')}}",
+                        type: 'GET',
+                        data: {checkedList: checkedList},
+                        success: function (res) {
+                            if (res == 'done') {
+                                alert('تم نقل الطلاب للدراسة ثانية')
+                            } else {
+                                alert('حدث خطأ ما')
+                            }
+                        }
+                    }
+                );
+
             });
         }
     });

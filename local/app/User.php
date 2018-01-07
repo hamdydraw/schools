@@ -78,6 +78,7 @@ class User extends Authenticatable
     }
 
 
+
      /**
       * This method accepts the user object from social login methods 
       * Registers the user with the db

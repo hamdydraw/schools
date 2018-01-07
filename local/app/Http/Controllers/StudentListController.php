@@ -137,7 +137,7 @@ class StudentListController extends Controller
             ->where('from_year','=',$year)
             ->where('from_semister','=',$semister)
             ->where('type','=','completed')
-            ->select(['users.name','students.roll_no','courses.course_title','users.slug'])
+            ->select(['users.name','students.id','students.roll_no','courses.course_title','users.slug'])
             ->get();
              if($course_details->course_dueration>1 && $course_details->is_having_semister==1){
          $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.$year.' '.'year'.' '.$semister.' '.'semester '.' '.getPhrase('course_completed_list');

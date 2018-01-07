@@ -889,7 +889,8 @@ Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_par
 //STUDENT TRANSFERS
 Route::get('student/transfers', 'StudentPromotionsController@index');
 Route::post('student/transfers', 'StudentPromotionsController@transferStudents');
-
+Route::get('student/reback-detain', 'StudentPromotionsController@rebackDetain');
+Route::get('student/reback-completed', 'StudentPromotionsController@rebackCompleted');
 Route::post('student/transfer-single-student', 'StudentPromotionsController@transferSingleStudent');
 
 //SEARCH STUDENT

@@ -71,8 +71,7 @@ class StudentPromotionsController extends Controller
             }
             if (isset($to_course_id) and $to_course_id != '') {
                 $to_course_record = App\Course::where('id', '=', $to_course_id)->first();
-            }
-            else{
+            } else {
                 $has_error = true;
             }
             //dd($has_error);
@@ -110,7 +109,7 @@ class StudentPromotionsController extends Controller
             try {
 
                 foreach ($request->selected_list as $key => $record) {
-                    if ($record == 'nothing'){
+                    if ($record == 'nothing') {
                         continue;
                     }
                     $studentObject = App\Student::where('user_id', '=', $key)->first();
@@ -361,5 +360,48 @@ class StudentPromotionsController extends Controller
 
         return redirect(URL_STUDENT_TRANSFERS);
 
+    }
+
+    public function rebackDetain(Request $request)
+    {
+        $toRebackStudents = explode(',', $request->checkedList);
+        $studentPromotionDetained = App\StudentPromotion::whereIn('student_id', $toRebackStudents)
+            ->where('type', 'detained')
+            ->get();
+        $toShowerrors = false;
+        foreach ($studentPromotionDetained as $student) {
+            $student->type = 'admission';
+            if (!$student->update()) {
+                $toShowerrors = true;
+            }
+        }
+        if ($toShowerrors == true) {
+            return 'error';
+        } else {
+            return 'done';
+        }
+
+    }
+
+    public function rebackCompleted(Request $request)
+    {
+        $toRebackStudents = explode(',', $request->checkedList);
+        $studentPromotionCompleted = App\StudentPromotion::whereIn('student_id', $toRebackStudents)
+            ->where('type', 'completed')
+            ->get();
+        $toShowerrors = false;
+        if (isset($studentPromotionCompleted) and !empty($studentPromotionCompleted) and $studentPromotionCompleted != null) {
+            foreach ($studentPromotionCompleted as $student) {
+                $student->type = 'admission';
+                if (!$student->update()) {
+                    $toShowerrors = true;
+                }
+            }
+        }
+        if ($toShowerrors == true) {
+            return 'error';
+        } else {
+            return 'done';
+        }
     }
 }
