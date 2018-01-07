@@ -75,8 +75,10 @@
                         success: function (res) {
                             if (res == 'done') {
                                 alert('تم نقل الطلاب للدراسة ثانية')
+                                window.location.reload();
                             } else {
                                 alert('حدث خطأ ما')
+                                window.location.reload();
                             }
                         }
                     }
