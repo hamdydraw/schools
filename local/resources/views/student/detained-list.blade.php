@@ -65,9 +65,9 @@
 
 
                     <div ng-show="result_data.length!=0">
-                        <div style="margin-right: 50%;">
-
+                        <div>
                             <a ng-click="selectAll()" class="btn btn-primary">{{ getPhrase('select_all')}}</a>
+                            <a ng-click="cancelAll()" class="btn btn-primary">{{ getPhrase('cancel_all')}}</a>
                         </div>
                         <br><br>
 
@@ -115,8 +115,8 @@
 
                     <div ng-show="result_data.length==0" class="text-center">{{getPhrase('no_data_available')}}</div>
                     <br>
-                    <a ng-if="result_data.length!=0" class="btn btn-primary" ng-click="reback()">{{getPhrase('reback_them')}}</a>
-                    <a ng-if="result_data.length!=0" class="btn btn-primary" ng-click="printIt()">Print</a>
+                    <a style="margin-right:45%;" ng-if="result_data.length!=0" class="btn btn-primary" ng-click="reback()">{{getPhrase('reback_them')}}</a>
+                    <a ng-if="result_data.length!=0" class="btn btn-primary" ng-click="printIt()">{{getPhrase('print')}}</a>
                 </div>
             </div>
 

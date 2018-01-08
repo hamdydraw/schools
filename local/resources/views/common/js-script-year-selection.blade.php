@@ -69,7 +69,12 @@ $scope.resetParentCourses();
 
 $scope.getParentCourses = function(academic_id)
 {
-
+if($location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed")
+{
+$scope.selected_academic_id = academic_id;
+$scope.doCall();
+return;
+}
 if(academic_id=='')
 return;
 $scope.resetFields();

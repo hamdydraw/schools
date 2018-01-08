@@ -565,17 +565,17 @@ class StudentController extends Controller
     public function getCompletedStudents(Request $request)
     {
         $academic_id = $request->academic_id;
-        $course_parent_id = $request->parent_course_id;
+       /* $course_parent_id = $request->parent_course_id;
         $course_id = $request->course_id;
         $year = $request->year;
-        $semister = $request->semister;
+        $semister = $request->semister;*/
 
         $records = StudentPromotion::join('users', 'users.id', '=', 'studentpromotions.user_id')
             ->join('students', 'students.id', '=', 'studentpromotions.student_id')
             ->join('courses', 'courses.id', '=', 'students.course_id')
             ->where('from_academic_id', '=', $academic_id)
-            ->where('from_course_parent_id', '=', $course_parent_id)
-            ->where('from_course_id', '=', $course_id)
+            /*->where('from_course_parent_id', '=', $course_parent_id)
+            ->where('from_course_id', '=', $course_id)*/
             /*->where('from_year','=',$year)
             ->where('from_semister','=',$semister)*/
             ->where('type', '=', 'completed')

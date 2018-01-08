@@ -20,16 +20,17 @@
 
 
         $scope.doCall = function () {
-            $scope.year_selected = true;
+            /*$scope.year_selected = true;
             if ($scope.to_years.length <= 0)
-                $scope.to_years = $scope.years;
+                $scope.to_years = $scope.years;*/
 
             academic_id = $scope.selected_academic_id;
-            parent_course_id = $scope.selected_course_parent_id;
+            //$scope.selected_academic_id=false;
+            /*parent_course_id = $scope.selected_course_parent_id;
             course_id = $scope.selected_course_id;
-
-            year = $scope.selected_year;
-            semister = $scope.selected_semister;
+*/
+          /*  year = $scope.selected_year;
+            semister = $scope.selected_semister;*/
 
 
             route = '{{URL_GET_STUDENTS_COURSE_COMPLETED}}';
@@ -37,14 +38,14 @@
                 _method: 'post',
                 '_token': httpPreConfig.getToken(),
                 'academic_id': academic_id,
-                'parent_course_id': parent_course_id,
+                /*'parent_course_id': parent_course_id,
                 'course_id': course_id,
                 'year': year,
-                'semister': semister,
+                'semister': semister,*/
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-
+                $scope.selected_academic_id=false;
                 users = [];
                 angular.forEach(result.data, function (value, key) {
                     users.push(value);
@@ -92,6 +93,9 @@
         }
         $scope.selectAll = function () {
             $('[id*=selctionActionCompletedChecked]').attr('checked', 'checked');
+        }
+        $scope.cancelAll = function () {
+            $('[id*=selctionActionCompletedChecked]').removeAttr('checked');
         }
         $scope.rebackCompleted = function () {
             $(document).ready(function () {

@@ -60,6 +60,9 @@
         $scope.selectAll = function () {
             $('[id*=selctionActionChecked]').attr('checked', 'checked');
         }
+        $scope.cancelAll = function () {
+            $('[id*=selctionActionChecked]').removeAttr('checked');
+        }
         $scope.reback = function () {
             $(document).ready(function () {
                 var checkedList = "";
