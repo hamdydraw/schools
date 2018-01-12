@@ -102,7 +102,7 @@ define('PAYMENT_STATUS_SUCCESS', 'success');
 define('PAYMENT_STATUS_PENDING', 'pending');
 define('PAYMENT_STATUS_ABORTED', 'aborted');
 define('PAYMENT_RECORD_MAXTIME', '30'); //TIME IN MINUTES
-//define('SUPPORTED_GATEWAYS', ['paypal','payu']); 
+//define('SUPPORTED_GATEWAYS', ['paypal','payu']);
 
 define('URL_INSTALL_SYSTEM', PREFIX.'install');
 define('URL_UPDATE_INSTALLATATION_DETAILS', PREFIX.'update-details');
@@ -318,6 +318,7 @@ define('URL_LANGUAGES_LIST', PREFIX.'languages/list');
 define('URL_LANGUAGES_ADD', PREFIX.'languages/add');
 define('URL_LANGUAGES_EDIT', PREFIX.'languages/edit');
 define('URL_LANGUAGES_UPDATE_STRINGS', PREFIX.'languages/update-strings/');
+define('URL_LANGUAGES_REMOVE_STRING', PREFIX.'languages/remove-string/');
 define('URL_LANGUAGES_DELETE', PREFIX.'languages/delete/');
 define('URL_LANGUAGES_GETLIST', PREFIX.'languages/getList/');
 define('URL_LANGUAGES_MAKE_DEFAULT', PREFIX.'languages/make-default/');

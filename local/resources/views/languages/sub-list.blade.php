@@ -30,10 +30,9 @@
 						<ul class="list-group">
 						@if(count($language_data))
 						@foreach($language_data as $key=>$value)
-
 					 <div class="col-md-6">
 						<fieldset class="form-group">
-						   {{ Form::label($key, $key) }} <br>
+						  <pre><a href="{{URL_LANGUAGES_REMOVE_STRING}}{{$record->slug}}&{{base64_encode($key)}}"><img src="{{IMAGES}}del.png" title="{{getPhrase('delete')}}"></a> {{ Form::label($key, $key) }}</pre> <br>
 						  <div class="form-control" id="div_{{$key}}" onclick="$('#{{$key}}').removeAttr('disabled');$('#{{$key}}').show();$('#'+this.id).hide(); " >{{$value}}</div>
 						   <input  style="display:none;" type="text" class="form-control" name="{{$key}}" id="{{$key}}"	required="true" value = "{{$value}}" disabled>
 							</fieldset>

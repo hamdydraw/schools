@@ -107,6 +107,7 @@ Route::delete('languages/delete/{slug}', 'NativeController@delete');
 
 Route::get('languages/make-default/{slug}', 'NativeController@changeDefaultLanguage');
 Route::get('languages/update-strings/{slug}', 'NativeController@updateLanguageStrings');
+Route::get('languages/remove-string/{slug}&{key}', 'NativeController@removeString');
 Route::patch('languages/update-strings/{slug}', 'NativeController@saveLanguageStrings');
 
 
@@ -253,7 +254,7 @@ Route::get('mastersettings/course/editSemisters/{slug}', 'CourseController@editS
 Route::patch('mastersettings/course/editSemisters', 'CourseController@updateSemisters');
 
 
-//Course Subjects 
+//Course Subjects
 Route::get('mastersettings/course-subjects/add', 'CourseSubjectsController@create');
 
 Route::post('mastersettings/course-subjects/add', 'CourseSubjectsController@store');
@@ -343,7 +344,7 @@ Route::get('mastersettings/subjects/getList', [ 'as'   => 'subjects.dataTable',
 Route::get('mastersettings/subjects/import', 'SubjectsController@import');
 Route::post('mastersettings/subjects/import', 'SubjectsController@readExcel');
 
-//Topics 
+//Topics
 Route::get('mastersettings/topics', 'TopicsController@index');
 Route::get('mastersettings/topics/add', 'TopicsController@create');
 Route::post('mastersettings/topics/add', 'TopicsController@store');
@@ -500,7 +501,7 @@ Route::delete('exams/categories/delete/{slug}', 'QuizCategoryController@delete')
 Route::get('exams/categories/getList', [ 'as'   => 'quizcategories.dataTable',
     'uses' => 'QuizCategoryController@getDatatable']);
 
-// Quiz Student Categories 
+// Quiz Student Categories
 Route::get('exams/student/categories', 'StudentQuizController@index');
 Route::get('exams/student/exams/{slug?}', 'StudentQuizController@exams');
 Route::get('exams/student/quiz/getList/{slug?}', 'StudentQuizController@getDatatable');
@@ -532,7 +533,7 @@ Route::post('student/results/get-exam-categories', 'ReportsController@getExamCat
 Route::post('student/results/get-exams', 'ReportsController@getExamsByCategory');
 
 
-//Quiz 
+//Quiz
 
 //Exams ---dashboard
 Route::get('exams/dashboard', 'QuizController@quizdashboard');
@@ -554,7 +555,7 @@ Route::post('exams/quiz/get-questions', 'QuizController@getSubjectData');
 Route::get('result/generate-certificate/{slug}', 'CertificatesController@getCertificate');
 
 
-//Exam Series 
+//Exam Series
 Route::get('exams/exam-series', 'ExamSeriesController@index');
 Route::get('exams/exam-series/add', 'ExamSeriesController@create');
 Route::post('exams/exam-series/add', 'ExamSeriesController@store');
@@ -666,7 +667,7 @@ Route::get('lms/content/getList', [ 'as'   => 'lmscontent.dataTable',
 
 
 
-//LMS Series 
+//LMS Series
 Route::get('lms/series', 'LmsSeriesController@index');
 Route::get('lms/series/add', 'LmsSeriesController@create');
 Route::post('lms/series/add', 'LmsSeriesController@store');
@@ -903,7 +904,7 @@ Route::get('marks/upload', 'QuizResultsController@index');
 Route::get('timetable', 'TimetableController@index');
 
 
-//Timingset 
+//Timingset
 Route::get('timetable/timing-set', 'TimingsetController@index');
 Route::get('timetable/timing-set/add', 'TimingsetController@create');
 Route::post('timetable/timing-set/add', 'TimingsetController@store');
