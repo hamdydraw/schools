@@ -194,7 +194,7 @@ class SubjectsController extends Controller
         $record->internal_marks     = 20;
         $record->external_marks     = 60;
         $record->is_lab             = $request->is_lab;
-        $record->is_elective_type   = $request->is_elective_type;
+       /* $record->is_elective_type   = $request->is_elective_type;*/
         $record->save();
  
 
