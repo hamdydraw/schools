@@ -184,6 +184,7 @@ if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "tr
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "studentresults"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "id-cards"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "usersimport"
+|| $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "profileedit"
 )
 {
 $scope.doCall();

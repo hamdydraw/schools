@@ -77,10 +77,10 @@
                         data: {checkedList: checkedList},
                         success: function (res) {
                             if (res == 'done') {
-                                alert('تم نقل الطلاب للدراسة ثانية')
+                                alert('<?php echo getPhrase("students_have_moved_to_schooling_again");?>')
                                 window.location.reload();
                             } else {
-                                alert('حدث خطأ ما')
+                                alert('<?php echo getPhrase('an_error_occurred'); ?>')
                                 window.location.reload();
                             }
                         }

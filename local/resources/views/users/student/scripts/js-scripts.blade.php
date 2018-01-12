@@ -1,7 +1,7 @@
 @include('common.angular-factory')
 <script >
  
-     app.controller('academic_controller', function ($scope, $http, httpPreConfig) {
+     app.controller('academic_controller', function ($scope, $http, httpPreConfig,$location) {
       $scope.academic_year = '';
       $scope.select_academic_year = '';
       $scope.parent_login = '';
