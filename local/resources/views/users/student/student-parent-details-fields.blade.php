@@ -15,15 +15,15 @@
 		
 		<div class="row">
 				<fieldset class='col-sm-6'>
-				<label for="exampleInputEmail1">Is Parent Account  Available</label>
+				<label for="exampleInputEmail1">{{getPhrase('is_parent_account_available')}}</label>
 				<div class="form-group row">
 					<div class="col-md-6">
 						<input type="radio" checked="checked" id="available" name="account" value="1" ng-model="account_available" ng-init="account_available=1; accountAvailable(1);" ng-click="accountAvailable(1)">
-						<label for="available"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> Yes </label>
+						<label for="available"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('yes')}} </label>
 					</div>
 					<div class="col-md-6">
 						<input type="radio" id="not_available" name="account" value="0" ng-model="account_not_available" ng-click="accountAvailable(0)">
-						<label for="not_available"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> No </label>
+						<label for="not_available"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('no')}} </label>
 					</div>
 				</div>
 			</fieldset>
@@ -56,9 +56,9 @@
 				<p ng-if="parents.length==0 && showSearch">Please type any details for search</p>
 			<table ng-if="parents.length>0" class="table table-striped">
 				<thead>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Phone</th>
+					<th>{{getPhrase('name')}}</th>
+					<th>{{getPhrase('email')}}</th>
+					<th>{{getPhrase('phone')}}</th>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in parents" ng-click="setAsCurrentItem(item)">

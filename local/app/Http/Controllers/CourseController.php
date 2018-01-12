@@ -44,7 +44,7 @@ class CourseController extends Controller
     public function index()
     {
         $data['active_class'] = 'master_settings';
-        $data['title'] = getPhrase('course list');
+        $data['title'] = getPhrase('list_of_courses');
         $data['layout'] = getLayout();
         $data['module_helper'] = getModuleHelper('courses-list');
         return view('mastersettings.course.list', $data);
@@ -63,11 +63,11 @@ class CourseController extends Controller
             'course_dueration',
             'grade_system',
             'is_having_semister',
-            'is_having_elective_subjects',
+            /*'is_having_elective_subjects',*/
             'slug',
             'id'
         ])
-            ->orderBy('updated_at', 'desc');
+            ->orderBy('id', 'asc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -101,27 +101,31 @@ class CourseController extends Controller
             ->editColumn('course_dueration', function ($records) {
                 return
 
-                    ($records->parent_id) ? $records->course_dueration . ' ' . getPhrase('years') : '-';
+                    ($records->parent_id == 0) ? $records->course_dueration . ' ' . getPhrase('years') : '-';
             })
             ->editColumn('grade_system', function ($records) {
 
-                if ($records->grade_system != 'percentage') {
-                    return strtoupper($records->grade_system);
-                } else {
-                    return ucfirst($records->grade_system);
+                if($records->parent_id == 0) {
+                    if ($records->grade_system != 'percentage') {
+                        return strtoupper($records->grade_system);
+                    } else {
+                        return ucfirst($records->grade_system);
+                    }
+                }else{
+                    return '-';
                 }
-
 
             })
             ->editColumn('is_having_semister', function ($records) {
-                return ($records->parent_id) ? ($records->is_having_semister) ? getPhrase('yes') : getPhrase('no') :
+                return ($records->parent_id == 0) ? ($records->is_having_semister) ? getPhrase('yes') : getPhrase('no') :
                     '-';
             })
-            ->editColumn('is_having_elective_subjects', function ($records) {
+           /* ->editColumn('is_having_elective_subjects', function ($records) {
                 return ($records->parent_id) ? ($records->is_having_elective_subjects) ? getPhrase('yes') : getPhrase('no') : '-';
-            })
+            })*/
             ->removeColumn('id')
             ->removeColumn('slug')
+            ->removeColumn('is_having_elective_subjects')
             ->make();
     }
 

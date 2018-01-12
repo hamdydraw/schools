@@ -8,7 +8,7 @@
 										{{-- <th>{{ getPhrase('maximum_marks')}}</th>
 										<th>{{ getPhrase('pass_marks')}}</th> --}}
 										<th>{{ getPhrase('is_lab')}}</th>
-										<th>{{ getPhrase('is_elective')}}</th>
+										{{--<th>{{ getPhrase('is_elective')}}</th>--}}
 										<th id="helper_step2">{{ getPhrase('action')}}</th>
 									</tr>
 								</thead>
@@ -23,7 +23,7 @@
 							{{-- <td>{{ $subject_record->maximum_marks }}</td>
 							<td>{{ $subject_record->pass_marks }}</td> --}}
 							<td>{{ ($subject_record->is_lab) ? getphrase('yes') : getphrase('no') }}</td>
-							<td>{{ ($subject_record->is_elective_type) ? getphrase('yes') : getphrase('no') }}</td>
+							{{--<td>{{ ($subject_record->is_elective_type) ? getphrase('yes') : getphrase('no') }}</td>--}}
 							<td><a href="{{URL_SUBJECTS_VIEW_TOPICS.$subject_record->slug}}">{{ getphrase('view_topics') }} </a></td>
 						</tr>
 

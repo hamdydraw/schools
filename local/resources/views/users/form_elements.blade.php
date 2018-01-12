@@ -1,294 +1,303 @@
- 
+<fieldset class="form-group">
 
-					 <fieldset class="form-group">
-					
 
-						{{ Form::label('name', getphrase('name')) }}
+    {{ Form::label('name', getphrase('name')) }}
 
-						<span class="text-red">*</span>
+    <span class="text-red">*</span>
 
-						{{ Form::text('name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
+    {{ Form::text('name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
 
-							'ng-model'=>'name',
+        'ng-model'=>'name',
 
-							'required'=> 'true', 
+        'required'=> 'true',
 
-							'ng-pattern' => getRegexPattern('name'),
-                            'ng-class'=>'{"has-error": formUsers.name.$touched && formUsers.name.$invalid}',
+        'ng-pattern' => getRegexPattern('name'),
+        'ng-class'=>'{"has-error": formUsers.name.$touched && formUsers.name.$invalid}',
 
-                          )) }}
+      )) }}
 
-						<div class="validation-error" ng-messages="formUsers.name.$error" >
+    <div class="validation-error" ng-messages="formUsers.name.$error">
 
-	    					{!! getValidationMessage()!!}
+        {!! getValidationMessage()!!}
 
-	    					{!! getValidationMessage('pattern')!!}
+        {!! getValidationMessage('pattern')!!}
 
-						</div>
+    </div>
 
-					</fieldset>
+</fieldset>
 
 
+<?php
 
-					<?php 
+$readonly = '';
 
-					$readonly = '';
+$username_value = null;
 
-					$username_value = null;
+if ($record) {
 
-					if($record){
+    $readonly = 'readonly="true"';
 
-						$readonly = 'readonly="true"';
+    // $username_value = $record->username;
 
-						// $username_value = $record->username;
+}
 
-					}
 
 
+?>
 
-					?>
+<fieldset class="form-group">
 
-					 <fieldset class="form-group">
 
-						
+    {{ Form::label('username', getphrase('username')) }}
 
-						{{ Form::label('username', getphrase('username')) }}
+    <span class="text-red">*</span>
 
-						<span class="text-red">*</span>
+    {{ Form::text('username', $value = $username_value , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
 
-						{{ Form::text('username', $value = $username_value , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
+        'ng-model'=>'username',
 
-							'ng-model'=>'username',
+        'required'=> 'true',
 
-							'required'=> 'true', 
+         $readonly,
 
-							 $readonly,
 
 
+        'ng-minlength' => '2',
 
-							'ng-minlength' => '2',
+        'ng-maxlength' => '20',
 
-							'ng-maxlength' => '20',
+        'ng-class'=>'{"has-error": formUsers.username.$touched && formUsers.username.$invalid}',
 
-							'ng-class'=>'{"has-error": formUsers.username.$touched && formUsers.username.$invalid}',
 
 
+    )) }}
 
-						)) }}
+    <div class="validation-error" ng-messages="formUsers.username.$error">
 
-						<div class="validation-error" ng-messages="formUsers.username.$error" >
+        {!! getValidationMessage()!!}
 
-	    					{!! getValidationMessage()!!}
+        {!! getValidationMessage('minlength')!!}
 
-	    					{!! getValidationMessage('minlength')!!}
+        {!! getValidationMessage('maxlength')!!}
 
-	    					{!! getValidationMessage('maxlength')!!}
+        {!! getValidationMessage('pattern')!!}
 
-	    					{!! getValidationMessage('pattern')!!}
+    </div>
 
-						</div>
+</fieldset>
 
-					</fieldset>
 
+<fieldset class="form-group">
 
+    <?php
 
-					 <fieldset class="form-group">
+    $readonly = '';
 
-						<?php 
+    if (!checkRole(getUserGrade(4)))
 
-						$readonly = '';
+        $readonly = 'readonly="true"';
 
-							if(!checkRole(getUserGrade(4)))
+    if ($record) {
 
-							$readonly = 'readonly="true"';
+        $readonly = 'readonly="true"';
 
-						if($record)
+    }
 
-						{
 
-							$readonly = 'readonly="true"';
 
-						}
+    ?>
 
+    {{ Form::label('email', getphrase('email')) }}
 
+    <span class="text-red">*</span>
 
-						?>
+    {{ Form::email('email', $value = null, $attributes = array('class'=>'form-control', 'placeholder' => 'jack@jarvis.com',
 
-						{{ Form::label('email', getphrase('email')) }}
+        'ng-model'=>'email',
 
-						<span class="text-red">*</span>
+        'required'=> 'true',
 
-						{{ Form::email('email', $value = null, $attributes = array('class'=>'form-control', 'placeholder' => 'jack@jarvis.com',
+        'ng-class'=>'{"has-error": formUsers.email.$touched && formUsers.email.$invalid}',
 
-							'ng-model'=>'email',
+     $readonly)) }}
 
-							'required'=> 'true', 
+    <div class="validation-error" ng-messages="formUsers.email.$error">
 
-							'ng-class'=>'{"has-error": formUsers.email.$touched && formUsers.email.$invalid}',
+        {!! getValidationMessage()!!}
 
-						 $readonly)) }}
+        {!! getValidationMessage('email')!!}
 
-						 <div class="validation-error" ng-messages="formUsers.email.$error" >
+    </div>
 
-	    					{!! getValidationMessage()!!}
+</fieldset>
 
-	    					{!! getValidationMessage('email')!!}
 
-						</div>
+<fieldset class="form-group">
 
-					</fieldset>
+    {{ Form::label('password', getphrase('password')) }}
 
+    <span class="text-red">*</span><br>
 
+    {{ Form::password('password', $value = null, $attributes = array('class'=>'form-control',
 
+        'ng-model'=>'password',
 
+     )) }}
 
-					@if(!checkRole(['parent']))
+</fieldset>
+<fieldset class="form-group">
 
-					<fieldset class="form-group">
+    {{ Form::label('password_confirm', getphrase('confirm_password')) }}
 
+    <span class="text-red">*</span><br>
 
+    {{ Form::password('password_confirm', $value = null, $attributes = array('class'=>'form-control',
 
-						{{ Form::label('role', getphrase('role')) }}
+        'ng-model'=>'password_confirm',
 
-						<span class="text-red">*</span>
+     )) }}
 
-						<?php $disabled = (checkRole(getUserGrade(2))) ? '' :'disabled'; 
+</fieldset>
 
-						
 
-						$selected = getRoleData('student');
 
-						if($record)
+@if(!checkRole(['parent']))
 
-							$selected = $record->role_id;
+    <fieldset class="form-group">
 
-						?>
 
-						{{Form::select('role_id', $roles, $selected, ['placeholder' => getPhrase('select_role'),'class'=>'form-control', $disabled,
+        {{ Form::label('role', getphrase('role')) }}
 
-							'ng-model'=>'role_id',
-							'id'=>'role_id',
+        <span class="text-red">*</span>
 
-							'required'=> 'true', 
+        <?php $disabled = (checkRole(getUserGrade(2))) ? '' : 'disabled';
 
-							'ng-class'=>'{"has-error": formUsers.role_id.$touched && formUsers.role_id.$invalid}'
 
-						 ])}}
 
-						  <div class="validation-error" ng-messages="formUsers.role_id.$error" >
+        $selected = getRoleData('student');
 
-	    					{!! getValidationMessage()!!}
+        if ($record)
 
-	    					 
+            $selected = $record->role_id;
 
-						</div>
+        ?>
 
-						  
+        {{Form::select('role_id', $roles, $selected, ['placeholder' => getPhrase('select_role'),'class'=>'form-control', $disabled,
 
-					</fieldset>
+            'ng-model'=>'role_id',
+            'id'=>'role_id',
 
-					@endif
+            'required'=> 'true',
 
+            'ng-class'=>'{"has-error": formUsers.role_id.$touched && formUsers.role_id.$invalid}'
 
+         ])}}
 
-					<fieldset class="form-group">
+        <div class="validation-error" ng-messages="formUsers.role_id.$error">
 
-						
+            {!! getValidationMessage()!!}
 
-						{{ Form::label('phone', getphrase('phone')) }}
 
-						<span class="text-red">*</span>
+        </div>
 
-						{{ Form::number('phone', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 
-						getPhrase('please_enter_10-15_digit_mobile_number'),
 
-							'ng-model'=>'phone',
+    </fieldset>
 
-							'required'=> 'true', 
-							
-							'ng-pattern' => getRegexPattern("phone"),
+@endif
 
-							'ng-class'=>'{"has-error": formUsers.phone.$touched && formUsers.phone.$invalid}',
 
 
-						)) }}
+<fieldset class="form-group">
 
-						 
 
-						<div class="validation-error" ng-messages="formUsers.phone.$error" >
+    {{ Form::label('phone', getphrase('phone')) }}
 
-	    					{!! getValidationMessage()!!}
+    <span class="text-red">*</span>
 
-	    					{!! getValidationMessage('phone')!!}
+    {{ Form::number('phone', $value = null , $attributes = array('class'=>'form-control', 'placeholder' =>
+    getPhrase('please_enter_10-15_digit_mobile_number'),
 
-	    					{!! getValidationMessage('maxlength')!!}
+        'ng-model'=>'phone',
 
-						</div>
+        'required'=> 'true',
 
-					</fieldset>
+        'ng-pattern' => getRegexPattern("phone"),
 
-					<div class="row">
+        'ng-class'=>'{"has-error": formUsers.phone.$touched && formUsers.phone.$invalid}',
 
-						<fieldset class="form-group col-sm-6">
 
-						
+    )) }}
 
-						{{ Form::label('address', getphrase('billing_address')) }}
 
-					 
+    <div class="validation-error" ng-messages="formUsers.phone.$error">
 
-						{{ Form::textarea('address', $value = null , $attributes = array('class'=>'form-control','rows'=>3, 'cols'=>'15', 'placeholder' => getPhrase('please_enter_your_address'),
+        {!! getValidationMessage()!!}
 
-							'ng-model'=>'address',
+        {!! getValidationMessage('phone')!!}
 
-							)) }}
+        {!! getValidationMessage('maxlength')!!}
 
-					</fieldset>
+    </div>
 
+</fieldset>
 
+<div class="row">
 
-					<fieldset class='col-sm-6'>
+    <fieldset class="form-group col-sm-6">
 
-						{{ Form::label('image', getphrase('image')) }}
 
-						<div class="form-group row">
+        {{ Form::label('address', getphrase('billing_address')) }}
 
-							<div class="col-md-6">
 
-						
 
-					{!! Form::file('image', array('id'=>'image_input', 'accept'=>'.png,.jpg,.jpeg')) !!}
+        {{ Form::textarea('address', $value = null , $attributes = array('class'=>'form-control','rows'=>3, 'cols'=>'15', 'placeholder' => getPhrase('please_enter_your_address'),
 
-							</div>
+            'ng-model'=>'address',
 
-							<?php if(isset($record) && $record) { 
+            )) }}
 
-								  if($record->image!='') {
+    </fieldset>
 
-								?>
 
-							<div class="col-md-6">
+    <fieldset class='col-sm-6'>
 
-								<img src="{{ getProfilePath($record->image) }}" />
+        {{ Form::label('image', getphrase('image')) }}
 
+        <div class="form-group row">
 
+            <div class="col-md-6">
 
-							</div>
 
-							<?php } } ?>
+                {!! Form::file('image', array('id'=>'image_input', 'accept'=>'.png,.jpg,.jpeg')) !!}
 
-						</div>
+            </div>
 
-					</fieldset>
+            <?php if(isset($record) && $record) {
 
-					  </div>
+            if($record->image != '') {
 
-					
+            ?>
 
-						<div class="buttons text-center">
+            <div class="col-md-6">
 
-							<button class="btn btn-lg btn-primary button" 
+                <img src="{{ getProfilePath($record->image) }}"/>
 
-							ng-disabled='!formUsers.$valid'>{{ $button_name }}</button>
 
-						</div>
+            </div>
+
+            <?php } } ?>
+
+        </div>
+
+    </fieldset>
+
+</div>
+
+
+<div class="buttons text-center">
+
+    <button class="btn btn-lg btn-primary button"
+
+            ng-disabled='!formUsers.$valid'>{{ $button_name }}</button>
+
+</div>

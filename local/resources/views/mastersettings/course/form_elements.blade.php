@@ -93,7 +93,7 @@
 
 					</fieldset>
 					
-					<fieldset ng-if="parent_id!=0" class="form-group">
+					<fieldset ng-if="parent_id==0" class="form-group">
 						{{ Form::label('course_duration', getphrase('duration_in_years')) }}
 						   
 						   <span class="text-red">*</span>
@@ -119,7 +119,7 @@
 						</div>
 					</fieldset>
 
-					<fieldset ng-if="parent_id!=0" class="form-group">
+					<fieldset ng-if="parent_id==0" class="form-group">
 						{{ Form::label('grade_system', getphrase('grade_system')) }}
 						
                            <span class="text-red">*</span>

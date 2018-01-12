@@ -22,7 +22,7 @@
 						
 						{{ Form::label('subject_code', getphrase('subject_code')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('subject_code', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'M1',
+						{{ Form::text('subject_code', $value = rand(1,6000) , $attributes = array('class'=>'form-control', 'placeholder' => 'M1',
 							'ng-model'=>'subject_code', 
 							'ng-pattern' => getRegexPattern('name'),
 							'required'=> 'true', 
@@ -57,7 +57,7 @@
 						</div>
 					</fieldset>
  					
- 					 <fieldset class='form-group col-md-6 helper_step3'>
+ 					 {{--<fieldset class='form-group col-md-6 helper_step3'>
 						{{ Form::label('is_elective_type', getphrase('is_elective')) }}
 						<div class="form-group row">
 							<div class="col-md-6">
@@ -70,7 +70,7 @@
 								<label for="paid1"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
 							</div>
 						</div>
-					</fieldset>
+					</fieldset>--}}
 					</div>
 
                     

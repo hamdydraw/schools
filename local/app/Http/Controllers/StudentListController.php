@@ -23,7 +23,7 @@ class StudentListController extends Controller
         $this->middleware('auth');
     }
 
-     
+
      /**
       * This Method View student lisr according to the classwise
       * @return [type] [description]
@@ -32,14 +32,14 @@ class StudentListController extends Controller
     {
         $data['active_class']       = 'academic';
         $data['title']              = getPhrase('student_list');
-        
+
         $data['academic_years']     = addSelectToList(getAcademicYears());
         $list                       = App\Course::getCourses(0);
-        
+
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('student-list');
 
-      return view('student.list', $data); 
+      return view('student.list', $data);
     }
      /**
       * This method print the student list according to classwise
@@ -48,7 +48,7 @@ class StudentListController extends Controller
       */
      public function printStudentList(Request $request)
      {
-        
+
         $academic_id        = $request->academic_id;
         $course_parent_id   = $request->course_parent_id;
         $course_id          = $request->course_id;
@@ -57,13 +57,13 @@ class StudentListController extends Controller
               $year = $request->year;
             }
             $semister = 0;
-            if($request->semister){ 
+            if($request->semister){
             $semister    = $request->semister;
           }
         $academic_details  =  App\Academic::where('id',$request->academic_id)->first();
         $course_details    =  App\Course::where('id',$request->course_id)->first();
-        $records = User::join('students', 'users.id' ,'=', 'students.user_id')  
-        ->join('academics','academics.id','=','students.academic_id') 
+        $records = User::join('students', 'users.id' ,'=', 'students.user_id')
+        ->join('academics','academics.id','=','students.academic_id')
         ->join('courses','courses.id','=','students.course_id')
         ->where('academic_id','=',$academic_id)
         // ->where('course_parent_id','=',$course_parent_id)
@@ -98,22 +98,22 @@ class StudentListController extends Controller
     {
         $data['active_class']       = 'academic';
         $data['title']              = getPhrase('course_completed_student_list');
-        
+
         $data['academic_years']     = addSelectToList(getAcademicYears());
         $list                       = App\Course::getCourses(0);
-        
+
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('course-completed-student-list');
 
-      return view('student.completed-list', $data); 
+      return view('student.completed-list', $data);
     }
     /**
      * This method print the course completed students list
      * @param Request $request [description]
      */
     public function printCourseCompltedStudentsList(Request $request)
-    {   
-        
+    {
+
         $academic_id        = $request->academic_id;
         $course_parent_id   = $request->parent_course_id;
         $course_id          = $request->course_id;
@@ -122,24 +122,24 @@ class StudentListController extends Controller
               $year = $request->year;
             }
             $semister = 0;
-            if($request->semister){ 
+            if($request->semister){
             $semister    = $request->semister;
           }
         $academic_details  =  App\Academic::where('id',$request->academic_id)->first();
         $course_details    =  App\Course::where('id',$request->course_id)->first();
-        
+
          $records = StudentPromotion::join('users','users.id','=','studentpromotions.user_id')
             ->join('students','students.id','=','studentpromotions.student_id')
             ->join('courses','courses.id','=','students.course_id')
             ->where('from_academic_id','=',$academic_id)
             // ->where('from_course_parent_id','=',$course_parent_id)
-            ->where('from_course_id','=',$course_id)
+            /*->where('from_course_id','=',$course_id)
             ->where('from_year','=',$year)
-            ->where('from_semister','=',$semister)
+            ->where('from_semister','=',$semister)*/
             ->where('type','=','completed')
             ->select(['users.name','students.id','students.roll_no','courses.course_title','users.slug'])
             ->get();
-             if($course_details->course_dueration>1 && $course_details->is_having_semister==1){
+            /* if($course_details->course_dueration>1 && $course_details->is_having_semister==1){
          $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.$year.' '.'year'.' '.$semister.' '.'semester '.' '.getPhrase('course_completed_list');
          }
         elseif ($course_details->course_dueration>1 && $course_details->is_having_semister==0) {
@@ -147,15 +147,15 @@ class StudentListController extends Controller
         }
         else{
           $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.getPhrase('course_completed_list');
-        }
+        }*/
+        $data['title']     = $academic_details->academic_year_title.' '.getPhrase('completed_students_of_year');
         $data['records']   = $records;
-
          $view     = \View::make('student.cousrse-completd-list-print-file',$data);
         $contents = $view->render();
 
         return $contents;
 
-            
+
     }
     /**
      * This Method show the course detained list according to the
@@ -166,14 +166,14 @@ class StudentListController extends Controller
     {
         $data['active_class']       = 'academic';
         $data['title']              = getPhrase('detained_student_list');
-        
+
         $data['academic_years']     = addSelectToList(getAcademicYears());
         $list                       = App\Course::getCourses(0);
-        
+
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('detained-student-list');
 
-      return view('student.detained-list', $data); 
+      return view('student.detained-list', $data);
     }
     /**
      * This method print the detained students list
@@ -182,7 +182,7 @@ class StudentListController extends Controller
      */
     public function printCourseDetainedStudentsList(Request $request)
     {
-         
+
         $academic_id        = $request->academic_id;
         $course_parent_id   = $request->parent_course_id;
         $course_id          = $request->course_id;
@@ -191,7 +191,7 @@ class StudentListController extends Controller
               $year = $request->year;
             }
             $semister = 0;
-            if($request->semister){ 
+            if($request->semister){
             $semister    = $request->semister;
           }
         $academic_details  =  App\Academic::where('id',$request->academic_id)->first();
@@ -216,7 +216,7 @@ class StudentListController extends Controller
          $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.$year.' '.'year'.' '.getPhrase('course_detained_list');
         }
         else{
-          $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.getPhrase('course_detained_list');
+          $data['title']     = $academic_details->academic_year_title.' '.getPhrase('for_year').' '.$course_details->course_title.' '.getPhrase('course_detained_list');
         }
         $data['records']   = $records;
          $view     = \View::make('student.cousrse-detained-list-print-file',$data);
@@ -225,6 +225,6 @@ class StudentListController extends Controller
         return $contents;
 
     }
-    
-    
+
+
 }

@@ -1,7 +1,7 @@
  
 @include('common.angular-factory',array('load_module'=> FALSE))
 <script>
- app.controller('TabController', function ($scope, $http, $rootScope,httpPreConfig)
+ app.controller('TabController', function ($scope, $http, $rootScope,httpPreConfig,$location)
   {
      @include('common.js-script-year-selection')
     

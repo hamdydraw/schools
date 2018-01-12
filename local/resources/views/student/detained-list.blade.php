@@ -91,7 +91,7 @@
 
                                 <tr ng-repeat="user in result_data | filter:search track by $index">
 
-                                    <td style="border:1px solid #000;text-align:center;"><input type="checkbox"  id="selctionActionChecked @{{user.id}}"
+                                    <td style="border:1px solid #000;text-align:center;"><input class="reback" type="checkbox"  id="selctionActionChecked @{{user.id}}"
                                                                                                 name="reback[]"
                                                                                                 value="@{{user.id}}"
                                                                                                 style="display: inline !important;">

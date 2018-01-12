@@ -182,7 +182,9 @@ if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "tr
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "detainedlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "studentresults"
-|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "id-cards")
+|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "id-cards"
+|| $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "usersimport"
+)
 {
 $scope.doCall();
 $scope.have_semisters = false;

@@ -284,7 +284,10 @@ class SubjectsController extends Controller
           $path = Input::file('excel')->getRealPath();
           $data = Excel::load($path, function($reader) {
           })->get();
-           
+          if (isset($data['is_elective_type']))
+          {
+              unset($data['is_elective_type']);
+          }
           $excel_record = array();
           $final_records =array();
           $isHavingDuplicate = 0;
@@ -298,7 +301,7 @@ class SubjectsController extends Controller
                 $excel_record['maximum_marks'] = 100;
                 $excel_record['pass_marks'] = 50;
                 $excel_record['is_lab'] = $record->is_lab;
-                $excel_record['is_elective_type'] = $record->is_elective_type;
+                /*$excel_record['is_elective_type'] = $record->is_elective_type;*/
                 $excel_record['internal_marks'] = 20;
                 $excel_record['external_marks'] = 80;
                 $excel_record['status'] = $record->status;
@@ -444,7 +447,7 @@ public function downloadExcel()
         $subject->maximum_marks = $request->maximum_marks;
         $subject->pass_marks = $request->pass_marks;
         $subject->is_lab = $request->is_lab;
-        $subject->is_elective_type = $request->is_elective_type;
+        /*$subject->is_elective_type = $request->is_elective_type;*/
         $subject->internal_marks = $request->internal_marks;
         $subject->external_marks = $request->external_marks;
         $subject->status = $request->status;

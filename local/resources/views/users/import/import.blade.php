@@ -75,11 +75,11 @@
 						  
 						  <table class='table' ng-if="result_data">
 						  <thead>
-						  	<th>Academic ID</th>
-						  	<th>Course parent ID</th>
-						  	<th>Course ID</th>
-						  	<th>Year</th>
-						  	<th>Semester</th>
+						  	<th>{{getPhrase('academic_id')}}</th>
+						  	<th>{{getPhrase('course_parent_id')}}</th>
+						  	<th>{{getPhrase('course_id')}}</th>
+						  	<th>{{getPhrase('year')}}</th>
+						  	<th>{{getPhrase('semester')}}</th>
 						  	
 						  </thead>	
 						  <tbody>

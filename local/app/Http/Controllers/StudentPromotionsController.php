@@ -69,15 +69,17 @@ class StudentPromotionsController extends Controller
             } else {
                 $has_error = true;
             }
-            if (isset($to_course_id) and $to_course_id != '') {
-                $to_course_record = App\Course::where('id', '=', $to_course_id)->first();
-            } else {
-                $has_error = true;
-            }
-            //dd($has_error);
-            if (isset($to_course_record)) {
-                if ($to_course_record->course_dueration > 1) {
-                    $to_year = $request->to_year;
+            if (in_array('promoted',$request->selected_list)) {
+                if (isset($to_course_id) and $to_course_id != '') {
+                    $to_course_record = App\Course::where('id', '=', $to_course_id)->first();
+                } else {
+                    $has_error = true;
+                }
+                //dd($has_error);
+                if (isset($to_course_record)) {
+                    if ($to_course_record->course_dueration > 1) {
+                        $to_year = $request->to_year;
+                    }
                 }
             }
 
