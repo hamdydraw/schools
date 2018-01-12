@@ -35,9 +35,9 @@
 					@endif
 
 					 @include('mastersettings.course.form_elements', 
-					 array('button_name'=> $button_name),
+					 array('button_name'=> $button_name,'title'=>$title),
 					 array('course_parent_list'=>$course_parent_list))
-					 
+
 					{!! Form::close() !!}
 					 
 
