@@ -74,9 +74,20 @@ if (isset($table_columns)) {
                 serverSide: true,
                 cache: true,
                 type: 'GET',
+                "language": {
+                    "emptyTable": "{{getPhrase('no_data_available_in_table')}}",
+                    "paginate": {
+                        "next": "{{getPhrase('next')}}",
+                        "previous": "{{getPhrase('previous')}}"
+                    },
+                    "search": "{{getPhrase('search')}}",
+                    "lengthMenu": "{{getPhrase('show')}} _MENU_ {{getPhrase('entries')}}",
+                    "info":"{{getPhrase('showing')}} _START_ {{getPhrase('to')}} _END_ {{getPhrase('of')}} _TOTAL_ {{getPhrase('entries')}}",
+                    "infoEmpty":"{{getPhrase('showing')}} 0 {{getPhrase('to')}} 0 {{getPhrase('of')}} 0 {{getPhrase('entries')}}",
+                },
                 ajax: '{{ $routeValue }}',
                 @if(isset($table_columns))
-                columns: {!!$setData!!}
+                columns: "{!!$setData!!}"
                 @endif
             });
         });
