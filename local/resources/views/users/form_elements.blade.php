@@ -137,17 +137,22 @@ if ($record) {
     {{ Form::label('password', getphrase('password')) }}
 
     <span class="text-red">*</span><br>
-
-    {{ Form::password('password',['class'=>'form-control','ng-model'=>'password']) }}
-
+    @if($title == 'Add User')
+        {{ Form::password('password',['class'=>'form-control','ng-model'=>'password','required'=>'required']) }}
+    @else
+        {{ Form::password('password',['class'=>'form-control','ng-model'=>'password']) }}
+    @endif
 </fieldset>
 <fieldset class="form-group">
 
     {{ Form::label('password_confirm', getphrase('confirm_password')) }}
 
     <span class="text-red">*</span><br>
-
-    {{ Form::password('password_confirm',['class'=>'form-control','ng-model'=>'password_confirm']) }}
+    @if($title == 'Add User')
+        {{ Form::password('password_confirm',['class'=>'form-control','ng-model'=>'password_confirm','required'=>'required']) }}
+    @else
+        {{ Form::password('password_confirm',['class'=>'form-control','ng-model'=>'password_confirm']) }}
+    @endif
 
 </fieldset>
 

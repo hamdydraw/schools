@@ -455,7 +455,11 @@ class UsersController extends Controller
         $name = $request->name;
         $user->name = $name;
         $user->email = $request->email;
-        $password = str_random(8);
+        if ($request->has('password')) {
+            $password = $request->password;
+        } else {
+            $password = str_random(8);
+        }
         $user->password = bcrypt($password);
         DB::beginTransaction();
         try {
