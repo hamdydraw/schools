@@ -62,11 +62,10 @@ class StudentController extends Controller
 
             $student_joinDetails = App\StudentPromotion::where('user_id', '=', $studentRecord->user_id)->get()->first();
 
-            $course_time = Course::where('id', '=',
-                $student_joinDetails->from_course_id)->select('course_dueration')->first();
+            /*$course_time = Course::where('id', '=',
+                $student_joinDetails->from_course_id)->select('course_dueration')->first();*/
 
-
-            $data['course_time'] = $course_time;
+            /*$data['course_time'] = $course_time;*/
 
             $join_academicTitle = Academic::where('id', '=', $student_joinDetails->from_academic_id)->
             select('academic_year_title')->first();

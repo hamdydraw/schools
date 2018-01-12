@@ -78,7 +78,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                     {{ Form::text('course_id', $value = $join_courseName->course_title , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
                 </fieldset>
             @endif
-            <?php if($course_time->course_dueration > 1){ ?>
+           {{-- @if($course_time->course_dueration > 1)
             <div>
                 <fieldset class="form-group col-md-4">
                     {{ Form::label('year', getphrase('year')) }}
@@ -86,9 +86,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                     {{ Form::text('current_year', $value = $join_year , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
                 </fieldset>
             </div>
-            <?php
-
-            if($record->current_semister){?>
+            @if($record->current_semister){?>
             <div>
                 <fieldset class="form-group col-md-4">
                     {{ Form::label('semister', getphrase('semister')) }}
@@ -96,9 +94,8 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                     {{ Form::text('current_semister', $value = $join_semister , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
                 </fieldset>
             </div>
-            <?php }?>
-
-            <?php }?>
+            @endif
+            @endif--}}
         @endif
     </div>
     <br>
@@ -126,11 +123,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
 
             @if(!empty($record->roll_no))
 
-                <?php
-
-                if($course_time->course_dueration > 1 && $year != -1 && $semister != -1){
-
-                ?>
+                {{--@if($course_time->course_dueration > 1 && $year != -1 && $semister != -1)
                 <div>
                     <fieldset class="form-group col-md-4">
                         {{ Form::label('year', getphrase('current_year')) }}
@@ -138,11 +131,8 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                         {{ Form::text('current_year', $value = $year , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
                     </fieldset>
                 </div>
-                <?php
 
-
-                if($record->current_semister != 0){
-                ?>
+                @if($record->current_semister != 0)
                 <div>
                     <fieldset class="form-group col-md-4">
                         {{ Form::label('semister', getphrase('current_semister')) }}
@@ -151,10 +141,8 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                     </fieldset>
 
                 </div>
-                <?php }
-                ?>
-
-                <?php }?>
+                @endif
+                @endif--}}
             @endif
             <?php if($year == -1 && $semister == -1){ ?>
             <div>
