@@ -75,4 +75,19 @@ file.onchange = function(e){
     }
 };
  </script>
+<script>
+    $(document).ready(function () {
+        $('.button').click(function () {
+            if($('#password').val() !== $('#password_confirm').val())
+            {
+                $("form").submit(function(e){
+                    e.preventDefault();
+                });
+                alert('<?php echo getPhrase("password_and_confirmation_not_matched");?>');
+            }else {
+                $("form").submit();
+            }
+        })
+    })
+</script>
 @stop

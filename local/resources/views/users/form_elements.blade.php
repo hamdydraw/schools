@@ -138,11 +138,7 @@ if ($record) {
 
     <span class="text-red">*</span><br>
 
-    {{ Form::password('password', $value = null, $attributes = array('class'=>'form-control',
-
-        'ng-model'=>'password',
-
-     )) }}
+    {{ Form::password('password',['class'=>'form-control','ng-model'=>'password']) }}
 
 </fieldset>
 <fieldset class="form-group">
@@ -151,11 +147,7 @@ if ($record) {
 
     <span class="text-red">*</span><br>
 
-    {{ Form::password('password_confirm', $value = null, $attributes = array('class'=>'form-control',
-
-        'ng-model'=>'password_confirm',
-
-     )) }}
+    {{ Form::password('password_confirm',['class'=>'form-control','ng-model'=>'password_confirm']) }}
 
 </fieldset>
 
