@@ -56,7 +56,7 @@ class CourseSubjectsController extends Controller
                 'academics.academic_year_title',
                 'academic_id',
                 'course_parent_id',
-                /*'course_id',*/
+                'course_id',
                 'course_subject.id'
             ])
             ->groupBy('academic_id')
