@@ -1392,7 +1392,7 @@ class UsersController extends Controller
 
             $student = new App\Student();
             $student->admission_no = $student->preparestudentID($user->id);
-            $student->roll_no = rand(1,60000000);
+            $student->roll_no = date("Y-m-d h:i:sa").rand(1,60000000);
 
 
             $student->academic_id = (int)$request->academic_id;

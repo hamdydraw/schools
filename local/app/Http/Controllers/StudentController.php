@@ -226,7 +226,7 @@ class StudentController extends Controller
             $student->date_of_join = $request->date_of_join;
             $student->academic_id = $request->academic_id;
 
-            $student->roll_no =rand(1,60000000);
+            $student->roll_no = date("Y-m-d h:i:sa") . rand(1, 60000000);
             $student->current_year = $current_year;
             $student->current_semister = $current_semister;
             $student->course_parent_id = $request->course_parent_id;

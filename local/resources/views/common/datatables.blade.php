@@ -71,10 +71,9 @@ if (isset($table_columns)) {
 
             tableObj = $('.datatable').DataTable({
                 processing: true,
-                serverSide: true,
+                /*serverSide: true,*/
                 cache: true,
                 type: 'GET',
-                order: [[ 2, "asc" ]],
                 "language": {
                     "emptyTable": "{{getPhrase('no_data_available_in_table')}}",
                     "paginate": {
