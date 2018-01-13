@@ -29,8 +29,8 @@
             /*parent_course_id = $scope.selected_course_parent_id;
             course_id = $scope.selected_course_id;
 */
-          /*  year = $scope.selected_year;
-            semister = $scope.selected_semister;*/
+            /*  year = $scope.selected_year;
+              semister = $scope.selected_semister;*/
 
 
             route = '{{URL_GET_STUDENTS_COURSE_COMPLETED}}';
@@ -45,7 +45,7 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-                $scope.selected_academic_id=false;
+                $scope.selected_academic_id = false;
                 users = [];
                 angular.forEach(result.data, function (value, key) {
                     users.push(value);
@@ -92,13 +92,30 @@
             });
         }
         $scope.selectAll = function () {
-            $('[id*=selctionActionCompletedChecked]').attr('checked', 'checked');
-        }
-        $scope.cancelAll = function () {
-            $('[id*=selctionActionCompletedChecked]').removeAttr('checked');
+            if ($('.selectAll').html() === '<?php echo getPhrase("select_all");?>') {
+                $('[id*=selctionActionCompletedChecked]').prop('checked', true);
+                $('.selectAll').html('<?php echo getPhrase("cancel_all");?>');
+            } else {
+                $('[id*=selctionActionCompletedChecked]').prop('checked', false);
+                $('.selectAll').html('<?php echo getPhrase("select_all");?>');
+            }
         }
         $scope.rebackCompleted = function () {
             $(document).ready(function () {
+                checked = 'no';
+                $('[id*=selctionActionCompletedChecked]').each(function () {
+                    if ($('[id*=selctionActionCompletedChecked]').prop('checked') == false) {
+                        checked='no';
+                    }else {
+                        checked='yes';
+                        return;
+                    }
+                })
+                if (checked !== 'yes')
+                {
+                    alert('<?php echo getPhrase("you_should_choose_one_student_at_least");?>')
+                    return;
+                }
                 var checkedList = "";
                 $("input:checked").each(function () {
                     checkedList += $(this).val() + ',';

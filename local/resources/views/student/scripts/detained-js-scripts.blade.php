@@ -58,13 +58,31 @@
         }
 
         $scope.selectAll = function () {
-            $('[id*=selctionActionChecked]').attr('checked', 'checked');
-        }
-        $scope.cancelAll = function () {
-            $('[id*=selctionActionChecked]').removeAttr('checked');
+            if ($('.selectAll').html() === '<?php echo getPhrase("select_all");?>') {
+                $('[id*=selctionActionChecked]').prop('checked', true);
+                $('.selectAll').html('<?php echo getPhrase("cancel_all");?>');
+            }else
+            {
+                $('[id*=selctionActionChecked]').prop('checked',false);
+                $('.selectAll').html('<?php echo getPhrase("select_all");?>');
+            }
         }
         $scope.reback = function () {
             $(document).ready(function () {
+                checked = 'no';
+                $('[id*=selctionActionChecked]').each(function () {
+                    if ($('[id*=selctionActionChecked]').prop('checked') == false) {
+                        checked='no';
+                    }else {
+                        checked='yes';
+                        return;
+                    }
+                })
+                if (checked !== 'yes')
+                {
+                    alert('<?php echo getPhrase("you_should_choose_one_student_at_least");?>')
+                    return;
+                }
                 var checkedList = "";
                 $("input:checked").each(function () {
                     checkedList += $(this).val() + ',';

@@ -66,8 +66,7 @@
 
                     <div ng-show="result_data.length!=0">
                         <div>
-                            <a ng-click="selectAll()" class="btn btn-primary">{{ getPhrase('select_all')}}</a>
-                            <a ng-click="cancelAll()" class="btn btn-primary">{{ getPhrase('cancel_all')}}</a>
+                            <a ng-click="selectAll()" class="btn btn-primary selectAll">{{ getPhrase('select_all')}}</a>
                         </div>
                         <br><br>
 
