@@ -59,7 +59,6 @@ class StudentController extends Controller
         $course_time = '';
         if (!empty($studentRecord->roll_no)) {
             $student_joinDetails = App\StudentPromotion::where('user_id', '=', $studentRecord->user_id)->get()->first();
-            dd($student_joinDetails);
             $course_time = Course::where('id', '=',
                 $student_joinDetails->from_course_id)->select('course_dueration')->first();
 
