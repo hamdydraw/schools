@@ -94,7 +94,7 @@ class UsersController extends Controller
                     'users.updated_at',
                     'users.status'
                 ])
-                ->orderBy('users.name', 'asc');
+                ->orderBy('users.updated_at', 'desc');
         } elseif ($slug == 'student') {
             $role = getRoleData($slug);
 
@@ -119,7 +119,7 @@ class UsersController extends Controller
                     'courses.course_dueration',
                     'courses.is_having_semister'
                 ])
-                ->orderBy('users.name', 'asc');
+                ->orderBy('users.updated_at', 'desc');
 
         } elseif ($slug == 'staff') {
             $role = getRoleData($slug);
@@ -144,7 +144,7 @@ class UsersController extends Controller
                     'users.status',
                     'staff.user_id'
                 ])
-                ->orderBy('users.name', 'asc');
+                ->orderBy('users.updated_at', 'desc');
 
         } else {
 
@@ -162,7 +162,7 @@ class UsersController extends Controller
                     'users.slug as slug',
                     'users.updated_at'
                 ])
-                ->orderBy('users.name', 'asc');
+                ->orderBy('users.name', 'desc');
 
 
         }

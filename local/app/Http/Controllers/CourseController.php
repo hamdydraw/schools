@@ -66,8 +66,7 @@ class CourseController extends Controller
             /*'is_having_elective_subjects',*/
             'slug',
             'id'
-        ])
-            ->orderBy('id', 'asc');
+        ])->orderBy('id', 'asc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -77,8 +76,6 @@ class CourseController extends Controller
                         $editSemister = '<li><a href="' . URL_MASTERSETTINGS_COURSE_EDIT_SEMISTER . '/' . $records->slug . '"><i class="icon-packages"></i>' . getPhrase("edit_semisters") . '</a></li>';
                     }
                 }
-
-
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
