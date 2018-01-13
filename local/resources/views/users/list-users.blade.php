@@ -15,18 +15,18 @@
 							<li>{{ $title }}</li>
 						</ol>
 					</div>
-				</div>  
+				</div>
 				        @if(!count($academic_details)||!count($course_details))
 	       				<div class="alert alert-warning">
                               <strong>{{getPhrase('Note:')}}</strong> {{getPhrase('please_update_master_setup_details_before_creating_users.')}}
-                         </div>	
-                         @endif	
+                         </div>
+                         @endif
 				<!-- /.row -->
 				<div class="panel panel-custom" >
 					<div class="panel-heading">
-						
+
 						<div class="pull-right messages-buttons helper_step1">
-							@if($role=='student') 
+							@if($role=='student')
 							<a href="{{URL_USERS_IMPORT}}" class="btn  btn-primary button" >{{ getPhrase('import_excel')}}</a>
 							@endif
 							@if(count($academic_details)&&count($course_details))
@@ -34,7 +34,7 @@
 							 @endif
 							 @if(!count($academic_details)||!count($course_details))
 							 <a href="javascript:void(0);" class="btn  btn-primary button" onclick="showMessage()" >{{ getPhrase('add_user')}}</a>
-							  @endif	
+							  @endif
 						</div>
 						<h1>{{ $title }}</h1>
 						@if($role=='student')
@@ -44,7 +44,7 @@
                            @endif
 					</div>
 					<div class="panel-body packages">
-						<div > 
+						<div >
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -82,14 +82,14 @@
 									<th>{{ getPhrase('image')}}</th>
 									<th>{{ getPhrase('email')}}</th>
                                     <th>{{ getPhrase('action')}}</th>
-                                    
+
 									@endif
 								</tr>
 							</thead>
-							 
+
 						</table>
 						</div>
-						 
+
 
 					</div>
 
@@ -108,7 +108,7 @@
         <h4 class="modal-title">{{getPhrase('staff_status')}}</h4>
       </div>
       <div class="modal-body">
-      {!!Form::open(array('url'=> URL_STAFF_EDIT_PROFILE_STATUS,'method'=>'POST','name'=>'userstatus'))!!} 
+      {!!Form::open(array('url'=> URL_STAFF_EDIT_PROFILE_STATUS,'method'=>'POST','name'=>'userstatus'))!!}
 
       <span id="message"></span>
 
@@ -116,7 +116,7 @@
         <input type="hidden" name="current_status" id="current_status" >
         <input type="hidden" name="user_id" id="user_id" >
 
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
@@ -137,34 +137,34 @@
         <h4 class="modal-title"><b>{{getPhrase('update_master_setup')}}</b></h4>
       </div>
       <div class="modal-body">
-       
+
         <h4 style="color: #ffa616;" >{{getPhrase('please_update_master_setup_details')}}</h4 textalign="center">
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">{{getPhrase('ok')}}</button>
       </div>
-      
+
     </div>
 
   </div>
 </div>
 		</div>
 @endsection
- 
+
 @section('footer_scripts')
  @include('common.datatables', array('route'=>URL_USERS_LIST_GETLIST.$role, 'route_as_url'=>true))
  @include('common.deletescript', array('route'=>URL_USERS_DELETE))
  <script >
- 	 
+
  		function changeStatus(user_slug, status,user_id)
  		{
  			$('#user_slug').val(user_slug);
  			$('#current_status').val(status);
  			$('#user_id').val(user_id);
- 			message = '{{ getPhrase('are_you_sure_to_make_user_active')}}?'; 
+ 			message = '{{ getPhrase('are_you_sure_to_make_user_active')}}?';
  			if(status==1)
- 			message = '{{ getPhrase('are_you_sure_to_make_user_inactive')}}?'; 
+ 			message = '{{ getPhrase('are_you_sure_to_make_user_inactive')}}?';
  			$('#message').html(message);
 
  			$('#myModal').modal('show');
@@ -173,6 +173,6 @@
  		function showMessage(){
            $('#myUserModal').modal('show');
  		}
-  
+
  </script>
 @stop
