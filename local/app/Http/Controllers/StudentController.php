@@ -57,14 +57,11 @@ class StudentController extends Controller
         $join_academicTitle = '';
         $join_courseName = '';
         $course_time = '';
-
         if (!empty($studentRecord->roll_no)) {
-
             $student_joinDetails = App\StudentPromotion::where('user_id', '=', $studentRecord->user_id)->get()->first();
             dd($student_joinDetails);
             $course_time = Course::where('id', '=',
                 $student_joinDetails->from_course_id)->select('course_dueration')->first();
-
 
             $data['course_time'] = $course_time;
 
@@ -231,7 +228,7 @@ class StudentController extends Controller
             $student->academic_id = $request->academic_id;
 
             $student->roll_no = $student->prepareRollNo($slug, $request->academic_id, $request->course_parent_id,
-                $request->course_id, $request->current_year, $request->current_semister);
+                $request->course_id, $request->current_year, $request->current_semister).rand(1,60000);
             $student->current_year = $current_year;
             $student->current_semister = $current_semister;
             $student->course_parent_id = $request->course_parent_id;
@@ -545,13 +542,13 @@ class StudentController extends Controller
             ])
             ->get();
 
-        $usersAllowedToAppear=array();
+        $usersAllowedToAppear = array();
         foreach ($records as $record) {
-            $promotionRelatedToUser=DB::table('studentpromotions')->where('user_id',$record->id)->orderBy('id','desc')->first();
-             if ($promotionRelatedToUser == null or $promotionRelatedToUser->type == 'admission' or $promotionRelatedToUser->type == 'promoted')
-             {
-                 $usersAllowedToAppear[]=$record;
-             }
+            $promotionRelatedToUser = DB::table('studentpromotions')->where('user_id', $record->id)->orderBy('id',
+                'desc')->first();
+            if ($promotionRelatedToUser == null or $promotionRelatedToUser->type == 'admission' or $promotionRelatedToUser->type == 'promoted') {
+                $usersAllowedToAppear[] = $record;
+            }
         }
         return $usersAllowedToAppear;
     }
@@ -565,10 +562,10 @@ class StudentController extends Controller
     public function getCompletedStudents(Request $request)
     {
         $academic_id = $request->academic_id;
-       /* $course_parent_id = $request->parent_course_id;
-        $course_id = $request->course_id;
-        $year = $request->year;
-        $semister = $request->semister;*/
+        /* $course_parent_id = $request->parent_course_id;
+         $course_id = $request->course_id;
+         $year = $request->year;
+         $semister = $request->semister;*/
 
         $records = StudentPromotion::join('users', 'users.id', '=', 'studentpromotions.user_id')
             ->join('students', 'students.id', '=', 'studentpromotions.student_id')
