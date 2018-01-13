@@ -99,8 +99,8 @@ class TimetableController extends Controller
                 ->where('users.status', '!=', 0)
                 ->where('course_subject.academic_id', '=', $academic_id)
                 ->where('course_subject.course_id', '=', $course_parent_id)
-                ->where('course_subject.year', '=', $year)
-                ->where('course_subject.semister', '=', $semister)
+                /*->where('course_subject.year', '=', $year)
+                ->where('course_subject.semister', '=', $semister)*/
                 ->select(['course_subject.id as course_subject_id','staff.id as staff_main_id','staff.user_id as staff_user_id',
                 'job_title', 'first_name','last_name','gender', 'qualification',
                 'subject_title', 'subject_code', 'subjects.id as subject_id', 'is_lab', 'is_elective_type',
@@ -118,7 +118,7 @@ class TimetableController extends Controller
 
         $data['staff_records'] = $staff_with_allotment_records;
 
-       
+
         $scheduled_records = (object)$this->getSchedules(
                                 $academic_id, 
                                 $course_id, 
@@ -145,9 +145,8 @@ class TimetableController extends Controller
      * @param  integer $user_id     [description]
      * @return [type]               [description]
      */
-    public function getSchedules($academic_id =1, $course_id=1, $year=1,$semister=0, $user_id = 0)
+    public function getSchedules($academic_id =1, $course_id=1, $year=1,$semister, $user_id = 0)
     {
-   
         //Collect the set of mapping records for particular
         //academic year, course and year
         $map_records = App\TimingsetMap::
@@ -325,7 +324,6 @@ class TimetableController extends Controller
         $subjects       = $request->subject;
         $current_year   = 1;
         $current_semister = 0;
-
         if($request->has('current_year'))
             $current_year   = $request->current_year;
          if($request->has('current_semister'))
@@ -369,7 +367,7 @@ class TimetableController extends Controller
             //1st Step
             $record = App\Timetable::where('academic_id', '=', $academic_id)
                       ->where('course_id', '=', $course_id)
-                      ->where('year', '=', $current_year)
+                      /*->where('year', '=', $current_year)*/
                       ->where('semister', '=', $current_semister)
                       ->where('day', '=', $day)
                       ->where('timingset_id', '=', $timingset_id)
@@ -645,7 +643,7 @@ class TimetableController extends Controller
        $timetable_title         = getPhrase('timetable_for')
                                 .' '.$academic_record->academic_year_title
                                 .' /'.$course_parent_record->course_title
-                                .' /'.$course_record->course_title;
+                                .' /'.$course_record->course_title.' /'.getPhrase('semester').' '.$semister;
         if($course_record->course_dueration>1) {                                
             $timetable_title .= ' '.$year;
         }
@@ -708,7 +706,7 @@ class TimetableController extends Controller
             $timetable_title = getPhrase('timetable_for'). ' '.ucfirst($user_record->name);
 
 
-                                
+
         }
 
         if($role=='student')
@@ -716,6 +714,7 @@ class TimetableController extends Controller
 
             $user_id        = 0;
             $record         = prepareStudentSessionRecord($slug);
+            dd($record);
             if(!$record->student->roll_no)
             {
                  flash('Oops...!','Student Roll Number Is Not Generated', 'overlay');
@@ -731,7 +730,7 @@ class TimetableController extends Controller
                               ->select('academic_year_title')->first();
            $course_record = App\Course::where('id', '=', $course_id)
                             ->select(['id','parent_id','course_title','course_dueration', 'is_having_semister'])->first();
-            
+
            $course_parent_record = App\Course::where('id', '=', $course_record->parent_id)
                             ->select('course_title')->first();
 
@@ -740,31 +739,31 @@ class TimetableController extends Controller
                                 .' '.$academic_record->academic_year_title
                                 .' '.$course_parent_record->course_title
                                 .' '.$course_record->course_title;
-        if($course_record->course_dueration>1) {                                
+        if($course_record->course_dueration>1) {
             $timetable_title .= ' '.$year.' '.getPhrase('year');
         }
 
-        if($course_record->is_having_semister && $semister) {                                
+        if($course_record->is_having_semister && $semister) {
             $timetable_title .= ' '. $semister.' '.getPhrase('semister');
         };
 
         }
-      
+
        $data['timetable_title'] = $timetable_title;
        $data['active_class']       = 'academic';
        $data['title']              = getPhrase('timetable');
         $days = getDay();
-       
+
         if($user_id)
         {
             //Print Staff Timetable
             $allocated_periods = (object)$this->getSchedules($academic_id,0,0,0,$user_id);
-          
+
            if(!count($allocated_periods->timemaps[1]['timeset'])) {
              flash('Oops...!','Time table is not allocated for you', 'overlay');
              return back();
           }
-        
+
         }
         else{
             //Print Class timetable
@@ -779,12 +778,12 @@ class TimetableController extends Controller
           flash('Oops...!','Time table is not created for your class', 'overlay');
           return back();
         }
-           
+
         $data['allocated_periods']  = $allocated_periods;
         $data['layout']             = getLayout();
         $data['notes']             = $notes;
-        // return view('timetable.printable-template.template', $data); 
-        
+        // return view('timetable.printable-template.template', $data);
+
         $view = \View::make('timetable.printable-template.template',$data);
             $contents = $view->render();
 

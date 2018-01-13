@@ -1,6 +1,4 @@
 @extends('layouts.admin.adminlayout')
-
-
 @section('content')
     <div id="page-wrapper">
         <div class="container-fluid">

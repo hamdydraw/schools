@@ -47,7 +47,7 @@
 
 
 
-    {{ Form::textarea('content', $value = null , $attributes = array('class'=>'form-control editor1', 'id'=>'editor1', 'rows'=>'5', 'placeholder' => getPhrase('content'))) }}
+    {{ Form::textarea('content', $value = null , $attributes = array('class'=>'form-control ckeditor', 'id'=>'content', 'rows'=>'5', 'placeholder' => getPhrase('content'))) }}
 
 </fieldset>
 
