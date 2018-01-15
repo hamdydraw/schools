@@ -1,4 +1,4 @@
-<div style="float: right;">
+<div style="float: right;direction:rtl;">
     <h1><b>{{$title}}</b></h1><br/>
     <div class="row vertical-scroll">
 
