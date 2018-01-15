@@ -7,6 +7,7 @@ use App\Course;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Yajra\Datatables\Datatables;
 
 class CourseController extends Controller
@@ -56,6 +57,7 @@ class CourseController extends Controller
      */
     public function getDatatable()
     {
+        Session::set('i',0);
         $records = Course::select([
             'parent_id',
             'course_title',
@@ -88,12 +90,15 @@ class CourseController extends Controller
                     </div>';
             })
             ->editColumn('course_title', function ($records) {
-                return $records->course_title . ' (' . $records->id . ')';
+                if ($records->parent_id != 0) {
+                    return $records->course_title . ' (' . Course::getCourseRecord($records->parent_id)['course_title'] . ')';
+                }
+                return $records->course_title;
             })
             ->editColumn('parent_id', function ($records) {
+                $val=Session::set('i',Session::get('i')+1);
+                return Session::get('i');
 
-                return ($records->parent_id == 0) ? '<i class="fa fa-check text-success"></i>' :
-                    Course::getCourseRecord($records->parent_id)['course_title'];
             })
             ->editColumn('course_dueration', function ($records) {
                 return
@@ -102,13 +107,13 @@ class CourseController extends Controller
             })
             ->editColumn('grade_system', function ($records) {
 
-                if($records->parent_id == 0) {
+                if ($records->parent_id == 0) {
                     if ($records->grade_system != 'percentage') {
                         return strtoupper($records->grade_system);
                     } else {
                         return ucfirst($records->grade_system);
                     }
-                }else{
+                } else {
                     return '-';
                 }
 
@@ -117,9 +122,9 @@ class CourseController extends Controller
                 return ($records->parent_id == 0) ? ($records->is_having_semister) ? getPhrase('yes') : getPhrase('no') :
                     '-';
             })
-           /* ->editColumn('is_having_elective_subjects', function ($records) {
-                return ($records->parent_id) ? ($records->is_having_elective_subjects) ? getPhrase('yes') : getPhrase('no') : '-';
-            })*/
+            /* ->editColumn('is_having_elective_subjects', function ($records) {
+                 return ($records->parent_id) ? ($records->is_having_elective_subjects) ? getPhrase('yes') : getPhrase('no') : '-';
+             })*/
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('is_having_elective_subjects')

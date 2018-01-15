@@ -34,7 +34,7 @@
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-								 	<th>{{ getPhrase('parent')}}</th>
+								 	<th>{{ getPhrase('number')}}</th>
 									<th>{{ getPhrase('course_name')}} (ID)</th>
 									<th>{{ getPhrase('code')}}</th>
 									<th>{{ getPhrase('duration')}}</th>

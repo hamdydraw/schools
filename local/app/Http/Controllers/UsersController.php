@@ -455,10 +455,11 @@ class UsersController extends Controller
         $name = $request->name;
         $user->name = $name;
         $user->email = $request->email;
-        if ($request->has('password')){
-            $password=$request->password;
-        }else
-        $password = str_random(8);
+        if ($request->has('password')) {
+            $password = $request->password;
+        } else {
+            $password = str_random(8);
+        }
         $user->password = bcrypt($password);
         DB::beginTransaction();
         try {
@@ -1392,7 +1393,7 @@ class UsersController extends Controller
 
             $student = new App\Student();
             $student->admission_no = $student->preparestudentID($user->id);
-            $student->roll_no = date("Y-m-d h:i:sa").rand(1,60000000);
+            $student->roll_no = 'p' . rand(1, 6000000);
 
 
             $student->academic_id = (int)$request->academic_id;
