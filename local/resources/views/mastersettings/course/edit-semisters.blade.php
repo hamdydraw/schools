@@ -1,3 +1,4 @@
+<script src="{{url('/js/jquery.min.js')}}"></script>
 @extends('layouts.admin.adminlayout')
 @section('content')
     <div id="page-wrapper">
@@ -34,15 +35,19 @@
                     @foreach($records as $record)
                         <fieldset class="form-group">
 
-                            {{ Form::label(getPhrase('year'.$record->year), getPhrase(ucfirst('year '.$record->year))) }}
+                            {{--{{ Form::label(getPhrase('year'.$record->year), getPhrase(ucfirst('year '.$record->year))) }}--}}
+                            {{ Form::label(getPhrase('total_semesters')) }}
 
-                            {{ Form::text($record->id, $value = $record->total_semisters , $attributes = array('class'=>'form-control', 'placeholder' => '2')) }}
+                            {{ Form::text($record->id, $value = $record->total_semisters , $attributes = array('id'=>'total_semesters','class'=>'form-control', 'placeholder' => '2')) }}
                         </fieldset>
-                        {{--<fieldset class="form-group">
-                            @for($i=0 ;$i<$record->total_semisters;$i++)
-                                <label>{{getPhrase("date_for_semester_")}}{{$i+1}}</label>
-                            @endfor
-                        </fieldset>--}}
+                        <fieldset class="form-group">
+                            <label>{{getPhrase("currernt_semester")}}</label><br>
+                            <select class="form-control" name="current_semester" id="current_sem_selection">
+                                @for($i=1;$i<=$record->total_semisters;$i++)
+                                    <option value="{{$i}}">{{$i}}</option>
+                                @endfor
+                            </select>
+                        </fieldset>
                     @endforeach
 
                     <div class="buttons text-center">
@@ -58,6 +63,16 @@
         <!-- /.container-fluid -->
     </div>
     <!-- /#page-wrapper -->
+    <script>
+        $(document).ready(function () {
+            $('#total_semesters').on('change', function () {
+                $('#current_sem_selection').html('');
+                for (var i = 1; i <= $(this).val(); i++) {
+                    $('#current_sem_selection').append('<option value="' + i + '">' + i + '</option>');
+                }
+            });
+        })
+    </script>
 @stop
 
  

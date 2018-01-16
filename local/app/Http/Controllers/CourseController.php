@@ -295,7 +295,7 @@ class CourseController extends Controller
         $record->course_dueration = 1;
         $record->grade_system = 0;
         $record->is_having_semister = 0;
-        $record->is_having_elective_subjects = 0;
+       /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
 
         if ($request->parent_id == 0) {
@@ -307,7 +307,7 @@ class CourseController extends Controller
             $record->course_dueration = $request->course_dueration;
             $record->grade_system = $request->grade_system;
             $record->is_having_semister = $request->is_having_semister;
-            $record->is_having_elective_subjects = $request->is_having_elective_subjects;
+            /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
         }
 
 
@@ -395,6 +395,7 @@ class CourseController extends Controller
             if (is_numeric($key)) {
                 $rec = App\CourseSemister::find($key);
                 $rec->total_semisters = $val;
+                $rec->current_semester = $input['current_semester'];
                 $rec->save();
             }
         }

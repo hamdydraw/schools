@@ -714,7 +714,6 @@ class TimetableController extends Controller
 
             $user_id        = 0;
             $record         = prepareStudentSessionRecord($slug);
-            dd($record);
             if(!$record->student->roll_no)
             {
                  flash('Oops...!','Student Roll Number Is Not Generated', 'overlay');
@@ -723,7 +722,8 @@ class TimetableController extends Controller
             $academic_id    = $record->student->academic_id;
             $course_id      = $record->student->course_id;
             $year           = $record->student->current_year;
-            $semister       = $record->student->current_semister;
+            $semesterInstance=App\CourseSemister::find($record->student->course_parent_id);
+            $semister       = $semesterInstance->current_semester;
 
 
            $academic_record = App\Academic::where('id', '=', $academic_id)
