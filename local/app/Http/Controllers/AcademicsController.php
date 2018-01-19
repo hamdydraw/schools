@@ -146,7 +146,7 @@ class AcademicsController extends Controller
         $record->academic_start_date = $request->academic_start_date;
         $record->academic_end_date = $request->academic_end_date;
         $record->show_in_list = $request->show_in_list;
-        $record->current_semester = $request->has('current_semester') ? (int)$request->current_semester : 1;
+        /*$record->current_semester = $request->has('current_semester') ? (int)$request->current_semester : 1;*/
         $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
         $record->save();
 
@@ -198,7 +198,7 @@ class AcademicsController extends Controller
         $record->academic_year_title = $name;
         $record->academic_start_date = $request->academic_start_date;
         $record->academic_end_date = $request->academic_end_date;
-        $record->current_semester = (int)$request->current_semester;
+        /*$record->current_semester = (int)$request->current_semester;*/
         $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
         $record->slug = $record->makeSlug($name);
         $record->show_in_list = $request->show_in_list;

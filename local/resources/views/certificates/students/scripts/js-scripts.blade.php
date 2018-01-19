@@ -55,15 +55,12 @@
 
         }
         $scope.checkExistenceOfObj = function (param) {
+            $scope.result_inst='';
             angular.forEach($scope.result_data, function (value, key) {
-                console.log(value);
-               /* if (value.indexOf('name') != -1) {
-                    return true;
-                } else {
-                    return false;
-                }*/
+                $scope.result_inst=value[param];
+                return;
             })
-
+            console.log($scope.result_inst);
         }
         $scope.certificateTypeChanged = function (data) {
             $scope.users = [];
