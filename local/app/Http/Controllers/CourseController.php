@@ -57,7 +57,7 @@ class CourseController extends Controller
      */
     public function getDatatable()
     {
-        Session::set('i',0);
+        Session::set('i', 0);
         $records = Course::select([
             'parent_id',
             'course_title',
@@ -73,11 +73,11 @@ class CourseController extends Controller
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
                 $editSemister = '';
-                if ($records) {
+               /* if ($records) {
                     if ($records->is_having_semister) {
                         $editSemister = '<li><a href="' . URL_MASTERSETTINGS_COURSE_EDIT_SEMISTER . '/' . $records->slug . '"><i class="icon-packages"></i>' . getPhrase("edit_semisters") . '</a></li>';
                     }
-                }
+                }*/
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -96,7 +96,7 @@ class CourseController extends Controller
                 return $records->course_title;
             })
             ->editColumn('parent_id', function ($records) {
-                $val=Session::set('i',Session::get('i')+1);
+                $val = Session::set('i', Session::get('i') + 1);
                 return Session::get('i');
 
             })
@@ -256,7 +256,8 @@ class CourseController extends Controller
             $coursesem = new App\CourseSemister();
             $coursesem->course_id = $record->id;
             $coursesem->year = $year;
-            $coursesem->total_semisters = 0;
+            $coursesem->total_semisters = 2;
+            $coursesem->current_semester = 1;
             $coursesem->save();
         }
     }
@@ -295,7 +296,7 @@ class CourseController extends Controller
         $record->course_dueration = 1;
         $record->grade_system = 0;
         $record->is_having_semister = 0;
-       /* $record->is_having_elective_subjects = 0;*/
+        /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
 
         if ($request->parent_id == 0) {
@@ -374,9 +375,8 @@ class CourseController extends Controller
     public function editSemisters($slug)
     {
         $record = Course::where('slug', $slug)->get()->first();
-
-        $data['records'] = $record->semisters;
-
+        /*$data['records'] = $record->semisters;*/
+        $data['record_semester'] = $record->semisters->first();
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('edit_semister');
         $data['module_helper'] = getModuleHelper('edit-semister');
@@ -390,7 +390,7 @@ class CourseController extends Controller
      */
     public function updateSemisters(Request $request)
     {
-        $input = $request->all();
+        /*$input = $request->all();
         foreach ($input as $key => $val) {
             if (is_numeric($key)) {
                 $rec = App\CourseSemister::find($key);
@@ -398,7 +398,10 @@ class CourseController extends Controller
                 $rec->current_semester = $input['current_semester'];
                 $rec->save();
             }
-        }
+        }*/
+        $rec = App\CourseSemister::find($request->course_semester);
+        $rec->current_semester = $request->current_semester;
+        $rec->save();
         flash('success', 'record_updated_successfully', 'success');
         return redirect('mastersettings/course');
     }

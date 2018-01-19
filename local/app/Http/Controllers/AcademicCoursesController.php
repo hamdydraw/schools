@@ -96,7 +96,6 @@ class AcademicCoursesController extends Controller
         $model = AcademicCourse::where('academic_id', '=', $record->id)->groupBy('course_id')->get();
         $count = $model->count();
         $academic_id = $record->id;
-
         DB::beginTransaction();
         try {
             if ($count) {
@@ -113,6 +112,10 @@ class AcademicCoursesController extends Controller
                     $newRecord->academic_id = $academic_id;
                     $newRecord->course_id = $value;
                     $newRecord->save();
+                    $courseSem=App\CourseSemister::where('course_id',$value)->first();
+                    /*$courseSem->current_semester=$record->current_semester;*/
+                    $courseSem->total_semisters=$record->total_semesters;
+                    $courseSem->save();
                 }
 
             }
@@ -244,7 +247,7 @@ class AcademicCoursesController extends Controller
     {
         $academic_id = $request->academic_id;
         $course_id = $request->course_id;
-
+        $toDelete=AcademicCourse::where('academic_id',$academic_id)->where('course_id',$course_id)->delete();
         $students = App\Student::where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
             ->count();

@@ -33,13 +33,13 @@
         ?>
             <td style=" border: 1px solid #ddd;padding: 10px;" width="100%">
                 <table cellpadding="0" cellspacing="0" border="0" style="">
-               
+
                     <tr>
                         <td width="120px"> <img src="{{getProfilePath($user->image,'profile')}}" width="110px" alt=""> </td>
                         <td style="padding: 0 15px 0 15px;" valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" style="">
-                            
-                            
+
+
                             <?php $item = $certificateObject->getIdCardData('front_first_item', $user); ?>
                             @if($item)
                                 @if($current_item_number++ <= $max_items)
@@ -67,7 +67,7 @@
                                     <td style="padding: 5px;" width="1%">:</td>
                                     <td style="padding: 5px;">
                                     {{$item}}
-                                    
+
                                     </td>
                                 </tr>
                                 @endif
@@ -79,7 +79,7 @@
                                 <tr>
                                     <td style="padding: 5px;"><strong> {{$certificateObject->getIdCardData('front_third_item_title')}}</strong></td>
                                     <td style="padding: 5px;" width="1%">:</td>
-                                    <td style="padding: 5px;"> 
+                                    <td style="padding: 5px;">
                                     {{$item}}
                                     </td>
                                 </tr>
@@ -135,7 +135,7 @@
                             @endif
                         @endif
                     </tr>
-                </table> 
+                </table>
             </td>
         </tr>
         <tr>
@@ -144,24 +144,24 @@
                 &nbsp;
             </td>
         </tr>
-           
+
       <table cellpadding="0" cellspacing="0" border="0" align="center" width="450" style="border: 1px solid #ddd; font-family: arial; color:#555;">
 
       <tr>
             <td colspan="8" style="padding: 10px; border-bottom: 1px solid #ddd" align="center"> <img src="{{IMAGE_PATH_SETTINGS.getSetting('top_logo', 'id_card_settings')}}" height="40" alt="">
-                
+
                 <p style="margin: 0; color:#777">{{getSetting('institute_address','id_card_settings')}}</p>
-            
+
             </td>
-            
+
         </tr>
-      
+
 
      <tr>
          <td style="padding: 8px;" width="1%"> <strong>{{getSetting('back_first_item_title','id_card_fields')}} : </strong>{{getSetting('back_first_item_text','id_card_fields')}}</td>
 
        </tr>
-       
+
       <tr>
           <td style="padding: 8px;" width="1%">
               <strong>{{getSetting('back_second_item_title','id_card_fields')}} : </strong> {{getSetting('back_second_item_text','id_card_fields')}}
@@ -170,17 +170,17 @@
 
       <tr>
           <td style="padding: 8px;">
-            <strong>{{getSetting('back_third_item_title','id_card_fields')}} : </strong> {{getSetting('back_third_item_text','id_card_fields')}}  
+            <strong>{{getSetting('back_third_item_title','id_card_fields')}} : </strong> {{getSetting('back_third_item_text','id_card_fields')}}
           </td>
       </tr>
-    
+
      <tr>
          <td style="padding: 8px;">
              <strong>{{getSetting('back_fourth_item_title','id_card_fields')}} : </strong> {{getSetting('back_fourth_item_text','id_card_fields')}}
          </td>
-     </tr> 
-   
-        
+     </tr>
+
+
 </table>
 
  </table>
@@ -189,7 +189,7 @@
  </div>
 </body>
 <script >
-function printDiv() 
+function printDiv()
 {
 
   var divToPrint=document.getElementById('DivIdToPrint');

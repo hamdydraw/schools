@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers;
-use \App;
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
+namespace App\Http\Controllers;
+
+use App;
 use App\Academic;
-use Yajra\Datatables\Datatables;
 use DB;
 use Exception;
+use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class AcademicsController extends Controller
 {
@@ -23,10 +23,10 @@ class AcademicsController extends Controller
      */
     public function index()
     {
-        $data['active_class']        = 'master_settings';
-        $data['title']               = getPhrase('academic_years');
-        $data['layout']              = getLayout();
-        $data['module_helper']       = getModuleHelper('academic-year');
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('academic_years');
+        $data['layout'] = getLayout();
+        $data['module_helper'] = getModuleHelper('academic-year');
         return view('mastersettings.academics.list', $data);
     }
 
@@ -38,7 +38,7 @@ class AcademicsController extends Controller
     {
         DB::statement(DB::raw('set @rownum=0'));
 
-        $records = Academic::select([ 'id','academic_year_title','academic_start_date','academic_end_date','slug']);
+        $records = Academic::select(['id', 'academic_year_title', 'academic_start_date', 'academic_end_date','total_semesters', 'slug']);
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -48,18 +48,18 @@ class AcademicsController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="'.URL_MASTERSETTINGS_ACADEMICS_COURSES.$records->slug.'"><i class="fa fa-book"></i>'.getPhrase("allocate_courses").'</a></li>
+                        <li><a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '"><i class="fa fa-book"></i>' . getPhrase("allocate_courses") . '</a></li>
 
-                            <li><a href="'.URL_MASTERSETTINGS_ACADEMICS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
+                            <li><a href="' . URL_MASTERSETTINGS_ACADEMICS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
 
-                            <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
+                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
                         </ul>
                     </div>';
             })
-            ->editColumn('academic_year_title',function($records)
-            {
-                return '<a href="'.URL_MASTERSETTINGS_ACADEMICS_COURSES.$records->slug.'">'.$records->academic_year_title.' ('.$records->id.')'.'</a>';
+            ->editColumn('academic_year_title', function ($records) {
+                return '<a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '">' . $records->academic_year_title . ' (' . $records->id . ')' . '</a>';
             })
+           
             ->removeColumn('id')
             ->removeColumn('slug')
             ->make();
@@ -71,11 +71,11 @@ class AcademicsController extends Controller
      */
     public function create()
     {
-        $data['record']         	= FALSE;
-        $data['active_class']       = 'master_settings';
-        $data['title']              = getPhrase('add_academic');
-        $data['layout']             = getLayout();
-        $data['module_helper']      = getModuleHelper('add-academic');
+        $data['record'] = false;
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('add_academic');
+        $data['layout'] = getLayout();
+        $data['module_helper'] = getModuleHelper('add-academic');
         return view('mastersettings.academics.add-edit', $data);
     }
 
@@ -87,11 +87,13 @@ class AcademicsController extends Controller
     public function edit($slug)
     {
         $record = Academic::where('slug', $slug)->get()->first();
-        $data['record']       		= $record;
-        $data['active_class']       = 'master_settings';
-        $data['title']              = getPhrase('edit_academic');
-        $data['layout']              = getLayout();
-        $data['module_helper']      = getModuleHelper('add-academic');
+        $data['record'] = $record;
+        $relatedSemesters = App\AcademicSemester::where('academic_id', $record->id)->get();
+        $data['relatedSemesters'] = $relatedSemesters;
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('edit_academic');
+        $data['layout'] = getLayout();
+        $data['module_helper'] = getModuleHelper('add-academic');
         return view('mastersettings.academics.add-edit', $data);
     }
 
@@ -104,30 +106,72 @@ class AcademicsController extends Controller
     public function update(Request $request, $slug)
     {
 
-        $record                 = Academic::where('slug', $slug)->get()->first();
-
+        $record = Academic::where('slug', $slug)->get()->first();
+        if (is_array($request->semester_start_date) and is_array($request->semester_end_date)) {
+            $start_end = array_combine($request->semester_start_date, $request->semester_end_date);
+        }else
+        {
+            $start_end=array();
+        }
         $this->validate($request, [
-            'academic_year_title'          => 'bail|required|max:20|unique:academics,academic_year_title,'.$record->id,
-            'academic_start_date'			=> 'required',
-            'academic_end_date'			=> 'required',
+            'academic_year_title' => 'bail|required|max:20|unique:academics,academic_year_title,' . $record->id,
+            'academic_start_date' => 'required',
+            'academic_end_date' => 'required',
+            /*'current_semester' => 'required',*/
         ]);
-
-        $name                       = $request->academic_year_title;
+        //set current semester for all child courses of academic year
+        $coursesInAcademic = App\AcademicCourse::where('academic_id', $record->id)->select(['course_id'])->get();
+        $courses = array();
+        foreach ($coursesInAcademic as $item) {
+            $courses[] = $item->course_id;
+        }
+        $coursesToUpdate = App\CourseSemister::whereIn('course_id', $courses)->get();
+        foreach ($coursesToUpdate as $item) {
+            $item->total_semisters = count($start_end) > 0 ? count($start_end) : 1;
+            $item->save();
+        }
+        //end
+        $name = $request->academic_year_title;
 
         /**
          * Check if the title of the record is changed,
          * if changed update the slug value based on the new title
          */
-        if($name != $record->academic_year_title)
+
+        if ($name != $record->academic_year_title) {
             $record->slug = $record->makeSlug($name);
+        }
 
-        $record->academic_year_title 	= $name;
-        $record->academic_start_date 	= $request->academic_start_date;
-        $record->academic_end_date      = $request->academic_end_date;
-        $record->show_in_list 		    = $request->show_in_list;
-
+        $record->academic_year_title = $name;
+        $record->academic_start_date = $request->academic_start_date;
+        $record->academic_end_date = $request->academic_end_date;
+        $record->show_in_list = $request->show_in_list;
+        $record->current_semester = $request->has('current_semester') ? (int)$request->current_semester : 1;
+        $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
         $record->save();
-        flash('success','record_updated_successfully', 'success');
+
+        $academicToDelete=App\AcademicSemester::where('academic_id',$record->id)->delete();
+        if (count($start_end) > 0) {
+            $start_end = array_combine($request->semester_start_date, $request->semester_end_date);
+            $i = 1;
+            foreach ($start_end as $start => $end) {
+                $recordAcadSem = new App\AcademicSemester();
+                $recordAcadSem->academic_id = $record->id;
+                $recordAcadSem->sem_num = $i;
+                $recordAcadSem->sem_start_date = $start;
+                $recordAcadSem->sem_end_date = $end;
+                $recordAcadSem->save();
+                $i++;
+            }
+        } else {
+            $recordAcadSem = new App\AcademicSemester();
+            $recordAcadSem->academic_id = $record->id;
+            $recordAcadSem->sem_num = 1;
+            $recordAcadSem->sem_start_date = $request->academic_start_date;
+            $recordAcadSem->sem_end_date = $request->academic_end_date;
+            $recordAcadSem->save();
+        }
+        flash('success', 'record_updated_successfully', 'success');
         return redirect('mastersettings/academics');
     }
 
@@ -137,22 +181,51 @@ class AcademicsController extends Controller
      * @return void
      */
     public function store(Request $request)
-
     {
         $this->validate($request, [
-            'academic_year_title'          => 'bail|required|max:40|unique:academics,academic_year_title',
-            'academic_start_date'			=> 'required',
-            'academic_end_date'			=> 'required',
+            'academic_year_title' => 'bail|required|max:40|unique:academics,academic_year_title',
+            'academic_start_date' => 'required',
+            'academic_end_date' => 'required',
         ]);
+        if ($request->semester_start_date != null and $request->semester_end_date != null) {
+            $start_end = array_combine($request->semester_start_date, $request->semester_end_date);
+        }else
+        {
+            $start_end=array();
+        }
         $record = new Academic();
-        $name 					        = $request->academic_year_title;
-        $record->academic_year_title 	= $name;
-        $record->academic_start_date 	= $request->academic_start_date;
-        $record->academic_end_date 		= $request->academic_end_date;
-        $record->slug 			        = $record->makeSlug($name);
-        $record->show_in_list           = $request->show_in_list;
+        $name = $request->academic_year_title;
+        $record->academic_year_title = $name;
+        $record->academic_start_date = $request->academic_start_date;
+        $record->academic_end_date = $request->academic_end_date;
+        $record->current_semester = (int)$request->current_semester;
+        $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
+        $record->slug = $record->makeSlug($name);
+        $record->show_in_list = $request->show_in_list;
         $record->save();
-        flash('success','record_added_successfully', 'success');
+
+        //academic semester
+        if (count($start_end) > 0) {
+            $start_end = array_combine($request->semester_start_date, $request->semester_end_date);
+            $i = 1;
+            foreach ($start_end as $start => $end) {
+                $recordAcadSem = new App\AcademicSemester();
+                $recordAcadSem->academic_id = $record->id;
+                $recordAcadSem->sem_num = $i;
+                $recordAcadSem->sem_start_date = $start;
+                $recordAcadSem->sem_end_date = $end;
+                $recordAcadSem->save();
+                $i++;
+            }
+        } else {
+            $recordAcadSem = new App\AcademicSemester();
+            $recordAcadSem->academic_id = $record->id;
+            $recordAcadSem->sem_num = 1;
+            $recordAcadSem->sem_start_date = $request->academic_start_date;
+            $recordAcadSem->sem_end_date = $request->academic_end_date;
+            $recordAcadSem->save();
+        }
+        flash('success', 'record_added_successfully', 'success');
         return redirect('mastersettings/academics');
     }
 
@@ -163,20 +236,19 @@ class AcademicsController extends Controller
      */
     public function delete($slug)
     {
-        try{
-            if(!env('DEMO_MODE')) {
+        try {
+            if (!env('DEMO_MODE')) {
                 Academic::where('slug', $slug)->delete();
             }
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $response['status'] = 0;
-            if(getSetting('show_foreign_key_constraint','module'))
-                $response['message'] =  $e->getMessage();
-            else
-                $response['message'] =  getPhrase('this_record_is_in_use_in_other_modules');
+            if (getSetting('show_foreign_key_constraint', 'module')) {
+                $response['message'] = $e->getMessage();
+            } else {
+                $response['message'] = getPhrase('this_record_is_in_use_in_other_modules');
+            }
         }
         return json_encode($response);
     }

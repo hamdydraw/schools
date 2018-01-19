@@ -110,6 +110,7 @@ define('URL_FIRST_USER_REGISTER', PREFIX.'install/register');
 
 //MASTER SETTINGS MODULE
 define('URL_MASTERSETTINGS_SETTINGS', PREFIX.'mastersettings/settings');
+define('URL_MASTERSETTINGS_CERTIFICATES_SETTINGS', PREFIX.'mastersettings/settings/certificates');
 define('URL_MASTERSETTINGS_EMAIL_TEMPLATES', PREFIX.'email/templates');
 define('URL_MASTERSETTINGS_TOPICS', PREFIX.'mastersettings/topics');
 define('URL_MASTERSETTINGS_SUBJECTS', PREFIX.'mastersettings/subjects');

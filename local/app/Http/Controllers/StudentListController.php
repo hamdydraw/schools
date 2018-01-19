@@ -221,7 +221,6 @@ class StudentListController extends Controller
         $data['records']   = $records;
          $view     = \View::make('student.cousrse-detained-list-print-file',$data);
         $contents = $view->render();
-
         return $contents;
 
     }

@@ -382,6 +382,7 @@ class SettingsController extends Controller
                         'tool_tip'=>$processed_data->tool_tip
                        );
        $settings_data[$request->key] = $values;
+
        $record->settings_data = json_encode($settings_data);
       
        $record->save();
@@ -495,7 +496,7 @@ class SettingsController extends Controller
      */
     public function updateSubSettings(Request $request, $slug)
     {
-         
+
         /**
          * Check if the request is of env varable
          * if yes, update env file
@@ -565,7 +566,6 @@ class SettingsController extends Controller
        
        
        $record->settings_data = json_encode($data);
-    
        $record->save();
 
         if($this->isEnvSetting($request))

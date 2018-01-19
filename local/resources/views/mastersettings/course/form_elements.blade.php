@@ -148,13 +148,13 @@
         {{ Form::label('is_having_semister', getphrase('is_having_semesters')) }}
         <div class="form-group row">
             <div class="col-md-6">
-                {{ Form::radio('is_having_semister', 0, true, array('id'=>'free', 'name'=>'is_having_semister')) }}
+                {{ Form::radio('is_having_semister', 0, false, array('id'=>'free', 'name'=>'is_having_semister')) }}
 
                 <label for="free"> <span class="fa-stack radio-button"> <i
                                 class="mdi mdi-check active"></i> </span> {{getPhrase('No')}}</label>
             </div>
             <div class="col-md-6">
-                {{ Form::radio('is_having_semister', 1, false, array('id'=>'paid', 'name'=>'is_having_semister')) }}
+                {{ Form::radio('is_having_semister', 1, true, array('id'=>'paid', 'name'=>'is_having_semister')) }}
                 <label for="paid"> <span class="fa-stack radio-button"> <i
                                 class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
             </div>
