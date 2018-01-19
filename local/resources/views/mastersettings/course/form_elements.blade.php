@@ -93,7 +93,7 @@
 
 </fieldset>
 
-<fieldset ng-if="parent_id==0" class="form-group">
+{{--<fieldset ng-if="parent_id==0" class="form-group">
     {{ Form::label('course_duration', getphrase('duration_in_years')) }}
 
     <span class="text-red">*</span>
@@ -116,7 +116,7 @@
 
 
     </div>
-</fieldset>
+</fieldset>--}}
 
 <fieldset ng-if="parent_id==0" class="form-group">
     {{ Form::label('grade_system', getphrase('grade_system')) }}
@@ -144,7 +144,7 @@
 </fieldset>
 
 <div class="row ">
-    <fieldset ng-if="parent_id==0" class='form-group col-md-6 helper_step2'>
+    {{--<fieldset ng-if="parent_id==0" class='form-group col-md-6 helper_step2'>
         {{ Form::label('is_having_semister', getphrase('is_having_semesters')) }}
         <div class="form-group row">
             <div class="col-md-6">
@@ -159,7 +159,7 @@
                                 class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
             </div>
         </div>
-    </fieldset>
+    </fieldset>--}}
 
     {{--<fieldset ng-if="parent_id!=0" class='form-group col-md-6 helper_step3'>
       {{ Form::label('is_having_elective_subjects', getphrase('is_having_electives')) }}

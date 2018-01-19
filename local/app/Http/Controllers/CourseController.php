@@ -62,9 +62,9 @@ class CourseController extends Controller
             'parent_id',
             'course_title',
             'course_code',
-            'course_dueration',
+            /*'course_dueration',*/
             'grade_system',
-            'is_having_semister',
+            /*'is_having_semister',*/
             /*'is_having_elective_subjects',*/
             'slug',
             'id'
@@ -100,11 +100,11 @@ class CourseController extends Controller
                 return Session::get('i');
 
             })
-            ->editColumn('course_dueration', function ($records) {
+            /*->editColumn('course_dueration', function ($records) {
                 return
 
                     ($records->parent_id == 0) ? $records->course_dueration . ' ' . getPhrase('years') : '-';
-            })
+            })*/
             ->editColumn('grade_system', function ($records) {
 
                 if ($records->parent_id == 0) {
@@ -118,10 +118,10 @@ class CourseController extends Controller
                 }
 
             })
-            ->editColumn('is_having_semister', function ($records) {
+            /*->editColumn('is_having_semister', function ($records) {
                 return ($records->parent_id == 0) ? ($records->is_having_semister) ? getPhrase('yes') : getPhrase('no') :
                     '-';
-            })
+            })*/
             /* ->editColumn('is_having_elective_subjects', function ($records) {
                  return ($records->parent_id) ? ($records->is_having_elective_subjects) ? getPhrase('yes') : getPhrase('no') : '-';
              })*/
@@ -228,10 +228,10 @@ class CourseController extends Controller
         $record->course_title = $name;
         $record->course_code = $request->course_code;
         $record->parent_id = $request->parent_id;
-        $record->course_dueration = $request->course_dueration;
+       /* $record->course_dueration = $request->course_dueration;*/
         $record->grade_system = $request->grade_system;
-        $record->is_having_semister = $request->is_having_semister;
-        $record->is_having_elective_subjects = $request->is_having_elective_subjects;
+       /* $record->is_having_semister = $request->is_having_semister;*/
+        /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
         $record->description = $request->description;
         $record->save();
 
@@ -305,9 +305,9 @@ class CourseController extends Controller
                 'course_dueration' => 'bail|required|integer'
             ];
 
-            $record->course_dueration = $request->course_dueration;
+            /*$record->course_dueration = $request->course_dueration;*/
             $record->grade_system = $request->grade_system;
-            $record->is_having_semister = $request->is_having_semister;
+           /* $record->is_having_semister = $request->is_having_semister;*/
             /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
         }
 

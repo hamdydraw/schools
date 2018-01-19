@@ -106,7 +106,7 @@
                                                         @if($settings[$front[$i]]['value'] !== 'skip')
                                                             <li>
                                                                 <strong>{{getPhrase($settings[$front[$i]]['value'])}}
-                                                                    <b ng-init="">@{{ result_inst }}</b>:
+                                                                    @{{ checkExistenceOfObj('name') }}
                                                                 </strong>
 
                                                             </li>
