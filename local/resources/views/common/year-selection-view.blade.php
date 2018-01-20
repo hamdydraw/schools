@@ -44,7 +44,7 @@ if (isset($user_slug)) {
 
 <div class="row {{$custom_class}}">
     <div class="col-md-12">
-        @if(!$user_record)
+       {{-- @if(!$user_record)--}}
             <fieldset class="form-group"
                       ng-init="setPreSelectedData('{{$academic_id}}','{{$course_parent_id}}','{{$course_id}}', '{{$year}}','{{$semister}}')">
                 {{ Form::label ('academic_year', getphrase('academic_year')) }}
@@ -55,7 +55,7 @@ if (isset($user_slug)) {
                     "ng-change" => "getParentCourses(academic_year)"
                 ])}}
             </fieldset>
-        @else
+        {{--@else
 
             <fieldset class="form-group"
                       ng-init="setPreSelectedData('{{$academic_id}}','{{$course_parent_id}}','{{$course_id}}', '{{$year}}','{{$semister}}')">
@@ -69,10 +69,10 @@ if (isset($user_slug)) {
                 ])}}
             </fieldset>
             <input type="hidden" name="extra_academic_id" value="{{$academic_id}}">
-        @endif
+        @endif--}}
 
         {{--الصف الدراسى--}}
-        @if(!$user_record)
+       {{-- @if(!$user_record)--}}
             <fieldset ng-if="selected_academic_id" class="form-group">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
                 <select
@@ -85,7 +85,7 @@ if (isset($user_slug)) {
                     <option value="">{{getPhrase('select')}}</option>
                 </select>
             </fieldset>
-        @else
+        {{--@else
             <fieldset ng-if="selected_academic_id" class="form-group">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
                 <select
@@ -101,7 +101,7 @@ if (isset($user_slug)) {
 
                 </select>
             </fieldset>
-        @endif
+        @endif--}}
         {{--الفصل الدراسى--}}
         <fieldset ng-if="selected_course_parent_id" class="form-group">
             <label for="course_id">{{getPhrase('course')}}</label>

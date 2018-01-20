@@ -11,7 +11,7 @@
 <script>
 
  
- app.controller('TabController', function ($scope, $http, $rootScope, httpPreConfig)
+ app.controller('TabController', function ($scope, $http, $rootScope, httpPreConfig,$location)
   {
      
   
