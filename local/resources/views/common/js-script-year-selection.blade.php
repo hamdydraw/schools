@@ -210,12 +210,13 @@ year                 = year_number;
 
 angular.forEach($scope.parent_courses_objects, function(course, key){
 if(course.course.id == $scope.selected_course_parent_id){
-
 angular.forEach(course.semister, function(semister, no){
+
 if(semister.year== year){
 
 if(semister.total_semisters>0)
 {
+
 semisters =[];
 
 $scope.semisters = { "current_semister": "Select","values": ['Select'] };

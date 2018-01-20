@@ -239,15 +239,40 @@ class CertificatesController extends Controller
             array_push($users_list, $user);
         }
 
+        $data['settings'] = Settings::where('slug', 'id-card-fields')->get()->first();
+        $data['settings'] = json_decode($data['settings']->settings_data, true);
+        foreach ($data['settings'] as $key => $val) {
+            if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
+                    $key)[3] == 'title' and explode('_', $key)[0] == 'front') {
+                $front_title[] = $key;
+            }
+            if (count(explode('_', $key)) < 4 and isset(explode('_', $key)[2]) and explode('_', $key)[2] == 'item') {
+                $front[] = $key;
+            }
+            if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
+                    $key)[3] == 'title' and explode('_', $key)[0] == 'back') {
+                $back_title[] = $key;
+            }
+            if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
+                    $key)[3] == 'text' and explode('_', $key)[0] == 'back') {
+                $back[] = $key;
+            }
+        }
+        $data['front'] = $front;
+        $data['front_title'] = $front_title;
+        $data['back_title'] = $back_title;
+        $data['back'] = $back;
+        $data['lang']=App\Language::getDefaultLanguageRecord()->is_rtl;
+        $data['academic_years'] = addSelectToList(getAcademicYears());
 
         $records = User::join('students', 'users.id', '=', 'students.user_id')
             ->join('academics', 'academics.id', '=', 'students.academic_id')
             ->join('courses', 'courses.id', '=', 'students.course_id')
             ->where('academic_id', '=', $academic_id)
+            ->where('course_parent_id', '=', $course_parent_id)
             ->where('course_id', '=', $course_id)
-            ->where('current_year', '=', $year)
-            ->where('current_semister', '=', $semister)
-            ->whereIn('users.id', $selected_users)
+            /*->where('current_year','=',$year)
+            ->where('current_semister','=',$semister)*/
             ->select([
                 'students.user_id as id',
                 'users.name',
@@ -259,10 +284,14 @@ class CertificatesController extends Controller
                 'home_phone',
                 'image',
                 'academic_year_title',
-                'address_lane1',
-                'city',
-                'state',
-                'fathers_name'
+                'email',
+                'current_year',
+                'current_semister',
+                'course_dueration',
+                'students.academic_id as academic_id',
+                'students.course_id as course_id',
+                'students.user_id as user_id',
+                'users.slug'
             ])
             ->get();
         // dd($records);

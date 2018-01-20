@@ -113,7 +113,7 @@ class AcademicCoursesController extends Controller
                     $newRecord->course_id = $value;
                     $newRecord->save();
                     $courseSem=App\CourseSemister::where('course_id',$value)->first();
-                    /*$courseSem->current_semester=$record->current_semester;*/
+                    $courseSem->current_semester=0;
                     $courseSem->total_semisters=$record->total_semesters;
                     $courseSem->save();
                 }

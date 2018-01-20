@@ -43,7 +43,6 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-
                 result = result.data;
                 /*$scope.result_data = [];*/
                 angular.forEach(result, function (value, key) {
@@ -54,13 +53,15 @@
             $scope.users = $scope.result_data;
 
         }
-        $scope.checkExistenceOfObj = function (param) {
+        $scope.checkExistenceOfObj = function (param,id) {
             $scope.result_inst='';
             angular.forEach($scope.result_data, function (value, key) {
-                $scope.result_inst=value[param];
-                return;
+                if (value.id == id) {
+                    $scope.result_inst = value[param];
+                    return;
+                }
             })
-            console.log($scope.result_inst);
+            return $scope.result_inst;
         }
         $scope.certificateTypeChanged = function (data) {
             $scope.users = [];

@@ -106,7 +106,7 @@
                                                         @if($settings[$front[$i]]['value'] !== 'skip')
                                                             <li>
                                                                 <strong>{{getPhrase($settings[$front[$i]]['value'])}}
-                                                                    @{{ checkExistenceOfObj('name') }}
+                                                                    : @{{ checkExistenceOfObj('<?php echo $settings[$front[$i]]['value']; ?>',user.id) }}
                                                                 </strong>
 
                                                             </li>

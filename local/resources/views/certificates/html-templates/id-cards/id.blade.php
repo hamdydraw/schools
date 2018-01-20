@@ -41,7 +41,7 @@
 
 
                             <?php $item = $certificateObject->getIdCardData('front_first_item', $user); ?>
-                            @if($item)
+                            {{--@if($item)
                                 @if($current_item_number++ <= $max_items)
                                 <tr>
                                     <td style="padding: 5px;">
@@ -56,7 +56,7 @@
 
                                 </tr>
                                 @endif
-                            @endif
+                            @endif--}}
                             <?php $item = $certificateObject->getIdCardData('front_second_item', $user);
                             ?>
                             @if($item)

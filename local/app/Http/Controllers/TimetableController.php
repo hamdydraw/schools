@@ -44,7 +44,7 @@ class TimetableController extends Controller
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
             ->where('role_id', '=', getRoleData('staff'))
             ->select(['users.id as id', 'users.name', 'image', 'job_title', 'gender', 'qualification'])
-            ->get();
+            ->groupBy('users.name')->get();
 
         $preferred_subjects = [];
         foreach ($users as $user) {
