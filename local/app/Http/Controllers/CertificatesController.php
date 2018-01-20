@@ -294,7 +294,7 @@ class CertificatesController extends Controller
                 'users.slug'
             ])
             ->get();
-        // dd($records);
+
         $data['users_list'] = $records;
         $data['title'] = getPhrase('id_card_generation');
 
@@ -305,7 +305,7 @@ class CertificatesController extends Controller
                 $template_name = 'certificates.html-templates.id-cards.template-1';
                 break;
             case 'template_2':
-                $template_name = 'certificates.html-templates.id-cards.id';
+                $template_name = 'certificates.html-templates.id-cards.template-1';
                 break;
 
         }
