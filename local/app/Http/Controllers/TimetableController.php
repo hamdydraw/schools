@@ -39,13 +39,12 @@ class TimetableController extends Controller
         $time_mapings = App\TimingsetMap::get();
 
         $data['layout'] = getLayout();
-
-
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
-            ->where('role_id', '=', getRoleData('staff'))
+            ->where('role_id', '=',  getRoleData('staff'))
+            ->where('users.status', '!=', 0)
+            ->where('staff.course_id', '!=', '')
             ->select(['users.id as id', 'users.name', 'image', 'job_title', 'gender', 'qualification'])
-            ->groupBy('users.name')->get();
-
+            ->get();
         $preferred_subjects = [];
         foreach ($users as $user) {
             $preferred_subjects[$user->id] = $user->preferredSubjects();
