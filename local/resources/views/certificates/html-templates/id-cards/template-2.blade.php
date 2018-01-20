@@ -55,7 +55,7 @@
                                             <tr>
                                                 <td style="padding: 5px;">
                                                     <strong>
-                                                        {{getPhrase($settings[$front[$i]]['value'])}}
+                                                        {{$settings[$front_title[$i]]['value']}}
                                                     </strong>
                                                 </td>
                                                 <td style="padding: 5px;" width="1%">:</td>

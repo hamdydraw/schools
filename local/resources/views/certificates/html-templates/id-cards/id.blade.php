@@ -56,7 +56,7 @@
                                             <tr>
                                                 <td style="padding: 5px;">
                                                     <strong>
-                                                        {{getPhrase($settings[$front[$i]]['value'])}}
+                                                        {{$settings[$front_title[$i]]['value']}}
                                                     </strong>
                                                 </td>
                                                 <td style="padding: 5px;" width="1%">:</td>
@@ -117,7 +117,7 @@
                     @if($settings[$back_title[$i]]['value'] !== 'skip')
                         <tr>
                             <td style="padding: 8px;">
-                                <strong>{{getPhrase($settings[$back_title[$i]]['value'])}}
+                                <strong>{{$settings[$back_title[$i]]['value']}}
                                     : </strong> {{$settings[$back[$i]]['value']}}
                             </td>
                         </tr>

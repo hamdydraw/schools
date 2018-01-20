@@ -305,7 +305,7 @@ class CertificatesController extends Controller
                 $template_name = 'certificates.html-templates.id-cards.template-1';
                 break;
             case 'template_2':
-                $template_name = 'certificates.html-templates.id-cards.template-1';
+                $template_name = 'certificates.html-templates.id-cards.id';
                 break;
 
         }

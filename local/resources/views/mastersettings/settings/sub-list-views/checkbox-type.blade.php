@@ -8,16 +8,16 @@ $checked = 'checked';
 <div class="col-md-6">
 						   <fieldset class="form-group si setting-checkbox">
 						  <label data-toggle="tooltip" data-placement="top" title="{{$tool_tip}}">{{getPhrase($key)}}
-						   <input 
-					 		type="checkbox" 
-							data-toggle="toggle" 
-							data-onstyle="primary" 
+						   <input
+					 		type="checkbox"
+							data-toggle="toggle"
+							data-onstyle="primary"
 							data-offstyle="default"
 
-					 		name="{{$key}}[value]" 
-					 		required="true" 
-					 		value = "1" 
-							
+					 		name="{{$key}}[value]"
+					 		required="true"
+					 		value = "1"
+
 							title ="{{$tool_tip}}"
 							data-placement="right"
 							{{$checked}}
@@ -28,7 +28,7 @@ $checked = 'checked';
 					 		type="hidden"
 					 		name="{{$key}}[type]"
 							value = "{{$value->type}}" >
-				
+
 							<input
 					 		type="hidden"
 					 		name="{{$key}}[tool_tip]"

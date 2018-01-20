@@ -88,7 +88,7 @@
             @foreach($relatedSemesters as $item)
                 <fieldset class="form-group col-md-12" id="timeEdit{{$i}}">
                     <fieldset class="form-group col-md-4">
-                        {{ Form::label("semester_start_date", getphrase("semester_start_date $item->sem_num")) }}
+                        {{ Form::label("semester_start_date", getphrase("semester_start_date").$item->sem_num) }}
 
                         <span class="text-red">*</span>
 
@@ -98,7 +98,7 @@
 
                     <fieldset class="form-group col-md-4">
 
-                        {{ Form::label('semester_end_date', getphrase("semester_end_date $item->sem_num")) }}
+                        {{ Form::label('semester_end_date', getphrase("semester_end_date").$item->sem_num) }}
 
                         <span class="text-red">*</span>
 

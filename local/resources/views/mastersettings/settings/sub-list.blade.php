@@ -68,6 +68,7 @@
                                                 'mastersettings.settings.sub-list-views.'.$type_name.'-type',
                                                 array('key'=>$key, 'value'=>$value)
                                             )
+                                    <div class="clear"></div>
                                 @endforeach
 
                             @else
@@ -98,6 +99,11 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+    <style>
+        .clear {
+            clear: both;
+        }
+    </style>
 @endsection
 
 

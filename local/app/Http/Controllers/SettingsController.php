@@ -313,7 +313,7 @@ class SettingsController extends Controller
        
         $data['layout']             = getLayout();
         $data['slug']               = $slug;
- 
+
     	return view('mastersettings.settings.sub-list', $data);
     }
 
