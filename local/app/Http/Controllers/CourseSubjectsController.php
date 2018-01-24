@@ -130,71 +130,6 @@ class CourseSubjectsController extends Controller
     }
 
     /**
-     * This method loads the year and semister details with subjects blocks
-     * @return [type] [description]
-     */
-    public function loadYearDetails(Request $request)
-    {
-        $data['record'] = false;
-        $data['active_class'] = 'master_settings';
-        $data['loadYears'] = true;
-
-        $subjects = App\Subject::where('status', '=', 'Active')->select([
-            'id',
-            'subject_title',
-            'subject_code',
-            'maximum_marks',
-            'is_lab',
-            'is_elective_type'
-        ])->get();
-
-
-        $data['right_bar'] = true;
-        $data['right_bar_path'] = 'mastersettings.course-subjects.item-view-right-bar';
-        $data['right_bar_data'] = array(
-            'item' => $subjects,
-        );
-
-        $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
-        $data['layout'] = getLayout();
-
-        $data['title'] = getPhrase('add_subjects_to_course');
-
-        $academic_id = $request->academic_id;
-        $course_id = $request->course_id;
-        $course_parent_id = $request->course_parent_id;
-        $academic_title = App\Academic::where('id', '=', $academic_id)->first()->academic_year_title;
-        $course_record = App\Course::where('id', '=', $course_parent_id)->first();
-        $available_data = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
-            ->where('academic_id', '=', $academic_id)
-            ->where('course_parent_id', '=', $course_parent_id)
-            ->select([
-                'subjects.id as id',
-                'subject_title',
-                'is_lab',
-                'is_elective_type',
-                'year',
-                'semister',
-                'sessions_needed'
-            ])
-            ->groupBy('subject_id', 'semister')->get();
-
-        $data['items'] = json_encode(array('source_items' => $subjects, 'target_items' => $available_data));
-
-        $course_title = $course_record->course_title;
-        $data['academic_id'] = $academic_id;
-        $data['course_parent_id'] = $course_parent_id;
-        $data['record'] = $course_record;
-        $data['title'] = getPhrase('subjects_list')
-            . ' - ' . $academic_title . ' - ' . $course_title;
-        $data['module_helper'] = getModuleHelper('allocate-subject-to-course');
-
-        return view('mastersettings.course-subjects.manage-course-subjects.list-subjects-for-course', $data);
-        // return view('mastersettings.course-subjects.add-edit', $data);
-    }
-
-
-    /**
      * Update record based on slug and reuqest
      * @param  Request $request [Request Object]
      * @param  [type]  $slug    [Unique Slug]
@@ -305,7 +240,9 @@ class CourseSubjectsController extends Controller
 
         }
 
-        return redirect(URL_MASTERSETTINGS_COURSE_SUBJECTS_ADD);
+        /*return redirect(URL_MASTERSETTINGS_COURSE_SUBJECTS_ADD);*/
+        $fromApi = array($academic_id, $course_parent_id);
+        return $this->loadYearDetails(null, $fromApi);
 
     }
 
@@ -398,6 +335,69 @@ class CourseSubjectsController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * This method loads the year and semister details with subjects blocks
+     * @return [type] [description]
+     */
+    public function loadYearDetails(Request $request = null, $fromApi = null)
+    {
+        $data['record'] = false;
+        $data['active_class'] = 'master_settings';
+        $data['loadYears'] = true;
+
+        $subjects = App\Subject::where('status', '=', 'Active')->select([
+            'id',
+            'subject_title',
+            'subject_code',
+            'maximum_marks',
+            'is_lab',
+            'is_elective_type'
+        ])->get();
+
+
+        $data['right_bar'] = true;
+        $data['right_bar_path'] = 'mastersettings.course-subjects.item-view-right-bar';
+        $data['right_bar_data'] = array(
+            'item' => $subjects,
+        );
+
+        $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
+        $data['layout'] = getLayout();
+
+        $data['title'] = getPhrase('add_subjects_to_course');
+
+        $academic_id = isset($request->academic_id) ? $request->academic_id : $fromApi[0];
+        $course_id = isset($request->course_id);
+        $course_parent_id = isset($request->course_parent_id) ? $request->course_parent_id : $fromApi[1];
+        $academic_title = App\Academic::where('id', '=', $academic_id)->first()->academic_year_title;
+        $course_record = App\Course::where('id', '=', $course_parent_id)->first();
+        $available_data = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
+            ->where('academic_id', '=', $academic_id)
+            ->where('course_parent_id', '=', $course_parent_id)
+            ->select([
+                'subjects.id as id',
+                'subject_title',
+                'is_lab',
+                'is_elective_type',
+                'year',
+                'semister',
+                'sessions_needed'
+            ])
+            ->groupBy('subject_id', 'semister')->get();
+
+        $data['items'] = json_encode(array('source_items' => $subjects, 'target_items' => $available_data));
+
+        $course_title = $course_record->course_title;
+        $data['academic_id'] = $academic_id;
+        $data['course_parent_id'] = $course_parent_id;
+        $data['record'] = $course_record;
+        $data['title'] = getPhrase('subjects_list')
+            . ' - ' . $academic_title . ' - ' . $course_title;
+        $data['module_helper'] = getModuleHelper('allocate-subject-to-course');
+        return view('mastersettings.course-subjects.manage-course-subjects.list-subjects-for-course', $data);
+        // return view('mastersettings.course-subjects.add-edit', $data);
     }
 
     /**
@@ -740,7 +740,7 @@ class CourseSubjectsController extends Controller
             ->where('year', '=', $year)
             ->where('semister', '=', $semister)
             ->first();
-        $deleteFromSub->staff_id=0;
+        $deleteFromSub->staff_id = 0;
         $deleteFromSub->update();
         $queryToExcute = App\Timetable::where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)

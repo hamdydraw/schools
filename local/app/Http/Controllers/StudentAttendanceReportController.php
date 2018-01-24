@@ -131,7 +131,8 @@ class StudentAttendanceReportController extends Controller
     public function getClassAttendance(Request $request)
     {
             $academic_id = $request->academic_id; 
-            $course_id   = $request->course_id; 
+            $course_parent_id   = $request->parent_course_id;
+            $course_id=$request->course_id;
             $year        = $request->year; 
             $semister    = $request->semister;
 
@@ -139,15 +140,17 @@ class StudentAttendanceReportController extends Controller
                             join('students', 'students.id', '=', 'studentattendance.student_id')
                           ->join('users', 'users.id', '=', 'students.user_id')
                           ->where('studentattendance.academic_id', '=', $academic_id)
-                          ->where('studentattendance.course_id', '=', $course_id)
-                          ->where('studentattendance.year', '=', $year)
-                          ->where('studentattendance.semester', '=', $semister);
+                          ->where('students.course_id', '=', $course_id)
+                          ->where('studentattendance.course_id', '=', $course_parent_id);
+                          /*->where('studentattendance.year', '=', $year)
+                          ->where('studentattendance.semester', '=', $semister);*/
 
         $total_class  = $query->groupBy('student_id')->sum('total_class');
         
         $students = $query->groupBy('student_id')
-                          
                           ->get();
+        return $students;
+
        $summary_attendance = array();
        $sno = 1;
 

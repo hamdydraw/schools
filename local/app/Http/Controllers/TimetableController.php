@@ -85,7 +85,8 @@ class TimetableController extends Controller
         $course_parent_id = $request->parent_course_id;
 
         $year = 1;
-        $semister = 0;
+        /*$semister = new App\AcademicSemester;
+        $semister =$semister->getCurrentSemeterOfAcademicYear($academic_id);*/
         if ($request->has('year')) {
             $year = $request->year;
         }
@@ -100,8 +101,8 @@ class TimetableController extends Controller
             ->where('users.status', '!=', 0)
             ->where('course_subject.academic_id', '=', $academic_id)
             ->where('course_subject.course_id', '=', $course_parent_id)
-            /*->where('course_subject.year', '=', $year)
-            ->where('course_subject.semister', '=', $semister)*/
+            /*->where('course_subject.year', '=', $year)*/
+            ->where('course_subject.semister', '=', $semister)
             ->select([
                 'course_subject.id as course_subject_id',
                 'staff.id as staff_main_id',
@@ -119,6 +120,8 @@ class TimetableController extends Controller
                 'users.name',
                 'users.image'
             ])
+            ->groupBy('subject_title')
+            ->groupBy('users.name')
             ->get();
 
         $staff_with_allotment_records = [];

@@ -112,9 +112,9 @@ class AcademicCoursesController extends Controller
                     $newRecord->academic_id = $academic_id;
                     $newRecord->course_id = $value;
                     $newRecord->save();
-                    $courseSem=App\CourseSemister::where('course_id',$value)->first();
-                    $courseSem->current_semester=0;
-                    $courseSem->total_semisters=$record->total_semesters;
+                    $courseSem = App\CourseSemister::where('course_id', $value)->first();
+                    $courseSem->current_semester = 0;
+                    $courseSem->total_semisters = $record->total_semesters;
                     $courseSem->save();
                 }
 
@@ -215,19 +215,21 @@ class AcademicCoursesController extends Controller
         $academic_id = $request->academic_id;
         $parent_course_id = $request->parent_course_id;
         $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.parent_id')
+            ->where('academic_course.academic_id', '=', $academic_id)
+            ->where('academic_course.course_id', '=', $parent_course_id)
             ->select([
                 'course_title',
                 'courses.id',
                 'course_dueration',
                 'is_having_semister',
                 'academic_id',
-                'course_parent_id'
-            ])
-            ->where('academic_course.academic_id', '=', $academic_id)
-            ->where('academic_course.course_id', '=', $parent_course_id);
+                'parent_id'
+            ]);
+
 
         if ($user_role == 'student') {
-            $records = $records->where('courses.course_parent_id', '=', $student_record->course_id);
+            $records = $records->where('parent_id', '=', $student_record->course_parent_id)
+                ->where('courses.id',$student_record->course_id);
         } else {
             $records = $records->groupBy('courses.id');
         }
@@ -247,7 +249,7 @@ class AcademicCoursesController extends Controller
     {
         $academic_id = $request->academic_id;
         $course_id = $request->course_id;
-        $toDelete=AcademicCourse::where('academic_id',$academic_id)->where('course_id',$course_id)->delete();
+        $toDelete = AcademicCourse::where('academic_id', $academic_id)->where('course_id', $course_id)->delete();
         $students = App\Student::where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
             ->count();

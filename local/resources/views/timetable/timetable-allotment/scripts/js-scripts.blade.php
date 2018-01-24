@@ -70,7 +70,7 @@
                };
                
        httpPreConfig.webServiceCallPost(route, data).then(function(result){
-           console.log(result.data);
+          /* console.log(result.data);*/
         result = result.data;
         users = [];
  

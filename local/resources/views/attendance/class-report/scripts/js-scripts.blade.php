@@ -35,6 +35,7 @@
 
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
+                console.log(result)
                 result = result.data;
                 $scope.result_data = [];
                 angular.forEach(result, function(value, key) {

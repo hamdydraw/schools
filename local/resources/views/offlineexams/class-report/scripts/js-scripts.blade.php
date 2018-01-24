@@ -38,13 +38,13 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
+                console.log(result)
                 result = result.data;
                 $scope.result_data = [];
                 $scope.quiz_categories = [];
                 $scope.offline_quiz_category_id =0;
                 angular.forEach(result, function(value, key) {
                     obj = {'title': value.title, 'id': value.id};
-
                     $scope.quiz_categories.push(obj);
                 });
             });
@@ -76,6 +76,7 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
+                console.log(result);
                 result = result.data;
                 $scope.result_data = result;
 

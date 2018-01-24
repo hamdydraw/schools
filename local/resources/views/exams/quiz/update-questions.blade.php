@@ -38,7 +38,7 @@
 
 				<?php $settings = ($record) ? $settings : ''; ?>
 
-				<div class="panel panel-custom" ng-init="initAngData({{$settings}});" >
+				<div class="panel panel-custom" ng-init="initAngData('{{$settings}}');" >
 
 					<div class="panel-heading">
 
@@ -219,7 +219,7 @@
 
 @section('footer_scripts')
 
-@include('exams.quiz.scripts.js-scripts')
+@include('exams.quiz.scripts.js-scripts',array('settings'=>$settings))
 
 @stop
 

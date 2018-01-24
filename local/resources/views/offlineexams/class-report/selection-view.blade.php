@@ -57,11 +57,11 @@
 
                     <fieldset  class="form-group">
                          <label for = "offline_quiz_category_id">{{getPhrase('category')}}</label>
-                        <select 
-                        name      = "offline_quiz_category_id" 
-                        id        = "offline_quiz_category_id" 
-                        class     = "form-control" 
-                        ng-model  = "offline_quiz_category_id" 
+                        <select
+                        name      = "offline_quiz_category_id"
+                        id        = "offline_quiz_category_id"
+                        class     = "form-control"
+                        ng-model  = "offline_quiz_category_id"
                         ng-change = "getStudentMarks112()"
                         ng-options= "option.id as option.title for option in quiz_categories track by option.id">
                         <option value="">{{getPhrase('select')}}</option>

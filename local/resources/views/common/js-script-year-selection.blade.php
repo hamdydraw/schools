@@ -87,7 +87,6 @@ data= {  _method: 'post',
 };
 
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
-
 angular.forEach(result.data, function(value, key){
 $scope.parent_courses.push(value.course);
 $scope.parent_courses_objects.push(value);

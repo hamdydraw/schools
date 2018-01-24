@@ -8,7 +8,7 @@
 
 		<span class="pull-right">{{getPhrase('total_marks')}}: @{{ totalMarks }}</span>
 
-	</div>	
+	</div>
 
 	</div>
 
@@ -26,7 +26,7 @@
 
 					 				<a class="remove-all-questions text-red" style="cursor: pointer;" ng-click="removeAll()">{{getPhrase('remove_all')}}</a>
 
-					 				<table  
+					 				<table
 
 								  class="table table-hover">
 
@@ -38,9 +38,9 @@
 
 									<th>{{getPhrase('question')}}</th>
 
-									<th>{{getPhrase('marks')}}</th>	
+									<th>{{getPhrase('marks')}}</th>
 
-									<th></th>	
+									<th></th>
 
 									</tr>
 

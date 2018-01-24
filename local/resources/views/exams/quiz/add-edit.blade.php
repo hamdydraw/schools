@@ -1,9 +1,9 @@
 @extends('layouts.admin.adminlayout')
 {{-- <link href="{{CSS}}animate.css" rel="stylesheet"> --}}
 
-<link href="{{CSS}}plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">	
+<link href="{{CSS}}plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
 @section('content')
- 
+
 <div id="page-wrapper" ng-controller="QuizController" ng-init="initAngData({{$items}})">
 
 			<div class="container-fluid">
@@ -33,7 +33,7 @@
 
 				<!-- /.row -->
 
-				
+
 
 				<div class="panel panel-custom" >
 
@@ -45,7 +45,7 @@
 
 						</div>
 
-						
+
 
 					<h1>{{ $title }}  </h1>
 
@@ -59,9 +59,9 @@
 
 					 <?php $button_name = getPhrase('update'); ?>
 
-						{{ Form::model($record, 
+						{{ Form::model($record,
 
-						array('url' => URL_QUIZ_EDIT.'/'.$record->slug, 
+						array('url' => URL_QUIZ_EDIT.'/'.$record->slug,
 
 						'method'=>'patch', 'files' => true, 'name'=>'formQuiz ', 'novalidate'=>'')) }}
 
@@ -71,11 +71,11 @@
 
 					@endif
 
-					
 
 
 
-					 @include('exams.quiz.form_elements', 
+
+					 @include('exams.quiz.form_elements',
 
 					 array('button_name'=> $button_name),
 
@@ -87,7 +87,7 @@
 					 		'record'			=> $record
 					 		))
 
-					 		
+
 
 					{!! Form::close() !!}
 
@@ -109,28 +109,28 @@
 
 @section('footer_scripts')
 @include('exams.quiz.scripts.quiz-scripts', array('quiz_record'=>$record))
- @include('common.validations', array('isLoaded'=>FALSE))
+{{-- @include('common.validations', array('isLoaded'=>FALSE))--}}
 @include('common.alertify')
  <script src="{{JS}}moment.min.js"></script>
 
   <script src="{{JS}}plugins/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
  <script>
- 
+
  	      $(function () {
         $('#datetimepicker6').datetimepicker({
         	@if($record)
         	   defaultDate: "{{$record->end_date}}",
         	   format: 'YYYY-MM-DD H:mm',
-        	  @endif    
-        	  
-        	  
+        	  @endif
+
+
         });
         $('#datetimepicker7').datetimepicker({
         	@if($record)
         	   defaultDate: "{{$record->end_date}}",
         	    format: 'YYYY-MM-DD H:mm',
-        	  @endif  
+        	  @endif
             useCurrent: false //Important! See issue #1075
         });
         $("#datetimepicker6").on("dp.change", function (e) {
@@ -144,6 +144,5 @@
 
 @stop
 
- 
 
- 
+
