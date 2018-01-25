@@ -5,7 +5,7 @@
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
 						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('quiz_title'),
-							'ng-model'=>'title',
+							/*'ng-model'=>'title',*/
 
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
@@ -27,7 +27,7 @@
 						{{ Form::label('subject_id', getphrase('subject')) }}
 						<span class="text-red">*</span>
 						{{ Form::select('subject_id',$subjects ,null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('select_subject'),
-							'ng-model'=>'subject',
+							/*'ng-model'=>'subject',*/
 
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.subject_id.$touched && formQuiz.subject_id.$invalid}',
@@ -49,7 +49,7 @@
 						{{ Form::label('type', getphrase('quiz_type')) }}
 						<span class="text-red">*</span>
 						{{ Form::select('type',$quiz_types ,null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('select_type'),
-							'ng-model'=>'quiz_type',
+							/*'ng-model'=>'quiz_type',*/
 
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.type.$touched && formQuiz.type.$invalid}',
@@ -87,7 +87,7 @@
 							<span class="text-red">*</span>
 							{{ Form::number('dueration', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_value_in_minutes'),
 							'string-to-number',
-							'ng-model'=>'dueration',
+							/*'ng-model'=>'dueration',*/
 
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.dueration.$touched && formQuiz.dueration.$invalid}',
@@ -118,7 +118,7 @@
 							'min'=>'1',
 							'max' =>'100',
 							'string-to-number',
-						'ng-model'=>'pass_percentage',
+						/*'ng-model'=>'pass_percentage',*/
 						'required'=> 'true',
 						'ng-class'=>'{"has-error": formQuiz.pass_percentage.$touched && formQuiz.pass_percentage.$invalid}',
 
@@ -140,7 +140,7 @@
 							'min'=>'0',
 							'max' =>'100',
 							'string-to-number',
-						'ng-model'=>'negative_mark',
+						/*'ng-model'=>'negative_mark',*/
 						'required'=> 'true',
 						'ng-class'=>'{"has-error": formQuiz.negative_mark.$touched && formQuiz.negative_mark.$invalid}',
 
@@ -191,7 +191,7 @@
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>
 						{{Form::select('is_paid', $payment_options, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
-						     'ng-model'=>'is_paid',
+						    /* 'ng-model'=>'is_paid',*/
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.is_paid.$touched && formQuiz.is_paid.$invalid}',
 
@@ -208,7 +208,7 @@
 							{{ Form::label('validity', getphrase('validity')) }}
 							<span class="text-red">*</span>
 							{{ Form::number('validity', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('validity_in_days'),
-							'ng-model'=>'validity',
+							/*'ng-model'=>'validity',*/
 							'required'=> 'true',
 							'min'=>'0',
 						'string-to-number',
@@ -228,7 +228,7 @@
 						{{ Form::number('cost', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '40',
 							'min'=>'0',
 						'string-to-number',
-						'ng-model'=>'cost',
+						/*'ng-model'=>'cost',*/
 						'required'=> 'true',
 						'ng-class'=>'{"has-error": formQuiz.cost.$touched && formQuiz.cost.$invalid}',
 
@@ -243,6 +243,7 @@
 
 				@include('exams.quiz.form_elements_academic_selection',
 				array(	'academic_years' => $academic_years,
+				'edit_or_add'       => $edit_or_add
 					))
 
 					<fieldset class="form-group">

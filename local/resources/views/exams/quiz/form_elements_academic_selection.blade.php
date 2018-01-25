@@ -14,15 +14,24 @@
 				 	 <fieldset class="form-group col-md-3" >
 						{{ Form::label('applicable_to_specific', getphrase('applicable_to_specific')) }}
 						<span class="text-red">*</span>
-
+						 @if ($edit_or_add != 'edit')
 						{{Form::select('applicable_to_specific', $applicable_to_specific, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
 						'ng-model'=>'applicable_to_specific',
+
 							'required'=> 'true',
+
 
 							'ng-class'=>'{"has-error": formQuiz.applicable_to_specific.$touched && formQuiz.applicable_to_specific.$invalid}',
 
 						]) }}
+						 @else
+							 {{Form::select('applicable_to_specific', $applicable_to_specific, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
+						'ng-model'=>'applicable_to_specific',
 
+							'ng-class'=>'{"has-error": formQuiz.applicable_to_specific.$touched && formQuiz.applicable_to_specific.$invalid}',
+
+						]) }}
+						 @endif
 						<div class="validation-error" ng-messages="formQuiz.applicable_to_specific.$error" >
 	    					{!! getValidationMessage()!!}
 						</div>

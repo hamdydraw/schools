@@ -180,6 +180,7 @@ class QuizController extends Controller
             ));
         $data['title'] = getPhrase('create_quiz');
         $data['module_helper'] = getModuleHelper('create-quiz');
+        $data['edit_or_add'] = 'add';
         return view('exams.quiz.add-edit', $data);
     }
 
@@ -235,6 +236,7 @@ class QuizController extends Controller
             )
         );
         $data['module_helper'] = getModuleHelper('create-quiz');
+        $data['edit_or_add'] = 'edit';
 
         return view('exams.quiz.add-edit', $data);
     }
