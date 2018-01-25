@@ -639,7 +639,7 @@ class QuizController extends Controller
         $quiz->total_marks = $marks;
         $quiz->save();
         flash('success', 'record_updated_successfully', 'success');
-        return redirect(URL_QUIZZES);
+        return redirect(URL_QUIZ_UPDATE_QUESTIONS . $slug);
     }
 
 }
