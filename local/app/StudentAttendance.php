@@ -20,7 +20,7 @@ class StudentAttendance extends Model
                         where('student_id', '=', $this->student_id)
                         ->where('academic_id', $academic_id)
                         ->where('course_id', $course_id)
-                        ->where('year', $year)
+                       /* ->where('year', $year)*/
                         ->where('semester', $semester);
         
             $attendance_query = $attendance_query->where('attendance_code', '=', $type);

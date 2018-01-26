@@ -28,7 +28,6 @@
 
         $scope.initAngData = function (data) {
 
-
             angular.forEach(data.academic_years, function (value, key) {
                 $scope.academic_years.push(value);
             });
@@ -101,7 +100,6 @@
                     obj = {id: value.course.id, course_title: value.course.course_title};
                     $scope.parent_courses.push(obj);
                 });
-                //console.log($scope.parent_courses);
 
             });
         }
@@ -158,7 +156,7 @@
                             semister: 0,
                             academic_id: course.academic_id,
                             course_dueration: course.course_dueration,
-                            course_parent_id: course.course_parent_id,
+                            course_parent_id: course.parent_id,
                             course_title: course.course_title,
                             id: course.id,
                             is_having_semister: course.is_having_semister
@@ -166,7 +164,6 @@
                         final_records.push(objectData);
                     })
                     $scope.source_items = final_records;
-
 
                 }
 
@@ -261,7 +258,6 @@
          * @return {[type]}      [description]
          */
         $scope.onDropComplete = function (data, evt, item_id) {
-
             academic_record = $scope.getFullRecord($scope.academic_years, 'id', $scope.academic_id);
             course_parent_record = $scope.getFullRecord($scope.parent_courses, 'id', $scope.course_parent_id);
             course_record = $scope.getFullRecord($scope.courses, 'id', $scope.course_id);

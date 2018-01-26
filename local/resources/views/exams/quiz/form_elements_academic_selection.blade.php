@@ -95,7 +95,6 @@
 				</div>
 				</div>
 
-
 <div   class="row" ng-if="source_items.length>0 || target_items.length>0">
 	<div class="col-md-6">
 		<div class="exam-year-selection"
