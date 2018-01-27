@@ -9,25 +9,27 @@
 @include('common.angular-factory',array('load_module'=> false))
 <script>
     app.controller('prepareQuestions', function ($scope, $http, httpPreConfig) {
-        var oneEl = '[';
-        <?php $i=0;?>
-        @foreach($settingsQuestions as $question)
-            oneEl += '{"id":'+'{{$question['id']}}';
-            oneEl += ',"subject_id":'+'{{$question['subject_id']}}';
-            oneEl += ',"question_id":'+'{{$question['question_id']}}';
-            oneEl += ',"marks":'+'{{$question['marks']}}';
-            oneEl += ',"topic_id":'+'{{$question['topic_id']}}';
-            oneEl += ',"question":'+'<?php echo json_encode(trim(preg_replace('/\s\s+/', ' ', $question['question']))); ?>';
-            oneEl += ',"question_type":'+'"{{$question['question_type']}}"';
-            oneEl += ',"difficulty_level":'+'"{{$question['difficulty_level']}}"';
-            @if($i == count($settingsQuestions)-1)
-                oneEl += ',"subject_title":'+'"{{$question['subject_title']}}"'+'}';
-            @else
-                oneEl += ',"subject_title":'+'"{{$question['subject_title']}}"'+'},';
-            @endif
-            <?php $i++;?>
-        @endforeach
-            oneEl += ']'
+        @if ($settingsQuestions != null)
+            var oneEl = '[';
+            <?php $i=0;?>
+            @foreach($settingsQuestions as $question)
+                oneEl += '{"id":'+'{{$question['id']}}';
+                oneEl += ',"subject_id":'+'{{$question['subject_id']}}';
+                oneEl += ',"question_id":'+'{{$question['question_id']}}';
+                oneEl += ',"marks":'+'{{$question['marks']}}';
+                oneEl += ',"topic_id":'+'{{$question['topic_id']}}';
+                oneEl += ',"question":'+'<?php echo json_encode(trim(preg_replace('/\s\s+/', ' ', $question['question']))); ?>';
+                oneEl += ',"question_type":'+'"{{$question['question_type']}}"';
+                oneEl += ',"difficulty_level":'+'"{{$question['difficulty_level']}}"';
+                @if($i == count($settingsQuestions)-1)
+                    oneEl += ',"subject_title":'+'"{{trim($question['subject_title'])}}"'+'}';
+                @else
+                    oneEl += ',"subject_title":'+'"{{trim($question['subject_title'])}}"'+'},';
+                @endif
+                <?php $i++;?>
+            @endforeach
+                oneEl += ']'
+        @endif
         $scope.savedQuestions = [];
 
         $scope.savedQuestions = [];
