@@ -28,7 +28,7 @@
                 @endif
                 <?php $i++;?>
             @endforeach
-                oneEl += ']'
+                oneEl += ']';
         @endif
         $scope.savedQuestions = [];
 
