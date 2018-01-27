@@ -12,6 +12,7 @@
         @if ($settingsQuestions != null)
             var oneEl = '[';
             <?php $i=0;?>
+
             @foreach($settingsQuestions as $question)
                 oneEl += '{"id":'+'{{$question['id']}}';
                 oneEl += ',"subject_id":'+'{{$question['subject_id']}}';
