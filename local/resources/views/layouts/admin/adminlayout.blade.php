@@ -12,8 +12,17 @@
     <link rel="icon" href="{{IMAGE_PATH_SETTINGS.getSetting('site_favicon', 'site_settings')}}" type="image/x-icon"/>
     <title>@yield('title') {{ isset($title) ? $title : getSetting('site_title','site_settings') }}</title>
     <!-- Bootstrap Core CSS -->
+
     @yield('header_scripts')
-    <link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
+<!-- edit here -->
+    @if(Session::has('lang_dir') && Session::get('lang_dir') == 0 )
+        <link href="{{CSS}}bootstrap_en.min.css" rel="stylesheet">
+        <link href="{{CSS}}default-themeـen.css" rel="stylesheet">
+    @else
+        <link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
+        <link href="{{CSS}}default-theme.css" rel="stylesheet">
+    @endif
+
     <link rel="stylesheet" href="{{CSS}}bootstrap-datepicker.min.css">
     <link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
     @if(isset($module_helper))
@@ -24,8 +33,9 @@
     <!-- Proxima Nova Fonts CSS -->
     <link href="{{CSS}}proximanova.css" rel="stylesheet">
     <!-- Custom CSS -->
+    <!-- edit here -->
 
-    <link href="{{CSS}}{{getSetting('current_theme', 'site_settings')}}-theme.css" rel="stylesheet">
+    {{--<link href="{{CSS}}{{getSetting('current_theme', 'site_settings')}}-theme.css" rel="stylesheet">--}}
     <!-- Custom Fonts -->
     <link href="{{CSS}}custom-fonts.css" rel="stylesheet" type="text/css">
     <link href="{{CSS}}materialdesignicons.css" rel="stylesheet" type="text/css">

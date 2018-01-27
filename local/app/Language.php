@@ -164,6 +164,7 @@ class Language extends Model
         session()->forget('language_phrases');
         $language = Language::where('id', '=', Language::getDefaultLanguage())->first();
         session()->put('language_phrases', json_decode($language->phrases));
+        session()->put('lang_dir',$language->is_rtl);
 
     }
 
