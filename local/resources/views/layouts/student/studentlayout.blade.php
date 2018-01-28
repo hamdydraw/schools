@@ -23,7 +23,14 @@
 	<title>@yield('title') {{ isset($title) ? $title : getSetting('site_title','site_settings') }}</title>
 
 	<!-- Bootstrap Core CSS -->
-<link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
+	<!-- edit here -->
+	@if(Session::has('lang_dir') && Session::get('lang_dir') == 0 )
+		<link href="{{CSS}}bootstrap_en.min.css" rel="stylesheet">
+		<link href="{{CSS}}default-themeـen.css" rel="stylesheet">
+	@else
+		<link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
+		<link href="{{CSS}}default-theme.css" rel="stylesheet">
+	@endif
  @yield('header_scripts')
 
 	
@@ -44,7 +51,7 @@
 
 	<!-- Custom CSS -->
 
-	<link href="{{CSS}}{{getSetting('current_theme', 'site_settings')}}-theme.css" rel="stylesheet">
+	{{--<link href="{{CSS}}{{getSetting('current_theme', 'site_settings')}}-theme.css" rel="stylesheet">--}}
 
 	<!-- Custom Fonts -->
 
