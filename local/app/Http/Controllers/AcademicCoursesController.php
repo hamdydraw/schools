@@ -69,7 +69,7 @@ class AcademicCoursesController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -121,14 +121,14 @@ class AcademicCoursesController extends Controller
             }
 
             DB::commit();
-            flash('success...!', 'records_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
         } catch (Exception $ex) {
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $ex->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $ex->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data'), 'error');
             }
         }
 

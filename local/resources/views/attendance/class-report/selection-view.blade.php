@@ -64,7 +64,7 @@
 
     <table ng-if="result_data.length>0" class="table table-bordered" style="border-collapse: collapse;">
     <thead>
-        <th style="border:1px solid #000;">{{getPhrase('sno')}}</th>
+        <th style="border:1px solid #000;">{{getPhrase('sn')}}</th>
         <th style="border:1px solid #000;" >{{getPhrase('name')}}</th>
         <th style="border:1px solid #000;">{{getPhrase('roll_no')}}</th>
         <th style="border:1px solid #000;">{{getPhrase('total_class')}}</th>

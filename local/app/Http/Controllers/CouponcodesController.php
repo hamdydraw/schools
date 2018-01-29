@@ -51,28 +51,28 @@ class CouponcodesController extends Controller
       }
 
         $records = array();
- 
-             
+
+
 
             $records = Couponcode::select(['title', 'coupon_code', 'discount_type', 'discount_value', 'minimum_bill','discount_maximum_amount','usage_limit', 'status', 'id','slug' ])
             ->orderBy('updated_at', 'desc');
-             
+
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
           $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_COUPONS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                            
+
                            $temp = '';
                            if(checkRole(getUserGrade(1))) {
                     $temp .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
                       }
-                    
+
                     $temp .='</ul></div>';
 
                     $link_data .=$temp;
@@ -86,11 +86,11 @@ class CouponcodesController extends Controller
         {
             return ucfirst($records->discount_type);
         })
-        
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('tags')
-         
+
         ->make();
     }
 
@@ -107,7 +107,7 @@ class CouponcodesController extends Controller
       }
     	$data['record']         	 = FALSE;
     	$data['active_class']        = 'coupons';
-         
+
         $data['categories']          = array('exam'=>getPhrase('Quizzes'), 'combo'=>getPhrase('Examseries'), ' LMS'=>'LMS');
         $data['title']               = getPhrase('create_coupon');
         $data['module_helper']       = getModuleHelper('create-coupan');
@@ -117,7 +117,7 @@ class CouponcodesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -165,13 +165,13 @@ class CouponcodesController extends Controller
          'usage_limit' 		=> 'bail|required|integer',
             ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->title;
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
 
@@ -195,7 +195,7 @@ class CouponcodesController extends Controller
         }
         $record->coupon_code_applicability = json_encode($applicable_categories);
         $record->save();
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_COUPONS);
     }
 
@@ -245,19 +245,19 @@ class CouponcodesController extends Controller
                 $applicable_categories['categories'][] = $key;
         }
         $record->coupon_code_applicability = json_encode($applicable_categories);
-        
+
         $record->save();
 
 
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_COUPONS);
     }
- 
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -293,7 +293,7 @@ class CouponcodesController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -332,7 +332,7 @@ class CouponcodesController extends Controller
 
     	if(!$item)
     		return json_encode(array('status'=>'0', 'message'=>'invalid item'));
-    	
+
 
     	$couponObject 		= new Couponcode();
     	$couponRecord 		= $couponObject->checkValidity($coupon_code, $item_type);
@@ -377,8 +377,8 @@ class CouponcodesController extends Controller
     	}
 
     	return json_encode(array(
-    				'status'		=> $status, 
-    				'message'		=> getPhrase($message), 
+    				'status'		=> $status,
+    				'message'		=> getPhrase($message),
     				'amount_to_pay'	=> $amount_to_pay,
     				'discount' 		=> $discount_availed,
     				'coupon_id'		=> $coupon_id
@@ -431,13 +431,13 @@ class CouponcodesController extends Controller
                         // ->where('item_type', '=', $item_type)
                         ->where('coupon_id', '=', $couponRecord->id)
                         ->get();
-    	
+
           $count = count($recs);
     	if($count >= $couponRecord->usage_limit)
     		return FALSE;
     	return TRUE;
     }
-    
+
     public function getCouponUsage($value='')
     {
       if(!checkRole(getUserGrade(2)))
@@ -450,8 +450,8 @@ class CouponcodesController extends Controller
         $data['title']              = getPhrase('coupons_usage');
       return view('coupons.coupon-usage-list', $data);
     }
-    
-  
+
+
 
 
 }

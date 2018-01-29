@@ -1,9 +1,9 @@
 
                 <h1>
                     {{$asset_data->title.' '.getPhrase('details')}}
-                 
+
                 </h1>
-            
+
     <table cellspacing="1px" cellpadding="10px" border="1px solid #ccc">
         <thead>
             <th width="50%"><h4><strong>{{getPhrase('asset_details')}}</strong></h4></th>
@@ -15,7 +15,7 @@
         <td><strong>{{getPhrase('total')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> {{$asset_data->total_assets_count}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('master_asset_name_:')}}</strong> {{$asset_data->title}}</td>
+        <td><strong>{{getPhrase('master_asset_name_')}}:</strong> {{$asset_data->title}}</td>
         <td><strong>{{getPhrase('available')}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> {{$asset_data->total_assets_available}}</td>
         </tr>
         <tr>
@@ -36,6 +36,3 @@
         </tr>
     </tbody>
     </table>
-  
-
- 

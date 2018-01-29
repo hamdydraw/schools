@@ -45,13 +45,13 @@ class EmailTemplatesController extends Controller
         return back();
       }
 
-         $records = EmailTemplate::select([   
+         $records = EmailTemplate::select([
          	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug'])
          ->orderBy('updated_at', 'DESC');
-       
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,13 +59,13 @@ class EmailTemplatesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_EMAIL_TEMPLATES_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                        
+
                         </ul>
                     </div>';
             })
         ->removeColumn('id')
         ->removeColumn('slug')
-        
+
         ->make();
     }
 
@@ -90,7 +90,7 @@ class EmailTemplatesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -130,28 +130,28 @@ class EmailTemplatesController extends Controller
          'from_email'          => 'bail|email|required|max:30' ,
          'from_name'           => 'bail|required|max:30' ,
          'content'             => 'bail|required'
-        
+
             ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->title;
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
         $this->validate($request, $rules);
         $record->title 			    = $name;
     	$record->content			= $request->content;
-     
+
         $record->subject			= $request->subject;
         $record->from_email			= $request->from_email;
         $record->from_name			= $request->from_name;
         $record->record_updated_by 	= Auth::user()->id;
  		$record->save();
 
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_EMAIL_TEMPLATES);
     }
 
@@ -167,7 +167,7 @@ class EmailTemplatesController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-       
+
 	    $rules = [
          'title'          	   => 'bail|required|max:30' ,
          'subject'             => 'bail|required|max:30' ,
@@ -187,16 +187,16 @@ class EmailTemplatesController extends Controller
         $record->from_name			= $request->from_name;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_EMAIL_TEMPLATES);
     }
- 
-    
+
+
     public function isValidRecord($record)
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -207,5 +207,5 @@ class EmailTemplatesController extends Controller
     {
     	return URL_EMAIL_TEMPLATES;
     }
-   
+
 }

@@ -16,7 +16,7 @@
 
 	<meta name="keywords" content="{{getSetting('meta_keywords', 'seo_settings')}}">
 
-	 
+
 
 	<link rel="icon" href="{{IMAGE_PATH_SETTINGS.getSetting('site_favicon', 'site_settings')}}" type="image/x-icon" />
 
@@ -33,13 +33,13 @@
 	@endif
  @yield('header_scripts')
 
-	
+
 
 	<link rel="stylesheet" href="{{CSS}}bootstrap-datepicker.min.css">
 
 	<link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
 
-	
+
 
 	<!-- Morris Charts CSS -->
 
@@ -61,7 +61,7 @@
 
 	{{-- <link href="{{FONTAWSOME}}font-awesome.min.css" rel="stylesheet" type="text/css"> --}}
 	<link rel="stylesheet" href="{{CSS}}font-awesome.css"/>
-	
+
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -85,7 +85,7 @@
 
  @yield('custom_div')
 
- <?php 
+ <?php
 
  $class = '';
 
@@ -106,11 +106,11 @@ if(isset($block_navigation))
 		<!-- Navigation -->
 
 		<nav class="navbar navbar-custom navbar-fixed-top {{$block_class}}" role="navigation">
-			
-		<?php 
+
+		<?php
 		if(isset($block_navigation)) { ?>
 			<div class="alert alert-danger alert-norefresh">
-			  <strong>{{getPhrase('warning')}} !</strong> {{getPhrase('do_not_press_back/refresh_button')}}
+			  <strong>{{getPhrase('warning')}} !</strong> {{getPhrase('do_not_press_back_or_refresh_button')}}
 			</div>
 
 		<?php } ?>
@@ -129,11 +129,11 @@ if(isset($block_navigation))
 
 			<ul class="nav navbar-right top-nav">
 
-				 
 
-				 
 
-				 
+
+
+
 
 				<li class="dropdown profile-menu">
 
@@ -145,13 +145,13 @@ if(isset($block_navigation))
 
 							<h2>{{Auth::user()->name}}</h2>
 
-							 
+
 
 						</div>
 
 						@endif
 
-						
+
 
 						<div class="profile-img"> <img src="{{ getProfilePath(Auth::user()->image, 'thumb') }}" alt=""> </div>
 
@@ -161,7 +161,7 @@ if(isset($block_navigation))
 
 					<ul class="dropdown-menu">
 
-						
+
 
 						<li>
 
@@ -213,7 +213,7 @@ if(isset($block_navigation))
 
 						</li>
 
-						 
+
 
 						<li>
 
@@ -243,13 +243,13 @@ if(isset($block_navigation))
 
 				<ul class="nav navbar-nav side-nav {{$block_class}}">
 
-					<li {{ isActive($active_class, 'dashboard') }}> 
+					<li {{ isActive($active_class, 'dashboard') }}>
 
 						<a href="{{PREFIX}}">
 
-							<i class="icon-home"></i> {{ getPhrase('dashboard') }} 
+							<i class="icon-home"></i> {{ getPhrase('dashboard') }}
 
-						</a> 
+						</a>
 
 					</li>
 
@@ -257,15 +257,15 @@ if(isset($block_navigation))
 
 
 
-					<li {{ isActive($active_class, 'exams') }} > 
+					<li {{ isActive($active_class, 'exams') }} >
 
 
 
-					<a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 
+					<a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 
-					{{ getPhrase('exams') }} </a> 
+					{{ getPhrase('exams') }} </a>
 
-					
+
 
 					<ul id="exams" class="collapse sidemenu-dropdown">
 
@@ -281,16 +281,16 @@ if(isset($block_navigation))
 
 					</li>
 
-					<li {{ isActive($active_class, 'analysis') }} > 
+					<li {{ isActive($active_class, 'analysis') }} >
 
 
 
-					<a data-toggle="collapse" data-target="#analysis" href="{{URL_USER_DETAILS.Auth::user()->slug}}"> 
+					<a data-toggle="collapse" data-target="#analysis" href="{{URL_USER_DETAILS.Auth::user()->slug}}">
 					<i class="fa fa-bar-chart" aria-hidden="true"></i>
 
-					{{ getPhrase('analysis') }} </a> 
+					{{ getPhrase('analysis') }} </a>
 
-					
+
 
 					<ul id="analysis" class="collapse sidemenu-dropdown">
 
@@ -301,8 +301,8 @@ if(isset($block_navigation))
 						<li><a href="{{URL_STUDENT_EXAM_ATTEMPTS.Auth::user()->slug }}"> <i class="fa fa-history"></i>{{ getPhrase('history') }} </a></li>
 
 						<li><a href="{{URL_STUDENT_RESULTS.Auth::user()->slug }}"> <i class="fa fa-percent"></i>{{ getPhrase('scheduled_exam_marks') }} </a></li>
-						
-						<li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart" aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}</a></li> 
+
+						<li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart" aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}</a></li>
 						{{-- <li><a href="{{URL_STUDENT_ATTENDENCE_REPORT.'/'.Auth::user()->slug }}"> <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }} </a></li> --}}
 
 						<li><a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.Auth::user()->slug }}"> <i class="fa fa-calendar"></i>{{ getPhrase('timetable') }} </a></li>
@@ -317,62 +317,62 @@ if(isset($block_navigation))
 
 
 
-					<li {{ isActive($active_class, 'lms') }} > 
+					<li {{ isActive($active_class, 'lms') }} >
 
 
 
-					<a data-toggle="collapse" data-target="#lms"><i class="fa fa-leanpub" aria-hidden="true"></i> 
+					<a data-toggle="collapse" data-target="#lms"><i class="fa fa-leanpub" aria-hidden="true"></i>
 
-					LMS</a> 
+					LMS</a>
 
-					
+
 
 					<ul id="lms" class="collapse sidemenu-dropdown">
 
 							<li><a href="{{ URL_STUDENT_LMS_CATEGORIES }}"> <i class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
 
-							 
+
 
 							<li><a href="{{ URL_STUDENT_LMS_SERIES }}"> <i class="fa fa-list-ol"></i>{{ getPhrase('series') }}</a></li>
 
 					</ul>
 
 					</li>
-					<li {{ isActive($active_class, 'library') }} > 
-					<a  href="{{URL_USER_LIBRARY_DETAILS.Auth::user()->slug}}"><i class="fa fa-book" aria-hidden="true"></i> 
+					<li {{ isActive($active_class, 'library') }} >
+					<a  href="{{URL_USER_LIBRARY_DETAILS.Auth::user()->slug}}"><i class="fa fa-book" aria-hidden="true"></i>
 
-					{{ getPhrase('library') }} </a> 
+					{{ getPhrase('library') }} </a>
 
 					</li>
 
 
 					@if(getSetting('messaging', 'module'))
 
-					<li {{ isActive($active_class, 'messages') }} > 
+					<li {{ isActive($active_class, 'messages') }} >
 
 
 
 					<a  href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x" aria-hidden="true"><h5 class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
 					{{ getPhrase('messages')}} </a>
-					
+
 
 					</li>
 
 					@endif
 
-				 
-
-					<li {{ isActive($active_class, 'subscriptions') }} > 
 
 
+					<li {{ isActive($active_class, 'subscriptions') }} >
 
-					<a  href="{{URL_PAYMENTS_LIST.Auth::user()->slug}}"><i class="fa fa-credit-card" aria-hidden="true"></i> 
 
-					{{ getPhrase('subscriptions') }} </a> 
 
-					
+					<a  href="{{URL_PAYMENTS_LIST.Auth::user()->slug}}"><i class="fa fa-credit-card" aria-hidden="true"></i>
 
-	 
+					{{ getPhrase('subscriptions') }} </a>
+
+
+
+
 
 
 
@@ -380,19 +380,19 @@ if(isset($block_navigation))
 
 
 
-					<li {{ isActive($active_class, 'notifications') }} > 
+					<li {{ isActive($active_class, 'notifications') }} >
 
 						<a href="{{URL_NOTIFICATIONS}}" ><i class="fa fa-bell-o" aria-hidden="true"></i>
 
-					{{ getPhrase('notifications') }} </a> 
+					{{ getPhrase('notifications') }} </a>
 
-					
+
 
 					</li>
 
-					
 
-					 
+
+
 
 				</ul>
 
@@ -402,13 +402,13 @@ if(isset($block_navigation))
 
 		@if(isset($right_bar))
 
-			
+
 
 		<aside class="right-sidebar" id="rightSidebar">
 
 			<button class="sidebat-toggle" id="sidebarToggle" href='javascript:'><i class="mdi mdi-menu"></i></button>
 
-			<?php $right_bar_class_value = ''; 
+			<?php $right_bar_class_value = '';
 
 			if(isset($right_bar_class))
 
@@ -432,7 +432,7 @@ if(isset($block_navigation))
 
 		</aside>
 
-		
+
 
 	@endif
 
@@ -454,7 +454,7 @@ if(isset($block_navigation))
 
 
 
- 
+
 
 	<!--JS Control-->
 
@@ -462,11 +462,11 @@ if(isset($block_navigation))
 
 	<script src="{{JS}}sweetalert-dev.js"></script>
 
-	
+
 
 	@include('common.alertify')
 
-	
+
 
 	@yield('footer_scripts')
 

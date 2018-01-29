@@ -198,7 +198,7 @@ class StudentController extends Controller
 
         if ($itHasErrors) {
 
-            flash('Oops...!', 'Please Select The Details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
             return redirect()->back()->withInput($request->except('_token'));
         }
         $this->validate($request, [
@@ -269,7 +269,7 @@ class StudentController extends Controller
         $student->record_updated_by = Auth::user()->id;
 
         $student->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('student/profile/edit/' . $slug . '/personal');
     }
 
@@ -283,7 +283,7 @@ class StudentController extends Controller
     {
         if ($request->first_name == '' || $request->date_of_birth == '' || $request->fathers_name == '' || $request->mothers_name == '' || $request->religion_id == '' || $request->category_id == '') {
 
-            flash('Oops...!', 'Please Select required The Details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_required_The_Details'), 'overlay');
             return redirect('/student/profile/edit/' . $slug . '/personal');
         }
         $this->validate($request, [
@@ -310,7 +310,7 @@ class StudentController extends Controller
         $student->category_id = $request->category_id;
         $student->religion_id = $request->religion_id;
         $student->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('student/profile/edit/' . $user->slug . '/contact');
 
     }
@@ -327,7 +327,7 @@ class StudentController extends Controller
         // dd($request);
         if ($request->city == '' || $request->state == '' || $request->country == '' || $request->zipcode == '' || $request->mobile == '') {
 
-            flash('Oops...!', 'Please Select required The Details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_required_The_Details'), 'overlay');
             return redirect('/student/profile/edit/' . $slug . '/contact');
 
         }
@@ -362,7 +362,7 @@ class StudentController extends Controller
         $staff->mobile = $request->mobile;
         $staff->home_phone = $request->home_phone;
         $staff->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
 
         return redirect('student/profile/edit/' . $slug . '/general');
 
@@ -378,7 +378,7 @@ class StudentController extends Controller
     {
         if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '') {
 
-            flash('Oops...!', 'Please Select The Details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
             return redirect('student/profile/edit/' . $slug . '/parent');
 
         }
@@ -434,9 +434,9 @@ class StudentController extends Controller
             }
         }
         if (!$hasError) {
-            flash('success', $message, 'success');
+            flash(getPhrase('success'), $message, 'success');
         } else {
-            flash('Ooops', $message, 'error');
+            flash(getPhrase('Ooops'), $message, 'error');
         }
         return redirect('student/profile/edit/' . $slug . '/general');
 

@@ -236,7 +236,7 @@ class CourseController extends Controller
         $record->save();
 
 
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('mastersettings/course');
     }
 
@@ -319,7 +319,7 @@ class CourseController extends Controller
             $this->createSemisters($record);
         }
 
-        flash('success', 'record_added_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect('mastersettings/course');
     }
 
@@ -402,7 +402,7 @@ class CourseController extends Controller
         $rec = App\CourseSemister::find($request->course_semester);
         $rec->current_semester = $request->current_semester;
         $rec->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('mastersettings/course');
     }
 }

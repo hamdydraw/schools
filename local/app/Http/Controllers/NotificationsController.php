@@ -51,28 +51,28 @@ class NotificationsController extends Controller
       }
 
         $records = array();
- 
-             
+
+
 
             $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug' ])
             ->orderBy('updated_at', 'desc');
-             
+
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
           $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_ADMIN_NOTIFICATIONS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                            
+
                            $temp = '';
                            if(checkRole(getUserGrade(1))) {
                     $temp .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
                       }
-                    
+
                     $temp .='</ul></div>';
 
                     $link_data .=$temp;
@@ -82,7 +82,7 @@ class NotificationsController extends Controller
         {
             return ($records->status == 'Active') ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';
         })
-        
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->make();
@@ -109,7 +109,7 @@ class NotificationsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -149,18 +149,18 @@ class NotificationsController extends Controller
     	$record = Notification::getRecordWithSlug($slug);
 		 $rules = [
         'title'          	=> 'bail|required|max:50' ,
-         
+
          'valid_from'      	=> 'bail|required',
          'valid_to'      	=> 'bail|required',
             ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->title;
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
 
@@ -172,7 +172,7 @@ class NotificationsController extends Controller
         $record->description		= $request->description;
        	$record->record_updated_by 	= Auth::user()->id;
         $record->save();
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_ADMIN_NOTIFICATIONS);
     }
 
@@ -191,7 +191,7 @@ class NotificationsController extends Controller
 
 	    $rules = [
          'title'          	=> 'bail|required|max:50' ,
-          
+
          'valid_from'      	=> 'bail|required' ,
          'valid_to'      	=> 'bail|required' ,
             ];
@@ -208,14 +208,14 @@ class NotificationsController extends Controller
        	$record->record_updated_by 	= Auth::user()->id;
 
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_ADMIN_NOTIFICATIONS);
     }
- 
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -240,7 +240,7 @@ class NotificationsController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -261,8 +261,8 @@ class NotificationsController extends Controller
         $date = date('Y-m-d');
         $data['notifications']  	= Notification::where('valid_from', '<=', $date)
         											->where('valid_to', '>=', $date)->paginate(getRecordsPerPage());
-        
-    	return view('notifications.users-list', $data);    	
+
+    	return view('notifications.users-list', $data);
     }
 
     public function display($slug)
@@ -275,7 +275,7 @@ class NotificationsController extends Controller
         $data['title']              = $record->title;
         $data['layout']             = getLayout();
         $data['notification']       = $record;
-        
-        return view('notifications.details', $data);  
+
+        return view('notifications.details', $data);
     }
 }

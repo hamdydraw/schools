@@ -103,7 +103,7 @@
   				  <div class="panel panel-primary dsPanel">
 				    <div class="panel-heading"><i class="fa fa-book"></i> {{getPhrase('library_history')}}</div>
 				    <div class="panel-body table-responsive" >
-				    	<?php 
+				    	<?php
 				    	$records = App\LibraryIssue::issueHistory('',5);
 				    	?>
 
@@ -111,7 +111,7 @@
 				    		<thead>
 				    			<tr>
 				    				<th>
-				    				<strong>{{getPhrase('sno')}}</strong></th>
+				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('title')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('number')}}</th>
@@ -153,16 +153,16 @@
 
 				<div class="col-md-6">
   				  <div class="panel panel-primary dsPanel">
-				    <div class="panel-heading"><i class="fa  fa-bell"></i> {{getPhrase("today's_classes")}}</div>
+				    <div class="panel-heading"><i class="fa  fa-bell"></i> {{getPhrase("today_classes")}}</div>
 				    <div class="panel-body table-responsive" >
-				    	<?php 
+				    	<?php
 				    	$records = App\Timetable::getStudentDayClasses();
 				    	 ?>
 				    	 <table class="table">
 				    		<thead>
 				    			<tr>
 				    				<th>
-				    				<strong>{{getPhrase('sno')}}</strong></th>
+				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('subject')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('class')}}</th>
@@ -176,7 +176,7 @@
 				    		<?php $sno=1;?>
 				    		@if(count($records))
 				    		@foreach($records as $record)
-		 
+
 				    			<tr>
 				    				<td>{{$sno++}}</td>
 				    				<td>{{$record->subject_title}}</td>
@@ -196,11 +196,11 @@
 				    </div>
 				  </div>
 				</div>
-			 
+
 	</div>
 <div class="row"><?php $ids=[];?>
 @for($i=0; $i<count($chart_data); $i++)
-<?php 
+<?php
 $newid = 'myChart'.$i;
 $ids[] = $newid; ?>
 <div class="col-md-6">  				  <div class="panel panel-primary dsPanel">				   				    <div class="panel-body" >
@@ -209,8 +209,8 @@ $ids[] = $newid; ?>
 
 <canvas id="{{$newid}}" width="100" height="60"></canvas>					   </div>				  </div>				</div>
 
-@endfor	
- 			
+@endfor
+
 </div>
 </div>
 <!-- /.container-fluid -->

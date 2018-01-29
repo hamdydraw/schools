@@ -1,7 +1,7 @@
 @extends($layout)
 
 @section('header_scripts')
-<link href="{{CSS}}animate.css" rel="stylesheet"> 
+<link href="{{CSS}}animate.css" rel="stylesheet">
 
 @stop
 @section('custom_div')
@@ -34,51 +34,51 @@
                     @endif
                      @if(checkRole(getUserGrade(2)))
                        <li><a href="{{URL_USERS_DASHBOARD}}">{{ getPhrase('users_dashboard') }}</a> </li>
-                       
+
 
                     <li><a href="{{URL_USERS."staff"}}">{{ getPhrase('staff_users') }}</a> </li>
                     @endif
-                    <li><a href="{{URL_STAFF_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a> </li> 
+                    <li><a href="{{URL_STAFF_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a> </li>
                     <li>
-                        
+
                             {{$title}}
-                        
+
                     </li>
                 </ol>
             </div>
         </div>
-    
-        
+
+
         {!! Form::open(array('url' => URL_UPDATE_TIMETABLE, 'method' => 'POST', 'name'=>'idCards ', 'novalidate'=>'')) !!}
 
         <div class="panel panel-custom">
             <div class="panel-heading">
                 <h1>
-                    {{getPhrase('timetable_for_').' '.$user->name}}
-                 
+                    {{getPhrase('timetable_for').' '.$user->name}}
+
                     <a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.$user->slug}}" class="btn btn-primary pull-right" >
                     {{getPhrase('print')}}</a>
                 </h1>
             </div>
             <div class="panel-body" >
-           
-            <a  href="javascript:void(0);" 
+
+            <a  href="javascript:void(0);"
                 class="pull-right btn btn-link"
                 ng-click="toggleCalender()"
                 ng-show = "showCalender"
-                > 
+                >
             Back </a>
-                
-               
-    
+
+
+
     @include('timetable.user-timetables.calender-view')
- 
+
 <br>
   </div>
 </div>
-   {!! Form::close() !!}                         
-                       
-                    
+   {!! Form::close() !!}
+
+
                 </hr>
             </div>
         </div>
@@ -88,7 +88,7 @@
 @stop
 
 @section('footer_scripts')
-  
+
     @include('timetable.user-timetables.scripts.js-scripts')
     @include('common.alertify')
 @stop

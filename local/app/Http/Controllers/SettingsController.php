@@ -21,9 +21,9 @@ class SettingsController extends Controller
     }
 
     /**
-     * This method will display the settings dashboard 
+     * This method will display the settings dashboard
      */
-   
+
      public function settingsDashboard()
     {
 
@@ -32,12 +32,12 @@ class SettingsController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
       $data['active_class']       = 'master_settings';
       $data['title']              = getPhrase('master_settings');
       $data['layout']             = getLayout();
-      return view('mastersettings.dashboard', $data);  
-       
+      return view('mastersettings.dashboard', $data);
+
     }
 
       /**
@@ -63,9 +63,9 @@ class SettingsController extends Controller
       {
         prepareBlockUserMessage();
         return back();
-      }  
-                
- 
+      }
+
+
         $data['active_class']       = 'master_settings';
         $data['title']              = getPhrase('certificate_settings');
         $data['layout']             = getLayout();
@@ -78,9 +78,9 @@ class SettingsController extends Controller
       {
         prepareBlockUserMessage();
         return back();
-      }  
-                
- 
+      }
+
+
         $data['active_class']       = 'master_settings';
         $data['title']              = getPhrase('timetable_settings');
         $data['layout']             = getLayout();
@@ -99,7 +99,7 @@ class SettingsController extends Controller
         return back();
       }
 
-         $records = Settings::select([ 'title', 
+         $records = Settings::select([ 'title',
             'key', 'description','slug','id', 'updated_at'])
          ->orderBy('updated_at','desc');
 
@@ -112,10 +112,10 @@ class SettingsController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_SETTINGS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
                             <li><a href="'.URL_SETTINGS_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>';
-                     
-                        
+
+
                     $temp = '';
-                   
+
                     $temp .=    '</ul></div>';
                     $link_data .= $temp;
 
@@ -135,7 +135,7 @@ class SettingsController extends Controller
      * @return void
      */
     public function create()
-    {	
+    {
       if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
@@ -143,7 +143,7 @@ class SettingsController extends Controller
       }
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'master_settings';
-    
+
     	$data['title']              = getPhrase('add_setting');
     	return view('mastersettings.settings.add-edit', $data);
     }
@@ -151,7 +151,7 @@ class SettingsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -162,12 +162,12 @@ class SettingsController extends Controller
       }
 
     	$record = Settings::where('slug', $slug)->get()->first();
-    	
+
     	if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
     	$data['record']       		= $record;
-     
+
     	$data['active_class']       = 'master_settings';
         $data['title']              = getPhrase('edit_settings');
     	return view('mastersettings.settings.add-edit', $data);
@@ -188,18 +188,18 @@ class SettingsController extends Controller
         return back();
       }
         $record                 = Settings::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
-        $name = $request->key;	
+        $name = $request->key;
           $this->validate($request, [
        	  'key'        		  => 'bail|required|max:30|unique:settings,key,'.$record->id,
           ]);
 	       $name 					        = $request->key;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->key)
@@ -207,7 +207,7 @@ class SettingsController extends Controller
     	$record->title                 =$request->title;
         $record->key 			        = $name;
         $record->description 			= $request->description;
-         
+
         $record->save();
 
            if($request->hasFile('image'))
@@ -217,8 +217,8 @@ class SettingsController extends Controller
             $record->save();
             $this->deleteFile($old_image, IMAGE_PATH_SETTINGS);
         }
-       
-    	flash('success','record_updated_successfully', 'success');
+
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_SETTINGS_LIST);
     }
 
@@ -229,7 +229,7 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-     
+
      if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
@@ -248,7 +248,7 @@ class SettingsController extends Controller
         $record->slug 			        = $record->makeSlug($name);
         $record->description 			= $request->description;
         $record->save();
-        
+
         if($request->hasFile('image'))
         {
             $old_image = $record->image;
@@ -257,18 +257,18 @@ class SettingsController extends Controller
             $this->deleteFile($old_image, IMAGE_PATH_SETTINGS);
         }
 
-        
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_SETTINGS_LIST);
     }
 
-     
-   
+
+
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -302,15 +302,15 @@ class SettingsController extends Controller
         }
 
         $record                 = Settings::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
-       
+
         $data['settings_data']      = getArrayFromJson($record->settings_data);
         $data['record']             = $record;
         $data['active_class']       = 'master_settings';
         $data['title']              = $record->title;
-       
+
         $data['layout']             = getLayout();
         $data['slug']               = $slug;
 
@@ -327,13 +327,13 @@ class SettingsController extends Controller
         return back();
       }
         $record                 = Settings::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
         $data['record']				= $record;
         $data['active_class']       = 'master_settings';
         $data['title']              = $record->key;
-        
+
 
 
 
@@ -342,14 +342,14 @@ class SettingsController extends Controller
 
     public function storeSubSettings(Request $request, $slug)
     {
-        
+
       if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
         return back();
       }
       $record                 = Settings::where('slug', $slug)->get()->first();
-        
+
       if($isValid = $this->isValidRecord($record))
         return redirect($isValid);
 
@@ -370,24 +370,24 @@ class SettingsController extends Controller
 
 
        $settings_data = (array) json_decode($record->settings_data);
-       
+
       $value = '';
-     
+
       $processed_data = (object)$this->processSettingValue($request);
-        
+
        $values = array(
-                        'type'=>$request->type, 
-                        'value'=>$processed_data->value, 
+                        'type'=>$request->type,
+                        'value'=>$processed_data->value,
                         'extra'=>$processed_data->extra,
                         'tool_tip'=>$processed_data->tool_tip
                        );
        $settings_data[$request->key] = $values;
 
        $record->settings_data = json_encode($settings_data);
-      
+
        $record->save();
 
-       flash('success','record_updated_successfully', 'success');
+       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
        return redirect(URL_SETTINGS_VIEW.$record->slug);
 
     }
@@ -404,11 +404,11 @@ class SettingsController extends Controller
         $extra = '';
         $tool_tip = '';
 
-         if($request->type=='text'      || 
+         if($request->type=='text'      ||
             $request->type=='number'    ||
             $request->type=='email'     ||
             $request->type=='textarea'  ||
-            $request->type=='checkbox'  
+            $request->type=='checkbox'
             )
 
             $value = 0;
@@ -422,7 +422,7 @@ class SettingsController extends Controller
 
 
         else if($request->type=='select') {
-        
+
           $value = '';
             $extra['total_options'] = $request->total_options;
             $options = [];
@@ -430,18 +430,18 @@ class SettingsController extends Controller
             {
                 $options[$request->option_value[$index]] = $request->option_text[$index];
             }
-            
+
             $extra['options'] = $options;
             $value = $request->option_value[$request->value];
-           
+
 
         }
 
 
 
          $tool_tip = $request->tool_tip;
-         
-       
+
+
         return array('value'=>$value, 'extra'=>$extra, 'tool_tip'=>$tool_tip);
     }
 
@@ -460,13 +460,13 @@ class SettingsController extends Controller
                             'facebook_client_id'
                             );
 
-        foreach ($env_keys as $key => $value) 
+        foreach ($env_keys as $key => $value)
         {
-            if($request->has($value))            
+            if($request->has($value))
                 return TRUE;
-        } 
+        }
 
-        return FALSE;       
+        return FALSE;
     }
 
     /**
@@ -489,7 +489,7 @@ class SettingsController extends Controller
 
     /**
      * This method is used to update the subsettings of the settings module
-     * 
+     *
      * @param  Request $request [description]
      * @param  [type]  $slug    [description]
      * @return [type]           [description]
@@ -502,24 +502,24 @@ class SettingsController extends Controller
          * if yes, update env file
          */
 
-     
-       
+
+
      if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
         return back();
       }
       $record                 = Settings::where('slug', $slug)->get()->first();
-    
+
       if($isValid = $this->isValidRecord($record))
         return redirect($isValid);
 
     $input_data = Input::all();
 
-    
- 
+
+
     $extra = '';
-    
+
     foreach ($input_data as $key => $value) {
 
             if($key=='_token' || $key=='_method' || $value=='')
@@ -529,22 +529,22 @@ class SettingsController extends Controller
             $value = 0;
             if(isset($submitted_value->value))
                 $value = $submitted_value->value;
-            
+
              $old_values = json_decode($record->settings_data);
-            
+
             /**
              * For File type of settings, first check if the file is changed or not
              * If not changed just keep the old values as it is
              * If file changed, first upload the new file and delete the old file
              * @var [type]
              */
-            
+
             if($submitted_value->type=='file')
             {
                 if($request->hasFile($key)) {
                     $isNew = false;
                         $value = $this->processUpload($request, $key, $isNew);
-                        
+
                          $this->deleteFile($old_values->$key->value, IMAGE_PATH_SETTINGS);
                 }
                 else
@@ -559,12 +559,12 @@ class SettingsController extends Controller
            {
                 $extra = $old_values->$key->extra;
            }
-            
+
             $data[$key] = array('value'=>$value, 'type'=>$submitted_value->type, 'extra'=>$extra, 'tool_tip'=>$submitted_value->tool_tip);
-           
-        }	 
-       
-       
+
+        }
+
+
        $record->settings_data = json_encode($data);
        $record->save();
 
@@ -572,13 +572,13 @@ class SettingsController extends Controller
         {
 
             $data = $this->prepareEnvData($request);
-          
+
             $this->updateEnvironmentFile($data);
         }
-       
+
         Settings::loadSettingsModule($record->key);
        (new App\EmailSettings())->getDbSettings();
-       flash('success','record_updated_successfully', 'success');
+       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_SETTINGS_VIEW.$record->slug);
 
     }
@@ -597,7 +597,7 @@ class SettingsController extends Controller
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 
@@ -612,36 +612,36 @@ class SettingsController extends Controller
 
      public function processUpload(Request $request, $sfname='value', $isNew = true)
      {
-        
+
          if ($request->hasFile($sfname)) {
-          
+
           $imageObject = new ImageSettings();
-          
+
           $destinationPath      = $imageObject->getSettingsImagePath();
-          
+
           $random_name = str_random(15);
           $fileName = '';
           if($isNew){
               $path = $_FILES[$sfname]['name'];
           $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-       
-              $fileName = $random_name.'.'.$ext; 
+
+              $fileName = $random_name.'.'.$ext;
               $request->file($sfname)->move($destinationPath, $fileName);
           }
           else {
-              
+
               $path = $_FILES[$sfname]['name'];
-        
+
               $ext = pathinfo($path['value'], PATHINFO_EXTENSION);
 
-            $fileName = $random_name.'.'.$ext; 
-            
+            $fileName = $random_name.'.'.$ext;
+
             move_uploaded_file($_FILES[$sfname]['tmp_name']['value'], $destinationPath.$fileName);
         }
-          
+
           return $fileName;
- 
+
         }
      }
 
@@ -656,7 +656,7 @@ class SettingsController extends Controller
       if(count($data)>0) {
        $env = file_get_contents(base_path() . '/.env');
        $env = preg_split('/\s+/', $env);
-       
+
         foreach((array)$data as $key => $value){
 
                 // Loop through .env-data

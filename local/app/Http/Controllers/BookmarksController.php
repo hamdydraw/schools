@@ -23,9 +23,9 @@ class BookmarksController extends Controller
      */
     public function index($slug)
     {
-     
+
         $record = App\User::where('slug', $slug)->get()->first();
-       
+
         if($isValid = $this->isValidRecord($record))
          return redirect($isValid);
        /**
@@ -51,7 +51,7 @@ class BookmarksController extends Controller
     {
 
        $user_record = App\User::where('slug', $slug)->get()->first();
-       
+
         if($isValid = $this->isValidRecord($user_record))
          return redirect($isValid);
        /**
@@ -117,12 +117,12 @@ class BookmarksController extends Controller
        return json_encode(array('status'=>'1', 'message'=>getPhrase('added_to_bookmarks')));
     }
 
-    
- 
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($item_id)
     {
@@ -140,7 +140,7 @@ class BookmarksController extends Controller
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function deleteById($item_id)
     {
@@ -167,7 +167,7 @@ class BookmarksController extends Controller
     public function isValidRecord($record)
     {
       if ($record === null) {
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 

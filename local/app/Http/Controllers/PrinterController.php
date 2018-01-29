@@ -10,7 +10,7 @@ use Exception;
 
 class PrinterController extends Controller
 {
-     
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -21,7 +21,7 @@ class PrinterController extends Controller
     	$htmldata = $request->html_data;
     	$conv = new Converter();
         $conv->addPage($htmldata.'<p style="text-align: right;"> Printed on '.date('Y-m-d').'</p>');
-        
+
 
         $options = [
                       'format' => 'A4',
@@ -35,7 +35,7 @@ class PrinterController extends Controller
           }
     	catch(Exception $e)
         {
-          flash('Oops..!','encountered_an_error_with_message'.'  \n'.$e->getMessage(). PDF_EXCEPTION_MENORAH_MESSAGE, 'overlay');     
+          flash(getPhrase('Ooops'),getPhrase('encountered_an_error_with_message').'  \n'.$e->getMessage(). PDF_EXCEPTION_MENORAH_MESSAGE, 'overlay');     
           return back();
         }
     }

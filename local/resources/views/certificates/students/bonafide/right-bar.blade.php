@@ -6,14 +6,14 @@
 {{getPhrase('select_user_to_view_details')}}
 </div>
  <div ng-hide="selected_user==null || selected_user==''">
-	
+
 	<div ng-if="selected_user!=null" class="panel-body">
 		<div class="row">
 			<div class="profile-details text-center">
 				<div class="profile-img">
-				
+
 				  <img ng-if="selected_user.image!=null && selected_user.image!=''" class="thumb" src="{{IMAGE_PATH_PROFILE}}@{{selected_user.image}}" height="60">
-            
+
             <img ng-if="selected_user.image==null || selected_user.image==''" class="thumb" src="{{IMAGE_PATH_USERS_DEFAULT_THUMB}}">
 
 				</div>
@@ -28,14 +28,14 @@
 		</div>
 		        </hr>
                <div ng-if="books_return>0 && certificate_type!='bonafide'" class="alert alert-warning">
-                              <strong>{{getPhrase('Note:')}}</strong> @{{selected_user.name}} is need to return @{{books_return}} books in the library
+                              <strong>{{getPhrase('Note')}}:</strong> @{{selected_user.name}} is need to return @{{books_return}} books in the library
                          </div>
                 <div ng-hide="form_show" class="list-group vertical-scroll">
                 <a ng-if="certificates_issued.length<=0" href="#" class="list-group-item">No certificates issued yet</a>
 
 
 				  <a ng-if="certificates_issued.length>0" href="#" class="list-group-item" ng-repeat="certificate in certificates_issued"><strong>@{{certificate.certificate_type|uppercase}}</strong> certificate is issued on <strong>@{{certificate.created_at}}</strong> with reason <i>"@{{certificate.reason}}"</i></a>
-				  
+
 				</div>
 				<hr>
 				<div ng-if="books_return<=0 || certificate_type=='bonafide'">
@@ -48,13 +48,13 @@
 				        {!! Form::open(array('url' => URL_ISSUE_CERTIFICATE, 'method' => 'POST', 'name'=>'idCards ','target'=>'_blank', 'novalidate'=>'')) !!}
 					<div class="row" ng-if="selected_user!=null">
 
- 				<fieldset class="form-group">  
+ 				<fieldset class="form-group">
  				{{ Form::label('certificate_type', getphrase('certificate_type')) }}
  				<input type="hidden" name="certificate_type" value="@{{selected_certificate_type}}">
  				<strong>@{{selected_certificate_type|uppercase}}</strong>
-				
+
 				</fieldset>
- 				<fieldset class="form-group">  
+ 				<fieldset class="form-group">
  				{{ Form::label('purpose', getphrase('purpose')) }}
 
 				<textarea rows="3" cols="10" class="form-control" name="purpose" required></textarea>
@@ -69,9 +69,3 @@
 				</div>
 	</div>
 	</div>
-
-
-
-
-	
-	 

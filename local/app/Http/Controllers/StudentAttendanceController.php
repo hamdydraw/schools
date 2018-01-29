@@ -76,7 +76,7 @@ class StudentAttendanceController extends Controller
         //end
 
         //Prepare the select list in the below format
-        // Parent Course Code - Year-Sem - Subject-title  
+        // Parent Course Code - Year-Sem - Subject-title
         foreach ($records as $record) {
             if ($record->semister == $currentSemeterOfYear) {
                 $year_semister = 0;
@@ -187,7 +187,7 @@ class StudentAttendanceController extends Controller
         }
         if ($request->course_subject_id == '' || $request->total_class == '' || $request->attendance_date == '') {
 
-            flash('Oops...!', 'Please Select The Details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
             return redirect()->back()->withInput($request->except('_token'));
 
         }
@@ -195,7 +195,7 @@ class StudentAttendanceController extends Controller
         $course_subject_record = App\CourseSubject::where('id', '=', $request->course_subject_id)->first();
         $academic_title = Academic::where('id', '=', $course_subject_record->academic_id)->get()->first();
         if (!$course_subject_record) {
-            flash('Oops...!', 'Invalid_details_supplied', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Invalid_details_supplied'), 'overlay');
             return redirect()->back()->withInput($request->except('_token'));
         }
 
@@ -257,7 +257,7 @@ class StudentAttendanceController extends Controller
         if (count($students)) {
             return view('attendance.list', $data);
         } else {
-            flash('Oops...!', 'no_students_available', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('no_students_available'), 'overlay');
         }
         return redirect('student/attendance/' . $user->slug);
     }
@@ -354,7 +354,7 @@ class StudentAttendanceController extends Controller
         }
 
 
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('student/attendance/' . $user->slug);
     }
 
@@ -389,7 +389,7 @@ class StudentAttendanceController extends Controller
             $this->createSemisters($record);
         }
 
-        flash('success', 'record_added_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect('mastersettings/course');
     }
 }

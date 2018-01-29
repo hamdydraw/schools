@@ -59,7 +59,7 @@ class AcademicsController extends Controller
             ->editColumn('academic_year_title', function ($records) {
                 return '<a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '">' . $records->academic_year_title . ' (' . $records->id . ')' . '</a>';
             })
-           
+
             ->removeColumn('id')
             ->removeColumn('slug')
             ->make();
@@ -171,7 +171,7 @@ class AcademicsController extends Controller
             $recordAcadSem->sem_end_date = $request->academic_end_date;
             $recordAcadSem->save();
         }
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('mastersettings/academics');
     }
 
@@ -225,7 +225,7 @@ class AcademicsController extends Controller
             $recordAcadSem->sem_end_date = $request->academic_end_date;
             $recordAcadSem->save();
         }
-        flash('success', 'record_added_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect('mastersettings/academics');
     }
 

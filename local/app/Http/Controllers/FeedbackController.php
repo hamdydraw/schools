@@ -15,7 +15,7 @@ class FeedbackController extends Controller
      public function __construct()
     {
     	$this->middleware('auth');
-     
+
 
     }
 
@@ -61,20 +61,20 @@ class FeedbackController extends Controller
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
           $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="'.URL_FEEDBACK_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>';
-                           
-                            
+
+
                            $temp = '';
                            if(checkRole(getUserGrade(1))) {
                     $temp .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
                       }
-                    
+
                     $temp .='</ul></div>';
 
 
@@ -88,10 +88,10 @@ class FeedbackController extends Controller
         ->editColumn('image', function($records)
         {
           $image = getProfilePath($records->image);
-          
+
             return '<img src="'.$image.'" height="60" width="60"  />';
         })
-       
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->make();
@@ -103,12 +103,12 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-      
+
       if(checkRole(getUserGrade(2)))
       {
         return back();
       }
-      
+
     	$data['record']         	= FALSE;
     	$data['layout']         	= getLayout();
     	$data['active_class']       = 'feedback';
@@ -123,7 +123,7 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-      
+
 
 	    $rules = [
          'title'          	   	   => 'bail|required|max:40' ,
@@ -139,16 +139,16 @@ class FeedbackController extends Controller
         $record->description		= $request->description;
         $record->user_id			= Auth::user()->id;
         $record->save();
-     
-        flash('success','feedback_submitted_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('feedback_submitted_successfully'), 'success');
     	return redirect(URL_FEEDBACK_SEND);
     }
 
     public function details($slug)
     {
-    
+
     	$record = Feedback::where('slug','=',$slug)->first();
-    
+
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
 
@@ -164,7 +164,7 @@ class FeedbackController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -173,13 +173,13 @@ class FeedbackController extends Controller
 
 
     public function getReturnUrl()
-    {	
+    {
        if(!checkRole(getUserGrade(2)))
       {
         return URL_FEEDBACK_SEND;
       }
       return URL_FEEDBACK_VIEW;
-    	
+
     }
 
     public function delete($slug)

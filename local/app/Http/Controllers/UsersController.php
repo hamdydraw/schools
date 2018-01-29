@@ -366,11 +366,11 @@ class UsersController extends Controller
             $record->status = $status;
             $record->save();
 
-            flash('success', 'status_changed_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('status_changed_successfully'), 'success');
             return redirect(URL_USERS . "staff");
         }
 
-        flash('Oops...', 'this staff is need to return books in library', 'overlay');
+        flash(getPhrase('Ooops'), getPhrase('this_staff_is_need_to_return_books_in_library'), 'overlay');
         return redirect(URL_USERS . "staff");
 
     }
@@ -436,7 +436,7 @@ class UsersController extends Controller
             'email' => 'bail|required|unique:users,email',
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
         );
-        // dd($columns); 
+        // dd($columns);
         if (checkRole(getUserGrade(2))) {
             $columns['role_id'] = 'bail|required';
         }
@@ -492,7 +492,7 @@ class UsersController extends Controller
                 $staff->save();
 
                 DB::commit();
-                flash('success', 'record_added_successfully', 'success');
+                flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
                 // return redirect('users');
             }
 
@@ -505,7 +505,7 @@ class UsersController extends Controller
                 $student->save();
             }
             DB::commit();
-            $message = getPhrase('record_added_successfully_with_password ') . ' ' . $password;
+            $message = getPhrase('record_added_successfully_with_password') . ' ' . $password;
             $exception = 0;
 
 
@@ -515,14 +515,14 @@ class UsersController extends Controller
                 'to_email' => $user->email,
                 'password' => $password
             ))) {
-                $message = getPhrase('record_added_successfully_with_password ') . ' ' . $password;
-                $message .= getPhrase('\nCannot_send_email_to_user, please_check_your_server_settings');
+                $message = getPhrase('record_added_successfully_with_password') . ' ' . $password;
+                $message .= getPhrase('Cannot_send_email_to_user_please_check_your_server_settings');
             }
 
             $exception = 1;
 
             $flash = app('App\Http\Flash');
-            $flash->create('Success...!', $message, 'success', 'flash_overlay', false);
+            $flash->create(getPhrase('Success'), $message, 'success', 'flash_overlay', false);
 
             if (checkRole(['parent'])) {
                 return redirect('dashboard');
@@ -532,10 +532,10 @@ class UsersController extends Controller
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $ex->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $ex->getMessage(), 'error');
             } else {
 
-                flash('oops...!', 'please_check_your_email_master_settings', 'overlay');
+                flash(getPhrase('Ooops'), getPhrase('please_check_your_email_master_settings'), 'overlay');
             }
         }
         return redirect(URL_USERS . "users");
@@ -686,7 +686,7 @@ class UsersController extends Controller
     public function isValidRecord($record)
     {
         if ($record === null) {
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -768,7 +768,7 @@ class UsersController extends Controller
         }
 
         $this->processUpload($request, $record);
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
 
         return redirect(URL_USERS_EDIT . $record->slug);
     }
@@ -902,7 +902,7 @@ class UsersController extends Controller
 
         if (empty($studentdata->academic_id) || empty($studentdata->course_parent_id) || empty($studentdata->course_id)) {
 
-            flash('Oops...!', 'Your Admission Details Are Not Updated', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Your_Admission_Details_Are_Not_Updated'), 'overlay');
             return redirect()->back();
         }
 
@@ -983,11 +983,11 @@ class UsersController extends Controller
     {
         $record = User::where('slug', $slug)->get()->first();
         if ($record == null) {
-            flash('Ooops', 'Undefined User', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Undefined_User'), 'overlay');
             return back();
         }
         if ($record->role_id != 5) {
-            flash('Ooops', 'You Have No Permission To Access', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('You_Have_No_Permission_To_Access'), 'overlay');
             return back();
         }
 
@@ -1122,11 +1122,11 @@ class UsersController extends Controller
 
         $record = User::where('slug', $slug)->get()->first();
         if ($record == null) {
-            flash('Ooops', 'Undefined User', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Undefined_User'), 'overlay');
             return back();
         }
         if ($record->role_id != 3) {
-            flash('Ooops', 'You Have No Permission To Access', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('You_Have_No_Permission_To_Access'), 'overlay');
             return back();
         }
 
@@ -1207,12 +1207,12 @@ class UsersController extends Controller
             $user->password = bcrypt($credentials['password']);
             $user->save();
 
-            flash('success', 'password_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('password_updated_successfully'), 'success');
             return redirect(URL_USERS_CHANGE_PASSWORD . $user->slug);
 
         } else {
 
-            flash('Oops..!', 'old_and_new_passwords are not same', 'error');
+            flash(getPhrase('Ooops'), getPhrase('old_and_new_passwords_are_not_same'), 'error');
             return redirect()->back();
         }
     }
@@ -1329,7 +1329,7 @@ class UsersController extends Controller
             $this->excel_data['failed'] = $failed_list;
             $this->excel_data['success'] = $success_list;
 
-            flash('success', 'record_added_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
             $this->downloadExcel();
 
 
@@ -1337,9 +1337,9 @@ class UsersController extends Controller
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             }
         }
 
@@ -1607,7 +1607,7 @@ class UsersController extends Controller
 
         $record->settings = json_encode(array('user_preferences' => $options));
         $record->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return back();
     }
 

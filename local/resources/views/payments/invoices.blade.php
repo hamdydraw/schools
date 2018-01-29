@@ -8,7 +8,7 @@
           <div class="col-lg-12">
             <ol class="breadcrumb">
               <li><a href="/"><i class="mdi mdi-home"></i></a> </li>
-              
+
               <li class="active"> {{ $title }} </li>
             </ol>
           </div>
@@ -20,16 +20,16 @@
           </div>
           <div class="panel-body packages">
             <div class="row">
-             
-              <div class="col-md-12"> 
+
+              <div class="col-md-12">
               <?php $sno = 1;?>
                <table class="table table-bordered tabel-dues-details fee-details">
                <tr>
-                  <th>{{getPhrase('sno')}} </th>
+                  <th>{{getPhrase('sn')}} </th>
                   <th>{{ getPhrase('date')}}</th>
                   <th>{{getPhrase('total')}}</th>
                   <th>{{getPhrase('action')}}</th>
-                  
+
                 </tr>
                   @foreach ($invoices as $invoice)
                       <tr>
@@ -42,12 +42,12 @@
               </table>
               </div>
             </div>
-       
-                   
+
+
         </div>
 
       </div>
-      
+
 </div>
     <!-- /#page-wrapper -->
 

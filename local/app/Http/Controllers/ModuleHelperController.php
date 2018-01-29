@@ -49,7 +49,7 @@ class ModuleHelperController extends Controller
         return back();
       }
 
-         $records = ModuleHelper::select([ 'title', 
+         $records = ModuleHelper::select([ 'title',
             'slug', 'help_link_text','is_enabled','id', 'updated_at'])
          ->orderBy('updated_at','desc');
 
@@ -62,10 +62,10 @@ class ModuleHelperController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_MODULEHELPERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
                             <li><a href="'.URL_MODULEHELPERS_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>';
-                     
-                        
+
+
                     $temp = '';
-                   
+
                     $temp .=    '</ul></div>';
                     $link_data .= $temp;
 
@@ -78,7 +78,7 @@ class ModuleHelperController extends Controller
         	return ($records->is_enabled) ? '<i class="fa fa-check text-success" title="Active" ></i>' : '<i class="fa fa-times text-danger" title="Inactive"></i>';
         })
         ->removeColumn('id')
-    
+
         ->removeColumn('updated_at')
         ->make();
     }
@@ -89,7 +89,7 @@ class ModuleHelperController extends Controller
      */
     public function create()
     {
-        
+
       if(!checkRole(getUserGrade(1)))
       {
         prepareBlockUserMessage();
@@ -105,7 +105,7 @@ class ModuleHelperController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -117,12 +117,12 @@ class ModuleHelperController extends Controller
       }
 
     	$record = ModuleHelper::where('slug', $slug)->get()->first();
-    	
+
     	if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
     	$data['record']       		= $record;
-    	
+
     	$data['active_class']       = 'master_settings';
     	$data['layout']       = getLayout();
         $data['title']              = getPhrase('edit_settings');
@@ -143,7 +143,7 @@ class ModuleHelperController extends Controller
         return back();
       }
         $record                 = ModuleHelper::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
@@ -155,11 +155,11 @@ class ModuleHelperController extends Controller
         $settings['keyboard'] 			= $request->has('keyboard') ? 1:0;
         $settings['backdrop'] 			= $request->has('backdrop')? 1 : 0;
         $record->settings 				= json_encode($settings);
-        
+
         $record->save();
 
-       
-    	flash('success','record_updated_successfully', 'success');
+
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_MODULEHELPERS_LIST);
     }
 
@@ -191,32 +191,32 @@ class ModuleHelperController extends Controller
         $settings['backdrop'] 			= $request->has('backdrop')? 1 : 0;
         $record->settings 				= json_encode($settings);
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_MODULEHELPERS_LIST);
     }
 
-     
-   
+
+
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
         $record = ModuleHelper::where('slug', $slug)->first();
-      
+
         $record->delete();
         $response['status'] = 1;
         $response['message'] = getPhrase('record_deleted_successfully');
         return json_encode($response);
-       
+
     }
 
     public function viewSettings($slug)
     {
- 
+
         if(!checkRole(getUserGrade(1)))
         {
             prepareBlockUserMessage();
@@ -224,10 +224,10 @@ class ModuleHelperController extends Controller
         }
 
         $record                 = ModuleHelper::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
-     	
+
        $data['settings_data']      = getArrayFromJson($record->steps);
        $data['record']             = $record;
        $data['active_class']       = 'master_settings';
@@ -236,24 +236,24 @@ class ModuleHelperController extends Controller
        return view('mastersettings.module-helper.steps-list', $data);
     }
 
-   
+
     /**
      * This method is used to update the subsettings of the settings module
-     * 
+     *
      * @param  Request $request [description]
      * @param  [type]  $slug    [description]
      * @return [type]           [description]
      */
     public function updateSteps(Request $request, $slug)
     {
-   	        
+
       if(!checkRole(getUserGrade(1)))
       {
         prepareBlockUserMessage();
         return back();
       }
       $record                 = ModuleHelper::where('slug', $slug)->get()->first();
-    
+
       if($isValid = $this->isValidRecord($record))
         return redirect($isValid);
 
@@ -278,20 +278,20 @@ class ModuleHelperController extends Controller
        }
 
        $record->steps = json_encode($steps);
-      
+
        $record->save();
 
-       flash('success','record_updated_successfully', 'success');
+       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return back();
 
     }
- 
+
 
     public function isValidRecord($record)
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 
@@ -303,6 +303,6 @@ class ModuleHelperController extends Controller
       return URL_SETTINGS_LIST;
     }
 
- 
- 
+
+
 }

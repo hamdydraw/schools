@@ -92,7 +92,7 @@ class CertificatesController extends Controller
     public function isValidRecord($record)
     {
         if ($record === null) {
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -231,7 +231,7 @@ class CertificatesController extends Controller
         $users_list = [];
 
         if (!count($selected_users)) {
-            flash('Ooops..', 'please_select_any_users', 'error');
+            flash(getPhrase('Ooops'), getPhrase('please_select_any_users'), 'error');
             return redirect(URL_CERTIFICATES_GENERATE_IDCARD);
         }
 
@@ -354,7 +354,7 @@ class CertificatesController extends Controller
     public function bonafideCertificates()
     {
         $data['active_class'] = 'academic';
-        $data['title'] = getPhrase('bonafide /_transfer_certificate');
+        $data['title'] = getPhrase('bonafide_or_transfer_certificate');
         $data['user'] = Auth::user();
         $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
         $data['right_bar'] = true;

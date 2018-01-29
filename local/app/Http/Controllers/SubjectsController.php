@@ -13,7 +13,7 @@ use Input;
 use Excel;
 class SubjectsController extends Controller
 {
-    public $excel_data = '';   
+    public $excel_data = '';
     public function __construct()
     {
       $this->middleware('auth');
@@ -48,15 +48,15 @@ class SubjectsController extends Controller
         return back();
       }
 
-        
+
 
          $records = Subject::select([
           'id','subject_title', 'subject_code','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type', 'slug', 'updated_at'])
          ->orderBy('updated_at','desc');
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,14 +73,14 @@ class SubjectsController extends Controller
                             $link_data .= $temp;
                     return $link_data;
             })
-     
+
         ->removeColumn('slug')
         ->removeColumn('is_elective_type')
         ->removeColumn('is_lab')
         ->removeColumn('pass_marks')
         ->removeColumn('maximum_marks')
         ->removeColumn('updated_at')
-     
+
         ->make();
     }
 
@@ -105,7 +105,7 @@ class SubjectsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -136,17 +136,17 @@ class SubjectsController extends Controller
         return back();
       }
         $record                 = Subject::where('slug', $slug)->get()->first();
-        
+
           $this->validate($request, [
          'subject_title'          => 'bail|required|max:60',
          'subject_code'           => 'bail|required|max:20|unique:subjects,subject_code,'.$record->id
-        
+
          ]);
 
         $name                   = $request->subject_title;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->subject_title)
@@ -162,7 +162,7 @@ class SubjectsController extends Controller
         $record->is_elective_type   = $request->is_elective_type;
         $record->save();
 
-      flash('success','record_updated_successfully', 'success');
+      flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
       return redirect(URL_SUBJECTS);
     }
 
@@ -182,7 +182,7 @@ class SubjectsController extends Controller
        $this->validate($request, [
          'subject_title'          => 'required',
          'subject_code'           => 'required|max:20|unique:subjects,subject_code',
-         
+
             ]);
         $record                     = new Subject();
         $name                       = $request->subject_title;
@@ -196,17 +196,17 @@ class SubjectsController extends Controller
         $record->is_lab             = $request->is_lab;
        /* $record->is_elective_type   = $request->is_elective_type;*/
         $record->save();
- 
 
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
       return redirect(URL_SUBJECTS);
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -235,7 +235,7 @@ class SubjectsController extends Controller
             $response['message'] =  getPhrase('this_record_is_in_use_in_other_modules');
        }
             return json_encode($response);
-        
+
     }
 
     /**
@@ -250,7 +250,7 @@ class SubjectsController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-      
+
         $data['records']      = FALSE;
         $data['active_class'] = 'master_settings';
         $data['heading']      = getPhrase('subjects');
@@ -262,7 +262,7 @@ class SubjectsController extends Controller
 
      public function readExcel(Request $request)
      {
-      
+
 
       $rules = [
          'excel'               => 'bail|required' ,
@@ -315,11 +315,11 @@ class SubjectsController extends Controller
                  $failed_list[$failed_length] = (object)$temp;
                  continue;
                 }
-               
+
                 if($this->isRecordExists($record->subject_title, 'subject_title'))
                 {
 
-                  
+
                  $temp = array();
                  $temp['record']    = $excel_record;
                  $temp['type']      = getPhrase('record_already_exists_with_this_title');
@@ -336,28 +336,28 @@ class SubjectsController extends Controller
                  $failed_list[$failed_length] = (object)$temp;
                   continue;
                 }
-               
+
                 $final_records[] = $excel_record;
 
-               
+
               }
-              
+
             }
               if(!env('DEMO_MODE')) {
                 if($this->pushToDb($final_records))
                   $success_list = $final_records;
               }
-         
+
           }
         }
-       
-       
+
+
        $data['failed_list']   =   $failed_list;
        $data['success_list']  =    $success_list;
          $this->excel_data['failed'] = $failed_list;
        $this->excel_data['success'] = $success_list;
-        flash('success','record_added_successfully', 'success');
-        
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
+
        $this->downloadExcel();
 
         }
@@ -366,10 +366,10 @@ class SubjectsController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_sheet_uploaded', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_sheet_uploaded'), 'error');
        }
      }
 
@@ -383,7 +383,7 @@ class SubjectsController extends Controller
        $data['title']        = getPhrase('report');
       // flash('success','record_added_successfully', 'success');
        return view('mastersettings.subjects.import.import-result', $data);
- 
+
      }
 
 public function getFailedData()
@@ -456,7 +456,7 @@ public function downloadExcel()
        return TRUE;
      }
 
-     
+
      /**
       * This method will display the list of topics available in specified subject
       * @param  [type] $subject_slug [description]
@@ -490,7 +490,7 @@ public function downloadExcel()
       foreach($parent_topics as $topic)
       {
         $topics[$topic->id] = $topic;
-        $childs = $this->getTopicRecord($subject_id, $topic->id); 
+        $childs = $this->getTopicRecord($subject_id, $topic->id);
         $topics[$topic->id]['childs'] = $childs;
       }
       return $topics;
@@ -513,5 +513,5 @@ public function downloadExcel()
       ->get();
    }
 
-  
+
 }

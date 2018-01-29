@@ -22,7 +22,7 @@
 						<h1>{{ $title }}</h1>
 					</div>
 					<div class="panel-body packages">
-						<div> 
+						<div>
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -33,14 +33,14 @@
 								 	<th>{{ getPhrase('asset no')}}</th>
 								 	<th>{{ getPhrase('asset_name')}}</th>
 									<th>{{ getPhrase('email')}}</th>
-									<th>{{ getPhrase('date-_issue/_return')}}</th>
+									<th>{{ getPhrase('date-_issue_or_return')}}</th>
 									<th id="helper_step1">{{ getPhrase('return')}}</th>
                              </tr>
 							</thead>
-							 
+
 						</table>
 						</div>
-						 
+
 
 					</div>
 
@@ -57,14 +57,14 @@
         <h4 class="modal-title">{{getPhrase('staff_book_return')}}</h4>
       </div>
       <div class="modal-body">
-      {!!Form::open(array('url'=> URL_LIBRARY_RETURN_ASSET_STAFF,'method'=>'POST','name'=>'userstatus'))!!} 
+      {!!Form::open(array('url'=> URL_LIBRARY_RETURN_ASSET_STAFF,'method'=>'POST','name'=>'userstatus'))!!}
 
       <span id="message"></span>
                  <input type="hidden" name="user_id" id="user_id" >
                 <input type="hidden" name="issue_id" id="id" >
                 <input type="hidden" name="instance_id" id="library_instance_id" >
                 <input type="hidden" name="master_id" id="master_asset_id" >
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
@@ -77,24 +77,24 @@
 </div>
 		</div>
 @endsection
- 
+
 @section('footer_scripts')
  @include('common.datatables', array('route'=>'librarydashboard.staffdatatable'))
   <script >
- 	 
+
  		function changeStatus(user_id, id,library_instance_id,master_asset_id)
  		{
  			$('#user_id').val(user_id);
  			$('#id').val(id);
  			$('#library_instance_id').val(library_instance_id);
  			$('#master_asset_id').val(master_asset_id);
- 			message = '{{ getPhrase('are_you_sure_to_return_the_book')}}?'; 
- 		
+ 			message = '{{ getPhrase('are_you_sure_to_return_the_book')}}?';
+
  			$('#message').html(message);
 
  			$('#myModal').modal('show');
  		}
-  
+
  </script>
 
  @stop

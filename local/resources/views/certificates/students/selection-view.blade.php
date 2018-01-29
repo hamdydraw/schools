@@ -94,9 +94,9 @@
 
                                             <div class="content">
                                                 <ul class="list-unstyled">
-                                                    {{--<li><strong>{{getPhrase('name_:')}}</strong></li>
-                                                    <li><strong>{{getPhrase('class_:')}}</strong> @{{user.academic_year_title+' '+user.course_title}}</li>
-                                                    <li><strong>{{getPhrase('blood_group_:')}}</strong>@{{user.blood_group}}</li>
+                                                    {{--<li><strong>{{getPhrase('name_')}}:</strong></li>
+                                                    <li><strong>{{getPhrase('class_')}}:</strong> @{{user.academic_year_title+' '+user.course_title}}</li>
+                                                    <li><strong>{{getPhrase('blood_group_')}}:</strong>@{{user.blood_group}}</li>
                                                     <li><strong>Phone:</strong> @{{user.mobile}}</li>--}}
 
                                                     @for($i=0; $i< $settings['front_total_fields']['value'];$i++)

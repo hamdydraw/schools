@@ -10,9 +10,9 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Exception;
 class CategoriesController extends Controller
-{  
-    
-    
+{
+
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -40,10 +40,10 @@ class CategoriesController extends Controller
     {
 
          $records = Category::select(['id','category_name','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-           
+
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -75,7 +75,7 @@ class CategoriesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -97,26 +97,26 @@ class CategoriesController extends Controller
     {
 
         $record                 = Category::where('slug', $slug)->get()->first();
-        
+
           $this->validate($request, [
             'category_name'          => 'bail|required|max:40|unique:categories,category_name,'.$record->id.''
             ]);
 
         	$name                       = $request->category_name;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->category_name)
             $record->slug = $record->makeSlug($name);
-    	
+
         $record->category_name = $name;
-         
+
         // $record->slug                   = $record->makeSlug($name);
-       
+
         $record->save();
-    	flash('success','record_updated_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('mastersettings/categories');
     }
 
@@ -135,14 +135,14 @@ class CategoriesController extends Controller
         $record->category_name 			= $name;
         $record->slug 			        = $record->makeSlug($name);
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('mastersettings/categories');
     }
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {

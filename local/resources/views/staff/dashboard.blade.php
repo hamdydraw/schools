@@ -10,15 +10,15 @@
 			<div class="row">
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
-							 
+
 							<li><i class="fa fa-home"></i> {{ $title}}</li>
 						</ol>
 					</div>
 				</div>
 
 				 <div class="row">
-				 
-					 
+
+
 
 					<div class="col-md-4 ">
 						<div class="card card-yellow text-xs-center" >
@@ -95,16 +95,16 @@
 						</div>
 					</div>
 
-						
+
 						</div>
-		 
+
 			<!-- /.container-fluid -->
  <div class="row">
 				<div class="col-md-12">
   				  <div class="panel panel-primary dsPanel">
 				    <div class="panel-heading"><i class="fa fa-book"></i> {{getPhrase('library_history')}}</div>
 				    <div class="panel-body table-responsive" >
-				    	<?php 
+				    	<?php
 				    	$records = App\LibraryIssue::issueHistory('',5);
 				    	?>
 
@@ -112,7 +112,7 @@
 				    		<thead>
 				    			<tr>
 				    				<th>
-				    				<strong>{{getPhrase('sno')}}</strong></th>
+				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('title')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('number')}}</th>
@@ -153,16 +153,16 @@
 
 				<div class="col-md-12">
   				  <div class="panel panel-primary dsPanel">
-				    <div class="panel-heading"><i class="fa  fa-bell"></i> {{getPhrase("today's_classes")}}</div>
+				    <div class="panel-heading"><i class="fa  fa-bell"></i> {{getPhrase("today_classes")}}</div>
 				    <div class="panel-body table-responsive" >
-				    	<?php 
+				    	<?php
 				    	$records = App\Timetable::getDayClasses();
 				    	 ?>
 				    	 <table class="table">
 				    		<thead>
 				    			<tr>
 				    				<th>
-				    				<strong>{{getPhrase('sno')}}</strong></th>
+				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('subject')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('class')}}</th>
@@ -176,7 +176,7 @@
 				    		<?php $sno=1;?>
 				    		@if(count($records))
 				    		@foreach($records as $record)
-		 
+
 				    			<tr>
 				    				<td>{{$sno++}}</td>
 				    				<td>{{$record->subject_title}}</td>
@@ -196,7 +196,7 @@
 				    </div>
 				  </div>
 				</div>
-			 
+
 	</div>
 </div>
 		<!-- /#page-wrapper -->
@@ -204,6 +204,6 @@
 @stop
 
 @section('footer_scripts')
-  
- 
+
+
 @stop

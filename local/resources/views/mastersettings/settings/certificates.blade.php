@@ -23,9 +23,9 @@
 
 
                           					  </h4>
-                        <p class="card-text">{{ getPhrase('bonafide__contents')}}</p>
+                        <p class="card-text">{{ getPhrase('bonafide_contents')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."bonafide-content"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -36,13 +36,13 @@
 							<div class="card-block">
 					  <h4 class="card-title">
 					  	<h4 class="card-title">
-								
+
 						  <i class="fa fa-cogs" aria-hidden="true"></i>
 					  </h4>
 
 								<p class="card-text">{{ getPhrase('bonafide_settings')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."bonafide-settings"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -52,11 +52,11 @@
 						<div class="card card-red text-xs-center">
 							<div class="card-block">
 							<h4 class="card-title">
-                             <i class="fa fa-newspaper-o" aria-hidden="true"></i>							
+                             <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                              </h4>
 								<p class="card-text">{{ getPhrase('transfer_certificate_fields')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."transfer-certificate-fields"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -70,7 +70,7 @@
 							</h4>
 								<p class="card-text">{{ getPhrase('transfer_certificate_settings')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."transfer-certificate-settings"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -85,7 +85,7 @@
 							</h4>
 								<p class="card-text">{{ getPhrase('id_card_fields')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."id-card-fields"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -99,7 +99,7 @@
 							</h4>
 								<p class="card-text">{{ getPhrase('id_card_settings')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_SETTINGS_VIEW."id-card-settings"}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -107,9 +107,9 @@
 					</div>
 
 					</div>
-				
+
 @stop
 
 @section('footer_scripts')
- 
+
 @stop

@@ -76,7 +76,7 @@ Route::get('logout', function(){
 
 Route::get('parent-logout', function(){
     if(Auth::check())
-        flash('Oops..!',getPhrase('parents_module_is_not_available'),'error');
+        flash(getPhrase('Ooops'),getPhrase('parents_module_is_not_available'),'error');
     Auth::logout();
     return redirect(URL_USERS_LOGIN);
 });

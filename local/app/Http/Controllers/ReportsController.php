@@ -67,7 +67,7 @@ class ReportsController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 

@@ -21,9 +21,9 @@
 						<ol class="breadcrumb">
 
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('LMS')}} {{ getPhrase(' dashboard')}}</a></li>
+							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('LMS')}} {{ getPhrase('dashboard')}}</a></li>
 
-							<li><a href="{{URL_LMS_SERIES}}">{{getPhrase('LMS')}} {{ getPhrase(' series')}}</a></li>
+							<li><a href="{{URL_LMS_SERIES}}">{{getPhrase('LMS')}} {{ getPhrase('series')}}</a></li>
 
 							<li class="active">{{isset($title) ? $title : ''}}</li>
 

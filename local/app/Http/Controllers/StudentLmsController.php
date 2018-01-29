@@ -41,25 +41,25 @@ class StudentLmsController extends Controller
         {
           $interested_categories =  json_decode($user->settings)->user_preferences;
         }
-        
+
         if($interested_categories)    {
          if(count($interested_categories->lms_categories))
         $data['categories']         = Lmscategory::
                                       whereIn('id',(array) $interested_categories->lms_categories)
                                       ->paginate(getRecordsPerPage());
         }
-        
+
         $data['user'] = $user;
         return view('student.lms.categories', $data);
     }
 
     public function viewCategoryItems($slug)
     {
-        $record = LmsCategory::getRecordWithSlug($slug); 
+        $record = LmsCategory::getRecordWithSlug($slug);
 
-        
+
         if($isValid = $this->isValidRecord($record))
-          return redirect($isValid); 
+          return redirect($isValid);
 
          $data['active_class']       = 'lms';
          $data['user']               = Auth::user();
@@ -67,7 +67,7 @@ class StudentLmsController extends Controller
         $data['layout']             = getLayout();
         $data['series']             = LmsSeries::where('lms_category_id','=',$record->id)
                                         ->where('start_date','<=',date('Y-m-d'))
-                                        ->where('end_date','>=',date('Y-m-d'))        
+                                        ->where('end_date','>=',date('Y-m-d'))
                                         ->paginate(getRecordsPerPage());
         return view('student.lms.lms-series-list', $data);
     }
@@ -79,7 +79,7 @@ class StudentLmsController extends Controller
     public function series()
     {
         if(!checkRole(getUserGrade(13)))
-      { 
+      {
         prepareBlockUserMessage();
         return back();
       }
@@ -106,7 +106,7 @@ class StudentLmsController extends Controller
     $data['user']               = $user;
 
     return view('student.lms.lms-series-list', $data);
-        
+
     }
 
       /**
@@ -115,23 +115,23 @@ class StudentLmsController extends Controller
      * @return [type]       [description]
      */
     public function viewItem($slug, $content_slug='')
-    { 
+    {
         if(!checkRole(getUserGrade(13)))
-      { 
+      {
         prepareBlockUserMessage();
         return back();
       }
-        $record = LmsSeries::getRecordWithSlug($slug); 
-        
+        $record = LmsSeries::getRecordWithSlug($slug);
+
         if($isValid = $this->isValidRecord($record))
-          return redirect($isValid);  
+          return redirect($isValid);
         $content_record = FALSE;
         if($content_slug) {
           $content_record = LmsContent::getRecordWithSlug($content_slug);
           if($isValid = $this->isValidRecord($content_record))
-          return redirect($isValid);  
+          return redirect($isValid);
         }
-        
+
 
         if($content_record){
             if($record->is_paid) {
@@ -148,12 +148,12 @@ class StudentLmsController extends Controller
         $data['title']              = $record->title;
         $data['item']               = $record;
         $data['content_record']     = $content_record;
-    
+
         $data['layout']              = getLayout();
 
        return view('student.lms.series-view-item', $data);
     }
-  
+
     /**
      * This method is used to verify the user is buy the item or not
      * if user buy that file is going to downloded
@@ -165,20 +165,20 @@ class StudentLmsController extends Controller
     {
 
       if(!checkRole(getUserGrade(13)))
-      { 
+      {
         prepareBlockUserMessage();
         return back();
       }
-        $record = LmsSeries::getRecordWithSlug($slug); 
-        
+        $record = LmsSeries::getRecordWithSlug($slug);
+
         if($isValid = $this->isValidRecord($record))
-          return redirect($isValid);  
-       
+          return redirect($isValid);
+
           $content_record = LmsContent::getRecordWithSlug($content_slug);
-          
+
           if($isValid = $this->isValidRecord($content_record))
-          return redirect($isValid);  
-     
+          return redirect($isValid);
+
          if($content_record){
             if($record->is_paid) {
             if(!isItemPurchased($record->id, 'lms'))
@@ -186,9 +186,9 @@ class StudentLmsController extends Controller
                 return back();
             }
             else{
-             
+
              $pathToFile= "uploads/lms/content"."/".$content_record->file_path;
-              
+
               return Response::download($pathToFile);
 
             }
@@ -196,12 +196,12 @@ class StudentLmsController extends Controller
 
           else{
             $pathToFile= "uploads/lms/content"."/".$content_record->file_path;
-              
+
               return Response::download($pathToFile);
           }
         }
         else{
-          flash('Ooops','File Does Not Exit','overlay');
+          flash(getPhrase('Ooops'),getPhrase('File_Does_Not_Exit'),'overlay');
           return back();
         }
 
@@ -221,7 +221,7 @@ class StudentLmsController extends Controller
     		$category_record = Lmscategory::getRecordWithSlug($category);
     		$query->where('category_id',$category_record->id);
     	}
-    	
+
     	$data['category'] = $category;
     	$data['content_type'] = $req_content_type;
 
@@ -262,21 +262,21 @@ class StudentLmsController extends Controller
     	$data['active_class']       = 'lms';
 	    $data['title']              = $record->title;
 	    $data['category']           = $record->category;
-	    
+
 	    $data['record']             = $record;
-	    
+
 	    $data['content_type'] 		= $this->getContentTypeFullName($record->content_type);
  		$data['series'] 			= array();
  		if($record->is_series){
  			$parent_id = $record->id;
- 			
+
  			if($record->parent_id != 0)
  				$parent_id = $record->parent_id;
  			$data['series'] 		= LmsContent::where('parent_id', $parent_id)->get();
  		}
- 		
-		return view('student.lms.show-content', $data);  
-    	 
+
+		return view('student.lms.show-content', $data);
+
 
     }
 
@@ -284,7 +284,7 @@ class StudentLmsController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -296,6 +296,6 @@ class StudentLmsController extends Controller
     	return URL_LMS_CONTENT;
     }
 
-    
+
 
 }

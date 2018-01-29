@@ -18,7 +18,7 @@ use Auth;
 use App\Paypal;
 use App\Payment;
 use Input;
-use Softon\Indipay\Facades\Indipay;  
+use Softon\Indipay\Facades\Indipay;
 use Excel;
 use Carbon;
 use Exception;
@@ -42,7 +42,7 @@ class PaymentsController extends Controller
 
        if(!isEligible($slug))
           return back();
-      
+
     	$user = getUserWithSlug($slug);
 
       $data['is_parent']           = 0;
@@ -64,7 +64,7 @@ class PaymentsController extends Controller
       	$rec = Payment::where('id',$record->id)->first();
       	$this->isExpired($rec);
       }
-        
+
     	return view('student.payments.list', $data);
     }
 
@@ -82,9 +82,9 @@ class PaymentsController extends Controller
       $records = Payment::join('users', 'users.id','=','payments.user_id')
       ->where('users.parent_id','=',$user->id)
      ->select(['users.image', 'users.name',  'item_name', 'plan_type', 'start_date', 'end_date', 'payment_gateway','payments.updated_at','payment_status','payments.cost', 'payments.after_discount', 'payments.paid_amount','payments.id' ]);
-  
-      
-       
+
+
+
         $ind = 0;
 
         foreach($childs_list as $child) {
@@ -103,16 +103,16 @@ class PaymentsController extends Controller
 
     }
     else {
-		 
+
      $records = Payment::select(['item_name', 'plan_type', 'start_date', 'end_date', 'payment_gateway', 'updated_at','payment_status','id','cost', 'after_discount', 'paid_amount'])
 		 ->where('user_id', '=', $user->id)
             ->orderBy('updated_at', 'desc');
     }
-      
+
         $dta = Datatables::of($records)
-        
+
         ->addColumn('action', function ($records) {
-        	if(!($records->payment_status==PAYMENT_STATUS_CANCELLED || $records->payment_status==PAYMENT_STATUS_PENDING)) { 
+        	if(!($records->payment_status==PAYMENT_STATUS_CANCELLED || $records->payment_status==PAYMENT_STATUS_PENDING)) {
           		$link_data = ' <a >View More</a>';
             	return $link_data;
         	}
@@ -161,17 +161,17 @@ class PaymentsController extends Controller
 
         if($is_parent) {
           $dta = $dta->editColumn('image', function($records) {
-             return '<img src="'.getProfilePath($records->image).'"  /> '; 
+             return '<img src="'.getProfilePath($records->image).'"  /> ';
           })
           ->editColumn('name', function($records)
           {
             return ucfirst($records->name);
           });
         }
-         
-        return $dta->make();    	
+
+        return $dta->make();
     }
-    
+
     /**
      * This method identifies the type of package user is requesting and redirects to the payment gateway
      * The payments are categorized to 3 modules
@@ -185,10 +185,10 @@ class PaymentsController extends Controller
     public function paynow(Request $request, $slug)
     {
 
-    
-      
+
+
      $type = $request->type;
-    
+
     	/**
     	 * Get the Item Details based on Type supplied type
     	 * If item is valid, prepare the data to save after successfull payment
@@ -202,19 +202,19 @@ class PaymentsController extends Controller
       {
       	dd('failed');
       }
-      
+
       $other_details = array();
       $other_details['is_coupon_applied'] = $request->is_coupon_applied;
       $other_details['actual_cost'] 		  = $request->actual_cost;
       $other_details['discount_availed'] 	= $request->discount_availed;
       $other_details['after_discount']    = $request->after_discount;
       $other_details['coupon_id']         = $request->coupon_id;
-      
+
       $other_details['paid_by_parent']    = $request->parent_user;
       $other_details['child_id'] 		      = $request->selected_child_id;
 
       /**
-       * If the total amount is 0 after coupon code is applied, 
+       * If the total amount is 0 after coupon code is applied,
        * once validate is user is really getting the discount after the coupon is applied
        * then give subscription for the package
        * @var [type]
@@ -224,29 +224,29 @@ class PaymentsController extends Controller
          $token = $this->preserveBeforeSave($item,$type, $request->gateway, $other_details,1);
          if($this->validateAndApproveZeroDiscount($token, $request))
          {
-            //Valid 
-            flash('success', 'your_subscription_was_successfull', 'overlay');
+            //Valid
+            flash(getPhrase('success'), getPhrase('your_subscription_was_successfull'), 'overlay');
             $user = Auth::user();
             return redirect(URL_PAYMENTS_LIST.$user->slug);
          }
          else {
             //Cheat
-            flash('Ooops...!', 'invalid_payment_or_coupon_code', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('invalid_payment_or_coupon_code'), 'overlay');
             $user = Auth::user();
             return redirect(URL_PAYMENTS_LIST.$user->slug);
          }
-         
+
          return back();
       }
 
-     
+
       $payment_gateway = $request->gateway;
       if($payment_gateway == 'payu')
       {
 
         if(!getSetting('payu', 'module'))
         {
-            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
+            flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
             return back();
         }
 
@@ -269,18 +269,18 @@ class PaymentsController extends Controller
                           'surl'      => URL_PAYU_PAYMENT_SUCCESS.'?token='.$token,
                           'furl'      => URL_PAYU_PAYMENT_CANCEL.'?token='.$token,
                        ];
-      
+
       return Indipay::purchase($parameters);
 
         // URL_PAYU_PAYMENT_SUCCESS
         // URL_PAYU_PAYMENT_CANCEL
       }
-       else if($payment_gateway=='paypal') 
+       else if($payment_gateway=='paypal')
       {
 
         if(!getSetting('paypal', 'module'))
         {
-            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
+            flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
             return back();
         }
 
@@ -294,12 +294,12 @@ class PaymentsController extends Controller
         $paypal->add($item->title, $request->after_discount); //ADD  item
         $paypal->pay(); //Proccess the payment
       }
-      else if($payment_gateway=='offline') 
+      else if($payment_gateway=='offline')
       {
-        
+
         if(!getSetting('offline_payment', 'module'))
         {
-            flash('Ooops...!', 'this_payment_gateway_is_not_available', 'error');          
+            flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
             return back();
         }
 
@@ -316,7 +316,7 @@ class PaymentsController extends Controller
         $data['layout']       = getLayout();
         $data['title']        = getPhrase('offline_payment');
         return view('payments.offline-payment', $data);
- 
+
       }
 
     	// dd('please wait...');
@@ -364,7 +364,7 @@ class PaymentsController extends Controller
     	{
     		//FAILED PAYMENT RECORD UPDATED SUCCESSFULLY
     		//PREPARE SUCCESS MESSAGE
-    		  flash('Ooops...!', 'your_payment_was cancelled', 'overlay');
+    		  flash(getPhrase('Ooops'), getPhrase('your_payment_was_cancelled'), 'overlay');
     	}
     	else {
     	//PAYMENT RECORD IS NOT VALID
@@ -375,7 +375,7 @@ class PaymentsController extends Controller
     	//REDIRECT THE USER BY LOADING A VIEW
     	$user = Auth::user();
     	return redirect(URL_PAYMENTS_LIST.$user->slug);
-    	 
+
     }
 
 
@@ -391,9 +391,9 @@ class PaymentsController extends Controller
     	{
     		//PAYMENT RECORD UPDATED SUCCESSFULLY
     		//PREPARE SUCCESS MESSAGE
-    		  flash('success', 'your_subscription_was_successfull', 'overlay');
+    		  flash(getPhrase('success'), getPhrase('your_subscription_was_successfull'), 'overlay');
            $email_template = 'subscription_success';
-          sendEmail($email_template, array('username'=>$user->name, 
+          sendEmail($email_template, array('username'=>$user->name,
           'plan' => $package_name,
           'to_email' => $user->email));
 
@@ -404,9 +404,9 @@ class PaymentsController extends Controller
     	  pageNotFound();
     	}
 		//REDIRECT THE USER BY LOADING A VIEW
-	
+
     	return redirect(URL_PAYMENTS_LIST.$user->slug);
-    	
+
     }
 
 
@@ -415,18 +415,18 @@ class PaymentsController extends Controller
 
        $response = $request->all();
         $package_name = ucwords($response['productinfo']);
- 
+
          $user = Auth::user();
         if($this->paymentSuccess($request))
       {
         //PAYMENT RECORD UPDATED SUCCESSFULLY
         //PREPARE SUCCESS MESSAGE
-        
+
         $email_template = 'subscription_success';
-          sendEmail($email_template, array('username'=>$user->name, 
+          sendEmail($email_template, array('username'=>$user->name,
           'plan' => $package_name,
           'to_email' => $user->email));
-          flash('success', 'your_subscription_was_successfull', 'overlay');
+          flash(getPhrase('success'), getPhrase('your_subscription_was_successfull'), 'overlay');
       }
         else {
       //PAYMENT RECORD IS NOT VALID
@@ -434,9 +434,9 @@ class PaymentsController extends Controller
         pageNotFound();
       }
     //REDIRECT THE USER BY LOADING A VIEW
-     
+
       return redirect(URL_PAYMENTS_LIST.$user->slug);
- 
+
     }
 
      public function payu_cancel(Request $request)
@@ -445,7 +445,7 @@ class PaymentsController extends Controller
       {
         //FAILED PAYMENT RECORD UPDATED SUCCESSFULLY
         //PREPARE SUCCESS MESSAGE
-          flash('Ooops...!', 'your_payment_was cancelled', 'overlay');
+          flash(getPhrase('Ooops'), getPhrase('your_payment_was_cancelled'), 'overlay');
       }
       else {
       //PAYMENT RECORD IS NOT VALID
@@ -456,13 +456,13 @@ class PaymentsController extends Controller
       //REDIRECT THE USER BY LOADING A VIEW
       $user = Auth::user();
       return redirect(URL_PAYMENTS_LIST.$user->slug);
-       
+
     }
 
 
     /**
      * This method saves the record before going to payment method
-     * The exact record can be identified by using the slug 
+     * The exact record can be identified by using the slug
      * By using slug we will fetch the record and update the payment status to completed
      * @param  [type] $item           [description]
      * @param  [type] $payment_method [description]
@@ -471,7 +471,7 @@ class PaymentsController extends Controller
     public function preserveBeforeSave($item, $package_type,$payment_method, $other_details,$coupon_zero=0)
     {
       $user = getUserRecord();
-     if($other_details['paid_by_parent']) 
+     if($other_details['paid_by_parent'])
 	      $user = getUserRecord($other_details['child_id']);
 
       $payment 					= new Payment();
@@ -488,9 +488,9 @@ class PaymentsController extends Controller
       if(!$coupon_zero)
       {
         if($payment_method=='offline')
-        $payment->notes = $other_details['payment_details'];  
+        $payment->notes = $other_details['payment_details'];
       }
-      
+
       $payment->save();
       return $payment->slug;
     }
@@ -502,23 +502,23 @@ class PaymentsController extends Controller
     protected function paymentFailed()
     {
     	$params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-    
+
      if(!count($params))
       return FALSE;
-    
+
       $slug = $params[1];
     	$payment_record = Payment::where('slug', '=', $slug)->first();
-     
+
      	if(!$this->processPaymentRecord($payment_record))
      	{
     		return FALSE;
      	}
-	
+
 		$payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
     	$payment_record->save();
-    	
+
     	return TRUE;
-    	 
+
     }
 
     /**
@@ -529,14 +529,14 @@ class PaymentsController extends Controller
     {
 
     	$params = explode('?token=',$_SERVER['REQUEST_URI']) ;
-    
+
      if(!count($params))
       return FALSE;
-    
+
       $slug = $params[1];
-   
+
     	$payment_record = Payment::where('slug', '=', $slug)->first();
-    	
+
     	if($this->processPaymentRecord($payment_record))
     	{
     		$payment_record->payment_status = PAYMENT_STATUS_SUCCESS;
@@ -546,7 +546,7 @@ class PaymentsController extends Controller
         {
           $item_model = new ExamSeries();
         }
-        
+
 
         if($payment_record->plan_type == 'exam') {
           $item_model = new Quiz();
@@ -557,13 +557,13 @@ class PaymentsController extends Controller
         }
 
     		$item_details = $item_model->where('id', '=',$payment_record->item_id)->first();
-    		 
-    		
+
+
         $daysToAdd = '+'.$item_details->validity.'days';
 
     		$payment_record->start_date = date('Y-m-d');
     		$payment_record->end_date = date('Y-m-d', strtotime($daysToAdd));
-    		
+
     		$details_before_payment         = (object)json_decode($payment_record->other_details);
         $payment_record->coupon_applied = $details_before_payment->is_coupon_applied;
         $payment_record->coupon_id      = $details_before_payment->coupon_id;
@@ -579,7 +579,7 @@ class PaymentsController extends Controller
     		//Capcture all the response from the payment.
     		//In case want to view total details, we can fetch this record
     		$payment_record->transaction_record = json_encode($request->request->all());
-    		
+
     		$payment_record->save();
 
         if($payment_record->coupon_applied)
@@ -647,7 +647,7 @@ class PaymentsController extends Controller
     }
 
     /**
-     * This method Process the payment record by validating through 
+     * This method Process the payment record by validating through
      * the payment status and the age of the record and returns boolen value
      * @param  Payment $payment_record [description]
      * @return [type]                  [description]
@@ -656,13 +656,13 @@ class PaymentsController extends Controller
     {
     	if(!$this->isValidPaymentRecord($payment_record))
     	{
-    		flash('Oops','invalid_record', 'error');
+    		flash(getPhrase('Ooops'),getPhrase('invalid_record'), 'error');
     		return FALSE;
     	}
 
     	if($this->isExpired($payment_record))
     	{
-    		flash('Oops','time_out', 'error');
+    		flash(getPhrase('Ooops'),getPhrase('time_out'), 'error');
     		return FALSE;
     	}
 
@@ -682,8 +682,8 @@ class PaymentsController extends Controller
       $record = $this->getModelName($type, $slug);
 
         if($isValid = $this->isValidRecord($record))
-          return redirect($isValid);  
-        
+          return redirect($isValid);
+
         $user = Auth::user();
         //Check if user is already paid to the same item and the item is in valid date
         if(Payment::isItemPurchased($record->id, $type, $user->id))
@@ -693,7 +693,7 @@ class PaymentsController extends Controller
           flash('Hey '.$user->name, 'you_already_purchased_this_item', 'overlay');
           return back();
         }
-        
+
         $active_class = 'lms';
         if($type == 'combo' || $type=='exam')
           $active_class = 'exams';
@@ -722,13 +722,13 @@ class PaymentsController extends Controller
 
     }
 
-    
+
 
     public function isValidRecord($record)
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -747,7 +747,7 @@ class PaymentsController extends Controller
      */
     public function updateOfflinePayment(Request $request)
     {
-     
+
       $payment_data = json_decode($request->payment_data);
       $item = $this->getPackageDetails($payment_data->type, $payment_data->item_name);
 
@@ -755,7 +755,7 @@ class PaymentsController extends Controller
       {
         dd('failed');
       }
-      
+
       $other_details = array();
       $other_details['is_coupon_applied'] = $payment_data->is_coupon_applied;
       $other_details['actual_cost']       = $payment_data->actual_cost;
@@ -768,7 +768,7 @@ class PaymentsController extends Controller
 
       $payment_gateway = $payment_data->gateway;
       $token = $this->preserveBeforeSave($item,$payment_data->type, $payment_gateway, $other_details);
-      flash('success', 'your_request_was_submitted_to_admin', 'overlay');          
+      flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
       return redirect(URL_PAYMENTS_LIST.Auth::user()->slug);
     }
  /**
@@ -787,22 +787,22 @@ class PaymentsController extends Controller
       }
       else {
         $user = getUserRecord($payment_record->user_id);
-        sendEmail('offline_subscription_failed', array('username'=>$user->name, 
+        sendEmail('offline_subscription_failed', array('username'=>$user->name,
           'plan' => $payment_record->plan_type,
           'to_email' => $user->email, 'admin_comment'=>$request->admin_comment));
 
          $payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
          $payment_record->admin_comments = $request->admin_comment;
-        
+
         $payment_record->save();
       }
 
-      flash('success', 'record_was_updated_successfully', 'overlay');
+      flash(getPhrase('success'), getPhrase('record_was_updated_successfully'), 'overlay');
     }
     catch(Exception $ex){
 
       $message = $ex->getMessage();
-      flash('Oops..!', $message, 'overlay');
+      flash(getPhrase('Ooops'), $message, 'overlay');
     }
       return redirect(URL_OFFLINE_PAYMENT_REPORTS);
     }
@@ -813,14 +813,14 @@ class PaymentsController extends Controller
 
       $payments = Payment::where('payment_status', '=', 'success')->get();
       $payments = Payment::all();
-      
+
       $data['active_class']       = 'analysis';
       $data['title']              = getPhrase('quiz_attempts');
       $data['exam_record']        = $exam_record;
-      
+
         $data['layout']             = getLayout();
 
-      return view('payments.reports.overall-analysis', $data);  
+      return view('payments.reports.overall-analysis', $data);
     }
 
 
@@ -849,7 +849,7 @@ class PaymentsController extends Controller
       $data['payment_mode']        = 'online';
       $data['layout']              = getLayout();
       $data['module_helper']      = getModuleHelper('payments-list-online');
-      return view('payments.reports.payments-report', $data);  
+      return view('payments.reports.payments-report', $data);
     }
 
     /**
@@ -877,7 +877,7 @@ class PaymentsController extends Controller
         $data['payments_mode']      = getPhrase('online_payments');
         if($slug=='all'){
            $data['title']              = getPhrase('all_payments');
-       
+
         }
         elseif($slug=='success'){
         $data['title']              = getPhrase('success_list');
@@ -891,7 +891,7 @@ class PaymentsController extends Controller
         $data['layout']             = getLayout();
         $data['ajax_url']           = URL_ONLINE_PAYMENT_REPORT_DETAILS_AJAX.$slug;
         $data['payment_mode']       = 'online';
-        return view('payments.reports.payments-report-list', $data);   
+        return view('payments.reports.payments-report-list', $data);
     }
 
     public function updatePaymentTransactionRecords($records)
@@ -912,7 +912,7 @@ class PaymentsController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-    
+
      $records = Payment::join('users', 'users.id','=','payments.user_id')
 
      ->select(['users.image', 'users.name',  'item_name', 'plan_type', 'start_date', 'end_date', 'payment_gateway','payments.updated_at','payment_status','payments.cost', 'payments.after_discount', 'payments.paid_amount','payments.id' ])
@@ -921,7 +921,7 @@ class PaymentsController extends Controller
      if($slug!='all')
       $records->where('payment_status', '=', $slug);
       return Datatables::of($records)
-      
+
         ->editColumn('payment_status',function($records){
 
           $rec = '';
@@ -934,13 +934,13 @@ class PaymentsController extends Controller
           return $rec;
         })
         ->editColumn('image', function($records) {
-           return '<img src="'.getProfilePath($records->image).'"  /> '; 
+           return '<img src="'.getProfilePath($records->image).'"  /> ';
         })
         ->editColumn('name', function($records)
         {
           return ucfirst($records->name);
         })
-        
+
         ->editColumn('plan_type', function($records)
         {
           return ucfirst($records->plan_type);
@@ -968,11 +968,11 @@ class PaymentsController extends Controller
             return '-';
           return $records->end_date;
         })
-        
+
         ->removeColumn('id')
         ->removeColumn('users.image')
         ->removeColumn('action')
-        ->make();     
+        ->make();
     }
 
 
@@ -1000,7 +1000,7 @@ class PaymentsController extends Controller
       $data['layout']             = getLayout();
       $data['module_helper']      = getModuleHelper('payments-list-offline');
 
-      return view('payments.reports.payments-report', $data);  
+      return view('payments.reports.payments-report', $data);
     }
 
     /**
@@ -1021,7 +1021,7 @@ class PaymentsController extends Controller
         $data['payments_mode']      = getPhrase('offline_payments');
          if($slug=='all'){
            $data['title']              = getPhrase('all_payments');
-       
+
         }
         elseif($slug=='success'){
         $data['title']              = getPhrase('success_list');
@@ -1031,16 +1031,16 @@ class PaymentsController extends Controller
           }
        elseif($slug='cancelled'){
            $data['title']              = getPhrase('cancelled_list');
-         }   
+         }
         $data['layout']             = getLayout();
         $data['ajax_url']           = URL_OFFLINE_PAYMENT_REPORT_DETAILS_AJAX.$slug;
         $data['payment_mode']       = 'offline';
 
-        return view('payments.reports.payments-report-list', $data);   
+        return view('payments.reports.payments-report-list', $data);
     }
 
     /**
-     * This method gets the list of records 
+     * This method gets the list of records
      * @param  [type] $slug [description]
      * @return [type]       [description]
      */
@@ -1051,7 +1051,7 @@ class PaymentsController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-    
+
      $records = Payment::join('users', 'users.id','=','payments.user_id')
 
      ->select(['users.image', 'users.name',  'item_name', 'plan_type', 'start_date', 'end_date', 'payment_gateway', 'payments.updated_at','payment_status','payments.id','payments.cost', 'payments.after_discount', 'payments.paid_amount'])
@@ -1060,7 +1060,7 @@ class PaymentsController extends Controller
      if($slug!='all')
       $records->where('payment_status', '=', $slug);
       return Datatables::of($records)
-      
+
         ->editColumn('payment_status',function($records){
 
           $rec = '';
@@ -1074,7 +1074,7 @@ class PaymentsController extends Controller
           return $rec;
         })
         ->editColumn('image', function($records){
-           return '<img src="'.getProfilePath($records->image).'"  /> '; 
+           return '<img src="'.getProfilePath($records->image).'"  /> ';
         })
         ->editColumn('name', function($records)
         {
@@ -1091,9 +1091,9 @@ class PaymentsController extends Controller
         }
           return $text;
         })
-        
+
         ->editColumn('plan_type', function($records)
-        { 
+        {
           if($records->plan_type=='lms'){
             return 'LMS';
           }
@@ -1111,11 +1111,11 @@ class PaymentsController extends Controller
             return '-';
           return $records->end_date;
         })
-        
+
         ->removeColumn('id')
         ->removeColumn('users.image')
         ->removeColumn('action')
-        ->make();     
+        ->make();
     }
 
     /**
@@ -1165,7 +1165,7 @@ class PaymentsController extends Controller
                             ->where('payment_status', '=', $status)
                             ->count();
         }
-      }      
+      }
       else if($type=='offline')
       {
          if($status=='')
@@ -1176,7 +1176,7 @@ class PaymentsController extends Controller
           $count = Payment::where('payment_gateway', '=', 'offline')
                             ->where('payment_status', '=', $status)
                             ->count();
-        } 
+        }
       }
 
 
@@ -1195,13 +1195,13 @@ class PaymentsController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-        
+
             $payment_dataset = [$payment_data->success, $payment_data->cancelled, $payment_data->pending];
             $payment_labels = [getPhrase('success'), getPhrase('cancelled'), getPhrase('pending')];
             $payment_dataset_labels = [getPhrase('total')];
 
             $payment_bgcolor = [getColor('',4),getColor('',9),getColor('',18)];
-            $payment_border_color = [getColor('background',4),getColor('background',9),getColor('background',18)]; 
+            $payment_border_color = [getColor('background',4),getColor('background',9),getColor('background',18)];
 
           $payments_stats['data']    = (object) array(
                                         'labels'            => $payment_labels,
@@ -1210,7 +1210,7 @@ class PaymentsController extends Controller
                                         'bgcolor'           => $payment_bgcolor,
                                         'border_color'      => $payment_border_color
                                         );
-           $payments_stats['type'] = 'bar'; 
+           $payments_stats['type'] = 'bar';
              $payments_stats['title'] = getPhrase('overall_statistics');
 
            return $payments_stats;
@@ -1229,13 +1229,13 @@ class PaymentsController extends Controller
       }
           $paymentObject = new App\Payment();
             $payment_data = (object)$paymentObject->getSuccessMonthlyData('',$type, $symbol);
-            
+
 
             $payment_dataset = [];
             $payment_labels = [];
             $payment_dataset_labels = [getPhrase('total')];
             $payment_bgcolor = [];
-            $payment_border_color = []; 
+            $payment_border_color = [];
 
 
             foreach($payment_data as $record)
@@ -1255,8 +1255,8 @@ class PaymentsController extends Controller
                                         'bgcolor'           => $payment_bgcolor,
                                         'border_color'      => $payment_border_color
                                         );
-           $payments_stats['type'] = 'line'; 
-           $payments_stats['title'] = getPhrase('payments_reports_in').' '.getCurrencyCode(); 
+           $payments_stats['type'] = 'line';
+           $payments_stats['title'] = getPhrase('payments_reports_in').' '.getCurrencyCode();
 
            return $payments_stats;
     }
@@ -1277,7 +1277,7 @@ class PaymentsController extends Controller
         $data['layout']             = getLayout();
         $data['record']             = FALSE;
 
-        return view('payments.reports.payments-export', $data);        
+        return view('payments.reports.payments-export', $data);
     }
 
     public function doExportPayments(Request $request)
@@ -1304,7 +1304,7 @@ class PaymentsController extends Controller
         $record_type  = $request->all_records;
         $from_date = '';
         $to_date = '';
-        
+
         if(!$record_type)
         {
           $from_date = $request->from_date;
@@ -1312,17 +1312,17 @@ class PaymentsController extends Controller
         }
         $records = [];
         $query = '';
-        
+
         if($payment_status=='all' && $payment_type=='all' && $record_type=='1')
         {
 
           $query =  Payment::whereRaw("1 = 1");
         }
         else {
-        
+
             if($record_type==0)
             {
-              $query = Payment::where('created_at', '>=', $from_date) 
+              $query = Payment::where('created_at', '>=', $from_date)
                                 ->where('created_at', '<=', $to_date);
 
             }
@@ -1330,7 +1330,7 @@ class PaymentsController extends Controller
 
               $query =  Payment::whereRaw("1 = 1");
             }
-            
+
             if($payment_type!='all')
             {
 
@@ -1348,14 +1348,14 @@ class PaymentsController extends Controller
             {
               $query->where('payment_status', '=', $payment_status);
             }
- 
-          
+
+
         }
         $records = $query->get();
         $this->payment_records = $records;
 
      $this->downloadExcel();
-       
+
     }
 
 public function getPaymentRecords()
@@ -1383,7 +1383,7 @@ public function getPaymentRecords()
         $cnt++;
       }
     });
- 
+
 
     })->download('xlsx');
 }
@@ -1408,24 +1408,24 @@ public function getPaymentRecord(Request $request)
 
 public function validateAndApproveZeroDiscount($token, Request $request)
 {
-  
+
     $payment_record = Payment::where('slug','=',$token)->first();
-    
-     
+
+
     return $this->approvePayment($payment_record,$request, 1);
-     
+
 }
 
 public function approvePayment(Payment $payment_record,Request $request ,$iscoupon_zero = 0)
 {
-  
-      
+
+
 
         if($payment_record->plan_type == 'combo')
         {
-          $item_model = new ExamSeries(); 
+          $item_model = new ExamSeries();
         }
-        
+
 
         if($payment_record->plan_type == 'exam') {
           $item_model = new Quiz();
@@ -1434,14 +1434,14 @@ public function approvePayment(Payment $payment_record,Request $request ,$iscoup
         if($payment_record->plan_type == 'lms') {
           $item_model = new LmsSeries();
         }
-        
+
         $item_details = $item_model->where('id', '=',$payment_record->item_id)->first();
-         
+
         $daysToAdd = '+'.$item_details->validity.'days';
 
         $payment_record->start_date = date('Y-m-d');
         $payment_record->end_date = date('Y-m-d', strtotime($daysToAdd));
-        
+
         $details_before_payment         = (object)json_decode($payment_record->other_details);
         $payment_record->coupon_applied = $details_before_payment->is_coupon_applied;
         $payment_record->coupon_id      = $details_before_payment->coupon_id;
@@ -1453,20 +1453,20 @@ public function approvePayment(Payment $payment_record,Request $request ,$iscoup
           $payment_record->admin_comments = $request->admin_comment;
 
         $payment_record->payment_status = PAYMENT_STATUS_SUCCESS;
-        
+
         $user = getUserRecord($payment_record->user_id);
 
         $email_template = 'offline_subscription_success';
 
         if($iscoupon_zero){
           $email_template = 'subscription_success';
-          sendEmail($email_template, array('username'=>$user->name, 
+          sendEmail($email_template, array('username'=>$user->name,
           'plan' => $payment_record->plan_type,
           'to_email' => $user->email));
 
         }
         else {
-          sendEmail($email_template, array('username'=>$user->name, 
+          sendEmail($email_template, array('username'=>$user->name,
           'plan' => $payment_record->plan_type,
           'to_email' => $user->email, 'admin_comment'=>$request->admin_comment));
         }
@@ -1480,5 +1480,5 @@ public function approvePayment(Payment $payment_record,Request $request ,$iscoup
 
         return TRUE;
 }
-    
+
 }

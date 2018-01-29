@@ -74,9 +74,9 @@ class CourseSubjectsController extends Controller
                          <li><a href="' . URL_MASTERSETTINGS_COURSE_SUBJECTS_GET_COURSE_SUBJECTS_SHOW . $records->academic_id . '/' . $records->course_id . '"><i class="icon-eye"></i>' . getPhrase("view") . '</a></li>
 
                           <li><a href="' . URL_COURSE_SUBJECTS_ADD_STAFF . $records->academic_id . '/' . $records->course_id . '"><img src="' . IMAGE_TEACHER_ICON . '">' . getPhrase("allocate_staff") . '</a></li>
-                         
-                            
-                            
+
+
+
                             <li><a href="javascript:void(0);" onclick="deleteRecordCustom(' . $records->academic_id . ',' . $records->course_id . ');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
                         </ul>
                     </div>';
@@ -227,15 +227,15 @@ class CourseSubjectsController extends Controller
             DB::rollBack();
             $exception_occured = 1;
             if (getSetting('show_foreign_key_constraint', 'module')) {
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data_in_the_question', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data_in_the_question'), 'error');
             }
 
         }
 
         if (!$exception_occured) {
-            flash('success', 'record_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
             DB::commit();
 
         }
@@ -443,7 +443,7 @@ class CourseSubjectsController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -663,15 +663,15 @@ class CourseSubjectsController extends Controller
             DB::rollBack();
             $exception_occured = 1;
             if (getSetting('show_foreign_key_constraint', 'module')) {
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data_in_the_question', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data_in_the_question'), 'error');
             }
 
         }
 
         if (!$exception_occured) {
-            flash('success', 'record_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
             DB::commit();
 
         }

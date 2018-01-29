@@ -22,9 +22,9 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
-       
+
     ];
-    
+
 
     /**
      * Report or log an exception.
@@ -46,8 +46,8 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
- 
-    
+
+
     /**
      * Render an exception into a response.
      *
@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
     {
 
         if ($e instanceof \Illuminate\Session\TokenMismatchException) {
-              flash('Ooops...!', 'token_mismatch_exception', 'error');
+              flash(getPhrase('Ooops'), getPhrase('token_mismatch_exception'), 'error');
               return redirect()->back()->withInput($request->except('_token'));
         }
 
@@ -69,5 +69,5 @@ class Handler extends ExceptionHandler
         }
         return parent::render($request, $e);
     }
-    
+
 }

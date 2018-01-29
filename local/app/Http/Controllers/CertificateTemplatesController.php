@@ -45,14 +45,14 @@ class CertificateTemplatesController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-       
-         $records = CertificateTemplate::select([   
+
+         $records = CertificateTemplate::select([
          	'title', 'subject', 'type',  'id','slug'])
          ->orderBy('updated_at', 'desc');
-       
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,13 +60,13 @@ class CertificateTemplatesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_MASTERSETTINGS_CERTIFICATE_TEMPLATES_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                        
+
                         </ul>
                     </div>';
             })
         ->removeColumn('id')
         ->removeColumn('slug')
-        
+
         ->make();
     }
 
@@ -92,7 +92,7 @@ class CertificateTemplatesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -134,13 +134,13 @@ class CertificateTemplatesController extends Controller
          'subject'             => 'bail|required' ,
          ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->title;
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
         $this->validate($request, $rules);
         $record->title              = $request->title;
@@ -150,7 +150,7 @@ class CertificateTemplatesController extends Controller
         $record->updated_by         = Auth::user()->id;
         $record->save();
 
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_MASTERSETTINGS_CERTIFICATE_TEMPLATES);
     }
 
@@ -161,17 +161,17 @@ class CertificateTemplatesController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);   
+        // dd($request);
         if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
         return back();
       }
-       
+
 	    $rules = [
          'title'          	   => 'bail|required|max:30' ,
          'subject'             => 'bail|required|max:30' ,
-         
+
             ];
         $this->validate($request, $rules);
         $record = new CertificateTemplate();
@@ -183,17 +183,17 @@ class CertificateTemplatesController extends Controller
         $record->subject			= $request->subject;
         $record->updated_by 	    = Auth::user()->id;
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_MASTERSETTINGS_CERTIFICATE_TEMPLATES);
     }
- 
-  
+
+
 
     public function isValidRecord($record)
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -204,5 +204,5 @@ class CertificateTemplatesController extends Controller
     {
     	return URL_MASTERSETTINGS_CERTIFICATE_TEMPLATES;
     }
-   
+
 }

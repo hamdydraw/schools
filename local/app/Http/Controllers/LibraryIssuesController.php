@@ -29,9 +29,9 @@ class LibraryIssuesController extends Controller
     }
 
 
-    
+
     public function users($role_name = 'student')
-    {  
+    {
 
          if(!checkRole(getUserGrade(9)))
       {
@@ -42,10 +42,10 @@ class LibraryIssuesController extends Controller
         $data['active_class']       = 'library';
           }
         elseif(checkRole(getUserGrade(15)) && $role_name=='staff'){
-          $data['active_class']     = 'staff';  
+          $data['active_class']     = 'staff';
         }
         else{
-          $data['active_class']     = 'students';  
+          $data['active_class']     = 'students';
         }
         $data['user_type']          = $role_name;
         $data['layout']             = getLayout();
@@ -55,15 +55,15 @@ class LibraryIssuesController extends Controller
           if($role_name =='staff'){
         $data['title']              = getPhrase('staff_users');
          }
-        
+
         if($role_name == 'student')
         $data['table_columns']      = ['roll_no', 'image', 'first_name', 'last_name', 'email'];
-        
+
         else if($role_name == 'staff')
         $data['table_columns']      = ['staff_id', 'image', 'first_name', 'last_name', 'email'];
         $data['module_helper']      = getModuleHelper('library-users-list');
 
-        return view('library.users.list', $data);        
+        return view('library.users.list', $data);
     }
 
     public function getUsers($role_name='student')
@@ -117,7 +117,7 @@ class LibraryIssuesController extends Controller
         }
 
 
-        
+
     }
 
     public function issueAsset($slug)
@@ -127,36 +127,36 @@ class LibraryIssuesController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-         $record = User::getRecordWithSlug($slug);  
+         $record = User::getRecordWithSlug($slug);
          if($isValid = $this->isValidRecord($record))
-            return redirect($isValid);      
-         
+            return redirect($isValid);
+
          $role = getRoleData($record->role_id);
-         
+
 
             $data['active_class']       = 'library';
             $data['user']               = $record;
-            
+
             if($role == 'student')
                 $data['student']            = $record->student;
-            
+
             if($role=='staff')
                 $data['staff']            = $record->staff;
-            
+
             $data['title']              = getPhrase('issue_asset');
 
             if($role == 'student')
             $data['table_columns']      = ['roll_no', 'image', 'first_name', 'last_name', 'email'];
-            
+
             if($role == 'staff')
             $data['table_columns']      = ['staff_id', 'image', 'first_name', 'last_name', 'email'];
-            
+
             $data['role']               = $role;
            $data['layout']               = getLayout();
           $data['module_helper']      = getModuleHelper('library-users-issue-book');
 
 
-            return view('library.users.issue', $data);                      
+            return view('library.users.issue', $data);
 
 
     }
@@ -165,7 +165,7 @@ class LibraryIssuesController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -179,46 +179,46 @@ class LibraryIssuesController extends Controller
 
     public function getReference(Request $request)
     {
-    	
+
     	 $term = strtolower($request->term);
 
-    
-    
-    $list = App\LibraryInstance::where('asset_no','like','%'.$term.'%') 
+
+
+    $list = App\LibraryInstance::where('asset_no','like','%'.$term.'%')
                 ->where('status', '=', 'available')
                 ->where('asset_type', '=', 'general')
                 ->where('asset_type', '!=', 'reference')
                ->get();
-            
+
     $return_array = array();
 
     foreach ($list as $l) {
             $return_array[] = array('value' => $l->asset_no, 'id' =>$l->id);
     }
-   
+
     return Response::json($return_array);
     }
 
 
     public function getstaffReference(Request $request)
     {
-        
+
          $term = strtolower($request->term);
 
-    
-    
-    $list = App\LibraryInstance::where('asset_no','like','%'.$term.'%') 
+
+
+    $list = App\LibraryInstance::where('asset_no','like','%'.$term.'%')
                 ->where('status', '=', 'available')
                 ->where('asset_type', '=', 'staff')
                 ->where('asset_type', '!=', 'reference')
                ->get();
-            
+
     $return_array = array();
 
     foreach ($list as $l) {
             $return_array[] = array('value' => $l->asset_no, 'id' =>$l->id);
     }
-   
+
     return Response::json($return_array);
     }
 
@@ -243,7 +243,7 @@ class LibraryIssuesController extends Controller
 	    	$details .= '<li><span>'.getPhrase('total').'</span> <strong>'.$asset->total_assets_count.'</strong></li>';
 	    	$details .= '<li><span>'.getPhrase('available').'</span> <strong>'.$asset->total_assets_available.'</strong></li>';
     	}
-    	
+
     	$librarySettings =  getLibrarySettings();
     	/**
     	 * The follwoing call will check the eligiblity of that user
@@ -290,7 +290,7 @@ class LibraryIssuesController extends Controller
 		$data['master_details'] = $details;
 		$data['instance_details'] = $instance_details;
 		$data['button'] = $button;
-		 
+
     	return Response::json($data);
     }
 
@@ -310,11 +310,11 @@ class LibraryIssuesController extends Controller
     	$user_record = App\User::where('id','=',$user_id)->first();
         $role = getRoleData($user_record->role_id);
     	$current_records = (new LibraryIssue())->getCurrentIssuedRecords($user_id);
-        
+
         $student_maximum_issues = getSetting('maximum_issues_student','library_settings');
         if($role=='staff')
         $student_maximum_issues = getSetting('maximum_issues_staff','library_settings');
-        
+
     	$message = '<p>The user is eligible to take '. ($student_maximum_issues - count($current_records)) . ' item(s)</p>';
     	$is_eligible = TRUE;
     	if($student_maximum_issues <= count($current_records))
@@ -325,13 +325,13 @@ class LibraryIssuesController extends Controller
     	/**
     	 * Check if user is attempting to take same master record
     	 */
-    	 
+
     	if(count($current_records)>0 && $is_eligible)
     	{
     		foreach($current_records as $record) {
     			if($asset->id == $record->master_asset_id)
     			{
-    				  
+
     				$is_eligible = FALSE;
     				$message .='<p style="color:red">The same item is already issued</p>';
     				break;
@@ -344,14 +344,14 @@ class LibraryIssuesController extends Controller
 
     public function store(Request $request)
     {
-    	  
+
 
     	$this->validate($request, [
     		'master_asset_id' 		=> 'bail|required|integer',
     		'library_instance_id' 	=> 'bail|required|integer',
     		'user_id'				=> 'bail|required|integer',
     		]);
-    	
+
     	// $librarySettings = getLibrarySettings();
         $student_maximum_days_to_return = getSetting('maximum_days_to_return_student','library_settings');
     	$user = User::where('id','=',$request->user_id)->first();
@@ -372,7 +372,7 @@ class LibraryIssuesController extends Controller
 
     	(new App\LibraryInstance())->updateInstanceRecord($record->library_instance_id, 'issued');
 
-    	flash('success','asset_issued_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('asset_issued_successfully'), 'success');
        return redirect('library/issue/'.$user->slug);
     }
 
@@ -397,11 +397,11 @@ class LibraryIssuesController extends Controller
         $instance_id    = $request->instance_id;
         $master_id      = $request->master_id;
         $record = LibraryIssue::where('id','=',$issue_id)->get()->first();
-        
+
         //Validate if the same user has taken this record?
         if($record->user_id != $user_id)
         {
-            flash('error','asset_not_belongs_to_this_user', 'error');
+            flash(getPhrase('Ooops'),getPhrase('asset_not_belongs_to_this_user'), 'error');
             return redirect(URL_LIBRARY_ISSUES.$slug);
         }
 
@@ -409,14 +409,14 @@ class LibraryIssuesController extends Controller
         $record->return_on = Carbon::now();
         $record->record_updated_by = Auth::user()->id;
         $record->save();
-        
+
         (new App\LibraryInstance())->updateInstanceRecord($record->library_instance_id, 'available');
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
        return redirect(URL_LIBRARY_LIBRARYDASHBOARD_BOOKS);
-    } 
+    }
 
      public function returnStaffAsset(Request $request)
-    { 
+    {
          if(!checkRole(getUserGrade(9)))
       {
         prepareBlockUserMessage();
@@ -428,11 +428,11 @@ class LibraryIssuesController extends Controller
         $instance_id    = $request->instance_id;
         $master_id      = $request->master_id;
         $record = LibraryIssue::where('id','=',$issue_id)->get()->first();
-        
+
         //Validate if the same user has taken this record?
         if($record->user_id != $user_id)
         {
-            flash('error','asset_not_belongs_to_this_user', 'error');
+            flash(getPhrase('Ooops'),getPhrase('asset_not_belongs_to_this_user'), 'error');
             return redirect(URL_LIBRARY_ISSUES.$slug);
         }
 
@@ -440,9 +440,9 @@ class LibraryIssuesController extends Controller
         $record->return_on = Carbon::now();
         $record->record_updated_by = Auth::user()->id;
         $record->save();
-        
+
         (new App\LibraryInstance())->updateInstanceRecord($record->library_instance_id, 'available');
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
        return redirect(URL_LIBRARY_LIBRARYDASHBOARD_BOOKS_STAFF);
     }
 

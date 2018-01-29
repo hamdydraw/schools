@@ -102,7 +102,7 @@
 
 							{{ Form::label('total_marks', getphrase('total_marks')) }}
 							<span class="text-red">*</span>
-							{{ Form::text('total_marks', $value = null , $attributes = array('class'=>'form-control','readonly'=>'true' ,'placeholder' => getPhrase('It will be updated by adding the questions'))) }}
+							{{ Form::text('total_marks', $value = null , $attributes = array('class'=>'form-control','readonly'=>'true' ,'placeholder' => getPhrase('It_will_be_updated_by_adding_the_questions'))) }}
 					</fieldset>
 					<fieldset class="form-group col-md-3" ng-show="quiz_type=='offline'">
 

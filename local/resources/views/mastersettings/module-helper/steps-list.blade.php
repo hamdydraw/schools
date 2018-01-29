@@ -23,25 +23,25 @@
 						</ol>
 					</div>
 				</div>
-								
+
 				<!-- /.row -->
 				<div class="panel panel-custom col-lg-12">
 					<div class="panel-heading">
-						 
+
 						<h1>{{ $title }}
 
 						</h1>
 
 					</div>
 					<div class="panel-body packages">
-				 
-					
-						<div class="row"> 
+
+
+						<div class="row">
 						<div class="col-md-6">
 						 <fieldset class="form-group col-md-6">
 						   {{ Form::label('element', getphrase('element_id')) }}
 						   <span class="text-red">*</span>
-						   {{ Form::text('elements', $value = null , $attributes = array('class'=>'form-control', 
+						   {{ Form::text('elements', $value = null , $attributes = array('class'=>'form-control',
 						   	'placeholder' => '#element_id',
 						   	'ng-model' => 'element'
 						   )) }}
@@ -50,15 +50,15 @@
 						   {{ Form::label('title', getphrase('title')) }}
 						   <span class="text-red">*</span>
 						   {{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' =>  getPhrase('title'),
-						   	'ng-model' => 'title' 
+						   	'ng-model' => 'title'
 						   ))}}
 						</fieldset>
-						 
-					 
+
+
 					<fieldset class="form-group col-md-6">
 						{{ Form::label('placement', getphrase('placement')) }}
 						<span class="text-red">*</span>
-						<select name="placement" class="form-control" 
+						<select name="placement" class="form-control"
 						ng-model="selected_placement"
 						ng-options="p.text for p in placements track by p.value"
 						>
@@ -81,22 +81,22 @@
 						</fieldset>
 
 
-						
+
 						<div class="text-center col-md-12">
-							<a href="javascript:void(0);" ng-click="addToList()" class="btn btn-lg btn-success button" 
+							<a href="javascript:void(0);" ng-click="addToList()" class="btn btn-lg btn-success button"
 							>{{ getPhrase('add_to_list') }}</a>
 						</div>
 						</div>
-						 
+
 						<div class="col-md-6">
-						{!! Form::open(array('url' => URL_MODULEHELPERS_ADD_STEPS.$record->slug, 'method' => 'PATCH', 
+						{!! Form::open(array('url' => URL_MODULEHELPERS_ADD_STEPS.$record->slug, 'method' => 'PATCH',
 						'novalidate'=>'','name'=>'formSettings ', 'files'=>'true')) !!}
 
 							<table class="table table-th-no-border">
-						
+
 						<thead>
 							<tr>
-								<th>{{getPhrase('sno')}}</th>
+								<th>{{getPhrase('sn')}}</th>
 								<th>{{getPhrase('element')}}</th>
 								<th>{{getPhrase('title')}}</th>
 								<th>{{getPhrase('content')}}</th>
@@ -128,24 +128,24 @@
 
 						</tbody>
 					</table>
-					<div class="buttons text-center clearfix" ng-if="target_items.length>0"> 
+					<div class="buttons text-center clearfix" ng-if="target_items.length>0">
 				<button type="submit" class="btn btn-lg btn-success button" >{{ getPhrase('update') }}</button>
 						</div>
-						{!! Form::close() !!}	
+						{!! Form::close() !!}
 					</div>
 					</div>
 				</div>
 			</div>
 			<!-- /.container-fluid -->
 @endsection
- 
+
 @section('custom_div_end')
 
 </div>
 @stop
 @section('footer_scripts')
   	@include('mastersettings.module-helper.scripts.js-scripts')
- 
+
   <script src="{{JS}}bootstrap-toggle.min.js"></script>
 
 @stop

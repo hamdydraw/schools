@@ -361,7 +361,7 @@ class TimetableController extends Controller
         }
 
         if ($academic_id == '' || $course_id == '' || $current_year == '') {
-            flash('Oops...!', 'Please Selcet the details', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Please_Selcet_the_details'), 'overlay');
             return redirect('timetable/allot-timetable');
         }
 
@@ -445,15 +445,15 @@ class TimetableController extends Controller
 
             }
 
-            flash('success', 'record_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data_submitted', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data_submitted'), 'error');
             }
         }
         return redirect(URL_TIMETABLE_VIEW);
@@ -514,7 +514,7 @@ class TimetableController extends Controller
         $result['message'] = '';
         if ($record) {
             $result['status'] = 0;
-            $result['message'] = 'Ooops..! ' . getPhrase('staff_is_busy_for_that_slot');
+            $result['message'] =  getPhrase('Ooops_staff_is_busy_for_that_slot');
         }
         return json_encode($result);
     }
@@ -627,7 +627,7 @@ class TimetableController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -735,7 +735,7 @@ class TimetableController extends Controller
             $user_id = 0;
             $record = prepareStudentSessionRecord($slug);
             if (!$record->student->roll_no) {
-                flash('Oops...!', 'Student Roll Number Is Not Generated', 'overlay');
+                flash(getPhrase('Ooops'), getPhrase('Student_Roll_Number_Is_Not_Generated'), 'overlay');
                 return redirect(URL_USER_DETAILS . $user_record->slug);
             }
             $academic_id = $record->student->academic_id;
@@ -785,7 +785,7 @@ class TimetableController extends Controller
             $allocated_periods = (object)$this->getSchedules($academic_id, 0, 0, 0, $user_id);
 
             if (!count($allocated_periods->timemaps[1]['timeset'])) {
-                flash('Oops...!', 'Time table is not allocated for you', 'overlay');
+                flash(getPhrase('Ooops'), getPhrase('Time_table_is_not_allocated_for_you'), 'overlay');
                 return back();
             }
 
@@ -799,7 +799,7 @@ class TimetableController extends Controller
                 $user_id);
         }
         if (!count($allocated_periods->timemaps[1]['timeset'])) {
-            flash('Oops...!', 'Time table is not created for your class', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('Time_table_is_not_created_for_your_class'), 'overlay');
             return back();
         }
 

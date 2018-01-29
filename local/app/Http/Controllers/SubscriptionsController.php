@@ -10,11 +10,11 @@ use App\Plan;
 use Yajra\Datatables\Datatables;
 use DB;
 use Auth;
- 
+
 
 class SubscriptionsController extends Controller
 {
-     
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -24,7 +24,7 @@ class SubscriptionsController extends Controller
     {
         if(isSubscribed())
         {
-            flash('success', 'you already subscribed to use this system...', 'overlay');
+            flash(getPhrase('success'), getPhrase('you_already_subscribed_to_use_this_system'), 'overlay');
             return back();
         }
         $user = FALSE;
@@ -40,7 +40,7 @@ class SubscriptionsController extends Controller
 
     /**
      * This method does the subscription process
-     * If User slug is passed as parameter the subscription will be done to 
+     * If User slug is passed as parameter the subscription will be done to
      * the specified slug user
      * If the slug is empty, the subscription will be done to the loggedin user
      * @param  Request $request   [description]
@@ -48,17 +48,17 @@ class SubscriptionsController extends Controller
      * @return [type]             [description]
      */
     public function subscribe(Request $request, $plan_slug, $user_slug='')
-    {   
+    {
          if(isSubscribed())
         {
-            flash('success', 'you already subscribed to use this system...', 'overlay');
+            flash(getPhrase('success'), getPhrase('you_already_subscribed_to_use_this_system'), 'overlay');
             return back();
         }
-        
+
         $record           = Plan::where('slug', $plan_slug)->get()->first();
 		$cardToken        = $request->stripeToken;
 		$cardEmail        = $request->stripeEmail;
-        
+
         $user             = getUserWithSlug();
         if($user_slug)
             $user = getUserWithSlug($user_slug);
@@ -70,14 +70,14 @@ class SubscriptionsController extends Controller
        $data['id']          = $result->stripe_id;
        $data['plan']        = $result->stripe_plan;
        $data['layout']      = getLayout();
-       
-       sendEmail('subscription', 
-                    array('to_email' => $user->email,'username'=>$user->name, 
-                        'plan' => $result->stripe_plan, 
+
+       sendEmail('subscription',
+                    array('to_email' => $user->email,'username'=>$user->name,
+                        'plan' => $result->stripe_plan,
                         'id' => $result->stripe_id)
                     );
        return view('payments.payment-status', $data);
-    }   
+    }
 
     /**
      * This method allows to view the list of subscriptions made by user
@@ -89,7 +89,7 @@ class SubscriptionsController extends Controller
          $record        = getUserWithSlug($slug);
          if($isValid    = $this->isValidRecord($record))
          return redirect($isValid);
-       
+
        /**
         * Validate the non-admin user wether is trying to access other user profile
         * If so return the user back to previous page with message
@@ -100,7 +100,7 @@ class SubscriptionsController extends Controller
 
         if(!isSubscribed())
         {
-            flash('Ooops...!', 'currently_you_have_not_subscribed_to_any_plan', 'overlay');
+            flash(getPhrase('Ooops'), getPhrase('currently_you_have_not_subscribed_to_any_plan'), 'overlay');
             return back();
         }
 
@@ -132,7 +132,7 @@ class SubscriptionsController extends Controller
     public function isValidRecord($record)
     {
       if ($record === null) {
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 

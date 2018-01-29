@@ -8,8 +8,8 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-							
-							 
+
+
 							<li><a href="{{URL_STUDENT_QUIZ_DASHBOARD}}">{{getPhrase('quizzes_dashboard')}}</a></li>
 							<li class="active"> {{ $title }} </li>
 						</ol>
@@ -21,9 +21,9 @@
 						<h1>{{$title}}</h1>
 					</div>
 					<div class="panel-body packages">
-						 
+
 						<div class="row library-items">
-					 
+
 					@if(count($series))
 						@foreach($series as $c)
 							<div class="col-md-3">
@@ -34,21 +34,21 @@
 									<div class="label-primary label-band">{{getPhrase('premium')}}</div>
 									@else
 									<div class="label-danger  label-band">{{getPhrase('free')}}</div>
-									@endif	
+									@endif
 
 									<?php $image = IMAGE_PATH_UPLOAD_EXAMSERIES_DEFAULT;
 									if(isset($c->image) && $c->image!='')
 										$image = IMAGE_PATH_UPLOAD_SERIES.$c->image;
 									?>
 										<img src="{{$image}}" alt="{{$c->title}}">
-										
-										<div class="hover-content"> 
+
+										<div class="hover-content">
 										<div class="buttons">
-											<a href="{{URL_STUDENT_EXAM_SERIES_VIEW_ITEM.$c->slug}}" class="btn btn-primary">{{getPhrase('view_more')}}</a> 
-										 
+											<a href="{{URL_STUDENT_EXAM_SERIES_VIEW_ITEM.$c->slug}}" class="btn btn-primary">{{getPhrase('view_more')}}</a>
+
 											</div>
 										</div>
-										
+
 									</div>
 									<div class="item-details">
 										<h3>{{ $c->title }}</h3>
@@ -59,14 +59,14 @@
 											<li><i class="icon-bookmark"></i> {{ $c->total_exams.' '.getPhrase('quizzes')}}</li>
 											<li><i class="icon-eye"></i> {{ $c->total_questions.' '.getPhrase('questions')}}</li>
 										</ul>
-									
+
 									</div>
 								</div>
 								</div>
 							</div>
 							 @endforeach
-							 	@else 
-							Ooops...! {{getPhrase('No_series_available')}}
+							 	@else
+							{{getPhrase('Ooops')}} {{getPhrase('No_series_available')}}
 
 						<a href="{{URL_USERS_SETTINGS.$user->slug}}" >{{getPhrase('click_here_to_change_your_preferences')}}</a>
 							@endif
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 </div>
 		<!-- /#page-wrapper -->
 

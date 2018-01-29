@@ -15,7 +15,7 @@ use DB;
 use Input;
 use Auth;
 use Charts;
- 
+
 
 class LessionPlansController extends Controller
 {
@@ -45,12 +45,12 @@ class LessionPlansController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
   if(!isEligible($slug))
           return back();
 
        $subjects = App\LessionPlan::getSubjects($user->id);
-      
+
         $role_name                  = getRoleData($user->role_id);
 
         if($role_name!='staff')
@@ -66,12 +66,12 @@ class LessionPlansController extends Controller
 
         if(count($subjects))
         return view('staff.lessionplans.dashboard', $data);
-          
-             flash('Oops...!','no_data_available', 'overlay');
+
+             flash(getPhrase('Ooops'),getPhrase('no_data_available'), 'overlay');
 
         return redirect (URL_USERS."staff");
         }
-        
+
 
         /**
          * This method will display the list of students according staff allocated class
@@ -80,7 +80,7 @@ class LessionPlansController extends Controller
          */
         public function studentlist($slug)
     {
-      
+
       $user = App\User::where('slug','=',$slug)->first();
 
       if($isValid = $this->isValidRecord($user))
@@ -91,7 +91,7 @@ class LessionPlansController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
   if(!isEligible($slug))
           return back();
 
@@ -105,7 +105,7 @@ class LessionPlansController extends Controller
       ->orderBy('year')
       ->orderBy('semister')
       ->get();
-      
+
 
 
        $role_name                  =getRoleData($user->role_id);
@@ -124,7 +124,7 @@ class LessionPlansController extends Controller
         return view('staff.lessionplans.studentlist-dashboard', $data);
         }
         else{
-             flash('Oops...!','no_data_available', 'overlay');
+             flash(getPhrase('Ooops'),getPhrase('no_data_available'), 'overlay');
              return back();
             }
         }
@@ -136,7 +136,7 @@ class LessionPlansController extends Controller
        * @param  [type] $courseSubjectSlug [description]
        * @return [type]                    [description]
        */
-      
+
 
       public function viewStudents(Request $request)
      {
@@ -147,11 +147,11 @@ class LessionPlansController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
     $course_time =  App\Course::where('id','=',$request->course_id)->select('course_dueration')->first();
     $academic_title =  App\Academic::where('id','=',$request->academic_id)->select('academic_year_title')->first();
-    $course_name = App\Course::where('id','=',$request->course_id)->select('course_title')->first();     
-    $branch_name = App\Course::where('id','=',$request->course_parent_id)->select('course_code')->first();     
+    $course_name = App\Course::where('id','=',$request->course_id)->select('course_title')->first();
+    $branch_name = App\Course::where('id','=',$request->course_parent_id)->select('course_code')->first();
 
         $data['active_class']       = 'academic';
         $data['title']              = getPhrase('student_list');
@@ -170,15 +170,15 @@ class LessionPlansController extends Controller
         else
 
         $data['title']              = $academic_title->academic_year_title.' '.$course_name->course_title.' '.getPhrase('students');
-         
+
       return view('staff.lessionplans.student-list', $data);
-       
+
    }
 
 
    public function getDatatable($academic_id, $course_parent_id, $course_id, $year, $semister)
 
-    {    
+    {
         $records = array();
 
         $records = App\Student::join('users','users.id','=','students.user_id')
@@ -197,13 +197,13 @@ class LessionPlansController extends Controller
          $course_time =  App\Course::where('id','=',$course_id)->select('course_dueration')->first();
 
         return Datatables::of($records)
-        
+
          ->editColumn('first_name', function($records) {
           $data ='';
           $data = $records->first_name.' '.$records->last_name;
           return $data;
-          
-        })        
+
+        })
          ->editColumn('image', function($records){
             return '<img src="'.getProfilePath($records->image).'"  />';
         })
@@ -214,18 +214,18 @@ class LessionPlansController extends Controller
          })
 
 
- 
+
         ->removeColumn('academic_id')
         ->removeColumn('course_parent_id')
         ->removeColumn('course_id')
         ->removeColumn('last_name')
         ->removeColumn('current_semister')
-         
+
         ->make();
     }
 
 
-   
+
 
     /**
      * Thid method returns the related topics of the user for the assigned subject
@@ -244,13 +244,13 @@ class LessionPlansController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
       //*********VALIDATING THE USER START*****************//
       //Make sure that the user is accessing only his record apart from admin/owner
     if(!isEligible($userSlug)) {
       return back();
     }
-    
+
 
       $user = App\User::where('slug','=',$userSlug)->first();
 
@@ -258,52 +258,52 @@ class LessionPlansController extends Controller
         return redirect($isValid);
 
       $courseSubjectRecord = App\CourseSubject::where('slug','=',$courseSubjectSlug)->first();
-       
+
       if($isValid = $this->isValidRecord($courseSubjectRecord))
         return redirect($isValid);
-      
+
       //Make sure the user got alotted the subject for him only
       if($courseSubjectRecord->staff_id!=$user->id)
       {
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return back();
       }
 
       //*********VALIDATING THE USER END*****************//
-       
+
       $courseRecord = App\Course::where('id','=',$courseSubjectRecord->course_id)->first();
       $subjectRecord = App\Subject::where('id','=', $courseSubjectRecord->subject_id)->first();
 
       $available_records = App\LessionPlan::where('course_subject_id', '=', $courseSubjectRecord->id)->get();
-      
-      
+
+
       $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id);
-           
+
 
        if(!count($topics)){
-       flash('Oops...!','no_topics availble', 'overlay');
+       flash(getPhrase('Ooops'),getPhrase('no_topics availble'), 'overlay');
         return redirect('staff/lession-plans/'.$user->slug);
          }
-    
+
       $data['items']      = json_encode(
-                    array(  'topics'      => $topics, 
+                    array(  'topics'      => $topics,
                         'available_records' => $available_records)
                       );
       $data['subject_record']   = $subjectRecord;
-      $data['user']             =$user; 
+      $data['user']             =$user;
         $role_name                  =getRoleData($user->role_id);
        if($role_name!='staff')
         $data['active_class']       = 'academic';
         else
         $data['active_class']       = 'lession';
-        
+
         $data['role_name']       = getRoleData(Auth::user()->role_id);
 
-      
+
       $data['title']              = getPhrase('lesson_plans_for').' '.$subjectRecord->subject_title;
       $data['layout']              = getLayout();
       return view('staff.lessionplans.topics', $data);
-       
+
    }
 
    /**
@@ -328,7 +328,7 @@ class LessionPlansController extends Controller
                                                 ->get()->toArray();
         $topics[$topic->id]['childs'] = $this->prepareChildRecords($subject_topics_list, $lession_plan_topics);
       }
-     
+
       return $topics;
    }
 
@@ -370,10 +370,10 @@ class LessionPlansController extends Controller
     */
    public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0 )
    {
- 
+
     $result = App\Topic::join('subjects', 'subjects.id','=','topics.subject_id')
       ->leftJoin('lessionplans','topic_id','=','topics.id');
-   
+
 
       $result = $result->where('subjects.id', '=',$subject_id)
       ->where('topics.parent_id', '=', $parent_id)
@@ -428,7 +428,7 @@ class LessionPlansController extends Controller
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 
@@ -458,7 +458,7 @@ class LessionPlansController extends Controller
       ->join('topics', 'topics.id', '=', 'lessionplans.topic_id')
       ->where('course_subject.staff_id', '=', $user_id)
       ->where('course_subject.subject_id', '=', $subject_id)
-      
+
       ->select(['topics.topic_name', 'subject_title', 'lessionplans.is_completed', 'lessionplans.completed_on'])
       ->orderBy('lessionplans.completed_on', 'desc')
       ->get();

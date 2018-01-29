@@ -23,12 +23,12 @@ use DNS2D;
 use Exception;
 class LibraryMastersController extends Controller
 {
-         
+
     public function __construct()
     {
     	$this->middleware('auth');
     }
-   
+
     protected  $librarySettings;
 
     public function setLibrarySettings()
@@ -52,8 +52,8 @@ class LibraryMastersController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-        
-        
+
+
         $data['active_class']       = 'library';
         $data['layout']             = getLayout();
         $data['title']              = getPhrase('library_masters');
@@ -67,12 +67,12 @@ class LibraryMastersController extends Controller
      */
     public function getDatatable()
     {
-        $records = LibraryMaster::select([   
+        $records = LibraryMaster::select([
          	'asset_type_id', 'image', 'title', 'author_id', 'publisher_id', 'total_assets_count', 'total_assets_available', 'total_assets_issued','edition','id','slug']);
        $this->setLibrarySettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -81,12 +81,12 @@ class LibraryMastersController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                         <li><a href="'.URL_LIBRARY_COLLECTIONS.$records->slug.'"><i class="fa fa-paper-plane"></i>'.getPhrase("view").'</a></li>
 
-                              
-                           
+
+
                             <li><a href="'.URL_LIBRARY_MASTERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
 
                              <li><a href="'.URL_LIBRARY_ASSET_DETAILS.$records->slug.'"><i class="fa fa-outdent" aria-hidden="true"></i>'.getPhrase("asset_details").'</a></li>
-                            
+
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
@@ -133,22 +133,22 @@ class LibraryMastersController extends Controller
         $data['asset_types']        = array_pluck(LibraryAssetType::all(), 'asset_type', 'id');
         $data['authors']            = array_pluck(App\Author::all(), 'author', 'id');
         $data['publishers']         = array_pluck(App\Publisher::all(), 'publisher', 'id');
-        
+
         $data['active_class']       = 'library';
         $data['layout']             = getLayout();
     	  $data['title']                = getPhrase('create_master_asset');
         $data['module_helper']      = getModuleHelper('masterasset-create');
     	return view('library.library-masters.add-edit', $data);
     }
-       
+
        /**
-        * This Method Will Dispaly The Complete MasterAsset Details 
-        * Status Of Details 
+        * This Method Will Dispaly The Complete MasterAsset Details
+        * Status Of Details
         * @param  [type] $slug [description]
         * @return [type]       [description]
         */
      public function master_assetDetails($slug)
-     { 
+     {
         if(!checkRole(getUserGrade(8)))
         {
           prepareBlockUserMessage();
@@ -158,7 +158,7 @@ class LibraryMastersController extends Controller
        $master_asset_name = LibraryAssetType::where('id','=',$asset_data->asset_type_id)->get()->first();
        $publisher_name    = Publisher::where('id','=',$asset_data->publisher_id)->get()->first();
        $author_name       = Author::where('id','=',$asset_data->author_id)->get()->first();
-       
+
         $data['active_class']       = 'library';
         $data['asset_data']         = $asset_data;
         $data['master_asset_name']  = $master_asset_name;
@@ -176,7 +176,7 @@ class LibraryMastersController extends Controller
        $master_asset_name = LibraryAssetType::where('id','=',$asset_data->asset_type_id)->get()->first();
        $publisher_name    = Publisher::where('id','=',$asset_data->publisher_id)->get()->first();
        $author_name       = Author::where('id','=',$asset_data->author_id)->get()->first();
-       
+
         $data['active_class']       = 'library';
         $data['asset_data']         = $asset_data;
         $data['master_asset_name']  = $master_asset_name;
@@ -194,7 +194,7 @@ class LibraryMastersController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -204,7 +204,7 @@ class LibraryMastersController extends Controller
         return back();
       }
     	$record = LibraryMaster::getRecordWithSlug($slug);
- 
+
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
 
@@ -219,7 +219,7 @@ class LibraryMastersController extends Controller
     	return view('library.library-masters.add-edit', $data);
     }
 
-  
+
     /**
      * Update record based on slug and reuqest
      * @param  Request $request [Request Object]
@@ -242,7 +242,7 @@ class LibraryMastersController extends Controller
          'actual_price'               => 'bail|required|numeric' ,
          'chargible_price_if_lost'    => 'bail|required|numeric' ,
             ];
-      
+
        $asset_belongs_to_subject    = $request->asset_belongs_to_subject;
 
        if($asset_belongs_to_subject)
@@ -254,10 +254,10 @@ class LibraryMastersController extends Controller
        $this->validate($request, $rules);
         $name                      = $request->title;
         if($name != $record->title)
-          $record->slug               = $record->makeSlug($name);  
-         
+          $record->slug               = $record->makeSlug($name);
+
         $record->title             = $name;
-        
+
         $record->asset_type_id      = $request->asset_type_id;
         $record->author_id          = $request->author_id;
         $record->publisher_id       = $request->publisher_id;
@@ -289,7 +289,7 @@ class LibraryMastersController extends Controller
             $record->save();
         }
 
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect('library/master');
     }
 
@@ -308,7 +308,7 @@ class LibraryMastersController extends Controller
 	    ////////////////////////////////////////////////////
     	// Split the validation rules as per the request  //
 	    ////////////////////////////////////////////////////
-    	$rules = 
+    	$rules =
         [
          'asset_type_id'              => 'bail|required' ,
          'title'                      => 'bail|required|max:60' ,
@@ -317,13 +317,13 @@ class LibraryMastersController extends Controller
          'actual_price'               => 'bail|required|numeric' ,
          'chargible_price_if_lost'    => 'bail|required|numeric' ,
          ];
-      
+
        $asset_belongs_to_subject    = $request->asset_belongs_to_subject;
 
        	$total_assets_available 	= 0;
    		$total_assets_damaged 		= 0;
    		$total_assets_lost 			= 0;
-      
+
        if($asset_belongs_to_subject)
        {
             $rules['subject_id']        = 'bail|required|integer';
@@ -332,7 +332,7 @@ class LibraryMastersController extends Controller
        //Validate the overall request
        $this->validate($request, $rules);
 
-      
+
     	$record 					= new LibraryMaster();
         $name 		  		  		= $request->title;
         $record->title 		       = $name;
@@ -342,10 +342,10 @@ class LibraryMastersController extends Controller
         $record->publisher_id       = $request->publisher_id;
         $record->actual_price       = $request->actual_price;
         $record->chargible_price_if_lost = $request->chargible_price_if_lost;
-        
-        $record->total_assets_available = $total_assets_available;	
-        $record->total_assets_lost  = $total_assets_lost;   
-        $record->total_assets_damaged  = $total_assets_damaged;	
+
+        $record->total_assets_available = $total_assets_available;
+        $record->total_assets_lost  = $total_assets_lost;
+        $record->total_assets_damaged  = $total_assets_damaged;
         $record->description        = $request->description;
         $record->isbn               = $request->isbn;
         $record->edition            = $request->edition;
@@ -361,15 +361,15 @@ class LibraryMastersController extends Controller
               $record->save();
         }
 
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('library/master');
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -413,7 +413,7 @@ class LibraryMastersController extends Controller
       if(env('DEMO_MODE')) {
         return;
       }
-          
+
       if(!checkRole(getUserGrade(8)))
       {
         prepareBlockUserMessage();
@@ -463,18 +463,18 @@ class LibraryMastersController extends Controller
       }
          if ($request->hasFile($file_name)) {
           $librarySettings = (object) json_decode((new App\LibrarySettings())->getSettings());
-          
+
           $destinationPath      = $librarySettings->libraryImagepath;
           $thumbnail            = $librarySettings->libraryImageThumbnailpath;
           $fileName = $record->id.'-'.$file_name.'.'.$request->$file_name->guessClientExtension();
-          
+
           $request->file($file_name)->move($destinationPath, $fileName);
-         
+
          //Save Normal Image with 300x300
           Image::make($destinationPath.$fileName)->fit($librarySettings->imageSize)->save($destinationPath.$fileName);
          //Save thumb Image with 150x150
           Image::make($destinationPath.$fileName)->fit($librarySettings->thumbnailSize)->save($thumbnail.$fileName);
-        
+
          return $fileName;
         }
      }
@@ -483,7 +483,7 @@ class LibraryMastersController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -518,7 +518,7 @@ class LibraryMastersController extends Controller
 
         $data['master_record']      = $record;
         $data['records']            = $records;
-        
+
         $data['active_class']       = 'library';
         $data['layout']             = getLayout();
 
@@ -528,8 +528,8 @@ class LibraryMastersController extends Controller
         if(count($records))
         $data['title']              = ucfirst($record->title).' '.getPhrase('collections');
         $data['module_helper']      = getModuleHelper('masterasset-collections-list');
-      
-        return view('library.library-masters.collections.instance-list', $data);                
+
+        return view('library.library-masters.collections.instance-list', $data);
     }
 
 
@@ -542,7 +542,7 @@ class LibraryMastersController extends Controller
         $master_record = LibraryMaster::getRecordWithSlug($slug);
        $records = LibraryInstance::where('library_master_id','=',$master_record->id)
        ->select(['asset_no','asset_type', 'status',  'id']);
-       
+
        $this->setLibrarySettings();
 
         return Datatables::of($records)
@@ -553,8 +553,8 @@ class LibraryMastersController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                       
-                            
+
+
                             <li><a href="'.URL_LIBRARY_COLLECTIONS_BARCODE.$records->asset_no.'" target="_blank"><i class="fa fa-barcode"></i>'.getPhrase("barcode").'</a></li>';
 
                          if($records->status=='available'){
@@ -563,9 +563,9 @@ class LibraryMastersController extends Controller
 
                           $button_text.=' <li><a href="javascript:void(0);" onclick="changeStatus(\''.$records->id.'\',\'lost\');" ><i class="fa fa-minus-square" aria-hidden="true"></i>'.getPhrase('lost').'</a></li>';
 
-                         }   
-                            
-                
+                         }
+
+
                 if(checkRole(getUserGrade(1)) && $records->status!='issued' ) {
                   $button_text .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->id.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
                     }
@@ -574,8 +574,8 @@ class LibraryMastersController extends Controller
                     </div>';
                     return $button_text;
             })
-        
-       
+
+
         ->editColumn('asset_type', function ($records) {
             return ucfirst($records->asset_type);
         })
@@ -588,7 +588,7 @@ class LibraryMastersController extends Controller
              if($records->status == 'issued')
                 $class = "class = 'label label-info'";
 
-            return 
+            return
             '<span '.$class.' >'.ucfirst($records->status).'</span>';
         })
         ->removeColumn('id')
@@ -600,17 +600,17 @@ class LibraryMastersController extends Controller
     {
        // dd($request);
       $record =   LibraryInstance::where('id','=',$request->asset_no)->get()->first();
-    
+
       $record->status = $request->current_status;
 
       $record->save();
-       
+
         (new App\LibraryInstance())->updateInstanceRecord($request->asset_no, $request->current_status);
 
-       flash('success','status_changed_successfully', 'success');
+       flash(getPhrase('success'),getPhrase('status_changed_successfully'), 'success');
           return back();
     }
-   
+
 
 
     public function addCollection($slug)
@@ -647,7 +647,7 @@ class LibraryMastersController extends Controller
 
        //Validate the overall request
        $this->validate($request, $rules);
-        
+
         $librarySettings  = getLibrarySettings();
         $from             = $request->from;
         $to               = $request->to;
@@ -681,24 +681,24 @@ class LibraryMastersController extends Controller
                                 );
             array_push($collectionData, $tempData);
         }
-        
+
         LibraryInstance::insert($collectionData);
         $record->updateCount($record->id);
         DB::commit();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          }
      catch(Exception $e)
      {
 
       DB::rollBack();
-      
+
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->getMessage(), 'error');
+          flash(getPhrase('Ooops'),$e->getMessage(), 'error');
        }
        else {
-        flash('oops...!','the_same_prefix_is_already_available', 'overlay');
+        flash(getPhrase('Ooops'),getPhrase('the_same_prefix_is_already_available'), 'overlay');
        }
      }
 
@@ -735,7 +735,7 @@ class LibraryMastersController extends Controller
 
     public function generateBarCode($asset_no)
     {
-        
+
         echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($asset_no, "C39") . '" alt="barcode"   />';
     }
 
@@ -747,7 +747,7 @@ class LibraryMastersController extends Controller
         return back();
       }
         /**
-       * 
+       *
        * Delete the book which status is available
        * @var [type]
        */

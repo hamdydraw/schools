@@ -245,7 +245,7 @@ class QuizController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -347,15 +347,15 @@ class QuizController extends Controller
                 $quizApplicability->updateApplicability($record->id, $request->selected_list);
             }
 
-            flash('success', 'record_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data_in_the_question', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data_in_the_question'), 'error');
             }
         }
         if ($type == 'offline') {
@@ -457,7 +457,7 @@ class QuizController extends Controller
                 $quizApplicability->updateApplicability($record->id, $request->selected_list);
             }
 
-            flash('success', 'record_added_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
             DB::commit();
 
         } catch (Exception $e) {
@@ -465,9 +465,9 @@ class QuizController extends Controller
 
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_data_submitted', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_data_submitted'), 'error');
             }
         }
         if ($type == 'offline') {
@@ -640,7 +640,7 @@ class QuizController extends Controller
         $quiz->total_questions = $total_questions;
         $quiz->total_marks = $marks;
         $quiz->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_QUIZ_UPDATE_QUESTIONS . $slug);
     }
 

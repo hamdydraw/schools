@@ -55,25 +55,25 @@ class QuestionBankController extends Controller
         return back();
       }
 
-         $records = Subject::select([ 
+         $records = Subject::select([
          'id',	'subject_title', 'subject_code','slug', 'is_lab', 'updated_at'])
          	// ->where('is_lab','=','0')
             ->orderBy('updated_at', 'desc');
-        
+
         $table = Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        
+
                         <li><a href="'.URL_QUESTIONBANK_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view_questions").'</a></li>
 
                             <li><a href="'.URL_QUESTIONBANK_ADD_QUESTION.$records->slug.'"><i class="fa fa-plus-circle"></i>'.getPhrase("add").'</a></li>
-                            
+
                         </ul>
                     </div>';
             })
@@ -84,7 +84,7 @@ class QuestionBankController extends Controller
         ->removeColumn('slug')
         ->removeColumn('is_lab')
         ->removeColumn('updated_at');
- 
+
         return $table->make();
     }
 
@@ -101,7 +101,7 @@ class QuestionBankController extends Controller
       }
 
     	$subject = Subject::getRecordWithSlug($slug);
-    	
+
     	if($isValid = $this->isValidRecord($subject))
     		return redirect($isValid);
 
@@ -126,23 +126,23 @@ class QuestionBankController extends Controller
       }
 
         $subject = Subject::getRecordWithSlug($slug);
-        
+
         $isValid = $this->isValidRecord($subject);
     	if($isValid)
     		return redirect($isValid);
-		
+
         $records = QuestionBank::join(
             'subjects', 'questionbank.subject_id', '=', 'subjects.id')
         ->join(
             'topics', 'questionbank.topic_id', '=', 'topics.id'
             )
-        ->select(['subjects.subject_title', 'topics.topic_name', 
+        ->select(['subjects.subject_title', 'topics.topic_name',
             'questionbank.question_type', 'questionbank.question', 'questionbank.marks',
-            'questionbank.difficulty_level', 'questionbank.id', 'questionbank.slug', 
+            'questionbank.difficulty_level', 'questionbank.id', 'questionbank.slug',
             'questionbank.updated_at'])
         ->where('questionbank.subject_id','=', $subject->id)
         ->orderBy('updated_at','desc');
-        
+
         $table = Datatables::of($records)->removeColumn('slug')
         ->addColumn('action', function ($records) {
             return '<div class="dropdown more">
@@ -150,9 +150,9 @@ class QuestionBankController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                       
+
                        <li><a href="'.URL_QUESTIONBANK_EDIT_QUESTION.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                            
+
                        <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
@@ -160,7 +160,7 @@ class QuestionBankController extends Controller
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('updated_at')
-        
+
         ->editColumn('question_type', function($results){
         	return ucfirst($results->question_type);
          })
@@ -186,23 +186,23 @@ class QuestionBankController extends Controller
       }
 
     	$subject = Subject::getRecordWithSlug($slug);
-    	
+
     	if($isValid = $this->isValidRecord($subject))
     		return redirect($isValid);
-    	
+
     	$topics = $subject->topics()->where('parent_id','=','0')->get();
-    	
+
     	if(!$topics->count()) {
     	/**
-    	 * If no topics available in selected subject, 
+    	 * If no topics available in selected subject,
     	 * redirect back with message to update topics
     	 */
-    		$message = 
+    		$message =
     		$subject->subject_title.'  have no topics, please add topics to upload questions';
-    		flash('Ooops...!', $message, 'overlay');	
+    		flash(getPhrase('Ooops'), $message, 'overlay');
     		return back();
     	}
- 
+
 
 
     	$data['topics']         	= array_pluck($topics, 'topic_name', 'id');
@@ -217,7 +217,7 @@ class QuestionBankController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -227,26 +227,26 @@ class QuestionBankController extends Controller
         return back();
       }
     	$record = QuestionBank::getRecordWithSlug($slug);
-    	
+
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
-    	
+
     	$subject = $record->subject()->first();
 
     	$topics = $subject->topics()->where('parent_id','=','0')->get();
-    	
+
     	if(!$topics->count()) {
     	/**
-    	 * If no topics available in selected subject, 
+    	 * If no topics available in selected subject,
     	 * redirect back with message to update topics
     	 */
-    		$message = 
+    		$message =
     		$subject->subject_title.'  have no topics, please add topics to upload questions';
-    		flash('Ooops...!', $message, 'overlay');	
+    		flash(getPhrase('Ooops'), $message, 'overlay');
     		return back();
     	}
 
-      
+
          $settings['total_answers'] = $record->total_answers;
          $settings['total_correct_answers'] = $record->total_correct_answers;
     	 $settings['correct_answers'] = json_decode($record->correct_answers);
@@ -260,7 +260,7 @@ class QuestionBankController extends Controller
     	$data['title']              = getPhrase('edit_question');
     	$data['subject']			= $subject;
       $settings = (object)$settings;
-      
+
     	$data['settings']			= json_encode($settings);
     	return view('exams.questionbank.add-edit', $data);
     }
@@ -273,22 +273,22 @@ class QuestionBankController extends Controller
      */
     public function update(Request $request, $slug)
     {
-       
+
       if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
         return back();
       }
         $record                 = QuestionBank::where('slug', $slug)->get()->first();
-        
-        
+
+
         $rules['topic_id']         = 'bail|required|integer';
         $rules['question']          = 'bail|required';
         $rules['marks']             = 'bail|required|integer';
          DB::beginTransaction();
       try{
         /**
-         * As we are disableing the question type in edit, 
+         * As we are disableing the question type in edit,
          * we need to get the type of the question for existing record
          * Assign the question type to a varable $current_question_type
          */
@@ -308,7 +308,7 @@ class QuestionBankController extends Controller
             $rules = $this->validateMatchQuestions($request, $rules);
         }
 
-        
+
 
         /**
          * As it is fill in the blanks type of question
@@ -316,16 +316,16 @@ class QuestionBankController extends Controller
          * so ignore the validation for total_answers
          */
         if($current_question_type == 'blanks') {
-            
+
             $rules = $this->validateBlankQuestions($request, $rules);
         }
 
         $this->validate($request, $rules);
         $name 					  = $request->question;
-       
+
        /**
-        * As we are maintaining unique slug for each question, 
-        * if the question is changed no need worry, 
+        * As we are maintaining unique slug for each question,
+        * if the question is changed no need worry,
         * we can continue with the existing old slug
         */
         $request->question_type = $record->question_type;
@@ -337,9 +337,9 @@ class QuestionBankController extends Controller
         $record->hint                   = $request->hint;
         $record->explanation            = $request->explanation;
         $record->marks                  = $request->marks;
-        
+
         $record->time_to_spend          = $request->time_to_spend;
-       
+
          if($current_question_type == 'radio'){
              $record->total_answers          = $request->total_answers;
             $record->correct_answers        = $request->correct_answers;
@@ -351,13 +351,13 @@ class QuestionBankController extends Controller
             $record->correct_answers        = $this->prepareMultiAnswers($request);
             $record->total_correct_answers  = $request->total_correct_answers;
         }
-        
+
         if($current_question_type == 'blanks'){
             $record->total_answers          = $request->total_correct_answers;
             $record->correct_answers        = $this->prepareMultiAnswers($request);
             $record->total_correct_answers  = $request->total_correct_answers;
         }
-       
+
          if($current_question_type == 'match'){
             $record->total_answers          = $request->total_answers;;
             $record->total_correct_answers  = $request->total_answers;
@@ -365,8 +365,8 @@ class QuestionBankController extends Controller
        }
 
        if($current_question_type == 'para'   ||
-          $current_question_type == 'video'  ||       
-          $current_question_type == 'audio'  
+          $current_question_type == 'video'  ||
+          $current_question_type == 'audio'
         ){
             $record->total_answers          = $request->total_answers;;
             $record->total_correct_answers  = $request->total_answers;
@@ -379,26 +379,26 @@ class QuestionBankController extends Controller
 
           // Update data with images
         if($request->hasFile('question_file')) {
-          
+
           $record->question_file          = $this->processUpload($request, $record, 'question_file', 'question');
         }
 
 
        if($request->hasFile($record->explanation_file))
         $record->explanation_file          = $this->processUpload($request, $record, 'explanation_file', 'explanation');
-       
-     
+
+
         if($current_question_type == 'match'){
             $record->answers     = $this->prepareMatchQuestionOptions($request, $record);
         }
         else if($current_question_type == 'para' || $current_question_type == 'video'|| $current_question_type == 'audio' )
-            
-            $record->answers     = $this->prepareParaQuestionOptions($request, $record);   
+
+            $record->answers     = $this->prepareParaQuestionOptions($request, $record);
         else
           $record->answers              = $this->prepareOptions($request, $record);
-      
+
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          DB::commit();
       }
      catch(Exception $e)
@@ -407,15 +407,15 @@ class QuestionBankController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_data_in_the_question', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_data_in_the_question'), 'error');
        }
      }
-      
+
        return redirect(URL_QUIZ_QUESTIONBANK);
- 
+
     }
 
     /**
@@ -438,14 +438,14 @@ class QuestionBankController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
       DB::beginTransaction();
       try{
     	$rules['topic_id'] 			= 'bail|required|integer';
     	$rules['question'] 			= 'bail|required';
     	$rules['marks'] 			= 'bail|required|integer';
     	$rules['question_type'] 	= 'bail|required';
-    	
+
 
         if($request->question_type == 'radio') {
             $rules['total_answers']     = 'bail|required|integer|min:1';
@@ -465,14 +465,14 @@ class QuestionBankController extends Controller
        if($request->question_type == 'para') {
             $rules['total_answers']     = 'bail|required|integer|min:1';
             $rules['total_para_options']     = 'bail|required|integer|min:1';
-           
+
         }
 
-        if($request->question_type == 'video' || 
+        if($request->question_type == 'video' ||
           $request->question_type == 'audio') {
             $rules['total_answers']     = 'bail|required|integer|min:1';
             $rules['total_para_options'] = 'bail|required|integer|min:1';
-            
+
         }
 
         /**
@@ -486,7 +486,7 @@ class QuestionBankController extends Controller
 
     	}
 
-       
+
 
 
         $this->validate($request, $rules);
@@ -504,10 +504,10 @@ class QuestionBankController extends Controller
         $record->explanation		= $request->explanation;
         $record->marks					= $request->marks;
         $record->question_type  = $request->question_type;
-        
+
         $record->time_to_spend  = $request->time_to_spend;
-        
-        
+
+
         /**
          * Prepare answers data based on the type of question
          */
@@ -522,12 +522,12 @@ class QuestionBankController extends Controller
             $record->correct_answers        = $this->prepareMultiAnswers($request);
             $record->total_correct_answers  = $request->total_correct_answers;
         }
-       
+
        if($request->question_type == 'blanks'){
             $record->total_answers          = 0;
             $record->correct_answers        = $this->prepareMultiAnswers($request);
             $record->total_correct_answers  = $request->total_correct_answers;
-       } 
+       }
        if($request->question_type == 'match'){
             $record->total_answers          = $request->total_answers;;
             $record->total_correct_answers  = $request->total_answers;
@@ -535,8 +535,8 @@ class QuestionBankController extends Controller
        }
 
        if($request->question_type == 'para'   ||
-          $request->question_type == 'video'  ||       
-          $request->question_type == 'audio'  
+          $request->question_type == 'video'  ||
+          $request->question_type == 'audio'
         ){
         // dd($request);
             $record->total_answers          = $request->total_answers;;
@@ -545,44 +545,44 @@ class QuestionBankController extends Controller
        }
 
         /**
-         * As it is descriptive question, there will be 
+         * As it is descriptive question, there will be
          * no total_answers, total_correct_answers and correct_answers
-         * and 
+         * and
          *
          */
         if($request->question_type == 'descriptive') {
             $record->total_answers           = 0;
             $record->total_correct_answers   = 0;
             $record->correct_answers         = '';
-           
+
         }
 
 		// Save data with no images
 		$record->save();
 		// Update data with images
-        
+
         if($request->hasFile('question_file')) {
-          
+
           $record->question_file          = $this->processUpload($request, $record, 'question_file', 'question');
         }
-        
-          
+
+
     if($request->hasFile($record->explanation_file))
 	       	$record->explanation_file			= $this->processUpload($request, $record, 'explanation_file', 'explanation');
 
         if($request->question_type == 'match'){
             $record->answers     = $this->prepareMatchQuestionOptions($request, $record);
         }
-        else if($request->question_type == 'para'   || 
+        else if($request->question_type == 'para'   ||
           $request->question_type == 'video'       ||
           $request->question_type == 'audio')
 
-            $record->answers     = $this->prepareParaQuestionOptions($request, $record);   
+            $record->answers     = $this->prepareParaQuestionOptions($request, $record);
         else
 		    $record->answers 				= $this->prepareOptions($request, $record);
-		
+
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          DB::commit();
       }
      catch(Exception $e)
@@ -592,13 +592,13 @@ class QuestionBankController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_data_in_the_question', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_data_in_the_question'), 'error');
        }
      }
-      
+
     	 return redirect(URL_QUIZ_QUESTIONBANK);
     }
 
@@ -616,23 +616,23 @@ class QuestionBankController extends Controller
     	$list = array();
 
         /**
-         * Get the image path from ImageSettings class    
-         * This destinationPath variable will be used 
+         * Get the image path from ImageSettings class
+         * This destinationPath variable will be used
          * to delete an image if user edits any question and changes an image
          */
          $imageObject = new App\ImageSettings();
          $destinationPath      = $imageObject->getExamImagePath();
 
          /**
-          * Loop the total options selected by user 
+          * Loop the total options selected by user
           * and process each option by checking wether the image
           * has been uploaded or not
-          * After this loop multiple objects will be created based on 
+          * After this loop multiple objects will be created based on
           * the no. of options(total_answers) selected by user
           * Each object contains 3 properties
           * 1) option_value : stores the text submitted as option
           * 2) has_file     : stores if this particular option has any file
-          * 3) file_name    : stores the name of file uploaded   
+          * 3) file_name    : stores the name of file uploaded
           */
     	for($index = 0; $index < $request->total_answers; $index++)
     	{
@@ -641,7 +641,7 @@ class QuestionBankController extends Controller
              * It will contain the previous option values
              * As it is under for loop, every option property will be checked
              * by comparing wether the file is submitted for this particular object
-             * If submitted it will delete the old file and overwrite with new file 
+             * If submitted it will delete the old file and overwrite with new file
              * @var [type]
              */
             $answers = json_decode($record->answers);
@@ -666,8 +666,8 @@ class QuestionBankController extends Controller
                 if($old_file_name)
                     $this->deleteExamFile($old_file_name, $destinationPath);
                 }
-                  
-    			// This option has the image to be uploaded, 
+
+    			// This option has the image to be uploaded,
     			// so process image and update the fields
     			$list[$index]['has_file'] 		= 1;
     			$list[$index]['file_name']		= $this
@@ -675,7 +675,7 @@ class QuestionBankController extends Controller
 
 
     		}
-    		
+
     	}
 
     	return json_encode($list);
@@ -690,9 +690,9 @@ class QuestionBankController extends Controller
      * @return [type] json     [description]
      */
     public function prepareMultiAnswers($request)
-    {   
+    {
         $correct_answers = $request->correct_answers;
-        
+
         $list = array();
 
         for($index = 0; $index < $request->total_correct_answers; $index++)
@@ -722,12 +722,12 @@ class QuestionBankController extends Controller
         $list['right']['title'] = $request->title_right;
         $list['left']['options']   = array();
         $list['right']['options'] = array();
-   
+
         for($index = 0; $index < $request->total_answers; $index++)
         {
             $list['left']['options'][$index]   = $options_left[$index];
             $list['right']['options'][$index]  = $options_right[$index];
-            
+
         }
 
         return json_encode($list);
@@ -743,7 +743,7 @@ class QuestionBankController extends Controller
     public function prepareMatchAnswers($request)
     {
         $correct_answers = $request->correct_answers;
-        
+
         $list = array();
 
         for($index = 0; $index < $request->total_answers; $index++)
@@ -758,7 +758,7 @@ class QuestionBankController extends Controller
      /**
      * In this method, the options are divided to multi dimentional array
      * Each object will have index number as the question block
-     * Each index will have the question, total_options, 
+     * Each index will have the question, total_options,
      * array of options associated with that
      * Each will have the title and options as properties
      * @param  [type] $request [description]
@@ -767,9 +767,9 @@ class QuestionBankController extends Controller
      */
     public function prepareParaQuestionOptions($request, $record)
     {
-        $total_options  = $request->total_para_options; 
-        $questions      = $request->questions_list; 
-        
+        $total_options  = $request->total_para_options;
+        $questions      = $request->questions_list;
+
         $list = array();
 
         for($index = 0; $index < $request->total_answers; $index++)
@@ -778,7 +778,7 @@ class QuestionBankController extends Controller
             $list_options = array();
             $list[$index]['question']       = $questions[$index];
             $list[$index]['total_options']  = $total_options;
-            
+
             for($option_number = 0; $option_number < $total_options; $option_number++)
                 $list_options[$index][$option_number] = $options[$option_number];
 
@@ -798,7 +798,7 @@ class QuestionBankController extends Controller
     public function prepareParaAnswers($request)
     {
         $correct_answers = $request->correct_answers;
-        
+
         $list = array();
 
         for($index = 0; $index < $request->total_answers; $index++)
@@ -829,13 +829,13 @@ class QuestionBankController extends Controller
           $fileName = $record->id.'-'.$file_name.'.'.$request->$file_name->guessClientExtension();
           if($type!='option')
           {
-             
+
           	 $fileName = $record->id.$type.'.'.$request->$file_name->guessClientExtension();
-            
+
           }
-          
+
           $request->file($file_name)->move($destinationPath, $fileName);
-        
+
          return $fileName;
         }
      }
@@ -854,7 +854,7 @@ class QuestionBankController extends Controller
     	{
     		$file_name = 'upload_'.$i;
     		// $rules['option_'.$i] = 'bail|required|integer';
-    		
+
     		if($request->hasFile($file_name))
     		{
     			$rules[$file_name] = 'mimes:jpeg,jpg,png,gif|max:'.$fileSize;
@@ -866,14 +866,14 @@ class QuestionBankController extends Controller
 
     public function validateCheckboxQuestions($request, $rules)
     {
-        
+
         return $rules;
     }
     public function validateMatchQuestions($request, $rules)
     {
         $rules['title_left']    = 'required|max:30';
         $rules['title_right']   = 'required|max:30';
-         
+
         return $rules;
     }
 
@@ -885,12 +885,12 @@ class QuestionBankController extends Controller
         }
         return $rules;
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -934,7 +934,7 @@ class QuestionBankController extends Controller
        if($is_array) {
 	       foreach($record as $option) {
           if(isset($option->has_file)){
-		    	if($option->has_file) 
+		    	if($option->has_file)
           {
 		    		$has_files = TRUE;
 		    		$files[] = $path.$option->file_name;
@@ -962,9 +962,9 @@ class QuestionBankController extends Controller
      * @return [type]             [description]
      */
     public function deleteOptionFile($id,$image_name)
-    {  
+    {
        $path   = (new App\ImageSettings())->getExamImagePath();
-         
+
          $files = $path.$image_name;
         File::delete($files);
         $record = QuestionBank::where('id','=',$id)->first();
@@ -985,13 +985,13 @@ class QuestionBankController extends Controller
             }
            }
            $options[] = $option_value;
-           
+
         }
 
         $record->answers = json_encode($options);
         $record->save();
 
-        flash('Success','image cleared successfully','success');
+        flash(getPhrase('success'),getPhrase('image_cleared_successfully'),'success');
         return back();
     }
    /**
@@ -1000,14 +1000,14 @@ class QuestionBankController extends Controller
     * @return [type]           [description]
     */
    public function deleteQuestionFile(Request $request)
-    {   
-         
+    {
+
          $path   = (new App\ImageSettings())->getExamImagePath();
-         
+
          $files = $path.$request->question_file;
         File::delete($files);
          DB::table('questionbank')->where('id','=',$request->question_id)->update(['question_file' =>NULL]);
-        flash('Success','image cleared successfully','success');
+        flash(getPhrase('success'),getPhrase('image_cleared_successfully'),'success');
         return back();
     }
 
@@ -1015,7 +1015,7 @@ class QuestionBankController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -1040,7 +1040,7 @@ class QuestionBankController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-      
+
         $data['records']      = FALSE;
         $data['active_class'] = 'exams';
         $data['heading']      = getPhrase('import_questions');
@@ -1080,7 +1080,7 @@ class QuestionBankController extends Controller
           $path = Input::file('excel')->getRealPath();
           $data = Excel::load($path, function($reader) {
           })->get();
-          
+
           $all_records  = array();
           $excel_record = array();
           $final_records =array();
@@ -1092,7 +1092,7 @@ class QuestionBankController extends Controller
                 $all_records[] = $value;
               }
               else {
-                
+
               foreach($value as $record)
               {
                 $all_records[] = $record;
@@ -1104,7 +1104,7 @@ class QuestionBankController extends Controller
              $questionbank = new QuestionBank();
 
             $summary = (object)$this->processExcelQuestions($request, $all_records);
-              
+
         }
       }
 
@@ -1112,7 +1112,7 @@ class QuestionBankController extends Controller
 
        $data['failed_list']   =   $summary->failed_list;
        $data['success_list']  =    $summary->success_list;
-       
+
        $this->excel_data['failed'] = $summary->failed_list;
        $this->excel_data['success'] = $summary->success_list;
        $this->excel_data['columns'] = $summary->columns_list;
@@ -1120,8 +1120,8 @@ class QuestionBankController extends Controller
          $this->downloadExcel();
        }
        else {
-        
-        flash('oops...!','improper_sheet_uploaded', 'error');
+
+        flash(getPhrase('Ooops'),getPhrase('improper_sheet_uploaded'), 'error');
        }
        }
      catch( \Illuminate\Database\QueryException $e)
@@ -1129,10 +1129,10 @@ class QuestionBankController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_sheet_uploaded', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_sheet_uploaded'), 'error');
        }
      }
         // URL_USERS_IMPORT_REPORT
@@ -1144,7 +1144,7 @@ class QuestionBankController extends Controller
        $data['heading']      = getPhrase('upload_questions');
        $data['title']        = getPhrase('report');
        return view('exams.questionbank.import.import-result', $data);
- 
+
      }
 
 public function getFailedData()
@@ -1167,7 +1167,7 @@ public function downloadExcel()
       foreach ($data['failed'] as $data_item) {
         $item = $data_item->record;
         $record_data = [];
-    
+
         $record_data[] = $data_item->type;
         foreach($data['columns'] as $key=>$value)
          $record_data[] = $item->$value;
@@ -1175,7 +1175,7 @@ public function downloadExcel()
 
         $sheet->appendRow($cnt++, $record_data);
 
-         
+
       }
 
 
@@ -1184,14 +1184,14 @@ public function downloadExcel()
      $excel->sheet('Success', function($sheet) {
         $data = $this->getFailedData();
       $sheet->row(1, $data['columns']);
-      
+
       $cnt = 2;
       foreach ($data['success'] as $data_item) {
-       
+
         $item = (object)collect($data_item)->all();
-      
+
         $record_data = [];
-       
+
         foreach($data['columns'] as $key=>$value)
         {
 
@@ -1204,10 +1204,10 @@ public function downloadExcel()
         }
         $sheet->appendRow($cnt++, $record_data);
 
-         
+
       }
 
-      
+
     });
 
     })->download('xlsx');
@@ -1224,7 +1224,7 @@ public function downloadExcel()
 
       switch($request->question_type)
       {
-        case 'radio': 
+        case 'radio':
                    $questionbank->uploadRadioQuestions($data);
                    return array(
                                 'failed_list'   => $questionbank->failed_list,
@@ -1252,8 +1252,8 @@ public function downloadExcel()
       }
      }
 
-     
 
-     
+
+
 
 }

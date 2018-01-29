@@ -2,7 +2,7 @@
 
  					 <fieldset class="form-group col-md-6">
 
-						
+
 
 						{{ Form::label('title', getphrase('title')) }}
 
@@ -13,9 +13,9 @@
 							'ng-model'=>'title',
 							'id'=>'title' ,
 
-							'ng-pattern'=>getRegexPattern('name'), 
+							'ng-pattern'=>getRegexPattern('name'),
 
-							'required'=> 'true', 
+							'required'=> 'true',
 
 							'ng-class'=>'{"has-error": formLms.title.$touched && formLms.title.$invalid}',
 
@@ -45,13 +45,13 @@
 
 						<span class="text-red">*</span>
 
-						{{Form::select('lms_category_id', $categories, null, ['placeholder' => getPhrase('select'),'class'=>'form-control', 
+						{{Form::select('lms_category_id', $categories, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
 
 						       'ng-model'=>'lms_category_id',
 
 						       'id'=>'lms_category_id' ,
-  
-							   'required'=> 'true', 
+
+							   'required'=> 'true',
 
 							   'ng-class'=>'{"has-error": formLms.lms_category_id.$touched && formLms.lms_category_id.$invalid}',
                            ]) }}
@@ -63,7 +63,7 @@
 						</div>
                      </fieldset>
                    </div>
-             
+
              <div  class="row">
 
                   <?php $payment_options = array('1'=>'Paid', '0'=>'Free');?>
@@ -74,13 +74,13 @@
 
 						<span class="text-red">*</span>
 
-						{{Form::select('is_paid', $payment_options, null, ['class'=>'form-control', 
+						{{Form::select('is_paid', $payment_options, null, ['class'=>'form-control',
 
 						    'ng-model'=>'is_paid',
 
                             'id'=>'is_paid' ,
 
-							'required'=> 'true', 
+							'required'=> 'true',
 
 							 'ng-class'=>'{"has-error": formLms.is_paid.$touched && formLms.is_paid.$invalid}',
                             ]) }}
@@ -95,7 +95,7 @@
 
 	  				 <fieldset class="form-group col-md-3">
 
-							
+
 
 							{{ Form::label('validity', getphrase('validity')) }}
 
@@ -107,11 +107,11 @@
 
 							'min'     =>'-1',
                             'required'=> 'true',
-                            'id'=>'validity' , 
+                            'id'=>'validity' ,
 
 							'ng-class'=>'{"has-error": formLms.validity.$touched && formLms.validity.$invalid}',
 
-							 
+
 
 							)) }}
 
@@ -123,11 +123,11 @@
 
 						</div>
 
-					</fieldset>	
+					</fieldset>
 
 	  				 <fieldset class="form-group col-md-3">
 
-						
+
 
 						{{ Form::label('cost', getphrase('cost')) }}
 
@@ -139,13 +139,13 @@
 
 						'ng-model'=>'cost',
 
-						'id'=>'cost' , 
+						'id'=>'cost' ,
 
-						'required'=> 'true', 
+						'required'=> 'true',
 
 						'ng-class'=>'{"has-error": formLms.cost.$touched && formLms.cost.$invalid}',
 
-							 
+
 
 							)) }}
 
@@ -171,7 +171,7 @@
 
 							<span class="text-red">*</span>
 
-							{{ Form::text('total_items', $value = null , $attributes = array('class'=>'form-control','readonly'=>'true' ,'placeholder' => getPhrase('It will be updated by adding the LMS items'))) }}
+							{{ Form::text('total_items', $value = null , $attributes = array('class'=>'form-control','readonly'=>'true' ,'placeholder' => getPhrase('It_will_be_updated_by_adding_the_LMS_items'))) }}
 
 					</fieldset>
 
@@ -179,10 +179,10 @@
 
 				   {{ Form::label('image', getphrase('image')) }}
 
-				         <input type="file" class="form-control" name="image" 
+				         <input type="file" class="form-control" name="image"
 				          accept=".png,.jpg,.jpeg" id="image_input">
 
-				          
+
 
 				         <div class="validation-error" ng-messages="formCategories.image.$error" >
 
@@ -211,7 +211,7 @@
 			    </div>
 
              <div class="row input-daterange" id="dp">
-				<?php 
+				<?php
 				$date_from = date('Y/m/d');
 				$date_to = date('Y/m/d');
 				if($record)
@@ -235,11 +235,11 @@
 
 					<fieldset class="form-group  col-md-6 helper_step1">
 
-						
+
 
 						{{ Form::label('short_description', getphrase('short_description')) }}
 
-						
+
 
 						{{ Form::textarea('short_description', $value = null , $attributes = array('class'=>'form-control ckeditor', 'rows'=>'5', 'placeholder' => getPhrase('short_description'))) }}
 
@@ -247,11 +247,11 @@
 
 					<fieldset class="form-group  col-md-6 helper_step2">
 
-						
+
 
 						{{ Form::label('description', getphrase('description')) }}
 
-						
+
 
 						{{ Form::textarea('description', $value = null , $attributes = array('class'=>'form-control ckeditor', 'rows'=>'5', 'placeholder' => getPhrase('description'))) }}
 
@@ -265,5 +265,3 @@
 							ng-disabled='!formLms.$valid'>{{ $button_name }}</button>
 
 						</div>
-
-		 

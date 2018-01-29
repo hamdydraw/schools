@@ -11,7 +11,7 @@ use Auth;
 use Exception;
 class AuthorsController extends Controller
 {
-        
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -42,12 +42,12 @@ class AuthorsController extends Controller
     public function getDatatable()
     {
 
-         $records = Author::select([   
+         $records = Author::select([
          	'author', 'gender', 'description', 'id','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -55,7 +55,7 @@ class AuthorsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_AUTHORS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                            
+
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
@@ -90,7 +90,7 @@ class AuthorsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -123,13 +123,13 @@ class AuthorsController extends Controller
          'author'          	   => 'bail|required|max:30' ,
           ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->author;
         if($name != $record->author)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
         $record->author 			= $name;
@@ -137,8 +137,8 @@ class AuthorsController extends Controller
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_updated_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('library/authors');
     }
 
@@ -160,16 +160,16 @@ class AuthorsController extends Controller
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('library/authors');
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -201,7 +201,7 @@ class AuthorsController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -214,5 +214,3 @@ class AuthorsController extends Controller
     }
 
 }
-
- 

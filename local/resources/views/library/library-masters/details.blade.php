@@ -25,7 +25,7 @@
             <div class="panel-heading">
                 <h1>
                     {{$asset_data->title.' '.getPhrase('details')}}
-                 
+
                 </h1>
             </div>
             <div class="panel-body">
@@ -40,27 +40,27 @@
     <tbody>
         <tr>
         <td><strong>ISBN NO :</strong> {{$asset_data->isbn}}</td>
-        <td><strong>{{getPhrase('total_:')}}</strong> {{$asset_data->total_assets_count}}</td>
+        <td><strong>{{getPhrase('total_')}}:</strong> {{$asset_data->total_assets_count}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('master_asset_name_:')}}</strong> {{$asset_data->title}}</td>
-        <td><strong>{{getPhrase('available:')}}</strong> {{$asset_data->total_assets_available}}</td>
+        <td><strong>{{getPhrase('master_asset_name_')}}:</strong> {{$asset_data->title}}</td>
+        <td><strong>{{getPhrase('available')}}:</strong> {{$asset_data->total_assets_available}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('asset_type_:')}}</strong> {{$master_asset_name->asset_type}}</td>
-        <td><strong>{{getPhrase('total_issued_:')}}</strong> {{$asset_data->total_assets_issued}}</td>
+        <td><strong>{{getPhrase('asset_type_')}}:</strong> {{$master_asset_name->asset_type}}</td>
+        <td><strong>{{getPhrase('total_issued_')}}:</strong> {{$asset_data->total_assets_issued}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('author_name:')}}</strong> {{$author_name->author}}</td>
-        <td><strong>{{getPhrase('total_damaged_:')}}</strong> {{$asset_data->total_assets_damaged}}</td>
+        <td><strong>{{getPhrase('author_name')}}:</strong> {{$author_name->author}}</td>
+        <td><strong>{{getPhrase('total_damaged_')}}:</strong> {{$asset_data->total_assets_damaged}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('publisher_name_:')}}</strong> {{$publisher_name->publisher}}</td>
-        <td><strong>{{getPhrase('total_lost_:')}}</strong> {{$asset_data->total_assets_lost}}</td>
+        <td><strong>{{getPhrase('publisher_name_')}}:</strong> {{$publisher_name->publisher}}</td>
+        <td><strong>{{getPhrase('total_lost_')}}:</strong> {{$asset_data->total_assets_lost}}</td>
         </tr>
         <tr>
-        <td><strong>{{getPhrase('edition_:')}}</strong> {{$asset_data->edition}}</td>
-        <td><strong>{{getPhrase('price:')}}</strong> {{$asset_data->actual_price}}</td>
+        <td><strong>{{getPhrase('edition_')}}:</strong> {{$asset_data->edition}}</td>
+        <td><strong>{{getPhrase('price')}}:</strong> {{$asset_data->actual_price}}</td>
         </tr>
     </tbody>
     </table>
@@ -73,17 +73,17 @@
  </div>
   </div>
 </div>
-                            
+
                 </hr>
             </div>
         </div>
     </div>
 </div>
 
-  
+
 
 @stop
- 
+
 @section('footer_scripts')
 
        @include('library.library-masters.js-scripts')

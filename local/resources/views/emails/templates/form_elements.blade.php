@@ -1,4 +1,4 @@
- 				<?php 
+ 				<?php
  				$readonly = '';
  				$disabled = '';
 					if($record) {
@@ -7,13 +7,13 @@
 				?>
 
  					 <fieldset class="form-group">
-						
+
 						{{ Form::label('key', getphrase('key')) }}
 						<span class="text-red">*</span>
 						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('key'),
 							'ng-model'=>'title',
 							'ng-pattern' => getRegexPattern("name"),
-							'required'=> 'true', 
+							'required'=> 'true',
 							$readonly,
 							'ng-class'=>'{"has-error": formEmails.title.$touched && formEmails.title.$invalid}'
 						)) }}
@@ -24,10 +24,10 @@
 					</fieldset>
 
 					 <fieldset class="form-group">
-						<?php $settings = getSettings('email'); 
-							
+						<?php $settings = getSettings('email');
+
 						 	$email_types = (array) $settings->record_type; ?>
-						 	
+
 						{{ Form::label('type', getphrase('type')) }}
 						<span class="text-red">*</span>
 						{{Form::select('type',$email_types , null, [
@@ -35,14 +35,14 @@
 						$disabled,
 						 ])}}
 					</fieldset>
- 					  
+
  					 <fieldset class="form-group">
 						{{ Form::label('subject', getphrase('subject')) }}
 						<span class="text-red">*</span>
 						{{ Form::text('subject', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('welcome'),
 							'ng-model'=>'subject',
 							'ng-pattern' => getRegexPattern("name"),
-							'required'=> 'true', 
+							'required'=> 'true',
 							'ng-class'=>'{"has-error": formEmails.subject.$touched && formEmails.subject.$invalid}'
 						)) }}
 						<div class="validation-error" ng-messages="formEmails.subject.$error" >
@@ -56,7 +56,7 @@
 						<span class="text-red">*</span>
 						{{ Form::email('from_email', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'name@domain.com',
 							'ng-model'=>'from_email',
-							'required'=> 'true', 
+							'required'=> 'true',
 							'ng-class'=>'{"has-error": formEmails.from_email.$touched && formEmails.from_email.$invalid}'
 						)) }}
 						<div class="validation-error" ng-messages="formEmails.from_email.$error" >
@@ -71,7 +71,7 @@
 						{{ Form::text('from_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
 							'ng-model'=>'from_name',
 							'ng-pattern' => getRegexPattern("name"),
-							'required'=> 'true', 
+							'required'=> 'true',
 							'ng-class'=>'{"has-error": formEmails.from_name.$touched && formEmails.from_name.$invalid}'
 						)) }}
 						<div class="validation-error" ng-messages="formEmails.from_name.$error" >
@@ -82,16 +82,15 @@
 
 
 					<fieldset class="form-group">
-						
+
 						{{ Form::label('content', getphrase('content')) }}
 						<span class="text-red">*</span>
-						{{ Form::textarea('content', $value = null , $attributes = array('class'=>'form-control ckeditor', 'rows'=>'5', 'placeholder' => getPhrase('Email Content')
-							
+						{{ Form::textarea('content', $value = null , $attributes = array('class'=>'form-control ckeditor', 'rows'=>'5', 'placeholder' => getPhrase('Email_Content')
+
 						)) }}
-						
+
 					</fieldset>
-					
+
 						<div class="buttons text-center">
 							<button class="btn btn-lg btn-primary button" ng-disabled='!formEmails.$valid'>{{ $button_name }}</button>
 						</div>
-		 

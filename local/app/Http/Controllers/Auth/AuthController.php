@@ -72,13 +72,13 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        
+
         $type = 'student';
         if($data['is_student'])
             $type = 'parent';
-        
+
         $role = getRoleData($type);
-      
+
         $user           = new User();
         $user->name     = $data['name'];
         $user->username     = $data['username'];
@@ -87,21 +87,21 @@ class AuthController extends Controller
         $user->password = bcrypt($data['password']);
         $user->role_id  = $role;
         $user->slug     = $user->makeSlug($user->name);
-      
+
         $user->save();
 
         $user->roles()->attach($user->role_id);
-        try{ 
+        try{
             // $this->sendPushNotification($user);
         sendEmail('registration', array('user_name'=>$user->name, 'username'=>$data['username'], 'to_email' => $user->email, 'password'=>$data['password']));
 
           }
          catch(Exception $ex)
         {
-            
+
         }
-      
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
 
         $options = array(
                             'name' => $user->name,
@@ -147,13 +147,13 @@ class AuthController extends Controller
         if (Auth::attempt(['username' => $request->email, 'password' => $request->password,'status'=>1])) {
                 // return redirect(PREFIX);
                 $login_status = TRUE;
-        } 
+        }
 
         elseif (Auth::attempt(['email'=> $request->email, 'password' => $request->password,'status'=>1])) {
             $login_status = TRUE;
         }
 
-        if(!$login_status) 
+        if(!$login_status)
         {
                return redirect()->back()
             ->withInput($request->only($this->loginUsername(), 'remember'))
@@ -167,13 +167,13 @@ class AuthController extends Controller
          * if parent check if admin enabled the parent module
          * if not enabled show the message to user and logout the user
          */
-        
+
         if($login_status) {
             if(checkRole(getUserGrade(7)))  {
                if(!getSetting('parent', 'module')) {
                 return redirect(URL_PARENT_LOGOUT);
                }
-            } 
+            }
         }
 
         /**
@@ -190,16 +190,16 @@ class AuthController extends Controller
                         session()->put('is_student', '1');
                         session()->put('user_record', prepareStudentSessionRecord($user->slug));
 
-                        
+
                     }
                 }
-                
-                return redirect(PREFIX);
-            } 
-        
-         
 
-        
+                return redirect(PREFIX);
+            }
+
+
+
+
     }
 
 
@@ -214,12 +214,12 @@ class AuthController extends Controller
         // dd(getSetting($logintype.'_login', 'module'));
         if(!getSetting($logintype.'_login', 'module'))
         {
-            flash('Ooops..!', $logintype.'_login_is_disabled','error');
+            flash(getPhrase('Ooops'), $logintype.'_login_is_disabled','error');
              return redirect(PREFIX);
         }
         $this->provider = $logintype;
         return Socialite::driver($this->provider)->redirect();
- 
+
     }
 
      /**
@@ -233,24 +233,24 @@ class AuthController extends Controller
         try{
         $user = Socialite::driver($logintype);
 
-        
+
         if(!$user)
         {
             return redirect(PREFIX);
         }
-            
+
         $user = $user->user();
 
-        
+
          if($user)
          {
-            
+
             if($this->checkIsUserAvailable($user)) {
                 Auth::login($this->dbuser, true);
-                flash('Success...!', 'log_in_success', 'success');
-                return redirect(PREFIX);    
+                flash(getPhrase('Success'), getPhrase('log_in_success'), 'success');
+                return redirect(PREFIX);
             }
-            flash('Ooops...!', 'faiiled_to_login', 'error');
+            flash(getPhrase('Ooops'), getPhrase('failed_to_login'), 'error');
             return redirect(PREFIX);
          }
      }
@@ -267,7 +267,7 @@ class AuthController extends Controller
      */
     public function checkIsUserAvailable($user)
     {
-        
+
         $id         = $user->getId();
         $nickname   = $user->getNickname();
         $name       = $user->getName();
@@ -275,12 +275,12 @@ class AuthController extends Controller
         $avatar     = $user->getAvatar();
 
         $this->dbuser = User::where('email', '=',$email)->first();
-        
+
         if($this->dbuser) {
             //User already available return true
             return TRUE;
         }
-        
+
         $newUser = array(
                             'name' => $name,
                             'email'=>$email,
@@ -292,11 +292,11 @@ class AuthController extends Controller
        $this->dbuser = User::where('slug','=',$this->dbuser->slug)->first();
        $this->sendPushNotification($this->dbuser);
        return TRUE;
-     
+
     }
 
     /**
-     * This method will be executited if the user 
+     * This method will be executited if the user
      * click on back button at social login site
      * @param  Request $request [description]
      * @return [type]           [description]

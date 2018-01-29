@@ -13,7 +13,7 @@
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
                          @if(checkRole(getUserGrade(2)))
                        <li><a href="{{URL_USERS_DASHBOARD}}">{{ getPhrase('users_dashboard') }}</a> </li>
-                       
+
 
                     <li><a href="{{URL_USERS."student"}}">{{ getPhrase('student_users') }}</a> </li>
                     @endif
@@ -21,45 +21,45 @@
                         @if(checkRole(getUserGrade(7)))
                    <li><a href="{{URL_PARENT_CHILDREN}}">{{ getPhrase('children') }}</a> </li>
                    @endif
-                   <li><a href="{{URL_USER_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a> </li> 
-                   
-                        
-                        
+                   <li><a href="{{URL_USER_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a> </li>
+
+
+
 							<li>{{ $title }}</li>
 						</ol>
 					</div>
 				</div>
-								
+
 				<!-- /.row -->
 				<div class="panel panel-custom">
 					<div class="panel-heading">
 					<div>
-						
+
 						<h1>{{$record->name}} {{getPhrase('transfer_list')}}</h1>
 
 						</div>
-					
+
 					<div class="panel-body packages" id="myForm">
-						<div> 
+						<div>
 						<table class="table table-striped table-bordered student-attendance-table datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
-									<th>{{ getPhrase('sno')}}</th>
+									<th>{{ getPhrase('sn')}}</th>
 									<th>{{ getPhrase('type')}}</th>
 									@if($course_time>1 && $having_semisters->is_having_semister!=0)
-									<th>{{ getPhrase('from (_admission_year-_course-_year-_semester)')}}</th>
-									<th>{{ getPhrase('to (_admission_year-_course-_year-_semester)')}}</th>
+									<th>{{ getPhrase('from')}}</th>
+									<th>{{ getPhrase('to')}}</th>
 									@elseif($course_time>1 && $having_semisters->is_having_semister==0)
-									<th>{{ getPhrase('from (_admission_year-_course-_year)')}}</th>
-									<th>{{ getPhrase('to (_admission_year-_course-_year)')}}</th>
+									<th>{{ getPhrase('from')}}</th>
+									<th>{{ getPhrase('to')}}</th>
 									@endif
 									@if($course_time<=1)
-									<th>{{ getPhrase('from (_admission_year-_course)')}}</th>
-									<th>{{ getPhrase('to (_admission_year-_course)')}}</th>
+									<th>{{ getPhrase('from')}}</th>
+									<th>{{ getPhrase('to')}}</th>
 									@endif
 									<th>{{ getPhrase('remarks')}}</th>
 									<th>{{ getPhrase('date')}}</th>
-									
+
 								</tr>
 							</thead>
 							<?php $sno = 1; ?>
@@ -67,7 +67,7 @@
 							<tr>
 								<td>{{$sno++}}</td>
 								<td>{{ucfirst($data->type)}}</td>
-								
+
 								<td>{{getacademictitle($data->from_academic_id)}} - {{getcoursetitle($data->from_course_id, $data->from_year, $data->from_semister,$having_semisters->is_having_semister)}}</td>
 								<td>{{gettransferacademictitle($data->type,$data->to_academic_id , $data->to_year, $data->to_semister)}} - {{gettransfercoursetitle($data->type,$data->to_course_id, $data->to_year, $data->to_semister)}}</td>
 								<td>{{ucfirst($data->remarks)}}</td>
@@ -76,7 +76,7 @@
 							@endforeach
 						</table>
 						</div>
-						
+
 					</div>
 				</div>
 
@@ -85,5 +85,5 @@
 
 @endsection
 @section('footer_scripts')
-  
+
 @stop

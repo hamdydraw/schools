@@ -11,7 +11,7 @@ use DB;
 use Exception;
 class ReligionsController extends Controller
 {
-    
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -37,10 +37,10 @@ class ReligionsController extends Controller
     {
 
          $records = Religion::select(['id','religion_name','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-           
+
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -72,7 +72,7 @@ class ReligionsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -94,24 +94,24 @@ class ReligionsController extends Controller
     {
 
         $record                 = Religion::where('slug', $slug)->get()->first();
-        
+
           $this->validate($request, [
             'religion_name'          => 'bail|required|max:30|unique:religions,religion_name,'.$record->id.''
             ]);
 
         	$name                       = $request->religion_name;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->religion_name)
             $record->slug = $record->makeSlug($name);
-    	
+
         $record->religion_name = $name;
-         
+
         $record->save();
-    	flash('success','record_updated_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('mastersettings/religions');
     }
 
@@ -130,14 +130,14 @@ class ReligionsController extends Controller
         $record->religion_name 			= $name;
         $record->slug 			        = $record->makeSlug($name);
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('mastersettings/religions');
     }
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {

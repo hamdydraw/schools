@@ -14,12 +14,12 @@ use File;
 use Exception;
 class QuizCategoryController extends Controller
 {
-        
+
     public function __construct()
     {
     	$this->middleware('auth');
 
-         
+
     }
 
     protected  $examSettings;
@@ -65,21 +65,21 @@ class QuizCategoryController extends Controller
           return back();
         }
 
-         $records = QuizCategory::select([   
+         $records = QuizCategory::select([
          	'category', 'image', 'description', 'id','slug'])
          ->orderBy('updated_at', 'desc');
         $this->setExamSettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
          $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_QUIZ_CATEGORY_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                            
-                            
+
+
         $temp = '';
         if(checkRole(getUserGrade(1))) {
         $temp .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
@@ -124,7 +124,7 @@ class QuizCategoryController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -164,13 +164,13 @@ class QuizCategoryController extends Controller
           'catimage'         => 'bail|mimes:png,jpg,jpeg|max:2048'
           ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->category;
         if($name != $record->category)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
     	$record->category 			= $name;
@@ -188,7 +188,7 @@ class QuizCategoryController extends Controller
               $record->save();
         }
 
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_QUIZ_CATEGORIES);
     }
 
@@ -232,14 +232,14 @@ class QuizCategoryController extends Controller
               $record->save();
         }
 
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_QUIZ_CATEGORIES);
     }
- 
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -248,11 +248,11 @@ class QuizCategoryController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-        
+
         $record = QuizCategory::where('slug', $slug)->first();
             try{
             $this->setExamSettings();
-           
+
             $examSettings = $this->getExamSettings();
             $path = $examSettings->categoryImagepath;
             if(!env('DEMO_MODE')) {
@@ -261,7 +261,7 @@ class QuizCategoryController extends Controller
             }
             $response['status'] = 1;
             $response['message'] = getPhrase('category_deleted_successfully');
-            
+
        } catch ( \Illuminate\Database\QueryException $e) {
                  $response['status'] = 0;
            if(getSetting('show_foreign_key_constraint','module'))
@@ -277,7 +277,7 @@ class QuizCategoryController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -313,16 +313,16 @@ class QuizCategoryController extends Controller
         if(env('DEMO_MODE')) {
             return;
         }
-        
+
          if ($request->hasFile($file_name)) {
           $examSettings = getExamSettings();
-          
+
           $destinationPath      = $examSettings->categoryImagepath;
-          
+
           $fileName = $record->id.'-'.$file_name.'.'.$request->$file_name->guessClientExtension();
-          
+
           $request->file($file_name)->move($destinationPath, $fileName);
-         
+
          //Save Normal Image with 300x300
           Image::make($destinationPath.$fileName)->fit($examSettings->imageSize)->save($destinationPath.$fileName);
          return $fileName;

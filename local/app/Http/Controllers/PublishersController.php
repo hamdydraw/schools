@@ -12,7 +12,7 @@ use Auth;
 use Exception;
 class PublishersController extends Controller
 {
-         
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -46,12 +46,12 @@ class PublishersController extends Controller
     {
 
 
-         $records = Publisher::select([   
+         $records = Publisher::select([
          	'publisher', 'country', 'description', 'id','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@ class PublishersController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_PUBLISHERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                            
+
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
@@ -73,7 +73,7 @@ class PublishersController extends Controller
         })
         ->removeColumn('id')
         ->removeColumn('slug')
-        
+
         ->make();
     }
 
@@ -99,7 +99,7 @@ class PublishersController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -140,13 +140,13 @@ class PublishersController extends Controller
          'publisher'          	   => 'bail|required|max:30' ,
           ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->publisher;
         if($name != $record->publisher)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
         $record->publisher 			= $name;
@@ -154,8 +154,8 @@ class PublishersController extends Controller
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_updated_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('library/publishers');
     }
 
@@ -177,22 +177,22 @@ class PublishersController extends Controller
 
         $record = new Publisher();
       	$name  						=  $request->publisher;
-		$record->publisher 			= $name;
+	      $record->publisher 			= $name;
        	$record->slug 				= $record->makeSlug($name);
         $record->country				= $request->country;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('library/publishers');
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -205,7 +205,7 @@ class PublishersController extends Controller
           if(!env('DEMO_MODE')) {
         Publisher::where('slug', $slug)->delete();
          }
-        
+
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
         }
@@ -223,7 +223,7 @@ class PublishersController extends Controller
     public function isValidRecord($record)
     {
     	if ($record === null) {
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 

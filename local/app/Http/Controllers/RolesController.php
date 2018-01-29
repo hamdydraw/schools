@@ -23,7 +23,7 @@ class RolesController extends Controller
     	$data['sub_active_class']   = 'roles';
     	$data['title']          	= getPhrase('user_roles');
     	return view('users.roles.list-roles', $data);
-		
+
     }
 
     public function addRole()
@@ -39,7 +39,7 @@ class RolesController extends Controller
 
     public function edit(Role $id)
     {
-        
+
         $data['role']               = $id;
         $data['active_class']       = 'users';
         $data['title']              = getPhrase('edit_role');
@@ -53,14 +53,14 @@ class RolesController extends Controller
         $role = Role::find($request->id);
         $this->validate($request, [
         'name'          => 'bail|required|max:20',
-        'display_name'  => 'required' 
+        'display_name'  => 'required'
         ]);
-        
+
         $role->name          = $request->name;
         $role->display_name  = $request->display_name;
         $role->description   = $request->description;
         $role->save();
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect('roles');
     }
 
@@ -69,16 +69,16 @@ class RolesController extends Controller
 
         $this->validate($request, [
         'name'          => 'bail|required|unique:roles|max:20',
-        'display_name'  => 'required' 
+        'display_name'  => 'required'
         ]);
-        
+
         $role = new Role();
         $role->name = $request->name;
         $role->display_name = $request->display_name;
         $role->description = $request->description;
         $role->save();
-      
-        flash('success','Record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('Record_added_successfully'), 'success');
     	return redirect('roles');
     }
 

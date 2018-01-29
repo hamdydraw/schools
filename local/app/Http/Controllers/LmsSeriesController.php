@@ -19,7 +19,7 @@ class LmsSeriesController extends Controller
 	 public function __construct()
     {
     	$this->middleware('auth');
-     
+
 
     }
 
@@ -36,7 +36,7 @@ class LmsSeriesController extends Controller
       }
 
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase(' series');
+        $data['title']              = 'LMS'.' '.getPhrase('series');
         $data['module_helper']      = getModuleHelper('lms-series-list');
     	return view('lms.lmsseries.list', $data);
     }
@@ -63,7 +63,7 @@ class LmsSeriesController extends Controller
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
           $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -71,12 +71,12 @@ class LmsSeriesController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="'.URL_LMS_SERIES_UPDATE_SERIES.$records->slug.'"><i class="fa fa-spinner" aria-hidden="true"></i>'.getPhrase("update").' '.'LMS'.'</a></li>
                             <li><a href="'.URL_LMS_SERIES_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                            
+
                            $temp = '';
                            if(checkRole(getUserGrade(1))) {
                     $temp .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
                       }
-                    
+
                     $temp .='</ul></div>';
 
 
@@ -107,7 +107,7 @@ class LmsSeriesController extends Controller
         {
             return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
         })
-        
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('updated_at')
@@ -137,7 +137,7 @@ class LmsSeriesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -176,13 +176,13 @@ class LmsSeriesController extends Controller
     	$record = LmsSeries::getRecordWithSlug($slug);
 		 $rules = ['title'      => 'bail|required|max:60'];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->title;
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-      
+
        //Validate the overall request
        $this->validate($request, $rules);
     	$record->title 				= $name;
@@ -197,7 +197,7 @@ class LmsSeriesController extends Controller
     	}
 
         $record->total_items		= $request->total_items;
-        
+
 
         $record->short_description	= $request->short_description;
         $record->description		= $request->description;
@@ -217,7 +217,7 @@ class LmsSeriesController extends Controller
             $record->image      = $this->processUpload($request, $record,$file_name);
               $record->save();
         }
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_LMS_SERIES);
     }
 
@@ -236,7 +236,7 @@ class LmsSeriesController extends Controller
 
 	    $rules = [
          'title'          	   => 'bail|required|max:60' ,
-         
+
           ];
         $this->validate($request, $rules);
         $record = new LmsSeries();
@@ -269,7 +269,7 @@ class LmsSeriesController extends Controller
             $record->image      = $this->processUpload($request, $record,$file_name);
               $record->save();
         }
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_LMS_SERIES);
     }
 
@@ -297,30 +297,30 @@ class LmsSeriesController extends Controller
        }
          if ($request->hasFile($file_name)) {
           $examSettings = getSettings('lms');
-            
+
             $imageObject = new ImageSettings();
 
           $destinationPath            = $examSettings->seriesImagepath;
           $destinationPathThumb       = $examSettings->seriesThumbImagepath;
-          
+
           $fileName = $record->id.'-'.$file_name.'.'.$request->$file_name->guessClientExtension();
-          
+
           $request->file($file_name)->move($destinationPath, $fileName);
-         
+
          //Save Normal Image with 300x300
           Image::make($destinationPath.$fileName)->fit($examSettings->imageSize)->save($destinationPath.$fileName);
-        
+
 
            Image::make($destinationPath.$fileName)->fit($imageObject->getThumbnailSize())->save($destinationPathThumb.$fileName);
         return $fileName;
 
         }
      }
- 
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -338,7 +338,7 @@ class LmsSeriesController extends Controller
         if(!$record)
         {
           $response['status'] = 0;
-          $response['message'] = getPhrase('invalid_record');  
+          $response['message'] = getPhrase('invalid_record');
            return json_encode($response);
         }
 
@@ -364,7 +364,7 @@ class LmsSeriesController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 
@@ -387,11 +387,11 @@ class LmsSeriesController extends Controller
 
     	$category_id 	= $request->category_id;
     	$items 			= App\LmsContent::where('subject_id','=',$category_id)
-                     
+
     				        ->get();
     	return json_encode(array('items'=>$items));
     }
-    
+
     /**
      * Updates the questions in a selected quiz
      * @param  [type] $slug [description]
@@ -411,12 +411,12 @@ class LmsSeriesController extends Controller
     	 * Get the available questions from questionbank_quizzes table
     	 * Load view with this data
     	 */
-		$record = LmsSeries::getRecordWithSlug($slug); 
+		$record = LmsSeries::getRecordWithSlug($slug);
 		$data['record']         	= $record;
     	$data['active_class']       = 'lms';
         $data['right_bar']          = TRUE;
         $data['right_bar_path']     = 'lms.lmsseries.right-bar-update-lmslist';
-		$data['categories']       	= array_pluck(App\Subject::all(),'subject_title', 'id');        
+		$data['categories']       	= array_pluck(App\Subject::all(),'subject_title', 'id');
         $data['settings']           = FALSE;
         $previous_records = array();
         if($record->total_items > 0)
@@ -424,7 +424,7 @@ class LmsSeriesController extends Controller
             $series = DB::table('lmsseries_data')
                             ->where('lmsseries_id', '=', $record->id)
                             ->get();
-            
+
             foreach($series as $r)
             {
                 $temp = array();
@@ -433,15 +433,15 @@ class LmsSeriesController extends Controller
                 $temp['content_type'] = $series_details->content_type;
                 $temp['code'] 		 = $series_details->code;
                 $temp['title'] 		 = $series_details->title;
-                
+
                 array_push($previous_records, $temp);
             }
             $settings['contents'] = $previous_records;
         $data['settings']           = json_encode($settings);
         }
-        
-        
-    	$data['exam_categories']       	= array_pluck(App\QuizCategory::all(), 
+
+
+    	$data['exam_categories']       	= array_pluck(App\QuizCategory::all(),
     									'category', 'id');
 
     	$data['title']              = getPhrase('update_series_for').' '.$record->title;
@@ -450,25 +450,25 @@ class LmsSeriesController extends Controller
     }
 
     public function storeSeries(Request $request, $slug)
-    {	
+    {
     	if(!checkRole(getUserGrade(2)))
         {
             prepareBlockUserMessage();
             return back();
         }
 
-        $lms_series = LmsSeries::getRecordWithSlug($slug); 
+        $lms_series = LmsSeries::getRecordWithSlug($slug);
 
         $lmsseries_id  = $lms_series->id;
         $contents  	= json_decode($request->saved_series);
-       
+
         $contents_to_update = array();
         foreach ($contents as $record) {
             $temp = array();
             $temp['lmscontent_id'] = $record->id;
             $temp['lmsseries_id'] = $lmsseries_id;
             array_push($contents_to_update, $temp);
-            
+
         }
         $lms_series->total_items = count($contents);
 
@@ -479,13 +479,13 @@ class LmsSeriesController extends Controller
         //Insert New Questions
         DB::table('lmsseries_data')->insert($contents_to_update);
         $lms_series->save();
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_LMS_SERIES);
     }
 
     /**
      * This method lists all the available exam series for students
-     * 
+     *
      * @return [type] [description]
      */
     public function listSeries()
@@ -504,12 +504,12 @@ class LmsSeriesController extends Controller
      */
     public function viewItem($slug)
     {
- 
 
-        $record = LmsSeries::getRecordWithSlug($slug); 
-        
+
+        $record = LmsSeries::getRecordWithSlug($slug);
+
         if($isValid = $this->isValidRecord($record))
-          return redirect($isValid);  
+          return redirect($isValid);
 
         $data['active_class']       = 'exams';
         $data['pay_by']             = '';
@@ -524,5 +524,5 @@ class LmsSeriesController extends Controller
        return view('student.exams.exam-series-view-item', $data);
     }
 
-    
+
 }

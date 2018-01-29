@@ -50,7 +50,7 @@ class TopicsController extends Controller
         return back();
       }
          $records = Topic::join('subjects', 'topics.subject_id', '=' ,'subjects.id')
-         ->select([  
+         ->select([
             'subjects.subject_title','parent_id', 'topic_name','description','topics.slug', 'topics.id', 'topics.updated_at'])
          ->orderBy('updated_at','desc');
 
@@ -62,8 +62,8 @@ class TopicsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_TOPICS_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                     
-                        
+
+
                     $temp = '';
                     if(checkRole(getUserGrade(1)))
                     {
@@ -78,14 +78,14 @@ class TopicsController extends Controller
         {
           return $records->topic_name.' ('.$records->id.')';
         })
-       
-        
+
+
         ->editColumn('parent_id', function($records){
-          return ($records->parent_id == 0) ? '<i class="fa fa-check text-success"></i>' : 
+          return ($records->parent_id == 0) ? '<i class="fa fa-check text-success"></i>' :
           Topic::getParentRecord($records->parent_id)->topic_name;
         })
-        
-        
+
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('updated_at')
@@ -118,7 +118,7 @@ class TopicsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -159,7 +159,7 @@ class TopicsController extends Controller
       }
 
         $record                 = Topic::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
@@ -170,14 +170,14 @@ class TopicsController extends Controller
           ]);
 
         $name 					        = $request->topic_name;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->topic_name)
             $record->slug = $record->makeSlug($name, TRUE);
-    	
+
         $record->topic_name 			= $name;
         $record->parent_id				= $request->parent_id;
         $record->subject_id				= $request->subject_id;
@@ -186,7 +186,7 @@ class TopicsController extends Controller
         $record->description 			= $request->description;
         $record->save();
 
-    	flash('success','record_updated_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_TOPICS);
     }
 
@@ -196,13 +196,13 @@ class TopicsController extends Controller
      * @return void
      */
     public function store(Request $request)
-    { 
+    {
     	if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();
         return back();
       }
-      
+
        $this->validate($request, [
          'subject_id'          	 => 'bail|required',
          'parent_id'             => 'bail|required',
@@ -218,16 +218,16 @@ class TopicsController extends Controller
         $record->description 			= $request->description;
         $record->save();
 
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_TOPICS);
     }
 
-   
+
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -269,7 +269,7 @@ class TopicsController extends Controller
 
 
     	$list = Topic::getTopics($subject_id, 0);
-    		 
+
     	$parents =  array();
     	array_push($parents, array('id'=>0, 'text' => 'Parent'));
 
@@ -284,7 +284,7 @@ class TopicsController extends Controller
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 
@@ -308,7 +308,7 @@ class TopicsController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-      
+
         $data['records']      = FALSE;
         $data['active_class'] = 'master_settings';
         $data['heading']      = getPhrase('topics');
@@ -332,7 +332,7 @@ class TopicsController extends Controller
       */
      public function getParentAndChilds($records)
      {
-      
+
        $parent_records  = [];
        $child_records   = [];
        $failed_list     = [];
@@ -349,7 +349,7 @@ class TopicsController extends Controller
             }
 
           if(!$record->parent_id) {
-            
+
              if(!$parent_records[(int)$record->id] = $this->pushToDb($record)) {
                 $temp['record'] = $record;
                 $temp['type']  = getPhrase('unknown_error_occurred');
@@ -391,7 +391,7 @@ class TopicsController extends Controller
           $path = Input::file('excel')->getRealPath();
           $data = Excel::load($path, function($reader) {
           })->get();
-          
+
           $all_records  = array();
           $excel_record = array();
           $final_records =array();
@@ -408,15 +408,15 @@ class TopicsController extends Controller
             /**
              * 1) Validate the excel data by verifing the subject id validity and filter only valid recods
              * 2) First Insert the parent topic records and capture the id of the parent
-             * 3) Get the list of child records, before insert the child record check the parent 
+             * 3) Get the list of child records, before insert the child record check the parent
              *   id in the captured array or it exists in db
              * 4) Insert only valid parent id records.
              * 5) Maintain Failed and Success List with error messages.
-             * 
+             *
              * @var [type]
              */
             $processed_records = (object) $this->getParentAndChilds($all_records);
-          
+
               $parent_records = $processed_records->parent_records;
               $child_records  = $processed_records->child_records;
               $failed_list    = $processed_records->failed_records;
@@ -428,30 +428,30 @@ class TopicsController extends Controller
 
                 $temp_parent_id = (int)$record->parent_id;
 
-                if( !array_key_exists($temp_parent_id, $parent_records) && 
-                    !$this->isRecordExists('id',$temp_parent_id)) 
+                if( !array_key_exists($temp_parent_id, $parent_records) &&
+                    !$this->isRecordExists('id',$temp_parent_id))
                 {
                   $temp['record'] = $record;
-                  $temp['type']   = getPhrase('Invalid Subject Id');
+                  $temp['type']   = getPhrase('Invalid_Subject_Id');
                   $failed_list[count($failed_list)] = (object)$temp;
                   continue;
                 }
                 $record['parent_id'] =  $parent_records[$record->parent_id];
-                 
+
                  if(!env('DEMO_MODE')) {
                   if( $this->pushToDb($record))
                     $success_list[] = $record;
                 }
               }
-         
+
           }
         }
-       
+
        $data['failed_list']   =   $failed_list;
        $data['success_list']  =    $success_list;
        $this->excel_data['failed'] = $failed_list;
        $this->excel_data['success'] = $success_list;
-         flash('success','record_added_successfully', 'success');
+         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
        $this->downloadExcel();
         }
      catch( \Illuminate\Database\QueryException $e)
@@ -459,14 +459,14 @@ class TopicsController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_sheet_uploaded', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_sheet_uploaded'), 'error');
        }
      }
         // URL_USERS_IMPORT_REPORT
-         $data['failed_list']   =   $failed_list;
+       $data['failed_list']   =   $failed_list;
        $data['success_list']  =    $success_list;
        $data['records']      = FALSE;
        $data['layout']       = getLayout();
@@ -475,7 +475,7 @@ class TopicsController extends Controller
        $data['title']        = getPhrase('report');
       // flash('success','record_added_successfully', 'success');
        return view('mastersettings.topics.import.import-result', $data);
- 
+
      }
 
      public function getFailedData()
@@ -530,7 +530,7 @@ public function downloadExcel()
       */
      public function pushToDb($request)
      {
-      
+
         $topic                = new Topic();
         $name                 = $request->topic_name;
         $topic->topic_name    = $name;
@@ -543,5 +543,5 @@ public function downloadExcel()
        $topic->save();
         return $topic->id;
      }
- 
+
 }

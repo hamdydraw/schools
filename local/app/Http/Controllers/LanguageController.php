@@ -15,7 +15,7 @@ class LanguageController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
-      
+
     }
 
     /**
@@ -29,11 +29,11 @@ class LanguageController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-         
+
         $data['active_class']       = 'languages';
         $data['title']              = getPhrase('languages');
         $data['layout']             = getLayout();
-      
+
         return view('languages.list', $data);
     }
 
@@ -50,7 +50,7 @@ class LanguageController extends Controller
       }
 
          $records = Language::select([ 'language', 'code','is_rtl','is_default','id','slug'])->orderBy('updated_at','desc');
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
            $link_data = '<div class="dropdown more">
@@ -103,10 +103,10 @@ class LanguageController extends Controller
 
       	$data['record']         	= FALSE;
     	$data['active_class']       = 'languages';
-    	
+
       $data['title']              = getPhrase('add_language');
     	$data['layout']             = getLayout();
-        
+
 
         return view('languages.add-edit', $data);
     }
@@ -114,7 +114,7 @@ class LanguageController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -127,7 +127,7 @@ class LanguageController extends Controller
     	$record = Language::where('slug', $slug)->get()->first();
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
-    			
+
     	  $data['record']       		= $record;
     	  $data['active_class']       = 'languages';
         $data['title']              = getPhrase('edit_language');
@@ -150,7 +150,7 @@ class LanguageController extends Controller
       }
 
         $record                 = Language::where('slug', $slug)->get()->first();
-        
+
         if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
 
@@ -161,20 +161,20 @@ class LanguageController extends Controller
             ]);
 
         $name 					        = $request->language;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->language)
             $record->slug = $record->makeSlug($name);
-    	
+
      	$record->language 			 = $name;
         $record->slug 			   = $record->makeSlug($name);
         $record->code					 = $request->code;
         $record->is_rtl				 = $request->is_rtl;
         $record->save();
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('languages/list');
     }
 
@@ -203,7 +203,7 @@ class LanguageController extends Controller
         $record->code					= $request->code;
         $record->is_rtl					= $request->is_rtl;
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('languages/list');
     }
 
@@ -229,8 +229,8 @@ class LanguageController extends Controller
     	Language::where('id','!=' ,$zero)->update(['is_default'=> $zero]);
     	Language::where('slug', '=', $slug)->update(['is_default'=> 1]);
       Language::resetLanguage();
-    	flash('success','record_updated_successfully', 'success');
-    	return redirect('languages/list');	
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
+    	return redirect('languages/list');
     }
 
     /**
@@ -252,7 +252,7 @@ class LanguageController extends Controller
        * Check if the record is set to current default language
        * If so do not delete the record and send the appropriate message
        */
-      
+
     if($record->is_default)
         {
             //Topics exists with the selected, so done delete the subject
@@ -275,7 +275,7 @@ class LanguageController extends Controller
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 

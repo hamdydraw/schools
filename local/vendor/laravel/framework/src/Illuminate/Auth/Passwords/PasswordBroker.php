@@ -110,7 +110,7 @@ class PasswordBroker implements PasswordBrokerContract
         // password reminder e-mail. We'll pass a "token" variable into the views
         // so that it may be displayed for an user to click for password reset.
         $view = $this->emailView;
-     
+
         try{
         return $this->mailer->send($view, compact('token', 'user'), function ($m) use ($user, $token, $callback) {
             $m->to($user->getEmailForPasswordReset());
@@ -121,7 +121,7 @@ class PasswordBroker implements PasswordBrokerContract
         });
         }
         catch(Exception $ex){
-            flash('Ooops..!', $ex->getMessage(),'overlay');
+            flash(getPhrase('Ooops'), $ex->getMessage(),'overlay');
             return redirect(PREFIX);
         }
     }

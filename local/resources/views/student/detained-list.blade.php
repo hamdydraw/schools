@@ -76,7 +76,7 @@
                             <table class="table table-bordered" style="border-collapse: collapse;">
                                 <thead>
                                 <th style="border:1px solid #000;text-align:center;"><b>{{getPhrase('action')}}</b></th>
-                                <th style="border:1px solid #000;text-align:center;"><b>{{getPhrase('sno')}}</b></th>
+                                <th style="border:1px solid #000;text-align:center;"><b>{{getPhrase('sn')}}</b></th>
                                 <th style="border:1px solid #000; text-align:center;"><b>{{getPhrase('name')}}</b></th>
 
                                 <th style="border:1px solid #000;text-align:center;"><b>{{getPhrase('roll_no')}}</b>

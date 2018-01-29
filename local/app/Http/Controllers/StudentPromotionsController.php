@@ -84,7 +84,7 @@ class StudentPromotionsController extends Controller
             }
 
             if ($has_error) {
-                flash('oops...!', 'improper_selection', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_selection'), 'error');
                 return redirect(URL_STUDENT_TRANSFERS);
             }
 
@@ -181,15 +181,15 @@ class StudentPromotionsController extends Controller
                     $studentObject->save();
                 }
 
-                flash('success', 'record_added_successfully', 'success');
+                flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
                 DB::commit();
             } catch (Exception $e) {
                 DB::rollBack();
                 if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                    flash('oops...!', $e->getMessage(), 'error');
+                    flash(getPhrase('Ooops'), $e->getMessage(), 'error');
                 } else {
-                    flash('oops...!', 'improper_selection', 'error');
+                    flash(getPhrase('Ooops'), getPhrase('improper_selection'), 'error');
                 }
             }
         } else {
@@ -276,15 +276,15 @@ class StudentPromotionsController extends Controller
                     $studentObject->save();
                 }
 
-                flash('success', 'records_updated_successfully', 'success');
+                flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
                 DB::commit();
             } catch (Exception $e) {
                 DB::rollBack();
                 if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                    flash('oops...!', $e->getMessage(), 'error');
+                    flash(getPhrase('Ooops'), $e->getMessage(), 'error');
                 } else {
-                    flash('oops...!', 'improper_selection', 'error');
+                    flash(getPhrase('Ooops'), getPhrase('improper_selection'), 'error');
                 }
             }
 
@@ -348,7 +348,7 @@ class StudentPromotionsController extends Controller
             $studentObject->current_semister = '-1';
 
             $studentObject->save();
-            flash('success', 'records_updated_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
             DB::commit();
         } catch (Exception $e) {
 
@@ -356,9 +356,9 @@ class StudentPromotionsController extends Controller
 
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'internal_error', 'error');
+                flash(getPhrase('Ooops'), getPhrase('internal_error'), 'error');
             }
         }
 
@@ -381,9 +381,9 @@ class StudentPromotionsController extends Controller
             }
         }
         if ($toShowerrors == true) {
-            return 'error';
+            return getPhrase('Ooops');
         } else {
-            return 'done';
+            return getPhrase('done');
         }
 
     }

@@ -133,7 +133,7 @@ class OfflineExamsController extends Controller
         $select_options[''] = getPhrase('Select');
 
         //Prepare the select list in the below format
-        // Parent Course Code - Year-Sem - Subject-title  
+        // Parent Course Code - Year-Sem - Subject-title
         foreach ($records as $record) {
             $year_semister = 0;
             if ($record->course_dueration > 1) {
@@ -169,7 +169,7 @@ class OfflineExamsController extends Controller
         }
 
         if (!$request->quiz_applicability_id) {
-            flash('Oops...!', 'Invalid_details_supplied', 'overlay');
+            flash(getPhrase('Ooops'), 'Invalid_details_supplied', 'overlay');
             return redirect()->back()->withInput($request->except('_token'));
         }
 
@@ -243,7 +243,7 @@ class OfflineExamsController extends Controller
             return view('offlineexams.marks-list', $data);
         }
 
-        flash('Oops...!', 'no_students_available', 'overlay');
+        flash(getPhrase('Ooops'), getPhrase('no_students_available'), 'overlay');
         return redirect('academicoperations/offline-exams');
 
     }
@@ -326,7 +326,7 @@ class OfflineExamsController extends Controller
 
         }
 
-        flash('success', 'record_added_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_OFFLINE_EXAMS);
 
     }
@@ -354,7 +354,7 @@ class OfflineExamsController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -488,15 +488,15 @@ class OfflineExamsController extends Controller
             $this->excel_data['failed'] = $failed_list;
             $this->excel_data['success'] = $success_list;
 
-            flash('success', 'record_added_successfully', 'success');
+            flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
             $this->downloadExcel();
 
         } catch (\Illuminate\Database\QueryException $e) {
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash('oops...!', $e->getMessage(), 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
-                flash('oops...!', 'improper_sheet_uploaded', 'error');
+                flash(getPhrase('Ooops'), getPhrase('improper_sheet_uploaded'), 'error');
             }
         }
 

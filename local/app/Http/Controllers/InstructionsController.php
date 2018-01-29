@@ -129,7 +129,7 @@ class InstructionsController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -171,7 +171,7 @@ class InstructionsController extends Controller
         $record->content = $request->content;
 
         $record->save();
-        flash('success', 'record_updated_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_INSTRUCTIONS);
     }
 
@@ -199,7 +199,7 @@ class InstructionsController extends Controller
 
         $record->content = $request->content;
         $record->save();
-        flash('success', 'record_added_successfully', 'success');
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_INSTRUCTIONS);
     }
 

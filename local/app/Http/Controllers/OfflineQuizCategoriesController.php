@@ -12,7 +12,7 @@ use DB;
 use App\OfflineQuizCategories;
 use Exception;
 class OfflineQuizCategoriesController extends Controller
-{ 
+{
 
 	public function __construct()
     {
@@ -43,10 +43,10 @@ class OfflineQuizCategoriesController extends Controller
     {
 
          $records = OfflineQuizCategories::select(['id','title','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-           
+
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -79,7 +79,7 @@ class OfflineQuizCategoriesController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -102,24 +102,24 @@ class OfflineQuizCategoriesController extends Controller
     {
 
         $record                 = OfflineQuizCategories::where('slug', $slug)->get()->first();
-        
+
           $this->validate($request, [
             'title'          => 'bail|required|max:40|unique:quizofflinecategories,title,'.$record->id.''
             ]);
 
         	$name                       = $request->title;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $record->title)
             $record->slug = $record->makeSlug($name);
-    	
+
         $record->title = $name;
-         
+
         $record->save();
-    	flash('success','record_updated_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('offlineexmas/quiz/categories');
     }
 
@@ -138,14 +138,14 @@ class OfflineQuizCategoriesController extends Controller
         $record->title 			        = $name;
         $record->slug 			        = $record->makeSlug($name);
         $record->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('offlineexmas/quiz/categories');
     }
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -178,5 +178,5 @@ class OfflineQuizCategoriesController extends Controller
           }
         return json_encode($response);
     }
-    
+
 }

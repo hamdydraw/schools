@@ -142,7 +142,7 @@ trait ResetsPasswords
      */
     protected function getSendResetLinkEmailSuccessResponse($response)
     {
-        flash('success','password_reset_link_sent_to_email','success');
+        flash(getPhrase('success'),getPhrase('password_reset_link_sent_to_email'),'success');
         return redirect()->back()->with('status', trans($response));
     }
 
@@ -154,7 +154,7 @@ trait ResetsPasswords
      */
     protected function getSendResetLinkEmailFailureResponse($response)
     {
-         flash('Oops..!','invalid_email','error');
+         flash(getPhrase('Ooops'),getPhrase('invalid_email'),'error');
         return redirect()->back()->withErrors(['email' => trans($response)]);
     }
 
@@ -236,10 +236,10 @@ trait ResetsPasswords
 
         switch ($response) {
             case Password::PASSWORD_RESET:
-            flash('success','password_changed_successfully','success');
+            flash(getPhrase('success'),getPhrase('password_changed_successfully'),'success');
                 return $this->getResetSuccessResponse($response);
             default:
-            flash('Oops..!','cannot_change_password','error');
+            flash(getPhrase('Ooops'),getPhrase('cannot_change_password'),'error');
                 return $this->getResetFailureResponse($request, $response);
         }
     }

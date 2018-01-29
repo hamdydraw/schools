@@ -186,7 +186,7 @@ class NativeController extends Controller
     $record->code					 = $request->code;
     $record->is_rtl				 = $request->is_rtl;
     $record->save();
-    flash('success','record_updated_successfully', 'success');
+    flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     return redirect(URL_LANGUAGES_LIST);
   }
 
@@ -215,7 +215,7 @@ class NativeController extends Controller
     $record->code					= $request->code;
     $record->is_rtl					= $request->is_rtl;
     $record->save();
-    flash('success','record_added_successfully', 'success');
+    flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     return redirect(URL_LANGUAGES_LIST);
   }
 
@@ -241,7 +241,7 @@ class NativeController extends Controller
     Language::where('id','!=' ,$zero)->update(['is_default'=> $zero]);
     Language::where('slug', '=', $slug)->update(['is_default'=> 1]);
     Language::resetLanguage();
-    flash('success','record_updated_successfully', 'success');
+    flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     return redirect(URL_LANGUAGES_LIST);
   }
 
@@ -287,7 +287,7 @@ class NativeController extends Controller
   {
     if ($record === null) {
 
-      flash('Ooops...!', getPhrase("page_not_found"), 'error');
+      flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
       return $this->getRedirectUrl();
     }
 
@@ -330,9 +330,9 @@ class NativeController extends Controller
       unset($language_strings[$key]);
       $record->phrases = json_encode($language_strings);
       $record->save();
-      flash('success','record_updated_successfully', 'success');
+      flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     } else {
-      flash('Error', getPhrase('item_is_not_exists'), 'error');
+      flash(getPhrase('Ooops'), getPhrase('item_is_not_exists'), 'error');
     }
 
     return redirect(URL_LANGUAGES_UPDATE_STRINGS.$slug);
@@ -358,7 +358,7 @@ class NativeController extends Controller
                 $record->save();
             }
         }
-        flash('success','record_updated_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_LANGUAGES_UPDATE_STRINGS.$slug);
     }
 
@@ -378,7 +378,7 @@ class NativeController extends Controller
     $record->phrases = json_encode($language_strings);
 
     $record->save();
-    flash('success','record_updated_successfully', 'success');
+    flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
   return redirect(URL_LANGUAGES_UPDATE_STRINGS.$slug);
   }
 }

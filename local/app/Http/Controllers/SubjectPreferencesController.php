@@ -23,7 +23,7 @@ class SubjectPreferencesController extends Controller
      */
     public function subjectPreferences($slug)
     {
-    
+
       if(!isEligible($slug))
       {
         prepareBlockUserMessage();
@@ -56,7 +56,7 @@ class SubjectPreferencesController extends Controller
                                             );
         // exam-series-item-view-right-bar
         $data['layout']              = getLayout();
-     	return view('staff.subject-preferences.add-edit', $data);   
+     	return view('staff.subject-preferences.add-edit', $data);
     }
 
     public function update(Request $request, $slug)
@@ -77,7 +77,7 @@ class SubjectPreferencesController extends Controller
            $count = $model->count();
           if($count)
           {
-            //Previous records exists  
+            //Previous records exists
             $model->delete();
           }
 
@@ -90,7 +90,7 @@ class SubjectPreferencesController extends Controller
             $newRecord->save();
           }
            DB::commit();
-            flash('success...!','records_updated_successfully', 'success');
+            flash(getPhrase('success'),getPhrase('records_updated_successfully'), 'success');
         }
       catch(Exception $ex)
       {
@@ -98,10 +98,10 @@ class SubjectPreferencesController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->errorInfo, 'error');
+          flash(getPhrase('Ooops'),$e->errorInfo, 'error');
        }
        else {
-          flash('oops...!','improper_data', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_data'), 'error');
        }
       }
       return redirect($this->getReturnUrl());
@@ -113,7 +113,7 @@ class SubjectPreferencesController extends Controller
     {
       if ($record === null) {
 
-        flash('Ooops...!', getPhrase("page_not_found"), 'error');
+        flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
         return $this->getRedirectUrl();
     }
 

@@ -26,14 +26,14 @@ function flash($title = null, $text = null, $type='info')
  */
 function getPhrase($key = null)
 {
-  
+
     $phrase = app('App\Language');
 
     if (func_num_args() == 0) {
         return '';
     }
 
-    return  $phrase::getPhrase($key); 
+    return  $phrase::getPhrase($key);
 }
 
 /**
@@ -57,15 +57,15 @@ function isActive($active_class = '', $value = '')
     $value = isset($active_class) ? ($active_class == $value) ? 'active' : '' : '';
     if($value)
         return "class = ".$value;
-    return $value; 
+    return $value;
 }
 
 /**
  * This method returns the path of the user image based on the type
- * It verifies wether the image is exists or not, 
+ * It verifies wether the image is exists or not,
  * if not available it returns the default image based on type
  * @param  string $image [Image name present in DB]
- * @param  string $type  [Type of the image, the type may be thumb or profile, 
+ * @param  string $type  [Type of the image, the type may be thumb or profile,
  *                       by default it is thumb]
  * @return [string]      [returns the full qualified path of the image]
  */
@@ -73,13 +73,13 @@ function getProfilePath($image = '', $type = 'thumb')
 {
     $obj = app('App\ImageSettings');
     $path = '';
-    
+
     if($image=='') {
         if($type=='profile')
             return PREFIX.$obj->getDefaultProfilePicPath();
         return PREFIX.$obj->getDefaultprofilePicsThumbnailpath();
     }
-  
+
 
     if($type == 'profile')
         $path = $obj->getProfilePicsPath();
@@ -104,7 +104,7 @@ function getProfilePath($image = '', $type = 'thumb')
 function getDateFormat()
 {
     $obj = app('App\GeneralSettings');
-    return $obj->getDateFormat(); 
+    return $obj->getDateFormat();
 }
 
 
@@ -124,7 +124,7 @@ function getBloodGroups()
 
 function getAge($date)
 {
-    
+
 
     // return Carbon::createFromDate(1984, 7, 17)->diff(Carbon::now())->format('%y years, %m months and %d days');
 }
@@ -140,7 +140,7 @@ function getExamSettings()
 }
 
 /**
- * This method is used to generate the formatted number based 
+ * This method is used to generate the formatted number based
  * on requirement with the follwoing formatting options
  * @param  [type]  $sno    [description]
  * @param  integer $length [description]
@@ -150,14 +150,14 @@ function getExamSettings()
  */
 function makeNumber($sno, $length=2, $token = '0',$type='left')
 {
- 
+
     if($type=='right')
         return str_pad($sno, $length, $token, STR_PAD_RIGHT);
-    
+
     return str_pad($sno, $length, $token, STR_PAD_LEFT);
-    
+
 }
- 
+
 /**
  * This method returns the settings for the selected key
  * @param  string $type [description]
@@ -167,10 +167,10 @@ function getSettings($type='')
 {
     if($type=='lms')
         return json_decode((new App\LmsSettings())->getSettings());
-    
+
     if($type=='subscription')
         return json_decode((new App\SubscriptionSettings())->getSettings());
-    
+
     if($type=='general')
         return json_decode((new App\GeneralSettings())->getSettings());
 
@@ -179,7 +179,7 @@ function getSettings($type='')
         $dta = json_decode((new App\EmailSettings())->getSettings());
         return $dta;
       }
-   
+
    if($type=='attendance')
         return json_decode((new App\AttendanceSettings())->getSettings());
 
@@ -199,7 +199,7 @@ function getSettings($type='')
 /**
  * This is a common method to send emails based on the requirement
  * The template is the key for template which is available in db
- * The data part contains the key=>value pairs 
+ * The data part contains the key=>value pairs
  * That would be replaced in the extracted content from db
  * @param  [type] $template [description]
  * @param  [type] $data     [description]
@@ -222,7 +222,7 @@ function getSettings($type='')
 
 
 /**
- * This method returns the user based on the sent userId, 
+ * This method returns the user based on the sent userId,
  * If no userId is passed returns the current logged in user
  * @param  [type] $user_id [description]
  * @return [type]          [description]
@@ -255,10 +255,10 @@ function getUserWithSlug($slug='')
  function urlHasString($str)
  {
     $url = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-     if (strpos($url, $str)) 
+     if (strpos($url, $str))
         return TRUE;
     return FALSE;
-                
+
  }
 
  function checkRole($roles)
@@ -274,7 +274,7 @@ function getUserWithSlug($slug='')
      switch ($grade) {
          case 1:
              return ['owner'];
-             break; 
+             break;
         case 2:
              return ['owner', 'admin'];
              break;
@@ -289,19 +289,19 @@ function getUserWithSlug($slug='')
              break;
         case 6:
              return ['admin'];
-             break; 
+             break;
         case 7:
              return ['parent'];
-             break; 
+             break;
         case 8:
              return ['librarian','owner', 'admin',];
-             break; 
+             break;
         case 9:
              return ['assistant_librarian', 'librarian','owner', 'admin',];
-             break; 
+             break;
         case 10:
              return ['owner', 'admin', 'parent','student'];
-             break; 
+             break;
 
         case 11:
               return ['staff'];
@@ -317,9 +317,9 @@ function getUserWithSlug($slug='')
              break;
         case 15:
              return ['assistant_librarian', 'librarian'];
-             break;          
-        
-         
+             break;
+
+
      }
  }
  /**
@@ -333,10 +333,10 @@ function getUserWithSlug($slug='')
         $layout             = 'layouts.admin.adminlayout';
     if(checkRole(['parent']))
         $layout             = 'layouts.parent.parentlayout';
-      
+
     if(checkRole(['staff']))
         $layout             = 'layouts.staff.stafflayout';
-    
+
     if(checkRole(['librarian','assistant_librarian']))
         $layout             = 'layouts.librarian.librarianlayout';
     return $layout;
@@ -350,33 +350,33 @@ function getUserWithSlug($slug='')
  }
 
  /**
-  * Common method to send user restriction message for invalid attempt 
+  * Common method to send user restriction message for invalid attempt
   * @return [type] [description]
   */
  function prepareBlockUserMessage()
  {
-    flash('Ooops..!', 'you_have_no_permission_to_access', 'error');
+    flash(getPhrase('Ooops'), getPhrase('you_have_no_permission_to_access'), 'error');
      return '';
  }
 
  /**
-  * Common method to send user restriction message for invalid attempt 
+  * Common method to send user restriction message for invalid attempt
   * @return [type] [description]
   */
  function pageNotFound()
  {
-    flash('Ooops..!', 'page_not_found', 'error');
+    flash(getPhrase('Ooops'), getPhrase('page_not_found'), 'error');
      return '';
  }
- 
+
 
  function isEligible($slug)
  {
 
      if(!checkRole(getUserGrade(2)))
      {
-     
-        if(!validateUser($slug)) 
+
+        if(!validateUser($slug))
         {
             if(!checkRole(['parent']) || !isActualParent($slug))
             {
@@ -399,7 +399,7 @@ function getUserWithSlug($slug='')
  {
      return (new App\User())
               ->isChildBelongsToThisParent(
-                                    getUserWithSlug($slug)->id, 
+                                    getUserWithSlug($slug)->id,
                                     Auth::user()->id
                                     );
 
@@ -414,14 +414,14 @@ function getUserWithSlug($slug='')
  */
  function getRoleData($type)
  {
-    
+
      if(is_numeric($type))
      {
         /**
          * Return the Role Name as the type is numeric
          */
         return App\Role::where('id','=',$type)->first()->name;
-        
+
      }
 
      //Return Role Id as the type is role name
@@ -439,7 +439,7 @@ function getUserWithSlug($slug='')
     $user = getUserWithSlug();
     if($user_slug)
         $user = getUserWithSlug($user_slug);
-    
+
     if($user->subscribed($type))
       return TRUE;
     return FALSE;
@@ -447,8 +447,8 @@ function getUserWithSlug($slug='')
 
 /**
  * This method will send the random color to use in graph
- * The random color generation is based on the number parameter 
- * As the border and bgcolor need to be same, 
+ * The random color generation is based on the number parameter
+ * As the border and bgcolor need to be same,
  * We are maintainig number parameter to send the same value for bgcolor and background color
  * @param  string  $type   [description]
  * @param  integer $number [description]
@@ -473,11 +473,11 @@ function pushNotification($channels = ['owner','admin'], $event = 'newUser',  $o
      $pusher = \Illuminate\Support\Facades\App::make('pusher');
 
          $pusher->trigger( $channels,
-                      $event, 
+                      $event,
                       $options
                      );
 
-         
+
 
 }
 
@@ -488,8 +488,8 @@ function pushNotification($channels = ['owner','admin'], $event = 'newUser',  $o
  */
 function getValidationMessage($key='required')
 {
-    $message = '<p ng-message="required">'.getPhrase('this_field_is_required').'</p>';    
-    
+    $message = '<p ng-message="required">'.getPhrase('this_field_is_required').'</p>';
+
     if($key === 'required')
         return $message;
 
@@ -515,7 +515,7 @@ function getValidationMessage($key='required')
                                         .getPhrase('please_enter_valid_email')
                                         .'</p>';
                                         break;
-                                       
+
           case 'number' : $message   = '<p ng-message="number">'
                                         .getPhrase('please_enter_valid_number')
                                         .'</p>';
@@ -573,7 +573,7 @@ function getArrayFromJson($jsonData)
 
 function prepareArrayFromString($string='', $delimeter = '|')
 {
-  
+
     return explode($delimeter, $string);
 }
 
@@ -619,7 +619,7 @@ function humanizeDate($target_date)
 {
    $created = new \Carbon\Carbon($target_date);
    $now = \Carbon\Carbon::now();
-   $difference = ($created->diff($now)->days < 1) ? getPhrase('today') 
+   $difference = ($created->diff($now)->days < 1) ? getPhrase('today')
                                 : $created->diffForHumans($now);
     return $difference;
 }
@@ -682,12 +682,12 @@ function prepareStudentSessionRecord($slug='')
     {
         $slug = Auth::user()->slug;
     }
-    
+
     $user = App\User::where('slug','=',$slug)->first();
     $user_record = [];
     $user_record['user'] = $user;
     $user_record['student'] = App\Student::where('user_id','=', $user->id)->first();
-    
+
     return (object) $user_record;
 }
 
@@ -695,7 +695,7 @@ function getAcademicYears($type=0)
 {
     if(!$type)
     return \App\Academic::where('show_in_list','=','1')->pluck('academic_year_title', 'id');
-    
+
     return \App\Academic::pluck('academic_year_title', 'id');
 }
 
@@ -737,33 +737,33 @@ function getModuleHelper($key)
 function numberToWord( $num = '' )
 {
     $num    = ( string ) ( ( int ) $num );
- 
+
     if( ( int ) ( $num ) && ctype_digit( $num ) )
     {
         $words  = array( );
-       
+
         $num    = str_replace( array( ',' , ' ' ) , '' , trim( $num ) );
-       
+
         $list1  = array('','one','two','three','four','five','six','seven',
             'eight','nine','ten','eleven','twelve','thirteen','fourteen',
             'fifteen','sixteen','seventeen','eighteen','nineteen');
-       
+
         $list2  = array('','ten','twenty','thirty','forty','fifty','sixty',
             'seventy','eighty','ninety','hundred');
-       
+
         $list3  = array('','thousand','million','billion','trillion',
             'quadrillion','quintillion','sextillion','septillion',
             'octillion','nonillion','decillion','undecillion',
             'duodecillion','tredecillion','quattuordecillion',
             'quindecillion','sexdecillion','septendecillion',
             'octodecillion','novemdecillion','vigintillion');
-       
+
         $num_length = strlen( $num );
         $levels = ( int ) ( ( $num_length + 2 ) / 3 );
         $max_length = $levels * 3;
         $num    = substr( '00'.$num , -$max_length );
         $num_levels = str_split( $num , 3 );
-       
+
         foreach( $num_levels as $num_part )
         {
             $levels--;
@@ -771,7 +771,7 @@ function numberToWord( $num = '' )
             $hundreds   = ( $hundreds ? ' ' . $list1[$hundreds] . ' Hundred' . ( $hundreds == 1 ? '' : 's' ) . ' ' : '' );
             $tens       = ( int ) ( $num_part % 100 );
             $singles    = '';
-           
+
             if( $tens < 20 )
             {
                 $tens   = ( $tens ? ' ' . $list1[$tens] . ' ' : '' );
@@ -785,16 +785,16 @@ function numberToWord( $num = '' )
             }
             $words[]    = $hundreds . $tens . $singles . ( ( $levels && ( int ) ( $num_part ) ) ? ' ' . $list3[$levels] . ' ' : '' );
         }
-       
+
         $commas = count( $words );
-       
+
         if( $commas > 1 )
         {
             $commas = $commas - 1;
         }
-       
+
         $words  = implode( ', ' , $words );
-       
+
         //Some Finishing Touch
         //Replacing multiples of spaces with one space
         $words  = trim( str_replace( ' ,' , ',' , trimAll( ucwords( $words ) ) ) , ', ' );
@@ -802,7 +802,7 @@ function numberToWord( $num = '' )
         {
             $words  = strReplaceLast( ',' , ' and' , $words );
         }
-       
+
         return $words;
     }
     else if( ! ( ( int ) $num ) )
@@ -823,10 +823,10 @@ function trimAll( $str , $what = NULL , $with = ' ' )
         //  "\x0B"         11           Vertical Tab
         //  "\r"           13           New Line in Mac
         //  " "            32           Space
-       
+
         $what   = "\\x00-\\x20";    //all white-spaces and control chars
     }
-   
+
     return trim( preg_replace( "/[".$what."]+/" , $with , $str ) , $what );
 }
 
@@ -853,8 +853,8 @@ function getacademictitle($academic_id){
 }
 
 /**
- * This method returns  of course tile and 
- * if course is completed returns description 
+ * This method returns  of course tile and
+ * if course is completed returns description
  * @param  [integer] $course_id [description]
  * @param  [integer] $year      [description]
  * @param  [integer] $semister  [description]
@@ -903,8 +903,8 @@ function gettransferacademictitle($type,$academic_id ,$year ,$semister){
 }
 
 /**
- * This method returns transfer-details of course tile and 
- * if course is completed returns description 
+ * This method returns transfer-details of course tile and
+ * if course is completed returns description
  * @param  [integer] $course_id [description]
  * @param  [integer] $year      [description]
  * @param  [integer] $semister  [description]
@@ -914,7 +914,7 @@ function gettransfercoursetitle($type,$course_id,$year,$semister){
 
     if($course_id==0){
         return '-';
-    } 
+    }
     if($type=='detained'){
         return '-';
     }
@@ -946,7 +946,7 @@ function gettransfercoursetitle($type,$course_id,$year,$semister){
     return 'Completed';
         }
 
-        return $title->course_title;  
+        return $title->course_title;
 }
 /**
  * This method return the master book asset name

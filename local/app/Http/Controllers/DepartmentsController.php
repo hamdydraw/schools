@@ -35,10 +35,10 @@ class DepartmentsController extends Controller
         DB::statement(DB::raw('set @rownum=0'));
 
          $records = Department::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'), 'department_name', 'department_code','slug','description']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-           
+
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -49,7 +49,7 @@ class DepartmentsController extends Controller
                         </ul>
                     </div>';
             })
-        
+
         ->make();
     }
 
@@ -68,7 +68,7 @@ class DepartmentsController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function editDepartment($slug)
     {
@@ -89,26 +89,26 @@ class DepartmentsController extends Controller
     {
 
         $department                 = Department::where('slug', $slug)->get()->first();
-        
+
             $this->validate($request, [
             'department_name'          => 'bail|required|max:20',
             'department_code'          => 'bail|required|unique:departments,department_code,'.$department->id.'|max:10',
             ]);
 
         $name                       = $request->department_name;
-       
+
        /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
         if($name != $department->department_name)
             $department->slug = $department->makeSlug($name);
-    	
+
         $department->department_name = $name;
         $department->department_code = $request->department_code;
     	$department->description 	= $request->description;
     	$department->save();
-    	flash('success','record_updated_successfully', 'success');
+    	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('departments');
     }
 
@@ -129,16 +129,16 @@ class DepartmentsController extends Controller
         $department->department_code = $request->department_code;
         $department->description 	= $request->description;
         $department->slug 			= $department->makeSlug($name);
-       
+
         $department->save();
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('departments');
     }
 
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {

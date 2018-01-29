@@ -34,7 +34,7 @@ class InstallatationController extends Controller
     /**
      * This method handles request to setup installatation process
      * Follow the below steps
-     * 1) Take the db details and install the database with the specified option 
+     * 1) Take the db details and install the database with the specified option
      * i.e, with or without data
      * 2) update .env file
      * @param  Request $request [description]
@@ -42,44 +42,44 @@ class InstallatationController extends Controller
      */
     public function installProject(Request $request)
     {
-      
+
          ini_set('max_execution_time', 300);
     	$columns = array(
 	        'host_name'  => 'bail|required',
 	        'database_name' => 'bail|required',
             'user_name' => 'bail|required',
-            
+
         );
 
-        
+
      	$this->validate($request,$columns);
           // $dta = Input::all();
            //Attempt to create database
         if($this->createDatabase($request)==0)
             return redirect(URL_INSTALL_SYSTEM) ;
-        
+
         //Attempt to load data to tables
         if($this->createTables($request)==0)
         {
             return redirect(URL_INSTALL_SYSTEM) ;
         }
-         
+
         //Attempt to set env variables
          if($this->updateEnvironmentFile($this->prepareEnvData($request))==0)
          {
             return redirect(URL_INSTALL_SYSTEM) ;
          }
-        
-    
+
+
 
         $flash = app('App\Http\Flash');
-            $flash->create('Success...!', 'Project Installed Successfully', 'success', 'flash_overlay',FALSE);
+            $flash->create(getPhrase('success'), getPhrase('Project_Installed_Successfully'), 'success', 'flash_overlay',FALSE);
 
          // return redirect(PREFIX);
           // unset($dta['_token']);
-         
+
           $data['title']              = 'Register user';
-        
+
             if($request->has('sample_data'))
            {
             if($request->sample_data!='no-data')
@@ -88,13 +88,13 @@ class InstallatationController extends Controller
             }
           }
         return view('install.first-user-after-install', $data);
-     	
+
     }
 
     public function reg()
     {
           $data['title']              = 'Register user';
-        
+
         return view('install.first-user-after-install', $data);
     }
 
@@ -102,7 +102,7 @@ class InstallatationController extends Controller
     {
 
         $columns = array(
-            
+
             'owner_name' => 'bail|required',
             'owner_user_name' => 'bail|required',
             'owner_email' => 'bail|required',
@@ -124,20 +124,20 @@ class InstallatationController extends Controller
 
         $user->save();
         $user->roles()->attach($user->role_id);
-       
+
         return redirect(PREFIX);
     }
 
     // Function to the database and tables and fill them with the default data
 	function createDatabase(Request $request)
 	{
-        
+
     	$servername = $request->host_name;
 		$username = $request->user_name;
 		$password = $request->password;
 		$database = $request->database_name;
-        
-		try 
+
+		try
 		{
 		    $this->conn = new PDO("mysql:host=$servername", $username, $password);
 		    // set the PDO error mode to exception
@@ -149,8 +149,8 @@ class InstallatationController extends Controller
 		{
 		    $message = "Connection failed: " . $e->getMessage();
 			$flash = app('App\Http\Flash');
-		    $flash->create('Ooops...!', $message, 'error', 'flash_overlay',FALSE);
-			return 0;	
+		    $flash->create(getPhrase('Ooops'), $message, 'error', 'flash_overlay',FALSE);
+			return 0;
 
 		}
 		return 1;
@@ -189,15 +189,15 @@ class InstallatationController extends Controller
             elseif($request->sample_data=='university')
                 $query = $this->get_content(DOWNLOAD_SAMPLE_DATA_UNIVERSITY_DATABASE);
         }
-        
+
             $this->conn->exec($query);
         }
         catch(Exception $e)
         {
             $message = "Connection failed: " . $e->getMessage();
             $flash = app('App\Http\Flash');
-            $flash->create('Ooops...!', $message, 'error', 'flash_overlay',FALSE);
-            return 0;   
+            $flash->create(getPhrase('Ooops'), $message, 'error', 'flash_overlay',FALSE);
+            return 0;
         }
         return 1;
     }
@@ -226,13 +226,13 @@ class InstallatationController extends Controller
     public function updateEnvironmentFile($data = array())
     {
 
-    	 
+
 			$flash = app('App\Http\Flash');
 
       if(count($data)>0) {
        $env = file_get_contents(base_path() . '/.env');
        $env = preg_split('/\s+/', $env);
-       
+
         foreach((array)$data as $key => $value){
 
                 // Loop through .env-data
@@ -255,13 +255,13 @@ class InstallatationController extends Controller
              $env = implode("\n", $env);
               file_put_contents(base_path() . '/.env', $env);
 
-                 $flash->create('Success...!', 'Your installatation was success', 'success', 'flash_overlay',FALSE);
+                 $flash->create(getPhrase('Success'), getPhrase('Your_installatation_was_success'), 'success', 'flash_overlay',FALSE);
 
       return 1;
     }
     else
     {
-    	   $flash->create('Ooops...!', 'Please check your directory permissions', 'error', 'flash_overlay',FALSE);
+    	   $flash->create(getPhrase('Ooops'), getPhrase('Please_check_your_directory_permissions'), 'error', 'flash_overlay',FALSE);
       return 0;
     }
 

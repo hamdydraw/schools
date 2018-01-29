@@ -18,14 +18,14 @@
 						<h1>{{$title}}</h1>
 					</div>
 					<div class="panel-body packages">
-						 
+
 						<div class="row library-items">
 					<?php $settings = getSettings('lms'); ?>
 					@if(count($categories))
 						@foreach($categories as $c)
 							<div class="col-md-3">
 							 <a href="{{URL_STUDENT_LMS_CATEGORIES_VIEW.$c->slug}}" class="library-item">
-							 <?php 
+							 <?php
 							 $image = IMAGE_PATH_UPLOAD_LMS_DEFAULT;
 							 if($c->image)
 							 $image = IMAGE_PATH_UPLOAD_LMS_CATEGORIES.$c->image;?>
@@ -37,11 +37,11 @@
 							</div>
 							 @endforeach
 						@else
-						Ooops...! {{getPhrase('No_Categories_available')}}
+						{{getPhrase('Ooops')}} {{getPhrase('No_Categories_available')}}
 
 						<a href="{{URL_USERS_SETTINGS.$user->slug}}" >{{getPhrase('click_here_to_change_your_preferences')}}</a>
 						@endif
-							 
+
 						</div>
 						@if(count($categories))
 						{!! $categories->links() !!}
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 </div>
 		<!-- /#page-wrapper -->
 

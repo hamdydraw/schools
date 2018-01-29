@@ -12,7 +12,7 @@ use Exception;
 
 class LibraryAssetTypeController extends Controller
 {
-       
+
     public function __construct()
     {
     	$this->middleware('auth');
@@ -30,7 +30,7 @@ class LibraryAssetTypeController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
         $data['active_class']       = 'library';
         $data['title']              = getPhrase('library_assets');
         $data['layout']             = getLayout();
@@ -46,12 +46,12 @@ class LibraryAssetTypeController extends Controller
     {
 
 
-         $records = LibraryAssetType::select([   
+         $records = LibraryAssetType::select([
          	'asset_type', 'description', 'id','slug']);
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
 
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@ class LibraryAssetTypeController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_LIBRARY_ASSETS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                            
+
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
@@ -69,7 +69,7 @@ class LibraryAssetTypeController extends Controller
         })
         ->removeColumn('id')
         ->removeColumn('slug')
-        
+
         ->make();
     }
 
@@ -84,7 +84,7 @@ class LibraryAssetTypeController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'library';
     	$data['title']              = getPhrase('create_asset');
@@ -96,7 +96,7 @@ class LibraryAssetTypeController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -105,7 +105,7 @@ class LibraryAssetTypeController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
     	$record = LibraryAssetType::getRecordWithSlug($slug);
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
@@ -133,32 +133,32 @@ class LibraryAssetTypeController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
     	$record = LibraryAssetType::getRecordWithSlug($slug);
 		$rules = [
-         'asset_type'          	   => 
+         'asset_type'          	   =>
                             'bail|required|max:30|unique:libraryassettypes,asset_type,'.$record->id ,
             ];
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
        $name = $request->asset_type;
         if($name != $record->asset_type)
             $record->slug = $record->makeSlug($name);
-      
+
        $is_eligible_for_fine  = 0;//$request->is_eligible_for_fine;
 
        	$is_having_max_fine_limit 	= 0;
    		$maximum_fine_amount 		= 0;
    		$fine_per_day 				= 0;
-      
+
        if($is_eligible_for_fine)
        {
        		$is_having_max_fine_limit 	= $request->is_having_max_fine_limit;
        		$maximum_fine_amount 		= $request->maximum_fine_amount;
        		$fine_per_day 				= $request->fine_per_day;
-       		
+
 			$rules['is_having_max_fine_limit'] 	= 'bail|required|numeric';
 			$rules['maximum_fine_amount'] 		= 'bail|required|numeric';
 			$rules['fine_per_day'] 				= 'bail|required|numeric';
@@ -169,20 +169,20 @@ class LibraryAssetTypeController extends Controller
 
         $record->asset_type 		= $name;
         $record->slug 			    = $record->makeSlug($name);
-        $record->is_eligible_for_fine	
+        $record->is_eligible_for_fine
         							= 0;
         $record->description		= $request->description;
-        $record->maximum_fine_amount= $maximum_fine_amount;	
-        $record->is_having_max_fine_limit 
-        							= $is_having_max_fine_limit;	
+        $record->maximum_fine_amount= $maximum_fine_amount;
+        $record->is_having_max_fine_limit
+        							= $is_having_max_fine_limit;
         $record->fine_per_day 		= $fine_per_day;
         $record->maximum_issuable   = 1;
         $record->maximum_days_to_return = 1;
         $record->maximum_advanced_reservations = 0;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_updated_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('library/assets');
     }
 
@@ -198,26 +198,26 @@ class LibraryAssetTypeController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-      
+
 	    ////////////////////////////////////////////////////
     	// Split the validation rules as per the request  //
 	    ////////////////////////////////////////////////////
     	$rules = [
          'asset_type'              => 'bail|required|max:30|unique:libraryassettypes,asset_type' ,
             ];
-      
+
        $is_eligible_for_fine  = 0;
 
        	$is_having_max_fine_limit 	= 0;
    		$maximum_fine_amount 		= 0;
    		$fine_per_day 				= 0;
-      
+
        if($is_eligible_for_fine)
        {
        		$is_having_max_fine_limit 	= $request->is_having_max_fine_limit;
        		$maximum_fine_amount 		= $request->maximum_fine_amount;
        		$fine_per_day 				= $request->fine_per_day;
-       		
+
 			$rules['is_having_max_fine_limit'] 	= 'bail|required|numeric';
 			$rules['maximum_fine_amount'] 		= 'bail|required|numeric';
 			$rules['fine_per_day'] 				= 'bail|required|numeric';
@@ -226,17 +226,17 @@ class LibraryAssetTypeController extends Controller
        //Validate the overall request
        $this->validate($request, $rules);
 
-      
+
     	$record 					= new LibraryAssetType();
         $name 		  		  		= $request->asset_type;
         $record->asset_type 		= $name;
         $record->slug 			    = $record->makeSlug($name);
-        $record->is_eligible_for_fine	
+        $record->is_eligible_for_fine
         							= 0;
         $record->description		= $request->description;
-        $record->maximum_fine_amount= $maximum_fine_amount;	
-        $record->is_having_max_fine_limit 
-        							= $is_having_max_fine_limit;	
+        $record->maximum_fine_amount= $maximum_fine_amount;
+        $record->is_having_max_fine_limit
+        							= $is_having_max_fine_limit;
         $record->fine_per_day 		= $fine_per_day;
 
         $record->maximum_issuable   = 1;
@@ -244,16 +244,16 @@ class LibraryAssetTypeController extends Controller
         $record->maximum_advanced_reservations = 0;
         $record->record_updated_by 	= Auth::user()->id;
         $record->save();
- 
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('library/assets');
     }
- 
-    
+
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -266,7 +266,7 @@ class LibraryAssetTypeController extends Controller
           if(!env('DEMO_MODE')) {
         LibraryAssetType::where('slug', $slug)->delete();
         }
-        
+
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
         }
@@ -285,7 +285,7 @@ class LibraryAssetTypeController extends Controller
     {
     	if ($record === null) {
 
-    		flash('Ooops...!', getPhrase("page_not_found"), 'error');
+    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
    			return $this->getRedirectUrl();
 		}
 

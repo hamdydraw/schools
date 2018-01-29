@@ -1,5 +1,5 @@
 <div class="panel panel-profile-details">
-				 
+
 					<div class="panel-body">
 						<div class="profile-details text-center">
 							<div class="profile-img"><img src="{{ getProfilePath($user->image,'profile')}}" alt=""></div>
@@ -30,9 +30,9 @@
 									<div class="col-md-6"><strong>{{ $staff->date_of_join }}</strong></div>
 								</div>
 							</div>
-							
+
 						</div>
-						
+
 						<h3 class="profile-details-title">{{getPhrase('personal_details')}}</h3>
 						<div class="row">
 							<div class="col-md-6">
@@ -126,15 +126,15 @@
 									<div class="col-md-6"><strong>{{($country) ? $country->country_name :''}}</strong></div>
 								</div>
 							</div>
-							
+
 						</div>
-						 
+
 
 						<h3 class="profile-details-title">{{ getPhrase('contact_details') }}</h3>
 						<div class="row"><div class="col-md-6">
 								<div class="row">
 									<div class="col-md-6">
-										<label for="">{{getPhrase('address_lane1')}}</label>
+										<label for="">{{getPhrase('address_line_1')}}</label>
 									</div>
 									<div class="col-md-6"><strong>{{$staff->address_lane1}}</strong></div>
 								</div>
@@ -142,7 +142,7 @@
 							<div class="col-md-6">
 								<div class="row">
 									<div class="col-md-6">
-										<label for="">{{getPhrase('address_lane2')}}</label>
+										<label for="">{{getPhrase('address_line_2')}}</label>
 									</div>
 									<div class="col-md-6"><strong>{{$staff->address_lane2}}</strong></div>
 								</div>
@@ -175,7 +175,7 @@
 									<div class="col-md-6"><strong>{{$staff->zipcode}}</strong></div>
 								</div>
 							</div>
-							
+
 							<div class="col-md-6">
 								<div class="row">
 									<div class="col-md-6">
@@ -249,7 +249,6 @@
 							</div>
 
 						</div>
- 
+
 					</div>
 				</div>
-			

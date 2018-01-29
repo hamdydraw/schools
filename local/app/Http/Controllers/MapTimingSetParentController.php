@@ -14,7 +14,7 @@ use Exception;
 use File;
 class TimingsetController extends Controller
 {
-          
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -50,21 +50,21 @@ class TimingsetController extends Controller
           return back();
         }
 
-         $records = Timingset::select([   
+         $records = Timingset::select([
             'name',  'description', 'id','slug'])
          ->orderBy('updated_at', 'desc');
-        
+
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
-         
+
          $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_TIMINGSET_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
-                            
-                            
+
+
         $temp = '';
         if(checkRole(getUserGrade(1))) {
         //$temp .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
@@ -105,7 +105,7 @@ class TimingsetController extends Controller
     /**
      * This method loads the edit view based on unique slug provided by user
      * @param  [string] $slug [unique slug of the record]
-     * @return [view with record]       
+     * @return [view with record]
      */
     public function edit($slug)
     {
@@ -117,11 +117,11 @@ class TimingsetController extends Controller
 
         $record = Timingset::where('slug','=',$slug)->first();
         $timingset = TimingsetDetails::where('timingset_id','=',$record->id)->get();
-       
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 
-        
+
         $data['record']             = $record;
         $data['timingset']          = $timingset;
         $data['active_class']       = 'time_table';
@@ -137,13 +137,13 @@ class TimingsetController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        
+
         if(!checkRole(getUserGrade(2)))
         {
           prepareBlockUserMessage();
           return back();
         }
-       
+
         $record    = Timingset::where('slug','=',$slug)->first();
 
         if($isValid = $this->isValidRecord($record))
@@ -156,25 +156,25 @@ class TimingsetController extends Controller
         {
             $existing_timesets[$timeset_variable->id] = $timeset_variable->id;
         }
-        
+
         $timesetid = $record->id;
-      
+
         $rules     = ['name' => 'bail|required|max:30'];
 
          /**
-        * Check if the title of the record is changed, 
+        * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
         */
-       
+
         $name = $request->name;
         if($name != $record->name)
             $record->slug = $record->makeSlug($name);
-        
+
        //Validate the overall request
         $this->validate($request, $rules);
         if(!$request->has('start_time_list'))
         {
-            flash('Ooops..!','please_add_timeset','error');
+            flash(getPhrase('Ooops'),getPhrase('please_add_timeset'),'error');
             return back();
         }
         $record->name               = $name;
@@ -187,15 +187,15 @@ class TimingsetController extends Controller
         $name_list                  = $request->name_list;
         $record->save();
         foreach($request->id_list as $key => $value)
-        {   
-            
+        {
+
             $timesetdetail_id            = 0;
             if(isset($existing_timesets[$value]))
             $timesetdetail_id            = $existing_timesets[$value];
 
             if($timesetdetail_id){
              //if id is available than update data
-             
+
             $timingset  =  App\TimingsetDetails::where('id','=',$timesetdetail_id)
             ->first();
             $timingset->timingset_id   = $record->id;
@@ -203,7 +203,7 @@ class TimingsetController extends Controller
             $timingset->start_time     = $start_time_list[$key];;
             $timingset->end_time       = $end_time_list[$key];
             $timingset->is_break       = $is_break_list[$key];
-            
+
              $timingset->save();
 
             }
@@ -218,7 +218,7 @@ class TimingsetController extends Controller
             }
         }
 
-      flash('success','record_updated_successfully', 'success');
+      flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_TIMINGSET);
     }
 
@@ -234,7 +234,7 @@ class TimingsetController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-        
+
         $rules = ['name'               => 'bail|required|max:30'];
         $this->validate($request, $rules);
          DB::beginTransaction();
@@ -261,8 +261,8 @@ class TimingsetController extends Controller
             $timeDetails->save();
         }
 
-         
-        flash('success','record_added_successfully', 'success');
+
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          DB::commit();
       }
      catch(Exception $e)
@@ -271,20 +271,20 @@ class TimingsetController extends Controller
        if(getSetting('show_foreign_key_constraint','module'))
        {
 
-          flash('oops...!',$e->getMessage(), 'error');
+          flash(getPhrase('Ooops'),$e->getMessage(), 'error');
        }
        else {
-          flash('oops...!','improper_data_in_the_question', 'error');
+          flash(getPhrase('Ooops'),getPhrase('improper_data_in_the_question'), 'error');
        }
      }
 
         return redirect(URL_TIMINGSET);
     }
- 
+
     /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function delete($slug)
     {
@@ -293,7 +293,7 @@ class TimingsetController extends Controller
           prepareBlockUserMessage();
           return back();
         }
-        
+
         $record = Timingset::where('slug', $slug)->first();
             try{
                 if(!env('DEMO_MODE')) {
@@ -301,7 +301,7 @@ class TimingsetController extends Controller
                 }
             $response['status'] = 1;
             $response['message'] = getPhrase('item_deleted_successfully');
-            
+
        } catch ( \Illuminate\Database\QueryException $e) {
                  $response['status'] = 0;
            if(getSetting('show_foreign_key_constraint','module'))
@@ -317,7 +317,7 @@ class TimingsetController extends Controller
     {
         if ($record === null) {
 
-            flash('Ooops...!', getPhrase("page_not_found"), 'error');
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
 
@@ -332,7 +332,7 @@ class TimingsetController extends Controller
      /**
      * Delete Record based on the provided slug
      * @param  [string] $slug [unique slug]
-     * @return Boolean 
+     * @return Boolean
      */
     public function deleteTimingsetRecord($slug)
     {
@@ -369,6 +369,6 @@ class TimingsetController extends Controller
            }
         }
             return json_encode($response);
-        
+
     }
 }
