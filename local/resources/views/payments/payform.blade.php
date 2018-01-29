@@ -36,7 +36,7 @@
                   ?>
                   {!! Form::open(array('url' => $url, 'method' => 'POST')) !!}
                   <script
-                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    src="{{JS}}checkout.js" class="stripe-button"
                     
                     data-key= "{{ ($settings->live_mode) ? $settings->live_public_key : $settings->test_public_key }}"
                     

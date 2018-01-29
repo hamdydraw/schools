@@ -45,7 +45,7 @@
 	<link href="{{CSS}}materialdesignicons.css" rel="stylesheet" type="text/css">
 
 	{{-- <link href="{{FONTAWSOME}}font-awesome.min.css" rel="stylesheet" type="text/css"> --}}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+	<link rel="stylesheet" href="{{CSS}}font-awesome.css"/>
 	<link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
 
 	 @yield('header_scripts')
