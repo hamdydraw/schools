@@ -4,6 +4,13 @@
 @stop
 @section('content')
 
+
+	<style>
+		input[type="radio"], input[type="checkbox"] {
+			display: inherit;
+		}
+	</style>
+
 <div id="page-wrapper">
 			<div class="container-fluid">
 				<!-- Page Heading -->
@@ -32,7 +39,7 @@
 						@foreach($language_data as $key=>$value)
 					 <div class="col-md-6">
 						<fieldset class="form-group">
-						  <pre><a href="{{URL_LANGUAGES_REMOVE_STRING}}{{$record->slug}}&{{base64_encode($key)}}"><img src="{{IMAGES}}del.png" title="{{getPhrase('delete')}}"></a> {{ Form::label($key, $key) }}</pre> <br>
+						  <pre><span><input type="checkbox" name="to_delete[{{$key}}]" value="{{$value}}"></span> {{ Form::label($key, $key) }}</pre> <br>
 						  <div class="form-control" id="div_{{$key}}" onclick="$('#{{$key}}').removeAttr('disabled');$('#{{$key}}').show();$('#'+this.id).hide(); " >{{$value}}</div>
 						   <input  style="display:none;" type="text" class="form-control" name="{{$key}}" id="{{$key}}"	required="true" value = "{{$value}}" disabled>
 							</fieldset>
@@ -51,7 +58,9 @@
 						<div class="buttons text-center">
 							<button class="btn btn-lg btn-primary button" ng-disabled='!formTopics.$valid'
 							>{{ getPhrase('update') }}</button>
+							<button class="btn btn-lg btn-warning button">{{ getPhrase('delete') }}</button>
 						</div>
+
 						@endif
 							{!! Form::close() !!}
 					</div>

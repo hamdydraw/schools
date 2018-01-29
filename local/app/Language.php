@@ -14,9 +14,19 @@ class Language extends Model
      * @param [type]  $phrase           [phrase key]
      * @param integer $default_language [default language]
      */
+
+    public static function is_valid($phrase){
+        $is_valid = true;
+
+        $illegal = "#$%^&@*()+=-[]';,./\!{}|:<>?~ ";
+        if(strpbrk($phrase, $illegal)){
+            $is_valid = false;
+        }
+        return $is_valid;
+    }
    public function addPhrase($phrase, $default_language = 0)
    {
-
+        $is_valid = Language::is_valid($phrase);
    		if($default_language==0)
    			$default_language_id = Language::getDefaultLanguage();
 
@@ -34,12 +44,17 @@ class Language extends Model
         $dta[strtolower($phrase)] = $this->getTranslatedPhrase(Language::cleanPhrase($phrase), $default_language->code);
       }
 
-      DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
+      if($is_valid == true){
+          DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
+      }
 
       Language::resetLanguage();
    }
 
    public function updatePhrase($phrase){
+
+       $is_valid = Language::is_valid($phrase);
+
      $default_language_id = Language::getDefaultLanguage();
      $default_language = Language::where('id', '=', $default_language_id)->first();
 
@@ -48,7 +63,9 @@ class Language extends Model
        $dta =(array) json_decode($default_language->phrases);
        $key_updt= trim(strtolower(Language::cleanPhrase($dta[$phrase])));
        $dta[$key_updt]=$val;
-       DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
+       if($is_valid == true){
+           DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
+       }
      }
 
    }
@@ -71,7 +88,6 @@ class Language extends Model
     */
     public static function getPhrase($key)
     {
-
 
       $key = strtolower($key);
 

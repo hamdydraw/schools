@@ -347,6 +347,21 @@ class NativeController extends Controller
       return back();
     }
 
+    $to_delete = $request->to_delete;
+    if($to_delete != null){
+        $record = Language::where('slug', $slug)->get()->first();
+        $language_strings= json_decode($record['phrases'],true);
+        foreach ($to_delete as $key => $value){
+            if (array_key_exists($key, $language_strings)) {
+                unset($language_strings[$key]);
+                $record->phrases = json_encode($language_strings);
+                $record->save();
+            }
+        }
+        flash('success','record_updated_successfully', 'success');
+        return redirect(URL_LANGUAGES_UPDATE_STRINGS.$slug);
+    }
+
     $record = Language::where('slug', $slug)->get()->first();
     $language_strings= $record['phrases'];
     $language_strings= json_decode($record['phrases'],true);
