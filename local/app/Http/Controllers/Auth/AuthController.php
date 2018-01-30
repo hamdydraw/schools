@@ -101,7 +101,7 @@ class AuthController extends Controller
 
         }
 
-        flash('success','record_added_successfully', 'success');
+        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
 
         $options = array(
                             'name' => $user->name,
@@ -232,7 +232,7 @@ class AuthController extends Controller
         // dd(getSetting($logintype.'_login', 'module'));
         if(!getSetting($logintype.'_login', 'module'))
         {
-            flash('Ooops..!', $logintype.'_login_is_disabled','error');
+            flash(getPhrase('Ooops'), $logintype.' '.getPhrase('login_is_disabled'),'error');
              return redirect(PREFIX);
         }
         $this->provider = $logintype;
@@ -265,10 +265,10 @@ class AuthController extends Controller
 
             if($this->checkIsUserAvailable($user)) {
                 Auth::login($this->dbuser, true);
-                flash('Success...!', 'log_in_success', 'success');
+                flash(getPhrase('success'), getPhrase('log_in_success'), 'success');
                 return redirect(PREFIX);
             }
-            flash('Ooops...!', 'faiiled_to_login', 'error');
+            flash(getPhrase('Ooops'), getPhrase('faiiled_to_login'), 'error');
             return redirect(PREFIX);
          }
      }
