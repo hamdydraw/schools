@@ -15,8 +15,8 @@ class Flash
     public function create($title, $text, $type, $key = 'flash_message', $useLanguage=TRUE)
     {
         if($useLanguage) {
-            $title = getPhrase($title);
-            $text = getPhrase($text);
+            $title = ($title);
+            $text = ($text);
         }
 
         session()->flash($key, [
