@@ -101,7 +101,7 @@ class AuthController extends Controller
 
         }
 
-        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
+        flash('success','record_added_successfully', 'success');
 
         $options = array(
                             'name' => $user->name,
@@ -144,13 +144,31 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $login_status = FALSE;
-        if (Auth::attempt(['username' => $request->email, 'password' => $request->password,'status'=>1])) {
+        if ($user=Auth::attempt(['username' => $request->email, 'password' => $request->password,'status'=>1])) {
                 // return redirect(PREFIX);
-                $login_status = TRUE;
+                if ($user === true) {
+                    $login_status = true;
+                }
+                elseif ($user === 'detained')
+                {
+                    return redirect()->back()
+                        ->withErrors([
+                            getPhrase('this_user_is_detained')
+                        ]);
+                }
         }
 
-        elseif (Auth::attempt(['email'=> $request->email, 'password' => $request->password,'status'=>1])) {
-            $login_status = TRUE;
+        elseif ($user=Auth::attempt(['email'=> $request->email, 'password' => $request->password,'status'=>1])) {
+            if ($user === true) {
+                $login_status = true;
+            }
+            elseif ($user === 'detained')
+            {
+                return redirect()->back()
+                    ->withErrors([
+                        getPhrase('this_user_is_detained')
+                    ]);
+            }
         }
 
         if(!$login_status)
@@ -214,7 +232,7 @@ class AuthController extends Controller
         // dd(getSetting($logintype.'_login', 'module'));
         if(!getSetting($logintype.'_login', 'module'))
         {
-            flash(getPhrase('Ooops'), $logintype.'_login_is_disabled','error');
+            flash('Ooops..!', $logintype.'_login_is_disabled','error');
              return redirect(PREFIX);
         }
         $this->provider = $logintype;
@@ -247,10 +265,10 @@ class AuthController extends Controller
 
             if($this->checkIsUserAvailable($user)) {
                 Auth::login($this->dbuser, true);
-                flash(getPhrase('Success'), getPhrase('log_in_success'), 'success');
+                flash('Success...!', 'log_in_success', 'success');
                 return redirect(PREFIX);
             }
-            flash(getPhrase('Ooops'), getPhrase('failed_to_login'), 'error');
+            flash('Ooops...!', 'faiiled_to_login', 'error');
             return redirect(PREFIX);
          }
      }

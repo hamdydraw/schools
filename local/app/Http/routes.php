@@ -17,7 +17,6 @@ Route::get('/', function () {
     {
         return redirect('dashboard');
     }
-
     return redirect(URL_USERS_LOGIN);
 });
 

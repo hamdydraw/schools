@@ -68,7 +68,7 @@
                                                 'mastersettings.settings.sub-list-views.'.$type_name.'-type',
                                                 array('key'=>$key, 'value'=>$value)
                                             )
-                                    <div class="clear"></div>
+
                                 @endforeach
 
                             @else
