@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `default_lang` INT NULL DEFAULT NULL AFTER `role_id`;

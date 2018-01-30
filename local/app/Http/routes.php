@@ -111,6 +111,8 @@ Route::get('languages/remove-string/{slug}&{key}', 'NativeController@removeStrin
 Route::patch('languages/update-strings/{slug}', 'NativeController@saveLanguageStrings');
 
 
+Route::get('languages/change', 'ChangeLang@index');
+
 //Departments
 Route::get('departments', 'DepartmentsController@index');
 Route::get('departments/add-department', 'DepartmentsController@createDepartment');
@@ -1011,3 +1013,14 @@ Route::post('html/print-data', 'PrinterController@printHtml');
 // UPDATE PATCHES //
 ////////////////////
 Route::get('updates/patch1', 'UpdatesController@patch1');
+
+
+//test Route
+
+Route::get('/test', function () {
+//    $data = Auth::user();
+//    return json_encode($data);
+    $key = "fisher_man";
+    $data = \App\Language::getPhrase($key);
+    return json_encode($data);
+});
