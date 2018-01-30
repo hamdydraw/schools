@@ -307,6 +307,7 @@ class SettingsController extends Controller
             return redirect($isValid);
 
         $data['settings_data']      = getArrayFromJson($record->settings_data);
+        ksort($data['settings_data']);
         $data['record']             = $record;
         $data['active_class']       = 'master_settings';
         $data['title']              = $record->title;
@@ -319,8 +320,6 @@ class SettingsController extends Controller
 
     public function addSubSettings($slug)
     {
-
-
       if(!checkRole(getUserGrade(2)))
       {
         prepareBlockUserMessage();

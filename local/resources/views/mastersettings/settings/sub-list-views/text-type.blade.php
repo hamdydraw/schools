@@ -5,6 +5,7 @@ if(isset($value->tool_tip))
 ?>
 <div class="col-md-6">
     <fieldset class="form-group">
+        <?php $key=substr($key,strpos($key,'-')+1); ?>
         {{ Form::label($key, getPhrase($key)) }}
 
         <input

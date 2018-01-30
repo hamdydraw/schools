@@ -2,9 +2,9 @@
 if (isset($value->tool_tip))
     $tool_tip = $value->tool_tip;
 ?>
-<div class="row">
-    <div class="col-md-6 form-group">
-
+<div class="col-md-6">
+    <div class="form-group">
+        <?php $key=substr($key,strpos($key,'-')+1); ?>
         {{ Form::label($key,  getPhrase($key))  }}
         <select name="{{$key}}[value]" class="form-control" data-toggle="tooltip"
                 title="{{$tool_tip}}"
