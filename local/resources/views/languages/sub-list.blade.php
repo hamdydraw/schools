@@ -37,7 +37,7 @@
 						<ul class="list-group">
 						@if(count($language_data))
 						@foreach($language_data as $key=>$value)
-					 <div class="col-md-6">
+					 <div class="col-md-4">
 						<fieldset class="form-group">
 						  <pre><span><input type="checkbox" name="to_delete[{{$key}}]" value="{{$value}}"></span> {{ Form::label($key, $key) }}</pre> <br>
 						  <div class="form-control" id="div_{{$key}}" onclick="$('#{{$key}}').removeAttr('disabled');$('#{{$key}}').show();$('#'+this.id).hide(); " >{{$value}}</div>

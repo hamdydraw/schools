@@ -18,8 +18,12 @@ class Language extends Model
     public static function is_valid($phrase){
         $is_valid = true;
 
+
         $illegal = "#$%^&@*()+=-[]';,./\!{}|:<>?~ ";
         if(strpbrk($phrase, $illegal)){
+            $is_valid = false;
+        }
+        if (preg_match('/[^A-Za-z_0-9]/', $phrase)){
             $is_valid = false;
         }
         return $is_valid;

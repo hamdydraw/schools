@@ -1020,7 +1020,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 Route::get('/test', function () {
 //    $data = Auth::user();
 //    return json_encode($data);
-    $key = "fisher_man";
+    $key = "awd_23_awd";
     $data = \App\Language::getPhrase($key);
     return json_encode($data);
 });
