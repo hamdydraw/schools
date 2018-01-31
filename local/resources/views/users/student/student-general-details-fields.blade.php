@@ -15,8 +15,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
 
 
     <div class="alert alert-info">
-        <strong>{{getPhrase('info')}} ! </strong>{{ getPhrase('once_saved_the_admission_details_cannot_be_edited
-') }}</div>
+        <strong>{{getPhrase('info')}} ! </strong>{{ getPhrase('once_saved_the_admission_details_cannot_be_edited') }}</div>
 
     <div class="row">
         <fieldset class="form-group col-md-4">
@@ -216,4 +215,3 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
 
     {!! Form::close() !!}
 </div>
-
