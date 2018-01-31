@@ -125,7 +125,6 @@ class Language extends Model
             }
         }
         return Language::where('is_default', '=', 1)->first();
-
     }
 
     /**
