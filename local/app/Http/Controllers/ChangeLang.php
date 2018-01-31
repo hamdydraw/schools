@@ -17,6 +17,7 @@ use DB;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Hash;
 use Input;
+use Auth;
 
 class ChangeLang extends Controller
 {
@@ -35,7 +36,17 @@ class ChangeLang extends Controller
         $data['title']              = getPhrase('languages');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('languages-list');
+        $data['languages']          = Language::all();
+        $data['default_lang']       = $this->get_user_defualt_lang();
         return view('languages.change_lang', $data);
 
+    }
+
+    public function get_user_defualt_lang(){
+        $default_lang = Auth::user()->default_lang;
+        if($default_lang == null){
+            $default_lang = Language::where('is_default',1)->pluck('id')->first();
+        }
+        return $default_lang;
     }
 }
