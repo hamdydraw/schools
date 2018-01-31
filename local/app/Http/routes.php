@@ -111,6 +111,7 @@ Route::patch('languages/update-strings/{slug}', 'NativeController@saveLanguageSt
 
 
 Route::get('languages/change', 'ChangeLang@index');
+Route::get('languages/change/make-default/{id}', 'ChangeLang@make_default');
 
 //Departments
 Route::get('departments', 'DepartmentsController@index');

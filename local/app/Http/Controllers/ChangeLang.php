@@ -30,6 +30,10 @@ class ChangeLang extends Controller
 
     }
 
+    /**
+     * load the language view with the languages data
+     */
+
     public function index(){
 
         $data['active_class']       = 'languages';
@@ -37,16 +41,51 @@ class ChangeLang extends Controller
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('languages-list');
         $data['languages']          = Language::all();
-        $data['default_lang']       = $this->get_user_defualt_lang();
+        $data['default_lang']       = $this->get_user_default_lang();
         return view('languages.change_lang', $data);
 
     }
 
-    public function get_user_defualt_lang(){
+    /**
+     * get the user default language if exist if not return the default one
+     */
+    public function get_user_default_lang(){
         $default_lang = Auth::user()->default_lang;
         if($default_lang == null){
             $default_lang = Language::where('is_default',1)->pluck('id')->first();
         }
         return $default_lang;
+    }
+
+    /**
+     * change the user default language
+     */
+
+    public function make_default($id){
+
+        $record = Language::where('id',$id)->first();
+        if($isValid = $this->isValidRecord($record)){
+            return redirect($isValid);
+        }
+        User::where('id',Auth::user()->id)->update(['default_lang' => $id]);
+        Language::resetLanguage();
+
+        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
+
+        return redirect(URL_LANGUAGES_USER_LIST);
+    }
+
+    /**
+     * check if the record is valid
+     */
+
+    public function isValidRecord($record)
+    {
+        if ($record === null) {
+
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
+            return $this->getRedirectUrl();
+        }
+        return FALSE;
     }
 }

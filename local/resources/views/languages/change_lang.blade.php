@@ -46,7 +46,7 @@
                                         @if($lang->id == $default_lang)
                                             <i class="fa fa-check text-success" title="{{getPhrase('enable')}}"></i>
                                         @else
-                                            <a href="" class="btn btn-info btn-xs">{{getPhrase('set_default')}}</a>
+                                            <a href="{{URL_LANGUAGES_USER_MAKE_DEFAULT}}{{$lang->id}}" class="btn btn-info btn-xs">{{getPhrase('set_default')}}</a>
                                         @endif
                                     </td>
                                 </tr>

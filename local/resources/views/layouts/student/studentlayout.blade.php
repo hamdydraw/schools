@@ -204,6 +204,13 @@ if(isset($block_navigation))
 						</li>
 
 						<li>
+							<a href="{{URL_LANGUAGES_USER_LIST}}">
+								<sapn><i class="fa fa-language" aria-hidden="true"></i>
+									{{ getPhrase('languages') }}</sapn>
+							</a>
+						</li>
+
+						<li>
 
 							<a href="{{URL_FEEDBACK_SEND}}">
 

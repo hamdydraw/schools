@@ -323,6 +323,8 @@ define('URL_LANGUAGES_REMOVE_STRING', PREFIX.'languages/remove-string/');
 define('URL_LANGUAGES_DELETE', PREFIX.'languages/delete/');
 define('URL_LANGUAGES_GETLIST', PREFIX.'languages/getList/');
 define('URL_LANGUAGES_MAKE_DEFAULT', PREFIX.'languages/make-default/');
+define('URL_LANGUAGES_USER_LIST', PREFIX.'languages/change');
+define('URL_LANGUAGES_USER_MAKE_DEFAULT', PREFIX.'languages/change/make-default/');
 
 //SETTINGS MODULE
 define('URL_SETTINGS_LIST', PREFIX.'mastersettings/settings');

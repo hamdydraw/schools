@@ -4,6 +4,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
+use Auth;
 class Language extends Model
 {
 
@@ -117,7 +118,12 @@ class Language extends Model
      */
     public static function getDefaultLanguageRecord()
     {
-     return Language::where('is_default', '=', 1)->first();
+        if(Auth::user()){
+            if(Auth::user()->default_lang != null){
+                return Language::where('id', '=', Auth::user()->default_lang)->first();
+            }
+        }
+        return Language::where('is_default', '=', 1)->first();
 
     }
 
