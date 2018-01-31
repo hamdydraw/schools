@@ -120,7 +120,8 @@ class Language extends Model
     {
         if(Auth::user()){
             if(Auth::user()->default_lang != null){
-                return Language::where('id', '=', Auth::user()->default_lang)->first();
+                $default_lang =  User::where('id',Auth::user()->id)->pluck('default_lang')->first();
+                return Language::where('id', '=',$default_lang)->first();
             }
         }
         return Language::where('is_default', '=', 1)->first();
