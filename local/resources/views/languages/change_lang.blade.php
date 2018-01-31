@@ -16,6 +16,9 @@
             </div>
 
             <div class="panel panel-custom">
+                <div class="panel-heading">
+                    <h1>{{ $title }}</h1>
+                </div>
                 <div class="panel-body packages">
                     <div>
                         <table class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -26,10 +29,29 @@
                                 <th>{{ getPhrase('code')}}</th>
                                 <th>Is RTL</th>
                                 <th id="helper_step2">{{ getPhrase('default_language')}}</th>
-                                <th id="helper_step3">{{ getPhrase('action')}}</th>
 
                             </tr>
                             </thead>
+                            <tbody>
+                            @foreach ($languages as $lang)
+                                <tr>
+                                    <td>{{$lang->language}}</td>
+                                    <td>{{$lang->code}}</td>
+                                    @if($lang->is_rtl == 1)
+                                        <td><i class="fa fa-check text-success" title="{{getPhrase('enable')}}"></i></td>
+                                    @else
+                                        <td><i class="fa fa-close text-danger" title="{{getPhrase('disable')}}"></i></td>
+                                    @endif
+                                    <td>
+                                        @if($lang->id == $default_lang)
+                                            <i class="fa fa-check text-success" title="{{getPhrase('enable')}}"></i>
+                                        @else
+                                            <a href="" class="btn btn-info btn-xs">{{getPhrase('set_default')}}</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
 
                         </table>
                     </div>
