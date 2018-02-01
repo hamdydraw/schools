@@ -15,7 +15,7 @@
 
 
   <table cellpadding="0" cellspacing="0" border="0" bgcolor="#FFF" style="font-family: arial;font-size: 16px;color: #555; line-height: 18px; border-top: 1px solid #ccc;border-left: 1px solid #ccc;" align="center" width="800">
-    <?php if(getSetting('print_header  ', 'transfer_certificate_settings')) { ?>
+    <?php if(getSetting('print_header', 'transfer_certificate_settings')) { ?>
       <tr>
         <td colspan="2" style="border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;">
           <table cellpadding="0" cellspacing="0" width="100%">
@@ -27,7 +27,7 @@
                     <td width="25%"></td>
                     <td align="center"><img src="{{IMAGE_PATH_SETTINGS.getSetting('site_logo', 'site_settings')}}" height="60" alt=""></td>
 
-                    <?php if(getSetting('print_date  ', 'transfer_certificate_settings')) { ?>
+                    <?php if(getSetting('print_date', 'transfer_certificate_settings')) { ?>
 
                       <td width="25%" align="right"><span style=" font-family:arial; color:#777">{{getPhrase('date')}}:
 
@@ -47,7 +47,7 @@
                 <table cellpadding="0" cellspacing="0" width="100%">
                   <tr>
                     <td>
-                      <?php if(getSetting('print_reference_number  ', 'transfer_certificate_settings')) { ?>
+                      <?php if(getSetting('print_reference_number', 'transfer_certificate_settings')) { ?>
 
                         <strong>
 
@@ -120,7 +120,7 @@
     @if($last_class_study)
     <?php if($last_class_study->course_dueration>1) { ?>
 
-      <?php if(getSetting('date_of_admission_with_class ', 'transfer_certificate_fields')) { ?>
+      <?php if(getSetting('date_of_admission_with_class', 'transfer_certificate_fields')) { ?>
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('date_of_first_admission_in_the_school')}}</strong> </td>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="joining_date"  value="{{$student_data->date_of_join ?? 'NA'}}" readonly="true"></strong></td>
@@ -141,7 +141,7 @@
     @if($last_class_study)
     <?php if($last_class_study->course_dueration<=1) { ?>
 
-      <?php if(getSetting('date_of_admission_with_class ', 'transfer_certificate_fields')) { ?>
+      <?php if(getSetting('date_of_admission_with_class', 'transfer_certificate_fields')) { ?>
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('date_of_first_admission_in_the_school_with_class')}}</strong> </td>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="joining_date"  value="{{$student_data->date_of_join}}" readonly="true"></strong></td>
@@ -160,7 +160,7 @@
     @endif
 
 
-    <?php if(getSetting('date_of_birth ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('date_of_birth', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('date_of_birth_according_to_the_admission_register')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="date_of_birth"  value="{{$student_data->date_of_birth}}" readonly="true"></strong></td>
@@ -169,7 +169,7 @@
     @if($last_class_study)
     <?php if($last_class_study->course_dueration>1) { ?>
 
-      <?php if(getSetting('last_class_studied ', 'transfer_certificate_fields')) { ?>
+      <?php if(getSetting('last_class_studied', 'transfer_certificate_fields')) { ?>
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('class_in_which_the_last_studied_with_name')}}</strong> </td>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="last_class_study" value="{{$last_study_academicname->academic_year_title}} - {{$last_class_study->course_title}} - {{$last_study_classdetails->from_year}} - {{$last_study_classdetails->from_semister}}" readonly="true"></strong></td>
@@ -181,7 +181,7 @@
 
     <?php if($last_class_study->course_dueration<=1) { ?>
 
-      <?php if(getSetting('last_class_studied ', 'transfer_certificate_fields')) { ?>
+      <?php if(getSetting('last_class_studied', 'transfer_certificate_fields')) { ?>
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('class_in_which_the_last_studied_with_name')}}</strong> </td>
           <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="last_class_study" value="{{$last_study_academicname->academic_year_title}} - {{$last_class_study->course_title}}" readonly="true"></strong></td>
@@ -190,104 +190,104 @@
 
     <?php } ?>
     @endif
-    <?php if(getSetting('last_taken_exam_and_result ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('last_taken_exam_and_result', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('school_or_board_annual_examination_last_taken_and_result')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="exam_details" ></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('whether_failed_if_once_twice_in_the_same_class ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('whether_failed_if_once_twice_in_the_same_class', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('whether_failed_if_once_or_twice_in_the_same_class')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="exam_status" ></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('promotion_class ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('promotion_class', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('whether_qualified_for_promotion_to_higer_class_if_so,_to_which_class')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="promotion_class"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('total_working_days ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('total_working_days', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('total_number_of_working_days')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="working_days"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('total_present_days ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('total_present_days', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('total_number_of_present_days')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="present_days"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('ncc_boy_scout_girls_guide ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('ncc_boy_scout_girls_guide', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('whether_nCC_cadet_or_boy_scout_or_girls_guide')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="ncc"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('games_played_or_extra_curricular_activities ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('games_played_or_extra_curricular_activities', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('games_played_or_extra-_curricular_activities')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="activities"></strong></td>
       </tr>
     <?php }?>
 
-    <?php if(getSetting('general_conduct ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('general_conduct', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('general_conduct')}}</strong></td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="conduct"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('date_of_apply ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('date_of_apply', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('date_of_application_for_certificate')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="apply_date"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('date_of_issue ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('date_of_issue', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('date_of_issue_certificate')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong>{{date('d M Y')}}</strong></td>
       </tr>
     <?php } ?>
-    <?php  if(getSetting('reason ', 'transfer_certificate_fields')) { ?>
+    <?php  if(getSetting('reason', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('reason_for_leaving_the_school')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="reason"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('remarks ', 'transfer_certificate_fields')) { ?>
+    <?php if(getSetting('remarks', 'transfer_certificate_fields')) { ?>
       <tr>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;" width="50%"><strong>{{getPhrase('any_other_remarks')}}</strong> </td>
         <td style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;"><strong><input type="text" name="remarks"></strong></td>
       </tr>
     <?php } ?>
 
-    <?php if(getSetting('print_footer  ', 'transfer_certificate_settings')) { ?>
+    <?php if(getSetting('print_footer', 'transfer_certificate_settings')) { ?>
 
       <tr>
         <td colspan="2" style="padding: 10px; border-bottom: 1px solid #ccc;border-right: 1px solid #ccc;">
           <table cellpadding="0" cellspacing="0" width="100%">
             <tr>
               <td>
-                <?php if(getSetting('show_left_side_sign   ', 'transfer_certificate_settings')) { ?>
+                <?php if(getSetting('show_left_side_sign', 'transfer_certificate_settings')) { ?>
 
                   <img src="{{IMAGE_PATH_SETTINGS.getSetting('left_sign_image', 'certificate')}}" height="60" alt="">
 
                 <?php } ?>
               </td>
               <td align="right">
-                <?php if(getSetting('show_right_side_sign   ', 'transfer_certificate_settings')) { ?>
+                <?php if(getSetting('show_right_side_sign', 'transfer_certificate_settings')) { ?>
 
                   <img src="{{IMAGE_PATH_SETTINGS.getSetting('right_sign_image', 'certificate')}}" height="60" alt="">
 
@@ -298,7 +298,7 @@
             <tr>
 
 
-              <?php if(getSetting('show_left_side_name   ', 'transfer_certificate_settings')) { ?>
+              <?php if(getSetting('show_left_side_name', 'transfer_certificate_settings')) { ?>
                 <td  align="left" width="50%"  valign="bottom">
                   {{getSetting('left_sign_name','certificate')}}
                 </td>
@@ -306,7 +306,7 @@
 
 
 
-              <?php if(getSetting('show_right_side_name   ', 'transfer_certificate_settings')) { ?>
+              <?php if(getSetting('show_right_side_name', 'transfer_certificate_settings')) { ?>
 
                 <td  align="right" width="50%"  valign="bottom">
                   {{getSetting('right_sign_name','certificate')}}
@@ -318,7 +318,7 @@
             <tr>
 
 
-              <?php if(getSetting('show_left_side_designation   ', 'transfer_certificate_settings')) { ?>
+              <?php if(getSetting('show_left_side_designation', 'transfer_certificate_settings')) { ?>
                 <td  align="left" width="50%"  valign="bottom"s>
                   {{getSetting('left_sign_designation','certificate')}}
                 </td>
@@ -326,7 +326,7 @@
 
 
 
-              <?php if(getSetting('show_right_side_designation   ', 'transfer_certificate_settings')) { ?>
+              <?php if(getSetting('show_right_side_designation', 'transfer_certificate_settings')) { ?>
 
                 <td  align="right" width="50%"  valign="bottom">
                   {{getSetting('right_sign_designation','certificate')}}
