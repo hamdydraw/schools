@@ -10,6 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
 
@@ -1017,10 +1018,12 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //test Route
 
-Route::get('/test', function () {
-//    $data = Auth::user();
-//    return json_encode($data);
-    $key = "awd_23_awd";
+Route::post('/test', function (Request $request) {
+    $key =  $request->get('string');
     $data = \App\Language::getPhrase($key);
     return json_encode($data);
+});
+
+Route::get('/test',function (){
+   return view('test');
 });
