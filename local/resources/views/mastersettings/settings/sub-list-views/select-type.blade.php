@@ -4,8 +4,8 @@ if (isset($value->tool_tip))
 ?>
 <div class="col-md-6">
     <div class="form-group">
-        <?php $key=substr($key,strpos($key,'-')+1); ?>
-        {{ Form::label($key,  getPhrase($key))  }}
+        <?php $key_name=substr($key,strpos($key,'-')+1); ?>
+        {{ Form::label($key_name,  getPhrase($key_name))  }}
         <select name="{{$key}}[value]" class="form-control" data-toggle="tooltip"
                 title="{{$tool_tip}}"
                 data-placement="right">
