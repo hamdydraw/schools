@@ -8,11 +8,7 @@
 
 <div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
-        @if($lang == 1)
-        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" dir="rtl">
-        @else
-                <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" dir="ltr">
-        @endif
+        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" @if($lang==1) dir="rtl" @else dir="ltr" @endif>
             <tr>
                 <td width="50%" valign="top">
                     <div style="border:1px solid #aaa; border-radius: 10px; padding:15px; min-height: 470px;">
@@ -55,7 +51,7 @@
                                                 <tr>
                                                     <td width="50%" style="padding:3px"><span
                                                                 style="color: darkslategrey;">
-                                                     {{$settings[$front_title[$i]]['value']}}
+                                                     {{getPhrase($settings[$front[$i]]['value'])}}
                                                             &nbsp;:</span>
                                                         <strong> {{$users_list[$std][$settings[$front[$i]]['value']]}}</strong>
                                                     </td>
@@ -106,7 +102,7 @@
                                                 <tr>
                                                     <td style="padding: 8px;">
                                                         <p style="color: darkslategrey; margin-bottom:0;">
-                                                            <strong>{{$settings[$back_title[$i]]['value']}}</strong>
+                                                            <strong>{{getPhrase($settings[$back[$i]]['value'])}}</strong>
                                                         </p>
                                                         {{$settings[$back[$i]]['value']}}
                                                     </td>

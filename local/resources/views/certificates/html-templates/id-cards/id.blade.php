@@ -29,13 +29,9 @@
 <body>
 <div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
-        @if($lang == 1)
-            <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
-                   style=" font-family: arial; color:#555;" dir="rtl">
-        @else
-                    <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
-                           style=" font-family: arial; color:#555;" dir="ltr">
-                @endif
+
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
+               style=" font-family: arial; color:#555;" @if($lang==1) dir="rtl" @else dir="ltr" @endif>
 
             <tr>
                 <td style="border: 1px solid #ddd;padding: 10px; border-bottom: 1px solid #ddd" align="center"><img
@@ -61,7 +57,7 @@
                                             <tr>
                                                 <td style="padding: 5px;">
                                                     <strong>
-                                                        {{$settings[$front_title[$i]]['value']}}
+                                                        {{getphrase($settings[$front[$i]]['value'])}}
                                                     </strong>
                                                 </td>
                                                 <td style="padding: 5px;" width="1%">:</td>
@@ -103,7 +99,7 @@
                 </td>
             </tr>
             <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
-                   style="border: 1px solid #ddd; font-family: arial; color:#555;">
+                   style="border: 1px solid #ddd; font-family: arial; color:#555;" @if($lang==1) dir="rtl" @else dir="ltr" @endif>
 
                 <tr>
                     <td colspan="8" style="padding: 10px; border-bottom: 1px solid #ddd" align="center"><img
@@ -122,7 +118,7 @@
                     @if($settings[$back_title[$i]]['value'] !== 'skip')
                         <tr>
                             <td style="padding: 8px;">
-                                <strong>{{$settings[$back_title[$i]]['value']}}
+                                <strong>{{getphrase($settings[$back_title[$i]]['value'])}}
                                     : </strong> {{$settings[$back[$i]]['value']}}
                             </td>
                         </tr>
