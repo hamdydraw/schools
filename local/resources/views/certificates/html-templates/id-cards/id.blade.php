@@ -27,10 +27,15 @@
 </head>
 
 <body>
-<div id="DivIdToPrint" @if($lang != 1)style="float: right;direction:ltr;"@endif>
+<div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
-        <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
-               style=" font-family: arial; color:#555;">
+        @if($lang == 1)
+            <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
+                   style=" font-family: arial; color:#555;" dir="rtl">
+        @else
+                    <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
+                           style=" font-family: arial; color:#555;" dir="ltr">
+                @endif
             <tr>
                 <td style="border: 1px solid #ddd;padding: 10px; border-bottom: 1px solid #ddd" align="center"><img
                             src="{{IMAGE_PATH_SETTINGS.getSetting('top_logo', 'id_card_settings')}}" height="40" alt="">
@@ -40,13 +45,12 @@
             <tr>
                 <td style=" border: 1px solid #ddd;padding: 10px;" width="100%">
                     <table cellpadding="0" cellspacing="0" border="0" style="">
-
                         <tr>
                             <td width="120px"><img src="{{getProfilePath($users_list[$std]['image'],'profile')}}"
                                                    width="110px"
                                                    alt=""></td>
                             <td style="padding: 0 15px 0 15px;" valign="top">
-                                <table cellpadding="0" cellspacing="0" border="0" style="">
+                                <table cellpadding="0" cellspacing="0" border="0">
 
                                     @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
                                         @if($i == count($front)-1)

@@ -6,9 +6,13 @@
     <title>Document</title>
 </head>
 
-<div id="DivIdToPrint" @if($lang != 1)style="float: right;direction:ltr;"@endif>
+<div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
-        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center">
+        @if($lang == 1)
+        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" dir="rtl">
+        @else
+                <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" dir="ltr">
+        @endif
             <tr>
                 <td width="50%" valign="top">
                     <div style="border:1px solid #aaa; border-radius: 10px; padding:15px; min-height: 470px;">

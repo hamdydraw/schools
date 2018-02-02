@@ -29,8 +29,13 @@
 <body>
 <div id="DivIdToPrint" @if($lang != 1)style="float: right;direction:ltr;"@endif>
     @for($std=0; $std < count($users_list);$std++)
+        @if($lang == 1)
         <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
-               style="border: 1px solid #ddd; font-family: arial; color:#555;">
+               style="border: 1px solid #ddd; font-family: arial; color:#555;" dir="rtl">
+        @else
+                <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
+                       style="border: 1px solid #ddd; font-family: arial; color:#555;" dir="ltr">
+        @endif
             <tr>
                 <td style="padding: 10px; border-bottom: 1px solid #ddd" align="center"><img
                             src="{{IMAGE_PATH_SETTINGS.getSetting('site_logo', 'site_settings')}}" height="40" alt="">

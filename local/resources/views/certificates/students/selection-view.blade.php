@@ -105,7 +105,7 @@
                                                         @endif
                                                         @if($settings[$front[$i]]['value'] !== 'skip')
                                                             <li>
-                                                                <strong>{{$settings[$front[$i]]['value']}}
+                                                                <strong>{{getphrase($settings[$front[$i]]['value'])}}
                                                                     : "{{ checkExistenceOfObj("<?php echo $settings[$front[$i]]['value']; ?>",user.id) }}"
                                                                 </strong>
 
@@ -140,7 +140,7 @@
                                                         @endif
                                                         @if($settings[$back_title[$i]]['value'] !== 'skip')
                                                             <li>
-                                                                <strong>{{$settings[$back_title[$i]]['value']}}:</strong>{{$settings[$back[$i]]['value']}}
+                                                                <strong>{{getphrase($settings[$back_title[$i]]['value'])}}:</strong>{{$settings[$back[$i]]['value']}}
                                                             </li>
                                                         @endif
                                                     @endfor
