@@ -946,7 +946,7 @@ class StudentQuizController extends Controller
 
              $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
               ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
-              ->where('quizzes.type','=','online')
+             /* ->where('quizzes.type','=','online')*/
               ->where('quizapplicability.academic_id', '=',$student_record->academic_id)
               ->where('quizapplicability.course_id', '=',$student_record->course_id)
               ->where('quizapplicability.year', '=',$student_record->current_year)

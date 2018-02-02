@@ -99,7 +99,7 @@
                                                     <li><strong>{{getPhrase('blood_group_')}}:</strong>@{{user.blood_group}}</li>
                                                     <li><strong>Phone:</strong> @{{user.mobile}}</li>--}}
 
-                                                    @for($i=0; $i< $settings['front_total_fields']['value'];$i++)
+                                                    @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
                                                         @if($i == count($front)-1)
                                                             @break;
                                                         @endif
@@ -134,7 +134,7 @@
                                         <div class="idcard-info idcard-item-thumb-left">
                                             <div class="content">
                                                 <ul class="ma-address">
-                                                    @for($i=0; $i< $settings['front_total_fields']['value'];$i++)
+                                                    @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
                                                         @if($i == count($back)-1)
                                                             @break;
                                                         @endif

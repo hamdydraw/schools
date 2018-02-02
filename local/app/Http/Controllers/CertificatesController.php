@@ -176,18 +176,18 @@ class CertificatesController extends Controller
         $data['settings'] = json_decode($data['settings']->settings_data, true);
         foreach ($data['settings'] as $key => $val) {
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'title' and explode('_', $key)[0] == 'front') {
+                    $key)[3] == 'title' and strpos(explode('_', $key)[0],'front') != 0) {
                 $front_title[] = $key;
             }
             if (count(explode('_', $key)) < 4 and isset(explode('_', $key)[2]) and explode('_', $key)[2] == 'item') {
                 $front[] = $key;
             }
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'title' and explode('_', $key)[0] == 'back') {
+                    $key)[3] == 'title' and strpos(explode('_', $key)[0],'back') != 0) {
                 $back_title[] = $key;
             }
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'text' and explode('_', $key)[0] == 'back') {
+                    $key)[3] == 'text' and strpos(explode('_', $key)[0],'back') != 0) {
                 $back[] = $key;
             }
         }
@@ -243,18 +243,18 @@ class CertificatesController extends Controller
         $data['settings'] = json_decode($data['settings']->settings_data, true);
         foreach ($data['settings'] as $key => $val) {
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'title' and explode('_', $key)[0] == 'front') {
+                    $key)[3] == 'title' and strpos(explode('_', $key)[0],'front') != 0) {
                 $front_title[] = $key;
             }
             if (count(explode('_', $key)) < 4 and isset(explode('_', $key)[2]) and explode('_', $key)[2] == 'item') {
                 $front[] = $key;
             }
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'title' and explode('_', $key)[0] == 'back') {
+                    $key)[3] == 'title' and strpos(explode('_', $key)[0],'back') != 0) {
                 $back_title[] = $key;
             }
             if (count(explode('_', $key)) == 4 and isset(explode('_', $key)[3]) and explode('_',
-                    $key)[3] == 'text' and explode('_', $key)[0] == 'back') {
+                    $key)[3] == 'text' and strpos(explode('_', $key)[0],'back') != 0) {
                 $back[] = $key;
             }
         }

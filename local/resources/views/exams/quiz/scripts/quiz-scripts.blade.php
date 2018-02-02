@@ -328,6 +328,7 @@
          * @return {[type]}      [description]
          */
         $scope.removeItem = function (item, source, id) {
+
             httpPreConfig.showConfirmation().then(function (result) {
                 if (result == 1) {
 
@@ -335,8 +336,7 @@
                     $timeout(function () {
 
                         index = $scope.findIndexInData(source, 'id', item);
-
-                        source.splice(index, 1);
+                        $scope.target_items.splice(index, 1);
                         if (id == 'target_items')
                             alertify.success('{{getPhrase('item_removed_successfully')}}');
                     }, 500);

@@ -107,7 +107,7 @@
        
         <div class="progress">
           <div  ng-class="{'progress-bar progress-bar-success':student.average>=75, 'progress-bar progress-bar-warning':student.average<75 && student.average>=50, 'progress-bar progress-bar-danger':student.average<50 && student.average>=0}" role="progressbar" aria-valuenow="@{{student.average}}"
-          aria-valuemin="0" aria-valuemax="100" style="width:@{{student.average}}%">
+          aria-valuemin="0" aria-valuemax="100" style='width:@{{student.average}}%'>
             @{{student.average}}%
           </div>
         </div>

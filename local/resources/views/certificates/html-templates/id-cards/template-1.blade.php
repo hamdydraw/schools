@@ -43,7 +43,7 @@
                                 <td style="padding:0 10px;">
                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                            style="font-family: sans-serif;  font-size: 12px; color: #999; line-height:18px;">
-                                        @for($i=0; $i< $settings['front_total_fields']['value'];$i++)
+                                        @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
                                             @if($i == count($front)-1)
                                                 @break;
                                             @endif
@@ -94,7 +94,7 @@
                                 <td style="padding:0 10px;">
                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                            style="font-family: sans-serif;  font-size: 14px; color: #999; line-height:18px;">
-                                        @for($i=0; $i< $settings['front_total_fields']['value'];$i++)
+                                        @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
                                             @if($i == count($back)-1)
                                                 @break;
                                             @endif

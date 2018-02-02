@@ -70,9 +70,9 @@ class StudentMarksReportController extends Controller
             ->where('quizapplicability.academic_id', '=', $academic_id)
             ->where('quizapplicability.course_id', '=', $course_id)
             ->where('quizapplicability.course_parent_id', '=', $course_parent_id)
-            /*->where('quizapplicability.year', '=', $year)
-            ->where('quizapplicability.semister', '=', $semister)*/
-            /*->select(['quizofflinecategories.id', 'quizofflinecategories.title'])*/
+           /* ->where('quizapplicability.year', '=', $year)*/
+            ->where('quizapplicability.semister', '=', 0)
+            ->select(['quizofflinecategories.id', 'quizofflinecategories.title'])
             ->groupBy('quizofflinecategories.id')
             ->get();
         return $records;
@@ -127,16 +127,15 @@ class StudentMarksReportController extends Controller
                 'total_marks'
             ])
             ->get();
-
         foreach ($quiz_details as $quiz_datail) {
             $students = App\Student::join('users', 'users.id', '=', 'students.user_id')
                 ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
-                ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+                /*->where('quizresults.quiz_id', '=', $quiz_datail->id)*/
                 ->where('quizresults.academic_id', '=', $academic_id)
                 ->where('quizresults.course_id', '=', $course_id)
                 ->where('quizresults.course_parent_id', '=', $course_parent_id)
-                /*>where('quizresults.year', '=', $year)
-                ->where('quizresults.semister', '=', $semister)*/
+                /*>where('quizresults.year', '=', $year)*/
+                /*->where('quizresults.semister', '=', $currentSemeterOfYear)*/
                 ->select([
                     'users.id as user_id',
                     'roll_no',
@@ -162,7 +161,6 @@ class StudentMarksReportController extends Controller
                 foreach ($subjects as $subject) {
                     $marks_records = $this->getSubjectMarks($student->user_id, $offline_quiz_category_id,
                         $subject->subject_id);
-
                     $subject_marks['subject_id'] = $subject->subject_id;
                     $subject_marks['subject_title'] = $subject->subject_title;
                     $subject_marks['subject_code'] = $subject->subject_code;

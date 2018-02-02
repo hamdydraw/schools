@@ -38,7 +38,6 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
-                console.log(result)
                 result = result.data;
                 $scope.result_data = [];
                 $scope.quiz_categories = [];
@@ -76,11 +75,8 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
-                console.log(result);
                 result = result.data;
                 $scope.result_data = result;
-
-
                 $scope.subjects = result.subjects;
                 $scope.students = result.students;
 
