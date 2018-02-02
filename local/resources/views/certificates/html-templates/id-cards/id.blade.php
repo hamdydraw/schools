@@ -36,6 +36,7 @@
                     <table cellpadding="0" cellspacing="0" border="0" align="center" width="450"
                            style=" font-family: arial; color:#555;" dir="ltr">
                 @endif
+
             <tr>
                 <td style="border: 1px solid #ddd;padding: 10px; border-bottom: 1px solid #ddd" align="center"><img
                             src="{{IMAGE_PATH_SETTINGS.getSetting('top_logo', 'id_card_settings')}}" height="40" alt="">
