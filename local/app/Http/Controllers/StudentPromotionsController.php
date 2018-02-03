@@ -381,9 +381,9 @@ class StudentPromotionsController extends Controller
             }
         }
         if ($toShowerrors == true) {
-            return getPhrase('Ooops');
+            return 'error';
         } else {
-            return getPhrase('done');
+            return 'done';
         }
 
     }
