@@ -17,7 +17,7 @@ if (isset($value->tool_tip))
                 if ($value->value == $val)
                     $selected = 'selected';
                 ?>
-                <option value="{{$val}}" {{$selected}}>{{$text}}</option>
+                <option value="{{$val}}" {{$selected}}>{{getPhrase($text)}}</option>
             @endforeach
         </select>
 
