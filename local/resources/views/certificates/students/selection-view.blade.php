@@ -137,7 +137,8 @@
                                                     @for($i=0; $i< count($back_title);$i++)
                                                         @if($settings[$back_title[$i]]['value'] !== '')
                                                             <li>
-                                                                <strong>{{getphrase($settings[$back_title[$i]]['value'])}}:</strong>{{$settings[$back[$i]]['value']}}
+                                                                <strong>{{getphrase($settings[$back_title[$i]]['value'])}}
+                                                                    :</strong>{{$settings[$back[$i]]['value']}}
                                                             </li>
                                                         @endif
                                                     @endfor
@@ -270,40 +271,30 @@
                                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                                            style="font-family: sans-serif;  font-size: 12px; color: #999; line-height:18px;">
                                                         <tbody>
-                                                        <tr>
-                                                            <td width="50%" style="padding:3px"><span
-                                                                        style="color: darkslategrey; font-size: 14px;"><strong>{{getPhrase('roll_number')}}
-                                                                        &nbsp;&nbsp;&nbsp;:</strong> @{{user.roll_no}}</span>
-                                                            </td>
-                                                        <tr>
-                                                            <td width="50%" style="padding:3px"><span
-                                                                        style="color: darkslategrey;font-size: 14px;"><strong>Course&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> @{{user.academic_year_title+' '+user.course_title}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="50%" style="padding:3px"><span
-                                                                        style="color: darkslategrey;font-size: 14px;"><strong>Blood Group&nbsp;&nbsp;:</strong> @{{user.blood_group}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="50%" style="padding:3px"><span
-                                                                        style="color: darkslategrey;font-size: 14px;"><strong>Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> @{{user.mobile}}</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td width="50%" style="padding:3px"><span
-                                                                        style="color: darkslategrey;font-size: 14px;"><strong>Emergency No :</strong> @{{user.home_phone}}</span>
-                                                            </td>
-                                                        </tr>
+                                                        @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
+                                                            @if($i == count($front))
+                                                                @break;
+                                                            @endif
+                                                            @if($settings[$front[$i]]['value'] !== 'skip')
+                                                                <tr>
+                                                                    <td width="50%" style="padding:3px"><span
+                                                                                style="color: darkslategrey; font-size: 14px;"><strong>{{getphrase($settings[$front_title[$i]]['value'])}}</strong>
+                                                                        : {{ checkExistenceOfObj("<?php echo $settings[$front[$i]]['value']; ?>",user.id) }}</span>
+                                                                    </td>
+                                                                <tr>
 
-                                                        <tr>
 
-                                                            <td align="right"><img
-                                                                        src="{{IMAGE_PATH_SETTINGS.getSetting('right_sign_image','certificate')}}"
-                                                                        width="80" alt="">
+                                                                    @endif
+                                                                    @endfor
 
-                                                                <br/><b style="font-size:16px;">Principal</b>
-                                                        </tr>
+                                                                <tr>
+
+                                                                    <td align="right"><img
+                                                                                src="{{IMAGE_PATH_SETTINGS.getSetting('right_sign_image','certificate')}}"
+                                                                                width="80" alt="">
+
+                                                                        <br/><b style="font-size:16px;">Principal</b>
+                                                                </tr>
 
                                                         </tbody>
                                                     </table>
@@ -335,46 +326,21 @@
                                                 <td style="padding:0 10px;">
                                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                                            style="font-family: sans-serif;  font-size: 14px; color: #999; line-height:18px;">
+                                                        @for($i=0; $i< count($back_title);$i++)
+                                                            @if($settings[$back_title[$i]]['value'] !== '')
+                                                                <tr>
+                                                                    <td>
+                                                                        <p style="color: darkslategrey; margin-bottom:0;">
+                                                                            <strong>{{getphrase($settings[$back_title[$i]]['value'])}}
+                                                                                :</strong>
+                                                                        </p>{{$settings[$back[$i]]['value']}}
+                                                                    </td>
+                                                                </tr>
+                                                                @endif
+                                                                @endfor
 
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <p style="color: darkslategrey; margin-bottom:0;">
-                                                                    <strong>{{getSetting('back_first_item_title','id_card_fields')}}
-                                                                        : </strong></p>
-                                                                {{getSetting('back_first_item_text','id_card_fields')}}
-                                                            </td>
 
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <p style="color: darkslategrey; margin-bottom:0;">
-                                                                    <strong>{{getSetting('back_second_item_title','id_card_fields')}}
-                                                                        : </strong>
-                                                                </p> {{getSetting('back_second_item_text','id_card_fields')}}
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <p style="color: darkslategrey; margin-bottom:0;">
-                                                                    <strong>{{getSetting('back_third_item_title','id_card_fields')}}
-                                                                        : </strong>
-                                                                </p>{{getSetting('back_third_item_text','id_card_fields')}}
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <p style="color: darkslategrey; margin-bottom:0;">
-                                                                    <strong>{{getSetting('back_fourth_item_title','id_card_fields')}}
-                                                                        :</strong>
-                                                                </p>{{getSetting('back_fourth_item_text','id_card_fields')}}
-                                                            </td>
-                                                        </tr>
-
-                                                        </tbody>
+                                                                </tbody>
                                                     </table>
                                                 </td>
                                             </tr>
