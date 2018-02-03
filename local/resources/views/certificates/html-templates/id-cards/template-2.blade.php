@@ -48,14 +48,14 @@
                             <td style="padding: 0 15px 0 15px;" valign="top">
                                 <table cellpadding="0" cellspacing="0" border="0" style="">
                                     @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
-                                        @if($i == count($front)-1)
+                                        @if($i == count($front))
                                             @break;
                                         @endif
                                         @if($settings[$front[$i]]['value'] !== 'skip')
                                             <tr>
                                                 <td style="padding: 5px;">
                                                     <strong>
-                                                        {{getphrase($settings[$front[$i]]['value'])}}
+                                                        {{getphrase($settings[$front_title[$i]]['value'])}}
                                                     </strong>
                                                 </td>
                                                 <td style="padding: 5px;" width="1%">:</td>

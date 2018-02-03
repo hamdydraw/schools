@@ -8,7 +8,8 @@
 
 <div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
-        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" @if($lang==1) dir="rtl" @else dir="ltr" @endif>
+        <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" @if($lang==1) dir="rtl"
+               @else dir="ltr" @endif>
             <tr>
                 <td width="50%" valign="top">
                     <div style="border:1px solid #aaa; border-radius: 10px; padding:15px; min-height: 470px;">
@@ -44,14 +45,14 @@
                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                            style="font-family: sans-serif;  font-size: 12px; color: #999; line-height:18px;">
                                         @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
-                                            @if($i == count($front)-1)
+                                            @if($i == count($front))
                                                 @break;
                                             @endif
                                             @if($settings[$front[$i]]['value'] !== 'skip')
                                                 <tr>
                                                     <td width="50%" style="padding:3px"><span
                                                                 style="color: darkslategrey;">
-                                                     {{getPhrase($settings[$front[$i]]['value'])}}
+                                                     {{getPhrase($settings[$front_title[$i]]['value'])}}
                                                             &nbsp;:</span>
                                                         <strong> {{$users_list[$std][$settings[$front[$i]]['value']]}}</strong>
                                                     </td>
@@ -94,15 +95,12 @@
                                 <td style="padding:0 10px;">
                                     <table cellpadding="0" width="100%" cellspacing="0" border="0"
                                            style="font-family: sans-serif;  font-size: 14px; color: #999; line-height:18px;">
-                                        @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
-                                            @if($i == count($back)-1)
-                                                @break;
-                                            @endif
-                                            @if($settings[$back_title[$i]]['value'] !== 'skip')
+                                        @for($i=0; $i<count($back_title) ;$i++)
+                                            @if($settings[$back_title[$i]]['value'] !== '')
                                                 <tr>
                                                     <td style="padding: 8px;">
                                                         <p style="color: darkslategrey; margin-bottom:0;">
-                                                            <strong>{{getPhrase($settings[$back[$i]]['value'])}}</strong>
+                                                            <strong>{{getPhrase($settings[$back_title[$i]]['value'])}}</strong>
                                                         </p>
                                                         {{$settings[$back[$i]]['value']}}
                                                     </td>

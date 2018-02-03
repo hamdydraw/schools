@@ -100,13 +100,13 @@
                                                     <li><strong>Phone:</strong> @{{user.mobile}}</li>--}}
 
                                                     @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
-                                                        @if($i == count($front)-1)
+                                                        @if($i == count($front))
                                                             @break;
                                                         @endif
                                                         @if($settings[$front[$i]]['value'] !== 'skip')
                                                             <li>
-                                                                <strong>{{getphrase($settings[$front[$i]]['value'])}}
-                                                                    : "{{ checkExistenceOfObj("<?php echo $settings[$front[$i]]['value']; ?>",user.id) }}"
+                                                                <strong>{{getphrase($settings[$front_title[$i]]['value'])}}
+                                                                    : {{ checkExistenceOfObj("<?php echo $settings[$front[$i]]['value']; ?>",user.id) }}
                                                                 </strong>
 
                                                             </li>
@@ -134,11 +134,8 @@
                                         <div class="idcard-info idcard-item-thumb-left">
                                             <div class="content">
                                                 <ul class="ma-address">
-                                                    @for($i=0; $i< $settings['31-front_total_fields']['value'];$i++)
-                                                        @if($i == count($back)-1)
-                                                            @break;
-                                                        @endif
-                                                        @if($settings[$back_title[$i]]['value'] !== 'skip')
+                                                    @for($i=0; $i< count($back_title);$i++)
+                                                        @if($settings[$back_title[$i]]['value'] !== '')
                                                             <li>
                                                                 <strong>{{getphrase($settings[$back_title[$i]]['value'])}}:</strong>{{$settings[$back[$i]]['value']}}
                                                             </li>
