@@ -50,11 +50,7 @@ class ChangeLang extends Controller
      * get the user default language if exist if not return the default one
      */
     public function get_user_default_lang(){
-        $default_lang = Auth::user()->default_lang;
-        if($default_lang == null){
-            $default_lang = Language::where('is_default',1)->pluck('id')->first();
-        }
-        return $default_lang;
+        return  User::where('id',Auth::user()->id)->first()->default_lang;
     }
 
     /**

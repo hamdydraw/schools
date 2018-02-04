@@ -78,6 +78,7 @@ class Language extends Model
      if($default_language->code != 'en'){
        $val = $this->getTranslatedPhrase(Language::cleanPhrase($phrase), $default_language->code);
        $dta =(array) json_decode($default_language->phrases);
+//       return $phrase;
        $key_updt= trim(strtolower(Language::cleanPhrase($dta[$phrase])));
        $dta[$key_updt]=$val;
        DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);

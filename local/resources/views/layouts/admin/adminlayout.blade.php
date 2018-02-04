@@ -161,12 +161,6 @@ if (!isset($right_bar))
                         </a>
                     </li>
 
-                    <li>
-                        <a href="{{URL_LANGUAGES_USER_LIST}}">
-                            <sapn><i class="fa fa-language" aria-hidden="true"></i>
-                                {{ getPhrase('change_user_language') }}</sapn>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">

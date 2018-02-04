@@ -400,6 +400,15 @@ class UsersController extends Controller
 
         $data['module_helper'] = getModuleHelper('create-user');
 
+        //defualt lang
+        $data['languages'] = App\Language::pluck('code')->all();
+        foreach ($data['languages'] as $key => $value){
+            $data['languages'][$value] = $data['languages'][$key];
+            unset($data['languages'][$key]);
+        }
+        $data['default_lang'] = App\Language::where('is_default',1)->pluck('code')->first();
+        //;
+
         return view('users.add-edit-user', $data);
     }
 
@@ -435,6 +444,7 @@ class UsersController extends Controller
             'username' => 'bail|required|unique:users,username',
             'email' => 'bail|required|unique:users,email',
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
+            'default_lang' => 'required'
         );
         // dd($columns);
         if (checkRole(getUserGrade(2))) {
@@ -447,6 +457,8 @@ class UsersController extends Controller
 
         $role_id = getRoleData('student');
 
+
+
         if ($request->role_id) {
             $role_id = $request->role_id;
         }
@@ -455,6 +467,7 @@ class UsersController extends Controller
         $name = $request->name;
         $user->name = $name;
         $user->email = $request->email;
+        $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
         if ($request->has('password')) {
             $password = $request->password;
         } else {
@@ -680,6 +693,14 @@ class UsersController extends Controller
         $data['active_class'] = 'users';
         $data['title'] = getPhrase('edit_user');
         $data['layout'] = getLayout();
+        //defualt lang
+        $data['languages'] = App\Language::pluck('code')->all();
+        foreach ($data['languages'] as $key => $value){
+            $data['languages'][$value] = $data['languages'][$key];
+            unset($data['languages'][$key]);
+        }
+        $data['default_lang'] = App\Language::where('id',$record->default_lang)->pluck('code')->first();
+        //;
         return view('users.add-edit-user', $data);
     }
 
@@ -704,12 +725,16 @@ class UsersController extends Controller
 
         $record = User::where('slug', $slug)->get()->first();
         $role_name = getRoleData($record->role_id);
+
         // dd($role_name);
         $validation = [
             'name' => 'bail|required',
             'email' => 'bail|required|unique:users,email,' . $record->id,
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
+            'default_lang' => 'required'
         ];
+
+
 
         if (!isEligible($slug)) {
             return back();
@@ -722,6 +747,7 @@ class UsersController extends Controller
 
         $this->validate($request, $validation);
 
+
         $name = $request->name;
         $previous_role_id = $record->role_id;
         if (!env('DEMO_MODE')) {
@@ -732,6 +758,7 @@ class UsersController extends Controller
 
         $record->name = $name;
         $record->email = $request->email;
+        $record->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
 
         if (checkRole(getUserGrade(2))) {
             if ($record->role_id != 3) {
@@ -769,6 +796,7 @@ class UsersController extends Controller
 
         $this->processUpload($request, $record);
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
+        App\Language::resetLanguage();
 
         return redirect(URL_USERS_EDIT . $record->slug);
     }

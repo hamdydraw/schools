@@ -26,10 +26,13 @@
 
 	<!-- Bootstrap Core CSS -->
 
-	<link href="{{CSS}}bootstrap.min.css?s=<?php echo mt_rand()?>" rel="stylesheet">
-
-
-<link href="{{CSS}}{{getSetting('current_theme', 'site_settings')}}-theme.css?s=<?php echo mt_rand()?>" rel="stylesheet">
+	@if(Session::has('lang_dir') && Session::get('lang_dir') == 0 )
+		<link href="{{CSS}}bootstrap_en.min.css" rel="stylesheet">
+		<link href="{{CSS}}default-themeـen.css" rel="stylesheet">
+	@else
+		<link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
+		<link href="{{CSS}}default-theme.css" rel="stylesheet">
+@endif
 
 	<!-- Morris Charts CSS -->
 

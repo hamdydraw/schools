@@ -71,6 +71,7 @@ Route::get('logout', function(){
         flash(getPhrase('success'),getPhrase('logged_out_successfully'),'success');
 
     Auth::logout();
+    \App\Language::resetLanguage();
     return redirect(URL_USERS_LOGIN);
 });
 

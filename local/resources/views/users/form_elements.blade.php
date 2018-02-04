@@ -156,7 +156,21 @@ if ($record) {
 
 </fieldset>
 
+<fieldset class="form-group">
+    {{ Form::label('default_language', getphrase('default_language')) }}
 
+    <span class="text-red">*</span>
+
+    {{Form::select('default_lang', $languages, $default_lang, ['placeholder' => getPhrase('select_language'),'class'=>'form-control',
+
+    'ng-model'=>'default_language',
+    'id'=>'default_language',
+
+    'required'=> 'true',
+
+ ])}}
+
+</fieldset>
 
 @if(!checkRole(['parent']))
 

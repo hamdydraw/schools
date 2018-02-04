@@ -211,7 +211,7 @@ class AuthController extends Controller
 
                     }
                 }
-
+                App\Language::resetLanguage();
                 return redirect(PREFIX);
             }
 
