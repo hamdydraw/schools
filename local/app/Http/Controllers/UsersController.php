@@ -724,7 +724,7 @@ class UsersController extends Controller
     {
 
         $record = User::where('slug', $slug)->get()->first();
-        $role_name = getRoleData($record->role_id);
+        //$role_name = getRoleData($record->role_id);
 
         // dd($role_name);
         $validation = [
