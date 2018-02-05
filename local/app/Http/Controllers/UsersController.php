@@ -401,10 +401,10 @@ class UsersController extends Controller
         $data['module_helper'] = getModuleHelper('create-user');
 
         //defualt lang
-        $data['languages'] = App\Language::pluck('code')->all();
-        foreach ($data['languages'] as $key => $value){
-            $data['languages'][$value] = $data['languages'][$key];
-            unset($data['languages'][$key]);
+        $data['langs'] = App\Language::all();
+        for($i=0;$i<count($data['langs']);$i++){
+            $key        = $data['langs'][$i]->code;
+            $data['languages'][$key] = $data['langs'][$i]->language;
         }
         $data['default_lang'] = App\Language::where('is_default',1)->pluck('code')->first();
         //;
@@ -694,10 +694,10 @@ class UsersController extends Controller
         $data['title'] = getPhrase('edit_user');
         $data['layout'] = getLayout();
         //defualt lang
-        $data['languages'] = App\Language::pluck('code')->all();
-        foreach ($data['languages'] as $key => $value){
-            $data['languages'][$value] = $data['languages'][$key];
-            unset($data['languages'][$key]);
+        $data['langs'] = App\Language::all();
+        for($i=0;$i<count($data['langs']);$i++){
+            $key        = $data['langs'][$i]->code;
+            $data['languages'][$key] = $data['langs'][$i]->language;
         }
         $data['default_lang'] = App\Language::where('id',$record->default_lang)->pluck('code')->first();
         //;
@@ -726,13 +726,14 @@ class UsersController extends Controller
         $record = User::where('slug', $slug)->get()->first();
         //$role_name = getRoleData($record->role_id);
 
-        // dd($role_name);
+         //dd($role_name);
         $validation = [
             'name' => 'bail|required',
             'email' => 'bail|required|unique:users,email,' . $record->id,
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
             'default_lang' => 'required'
         ];
+
 
 
 
@@ -771,7 +772,10 @@ class UsersController extends Controller
                 }
             }
         }
-        $record->role_id = $request->role_id;
+        //check if role exist
+        if(isset($request->role_id)){
+            $record->role_id = $request->role_id;
+        }
         $record->phone = $request->phone;
         $record->address = $request->address;
         if ($request->has('password')) {
