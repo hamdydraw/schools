@@ -67,7 +67,7 @@
 						 <h4 class="card-title">
 						 <i class="fa fa-list-ol"></i>
 						 </h4>
-							 <p class="card-text">{{ getPhrase('exam-series')}}</p>
+							 <p class="card-text">{{ getPhrase('exam_series')}}</p>
 						 </div>
 						 <a class="card-footer text-muted"
 						 href="{{URL_EXAM_SERIES}}">
