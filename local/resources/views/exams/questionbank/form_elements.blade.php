@@ -1,4 +1,20 @@
-	<input type="hidden" name="subject_id" value="{{ $subject->id }}">
+<style>
+	#progressbar {
+		background-color: black;
+		border-radius: 13px; /* (height of inner div) / 2 + padding */
+		padding: 3px;
+		margin-top: 3%;
+	}
+
+	#progressbar_2{
+		background-color: orange;
+		width: 0%; /* Adjust with JavaScript */
+		height: 20px;
+		border-radius: 10px;
+	}
+</style>
+
+<input type="hidden" name="subject_id" value="{{ $subject->id }}">
 	<fieldset class="form-group ">
 	{{ Form::label('topic_id', getphrase('topic')) }} <span class="text-red">*</span>
 
@@ -64,8 +80,13 @@
          </span>
 
 
-        {{Form::file('question_file', $attributes = array('class'=>'form-control'))}}
-
+        {{--{{Form::file('question_file', $attributes = array('class'=>'form-control'))}}--}}
+		 <input class="form-control" id="upload1" type="file" ngf-select="uploadImage($files)"/>
+		 <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
+		 @{{ file_name }}
+		 <div id="progressbar" style="display: none">
+			 <div id="progressbar_2"></div>
+		 </div>
     </fieldset>
 	</div>
 

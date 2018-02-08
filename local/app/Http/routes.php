@@ -492,6 +492,8 @@ Route::post('exams/questionbank/import',  'QuestionBankController@readExcel');
 Route::get('exams/questionbank/delete/option-file/{id}/{imagename}', 'QuestionBankController@deleteOptionFile');
 Route::post('exams/questionbank/delete/question-file', 'QuestionBankController@deleteQuestionFile');
 
+Route::post('exams/questionbank/upload', 'QuestionBankController@upload');
+
 
 
 
@@ -668,6 +670,9 @@ Route::patch('lms/content/edit/{slug}', 'LmsContentController@update');
 Route::delete('lms/content/delete/{slug}', 'LmsContentController@delete');
 Route::get('lms/content/getList', [ 'as'   => 'lmscontent.dataTable',
     'uses' => 'LmsContentController@getDatatable']);
+
+Route::post('lms/content/upload_image', 'LmsContentController@upload_image');
+Route::post('lms/content/upload_lms', 'LmsContentController@upload_lms_file');
 
 
 
@@ -1020,9 +1025,13 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::post('/test', function (Request $request) {
-    $key =  $request->get('string');
-    $data = \App\Language::getPhrase($key);
-    return json_encode($data);
+//    $key =  $request->get('string');
+//    $data = \App\Language::getPhrase($key);
+//    return json_encode($data);
+    if($request->hasFile('file')) {
+        return json_encode(['mission'=>'done']);
+    }
+    return json_encode($request->all());
 });
 
 Route::get('/test',function (){

@@ -1,5 +1,6 @@
 @extends('layouts.admin.adminlayout')
 @section('content')
+	<script  type="text/css" src="{{CSS}}angular-toastr.css"></script>
 <div id="page-wrapper">
 			<div class="container-fluid">
 				<!-- Page Heading -->

@@ -378,11 +378,9 @@ class QuestionBankController extends Controller
 
 
           // Update data with images
-        if($request->hasFile('question_file')) {
-
-          $record->question_file          = $this->processUpload($request, $record, 'question_file', 'question');
-        }
-
+          if(isset($request->question_file)){
+              $record->question_file          = $request->question_file;
+          }
 
        if($request->hasFile($record->explanation_file))
         $record->explanation_file          = $this->processUpload($request, $record, 'explanation_file', 'explanation');
@@ -418,6 +416,20 @@ class QuestionBankController extends Controller
 
     }
 
+
+    public function upload(Request $request){
+
+
+        if($request->hasFile('file')) {
+
+
+            $value = $this->processUpload($request, null, 'file', 'question');
+            return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
+        }
+        return json_encode(['state' => 'failed','desc' => getPhrase('upload_failed')]);
+
+    }
+
     /**
      * This method adds record to DB with the following steps
      * 1 Validate Request
@@ -438,6 +450,7 @@ class QuestionBankController extends Controller
         prepareBlockUserMessage();
         return back();
       }
+
 
       DB::beginTransaction();
       try{
@@ -561,10 +574,11 @@ class QuestionBankController extends Controller
 		$record->save();
 		// Update data with images
 
-        if($request->hasFile('question_file')) {
 
-          $record->question_file          = $this->processUpload($request, $record, 'question_file', 'question');
-        }
+          if(isset($request->question_file)){
+              $record->question_file          = $request->question_file;
+          }
+
 
 
     if($request->hasFile($record->explanation_file))
@@ -818,27 +832,42 @@ class QuestionBankController extends Controller
      * @param  string  $type      [Identify if it is question or an option image]
      * @return [type]             [description]
      */
-     public function processUpload(Request $request, $record, $file_name, $type = 'option')
+     public function processUpload(Request $request, $record = null, $file_name, $type = 'option')
      {
       if(env('DEMO_MODE')) {
         return;
       }
-         if ($request->hasFile($file_name)) {
-          $imageObject = new App\ImageSettings();
-          $destinationPath      = $imageObject->getExamImagePath();
-          $fileName = $record->id.'-'.$file_name.'.'.$request->$file_name->guessClientExtension();
-          if($type!='option')
-          {
+      if($record == null) {
+          $record1 = rand(1, 200000);
+          $record2 = rand(1, 200000);
+          if ($request->hasFile($file_name)) {
+              $imageObject = new App\ImageSettings();
+              $destinationPath = $imageObject->getExamImagePath();
+              $fileName = $record . '-' . $file_name . '.' . $request->$file_name->guessClientExtension();
+              if ($type != 'option') {
 
-          	 $fileName = $record->id.$type.'.'.$request->$file_name->guessClientExtension();
+                  $fileName = $record1 . $type . $record2 . '.' .$request->$file_name->guessClientExtension();
 
+              }
           }
+      }
+      else {
+          if ($request->hasFile($file_name)) {
+              $imageObject = new App\ImageSettings();
+              $destinationPath = $imageObject->getExamImagePath();
+              $fileName = $record->id . '-' . $file_name . '.' . $request->$file_name->guessClientExtension();
+              if ($type != 'option') {
+
+                  $fileName = $record->id . $type . '.' . $request->$file_name->guessClientExtension();
+
+              }
+          }
+      }
 
           $request->file($file_name)->move($destinationPath, $fileName);
 
          return $fileName;
         }
-     }
 
     /**
      * Validates the single answer type of questions and returs a validation rules

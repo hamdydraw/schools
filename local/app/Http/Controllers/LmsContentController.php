@@ -213,38 +213,16 @@ class LmsContentController extends Controller
         $record->file_path          = $file_path;
         $record->description        = $request->description;
         $record->record_updated_by  = Auth::user()->id;
+        if(isset($request->image)){
+            $record->image      = $request->image;
+        }
+        if(isset($request->lms_file)){
+            $record->file_path      = $request->lms_file;
+        }
 
 
         $record->save();
-         $file_name = 'image';
-        if ($request->hasFile($file_name))
-        {
 
-            $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
-            $this->validate($request, $rules);
-            $this->setSettings();
-            $examSettings = $this->getSettings();
-            $path = $examSettings->contentImagepath;
-            $this->deleteFile($record->image, $path);
-
-              $record->image      = $this->processUpload($request, $record,$file_name);
-
-              $record->save();
-        }
-
-         $file_name = 'lms_file';
-        if ($request->hasFile($file_name))
-        {
-
-            $this->setSettings();
-            $examSettings = $this->getSettings();
-            $path = $examSettings->contentImagepath;
-            $this->deleteFile($record->file_path, $path);
-
-              $record->file_path      = $this->processUpload($request, $record,$file_name, FALSE);
-
-              $record->save();
-        }
         DB::commit();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
 
@@ -263,6 +241,33 @@ class LmsContentController extends Controller
     	return redirect(URL_LMS_CONTENT);
     }
 
+
+    public function upload_image(Request $request){
+        $file_name = 'file';
+        if ($request->hasFile($file_name))
+        {
+
+            $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
+            $this->validate($request, $rules);
+            $this->setSettings();
+
+            $value      = $this->processUpload($request, null,$file_name);
+            return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
+        }
+        return json_encode(['state' => 'failed','desc' => getPhrase('upload_failed')]);
+    }
+
+    public function upload_lms_file(Request $request){
+        $file_name = 'file';
+        if ($request->hasFile($file_name))
+        {
+            $this->setSettings();
+
+            $value      = $this->processUpload($request, null, $file_name, FALSE);
+            return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
+        }
+        return json_encode(['state' => 'failed','desc' => getPhrase('upload_failed')]);
+    }
     /**
      * This method adds record to DB
      * @param  Request $request [Request Object]
@@ -270,6 +275,7 @@ class LmsContentController extends Controller
      */
     public function store(Request $request)
     {
+
 
        if(!checkRole(getUserGrade(2)))
       {
@@ -327,38 +333,16 @@ class LmsContentController extends Controller
        	$record->file_path 		   = $file_path;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        if(isset($request->image)){
+            $record->image      = $request->image;
+        }
+        if(isset($request->lms_file)){
+            $record->file_path      = $request->lms_file;
+        }
 
 
         $record->save();
- 		 $file_name = 'image';
-        if ($request->hasFile($file_name))
-        {
 
-            $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
-            $this->validate($request, $rules);
-		    $this->setSettings();
-            $examSettings = $this->getSettings();
-	        $path = $examSettings->contentImagepath;
-	        $this->deleteFile($record->image, $path);
-
-              $record->image      = $this->processUpload($request, $record,$file_name);
-              $record->save();
-        }
-
-         $file_name = 'lms_file';
-        if ($request->hasFile($file_name))
-        {
-
-            // $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
-            // $this->validate($request, $rules);
-		    $this->setSettings();
-            $examSettings = $this->getSettings();
-	        $path = $examSettings->contentImagepath;
-	        $this->deleteFile($record->file_path, $path);
-
-              $record->file_path      = $this->processUpload($request, $record, $file_name, FALSE);
-              $record->save();
-        }
 
          DB::commit();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
@@ -453,7 +437,7 @@ class LmsContentController extends Controller
      * @param  [type]  $file_name [The Name of the file which need to upload]
      * @return [type]             [description]
      */
-     public function processUpload(Request $request, $record, $file_name, $is_image = TRUE)
+     public function processUpload(Request $request, $record = null, $file_name, $is_image = TRUE)
      {
          if(env('DEMO_MODE')) {
             return;
@@ -465,7 +449,14 @@ class LmsContentController extends Controller
           $path = $_FILES[$file_name]['name'];
           $ext = pathinfo($path, PATHINFO_EXTENSION);
 
-          $fileName = $record->id.'-'.$file_name.'.'.$ext;
+          if($record == null){
+              $record1 = rand(1, 200000);
+              $record2 = rand(1, 200000);
+              $fileName = $record1.'-'.$file_name.'-'.$record2.'.'.$ext;
+              //w8 for it
+          }else{
+              $fileName = $record->id.'-'.$file_name.'.'.$ext;
+          }
 
           $request->file($file_name)->move($destinationPath, $fileName);
          if($is_image){

@@ -1,5 +1,35 @@
  <?php $settings = getSettings('lms');?>
- 			
+
+ <style>
+	 #progressbar {
+		 background-color: black;
+		 border-radius: 13px; /* (height of inner div) / 2 + padding */
+		 padding: 3px;
+		 margin-top: 3%;
+	 }
+
+	 #progressbar_2{
+		 background-color: orange;
+		 width: 0%; /* Adjust with JavaScript */
+		 height: 20px;
+		 border-radius: 10px;
+	 }
+	 #progressbar2 {
+		 background-color: black;
+		 border-radius: 13px; /* (height of inner div) / 2 + padding */
+		 padding: 3px;
+		 margin-top: 3%;
+	 }
+
+	 #progressbar2_2{
+		 background-color: orange;
+		 width: 0%; /* Adjust with JavaScript */
+		 height: 20px;
+		 border-radius: 10px;
+	 }
+
+ </style>
+
 				<div class="row">
  					 <fieldset class="form-group col-md-6">
 
@@ -56,8 +86,14 @@
 
 					 <fieldset class="form-group  col-md-6"   >
 				   {{ Form::label('image', getphrase('image')) }}
-				         <input type="file" class="form-control" name="image"
-				          accept=".png,.jpg,.jpeg" id="image_input">
+				         {{--<input type="file" class="form-control" name="image"--}}
+				          {{--accept=".png,.jpg,.jpeg" id="image_input">--}}
+						 <input class="form-control" id="upload1" type="file" ngf-select="uploadImage($files)"/>
+						 <input type="hidden" name="image" ng-model="file_name" value="@{{file_name}}">
+						 @{{file_name}}
+						 <div id="progressbar" style="display: none">
+							 <div id="progressbar_2"></div>
+						 </div>
 
 				    </fieldset>
 
@@ -76,7 +112,7 @@
 				 	 <fieldset class="form-group col-md-6" >
 						{{ Form::label('content_type', getphrase('content_type')) }}
 						<span class="text-red">*</span>
-						{{Form::select('content_type', $settings->content_types, null, ['placeholder' => getPhrase('select'),'class'=>'form-control', 
+						{{Form::select('content_type', $settings->translated_content_types, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
 						'ng-model'=>'content_type',
 							'required'=> 'true',
 							 'id'=>'content_type', 
@@ -112,9 +148,12 @@
 					<fieldset ng-if="content_type=='file' || content_type=='video' || content_type=='audio'" class="form-group col-md-6">
 							{{ Form::label('lms_file', 'LMS file') }}
 							<span class="text-red">*</span>
-							 <input type="file" 
-							 class="form-control" 
-							 name="lms_file"  >
+						<input class="form-control" id="upload2" type="file" ngf-select="uploadLMS($files)"/>
+						<input type="hidden" name="lms_file" ng-model="file_name2" value="@{{file_name2}}">
+						@{{file_name2}}
+						<div id="progressbar2" style="display: none">
+							<div id="progressbar2_2"></div>
+						</div>
 					</fieldset>
 
 					 

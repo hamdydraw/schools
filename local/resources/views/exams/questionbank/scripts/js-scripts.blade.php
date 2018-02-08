@@ -1,10 +1,45 @@
 <script src="{{JS}}angular.js"></script>
 <script src="{{JS}}angular-messages.js"></script>
+<script src="{{JS}}ng-file-upload.js"></script>
+<script src="{{JS}}angular-toastr.min.js"></script>
+<script src="{{JS}}angular-toastr.tpls.min.js"></script>
 
 <script>
-var app = angular.module('academia', ['ngMessages']);
-app.controller('questionsController', function($scope, $http) {
-    
+var app = angular.module('academia', ['ngMessages','ngFileUpload','toastr']);
+app.controller('questionsController', function($scope, $http,Upload,toastr) {
+
+
+
+    $scope.file_name = null;
+
+    $scope.uploadImage = function($files) {
+        var file = $files[0];
+        $('#progressbar').show();
+        Upload.upload({
+            url: '/schoolsysrepo/exams/questionbank/upload',
+            dataType:"json",
+            file: file,
+            method:"POST",
+            headers: {'Content-Type': undefined }
+        }).progress(function (e)
+        {
+            var progress = (e.loaded / e.total) * 100;
+            $("#progressbar_2").css('width',progress+'%');
+        }).then(function (response, status, headers, config) {
+            console.log(response.data);
+            if(response.data.state == "failed"){
+                toastr.error(response.data.desc, 'Error');
+            }
+            if(response.data.state == "success"){
+                toastr.success(response.data.desc);
+            }
+            $scope.file_name = response.data.file;
+            $('#progressbar').hide();
+            //$('#upload1').css({pointerEvents: "initial"});
+            $('#upload1').val('');
+        });
+    }
+
     $scope.initAngData = function(data) {
       
          if(data=='')

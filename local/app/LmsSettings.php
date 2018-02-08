@@ -25,9 +25,13 @@ class LmsSettings extends Model
                                     )
      );
 
-      
+public function __construct()
+{
+    foreach ($this->settings['content_types'] as $key => $value){
+        $this->settings['translated_content_types'][$key] = Language::getPhrase($key);
+    }
+}
 
- 
 
     /**
      * This method returns the settings related to Library System

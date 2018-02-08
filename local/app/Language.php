@@ -33,6 +33,7 @@ class Language extends Model
    public function addPhrase($phrase, $default_language = 0)
    {
 
+
    		if($default_language==0)
    			$default_language_id = Language::getDefaultLanguage();
 
@@ -75,11 +76,13 @@ class Language extends Model
      $default_language_id = Language::getDefaultLanguage();
      $default_language = Language::where('id', '=', $default_language_id)->first();
 
+     //error is here
      if($default_language->code != 'en'){
        $val = $this->getTranslatedPhrase(Language::cleanPhrase($phrase), $default_language->code);
        $dta =(array) json_decode($default_language->phrases);
-//       return $phrase;
+       return "awd update";
        $key_updt= trim(strtolower(Language::cleanPhrase($dta[$phrase])));
+
        $dta[$key_updt]=$val;
        DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
      }
@@ -167,19 +170,16 @@ class Language extends Model
 
       $language_phrases = (array) session('language_phrases');
 
-
 		if(array_has($language_phrases, $key)) {
      //Language key exists, so returns respective language string
 
      if(trim(strtolower(Language::cleanPhrase($language_phrases[$key]))) == $key){
-       (new Language())->updatePhrase($key);
+      // (new Language())->updatePhrase($key);
      }
-
 			return $language_phrases[$key];
 		}
 		else {
       //Language key dosn't  exists, so returns requested string string by adding the language to db
-
 			(new Language())->addPhrase($key);
 
 			return Language::cleanPhrase($key);

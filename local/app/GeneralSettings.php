@@ -25,10 +25,10 @@ class GeneralSettings extends Model
 
     protected $questionTypes    = array(
                                         ''              => 'Select',
-                                        'radio'         => 'Single Answer',
-                                        'checkbox'      => 'Multi Answer',
-                                        'blanks'        => 'Fill in blanks',
-                                        'match'         => 'Match the following',
+                                        'radio'         => 'Single_Answer',
+                                        'checkbox'      => 'Multi_Answer',
+                                        'blanks'        => 'Fill_in_blanks',
+                                        'match'         => 'Match_the_following',
                                         'para'          => 'Paragraph',
                                         'video'         => 'Video',
                                         'audio'         => 'Audio',
@@ -40,6 +40,13 @@ class GeneralSettings extends Model
                                         );
     protected $examMaxOptions = 10;
     protected $settings      = array('gradeSystem' => 'percentage_title');
+
+    public function __construct()
+    {
+        foreach ($this->questionTypes as $key => $value){
+            $this->questionTypes[$key] = Language::getPhrase($value);
+        }
+    }
 
     public function getSettings()
     {
