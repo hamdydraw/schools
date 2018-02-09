@@ -10,20 +10,19 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
 
-    if(Auth::check())
-    {
+    if (Auth::check()) {
         return redirect('dashboard');
     }
     return redirect(URL_USERS_LOGIN);
 });
 
 
-if(env('DB_DATABASE')=='')
-{
+if (env('DB_DATABASE') == '') {
 
     Route::get('/', 'InstallatationController@index');
 
@@ -33,7 +32,7 @@ if(env('DB_DATABASE')=='')
 }
 
 
-if(env('DEMO_MODE')) {
+if (env('DEMO_MODE')) {
     Event::listen('eloquent.saving: *', function ($model) {
         return false;
     });
@@ -47,15 +46,12 @@ if(env('DEMO_MODE')) {
 Route::post('install/register', 'InstallatationController@registerUser');
 
 
+Route::get('dashboard', 'DashboardController@index');
+Route::get('dashboard/testlang', 'DashboardController@testLanguage');
 
 
-Route::get('dashboard','DashboardController@index');
-Route::get('dashboard/testlang','DashboardController@testLanguage');
-
-
-Route::get('auth/{slug}','Auth\AuthController@redirectToProvider');
-Route::get('auth/{slug}/callback','Auth\AuthController@handleProviderCallback');
-
+Route::get('auth/{slug}', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/{slug}/callback', 'Auth\AuthController@handleProviderCallback');
 
 
 // Authentication Routes...
@@ -65,19 +61,21 @@ Route::get('login', 'Auth\AuthController@getLogin');
 // Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 
-Route::get('logout', function(){
+Route::get('logout', function () {
 
-    if(Auth::check())
-        flash(getPhrase('success'),getPhrase('logged_out_successfully'),'success');
+    if (Auth::check()) {
+        flash(getPhrase('success'), getPhrase('logged_out_successfully'), 'success');
+    }
 
     Auth::logout();
     \App\Language::resetLanguage();
     return redirect(URL_USERS_LOGIN);
 });
 
-Route::get('parent-logout', function(){
-    if(Auth::check())
-        flash(getPhrase('Ooops'),getPhrase('parents_module_is_not_available'),'error');
+Route::get('parent-logout', ['middleware' => 'stopOrOn:parent'], function () {
+    if (Auth::check()) {
+        flash(getPhrase('Ooops'), getPhrase('parents_module_is_not_available'), 'error');
+    }
     Auth::logout();
     return redirect(URL_USERS_LOGIN);
 });
@@ -97,8 +95,10 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 
 Route::get('languages/list', 'NativeController@index');
-Route::get('languages/getList', [ 'as'   => 'languages.dataTable',
-    'uses' => 'NativeController@getDatatable']);
+Route::get('languages/getList', [
+    'as' => 'languages.dataTable',
+    'uses' => 'NativeController@getDatatable'
+]);
 
 Route::get('languages/add', 'NativeController@create');
 Route::post('languages/add', 'NativeController@store');
@@ -122,15 +122,17 @@ Route::post('departments/add-department', 'DepartmentsController@storeDepartment
 Route::get('departments/edit-department/{slug}', 'DepartmentsController@editDepartment');
 Route::patch('departments/edit-department/{slug}', 'DepartmentsController@updateDepartment');
 Route::delete('departments/delete/{id}', 'DepartmentsController@delete');
-Route::get('departments/getDepartments', [ 'as'   => 'departments.dataTable',
-    'uses' => 'DepartmentsController@getDatatable']);
+Route::get('departments/getDepartments', [
+    'as' => 'departments.dataTable',
+    'uses' => 'DepartmentsController@getDatatable'
+]);
 
 
 //Users
 //Users ---dashboard
 Route::get('users/dashboard', 'UsersDashboardController@index');
-Route::get('users/import','UsersController@importUsers');
-Route::post('users/import','UsersController@readExcel');
+Route::get('users/import', 'UsersController@importUsers');
+Route::post('users/import', 'UsersController@readExcel');
 
 Route::get('users/create', 'UsersController@create');
 Route::get('users/staff-inactive/{role}', 'UsersController@staff_inactivelist');
@@ -154,43 +156,48 @@ Route::patch('users/settings/{slug}', 'UsersController@updateSettings');
 Route::get('users/change-password/{slug}', 'UsersController@changePassword');
 Route::patch('users/change-password/{slug}', 'UsersController@updatePassword');
 
-Route::get('users/import','UsersController@importUsers');
-Route::post('users/import','UsersController@readExcel');
+Route::get('users/import', 'UsersController@importUsers');
+Route::post('users/import', 'UsersController@readExcel');
 
-Route::get('users/import-report','UsersController@importResult');
+Route::get('users/import-report', 'UsersController@importResult');
 Route::get('users/{role?}', 'UsersController@index');
 
 Route::post('users/import/get-excel-information', 'UsersController@getExcelUploadInformation');
 
 
-Route::get('users/list/getList/{role_name?}', [ 'as'   => 'users.dataTable',
-    'uses' => 'UsersController@getDatatable']);
+Route::get('users/list/getList/{role_name?}', [
+    'as' => 'users.dataTable',
+    'uses' => 'UsersController@getDatatable'
+]);
 
-Route::get('users/staff-inactive/getList/{slug}', [ 'as'   => 'users-staff_inactive.dataTable',
-    'uses' => 'UsersController@getStaffInactiveList']);
+Route::get('users/staff-inactive/getList/{slug}', [
+    'as' => 'users-staff_inactive.dataTable',
+    'uses' => 'UsersController@getStaffInactiveList'
+]);
 // Route::get('users/list/getList/{role_name?}', 'UsersController@getDatatable');
 
 
 //Staff
-Route::patch('staff/profile/edit/general/{id}','StaffController@updateGeneralDetails');
-Route::patch('staff/profile/edit/personal/{id}','StaffController@updatePersonalDetails');
-Route::patch('staff/profile/edit/contact/{id}','StaffController@updateContactDetails');
+Route::patch('staff/profile/edit/general/{id}', 'StaffController@updateGeneralDetails');
+Route::patch('staff/profile/edit/personal/{id}', 'StaffController@updatePersonalDetails');
+Route::patch('staff/profile/edit/contact/{id}', 'StaffController@updateContactDetails');
 Route::get('staff/profile/edit/{slug}/{tab?}', 'StaffController@edit');
 Route::post('staff/profile/edit/status', 'StaffController@editstatus');
 Route::get('staff/profile/{slug}', 'StaffController@show');
 
 //Staff subject preference
-Route::get('staff/subjects/preferences/{slug}','SubjectPreferencesController@subjectPreferences');
-Route::post('staff/subjects/preferences/{slug}','SubjectPreferencesController@update');
+Route::get('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@subjectPreferences');
+Route::post('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@update');
 
+Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //////////////////////
 //Parent Controller //
 //////////////////////
-Route::get('parent/children', 'ParentsController@index');
-Route::get('parent/children/list', 'ParentsController@index');
-Route::get('parent/children/getList/{slug}', 'ParentsController@getDatatable');
-Route::get('children/analysis', 'ParentsController@childrenAnalysis');
-
+    Route::get('parent/children', 'ParentsController@index');
+    Route::get('parent/children/list', 'ParentsController@index');
+    Route::get('parent/children/getList/{slug}', 'ParentsController@getDatatable');
+    Route::get('children/analysis', 'ParentsController@childrenAnalysis');
+});
 /////////////////////
 // Master Settings //
 /////////////////////
@@ -202,8 +209,10 @@ Route::post('mastersettings/religions/add', 'ReligionsController@store');
 Route::get('mastersettings/religions/edit/{slug}', 'ReligionsController@edit');
 Route::patch('mastersettings/religions/edit/{slug}', 'ReligionsController@update');
 Route::delete('mastersettings/religions/delete/{id}', 'ReligionsController@delete');
-Route::get('mastersettings/religions/getList', [ 'as'   => 'religions.dataTable',
-    'uses' => 'ReligionsController@getDatatable']);
+Route::get('mastersettings/religions/getList', [
+    'as' => 'religions.dataTable',
+    'uses' => 'ReligionsController@getDatatable'
+]);
 
 
 //Categories
@@ -213,8 +222,10 @@ Route::post('mastersettings/categories/add', 'CategoriesController@store');
 Route::get('mastersettings/categories/edit/{slug}', 'CategoriesController@edit');
 Route::patch('mastersettings/categories/edit/{slug}', 'CategoriesController@update');
 Route::delete('mastersettings/categories/delete/{id}', 'CategoriesController@delete');
-Route::get('mastersettings/categories/getList', [ 'as'   => 'categories.dataTable',
-    'uses' => 'CategoriesController@getDatatable']);
+Route::get('mastersettings/categories/getList', [
+    'as' => 'categories.dataTable',
+    'uses' => 'CategoriesController@getDatatable'
+]);
 
 
 //Academics
@@ -224,8 +235,10 @@ Route::post('mastersettings/academics/add', 'AcademicsController@store');
 Route::get('mastersettings/academics/edit/{slug}', 'AcademicsController@edit');
 Route::patch('mastersettings/academics/edit/{slug}', 'AcademicsController@update');
 Route::delete('mastersettings/academics/delete/{id}', 'AcademicsController@delete');
-Route::get('mastersettings/academics/getList', [ 'as'   => 'academics.dataTable',
-    'uses' => 'AcademicsController@getDatatable']);
+Route::get('mastersettings/academics/getList', [
+    'as' => 'academics.dataTable',
+    'uses' => 'AcademicsController@getDatatable'
+]);
 Route::get('mastersettings/academics/get-academics', 'AcademicsController@getAcademics');
 
 
@@ -240,7 +253,6 @@ Route::post('academic-courses/get-parent-courses', 'AcademicCoursesController@ge
 Route::post('academic-courses/get-child-courses', 'AcademicCoursesController@getChildCourses');
 
 
-
 //courses
 
 //Courese ---dashboard
@@ -251,8 +263,10 @@ Route::post('mastersettings/course/add', 'CourseController@store');
 Route::get('mastersettings/course/edit/{slug}', 'CourseController@edit');
 Route::patch('mastersettings/course/edit/{slug}', 'CourseController@update');
 Route::delete('mastersettings/course/delete/{id}', 'CourseController@delete');
-Route::get('mastersettings/course/getList', [ 'as'   => 'course.dataTable',
-    'uses' => 'CourseController@getDatatable']);
+Route::get('mastersettings/course/getList', [
+    'as' => 'course.dataTable',
+    'uses' => 'CourseController@getDatatable'
+]);
 
 Route::get('mastersettings/course/editSemisters/{slug}', 'CourseController@editSemisters');
 Route::patch('mastersettings/course/editSemisters', 'CourseController@updateSemisters');
@@ -282,33 +296,36 @@ Route::get('course-subjects/add-staff/{academic_id}/{course_id}', 'CourseSubject
 Route::post('course-subjects/update-staff', 'CourseSubjectsController@updateStaffAllotment');
 Route::post('course-subjects/is-staff-allocated', 'CourseSubjectsController@isSatffAllocatedToTimetable');
 
+Route::group(['middleware' => 'stopOrOn:certificate'], function () {
 //Certificate Templates
-Route::get('mastersettings/certificate_templates', 'CertificateTemplatesController@index');
-Route::get('mastersettings/certificate_templates/add', 'CertificateTemplatesController@create');
-Route::post('mastersettings/certificate_templates/add', 'CertificateTemplatesController@store');
-Route::get('mastersettings/certificate_templates/edit/{slug}', 'CertificateTemplatesController@edit');
-Route::patch('mastersettings/certificate_templates/edit/{slug}', 'CertificateTemplatesController@update');
-Route::delete('mastersettings/certificate_templates/delete/{id}', 'CertificateTemplatesController@delete');
-Route::get('mastersettings/certificate_templates/getList', [ 'as'   => 'certificate_templates.dataTable',
-    'uses' => 'CertificateTemplatesController@getDatatable']);
+    Route::get('mastersettings/certificate_templates', 'CertificateTemplatesController@index');
+    Route::get('mastersettings/certificate_templates/add', 'CertificateTemplatesController@create');
+    Route::post('mastersettings/certificate_templates/add', 'CertificateTemplatesController@store');
+    Route::get('mastersettings/certificate_templates/edit/{slug}', 'CertificateTemplatesController@edit');
+    Route::patch('mastersettings/certificate_templates/edit/{slug}', 'CertificateTemplatesController@update');
+    Route::delete('mastersettings/certificate_templates/delete/{id}', 'CertificateTemplatesController@delete');
+    Route::get('mastersettings/certificate_templates/getList', [
+        'as' => 'certificate_templates.dataTable',
+        'uses' => 'CertificateTemplatesController@getDatatable'
+    ]);
 
 //Certificate Generation links
 
-Route::get('certificates/dashboard', 'CertificatesController@certificatesDashboard');
-Route::get('certificates/id-cards', 'CertificatesController@idCards');
-Route::post('students/get-users', 'StudentController@getStudents');
-Route::post('students/get-users/completed', 'StudentController@getCompletedStudents');
-Route::post('students/delete-users/completed', 'StudentController@backCompletedStudents');
-Route::post('students/get-users/detained', 'StudentController@getDetainedStudents');
-Route::get('certificates/bonafide-certificates',
-    'CertificatesController@bonafideCertificates');
+    Route::get('certificates/dashboard', 'CertificatesController@certificatesDashboard');
+    Route::get('certificates/id-cards', 'CertificatesController@idCards');
+    Route::post('students/get-users', 'StudentController@getStudents');
+    Route::post('students/get-users/completed', 'StudentController@getCompletedStudents');
+    Route::post('students/delete-users/completed', 'StudentController@backCompletedStudents');
+    Route::post('students/get-users/detained', 'StudentController@getDetainedStudents');
+    Route::get('certificates/bonafide-certificates',
+        'CertificatesController@bonafideCertificates');
 
-Route::post('certificates/id-cards', 'CertificatesController@printCards');
+    Route::post('certificates/id-cards', 'CertificatesController@printCards');
 
-Route::post('certificate-issues/is-issued', 'CertificatesIssuesController@isIssued');
-Route::post('certificate/issue', 'CertificatesIssuesController@issueCertificate');
-Route::post('certificate/issue/tc', 'CertificatesIssuesController@tcDetails');
-
+    Route::post('certificate-issues/is-issued', 'CertificatesIssuesController@isIssued');
+    Route::post('certificate/issue', 'CertificatesIssuesController@issueCertificate');
+    Route::post('certificate/issue/tc', 'CertificatesIssuesController@tcDetails');
+});
 
 //Academic Holidays
 Route::get('mastersettings/holidays', 'AcademicHolidaysController@index');
@@ -317,22 +334,23 @@ Route::post('mastersettings/holidays/add', 'AcademicHolidaysController@store');
 Route::get('mastersettings/holidays/edit/{slug}', 'AcademicHolidaysController@edit');
 Route::patch('mastersettings/holidays/edit/{slug}', 'AcademicHolidaysController@update');
 Route::delete('mastersettings/holidays/delete/{id}', 'AcademicHolidaysController@delete');
-Route::get('mastersettings/holidays/getList', [ 'as'   => 'academicholidays.dataTable',
-    'uses' => 'AcademicHolidaysController@getDatatable']);
+Route::get('mastersettings/holidays/getList', [
+    'as' => 'academicholidays.dataTable',
+    'uses' => 'AcademicHolidaysController@getDatatable'
+]);
 
 //Student
 Route::get('student/profile/edit/{slug}/{tab?}', 'StudentController@edit');
-Route::patch('student/profile/edit/general/{slug}','StudentController@updateGeneralDetails');
-Route::patch('student/profile/edit/personal/{slug}','StudentController@updatePersonalDetails');
-Route::patch('student/profile/edit/contact/{slug}','StudentController@updateContactDetails');
-Route::patch('student/profile/edit/parent/{slug}','StudentController@updateParentDetails');
+Route::patch('student/profile/edit/general/{slug}', 'StudentController@updateGeneralDetails');
+Route::patch('student/profile/edit/personal/{slug}', 'StudentController@updatePersonalDetails');
+Route::patch('student/profile/edit/contact/{slug}', 'StudentController@updateContactDetails');
+Route::patch('student/profile/edit/parent/{slug}', 'StudentController@updateParentDetails');
 Route::get('student/profile/{slug}', 'StudentController@show');
 Route::post('student/get-parent-records', 'StudentController@getParentsOnSearch');
 
 Route::post('student/courses', 'StudentController@courses');
 
 Route::get('student/course-semister/{courseId}/{semisterId}', 'StudentController@coursesSemister');
-
 
 
 //subjects
@@ -342,8 +360,10 @@ Route::post('mastersettings/subjects/add', 'SubjectsController@store');
 Route::get('mastersettings/subjects/edit/{slug}', 'SubjectsController@edit');
 Route::patch('mastersettings/subjects/edit/{slug}', 'SubjectsController@update');
 Route::delete('mastersettings/subjects/delete/{id}', 'SubjectsController@delete');
-Route::get('mastersettings/subjects/getList', [ 'as'   => 'subjects.dataTable',
-    'uses' => 'SubjectsController@getDatatable']);
+Route::get('mastersettings/subjects/getList', [
+    'as' => 'subjects.dataTable',
+    'uses' => 'SubjectsController@getDatatable'
+]);
 
 Route::get('mastersettings/subjects/import', 'SubjectsController@import');
 Route::post('mastersettings/subjects/import', 'SubjectsController@readExcel');
@@ -355,8 +375,10 @@ Route::post('mastersettings/topics/add', 'TopicsController@store');
 Route::get('mastersettings/topics/edit/{slug}', 'TopicsController@edit');
 Route::patch('mastersettings/topics/edit/{slug}', 'TopicsController@update');
 Route::delete('mastersettings/topics/delete/{id}', 'TopicsController@delete');
-Route::get('mastersettings/topics/getList', [ 'as'   => 'topics.dataTable',
-    'uses' => 'TopicsController@getDatatable']);
+Route::get('mastersettings/topics/getList', [
+    'as' => 'topics.dataTable',
+    'uses' => 'TopicsController@getDatatable'
+]);
 
 Route::get('mastersettings/topics/get-parents-topics/{subject_id}', 'TopicsController@getParentTopics');
 
@@ -385,14 +407,16 @@ Route::get('library/librarydashboard/books', 'LibraryDashboardController@books')
 Route::get('library/librarydashboard/books/staffbooks', 'LibraryDashboardController@staffbooks');
 
 Route::get('library/librarydashboard/getList',
-    ['as'  =>'librarydashboard.datatable',
-        'uses' =>'LibraryDashboardController@getDatatable']);
+    [
+        'as' => 'librarydashboard.datatable',
+        'uses' => 'LibraryDashboardController@getDatatable'
+    ]);
 
 Route::get('library/librarydashboard/getList/staff',
-    ['as'  =>'librarydashboard.staffdatatable',
-        'uses' =>'LibraryDashboardController@getStaffDatatable']);
-
-
+    [
+        'as' => 'librarydashboard.staffdatatable',
+        'uses' => 'LibraryDashboardController@getStaffDatatable'
+    ]);
 
 
 //Library Assets
@@ -404,8 +428,10 @@ Route::post('library/assets/add', 'LibraryAssetTypeController@store');
 Route::get('library/assets/edit/{slug}', 'LibraryAssetTypeController@edit');
 Route::patch('library/assets/edit/{slug}', 'LibraryAssetTypeController@update');
 Route::delete('library/assets/delete/{id}', 'LibraryAssetTypeController@delete');
-Route::get('library/assets/getList', [ 'as'   => 'libraryassets.dataTable',
-    'uses' => 'LibraryAssetTypeController@getDatatable']);
+Route::get('library/assets/getList', [
+    'as' => 'libraryassets.dataTable',
+    'uses' => 'LibraryAssetTypeController@getDatatable'
+]);
 
 
 //Library Masters
@@ -419,8 +445,10 @@ Route::post('library/master/add', 'LibraryMastersController@store');
 Route::get('library/master/edit/{slug}', 'LibraryMastersController@edit');
 Route::patch('library/master/edit/{slug}', 'LibraryMastersController@update');
 Route::delete('library/master/delete/{id}', 'LibraryMastersController@delete');
-Route::get('library/master/getList', [ 'as'   => 'librarymasters.dataTable',
-    'uses' => 'LibraryMastersController@getDatatable']);
+Route::get('library/master/getList', [
+    'as' => 'librarymasters.dataTable',
+    'uses' => 'LibraryMastersController@getDatatable'
+]);
 
 //Library Collections
 Route::get('library/master/collections/{slug}', 'LibraryMastersController@viewCollections');
@@ -440,8 +468,10 @@ Route::post('library/authors/add', 'AuthorsController@store');
 Route::get('library/authors/edit/{slug}', 'AuthorsController@edit');
 Route::patch('library/authors/edit/{slug}', 'AuthorsController@update');
 Route::delete('library/authors/delete/{id}', 'AuthorsController@delete');
-Route::get('library/authors/getList', [ 'as'   => 'authors.dataTable',
-    'uses' => 'AuthorsController@getDatatable']);
+Route::get('library/authors/getList', [
+    'as' => 'authors.dataTable',
+    'uses' => 'AuthorsController@getDatatable'
+]);
 
 //Authors
 Route::get('library/publishers', 'PublishersController@index');
@@ -451,9 +481,10 @@ Route::post('library/publishers/add', 'PublishersController@store');
 Route::get('library/publishers/edit/{slug}', 'PublishersController@edit');
 Route::patch('library/publishers/edit/{slug}', 'PublishersController@update');
 Route::delete('library/publishers/delete/{id}', 'PublishersController@delete');
-Route::get('library/publishers/getList', [ 'as'   => 'publishers.dataTable',
-    'uses' => 'PublishersController@getDatatable']);
-
+Route::get('library/publishers/getList', [
+    'as' => 'publishers.dataTable',
+    'uses' => 'PublishersController@getDatatable'
+]);
 
 
 //Asset Issues
@@ -466,8 +497,6 @@ Route::post('library/issues/get-master-details', 'LibraryIssuesController@getMas
 Route::post('library/issues/issue-asset', 'LibraryIssuesController@store');
 Route::post('library/returns/return-asset', 'LibraryIssuesController@returnAsset');
 Route::post('library/returns/return-asset/staff', 'LibraryIssuesController@returnStaffAsset');
-
-
 
 
 ////////////////////////
@@ -483,18 +512,16 @@ Route::post('exams/questionbank/add', 'QuestionBankController@store');
 Route::get('exams/questionbank/edit-question/{slug}', 'QuestionBankController@edit');
 Route::patch('exams/questionbank/edit/{slug}', 'QuestionBankController@update');
 Route::delete('exams/questionbank/delete/{id}', 'QuestionBankController@delete');
-Route::get('exams/questionbank/getList',  'QuestionBankController@getDatatable');
+Route::get('exams/questionbank/getList', 'QuestionBankController@getDatatable');
 
 Route::get('exams/questionbank/getquestionslist/{slug}',
     'QuestionBankController@getQuestions');
-Route::get('exams/questionbank/import',  'QuestionBankController@import');
-Route::post('exams/questionbank/import',  'QuestionBankController@readExcel');
+Route::get('exams/questionbank/import', 'QuestionBankController@import');
+Route::post('exams/questionbank/import', 'QuestionBankController@readExcel');
 Route::get('exams/questionbank/delete/option-file/{id}/{imagename}', 'QuestionBankController@deleteOptionFile');
 Route::post('exams/questionbank/delete/question-file', 'QuestionBankController@deleteQuestionFile');
 
 Route::post('exams/questionbank/upload', 'QuestionBankController@upload');
-
-
 
 
 //Quiz Categories
@@ -504,8 +531,10 @@ Route::post('exams/categories/add', 'QuizCategoryController@store');
 Route::get('exams/categories/edit/{slug}', 'QuizCategoryController@edit');
 Route::patch('exams/categories/edit/{slug}', 'QuizCategoryController@update');
 Route::delete('exams/categories/delete/{slug}', 'QuizCategoryController@delete');
-Route::get('exams/categories/getList', [ 'as'   => 'quizcategories.dataTable',
-    'uses' => 'QuizCategoryController@getDatatable']);
+Route::get('exams/categories/getList', [
+    'as' => 'quizcategories.dataTable',
+    'uses' => 'QuizCategoryController@getDatatable'
+]);
 
 // Quiz Student Categories
 Route::get('exams/student/categories', 'StudentQuizController@index');
@@ -529,7 +558,8 @@ Route::get('exams/student/get-exam-attempts/{user_slug}/{exam_slug?}', 'StudentQ
 Route::get('student/analysis/by-exam/{user_slug}', 'StudentQuizController@examAnalysis');
 Route::get('student/analysis/get-by-exam/{user_slug}', 'StudentQuizController@getExamAnalysisData');
 
-Route::get('student/analysis/by-subject/{user_slug}/{exam_slug?}/{results_slug?}', 'StudentQuizController@subjectAnalysisInExam');
+Route::get('student/analysis/by-subject/{user_slug}/{exam_slug?}/{results_slug?}',
+    'StudentQuizController@subjectAnalysisInExam');
 Route::get('student/analysis/subject/{user_slug}', 'StudentQuizController@overallSubjectAnalysis');
 
 //Student Reports
@@ -575,8 +605,6 @@ Route::get('exams/student-exam-series/list', 'ExamSeriesController@listSeries');
 Route::get('exams/student-exam-series/{slug}', 'ExamSeriesController@viewItem');
 
 
-
-
 Route::get('exams/exam-series/update-series/{slug}', 'ExamSeriesController@updateSeries');
 Route::post('exams/exam-series/update-series/{slug}', 'ExamSeriesController@storeSeries');
 Route::post('exams/exam-series/get-exams', 'ExamSeriesController@getExams');
@@ -592,14 +620,17 @@ Route::get('payments-report/online/', 'PaymentsController@onlinePaymentsReport')
 Route::get('payments-report/online/{slug}', 'PaymentsController@listOnlinePaymentsReport');
 Route::get('payments-report/online/getList/{slug}', 'PaymentsController@getOnlinePaymentReportsDatatable');
 
-Route::get('payments-report/offline/', 'PaymentsController@offlinePaymentsReport');
-Route::get('payments-report/offline/{slug}', 'PaymentsController@listOfflinePaymentsReport');
-Route::get('payments-report/offline/getList/{slug}', 'PaymentsController@getOfflinePaymentReportsDatatable');
-Route::get('payments-report/export', 'PaymentsController@exportPayments');
+Route::group(['middleware' => 'stopOrOn:offline_payment'], function () {
+    Route::get('payments-report/offline/', 'PaymentsController@offlinePaymentsReport');
+    Route::get('payments-report/offline/{slug}', 'PaymentsController@listOfflinePaymentsReport');
+    Route::get('payments-report/offline/getList/{slug}', 'PaymentsController@getOfflinePaymentReportsDatatable');
+    Route::get('payments-report/export', 'PaymentsController@exportPayments');
+});
 Route::post('payments-report/export', 'PaymentsController@doExportPayments');
 
 Route::post('payments-report/getRecord', 'PaymentsController@getPaymentRecord');
-Route::post('payments/approve-reject-offline-request', 'PaymentsController@approveOfflinePayment');
+Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:OfflinePayment'],
+    'PaymentsController@approveOfflinePayment');
 
 //////////////////
 // INSTRUCTIONS  //
@@ -620,26 +651,26 @@ Route::get('student/bookmarks/{slug}', 'BookmarksController@index');
 Route::post('student/bookmarks/add', 'BookmarksController@create');
 Route::delete('student/bookmarks/delete/{id}', 'BookmarksController@delete');
 Route::delete('student/bookmarks/delete_id/{id}', 'BookmarksController@deleteById');
-Route::get('student/bookmarks/getList/{slug}',  'BookmarksController@getDatatable');
-Route::post('student/bookmarks/getSavedList',  'BookmarksController@getSavedBookmarks');
+Route::get('student/bookmarks/getList/{slug}', 'BookmarksController@getDatatable');
+Route::post('student/bookmarks/getSavedList', 'BookmarksController@getSavedBookmarks');
 
-
+Route::group(['middleware' => 'stopOrOn:push_notifications'], function () {
 //////////////////////////
 // Notifications Module //
 /////////////////////////
-Route::get('admin/notifications/list', 'NotificationsController@index');
-Route::get('admin/notifications', 'NotificationsController@index');
-Route::get('admin/notifications/add', 'NotificationsController@create');
-Route::post('admin/notifications/add', 'NotificationsController@store');
-Route::get('admin/notifications/edit/{slug}', 'NotificationsController@edit');
-Route::patch('admin/notifications/edit/{slug}', 'NotificationsController@update');
-Route::delete('admin/notifications/delete/{slug}', 'NotificationsController@delete');
-Route::get('admin/notifications/getList', 'NotificationsController@getDatatable');
+    Route::get('admin/notifications/list', 'NotificationsController@index');
+    Route::get('admin/notifications', 'NotificationsController@index');
+    Route::get('admin/notifications/add', 'NotificationsController@create');
+    Route::post('admin/notifications/add', 'NotificationsController@store');
+    Route::get('admin/notifications/edit/{slug}', 'NotificationsController@edit');
+    Route::patch('admin/notifications/edit/{slug}', 'NotificationsController@update');
+    Route::delete('admin/notifications/delete/{slug}', 'NotificationsController@delete');
+    Route::get('admin/notifications/getList', 'NotificationsController@getDatatable');
 
 // NOTIFICATIONS FOR STUDENT
-Route::get('notifications/list', 'NotificationsController@usersList');
-Route::get('notifications/show/{slug}', 'NotificationsController@display');
-
+    Route::get('notifications/list', 'NotificationsController@usersList');
+    Route::get('notifications/show/{slug}', 'NotificationsController@display');
+});
 
 //BOOKMARKS MODULE
 Route::get('toppers/compare-with-topper/{user_result_slug}/{compare_slug?}', 'ExamToppersController@compare');
@@ -658,8 +689,10 @@ Route::post('lms/categories/add', 'LmsCategoryController@store');
 Route::get('lms/categories/edit/{slug}', 'LmsCategoryController@edit');
 Route::patch('lms/categories/edit/{slug}', 'LmsCategoryController@update');
 Route::delete('lms/categories/delete/{slug}', 'LmsCategoryController@delete');
-Route::get('lms/categories/getList', [ 'as'   => 'lmscategories.dataTable',
-    'uses' => 'LmsCategoryController@getDatatable']);
+Route::get('lms/categories/getList', [
+    'as' => 'lmscategories.dataTable',
+    'uses' => 'LmsCategoryController@getDatatable'
+]);
 
 //LMS Contents
 Route::get('lms/content', 'LmsContentController@index');
@@ -668,12 +701,13 @@ Route::post('lms/content/add', 'LmsContentController@store');
 Route::get('lms/content/edit/{slug}', 'LmsContentController@edit');
 Route::patch('lms/content/edit/{slug}', 'LmsContentController@update');
 Route::delete('lms/content/delete/{slug}', 'LmsContentController@delete');
-Route::get('lms/content/getList', [ 'as'   => 'lmscontent.dataTable',
-    'uses' => 'LmsContentController@getDatatable']);
+Route::get('lms/content/getList', [
+    'as' => 'lmscontent.dataTable',
+    'uses' => 'LmsContentController@getDatatable'
+]);
 
 Route::post('lms/content/upload_image', 'LmsContentController@upload_image');
 Route::post('lms/content/upload_lms', 'LmsContentController@upload_lms_file');
-
 
 
 //LMS Series
@@ -688,8 +722,6 @@ Route::get('lms/series/getList', 'LmsSeriesController@getDatatable');
 //LMS SERIES STUDENT LINKS
 Route::get('lms/exam-series/list', 'LmsSeriesController@listSeries');
 Route::get('lms/exam-series/{slug}', 'LmsSeriesController@viewItem');
-
-
 
 
 Route::get('lms/series/update-series/{slug}', 'LmsSeriesController@updateSeries');
@@ -709,8 +741,6 @@ Route::get('learning-management/content/show/{slug}', 'StudentLmsController@show
 Route::get('user/paid/{slug}/{content_slug}', 'StudentLmsController@verifyPaidItem');
 
 
-
-
 //Payments Controller
 Route::get('payments/list/{slug}', 'PaymentsController@index');
 Route::get('payments/getList/{slug}', 'PaymentsController@getDatatable');
@@ -718,14 +748,13 @@ Route::get('payments/getList/{slug}', 'PaymentsController@getDatatable');
 Route::get('payments/checkout/{type}/{slug}', 'PaymentsController@checkout');
 
 Route::post('payments/paynow/{slug}', 'PaymentsController@paynow');
-Route::post('payments/paypal/status-success','PaymentsController@paypal_success');
+Route::post('payments/paypal/status-success', 'PaymentsController@paypal_success');
 Route::get('payments/paypal/status-cancel', 'PaymentsController@paypal_cancel');
 
-Route::post('payments/payu/status-success','PaymentsController@payu_success');
+Route::post('payments/payu/status-success', 'PaymentsController@payu_success');
 Route::post('payments/payu/status-cancel', 'PaymentsController@payu_cancel');
-Route::post('payments/offline-payment/update', 'PaymentsController@updateOfflinePayment');
-
-
+Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offline_payment'],
+    'PaymentsController@updateOfflinePayment');
 
 
 ////////////////////////////
@@ -750,8 +779,10 @@ Route::get('mastersettings/settings/add-sub-settings/{slug}', 'SettingsControlle
 Route::post('mastersettings/settings/add-sub-settings/{slug}', 'SettingsController@storeSubSettings');
 Route::patch('mastersettings/settings/add-sub-settings/{slug}', 'SettingsController@updateSubSettings');
 
-Route::get('mastersettings/settings/getList', [ 'as'   => 'mastersettings.dataTable',
-    'uses' => 'SettingsController@getDatatable']);
+Route::get('mastersettings/settings/getList', [
+    'as' => 'mastersettings.dataTable',
+    'uses' => 'SettingsController@getDatatable'
+]);
 
 
 ////////////////////////////
@@ -769,8 +800,10 @@ Route::get('mastersettings/module-helpers/add-sub-settings/{slug}', 'ModuleHelpe
 // Route::post('mastersettings/module-helpers/add-sub-settings/{slug}', 'ModuleHelperController@storeSubSettings');
 Route::patch('mastersettings/module-helpers/add-steps/{slug}', 'ModuleHelperController@updateSteps');
 
-Route::get('mastersettings/module-helpers/getList', [ 'as'   => 'mastersettings.module-helper.dataTable',
-    'uses' => 'ModuleHelperController@getDatatable']);
+Route::get('mastersettings/module-helpers/getList', [
+    'as' => 'mastersettings.module-helper.dataTable',
+    'uses' => 'ModuleHelperController@getDatatable'
+]);
 
 ////////////////////////////
 // EMAIL TEMPLATES MODULE //
@@ -783,26 +816,28 @@ Route::post('email/templates/add', 'EmailTemplatesController@store');
 Route::get('email/templates/edit/{slug}', 'EmailTemplatesController@edit');
 Route::patch('email/templates/edit/{slug}', 'EmailTemplatesController@update');
 Route::delete('email/templates/delete/{slug}', 'EmailTemplatesController@delete');
-Route::get('email/templates/getList', [ 'as'   => 'emailtemplates.dataTable',
-    'uses' => 'EmailTemplatesController@getDatatable']);
+Route::get('email/templates/getList', [
+    'as' => 'emailtemplates.dataTable',
+    'uses' => 'EmailTemplatesController@getDatatable'
+]);
 
-
+Route::group(['middleware' => 'stopOrOn:coupons'], function () {
 //Coupons Module
-Route::get('coupons/list', 'CouponcodesController@index');
-Route::get('coupons/add', 'CouponcodesController@create');
-Route::post('coupons/add', 'CouponcodesController@store');
-Route::get('coupons/edit/{slug}', 'CouponcodesController@edit');
-Route::patch('coupons/edit/{slug}', 'CouponcodesController@update');
-Route::delete('coupons/delete/{slug}', 'CouponcodesController@delete');
-Route::get('coupons/getList/{slug?}', 'CouponcodesController@getDatatable');
+    Route::get('coupons/list', 'CouponcodesController@index');
+    Route::get('coupons/add', 'CouponcodesController@create');
+    Route::post('coupons/add', 'CouponcodesController@store');
+    Route::get('coupons/edit/{slug}', 'CouponcodesController@edit');
+    Route::patch('coupons/edit/{slug}', 'CouponcodesController@update');
+    Route::delete('coupons/delete/{slug}', 'CouponcodesController@delete');
+    Route::get('coupons/getList/{slug?}', 'CouponcodesController@getDatatable');
 
-Route::get('coupons/get-usage', 'CouponcodesController@getCouponUsage');
-Route::get('coupons/get-usage-data', 'CouponcodesController@getCouponUsageData');
-Route::post('coupons/update-questions/{slug}', 'CouponcodesController@storeQuestions');
+    Route::get('coupons/get-usage', 'CouponcodesController@getCouponUsage');
+    Route::get('coupons/get-usage-data', 'CouponcodesController@getCouponUsageData');
+    Route::post('coupons/update-questions/{slug}', 'CouponcodesController@storeQuestions');
 
 
-Route::post('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
-
+    Route::post('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
+});
 
 //Feedback Module
 Route::get('feedback/list', 'FeedbackController@index');
@@ -822,7 +857,7 @@ Route::post('sms/send', 'SMSAgentController@sendSMS');
 /////////////////////
 
 
-Route::group(['prefix' => 'messages'], function () {
+Route::group(['prefix' => 'messages', 'middleware' => 'stopOrOn:messaging'], function () {
     Route::get('/', ['as' => 'messages', 'uses' => 'MessagesController@index']);
     Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
     Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
@@ -843,11 +878,10 @@ Route::post('student/attendance/update/{slug}', 'StudentAttendanceController@upd
 Route::get('student/attendance/edit/{slug}', 'StudentAttendanceController@edit');
 Route::patch('student/attendance/edit/{slug}', 'StudentAttendanceController@update');
 Route::delete('student/attendance/delete/{id}', 'StudentAttendanceController@delete');
-Route::get('student/attendance/getList', [ 'as'   => 'attendance.dataTable',
-    'uses' => 'StudentAttendanceController@getDatatable']);
-
-
-
+Route::get('student/attendance/getList', [
+    'as' => 'attendance.dataTable',
+    'uses' => 'StudentAttendanceController@getDatatable'
+]);
 
 
 //Student Attendence Report
@@ -892,8 +926,8 @@ Route::post('staff/lession-plans/get-last-updated-records', 'LessionPlansControl
 Route::get('staff/lession-plans/student-list/{slug}', 'LessionPlansController@studentlist');
 Route::post('staff/lession-plans/view-students', 'LessionPlansController@viewStudents');
 
-Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_parent_id}/{course_id}/{year}/{semister}', 'LessionPlansController@getDatatable');
-
+Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_parent_id}/{course_id}/{year}/{semister}',
+    'LessionPlansController@getDatatable');
 
 
 //STUDENT TRANSFERS
@@ -921,8 +955,10 @@ Route::get('timetable/timing-set/edit/{slug}', 'TimingsetController@edit');
 Route::patch('timetable/timing-set/edit/{slug}', 'TimingsetController@update');
 Route::delete('timetable/timing-set/delete/{slug}', 'TimingsetController@delete');
 Route::delete('timetable/timing-set/delete-timingset-record/{slug}', 'TimingsetController@deleteTimingsetRecord');
-Route::get('timetable/timing-set/getList', [ 'as'   => 'timingset.dataTable',
-    'uses' => 'TimingsetController@getDatatable']);
+Route::get('timetable/timing-set/getList', [
+    'as' => 'timingset.dataTable',
+    'uses' => 'TimingsetController@getDatatable'
+]);
 
 
 //Allot time table
@@ -951,10 +987,11 @@ Route::post('maptimingset/parent/add', 'MapTimingSetParentController@store');
 Route::get('maptimingset/parent/edit/{slug}', 'MapTimingSetParentController@edit');
 Route::patch('maptimingset/parent/edit/{slug}', 'MapTimingSetParentController@update');
 Route::delete('maptimingset/parent/delete/{id}', 'MapTimingSetParentController@delete');
-Route::get('maptimingset/parent/getList', [ 'as'   => 'maptimingsetparent.dataTable',
-    'uses' => 'MapTimingSetParentController@getDatatable']);
+Route::get('maptimingset/parent/getList', [
+    'as' => 'maptimingsetparent.dataTable',
+    'uses' => 'MapTimingSetParentController@getDatatable'
+]);
 Route::get('maptimingset/parent/get-academics', 'MapTimingSetParentController@getAcademics');
-
 
 
 //Transportation Vechicles
@@ -964,8 +1001,10 @@ Route::post('transportation/vehicles/add', 'TransportationController@store');
 Route::get('transportation/vehicles/edit/{slug}', 'TransportationController@edit');
 Route::patch('transportation/vehicles/edit/{slug}', 'TransportationController@update');
 Route::delete('transportation/vehicles/delete/{id}', 'TransportationController@delete');
-Route::get('transportation/vehicles/getlist', [ 'as'   => 'transportationvehicles.dataTable',
-    'uses' => 'TransportationController@getDatatable']);
+Route::get('transportation/vehicles/getlist', [
+    'as' => 'transportationvehicles.dataTable',
+    'uses' => 'TransportationController@getDatatable'
+]);
 
 
 //Transportation Vechicles types
@@ -975,24 +1014,27 @@ Route::post('transportation/vehicles/types/add', 'TransportationVehicletypeContr
 Route::get('transportation/vehicles/types/edit/{slug}', 'TransportationVehicletypeController@edit');
 Route::patch('transportation/vehicles/types/edit/{slug}', 'TransportationVehicletypeController@update');
 Route::delete('transportation/vehicles/types/delete/{id}', 'TransportationVehicletypeController@delete');
-Route::get('transportation/vehicles/types/getlist', [ 'as'   => 'transportationvehicletypes.dataTable',
-    'uses' => 'TransportationVehicletypeController@getDatatable']);
+Route::get('transportation/vehicles/types/getlist', [
+    'as' => 'transportationvehicletypes.dataTable',
+    'uses' => 'TransportationVehicletypeController@getDatatable'
+]);
 
 
 //Offline Exams
 Route::get('academicoperations/offline-exams', 'OfflineExamsController@index');
-Route::get('academicoperations/offline-exams/exams/{slug}','OfflineExamsController@selectionview');
-Route::post('academicoperations/offline-exams/add','OfflineExamsController@entermarks');
+Route::get('academicoperations/offline-exams/exams/{slug}', 'OfflineExamsController@selectionview');
+Route::post('academicoperations/offline-exams/add', 'OfflineExamsController@entermarks');
 Route::post('academicoperations/offline-exams/store', 'OfflineExamsController@store');
-Route::get('academicoperations/offline-exams/getlist', [ 'as'   => 'offlineexams.dataTable',
-    'uses' => 'OfflineExamsController@getDatatable']);
+Route::get('academicoperations/offline-exams/getlist', [
+    'as' => 'offlineexams.dataTable',
+    'uses' => 'OfflineExamsController@getDatatable'
+]);
 Route::delete('academicoperations/offline-exams/delete/{id}', 'OfflineExamsController@delete');
 
 
 Route::get('academicoperations/offline-exams/import-excel', 'OfflineExamsController@import');
 Route::post('academicoperations/offline-exams/import-excel', 'OfflineExamsController@readExcel');
 Route::post('academicoperations/offline-exams/get-information', 'OfflineExamsController@getOfflineExamsInformation');
-
 
 
 //OfflineExams Quiz Categories
@@ -1002,8 +1044,10 @@ Route::post('offlineexmas/quiz/categories/add', 'OfflineQuizCategoriesController
 Route::get('offlineexmas/quiz/categories/edit/{slug}', 'OfflineQuizCategoriesController@edit');
 Route::patch('offlineexmas/quiz/categories/edit/{slug}', 'OfflineQuizCategoriesController@update');
 Route::delete('offlineexmas/quiz/categories/delete/{id}', 'OfflineQuizCategoriesController@delete');
-Route::get('offlineexmas/quiz/categories/getList', [ 'as'   => 'offlinequizcategories.dataTable',
-    'uses' => 'OfflineQuizCategoriesController@getDatatable']);
+Route::get('offlineexmas/quiz/categories/getList', [
+    'as' => 'offlinequizcategories.dataTable',
+    'uses' => 'OfflineQuizCategoriesController@getDatatable'
+]);
 
 
 //academic operations ---dashboard
@@ -1028,12 +1072,12 @@ Route::post('/test', function (Request $request) {
 //    $key =  $request->get('string');
 //    $data = \App\Language::getPhrase($key);
 //    return json_encode($data);
-    if($request->hasFile('file')) {
-        return json_encode(['mission'=>'done']);
+    if ($request->hasFile('file')) {
+        return json_encode(['mission' => 'done']);
     }
     return json_encode($request->all());
 });
 
-Route::get('/test',function (){
-   return view('test');
+Route::get('/test', function () {
+    return view('test');
 });
