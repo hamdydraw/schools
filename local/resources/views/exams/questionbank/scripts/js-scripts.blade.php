@@ -16,7 +16,7 @@ app.controller('questionsController', function($scope, $http,Upload,toastr) {
         var file = $files[0];
         $('#progressbar').show();
         Upload.upload({
-            url: '/schoolsysrepo/exams/questionbank/upload',
+            url: '{{URL::current()}}/../../upload',
             dataType:"json",
             file: file,
             method:"POST",

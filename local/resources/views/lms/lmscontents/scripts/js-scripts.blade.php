@@ -9,11 +9,14 @@
 app.controller('angLmsController', function($scope, $http,Upload) {
 
 
+    {{--console.log({{URL::current()}});--}}
+
+
     $scope.uploadImage = function($files) {
         var file = $files[0];
         $('#progressbar').show();
         Upload.upload({
-            url: '/schoolsysrepo/lms/content/upload_image',
+            url: '{{URL::current()}}/../upload_image',
             dataType:"json",
             file: file,
             method:"POST",
@@ -35,7 +38,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         var file = $files[0];
         $('#progressbar2').show();
         Upload.upload({
-            url: '/schoolsysrepo/lms/content/upload_lms',
+            url: '{{URL::current()}}/../upload_lms',
             dataType:"json",
             file: file,
             method:"POST",
