@@ -3326,7 +3326,7 @@ class X509
      *  - 4.1.2.5 Validity
      *  - 5.1.2.4 This Update
      *  - 5.1.2.5 Next Update
-     *  - 5.1.2.6 Revoked Certificates
+     *  - 5.1.2.6 Revoked Authenticate
      * by choosing utcTime iff year of date given is before 2050 and generalTime else.
      *
      * @param string $date in format date('D, d M Y H:i:s O')

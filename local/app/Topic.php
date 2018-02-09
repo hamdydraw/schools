@@ -25,6 +25,13 @@ class Topic extends Model
     			->where('subject_id', '=', $subject_id)
     			->get();
     }
+    public static function getTopicsInSSpecificSemester($subject_id,$semester,$parent_id = 0)
+    {
+        return Topic::where('parent_id', '=', $parent_id)
+            ->where('subject_id', '=', $subject_id)
+            ->where('semester_num',$semester)
+            ->get();
+    }
 
     /**
      * This method returns the list of questions available for the selected topic

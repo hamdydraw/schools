@@ -16,6 +16,11 @@ class Academic extends Model
          return $this->hasMany('App\AcademicCourse', 'academic_id');
          
     }
+    public function getCurrentAcademic()
+    {
+        $nowDate=date("Y-m-d h:i:sa");
+        return $this->where('academic_start_date','<',$nowDate)->where('academic_end_date','>',$nowDate)->first(['id']);
+    }
 
     /**
      * Fetches the list of courses available in academic_course table and returns as json array

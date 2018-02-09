@@ -340,14 +340,12 @@ class SettingsController extends Controller
 
     public function viewSettings($slug)
     {
-        // dd($slug);
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $record = Settings::where('slug', $slug)->get()->first();
-
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
         }
@@ -361,6 +359,8 @@ class SettingsController extends Controller
         $data['layout'] = getLayout();
         $data['slug'] = $slug;
 
+        $settings = Settings::where('slug', 'module')->first();
+        $data['hideElementOrView'] = json_decode($settings->settings_data, true);
         return view('mastersettings.settings.sub-list', $data);
     }
 
@@ -494,7 +494,6 @@ class SettingsController extends Controller
      */
     public function updateSubSettings(Request $request, $slug)
     {
-
         /**
          * Check if the request is of env varable
          * if yes, update env file

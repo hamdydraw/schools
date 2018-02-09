@@ -231,7 +231,7 @@ class CertificatesController extends Controller
         $users_list = [];
 
         if (!count($selected_users)) {
-            flash(getPhrase('Ooops'), getPhrase('please_select_any_users'), 'error');
+            flash(getPhrase('Ooops'), getPhrase('please_select_at_least_one_user'), 'error');
             return redirect(URL_CERTIFICATES_GENERATE_IDCARD);
         }
 
@@ -271,6 +271,7 @@ class CertificatesController extends Controller
             ->where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
             ->where('course_id', '=', $course_id)
+            ->whereIn('users.id',$users_list)
             /*->where('current_year','=',$year)
             ->where('current_semister','=',$semister)*/
             ->select([

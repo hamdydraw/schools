@@ -64,11 +64,17 @@
                                     else
                                         $type_name = $value->type;
                                     ?>
-                                    @include(
-                                                'mastersettings.settings.sub-list-views.'.$type_name.'-type',
-                                                array('key'=>$key, 'value'=>$value)
-                                            )
-
+                                    @if($slug == 'social-logins')
+                                        @include(
+                                                    'mastersettings.settings.sub-list-views.'.$type_name.'-type',
+                                                    array('key'=>$key, 'value'=>$value,'hideElementOrView'=>$hideElementOrView,'social'=>'view')
+                                                )
+                                    @else
+                                        @include(
+                                               'mastersettings.settings.sub-list-views.'.$type_name.'-type',
+                                               array('key'=>$key, 'value'=>$value,'social'=>'hide')
+                                           )
+                                    @endif
                                 @endforeach
 
                             @else

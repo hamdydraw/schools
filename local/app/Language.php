@@ -73,7 +73,7 @@ class Language extends Model
    // }
 
    public function updatePhrase($phrase){
-     $default_language_id = Language::getDefaultLanguage();
+     /*$default_language_id = Language::getDefaultLanguage();
      $default_language = Language::where('id', '=', $default_language_id)->first();
 
      //error is here
@@ -84,7 +84,7 @@ class Language extends Model
 
        $dta[$key_updt]=$val;
        DB::table('languages')->where('id', '=', $default_language->id)->update(['phrases' => json_encode($dta)]);
-     }
+     }*/
 
    }
 
@@ -203,10 +203,10 @@ class Language extends Model
   	public static function resetLanguage()
     {
 
-        session()->forget('language_phrases');
+        /*session()->forget('language_phrases');
         $language = Language::where('id', '=', Language::getDefaultLanguage())->first();
         session()->put('language_phrases', json_decode($language->phrases));
-        session()->put('lang_dir',$language->is_rtl);
+        session()->put('lang_dir',$language->is_rtl);*/
 
     }
 
@@ -234,9 +234,9 @@ class Language extends Model
     if($language_id == "" || !($language_id > 0))
       $language_id = Language::getDefaultLanguage();
 
-    $phrases = DB::table('languages')->where('id', '=', $language_id)->select('phrases')->first()->phrases;
+    //$phrases = DB::table('languages')->where('id', '=', $language_id)->select('phrases')->first()->phrases;
 
-    return (array)json_decode($phrases);
+    //return (array)json_decode($phrases);
 
   }
 

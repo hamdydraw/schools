@@ -40,7 +40,7 @@ class TimetableController extends Controller
 
         $data['layout'] = getLayout();
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
-            ->where('role_id', '=',  getRoleData('staff'))
+            ->where('role_id', '=', getRoleData('staff'))
             ->where('users.status', '!=', 0)
             ->where('staff.course_id', '!=', '')
             ->select(['users.id as id', 'users.name', 'image', 'job_title', 'gender', 'qualification'])
@@ -214,7 +214,8 @@ class TimetableController extends Controller
                     ->where('timetable.academic_id', '=', $academic_id)
                     ->where('timingset_id', '=', $record->timingset_id)
                     ->where('timingset_map_id', '=', $record->map_id)
-                    ->where('timingset_details_id', '=', $details->id);
+                    ->where('timingset_details_id', '=', $details->id)
+                    ->where('timetable.semister', '=', $semister);
 
                 if ($user_id != 0) {
                     $timetable_record = $timetable_record->where('timetable.user_id', '=', $user_id);
@@ -514,7 +515,7 @@ class TimetableController extends Controller
         $result['message'] = '';
         if ($record) {
             $result['status'] = 0;
-            $result['message'] =  getPhrase('Ooops_staff_is_busy_for_that_slot');
+            $result['message'] = getPhrase('Ooops_staff_is_busy_for_that_slot');
         }
         return json_encode($result);
     }
@@ -534,13 +535,17 @@ class TimetableController extends Controller
             return redirect($isValid);
         }
 
-        $academic_id = getDefaultAcademicId();
+        //$academic_id = getDefaultAcademicId();
+        $academic_id = new App\Academic();
+        $academic_id = $academic_id->getCurrentAcademic()['id'];
         $course_id = 0;
         $year = 0;
         $semister = 0;
         $notes = '';
         $timetable_title = '';
 
+        $academicSemester = new App\AcademicSemester();
+        $currentSemester = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
         $role = getRoleData($user_record->role_id);
 
         if ($role == 'staff') {
@@ -597,18 +602,17 @@ class TimetableController extends Controller
         $allocated_periods = [];
         if ($user_id) {
             //Print Staff Timetable
-            $allocated_periods = $this->getSchedules($academic_id, 0, 0, 0, $user_id);
+            $allocated_periods = $this->getSchedules($academic_id, 0, 0, $currentSemester['sem_num'], $user_id);
         } else {
             //Print Class timetable
             $allocated_periods = $this->getSchedules(
                 $academic_id,
                 $course_id,
                 $year,
-                $semister,
+                $currentSemester['sem_num'],
                 $user_id);
-        }
 
-        // dd($allocated_periods);
+        }
         $days = getDay();
         $data['allocated_periods'] = json_encode($allocated_periods);
 
