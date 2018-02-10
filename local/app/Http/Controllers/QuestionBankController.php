@@ -378,7 +378,7 @@ class QuestionBankController extends Controller
 
 
           // Update data with images
-          if(isset($request->question_file)){
+          if(isset($request->question_file) && !empty($request->question_file)){
               $record->question_file          = $request->question_file;
           }
 

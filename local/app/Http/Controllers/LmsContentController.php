@@ -213,10 +213,10 @@ class LmsContentController extends Controller
         $record->file_path          = $file_path;
         $record->description        = $request->description;
         $record->record_updated_by  = Auth::user()->id;
-        if(isset($request->image)){
+        if(isset($request->image) && !empty($request->image)){
             $record->image      = $request->image;
         }
-        if(isset($request->lms_file)){
+        if(isset($request->lms_file) && !empty($request->lms_file)){
             $record->file_path      = $request->lms_file;
         }
 
