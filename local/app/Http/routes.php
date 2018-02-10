@@ -708,6 +708,8 @@ Route::get('lms/content/getList', [
 
 Route::post('lms/content/upload_image', 'LmsContentController@upload_image');
 Route::post('lms/content/upload_lms', 'LmsContentController@upload_lms_file');
+Route::post('lms/content/edit/upload_image', 'LmsContentController@upload_image');
+Route::post('lms/content/edit/upload_lms', 'LmsContentController@upload_lms_file');
 
 
 //LMS Series
