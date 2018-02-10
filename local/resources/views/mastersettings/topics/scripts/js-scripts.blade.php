@@ -63,8 +63,8 @@
     }
 
 
-    function getSubjectParents(semester) {
-
+    function getSubjectParents(semester,rec) {
+       alert(rec)
         subject_id = $('#subject').val();
         route = '{{URL_TOPICS_GET_PARENT_TOPICS}}' + subject_id;
 
@@ -93,7 +93,7 @@
 <script>
     $(document).ready(function () {
         if ($('#subject').val() != '') {
-            getSubjectParents($('#semesters').val());
+            getSubjectParents($('#semesters').val(),'<?php echo $record->topic_title?>');
         }
 
     })

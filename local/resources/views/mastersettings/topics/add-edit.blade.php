@@ -55,7 +55,7 @@
 		<!-- /#page-wrapper -->
 @stop
 @section('footer_scripts')
-	@include('mastersettings.topics.scripts.js-scripts');
+	@include('mastersettings.topics.scripts.js-scripts',array('record'=>isset($record) ? $record : null));
 	@include('common.validations', array('isLoaded'=>TRUE));
 @stop
  

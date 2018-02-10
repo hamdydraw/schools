@@ -22,7 +22,7 @@
 						
 						{{ Form::label('subject_code', getphrase('subject_code')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('subject_code', $value = rand(1,6000) , $attributes = array('class'=>'form-control', 'placeholder' => 'M1',
+						{{ Form::text('subject_code', $record !=null ? null : rand(1,60000) , $attributes = array('class'=>'form-control',
 							'ng-model'=>'subject_code', 
 							'ng-pattern' => getRegexPattern('name'),
 							'required'=> 'true', 

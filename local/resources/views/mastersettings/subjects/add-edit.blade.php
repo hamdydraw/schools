@@ -36,6 +36,7 @@
 
 					 @include('mastersettings.subjects.form_elements', 
 					 array('button_name'=> $button_name),
+					 array('record'=>isset($record) ? $record : null),
 					 array())
 					 
 					{!! Form::close() !!}
