@@ -21,7 +21,6 @@ Route::get('/', function () {
     return redirect(URL_USERS_LOGIN);
 });
 
-
 if (env('DB_DATABASE') == '') {
 
     Route::get('/', 'InstallatationController@index');

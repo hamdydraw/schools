@@ -236,6 +236,7 @@ class AcademicsController extends Controller
      */
     public function delete($slug)
     {
+
         try {
             if (!env('DEMO_MODE')) {
                 Academic::where('slug', $slug)->delete();

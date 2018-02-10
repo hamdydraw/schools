@@ -794,7 +794,8 @@ class PaymentsController extends Controller
             $data['parent_user'] = true;
             $data['children'] = App\User::where('parent_id', '=', $user->id)->get();
         }
-
+        $data['settingsModule']=App\Settings::where('key','module')->first(['settings_data']);
+        $data['settingsModule']= json_decode($data['settingsModule']->settings_data);
         return view('student.payments.checkout', $data);
 
     }
