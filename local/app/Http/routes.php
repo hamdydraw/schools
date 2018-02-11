@@ -21,7 +21,6 @@ Route::get('/', function () {
     return redirect(URL_USERS_LOGIN);
 });
 
-
 if (env('DB_DATABASE') == '') {
 
     Route::get('/', 'InstallatationController@index');
@@ -770,7 +769,10 @@ Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offlin
 Route::get('settings/dashboard', 'SettingsController@settingsDashboard');
 Route::get('mastersettings/settings/', 'SettingsController@index');
 Route::get('mastersettings/settings/index', 'SettingsController@index');
-Route::get('mastersettings/settings/certificates', 'SettingsController@certificatesdashboard');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('mastersettings/settings/certificates', 'SettingsController@certificatesdashboard');
+});
 Route::get('mastersettings/settings/timetable', 'SettingsController@timetabledashboard');
 Route::get('mastersettings/settings/add', 'SettingsController@create');
 Route::post('mastersettings/settings/add', 'SettingsController@store');

@@ -92,7 +92,8 @@ class SettingsController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
+        $settings = Settings::where('key', 'module')->first(['settings_data']);
+        $settings = json_decode($settings->settings_data);
         $records = Settings::select([
             'title',
             'key',
@@ -100,8 +101,23 @@ class SettingsController extends Controller
             'slug',
             'id',
             'updated_at'
-        ])
-            ->orderBy('updated_at', 'desc');
+        ]);
+        if ($settings->certificate->value == 0) {
+            $records=$records->whereNotIn('key',['certificate','bonafide_content','id_card_settings','id_card_fields','bonafide_settings','	transfer_certificate_fields','transfer_certificate_settings']);
+        }
+        if ($settings->messaging->value == 0) {
+           $records=$records->whereNotIn('key',['messaging_system']);
+        }
+        if ($settings->paypal->value == 0) {
+           $records=$records->whereNotIn('key',['paypal']);
+        }
+        if ($settings->payu->value == 0) {
+           $records=$records->whereNotIn('key',['payu']);
+        }
+        if ($settings->facebook_login->value == 0 and $settings->google_plus_login->value == 0) {
+            $records=$records->whereNotIn('key',['social_logins']);
+        }
+        $records = $records->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -340,6 +356,7 @@ class SettingsController extends Controller
 
     public function viewSettings($slug)
     {
+
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
@@ -361,6 +378,11 @@ class SettingsController extends Controller
 
         $settings = Settings::where('slug', 'module')->first();
         $data['hideElementOrView'] = json_decode($settings->settings_data, true);
+        if ($data['hideElementOrView']['certificate']['value'] == 0 and (strpos($slug,
+                    'certificate') !== false or strpos($slug, 'bonafide') !== false or strpos($slug,
+                    'id-card') !== false)) {
+            return redirect()->back();
+        }
         return view('mastersettings.settings.sub-list', $data);
     }
 

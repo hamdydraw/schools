@@ -63,8 +63,7 @@
     }
 
 
-    function getSubjectParents(semester,rec) {
-       alert(rec)
+    function getSubjectParents(semester,topicName) {
         subject_id = $('#subject').val();
         route = '{{URL_TOPICS_GET_PARENT_TOPICS}}' + subject_id;
 
@@ -80,20 +79,24 @@
             success: function (result) {
                 $('#parent').empty();
                 for (i = 0; i < result.length; i++)
-                    $('#parent').append('<option value="' + result[i].id + '">' + result[i].text + '</option>');
+                    if(topicName != null && topicName === result[i].text) {
+                        $('#parent').append('<option value="' + result[i].id + '" selected>' + result[i].text + '</option>');
+                    }else{
+                        $('#parent').append('<option value="' + result[i].id + '">' + result[i].text + '</option>');
+                    }
             }
         });
     }
 
-    function getSubjectsParentsFromTopic() {
-        getSubjectParents($('#semesters').val())
+    function getSubjectsParentsFromTopic(topicName) {
+        getSubjectParents($('#semesters').val(),topicName)
     }
 
 </script>
 <script>
     $(document).ready(function () {
         if ($('#subject').val() != '') {
-            getSubjectParents($('#semesters').val(),'<?php echo $record->topic_title?>');
+            getSubjectsParentsFromTopic('<?php echo $topic_name?>');
         }
 
     })
