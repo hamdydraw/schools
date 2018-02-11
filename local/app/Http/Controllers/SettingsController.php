@@ -94,26 +94,30 @@ class SettingsController extends Controller
         }
         $settings = Settings::where('key', 'module')->first(['settings_data']);
         $settings = json_decode($settings->settings_data);
-        if ($settings->certificate->value != 0) {
-            $records = Settings::select([
-                'title',
-                'key',
-                'description',
-                'slug',
-                'id',
-                'updated_at'
-            ]);
-        }else{
-            $records = Settings::select([
-                'title',
-                'key',
-                'description',
-                'slug',
-                'id',
-                'updated_at'
-            ])->where('key','!=','certificate')->Where('key','!=','id_card_settings');
+        $records = Settings::select([
+            'title',
+            'key',
+            'description',
+            'slug',
+            'id',
+            'updated_at'
+        ]);
+        if ($settings->certificate->value == 0) {
+            $records=$records->whereNotIn('key',['certificate','bonafide_content','id_card_settings','id_card_fields','bonafide_settings','	transfer_certificate_fields','transfer_certificate_settings']);
         }
-        $record = $records->orderBy('updated_at', 'desc');
+        if ($settings->messaging->value == 0) {
+           $records=$records->whereNotIn('key',['messaging_system']);
+        }
+        if ($settings->paypal->value == 0) {
+           $records=$records->whereNotIn('key',['paypal']);
+        }
+        if ($settings->payu->value == 0) {
+           $records=$records->whereNotIn('key',['payu']);
+        }
+        if ($settings->facebook_login->value == 0 and $settings->google_plus_login->value == 0) {
+            $records=$records->whereNotIn('key',['social_logins']);
+        }
+        $records = $records->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
