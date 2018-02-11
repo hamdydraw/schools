@@ -376,11 +376,14 @@ class StudentController extends Controller
      */
     public function updateParentDetails(Request $request, $slug)
     {
-        if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '') {
 
-            flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
-            return redirect('student/profile/edit/' . $slug . '/parent');
+        if($request->account == 0){
+            if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '') {
 
+                flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
+                return redirect('student/profile/edit/' . $slug . '/parent');
+
+            }
         }
 
 
@@ -423,8 +426,12 @@ class StudentController extends Controller
             }
         }
         if ($request->account == 1) {
+            if(!isset($request->parent)){
+                flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
+                return redirect('student/profile/edit/' . $slug . '/parent');
+            }
             try {
-                $user->parent_id = $request->parent_user_id;
+                $user->parent_id = $request->parent;
                 $user->save();
                 DB::commit();
             } catch (Exception $ex) {

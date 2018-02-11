@@ -2,6 +2,12 @@
 if($tab_active=='parent')
 $new_tab_active = ' in active';
 ?>
+
+<style>
+	.show {
+		display: block;
+	}
+</style>
 <div id="parent_details" class="tab-pane fade {{$new_tab_active}}">
 
 	{{ Form::model($record,
@@ -49,12 +55,14 @@ $new_tab_active = ' in active';
 						<p ng-if="parents.length==0 && showSearch">{{getPhrase('please_type_any_details_for_search')}}</p>
 						<table ng-if="parents.length>0" class="table table-striped">
 							<thead>
+								<th>{{getPhrase('choose')}}</th>
 								<th>{{getPhrase('name')}}</th>
 								<th>{{getPhrase('email')}}</th>
 								<th>{{getPhrase('phone')}}</th>
 							</thead>
 							<tbody>
-								<tr ng-repeat="item in parents" ng-click="setAsCurrentItem(item)">
+								<tr ng-repeat="item in parents">
+									<td><input type="radio" name="parent" class="show" value="@{{item.id}}"></td>
 									<td>@{{item.name}}</td>
 									<td>@{{item.email}}</td>
 									<td>@{{item.phone}}</td>
