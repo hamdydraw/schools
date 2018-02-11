@@ -46,6 +46,9 @@ class GeneralSettings extends Model
         foreach ($this->questionTypes as $key => $value){
             $this->questionTypes[$key] = Language::getPhrase($value);
         }
+        foreach ($this->difficultyLevels as $key => $value){
+            $this->difficultyLevels[$key] = Language::getPhrase($value);
+        }
     }
 
     public function getSettings()

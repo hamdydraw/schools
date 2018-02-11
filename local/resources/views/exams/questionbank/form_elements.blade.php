@@ -83,14 +83,22 @@
         {{--{{Form::file('question_file', $attributes = array('class'=>'form-control'))}}--}}
 		 <input class="form-control" id="upload1" type="file" ngf-select="uploadImage($files)"/>
 		 <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
-		 @{{ file_name }}
+		 <fieldset class="form-group col-md-6" ng-if="file_name">
+			 <img src="@{{file_show}}" height="100" width="100" ng-if="question_type != 'video' &&  question_type != 'audio'">
+			 <video width="320" height="240" controls ng-if="question_type == 'video'">
+				 <source src="@{{ file_show }}" type="video/mp4">
+			 </video>
+			 <audio controls ng-if="question_type == 'audio'">
+				 <source src="@{{ file_show }}">
+			 </audio>
+		 </fieldset>
 		 <div id="progressbar" style="display: none">
 			 <div id="progressbar_2"></div>
 		 </div>
     </fieldset>
 	</div>
 
-<div class="col-md-6">
+<div class="col-md-6" ng-if="!file_show">
 	@if($record)
         @if($record->question_file)
     		@include('exams.questionbank.question_partial_image_preview', array('record'=>$record))

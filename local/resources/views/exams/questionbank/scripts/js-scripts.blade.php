@@ -10,6 +10,8 @@ app.controller('questionsController', function($scope, $http,Upload,toastr) {
 
 
 
+
+
     $scope.file_name = null;
 
     $scope.uploadImage = function($files) {
@@ -33,6 +35,7 @@ app.controller('questionsController', function($scope, $http,Upload,toastr) {
             if(response.data.state == "success"){
                 toastr.success(response.data.desc);
             }
+            $scope.file_show = "{{ EXAM_UPLOADS}}"+response.data.file;
             $scope.file_name = response.data.file;
             $('#progressbar').hide();
             //$('#upload1').css({pointerEvents: "initial"});

@@ -90,14 +90,16 @@
 				          {{--accept=".png,.jpg,.jpeg" id="image_input">--}}
 						 <input class="form-control" id="upload1" type="file" ngf-select="uploadImage($files)"/>
 						 <input type="hidden" name="image" ng-model="file_name" value="@{{file_name}}">
-						 @{{file_name}}
 						 <div id="progressbar" style="display: none">
 							 <div id="progressbar_2"></div>
 						 </div>
 
 				    </fieldset>
+				<fieldset class="form-group col-md-6" ng-if="file_name"   >
+					<img src="{{ IMAGE_PATH_UPLOAD_LMS_CONTENTS}}@{{file_name}}" height="100" width="100">
+				</fieldset>
 
-					 <fieldset class="form-group col-md-6"   >
+					 <fieldset class="form-group col-md-6"   ng-if="!file_name">
 					@if($record)
 				   		@if($record->image)
 				         <img src="{{ IMAGE_PATH_UPLOAD_LMS_CONTENTS.$record->image }}" height="100" width="100">
@@ -150,10 +152,39 @@
 							<span class="text-red">*</span>
 						<input class="form-control" id="upload2" type="file" ngf-select="uploadLMS($files)"/>
 						<input type="hidden" name="lms_file" ng-model="file_name2" value="@{{file_name2}}">
-						@{{file_name2}}
 						<div id="progressbar2" style="display: none">
 							<div id="progressbar2_2"></div>
 						</div>
+					</fieldset>
+
+						<fieldset class="form-group col-md-6"   ng-if="!file_name2">
+							@if($record)
+								@if($record->file_path && $record->content_type == 'video')
+									<video width="320" height="240" controls>
+										<source src="{{IMAGE_PATH_UPLOAD_LMS_CONTENTS.$record->file_path }}">
+									</video>
+								@endif
+							@endif
+						</fieldset>
+						<fieldset class="form-group col-md-6"   ng-if="!file_name2">
+							@if($record)
+								@if($record->file_path && $record->content_type == 'audio')
+									<audio controls>
+										<source src="{{IMAGE_PATH_UPLOAD_LMS_CONTENTS.$record->file_path }}">
+									</audio>
+								@endif
+							@endif
+						</fieldset>
+
+					<fieldset class="form-group col-md-6" ng-if="file_name2 && content_type=='video'">
+						<video width="320" height="240" controls>
+							<source src="@{{ file_show2 }}" type="video/mp4">
+						</video>
+					</fieldset>
+					<fieldset class="form-group col-md-6" ng-if="file_name2 && content_type=='audio'">
+						<audio controls>
+							<source src="@{{ file_show2 }}">
+						</audio>
 					</fieldset>
 
 					 

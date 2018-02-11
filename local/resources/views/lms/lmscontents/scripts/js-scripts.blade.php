@@ -50,6 +50,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         }).then(function (response, status, headers, config) {
             console.log(response.data);
             $scope.file_name2 = response.data.file;
+            $scope.file_show2 = "{{PREFIX}}"+"uploads/lms/content/"+response.data.file;
             $('#progressbar2').hide();
             //$('#upload1').css({pointerEvents: "initial"});
             $('#upload2').val('');

@@ -412,7 +412,7 @@ class QuestionBankController extends Controller
        }
      }
 
-       return redirect(URL_QUIZ_QUESTIONBANK);
+        return redirect()->back();
 
     }
 

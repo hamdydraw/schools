@@ -238,7 +238,7 @@ class LmsContentController extends Controller
           flash(getPhrase('Ooops'),getPhrase('improper_data_file_submitted'), 'error');
        }
      }
-    	return redirect(URL_LMS_CONTENT);
+        return redirect()->back();
     }
 
 
