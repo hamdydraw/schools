@@ -53,6 +53,10 @@ if (!isset($right_bar))
     $class = 'no-right-sidebar';
 
 ?>
+<?php
+$settings = \App\Settings::where('key', 'module')->first(['settings_data']);
+$settings = json_decode($settings->settings_data);
+?>
 <div id="wrapper" class="{{$class}}">
     <!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
@@ -95,7 +99,6 @@ if (!isset($right_bar))
                         </a>
                     </li>
 
-
                     <?php $messages_module = FALSE;
                     $message_settings = getSetting('messaging_system_for','messaging_system');
 
@@ -104,22 +107,26 @@ if (!isset($right_bar))
                     $messages_module = TRUE;
                     }
                     ?>
-                    @if($messages_module)
+                    @if($settings->messaging->value == 1)
+                        @if($messages_module)
+                            <li>
+                                <a href="{{URL_MESSAGES}}">
+                                    <sapn><i class="fa fa-comments-o"
+                                             aria-hidden="true"></i> {{ getPhrase('messages')}}
+                                    </sapn>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                    @if($settings->push_notifications->value == 1)
                         <li>
-                            <a href="{{URL_MESSAGES}}">
-                                <sapn><i class="fa fa-comments-o" aria-hidden="true"></i> {{ getPhrase('messages')}}
-                                </sapn>
-                            </a>
+
+                            <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
+
+                                {{ getPhrase('notifications') }} </a>
+
                         </li>
                     @endif
-
-                    <li>
-
-                        <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
-
-                            {{ getPhrase('notifications') }} </a>
-
-                    </li>
 
                     <li>
                         <a href="{{URL_LANGUAGES_USER_LIST}}">
@@ -182,23 +189,26 @@ if (!isset($right_bar))
 
                 </li>
 
+                @if($settings->messaging->value == 1)
+                    @if($messages_module)
+                        <li {{ isActive($active_class, 'messages') }} >
+                            <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x" aria-hidden="true"><h5
+                                                class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
+                                {{ getPhrase('messages')}} </a>
 
-                @if($messages_module)
-                    <li {{ isActive($active_class, 'messages') }} >
-                        <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x" aria-hidden="true"><h5
-                                            class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
-                            {{ getPhrase('messages')}} </a>
 
-
+                    @endif
                 @endif
-                <li {{ isActive($active_class, 'notifications') }} >
+                @if($settings->push_notifications->value == 1)
+                    <li {{ isActive($active_class, 'notifications') }} >
 
-                    <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
+                        <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
 
-                        {{ getPhrase('notifications') }} </a>
+                            {{ getPhrase('notifications') }} </a>
 
 
-                </li>
+                    </li>
+                @endif
 
             </ul>
         </div>

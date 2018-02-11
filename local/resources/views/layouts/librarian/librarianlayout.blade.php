@@ -45,6 +45,10 @@
  	$class = 'no-right-sidebar';
 
  ?>
+ <?php
+ $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
+ $settings = json_decode($settings->settings_data);
+ ?>
 	<div id="wrapper" class="{{$class}}">
 		<!-- Navigation -->
 		<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">

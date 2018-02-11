@@ -92,16 +92,28 @@ class SettingsController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
-        $records = Settings::select([
-            'title',
-            'key',
-            'description',
-            'slug',
-            'id',
-            'updated_at'
-        ])
-            ->orderBy('updated_at', 'desc');
+        $settings = Settings::where('key', 'module')->first(['settings_data']);
+        $settings = json_decode($settings->settings_data);
+        if ($settings->certificate->value != 0) {
+            $records = Settings::select([
+                'title',
+                'key',
+                'description',
+                'slug',
+                'id',
+                'updated_at'
+            ]);
+        }else{
+            $records = Settings::select([
+                'title',
+                'key',
+                'description',
+                'slug',
+                'id',
+                'updated_at'
+            ])->where('key','!=','certificate')->Where('key','!=','id_card_settings');
+        }
+        $record = $records->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -340,6 +352,7 @@ class SettingsController extends Controller
 
     public function viewSettings($slug)
     {
+
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
@@ -361,6 +374,11 @@ class SettingsController extends Controller
 
         $settings = Settings::where('slug', 'module')->first();
         $data['hideElementOrView'] = json_decode($settings->settings_data, true);
+        if ($data['hideElementOrView']['certificate']['value'] == 0 and (strpos($slug,
+                    'certificate') !== false or strpos($slug, 'bonafide') !== false or strpos($slug,
+                    'id-card') !== false)) {
+            return redirect()->back();
+        }
         return view('mastersettings.settings.sub-list', $data);
     }
 
