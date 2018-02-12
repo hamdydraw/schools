@@ -189,6 +189,8 @@ class NotificationsController extends Controller
         return back();
       }
 
+
+
 	    $rules = [
          'title'          	=> 'bail|required|max:50' ,
 
@@ -196,6 +198,8 @@ class NotificationsController extends Controller
          'valid_to'      	=> 'bail|required' ,
             ];
         $this->validate($request, $rules);
+
+        $admins = App\User::where('role_id',1)->orWhere('role_id',2)->orWhere('role_id',3)->get();
         $record = new Notification();
       	$name  						=  $request->title;
 		$record->title 				= $name;
@@ -207,7 +211,14 @@ class NotificationsController extends Controller
         $record->description		= $request->description;
        	$record->record_updated_by 	= Auth::user()->id;
 
+
         $record->save();
+        $insert['notification_id'] = $record->id;
+        foreach ($admins as $admin){
+            $insert['user_id'] = $admin->id;
+            App\user_notifications::insert($insert);
+        }
+
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_ADMIN_NOTIFICATIONS);
     }
@@ -268,6 +279,9 @@ class NotificationsController extends Controller
     public function display($slug)
     {
         $record = Notification::getRecordWithSlug($slug);
+
+        App\user_notifications::viewed($record->id);
+
         if($isValid = $this->isValidRecord($record))
             return redirect($isValid);
 

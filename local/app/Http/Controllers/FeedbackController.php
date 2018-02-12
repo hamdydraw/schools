@@ -131,6 +131,9 @@ class FeedbackController extends Controller
          'description'             => 'bail|required' ,
           ];
         $this->validate($request, $rules);
+
+        $admins = App\User::where('role_id',1)->orWhere('role_id',2)->get();
+
         $record = new Feedback();
       	$name  						=  $request->title;
 		$record->title 				= $name;
@@ -140,6 +143,13 @@ class FeedbackController extends Controller
         $record->user_id			= Auth::user()->id;
         $record->save();
 
+        $insert['feedback_id'] = $record->id;
+        foreach ($admins as $admin){
+            $insert['user_id'] = $admin->id;
+            App\user_feedback::insert($insert);
+        }
+
+
         flash(getPhrase('success'),getPhrase('feedback_submitted_successfully'), 'success');
     	return redirect(URL_FEEDBACK_SEND);
     }
@@ -148,6 +158,8 @@ class FeedbackController extends Controller
     {
 
     	$record = Feedback::where('slug','=',$slug)->first();
+
+        App\user_feedback::viewed($record->id);
 
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);

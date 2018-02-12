@@ -78,6 +78,7 @@ $settings = json_decode($settings->settings_data);
             <li class="dropdown profile-menu">
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
+                        <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
                         <div class="username">
                             <h2>{{Auth::user()->name}}</h2>
 
@@ -122,7 +123,7 @@ $settings = json_decode($settings->settings_data);
                         <li>
 
                             <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
-
+                                <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
                                 {{ getPhrase('notifications') }} </a>
 
                         </li>

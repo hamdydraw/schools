@@ -71,6 +71,7 @@ if (!isset($right_bar))
 <?php
         $settings=\App\Settings::where('key','module')->first(['settings_data']);
         $settings=json_decode($settings->settings_data);
+        $total   = \App\user_notifications::get_new_count() + \App\user_feedback::get_new_count() + Auth::user()->newThreadsCount();
 ?>
 <div id="wrapper" class="{{$class}}">
     <!-- Navigation -->
@@ -116,8 +117,10 @@ if (!isset($right_bar))
             </li>
 
             <li class="dropdown profile-menu">
+
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
+                        <h6 class="badge badge-success">{{ $total }}</h6>
                         <div class="username">
                             <h2>{{Auth::user()->name}}</h2>
 
@@ -143,7 +146,10 @@ if (!isset($right_bar))
 
                     <li>
                         <a href="{{URL_FEEDBACKS}}">
-                            <sapn><i class="fa fa-commenting-o" aria-hidden="true"></i> {{ getPhrase('feedback') }}
+                            <sapn><i class="fa fa-commenting-o" aria-hidden="true">
+                                    <h6 class="badge badge-success">{{\App\user_feedback::get_new_count()}}</h6>
+                                </i>
+                                {{ getPhrase('feedback') }}
                             </sapn>
                         </a>
                     </li>
@@ -151,7 +157,9 @@ if (!isset($right_bar))
                     @if($settings->push_notifications->value == 1)
                     <li>
                         <a href="{{URL_ADMIN_NOTIFICATIONS}}">
-                            <sapn><i class="fa fa-bell-o" aria-hidden="true"></i> {{ getPhrase('notifications') }}
+                            <sapn><i class="fa fa-bell-o" aria-hidden="true"></i>
+                                <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
+                                {{ getPhrase('notifications') }}
                             </sapn>
                         </a>
                     </li>
