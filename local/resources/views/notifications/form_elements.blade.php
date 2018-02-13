@@ -111,7 +111,7 @@
 						{{ Form::checkbox('to[3]', '5' , true) }} <span>{{getPhrase('Student')}}</span><br>
 						{{ Form::checkbox('to[4]', '6' , true) }} <span>{{getPhrase('parents')}}</span><br>
 						{{ Form::checkbox('to[5]', '7' , true) }} <span>{{getPhrase('librarians')}}</span><br>
-						{{ Form::checkbox('to[5]', '8' , true) }} <span>{{getPhrase('assistant_librarians')}}</span>
+						{{ Form::checkbox('to[6]', '8' , true) }} <span>{{getPhrase('assistant_librarians')}}</span>
 					</fieldset>
 
 
