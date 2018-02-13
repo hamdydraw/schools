@@ -8,32 +8,32 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-						 
+
 							<li class="active">{{getPhrase('feedback_form')}}</li>
 						</ol>
 					</div>
 				</div>
 					@include('errors.errors')
 				<!-- /.row -->
-				
+
 <div class="panel panel-custom col-lg-6 col-lg-offset-3" >
 					<div class="panel-heading">
-					 
+
 					<h1>{{ $title }}  </h1>
 					</div>
 					<div class="panel-body" >
 					<?php $button_name = getPhrase('send'); ?>
-					 
+
 					{!! Form::open(array('url' => URL_FEEDBACK_SEND, 'method' => 'POST', 'name'=>'formQuiz ', 'novalidate'=>'')) !!}
 					<div class="row">
  					 <fieldset class="form-group col-md-12">
-						
+
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
 						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('title'),
-							'ng-model'=>'title', 
-							'ng-pattern'=>getRegexPattern('name'), 
-							'required'=> 'true', 
+							'ng-model'=>'title',
+							'ng-pattern'=>getRegexPattern('name'),
+							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
 							'ng-minlength' => '4',
 							'ng-maxlength' => '45',
@@ -46,15 +46,15 @@
 						</div>
 					</fieldset>
 					</div>
-					
+
 					<div class="row">
 					<fieldset class="form-group col-md-12">
-						
-						{{ Form::label('subject', getphrase('subject')) }}
+
+						{{ Form::label('subject', getphrase('feedback_subject')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('subject', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('subject'),
-							'ng-model'=>'subject', 
-							'required'=> 'true', 
+						{{ Form::text('subject', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('feedback_subject'),
+							'ng-model'=>'subject',
+							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.subject.$touched && formQuiz.subject.$invalid}',
 							'ng-minlength' => '2',
 							'ng-maxlength' => '40',
@@ -66,11 +66,11 @@
 	    					{!! getValidationMessage('maxlength')!!}
 						</div>
 					</fieldset>
-				 </div> 
-					
+				 </div>
+
 					<div class="row">
 					 <fieldset class="form-group col-md-12">
-					 {{ Form::label('description', getphrase('description')) }}
+					 {{ Form::label('description', getphrase('feedback_description')) }}
 						<span class="text-red">*</span>
 							 <textarea name="description" ng-model="description"
 							 required="true" class='form-control' rows="5"></textarea>
@@ -96,8 +96,6 @@
 
 @section('footer_scripts')
  @include('common.validations');
- 
-    
+
+
 @stop
- 
- 
