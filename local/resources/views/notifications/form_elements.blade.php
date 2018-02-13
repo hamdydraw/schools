@@ -14,11 +14,11 @@
 
 						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('title'),
 
-							'ng-model'=>'title', 
+							'ng-model'=>'title',
 
-							'ng-pattern'=>getRegexPattern('name'), 
+							'ng-pattern'=>getRegexPattern('name'),
 
-							'required'=> 'true', 
+							'required'=> 'true',
 
 							'ng-class'=>'{"has-error": formNotifications.title.$touched && formNotifications.title.$invalid}',
 
@@ -44,16 +44,16 @@
 
 					<fieldset class="form-group col-md-6">
 
-						
+
 
 						{{ Form::label('url', getphrase('url')) }}
 
-						 
+
 
 						{{ Form::text('url', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'www.sitename.com',
 
 							)) }}
- 
+
 
 					</fieldset>
 
@@ -61,7 +61,7 @@
 
 			<div class="row input-daterange" id="dp">
 
-               <?php 
+               <?php
 
            $date_from = date('Y/m/d');
 
@@ -105,13 +105,13 @@
 						<br>
 						{{ Form::label('send_to', getphrase('send_to')) }}:
 						<br>
-						{{ Form::checkbox('to[0]', '1') }} {{getPhrase('Owner')}}
-						{{ Form::checkbox('to[1]', '2') }} <span>{{getPhrase('Admin')}}</span>
-						{{ Form::checkbox('to[2]', '3') }} <span>{{getPhrase('Staff')}}</span>
-						{{ Form::checkbox('to[3]', '5') }} <span>{{getPhrase('Student')}}</span>
-						{{ Form::checkbox('to[4]', '6') }} <span>{{getPhrase('Parent')}}</span>
-						{{ Form::checkbox('to[5]', '7') }} <span>{{getPhrase('Librarian')}}</span>
-
+						{{ Form::checkbox('to[0]', '1' , true) }} {{getPhrase('owners')}}<br>
+						{{ Form::checkbox('to[1]', '2' , true) }} <span>{{getPhrase('admins')}}</span><br>
+						{{ Form::checkbox('to[2]', '3' , true) }} <span>{{getPhrase('Staff')}}</span><br>
+						{{ Form::checkbox('to[3]', '5' , true) }} <span>{{getPhrase('Student')}}</span><br>
+						{{ Form::checkbox('to[4]', '6' , true) }} <span>{{getPhrase('parents')}}</span><br>
+						{{ Form::checkbox('to[5]', '7' , true) }} <span>{{getPhrase('librarians')}}</span><br>
+						{{ Form::checkbox('to[5]', '8' , true) }} <span>{{getPhrase('assistant_librarians')}}</span>
 					</fieldset>
 
 
@@ -136,5 +136,3 @@
 							ng-disabled='!formNotifications.$valid'>{{ $button_name }}</button>
 
 						</div>
-
-		 
