@@ -1,4 +1,10 @@
- 					<div class="row">
+<style>
+	input[type="checkbox"] {
+		display: -webkit-inline-box;
+	}
+</style>
+
+<div class="row">
 
  					 <fieldset class="form-group col-md-6">
 
@@ -96,8 +102,18 @@
 						{{ Form::label('short_description', getphrase('short_description')) }}
 
 						{{ Form::textarea('short_description', $value = null , $attributes = array('class'=>'form-control', 'rows'=>'5', 'placeholder' => getPhrase('short_description'))) }}
+						<br>
+						{{ Form::label('send_to', getphrase('send_to')) }}:
+						<br>
+						{{ Form::checkbox('to[0]', '1') }} {{getPhrase('Owner')}}
+						{{ Form::checkbox('to[1]', '2') }} <span>{{getPhrase('Admin')}}</span>
+						{{ Form::checkbox('to[2]', '3') }} <span>{{getPhrase('Staff')}}</span>
+						{{ Form::checkbox('to[3]', '5') }} <span>{{getPhrase('Student')}}</span>
+						{{ Form::checkbox('to[4]', '6') }} <span>{{getPhrase('Parent')}}</span>
+						{{ Form::checkbox('to[5]', '7') }} <span>{{getPhrase('Librarian')}}</span>
 
 					</fieldset>
+
 
 					<fieldset class="form-group  col-md-6">
 
@@ -105,7 +121,11 @@
 
 						{{ Form::textarea('description', $value = null , $attributes = array('class'=>'form-control ckeditor', 'rows'=>'5', 'placeholder' => getPhrase('description'))) }}
 
+
 					</fieldset>
+
+
+
 
                       </div>
 

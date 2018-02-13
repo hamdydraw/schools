@@ -31,6 +31,8 @@ class NotificationsController extends Controller
         return back();
       }
 
+
+        App\user_notifications::where('user_id',Auth::user()->id)->update(['state' => 'old']);
         $data['active_class']       = 'notifications';
         $data['title']              = getPhrase('notifications');
         $data['layout']              = getLayout();
@@ -164,6 +166,8 @@ class NotificationsController extends Controller
        //Validate the overall request
        $this->validate($request, $rules);
 
+        $admins = App\User::whereIn('role_id',$request->to)->where('id','!=',Auth::user()->id)->get();
+
         $record->title          	= $name;
         $record->valid_from			= $request->valid_from;
         $record->valid_to			= $request->valid_to;
@@ -172,6 +176,14 @@ class NotificationsController extends Controller
         $record->description		= $request->description;
        	$record->record_updated_by 	= Auth::user()->id;
         $record->save();
+
+        $insert['notification_id'] = $record->id;
+        foreach ($admins as $admin){
+            $insert['user_id'] = $admin->id;
+            App\user_notifications::insert($insert);
+        }
+
+
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_ADMIN_NOTIFICATIONS);
     }
@@ -199,7 +211,10 @@ class NotificationsController extends Controller
             ];
         $this->validate($request, $rules);
 
-        $admins = App\User::where('role_id',1)->orWhere('role_id',2)->orWhere('role_id',3)->get();
+
+
+        $admins = App\User::whereIn('role_id',$request->to)->where('id','!=',Auth::user()->id)->get();
+
         $record = new Notification();
       	$name  						=  $request->title;
 		$record->title 				= $name;
@@ -270,8 +285,29 @@ class NotificationsController extends Controller
         $data['title']              = getPhrase('notifications');
         $data['layout']              = getLayout();
         $date = date('Y-m-d');
-        $data['notifications']  	= Notification::where('valid_from', '<=', $date)
-        											->where('valid_to', '>=', $date)->paginate(getRecordsPerPage());
+//        $data['notifications']  	= Notification::where('valid_from', '<=', $date)
+//        											->where('valid_to', '>=', $date)->paginate(getRecordsPerPage());
+
+
+
+        $data['notifications']   =
+            Notification::join('user_notification','notifications.id','=','user_notification.notification_id')
+                ->where('user_notification.user_id',Auth::user()->id)
+                ->where('notifications.valid_from', '<=', $date)
+                ->where('notifications.valid_to', '>=', $date)
+                ->select('notifications.id',
+                         'notifications.title',
+                         'notifications.slug',
+                         'notifications.short_description',
+                         'notifications.description',
+                         'notifications.url',
+                         'notifications.valid_from',
+                         'notifications.valid_to',
+                         'notifications.record_updated_by',
+                         'notifications.created_at',
+                         'notifications.updated_at')
+                ->paginate(getRecordsPerPage());
+
 
     	return view('notifications.users-list', $data);
     }

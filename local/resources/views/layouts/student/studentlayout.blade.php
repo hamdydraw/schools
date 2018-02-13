@@ -137,6 +137,8 @@ $settings = json_decode($settings->settings_data);
 
                     @if(Auth::check())
 
+                        <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() + Auth::user()->newThreadsCount() }}</h6>
+
                         <div class="username">
 
                             <h2>{{Auth::user()->name}}</h2>
@@ -176,6 +178,24 @@ $settings = json_decode($settings->settings_data);
                         </a>
 
                     </li>
+
+                    @if($settings->push_notifications->value == 1)
+                        <li>
+
+                            <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
+                                <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
+                                {{ getPhrase('notifications') }} </a>
+
+                        </li>
+                    @endif
+
+                    @if($settings->messaging->value == 1)
+                        <li>
+                            <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
+                                                class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>
+                                {{ getPhrase('messages')}} </a>
+                        </li>
+                    @endif
 
                     <li>
 

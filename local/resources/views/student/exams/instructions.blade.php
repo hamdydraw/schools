@@ -45,16 +45,16 @@
 
 								<ul class="guide">
 									<li>
-										<span class="answer"><i class="mdi mdi-check"></i></span> You have answered the question.
+										<span class="answer"><i class="mdi mdi-check"></i></span> {{getPhrase("You_have_answered_the_question")}}
 									</li>
 									<li>
-										<span class="notanswer"><i class="mdi mdi-close"></i></span> You have not answered the question.
+										<span class="notanswer"><i class="mdi mdi-close"></i></span> {{getPhrase("You_have_not_answered_the_question")}}
 									</li>
 									<li>
-										<span class="marked"><i class="mdi mdi-eye"></i></span> You have answered the question but have marked the question for review.
+										<span class="marked"><i class="mdi mdi-eye"></i></span> {{getPhrase("You_have_answered_the_question_but_have_marked_the_question_for_review")}}
 									</li>
 									<li>
-										<span class="notvisited"><i class="mdi mdi-eye-off"></i></span> You have not visited the question yet.
+										<span class="notvisited"><i class="mdi mdi-eye-off"></i></span> {{getPhrase("You_have_not_visited_the_question_yet")}}
 									</li>
 								</ul>
 
@@ -74,7 +74,7 @@
 							<div class="col-md-12">
 							@if(!$paid_type)	
 								<input type="checkbox" name="option" id="free" checked="" ng-model="agreeTerms">
-								<label for="free" > <span class="fa-stack checkbox-button"> <i class="mdi mdi-check active"></i> </span> The computer provided to me is in proper working condition. I have read and understood the instructions given above. </label>
+								<label for="free" > <span class="fa-stack checkbox-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase("The_computer_provided_to_me_is_in_proper_working_condition")}}. {{getPhrase("I_have_read_and_understood_the_instructions_given_above")}}. </label>
 								
 								<br><span class="text-danger" ng-show="!agreeTerms">{{ getPhrase('please_accept_terms_and_conditions')}}</span> 
 

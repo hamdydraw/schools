@@ -78,7 +78,7 @@ $settings = json_decode($settings->settings_data);
             <li class="dropdown profile-menu">
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
-                        <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
+                        <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() + Auth::user()->newThreadsCount() }}</h6>
                         <div class="username">
                             <h2>{{Auth::user()->name}}</h2>
 
@@ -108,16 +108,13 @@ $settings = json_decode($settings->settings_data);
                     $messages_module = TRUE;
                     }
                     ?>
+
                     @if($settings->messaging->value == 1)
-                        @if($messages_module)
-                            <li>
-                                <a href="{{URL_MESSAGES}}">
-                                    <sapn><i class="fa fa-comments-o"
-                                             aria-hidden="true"></i> {{ getPhrase('messages')}}
-                                    </sapn>
-                                </a>
-                            </li>
-                        @endif
+                        <li>
+                            <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
+                                                class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>
+                                {{ getPhrase('messages')}} </a>
+                        </li>
                     @endif
                     @if($settings->push_notifications->value == 1)
                         <li>
