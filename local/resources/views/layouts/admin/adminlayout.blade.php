@@ -120,7 +120,9 @@ if (!isset($right_bar))
 
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
+                        @if($settings->push_notifications->value == 1 || $settings->messaging->value == 1)
                         <h6 class="badge badge-success">{{ $total }}</h6>
+                        @endif
                         <div class="username">
                             <h2>{{Auth::user()->name}}</h2>
 

@@ -57,7 +57,7 @@ class NotificationsController extends Controller
 
 
             $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug' ])
-            ->orderBy('updated_at', 'desc');
+            ->orderBy('id', 'desc');
 
 
         return Datatables::of($records)
@@ -295,6 +295,7 @@ class NotificationsController extends Controller
                 ->where('user_notification.user_id',Auth::user()->id)
                 ->where('notifications.valid_from', '<=', $date)
                 ->where('notifications.valid_to', '>=', $date)
+                ->orderBy('id','desc')
                 ->select('notifications.id',
                          'notifications.title',
                          'notifications.slug',

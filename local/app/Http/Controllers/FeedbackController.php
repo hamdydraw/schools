@@ -56,8 +56,12 @@ class FeedbackController extends Controller
 
 
             $records = Feedback::join('users', 'users.id','=','feedbacks.user_id')
-            ->select(['title', 'image','name','subject','description','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at'])
+            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at'])
             ->orderBy('updated_at', 'desc');
+
+        foreach ($records as $record){
+            $record->role_id = \App\Role::where('id',$record->role_id)->pluck('name')->first();
+        }
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -84,6 +88,10 @@ class FeedbackController extends Controller
         ->editColumn('title', function($records)
         {
         	return '<a href="'.URL_FEEDBACK_VIEW.$records->slug.'">'.$records->title.'</a>';
+        })
+        ->editColumn('role_id', function($records){
+                $role = App\Role::where('id',$records->role_id)->pluck('name')->first();
+                return $role;
         })
         ->editColumn('image', function($records)
         {

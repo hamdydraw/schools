@@ -31,8 +31,9 @@
 									<th>{{ getPhrase('title')}}</th>
 									<th>{{ getPhrase('image')}}</th>
 									<th>{{ getPhrase('name')}}</th>
+									<th>{{ getPhrase('user_name')}}</th>
+									<th>{{ getPhrase('user_type')}}</th>
 									<th>{{ getPhrase('subject')}}</th>
-									<th>{{ getPhrase('description')}}</th>
 									<th>{{ getPhrase('posted_on')}}</th>
 									<th>{{ getPhrase('action')}}</th>
 								  

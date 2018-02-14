@@ -3570,11 +3570,14 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         $model = new static();
         $slug = str_slug($title);
+        $rand = rand(3,3030);
+
+        $slug .= $rand;
         
         if(!$slug || $hash)
             $slug .=  ($hash) ? '-'.getHashCode() : getHashCode();
 
-        
+
 
         $count = $model::whereRaw("slug LIKE '^{$slug}(-[0-9]+)?$'")->count();
         return $count ? "{$slug}-{$count}" : $slug;

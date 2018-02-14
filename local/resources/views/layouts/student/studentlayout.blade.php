@@ -136,8 +136,9 @@ $settings = json_decode($settings->settings_data);
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
 
                     @if(Auth::check())
-
+                        @if($settings->push_notifications->value == 1 || $settings->messaging->value == 1)
                         <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() + Auth::user()->newThreadsCount() }}</h6>
+                        @endif
 
                         <div class="username">
 
