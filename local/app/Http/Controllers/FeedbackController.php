@@ -165,7 +165,13 @@ class FeedbackController extends Controller
     public function details($slug)
     {
 
-    	$record = Feedback::where('slug','=',$slug)->first();
+//    	$record = Feedback::where('slug','=',$slug)->first();
+        $record = Feedback::join('users', 'users.id','=','feedbacks.user_id')
+            ->select(['title', 'image','description','name','phone','email','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at'])
+            ->where('feedbacks.slug','=',$slug)
+            ->first();
+
+        $record->user_type = \App\Role::where('id',$record->role_id)->pluck('name')->first();
 
         App\user_feedback::viewed($record->id);
 

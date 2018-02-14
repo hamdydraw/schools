@@ -20,6 +20,15 @@
          		 <div class="panel panel-custom col-lg-6 col-lg-offset-3">
                     <div class="panel-body">
                         <div class="notification-details">
+                            <div class="notification-title">
+                                <h4><span>{{getPhrase('name')}}</span>     : {{$record->name}}</h4>
+                                <h4><span>{{getPhrase('user_name')}}</span>: {{$record->username}}</h4>
+                                <h4><span>{{getPhrase('user_type')}}</span>: {{$record->user_type}}</h4>
+                                <h4><span>{{getPhrase('phone')}}</span>    : {{$record->phone}}</h4>
+                                <h4><span>{{getPhrase('email')}}</span>    : {{$record->email}}</h4>
+                                <h4><span>{{getPhrase('date')}}</span>     : {{$record->updated_at}}</h4>
+
+                            </div>
                             <div class="notification-title text-center">
                                 <h2>{{$record->title}}</h2></div>
 
