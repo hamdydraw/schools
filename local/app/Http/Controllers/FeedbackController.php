@@ -91,7 +91,7 @@ class FeedbackController extends Controller
         })
         ->editColumn('role_id', function($records){
                 $role = App\Role::where('id',$records->role_id)->pluck('name')->first();
-                getPhrase($role);
+                $role = getPhrase($role);
                 return $role;
         })
         ->editColumn('image', function($records)

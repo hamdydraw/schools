@@ -1076,12 +1076,12 @@ Route::post('/test', function (Request $request) {
 //    $key =  $request->get('string');
 //    $data = \App\Language::getPhrase($key);
 //    return json_encode($data);
-    if ($request->hasFile('file')) {
-        return json_encode(['mission' => 'done']);
-    }
+    return $request->ip();
+
     return json_encode($request->all());
 });
 
 Route::get('/test', function () {
+
     return view('test');
 });
