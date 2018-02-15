@@ -392,11 +392,19 @@ class UsersController extends Controller
         $data['record'] = false;
         $data['active_class'] = 'users';
         $data['roles'] = $this->getUserRoles();
+
+        foreach ($data['roles'] as $key => $value){
+            $data['roles'][$key] = getPhrase($value);
+        }
+
+
+
         $data['title'] = getPhrase('add_user');
         if (checkRole(['parent'])) {
             $data['active_class'] = 'children';
         }
         $data['layout'] = getLayout();
+
 
         $data['module_helper'] = getModuleHelper('create-user');
 
@@ -419,7 +427,7 @@ class UsersController extends Controller
      */
     public function getUserRoles()
     {
-        $roles = \App\Role::pluck('display_name', 'id');
+        $roles = \App\Role::pluck('name', 'id');
         return array_where($roles, function ($key, $value) {
             if (!checkRole(getUserGrade(1))) {
                 if (!($value == 'Admin' || $value == 'Owner')) {

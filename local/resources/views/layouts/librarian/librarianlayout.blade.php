@@ -48,6 +48,9 @@
  <?php
  $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
  $settings = json_decode($settings->settings_data);
+ $total   = 0;
+ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::get_new_count();}
+ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
  ?>
 	<div id="wrapper" class="{{$class}}">
 		<!-- Navigation -->
@@ -66,7 +69,7 @@
 					<div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
 						@if(Auth::check())
 							@if($settings->push_notifications->value == 1 || $settings->messaging->value == 1)
-							<h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() + Auth::user()->newThreadsCount() }}</h6>
+							<h6 class="badge badge-success">{{ $total }}</h6>
 							@endif
 						<div class="username">
 							<h2>{{Auth::user()->name}}</h2>

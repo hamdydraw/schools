@@ -23,7 +23,7 @@
                             <div class="notification-title">
                                 <h4><span>{{getPhrase('name')}}</span>     : {{$record->name}}</h4>
                                 <h4><span>{{getPhrase('user_name')}}</span>: {{$record->username}}</h4>
-                                <h4><span>{{getPhrase('user_type')}}</span>: {{$record->user_type}}</h4>
+                                <h4><span>{{getPhrase('user_type')}}</span>: {{getPhrase($record->user_type)}}</h4>
                                 <h4><span>{{getPhrase('phone')}}</span>    : {{$record->phone}}</h4>
                                 <h4><span>{{getPhrase('email')}}</span>    : {{$record->email}}</h4>
                                 <h4><span>{{getPhrase('date')}}</span>     : {{$record->updated_at}}</h4>
