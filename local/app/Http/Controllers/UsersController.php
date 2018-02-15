@@ -695,6 +695,10 @@ class UsersController extends Controller
         $data['record'] = $record;
         $data['roles'] = $this->getUserRoles();
 
+        foreach ($data['roles'] as $key => $value){
+            $data['roles'][$key] = getPhrase($value);
+        }
+
         if ($UserOwnAccount && checkRole(['admin'])) {
             $data['roles'][getRoleData('admin')] = 'Admin';
         }
