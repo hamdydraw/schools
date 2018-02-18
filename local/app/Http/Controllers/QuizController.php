@@ -341,6 +341,7 @@ class QuizController extends Controller
             $record->record_updated_by = Auth::user()->id;
             $record->applicable_to_specific = $request->selected_list != null ? 1 : 0;
             $record->subject_id = $request->subject_id;
+            $record->update_stamp($request);
             $record->save();
             /*if ($request->applicable_to_specific) {*/
             $quizApplicability = new App\QuizApplicability();
@@ -450,6 +451,7 @@ class QuizController extends Controller
             $record->record_updated_by = Auth::user()->id;
             $record->applicable_to_specific = $request->applicable_to_specific;
             $record->subject_id = $request->subject_id;
+            $record->user_stamp($request);
             $record->save();
 
             $quizApplicability = new App\QuizApplicability();
@@ -639,6 +641,7 @@ class QuizController extends Controller
         DB::table('questionbank_quizzes')->insert($questions_to_update);
         $quiz->total_questions = $total_questions;
         $quiz->total_marks = $marks;
+        $quiz->update_stamp($request);
         $quiz->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_QUIZ_UPDATE_QUESTIONS . $slug);

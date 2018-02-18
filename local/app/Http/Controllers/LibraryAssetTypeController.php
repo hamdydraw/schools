@@ -180,6 +180,7 @@ class LibraryAssetTypeController extends Controller
         $record->maximum_days_to_return = 1;
         $record->maximum_advanced_reservations = 0;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -243,6 +244,7 @@ class LibraryAssetTypeController extends Controller
         $record->maximum_days_to_return = 1;
         $record->maximum_advanced_reservations = 0;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');

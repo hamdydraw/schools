@@ -117,7 +117,7 @@ class OfflineQuizCategoriesController extends Controller
             $record->slug = $record->makeSlug($name);
 
         $record->title = $name;
-
+        $record->update_stamp($request);
         $record->save();
     	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('offlineexmas/quiz/categories');
@@ -137,6 +137,7 @@ class OfflineQuizCategoriesController extends Controller
         $name 					        = $request->title;
         $record->title 			        = $name;
         $record->slug 			        = $record->makeSlug($name);
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('offlineexmas/quiz/categories');

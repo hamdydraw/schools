@@ -111,6 +111,7 @@ class StaffController extends Controller
         $staff->total_experience_month   = $request->total_experience_month;
         $staff->experience_information   = $request->experience_information;
         $staff->other_information        = $request->other_information;
+        $staff->update_stamp($request);
 
         $staff->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -145,6 +146,7 @@ class StaffController extends Controller
         $staff->mothers_name    = $request->mothers_name;
         $staff->nationality     = $request->nationality;
         $staff->mother_tongue  = $request->mother_tongue;
+        $staff->update_stamp($request);
         $staff->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect('staff/profile/edit/'.$slug.'/contact');
@@ -181,6 +183,7 @@ class StaffController extends Controller
         $staff->zipcode         = $request->zipcode;
         $staff->mobile          = $request->mobile;
         $staff->home_phone      = $request->home_phone;
+        $staff->update_stamp($request);
         $staff->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect('staff/profile/edit/'.$slug.'/personal');

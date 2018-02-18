@@ -365,7 +365,7 @@ class LibraryIssuesController extends Controller
     	$record->due_date 				= Carbon::now()
     									->addDays($student_maximum_days_to_return);
     	$record->record_updated_by 		= Auth::user()->id;
-
+        $record->user_stamp($request);
     	$record->save();
 
     	//Update Instance and Master records status and count
@@ -408,6 +408,7 @@ class LibraryIssuesController extends Controller
         $record->issue_type = 'return';
         $record->return_on = Carbon::now();
         $record->record_updated_by = Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         (new App\LibraryInstance())->updateInstanceRecord($record->library_instance_id, 'available');
@@ -439,6 +440,7 @@ class LibraryIssuesController extends Controller
         $record->issue_type = 'return';
         $record->return_on = Carbon::now();
         $record->record_updated_by = Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         (new App\LibraryInstance())->updateInstanceRecord($record->library_instance_id, 'available');

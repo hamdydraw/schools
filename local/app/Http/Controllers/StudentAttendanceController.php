@@ -348,7 +348,7 @@ class StudentAttendanceController extends Controller
             $attendance->remarks = $remarks[$key];
             $attendance->notes = $notes[$key];
             $attendance->record_updated_by = $user_id;
-
+            $attendance->user_stamp($request);
             $attendance->save();
 
         }
@@ -383,6 +383,7 @@ class StudentAttendanceController extends Controller
         $record->is_having_semister = $request->is_having_semister;
         $record->is_having_elective_subjects = $request->is_having_elective_subjects;
         $record->description = $request->description;
+        $record->user_stamp($request);
         $record->save();
 
         if ($record->is_having_semister) {

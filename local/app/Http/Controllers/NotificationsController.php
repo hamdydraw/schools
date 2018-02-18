@@ -175,6 +175,7 @@ class NotificationsController extends Controller
         $record->short_description		= $request->short_description;
         $record->description		= $request->description;
        	$record->record_updated_by 	= Auth::user()->id;
+       	$record->update_stamp($request);
         $record->save();
 
         $insert['notification_id'] = $record->id;
@@ -225,7 +226,7 @@ class NotificationsController extends Controller
         $record->short_description	= $request->short_description;
         $record->description		= $request->description;
        	$record->record_updated_by 	= Auth::user()->id;
-
+       	$record->user_stamp($request);
 
         $record->save();
         $insert['notification_id'] = $record->id;

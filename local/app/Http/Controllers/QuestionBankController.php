@@ -374,6 +374,7 @@ class QuestionBankController extends Controller
        }
 
         // Save data with no images
+        $record->update_stamp($request);
         $record->save();
 
 
@@ -395,6 +396,7 @@ class QuestionBankController extends Controller
         else
           $record->answers              = $this->prepareOptions($request, $record);
 
+        $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          DB::commit();
@@ -571,6 +573,7 @@ class QuestionBankController extends Controller
         }
 
 		// Save data with no images
+          $record->user_stamp($request);
 		$record->save();
 		// Update data with images
 
@@ -595,6 +598,7 @@ class QuestionBankController extends Controller
         else
 		    $record->answers 				= $this->prepareOptions($request, $record);
 
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
          DB::commit();

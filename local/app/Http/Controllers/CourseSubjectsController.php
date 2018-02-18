@@ -165,6 +165,7 @@ class CourseSubjectsController extends Controller
             $record->sessions_needed = 0;
             $record->semister = $semister;
             $record->subject_id = $subject_id;
+            $record->user_stamp($request);
             $record->save();
         }
 
@@ -217,7 +218,8 @@ class CourseSubjectsController extends Controller
                     $current_year,
                     $current_sem,
                     $subjects_list,
-                    $total_classes[$key]
+                    $total_classes[$key],
+                    $request
                 );
 
 
@@ -266,7 +268,8 @@ class CourseSubjectsController extends Controller
         $current_year,
         $current_sem,
         $subjects_list,
-        $total_classes
+        $total_classes,
+        Request $request
     ) {
         $query = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
@@ -318,6 +321,8 @@ class CourseSubjectsController extends Controller
                 $record->semister = $current_sem;
                 $record->subject_id = $value;
                 $record->sessions_needed = $total_classes[$key];
+                //$record->user_stamp()
+                $record->user_stamp($request);
                 $record->save();
             }
         }
@@ -331,6 +336,7 @@ class CourseSubjectsController extends Controller
                         ->where('subject_id', '=', $key)
                         ->first();
                     $recordModified->sessions_needed = $value;
+                    $recordModified->update_stamp($request);
                     $recordModified->update();
                 }
             }
@@ -656,7 +662,7 @@ class CourseSubjectsController extends Controller
 
                 $courseSubjectRecord = $query->where('subject_id', '=', $record->subject_id)->first();
                 $courseSubjectRecord->staff_id = $record->user_id;
-
+                $courseSubjectRecord->update_stamp($request);
                 $courseSubjectRecord->save();
             }
         } catch (Exception $e) {

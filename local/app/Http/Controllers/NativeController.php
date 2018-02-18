@@ -185,6 +185,7 @@ class NativeController extends Controller
     $record->slug 			   = $record->makeSlug($name);
     $record->code					 = $request->code;
     $record->is_rtl				 = $request->is_rtl;
+    $record->update_stamp($request);
     $record->save();
     flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     return redirect(URL_LANGUAGES_LIST);
@@ -214,6 +215,7 @@ class NativeController extends Controller
     $record->slug 			        = $record->makeSlug($name);
     $record->code					= $request->code;
     $record->is_rtl					= $request->is_rtl;
+    $record->user_stamp($request);
     $record->save();
     flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     return redirect(URL_LANGUAGES_LIST);
@@ -355,6 +357,7 @@ class NativeController extends Controller
             if (array_key_exists($key, $language_strings)) {
                 unset($language_strings[$key]);
                 $record->phrases = json_encode($language_strings);
+                $record->update_stamp($request);
                 $record->save();
             }
         }
@@ -376,7 +379,7 @@ class NativeController extends Controller
     }
 
     $record->phrases = json_encode($language_strings);
-
+    $record->update_stamp($request);
     $record->save();
     flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
   return redirect(URL_LANGUAGES_UPDATE_STRINGS.$slug);

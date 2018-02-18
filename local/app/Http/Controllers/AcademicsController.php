@@ -128,6 +128,7 @@ class AcademicsController extends Controller
         $coursesToUpdate = App\CourseSemister::whereIn('course_id', $courses)->get();
         foreach ($coursesToUpdate as $item) {
             $item->total_semisters = count($start_end) > 0 ? count($start_end) : 1;
+            $item->update_stamp($request);
             $item->save();
         }
         //end
@@ -148,6 +149,7 @@ class AcademicsController extends Controller
         $record->show_in_list = $request->show_in_list;
         /*$record->current_semester = $request->has('current_semester') ? (int)$request->current_semester : 1;*/
         $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
+        $record->update_stamp($request);
         $record->save();
 
         $academicToDelete=App\AcademicSemester::where('academic_id',$record->id)->delete();
@@ -160,6 +162,7 @@ class AcademicsController extends Controller
                 $recordAcadSem->sem_num = $i;
                 $recordAcadSem->sem_start_date = $start;
                 $recordAcadSem->sem_end_date = $end;
+                $recordAcadSem->user_stamp($request);
                 $recordAcadSem->save();
                 $i++;
             }
@@ -169,6 +172,7 @@ class AcademicsController extends Controller
             $recordAcadSem->sem_num = 1;
             $recordAcadSem->sem_start_date = $request->academic_start_date;
             $recordAcadSem->sem_end_date = $request->academic_end_date;
+            $recordAcadSem->user_stamp($request);
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
@@ -202,6 +206,7 @@ class AcademicsController extends Controller
         $record->total_semesters = count($start_end) > 0 ? count($start_end) : 1;
         $record->slug = $record->makeSlug($name);
         $record->show_in_list = $request->show_in_list;
+        $record->user_stamp($request);
         $record->save();
 
         //academic semester
@@ -214,6 +219,7 @@ class AcademicsController extends Controller
                 $recordAcadSem->sem_num = $i;
                 $recordAcadSem->sem_start_date = $start;
                 $recordAcadSem->sem_end_date = $end;
+                $recordAcadSem->user_stamp($request);
                 $recordAcadSem->save();
                 $i++;
             }
@@ -223,6 +229,7 @@ class AcademicsController extends Controller
             $recordAcadSem->sem_num = 1;
             $recordAcadSem->sem_start_date = $request->academic_start_date;
             $recordAcadSem->sem_end_date = $request->academic_end_date;
+            $recordAcadSem->user_stamp($request);
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');

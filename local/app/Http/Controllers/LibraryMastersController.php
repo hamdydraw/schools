@@ -267,7 +267,7 @@ class LibraryMastersController extends Controller
         $record->isbn               = $request->isbn;
         $record->edition            = $request->edition;
         $record->record_updated_by  = Auth::user()->id;
-
+        $record->update_stamp($request);
         $record->save();
         $file_name = 'image';
         if ($request->hasFile($file_name))
@@ -286,6 +286,7 @@ class LibraryMastersController extends Controller
             $this->deleteFile($record->image, $librarySettings->libraryImageThumbnailpath);
             $record->image      = $this->processUpload($request, $record,$file_name);
           }
+          $record->update_stamp($request);
             $record->save();
         }
 
@@ -350,6 +351,7 @@ class LibraryMastersController extends Controller
         $record->isbn               = $request->isbn;
         $record->edition            = $request->edition;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
         $file_name = 'image';
         if ($request->hasFile($file_name))
@@ -358,6 +360,7 @@ class LibraryMastersController extends Controller
              $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
               $this->validate($request, $rules);
               $record->image      = $this->processUpload($request, $record,$file_name);
+              $record->user_stamp($request);
               $record->save();
         }
 
@@ -602,7 +605,7 @@ class LibraryMastersController extends Controller
       $record =   LibraryInstance::where('id','=',$request->asset_no)->get()->first();
 
       $record->status = $request->current_status;
-
+      $record->update_stamp($request);
       $record->save();
 
         (new App\LibraryInstance())->updateInstanceRecord($request->asset_no, $request->current_status);

@@ -321,7 +321,7 @@ class OfflineExamsController extends Controller
             $marks->percentage_title = 0;
             $marks->grade_title = 0;
             $marks->grade_points = 0;
-
+            $marks->user_stamp($request);
             $marks->save();
 
         }

@@ -220,7 +220,7 @@ class LmsContentController extends Controller
             $record->file_path      = $request->lms_file;
         }
 
-
+        $record->update_stamp($request);
         $record->save();
 
         DB::commit();
@@ -340,7 +340,7 @@ class LmsContentController extends Controller
             $record->file_path      = $request->lms_file;
         }
 
-
+        $record->user_stamp($request);
         $record->save();
 
 

@@ -212,6 +212,7 @@ class ExamSeriesController extends Controller
         $record->start_date   = $request->start_date;
         $record->end_date		= $request->end_date;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
         $file_name = 'image';
         if ($request->hasFile($file_name))
@@ -223,6 +224,7 @@ class ExamSeriesController extends Controller
 	        $path = $examSettings->seriesImagepath;
 	        $this->deleteFile($record->image, $path);
             $record->image      = $this->processUpload($request, $record,$file_name);
+               $record->update_stamp($request);
               $record->save();
         }
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -268,6 +270,7 @@ class ExamSeriesController extends Controller
         $record->start_date          = $request->start_date;
         $record->end_date            = $request->end_date;
         $record->record_updated_by 	 = Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
         $file_name = 'image';
         if ($request->hasFile($file_name))
@@ -279,6 +282,7 @@ class ExamSeriesController extends Controller
 	        $path = $examSettings->seriesImagepath;
 	        $this->deleteFile($record->image, $path);
             $record->image      = $this->processUpload($request, $record,$file_name);
+            $record->user_stamp($request);
               $record->save();
         }
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
@@ -490,6 +494,7 @@ class ExamSeriesController extends Controller
         }
         //Insert New Questions
         DB::table('examseries_data')->insert($quizzes_to_update);
+         $exam_series->update_stamp($request);
         $exam_series->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_EXAM_SERIES);

@@ -107,6 +107,7 @@ class DepartmentsController extends Controller
         $department->department_name = $name;
         $department->department_code = $request->department_code;
     	$department->description 	= $request->description;
+    	$department->update_stamp($request);
     	$department->save();
     	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('departments');
@@ -129,7 +130,7 @@ class DepartmentsController extends Controller
         $department->department_code = $request->department_code;
         $department->description 	= $request->description;
         $department->slug 			= $department->makeSlug($name);
-
+        $department->user_stamp($request);
         $department->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('departments');

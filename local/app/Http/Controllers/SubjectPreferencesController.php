@@ -87,6 +87,7 @@ class SubjectPreferencesController extends Controller
             $newRecord->user_id = $record->id;
             $newRecord->staff_id = $staff_record->id;
             $newRecord->subject_id = $value;
+            $newRecord->user_stamp($request);
             $newRecord->save();
           }
            DB::commit();

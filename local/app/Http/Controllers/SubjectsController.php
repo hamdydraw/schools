@@ -160,6 +160,7 @@ class SubjectsController extends Controller
         $record->external_marks     = 60;
         $record->is_lab             = $request->is_lab;
         $record->is_elective_type   = $request->is_elective_type;
+        $record->update_stamp($request);
         $record->save();
 
       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -195,6 +196,7 @@ class SubjectsController extends Controller
         $record->external_marks     = 60;
         $record->is_lab             = $request->is_lab;
        /* $record->is_elective_type   = $request->is_elective_type;*/
+       $record->user_stamp($request);
         $record->save();
 
 
@@ -451,6 +453,7 @@ public function downloadExcel()
         $subject->internal_marks = $request->internal_marks;
         $subject->external_marks = $request->external_marks;
         $subject->status = $request->status;
+        $subject->user_stamp($request);
         $subject->save();
       }
        return TRUE;

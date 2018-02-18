@@ -231,7 +231,7 @@ class StudentController extends Controller
             $student->current_semister = $current_semister;
             $student->course_parent_id = $request->course_parent_id;
             $student->course_id = $request->course_id;
-
+            $student->update_stamp($request);
             $student->save();
 
             // Promotion insert start
@@ -246,7 +246,7 @@ class StudentController extends Controller
             $promotionObject->from_year = $current_year;
             $promotionObject->from_semister = $current_semister;
             $promotionObject->record_updated_by = Auth::user()->id;
-
+            $promotionObject->user_stamp($request);
             $promotionObject->save();
 
             // Promotion End
@@ -267,7 +267,7 @@ class StudentController extends Controller
         $student->previous_institute_name = $request->previous_institute_name;
         $student->previous_institute_address = $request->previous_institute_address;
         $student->record_updated_by = Auth::user()->id;
-
+        $student->update_stamp($request);
         $student->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('student/profile/edit/' . $slug . '/personal');
@@ -309,6 +309,7 @@ class StudentController extends Controller
         $student->mother_tongue = $request->mother_tongue;
         $student->category_id = $request->category_id;
         $student->religion_id = $request->religion_id;
+        $student->update_stamp($request);
         $student->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('student/profile/edit/' . $user->slug . '/contact');
@@ -361,6 +362,7 @@ class StudentController extends Controller
         $staff->zipcode = $request->zipcode;
         $staff->mobile = $request->mobile;
         $staff->home_phone = $request->home_phone;
+        $staff->update_stamp($request);
         $staff->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
 
@@ -406,9 +408,11 @@ class StudentController extends Controller
 
 
             try {
+                $parent_user->user_stamp($request);
                 $parent_user->save();
                 $parent_user->roles()->attach($role_id);
                 $user->parent_id = $parent_user->id;
+                $user->update_stamp($request);
                 $user->save();
                 sendEmail('registration', array(
                     'user_name' => $user->name,
@@ -432,6 +436,7 @@ class StudentController extends Controller
             }
             try {
                 $user->parent_id = $request->parent;
+                $user->update_stamp($request);
                 $user->save();
                 DB::commit();
             } catch (Exception $ex) {

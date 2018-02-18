@@ -7,6 +7,7 @@ use DateTime;
 use Exception;
 use ArrayAccess;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use LogicException;
 use JsonSerializable;
 use DateTimeInterface;
@@ -32,6 +33,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
+use Illuminate\Http\Request;
+
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable
 {
@@ -3581,6 +3584,18 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
         $count = $model::whereRaw("slug LIKE '^{$slug}(-[0-9]+)?$'")->count();
         return $count ? "{$slug}-{$count}" : $slug;
+    }
+
+    public function user_stamp(Request $request)
+    {
+        $this->created_by_ip   = $request->ip();
+        $this->created_by_user = Auth::user()->id;
+    }
+
+    public function update_stamp(Request $request)
+    {
+        $this->updated_by_ip   = $request->ip();
+        $this->updated_by_user = Auth::user()->id;
     }
 
     

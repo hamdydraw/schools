@@ -113,6 +113,7 @@ class BookmarksController extends Controller
        $bookmark_record->user_id 	= $user_record->id;
        $bookmark_record->item_id 	= $request->item_id;
        $bookmark_record->item_type 	= $request->item_type;
+       $bookmark_record->user_stamp($request);
        $bookmark_record->save();
        return json_encode(array('status'=>'1', 'message'=>getPhrase('added_to_bookmarks')));
     }

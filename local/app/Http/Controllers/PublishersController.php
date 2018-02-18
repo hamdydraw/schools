@@ -153,6 +153,7 @@ class PublishersController extends Controller
         $record->country			= $request->country;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -182,6 +183,7 @@ class PublishersController extends Controller
         $record->country				= $request->country;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');

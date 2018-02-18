@@ -155,7 +155,7 @@ class ModuleHelperController extends Controller
         $settings['keyboard'] 			= $request->has('keyboard') ? 1:0;
         $settings['backdrop'] 			= $request->has('backdrop')? 1 : 0;
         $record->settings 				= json_encode($settings);
-
+        $record->update_stamp($request);
         $record->save();
 
 
@@ -190,6 +190,7 @@ class ModuleHelperController extends Controller
         $settings['keyboard'] 			= $request->has('keyboard') ? 1:0;
         $settings['backdrop'] 			= $request->has('backdrop')? 1 : 0;
         $record->settings 				= json_encode($settings);
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_MODULEHELPERS_LIST);
@@ -278,7 +279,7 @@ class ModuleHelperController extends Controller
        }
 
        $record->steps = json_encode($steps);
-
+       $record->update_stamp($request);
        $record->save();
 
        flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');

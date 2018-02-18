@@ -202,6 +202,7 @@ class TopicsController extends Controller
         if (isset($request->description)) {
             $record->description = $request->description;
         }
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
@@ -234,6 +235,7 @@ class TopicsController extends Controller
         $record->parent_id = $request->parent_id;
         $record->semester_num = $request->semesters;
         $record->description = $request->description;
+        $record->user_stamp($request);
         $record->save();
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
@@ -490,6 +492,7 @@ class TopicsController extends Controller
         if ($request->description) {
             $topic->description = $request->description;
         }
+        $topic->user_stamp($request);
         $topic->save();
         return $topic->id;
     }

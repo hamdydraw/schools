@@ -169,7 +169,7 @@ class InstructionsController extends Controller
 
 
         $record->content = $request->content;
-
+        $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect(URL_INSTRUCTIONS);
@@ -198,6 +198,7 @@ class InstructionsController extends Controller
         $record->slug = $record->makeSlug($name);
 
         $record->content = $request->content;
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_INSTRUCTIONS);

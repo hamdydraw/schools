@@ -176,6 +176,7 @@ class QuizCategoryController extends Controller
     	$record->category 			= $name;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
  		 $file_name = 'catimage';
  		if ($request->hasFile($file_name))
@@ -185,6 +186,7 @@ class QuizCategoryController extends Controller
               $this->validate($request, $rules);
 
               $record->image      = $this->processUpload($request, $record,$file_name);
+              $record->update_stamp($request);
               $record->save();
         }
 
@@ -216,6 +218,7 @@ class QuizCategoryController extends Controller
        	$record->slug 				= $record->makeSlug($name);
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
  		 $file_name = 'catimage';
         if ($request->hasFile($file_name))
@@ -229,6 +232,7 @@ class QuizCategoryController extends Controller
 	        $this->deleteFile($record->image, $path);
 
               $record->image      = $this->processUpload($request, $record,$file_name);
+              $record->user_stamp($request);
               $record->save();
         }
 

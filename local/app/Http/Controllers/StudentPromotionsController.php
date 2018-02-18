@@ -155,7 +155,7 @@ class StudentPromotionsController extends Controller
                     $promotionObject->remarks = $remarks[$key];
                     $promotionObject->description = '';
                     $promotionObject->record_updated_by = $record_updated_by;
-
+                    $promotionObject->user_stamp($request);
                     $promotionObject->save();
                     $studentObject->academic_id = $to_academic_id;
                     if (isset($request->to_course_parent_id)) {
@@ -177,7 +177,7 @@ class StudentPromotionsController extends Controller
                         $studentObject->current_year = $from_year;
                         $studentObject->current_semister = $from_semister;
                     }
-
+                    $studentObject->update_stamp($request);
                     $studentObject->save();
                 }
 
@@ -251,6 +251,7 @@ class StudentPromotionsController extends Controller
                     $promotionObject->remarks = $remarks[$key];
                     $promotionObject->description = '';
                     $promotionObject->record_updated_by = $record_updated_by;
+                    $promotionObject->user_stamp($request);
                     $promotionObject->save();
 
                     $studentObject->academic_id = $academic_id;
@@ -272,7 +273,7 @@ class StudentPromotionsController extends Controller
                         $studentObject->current_semister = $from_semister;
 
                     }
-
+                    $studentObject->update_stamp($request);
                     $studentObject->save();
                 }
 
@@ -340,13 +341,13 @@ class StudentPromotionsController extends Controller
             $promotionObject->remarks = $remarks;
             $promotionObject->description = '';
             $promotionObject->record_updated_by = $record_updated_by;
-
+            $promotionObject->user_stamp($request);
             $promotionObject->save();
             $studentObject->academic_id = $academic_id;
             $studentObject->current_year = '-1';
 
             $studentObject->current_semister = '-1';
-
+            $studentObject->update_stamp($request);
             $studentObject->save();
             flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
             DB::commit();

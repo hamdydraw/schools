@@ -207,7 +207,7 @@ class CourseController extends Controller
                     //1 Delete all
                     //2 Create as per the dueration
                     $record->course_dueration = $request->course_dueration;
-                    $this->createSemisters($record, true);
+                    $this->createSemisters($record,$request, true);
                 }
             } else {
                 /**
@@ -221,7 +221,7 @@ class CourseController extends Controller
                  * Currently added semisters option, so crate semister records
                  */
                 $record->course_dueration = $request->course_dueration;
-                $this->createSemisters($record);
+                $this->createSemisters($record,$request);
             }
         }
 
@@ -233,6 +233,7 @@ class CourseController extends Controller
        /* $record->is_having_semister = $request->is_having_semister;*/
         /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
         $record->description = $request->description;
+        $record->update_stamp($request);
         $record->save();
 
 
@@ -246,7 +247,7 @@ class CourseController extends Controller
      * @param  boolean $reset [If true, first delets the semisters based on course Id]
      * @return [type]          [description]
      */
-    public function createSemisters($record, $reset = false)
+    public function createSemisters($record,Request $request, $reset = false)
     {
         if ($reset) {
             $this->resetSemisters($record);
@@ -258,6 +259,7 @@ class CourseController extends Controller
             $coursesem->year = $year;
             $coursesem->total_semisters = 2;
             $coursesem->current_semester = 1;
+            $coursesem->user_stamp($request);
             $coursesem->save();
         }
     }
@@ -312,11 +314,12 @@ class CourseController extends Controller
         }
 
 
+        $record->user_stamp($request);
         $record->save();
 
 
         if ($record->is_having_semister) {
-            $this->createSemisters($record);
+            $this->createSemisters($record,$request);
         }
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
@@ -401,6 +404,7 @@ class CourseController extends Controller
         }*/
         $rec = App\CourseSemister::find($request->course_semester);
         $rec->current_semester = $request->current_semester;
+        $rec->update_stamp($request);
         $rec->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return redirect('mastersettings/course');

@@ -263,7 +263,7 @@ class PaymentsController extends Controller
          * @var [type]
          */
         if ($request->after_discount == 0) {
-            $token = $this->preserveBeforeSave($item, $type, $request->gateway, $other_details, 1);
+            $token = $this->preserveBeforeSave($item, $type, $request->gateway, $other_details, 1,$request);
             if ($this->validateAndApproveZeroDiscount($token, $request)) {
                 //Valid
                 flash(getPhrase('success'), getPhrase('your_subscription_was_successfull'), 'overlay');
@@ -288,7 +288,7 @@ class PaymentsController extends Controller
                 return back();
             }
 
-            $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details);
+            $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,$request);
             $config = config();
             $payumoney = $config['indipay']['payumoney'];
 
@@ -320,7 +320,7 @@ class PaymentsController extends Controller
                     return back();
                 }
 
-                $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details);
+                $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,$request);
 
 
                 $paypal = new Paypal();
@@ -399,7 +399,7 @@ class PaymentsController extends Controller
      * @param  [type] $payment_method [description]
      * @return [type]                 [description]
      */
-    public function preserveBeforeSave($item, $package_type, $payment_method, $other_details, $coupon_zero = 0)
+    public function preserveBeforeSave($item, $package_type, $payment_method, $other_details, $coupon_zero = 0,Request $request)
     {
         $user = getUserRecord();
         if ($other_details['paid_by_parent']) {
@@ -422,7 +422,8 @@ class PaymentsController extends Controller
                 $payment->notes = $other_details['payment_details'];
             }
         }
-
+        $payment->user_stamp();
+        $payment->user_stamp($request);
         $payment->save();
         return $payment->slug;
     }
@@ -494,7 +495,7 @@ class PaymentsController extends Controller
                 'admin_comment' => $request->admin_comment
             ));
         }
-
+        $payment_record->user_stamp($request);
         $payment_record->save();
 
         if ($payment_record->coupon_applied) {
@@ -687,7 +688,7 @@ class PaymentsController extends Controller
             //Capcture all the response from the payment.
             //In case want to view total details, we can fetch this record
             $payment_record->transaction_record = json_encode($request->request->all());
-
+            $payment_record->update_stamp($request);
             $payment_record->save();
 
             if ($payment_record->coupon_applied) {
@@ -842,7 +843,7 @@ class PaymentsController extends Controller
         $other_details['payment_details'] = $request->payment_details;
 
         $payment_gateway = $payment_data->gateway;
-        $token = $this->preserveBeforeSave($item, $payment_data->type, $payment_gateway, $other_details);
+        $token = $this->preserveBeforeSave($item, $payment_data->type, $payment_gateway, $other_details,$request);
         flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
         return redirect(URL_PAYMENTS_LIST . Auth::user()->slug);
     }
@@ -870,7 +871,7 @@ class PaymentsController extends Controller
 
                 $payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
                 $payment_record->admin_comments = $request->admin_comment;
-
+                $payment_record->update_stamp($request);
                 $payment_record->save();
             }
 

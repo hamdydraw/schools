@@ -369,7 +369,7 @@ class StudentQuizController extends Controller
         $record->year = $student_record->current_year;
         $record->semister = $student_record->current_semister;
         $content = 'You have attempted exam. The score percentage is '.formatPercentage($record->percentage);
-
+        $record->user_stamp($request);
         $record->save();
          try{
          sendEmail('exam-result', array('user_name' => $user->username,'content'=> $content, 'to_email' => Auth::user()->email));

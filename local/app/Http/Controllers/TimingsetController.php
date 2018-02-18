@@ -189,6 +189,7 @@ class TimingsetController extends Controller
         $is_break_list              = $request->is_break_list;
         $id_list                    = $request->id_list;
         $name_list                  = $request->name_list;
+        $record->update_stamp($request);
         $record->save();
         foreach($request->id_list as $key => $value)
         {
@@ -207,6 +208,7 @@ class TimingsetController extends Controller
             $timingset->start_time     = $start_time_list[$key];;
             $timingset->end_time       = $end_time_list[$key];
             $timingset->is_break       = $is_break_list[$key];
+            $timingset->update_stamp($request);
              $timingset->save();
 
             }
@@ -217,6 +219,7 @@ class TimingsetController extends Controller
                 $timingset->start_time     = $start_time_list[$key];;
                 $timingset->end_time       = $end_time_list[$key];
                 $timingset->is_break       = $is_break_list[$key];
+                $timingset->user_stamp($request);
                 $timingset->save();
             }
         }
@@ -260,6 +263,7 @@ class TimingsetController extends Controller
         $end_time_list              = $request->end_time_list;
         $is_break_list              = $request->is_break_list;
         $details      = [];
+        $record->user_stamp($request);
         $record->save();
         foreach($request->name_list as $key => $value)
         {
@@ -269,6 +273,7 @@ class TimingsetController extends Controller
             $timeDetails->start_time    = $start_time_list[$key];
             $timeDetails->end_time      = $end_time_list[$key];
             $timeDetails->is_break      = $is_break_list[$key];
+            $timeDetails->user_stamp($request);
             $timeDetails->save();
         }
 

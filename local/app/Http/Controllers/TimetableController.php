@@ -415,6 +415,7 @@ class TimetableController extends Controller
                         $record->user_id = $user_id;
                         $record->subject_id = $subject_id;
                         $record->timingset_details_id = $timingset_details_id;
+                        $record->update_stamp($request);
                         $record->save();
                     } else {
                         //4th step
@@ -439,6 +440,7 @@ class TimetableController extends Controller
                         $record->timingset_details_id = $timingset_details_id;
                         $record->user_id = $user_id;
                         $record->subject_id = $subject_id;
+                        $record->update_stamp($request);
                         $record->save();
                     }
 

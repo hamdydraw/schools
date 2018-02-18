@@ -136,6 +136,7 @@ class AuthorsController extends Controller
         $record->gender				= $request->gender;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -159,6 +160,7 @@ class AuthorsController extends Controller
         $record->gender				= $request->gender;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');

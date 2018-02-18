@@ -148,6 +148,7 @@ class CertificateTemplatesController extends Controller
         $record->type               = $request->type;
         $record->subject            = $request->subject;
         $record->updated_by         = Auth::user()->id;
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -182,6 +183,7 @@ class CertificateTemplatesController extends Controller
         $record->type				= $request->type;
         $record->subject			= $request->subject;
         $record->updated_by 	    = Auth::user()->id;
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect(URL_MASTERSETTINGS_CERTIFICATE_TEMPLATES);

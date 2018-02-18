@@ -192,6 +192,7 @@ class CertificatesIssuesController extends Controller
 
     	$issueObject->reference_no 		  = $this->prepareReferenceNo($user_record);
     	$issueObject->issued_by 		    = Auth::user()->id;
+    	$issueObject->user_stamp($request);
     	$issueObject->save();
 
         return $issueObject->reference_no;
@@ -243,6 +244,7 @@ class CertificatesIssuesController extends Controller
 
         $issueObject                    = App\CertificateIssue::where('id','=',$request->tc_id)->first();
         $issueObject->certificate_data  = $tc_data;
+        $issueObject->update_stamp($request);
         $issueObject->save();
 
         $data['tcprint_details']   = $request;

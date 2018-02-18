@@ -410,7 +410,7 @@ class LessionPlansController extends Controller
             $record->topic_id = $topic_id;
             $record->is_completed = $is_completed;
             $record->completed_on = date('Y-m-d');
-
+            $record->update_stamp($request);
             $record->save();
             $status = 1;
         } else {
@@ -420,6 +420,7 @@ class LessionPlansController extends Controller
             $record->topic_id = $topic_id;
             $record->is_completed = $is_completed;
             $record->completed_on = date('Y-m-d');
+            $record->user_stamp($request);
             $record->save();
             $status = 1;
         }

@@ -173,6 +173,7 @@ class LanguageController extends Controller
         $record->slug 			   = $record->makeSlug($name);
         $record->code					 = $request->code;
         $record->is_rtl				 = $request->is_rtl;
+        $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect('languages/list');
@@ -202,6 +203,7 @@ class LanguageController extends Controller
         $record->slug 			        = $record->makeSlug($name);
         $record->code					= $request->code;
         $record->is_rtl					= $request->is_rtl;
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('languages/list');

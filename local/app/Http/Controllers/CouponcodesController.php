@@ -194,6 +194,7 @@ class CouponcodesController extends Controller
                 $applicable_categories['categories'][] = $key;
         }
         $record->coupon_code_applicability = json_encode($applicable_categories);
+        $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
     	return redirect(URL_COUPONS);
@@ -245,6 +246,7 @@ class CouponcodesController extends Controller
                 $applicable_categories['categories'][] = $key;
         }
         $record->coupon_code_applicability = json_encode($applicable_categories);
+        $record->user_stamp($request);
 
         $record->save();
 

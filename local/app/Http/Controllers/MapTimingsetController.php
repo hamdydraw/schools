@@ -97,7 +97,7 @@ class MapTimingsetController extends Controller
           $record->parenttimingsetmap_id  = $parenttimingsetmap_id;
           $record->course_parent_id       = $request->course_parent_id;
           $record->course_id              = $request->course_id;
-
+          $record->user_stamp($request);
           $record->save();
           $year_data                = $request->selected_list;
             foreach ($year_data as $list) {
@@ -115,7 +115,7 @@ class MapTimingsetController extends Controller
 
 
              $year_record->year    = $parameters[3];
-
+             $year_record->update_stamp($request);
              $year_record->save();
 
             }

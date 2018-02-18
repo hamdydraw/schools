@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
 
@@ -1081,7 +1082,27 @@ Route::post('/test', function (Request $request) {
     return json_encode($request->all());
 });
 
-Route::get('/test', function () {
-
-    return view('test');
+Route::get('/by_ip', function () {
+    $tables = DB::select('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\' AND TABLE_SCHEMA=\'sasbit_school\'');
+    foreach ($tables as $table){
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_ip VARCHAR(120)");
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_ip VARCHAR(120)");
+    }
+    return json_encode($tables);
 });
+
+
+Route::get('/by_user', function () {
+    $tables = DB::select('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\' AND TABLE_SCHEMA=\'sasbit_school\'');
+    foreach ($tables as $table){
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_user bigint(20) unsigned NOT NULL");
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_user bigint(20) unsigned NOT NULL");
+    }
+    return json_encode($tables);
+});
+
+Route::get('/test',function(){
+   return URL::to('/');
+});
+
+

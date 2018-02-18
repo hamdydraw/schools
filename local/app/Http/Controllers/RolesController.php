@@ -59,6 +59,7 @@ class RolesController extends Controller
         $role->name          = $request->name;
         $role->display_name  = $request->display_name;
         $role->description   = $request->description;
+        $role->update_stamp($request);
         $role->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
         return redirect('roles');
@@ -76,6 +77,7 @@ class RolesController extends Controller
         $role->name = $request->name;
         $role->display_name = $request->display_name;
         $role->description = $request->description;
+        $role->user_stamp($request);
         $role->save();
 
         flash(getPhrase('success'),getPhrase('Record_added_successfully'), 'success');

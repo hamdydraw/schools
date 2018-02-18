@@ -234,7 +234,7 @@ class SettingsController extends Controller
         $record->title = $request->title;
         $record->key = $name;
         $record->description = $request->description;
-
+        $record->update_stamp($request);
         $record->save();
 
         if ($request->hasFile('image')) {
@@ -315,6 +315,7 @@ class SettingsController extends Controller
         $record->key = $name;
         $record->slug = $record->makeSlug($name);
         $record->description = $request->description;
+        $record->user_stamp($request);
         $record->save();
 
         if ($request->hasFile('image')) {
@@ -447,7 +448,7 @@ class SettingsController extends Controller
         $settings_data[$request->key] = $values;
 
         $record->settings_data = json_encode($settings_data);
-
+        $record->update_stamp($request);
         $record->save();
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
@@ -584,6 +585,7 @@ class SettingsController extends Controller
 
 
         $record->settings_data = json_encode($data);
+        $record->update_stamp($request);
         $record->save();
 
         if ($this->isEnvSetting($request)) {

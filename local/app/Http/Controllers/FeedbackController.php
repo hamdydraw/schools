@@ -150,6 +150,8 @@ class FeedbackController extends Controller
         $record->subject			= $request->subject;
         $record->description		= $request->description;
         $record->user_id			= Auth::user()->id;
+        $record->user_stamp($request);
+
         $record->save();
 
         $insert['feedback_id'] = $record->id;

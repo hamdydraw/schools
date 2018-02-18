@@ -125,7 +125,6 @@ class PlansController extends Controller
           ]);
 
         $name 					        = $request->name;
-
        /**
         * Check if the title of the record is changed,
         * if changed update the slug value based on the new title
@@ -140,6 +139,7 @@ class PlansController extends Controller
         $record->type					= $request->type;
         $record->description 			= $request->description;
         $record->record_updated_by 		= getUserRecord()->id;
+        $record->update_stamp($request);
         $record->save();
 
     	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
@@ -166,6 +166,7 @@ class PlansController extends Controller
         $record->type					= $request->type;
         $record->amount					= $request->amount;
         $record->description 			= $request->description;
+        $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
     	return redirect('subscription/admin/plans');

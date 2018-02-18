@@ -364,6 +364,7 @@ class UsersController extends Controller
             }
 
             $record->status = $status;
+            $record->update_stamp($request);
             $record->save();
 
             flash(getPhrase('success'), getPhrase('status_changed_successfully'), 'success');
@@ -471,6 +472,7 @@ class UsersController extends Controller
             $role_id = $request->role_id;
         }
 
+
         $user = new User();
         $name = $request->name;
         $user->name = $name;
@@ -482,6 +484,8 @@ class UsersController extends Controller
             $password = str_random(8);
         }
         $user->password = bcrypt($password);
+
+
         DB::beginTransaction();
         try {
 
@@ -496,7 +500,7 @@ class UsersController extends Controller
             $user->slug = $slug;
             $user->phone = $request->phone;
             $user->address = $request->address;
-
+            $user->user_stamp($request);
             $user->save();
 
             $user->roles()->attach($user->role_id);
@@ -509,7 +513,7 @@ class UsersController extends Controller
                 $staff->staff_id = $staff->prepareStaffID($user->id);
                 $staff->first_name = $user->name;
                 $staff->user_id = $user->id;
-
+                $staff->user_stamp($request);
                 $staff->save();
 
                 DB::commit();
@@ -523,6 +527,7 @@ class UsersController extends Controller
                 $student->admission_no = $student->preparestudentID($user->id);
                 $student->first_name = $user->name;
                 $student->user_id = $user->id;
+                $student->user_stamp($request);
                 $student->save();
             }
             DB::commit();
@@ -580,6 +585,7 @@ class UsersController extends Controller
             Image::make($destinationPath . $fileName)->fit($imageObject->getProfilePicSize())->save($destinationPath . $fileName);
 
             Image::make($destinationPath . $fileName)->fit($imageObject->getThumbnailSize())->save($destinationPathThumb . $fileName);
+            $user->user_stamp($request);
             $user->save();
         }
     }
@@ -780,6 +786,7 @@ class UsersController extends Controller
                     $staff->staff_id = $staff->prepareStaffID($record->id);
                     $staff->first_name = $name;
                     $staff->user_id = $record->id;
+                    $staff->user_stamp($request);
                     $staff->save();
                 }
             }
@@ -793,6 +800,7 @@ class UsersController extends Controller
         if ($request->has('password')) {
             $record->password = bcrypt($request->password);
         }
+        $record->update_stamp($request);
         $record->save();
 
         if (checkRole(getUserGrade(2))) {
@@ -1249,6 +1257,7 @@ class UsersController extends Controller
         if (Hash::check($credentials['old_password'], $user->password)) {
 
             $user->password = bcrypt($credentials['password']);
+            $user->update_stamp($request);
             $user->save();
 
             flash(getPhrase('success'), getPhrase('password_updated_successfully'), 'success');
@@ -1427,7 +1436,6 @@ class UsersController extends Controller
             $user->slug = $user->makeSlug($name);
             $user->phone = $request->phone;
             $user->address = $request->address;
-
             $user->save();
 
             $user->roles()->attach($user->role_id);
@@ -1650,6 +1658,7 @@ class UsersController extends Controller
         }
 
         $record->settings = json_encode(array('user_preferences' => $options));
+        $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         return back();

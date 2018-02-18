@@ -41,7 +41,6 @@ class UpdatesController extends Controller
        $changed_data =  $uptained_data;
 
        $bonafide->settings_data = json_encode($changed_data);
-
        $bonafide->save();
 
        //For Id Card

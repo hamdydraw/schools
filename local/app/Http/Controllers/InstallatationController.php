@@ -121,7 +121,7 @@ class InstallatationController extends Controller
         $user->role_id  = 1;
         $user->login_enabled  = 1;
         $user->slug = $user->makeSlug($name);
-
+        $user->user_stamp($request);
         $user->save();
         $user->roles()->attach($user->role_id);
 
