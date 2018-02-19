@@ -11,6 +11,7 @@ class StudentMarksReportController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('auth');
     }
 
@@ -20,6 +21,9 @@ class StudentMarksReportController extends Controller
      */
     public function index()
     {
+        if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('marks_report');
 
@@ -37,6 +41,9 @@ class StudentMarksReportController extends Controller
      */
     public function classMarks()
     {
+        if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
         $data['active_class'] = 'academic';
         if (getRoleData(Auth::user()->role_id) == 'student') {
             $data['active_class'] = 'analysis';
@@ -136,6 +143,7 @@ class StudentMarksReportController extends Controller
                 ->where('quizresults.course_parent_id', '=', $course_parent_id)
                 /*>where('quizresults.year', '=', $year)*/
                 /*->where('quizresults.semister', '=', $currentSemeterOfYear)*/
+                ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
                     'roll_no',
@@ -214,6 +222,9 @@ class StudentMarksReportController extends Controller
     public function printClassMarks(Request $request)
     {
         if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
+        if (checkRole(getUserGrade(5))) {
             $academic_id = $request->extra_academic_id;
         } else {
             $academic_id = $request->academic_id;
@@ -280,6 +291,7 @@ class StudentMarksReportController extends Controller
                 ->where('quizresults.course_id', '=', $course_id)
                /* ->where('quizresults.year', '=', $year)
                 ->where('quizresults.semister', '=', $semister)*/
+               ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
                     'roll_no',
