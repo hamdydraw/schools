@@ -1095,8 +1095,8 @@ Route::get('/by_ip', function () {
 Route::get('/by_user', function () {
     $tables = DB::select('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = \'BASE TABLE\' AND TABLE_SCHEMA=\'sasbit_school\'');
     foreach ($tables as $table){
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_user bigint(20) unsigned NOT NULL");
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_user bigint(20) unsigned NOT NULL");
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_user bigint(20) unsigned");
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_user bigint(20) unsigned");
     }
     return json_encode($tables);
 });

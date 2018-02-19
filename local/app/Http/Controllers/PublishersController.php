@@ -47,7 +47,7 @@ class PublishersController extends Controller
 
 
          $records = Publisher::select([
-         	'publisher', 'country', 'description', 'id','slug']);
+         	'publisher', 'country', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -63,6 +63,13 @@ class PublishersController extends Controller
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
+            })
+
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
         ->editColumn('country',function($records){
 

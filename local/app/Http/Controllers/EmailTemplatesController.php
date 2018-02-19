@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\EmailTemplate;
@@ -46,7 +47,7 @@ class EmailTemplatesController extends Controller
       }
 
          $records = EmailTemplate::select([
-         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug'])
+         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
          ->orderBy('updated_at', 'DESC');
 
         return Datatables::of($records)
@@ -62,6 +63,13 @@ class EmailTemplatesController extends Controller
 
                         </ul>
                     </div>';
+            })
+
+            ->editColumn('created_by_user', function ($records) {
+                return User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return User::get_user_name($records->updated_by_user);
             })
         ->removeColumn('id')
         ->removeColumn('slug')

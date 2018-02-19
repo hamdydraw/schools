@@ -50,7 +50,7 @@ class ModuleHelperController extends Controller
       }
 
          $records = ModuleHelper::select([ 'title',
-            'slug', 'help_link_text','is_enabled','id', 'updated_at'])
+            'slug', 'help_link_text','is_enabled','id', 'updated_at','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
          ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
@@ -77,6 +77,12 @@ class ModuleHelperController extends Controller
         ->editColumn('is_enabled', function($records){
         	return ($records->is_enabled) ? '<i class="fa fa-check text-success" title="Active" ></i>' : '<i class="fa fa-times text-danger" title="Inactive"></i>';
         })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
         ->removeColumn('id')
 
         ->removeColumn('updated_at')

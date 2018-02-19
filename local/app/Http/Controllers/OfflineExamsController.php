@@ -58,7 +58,8 @@ class OfflineExamsController extends Controller
                 'quizzes.id',
                 'quizzes.slug',
                 'start_date',
-                'end_date'
+                'end_date',
+                'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip'
             ])
             ->where('quizzes.type', '!=', 'online')
             ->where('quizapplicability.academic_id', '=', $academic_id)
@@ -82,6 +83,12 @@ class OfflineExamsController extends Controller
                 }
                 $link_data .= '</ul></div>';
                 return $link_data;
+            })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
             ->editColumn('title', function ($records) {
 

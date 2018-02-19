@@ -67,7 +67,8 @@ class CourseController extends Controller
             /*'is_having_semister',*/
             /*'is_having_elective_subjects',*/
             'slug',
-            'id'
+            'id',
+            'created_by_user','updated_by_user','created_by_ip','updated_by_ip'
         ])->orderBy('id', 'asc');
 
         return Datatables::of($records)
@@ -100,6 +101,14 @@ class CourseController extends Controller
                 return Session::get('i');
 
             })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
+
+
             /*->editColumn('course_dueration', function ($records) {
                 return
 

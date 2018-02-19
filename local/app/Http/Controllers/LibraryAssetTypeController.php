@@ -47,7 +47,7 @@ class LibraryAssetTypeController extends Controller
 
 
          $records = LibraryAssetType::select([
-         	'asset_type', 'description', 'id','slug']);
+         	'asset_type', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -67,6 +67,12 @@ class LibraryAssetTypeController extends Controller
         ->editColumn('asset_type',function($records){
             return $records->asset_type.' ('.$records->id.')';
         })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
         ->removeColumn('id')
         ->removeColumn('slug')
 

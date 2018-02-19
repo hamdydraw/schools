@@ -56,7 +56,7 @@ class FeedbackController extends Controller
 
 
             $records = Feedback::join('users', 'users.id','=','feedbacks.user_id')
-            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at'])
+            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at','feedbacks.created_by_user','feedbacks.updated_by_user','feedbacks.created_by_ip','feedbacks.updated_by_ip'])
             ->orderBy('updated_at', 'desc');
 
         foreach ($records as $record){
@@ -100,6 +100,12 @@ class FeedbackController extends Controller
 
             return '<img src="'.$image.'" height="60" width="60"  />';
         })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
 
         ->removeColumn('id')
         ->removeColumn('slug')

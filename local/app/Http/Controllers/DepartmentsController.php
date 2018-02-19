@@ -34,7 +34,7 @@ class DepartmentsController extends Controller
     {
         DB::statement(DB::raw('set @rownum=0'));
 
-         $records = Department::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'), 'department_name', 'department_code','slug','description']);
+         $records = Department::select([ DB::raw('@rownum  := @rownum  + 1 AS rownum'), 'department_name', 'department_code','slug','description','created_by_user','updated_by_user','created_by_ip','updated_by_ip']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -48,6 +48,13 @@ class DepartmentsController extends Controller
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="icon-packages"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
+            })
+
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
 
         ->make();

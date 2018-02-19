@@ -86,7 +86,7 @@ class LmsCategoryController extends Controller
       }
 
          $records = LmsCategory::select([
-         	'category', 'image', 'description', 'id','slug']);
+         	'category', 'image', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip']);
         $this->setSettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -103,9 +103,17 @@ class LmsCategoryController extends Controller
                         </ul>
                     </div>';
             })
+
         ->removeColumn('id')
         ->removeColumn('slug')
-        ->editColumn('image', function($records){
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
+
+            ->editColumn('image', function($records){
             $image = '<img src="'.IMAGE_PATH_UPLOAD_LMS_DEFAULT.'" height="100" width="100" />';
             if($records->image)
             $image = '<img src="'.IMAGE_PATH_UPLOAD_LMS_CATEGORIES.$records->image.'" height="100" width="100" />';

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\CertificateTemplate;
+use Illuminate\Support\Facades\App;
 use Yajra\Datatables\Datatables;
 use DB;
 use Auth;
@@ -47,7 +49,7 @@ class CertificateTemplatesController extends Controller
       }
 
          $records = CertificateTemplate::select([
-         	'title', 'subject', 'type',  'id','slug'])
+         	'title', 'subject', 'type',  'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
          ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
@@ -66,8 +68,16 @@ class CertificateTemplatesController extends Controller
             })
         ->removeColumn('id')
         ->removeColumn('slug')
+            ->editColumn('created_by_user', function ($records) {
+                return User::get_user_name($records->created_by_user);
 
-        ->make();
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return User::get_user_name($records->updated_by_user);
+            })
+
+
+            ->make();
     }
 
     /**

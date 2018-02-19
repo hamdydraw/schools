@@ -54,7 +54,7 @@ class CouponcodesController extends Controller
 
 
 
-            $records = Couponcode::select(['title', 'coupon_code', 'discount_type', 'discount_value', 'minimum_bill','discount_maximum_amount','usage_limit', 'status', 'id','slug' ])
+            $records = Couponcode::select(['title', 'coupon_code', 'discount_type', 'discount_value', 'minimum_bill','discount_maximum_amount','usage_limit', 'status', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip' ])
             ->orderBy('updated_at', 'desc');
 
 
@@ -86,6 +86,12 @@ class CouponcodesController extends Controller
         {
             return ucfirst($records->discount_type);
         })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
 
         ->removeColumn('id')
         ->removeColumn('slug')

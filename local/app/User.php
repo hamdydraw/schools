@@ -77,6 +77,10 @@ class User extends Authenticatable
                      ->get();
     }
 
+    public static function get_user_name($id){
+        return User::where('id',$id)->pluck('name')->first();
+    }
+
 
 
      /**

@@ -43,7 +43,7 @@ class AuthorsController extends Controller
     {
 
          $records = Author::select([
-         	'author', 'gender', 'description', 'id','slug']);
+         	'author', 'gender', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -65,7 +65,14 @@ class AuthorsController extends Controller
         ->editColumn('gender', function($records){
         	return ucfirst($records->gender);
         })
-        ->make();
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
+
+            ->make();
     }
 
     /**

@@ -55,7 +55,7 @@ class NativeController extends Controller
       return back();
     }
 
-    $records = Language::select([ 'language', 'code','is_rtl','is_default','id','slug'])->orderBy('updated_at','desc');
+    $records = Language::select([ 'language', 'code','is_rtl','is_default','id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])->orderBy('updated_at','desc');
 
     return Datatables::of($records)
     ->addColumn('action', function ($records) {
@@ -77,6 +77,12 @@ class NativeController extends Controller
       $link_data = $link_data. $temp;
       return $link_data;
     })
+        ->editColumn('created_by_user', function ($records) {
+            return App\User::get_user_name($records->created_by_user);
+        })
+        ->editColumn('updated_by_user', function ($records) {
+            return App\User::get_user_name($records->updated_by_user);
+        })
     ->editColumn('language',function ($records)
     {
       return '<a href="'.URL_LANGUAGES_UPDATE_STRINGS.$records->slug.'">'.$records->language.'</a>';

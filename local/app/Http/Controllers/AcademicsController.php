@@ -38,7 +38,7 @@ class AcademicsController extends Controller
     {
         DB::statement(DB::raw('set @rownum=0'));
 
-        $records = Academic::select(['id', 'academic_year_title', 'academic_start_date', 'academic_end_date','total_semesters', 'slug']);
+        $records = Academic::select(['id', 'academic_year_title','created_by_user','updated_by_user', 'academic_start_date', 'academic_end_date','total_semesters','created_by_ip','updated_by_ip', 'slug']);
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -58,6 +58,12 @@ class AcademicsController extends Controller
             })
             ->editColumn('academic_year_title', function ($records) {
                 return '<a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '">' . $records->academic_year_title . ' (' . $records->id . ')' . '</a>';
+            })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
 
             ->removeColumn('id')

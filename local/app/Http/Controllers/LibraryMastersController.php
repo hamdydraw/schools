@@ -68,7 +68,7 @@ class LibraryMastersController extends Controller
     public function getDatatable()
     {
         $records = LibraryMaster::select([
-         	'asset_type_id', 'image', 'title', 'author_id', 'publisher_id', 'total_assets_count', 'total_assets_available', 'total_assets_issued','edition','id','slug']);
+         	'asset_type_id', 'image', 'title', 'author_id', 'publisher_id', 'total_assets_count', 'total_assets_available', 'total_assets_issued','edition','id','slug','created_by_ip','updated_by_ip']);
        $this->setLibrarySettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -576,6 +576,13 @@ class LibraryMastersController extends Controller
                         $button_text .='</ul>
                     </div>';
                     return $button_text;
+            })
+
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
 
 

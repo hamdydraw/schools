@@ -56,7 +56,7 @@ class QuestionBankController extends Controller
       }
 
          $records = Subject::select([
-         'id',	'subject_title', 'subject_code','slug', 'is_lab', 'updated_at'])
+         'id',	'subject_title', 'subject_code','slug', 'is_lab', 'updated_at','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
          	// ->where('is_lab','=','0')
             ->orderBy('updated_at', 'desc');
 
@@ -80,7 +80,15 @@ class QuestionBankController extends Controller
         ->editColumn('subject_title', function($records) {
             return '<a href="'.URL_QUESTIONBANK_VIEW.$records->slug.'">'.$records->subject_title.'</a>';
         })
-        // ->removeColumn('id')
+
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
+
+            // ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('is_lab')
         ->removeColumn('updated_at');
@@ -139,7 +147,7 @@ class QuestionBankController extends Controller
         ->select(['subjects.subject_title', 'topics.topic_name',
             'questionbank.question_type', 'questionbank.question', 'questionbank.marks',
             'questionbank.difficulty_level', 'questionbank.id', 'questionbank.slug',
-            'questionbank.updated_at'])
+            'questionbank.updated_at','questionbank.created_by_user','questionbank.updated_by_user','questionbank.created_by_ip','questionbank.updated_by_ip'])
         ->where('questionbank.subject_id','=', $subject->id)
         ->orderBy('updated_at','desc');
 
@@ -156,6 +164,12 @@ class QuestionBankController extends Controller
                        <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                         </ul>
                     </div>';
+            })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
         ->removeColumn('id')
         ->removeColumn('slug')

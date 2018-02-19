@@ -58,7 +58,7 @@ class LmsSeriesController extends Controller
         $records = array();
 
 
-            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity',  'total_items','slug', 'id', 'updated_at'])
+            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity',  'total_items','slug', 'id', 'updated_at','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
             ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
@@ -82,6 +82,12 @@ class LmsSeriesController extends Controller
 
                     $link_data .=$temp;
             return $link_data;
+            })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
         ->editColumn('title', function($records)
         {

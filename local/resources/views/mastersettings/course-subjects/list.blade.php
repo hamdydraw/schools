@@ -36,6 +36,11 @@
 
 									<th id="helper_step2">{{ getPhrase('academic_year')}}</th>
 									<th>{{ getPhrase('branch')}}</th>
+									<th>{{ getPhrase("created_by")}}</th>
+									<th>{{ getPhrase("updated_by")}}</th>
+									<th>{{ getPhrase('creator_ip')}}</th>
+									<th>{{ getPhrase('updater_ip')}}</th>
+
 									{{--<th>{{ getPhrase('course')}}</th>--}}
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 								</tr>

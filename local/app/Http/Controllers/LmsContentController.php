@@ -66,7 +66,7 @@ class LmsContentController extends Controller
       }
 
     $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
-    		->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at' ])
+    		->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
             ->orderBy('updated_at','desc');
 
 
@@ -89,6 +89,13 @@ class LmsContentController extends Controller
         ->removeColumn('id')
         ->removeColumn('updated_at')
         ->removeColumn('slug')
+
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
         ->editColumn('image', function($records){
             $image_path = IMAGE_PATH_UPLOAD_LMS_DEFAULT;
 

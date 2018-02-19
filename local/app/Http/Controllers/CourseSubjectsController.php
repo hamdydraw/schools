@@ -57,7 +57,8 @@ class CourseSubjectsController extends Controller
                 'academic_id',
                 'course_parent_id',
                 'course_id',
-                'course_subject.id'
+                'course_subject.id',
+                'course_subject.created_by_user','course_subject.updated_by_user','course_subject.created_by_ip','course_subject.updated_by_ip'
             ])
             ->groupBy('academic_id')
             ->groupBy('course_id');
@@ -90,6 +91,12 @@ class CourseSubjectsController extends Controller
             })
             ->editColumn('course_parent_id', function ($records) {
                 return App\Course::find($records->course_parent_id)->course_title;
+            })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
             })
             /*->editColumn('course_id', function ($records) {
                 return App\Course::find($records->course_id)->course_title;

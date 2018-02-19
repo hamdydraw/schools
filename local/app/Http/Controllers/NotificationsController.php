@@ -56,7 +56,7 @@ class NotificationsController extends Controller
 
 
 
-            $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug' ])
+            $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip' ])
             ->orderBy('id', 'desc');
 
 
@@ -84,7 +84,12 @@ class NotificationsController extends Controller
         {
             return ($records->status == 'Active') ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';
         })
-
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
         ->removeColumn('id')
         ->removeColumn('slug')
         ->make();

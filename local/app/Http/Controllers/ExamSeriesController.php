@@ -64,7 +64,7 @@ class ExamSeriesController extends Controller
         $records = array();
 
 
-            $records = ExamSeries::select(['title', 'image', 'is_paid', 'cost', 'validity',  'total_exams','total_questions','slug', 'id', 'updated_at'])
+            $records = ExamSeries::select(['title', 'image', 'is_paid', 'cost', 'validity',  'total_exams','total_questions','slug', 'id', 'updated_at','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
             ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
@@ -114,6 +114,12 @@ class ExamSeriesController extends Controller
         {
             return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
         })
+            ->editColumn('created_by_user', function ($records) {
+                return App\User::get_user_name($records->created_by_user);
+            })
+            ->editColumn('updated_by_user', function ($records) {
+                return App\User::get_user_name($records->updated_by_user);
+            })
 
         ->removeColumn('id')
         ->removeColumn('slug')
