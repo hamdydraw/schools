@@ -10,27 +10,23 @@
         <th style="border:1px solid #000;">{{$subs['subject_code']}}({{$subs['total_marks']}})</th>
         @endforeach
         <th style="border:1px solid #000;">AVG.%</th>
-        
-        
+
+
     </thead>
     <tbody>
-  @foreach($final_list['students'] as $student)
-    
-    <tr>
+    @foreach($final_list['students'] as $student)
 
-        <td style="border:1px solid #000;">{{$student['name']}}</td>
-        <td style="border:1px solid #000;">{{$student['roll_no']}}</td>
-         @foreach($student['marks'] as $mark)
-        <td style="border:1px solid #000;">{{$mark['score']->marks_obtained }}</td>
-        <td style="border:1px solid #000;">{{$mark['score']->percentage }}</td>
-        @endforeach
-        
-       
-       
-       
-    </tr> 
+        <tr>
+
+            <td style="border:1px solid #000;">{{$student['name']}}</td>
+            <td style="border:1px solid #000;">{{$student['roll_no']}}</td>
+            @foreach($student['marks'] as $mark)
+                <td style="border:1px solid #000;">{{$mark['score']['marks_obtained'] }}</td>
+            @endforeach
+            <td style="border:1px solid #000;">{{$student['average'] .' %'}}</td>
+        </tr>
     @endforeach
-    
+
     </tbody>
     </table>
 </div>

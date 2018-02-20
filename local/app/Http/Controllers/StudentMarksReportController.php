@@ -11,6 +11,7 @@ class StudentMarksReportController extends Controller
 {
     public function __construct()
     {
+
         $this->middleware('auth');
     }
 
@@ -20,6 +21,9 @@ class StudentMarksReportController extends Controller
      */
     public function index()
     {
+        if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('marks_report');
 
@@ -37,6 +41,9 @@ class StudentMarksReportController extends Controller
      */
     public function classMarks()
     {
+        if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
         $data['active_class'] = 'academic';
         if (getRoleData(Auth::user()->role_id) == 'student') {
             $data['active_class'] = 'analysis';
@@ -70,7 +77,7 @@ class StudentMarksReportController extends Controller
             ->where('quizapplicability.academic_id', '=', $academic_id)
             ->where('quizapplicability.course_id', '=', $course_id)
             ->where('quizapplicability.course_parent_id', '=', $course_parent_id)
-           /* ->where('quizapplicability.year', '=', $year)*/
+            /* ->where('quizapplicability.year', '=', $year)*/
             ->where('quizapplicability.semister', '=', 0)
             ->select(['quizofflinecategories.id', 'quizofflinecategories.title'])
             ->groupBy('quizofflinecategories.id')
@@ -95,7 +102,7 @@ class StudentMarksReportController extends Controller
         $course_record = App\Course::where('id', '=', $course_id)->first();
         $academic_record = App\Academic::where('id', '=', $academic_id)->first();
         $offline_quiz_category = App\OfflineQuizCategories::where('id', '=', $offline_quiz_category_id)->first();
-        $quiz_details = App\Quiz::where('offline_quiz_category_id', '=', $offline_quiz_category_id)->get();
+        $quiz_details = App\Quiz::get();
         $title = $academic_record->academic_year_title . ' ' . $course_record->course_title;
         if ($course_record->course_dueration > 1) {
             $title .= ' Year-' . $year;
@@ -116,7 +123,7 @@ class StudentMarksReportController extends Controller
             ->where('quizapplicability.course_parent_id', '=', $course_parent_id)
             /*->where('quizapplicability.year', '=', $year)
             ->where('quizapplicability.semister', '=', $semister)*/
-            ->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)
+            /*->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)*/
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -130,12 +137,13 @@ class StudentMarksReportController extends Controller
         foreach ($quiz_details as $quiz_datail) {
             $students = App\Student::join('users', 'users.id', '=', 'students.user_id')
                 ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
-                /*->where('quizresults.quiz_id', '=', $quiz_datail->id)*/
+                ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('quizresults.academic_id', '=', $academic_id)
                 ->where('quizresults.course_id', '=', $course_id)
                 ->where('quizresults.course_parent_id', '=', $course_parent_id)
                 /*>where('quizresults.year', '=', $year)*/
                 /*->where('quizresults.semister', '=', $currentSemeterOfYear)*/
+                ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
                     'roll_no',
@@ -214,9 +222,17 @@ class StudentMarksReportController extends Controller
     public function printClassMarks(Request $request)
     {
         if (checkRole(getUserGrade(5))) {
+            return redirect('dashboard');
+        }
+        if (checkRole(getUserGrade(5))) {
             $academic_id = $request->extra_academic_id;
         } else {
             $academic_id = $request->academic_id;
+        }
+        if ($academic_id == null)
+        {
+            $academic_id=new App\Academic();
+            $academic_id=$academic_id->getCurrentAcademic()->id;
         }
         $course_id = $request->course_id;
         $year = 1;
@@ -233,7 +249,7 @@ class StudentMarksReportController extends Controller
         $academic_record = App\Academic::where('id', '=', $academic_id)->first();
 
         $offline_quiz_category = App\OfflineQuizCategories::where('id', '=', $offline_quiz_category_id)->first();
-        $quiz_details = App\Quiz::where('offline_quiz_category_id', '=', $offline_quiz_category_id)->get();
+        $quiz_details = App\Quiz::get();
         $title = $academic_record->academic_year_title . ' ' . $course_record->course_title;
 
         if ($course_record->course_dueration > 1) {
@@ -253,9 +269,9 @@ class StudentMarksReportController extends Controller
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->where('quizapplicability.academic_id', '=', $academic_id)
             ->where('quizapplicability.course_id', '=', $course_id)
-            ->where('quizapplicability.year', '=', $year)
+            /*->where('quizapplicability.year', '=', $year)
             ->where('quizapplicability.semister', '=', $semister)
-            ->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)
+            ->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)*/
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -273,8 +289,9 @@ class StudentMarksReportController extends Controller
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('quizresults.academic_id', '=', $academic_id)
                 ->where('quizresults.course_id', '=', $course_id)
-                ->where('quizresults.year', '=', $year)
-                ->where('quizresults.semister', '=', $semister)
+               /* ->where('quizresults.year', '=', $year)
+                ->where('quizresults.semister', '=', $semister)*/
+               ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
                     'roll_no',
@@ -330,7 +347,6 @@ class StudentMarksReportController extends Controller
         } else {
             $data['title'] = $academic_record->academic_year_title . ' ' . $course_record->course_title . ' ' . $offline_quiz_category->title . ' ' . getPhrase('marks');
         }
-        // dd($final_list);
         $view = \View::make('offlineexams.class-report.print-file', $data);
         $contents = $view->render();
 

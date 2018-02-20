@@ -321,9 +321,9 @@ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
                         <li><a href="{{URL_STUDENT_RESULTS.Auth::user()->slug }}"> <i
                                         class="fa fa-percent"></i>{{ getPhrase('scheduled_exam_marks') }} </a></li>
 
-                        <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
+                       {{-- <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
                                                                        aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
-                            </a></li>
+                            </a></li>--}}
                         {{-- <li><a href="{{URL_STUDENT_ATTENDENCE_REPORT.'/'.Auth::user()->slug }}"> <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }} </a></li> --}}
 
                         <li><a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.Auth::user()->slug }}"> <i

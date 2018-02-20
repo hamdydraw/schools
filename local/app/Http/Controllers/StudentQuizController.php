@@ -23,36 +23,36 @@ class StudentQuizController extends Controller
 {
     public function __construct()
     {
-    	$this->middleware('auth');
+        $this->middleware('auth');
     }
 
-     /**
+    /**
      * Listing method
      * @return Illuminate\Database\Eloquent\Collection
      */
 
     public function dashboard()
     {
-      if(!checkRole(getUserGrade(10)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(10)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
 
-      $data['active_class']       = 'exams';
-      $data['title']              = getPhrase('quizzes_dashboard');
-      $data['layout']             = getLayout();
-      return view('student.student-quiz-dashboard', $data);
+        $data['active_class']       = 'exams';
+        $data['title']              = getPhrase('quizzes_dashboard');
+        $data['layout']             = getLayout();
+        return view('student.student-quiz-dashboard', $data);
 
     }
 
     public function index()
     {
 
-      if(checkRole(getUserGrade(2)))
-      {
-        return back();
-      }
+        if(checkRole(getUserGrade(2)))
+        {
+            return back();
+        }
 
 
         $data['active_class']       = 'exams';
@@ -62,14 +62,14 @@ class StudentQuizController extends Controller
         $interested_categories      = null;
         if($user->settings)
         {
-          $interested_categories =  json_decode($user->settings)->user_preferences;
+            $interested_categories =  json_decode($user->settings)->user_preferences;
         }
         if($interested_categories) {
-        if(count($interested_categories->quiz_categories))
+            if(count($interested_categories->quiz_categories))
 
-        $data['categories']         = QuizCategory::
-                                      whereIn('id',(array) $interested_categories->quiz_categories)
-                                      ->paginate(getRecordsPerPage());
+                $data['categories']         = QuizCategory::
+                whereIn('id',(array) $interested_categories->quiz_categories)
+                    ->paginate(getRecordsPerPage());
         }
 
         // dd($data['categories']);
@@ -77,7 +77,7 @@ class StudentQuizController extends Controller
         $data['layout']              = getLayout();
         $user = Auth::user();
 
-    	return view('student.exams.categories', $data);
+        return view('student.exams.categories', $data);
     }
 
     /**
@@ -87,18 +87,18 @@ class StudentQuizController extends Controller
      */
     public function exams($slug='')
     {
-      $category = FALSE;
-      if($slug)
-    	$category = QuizCategory::getRecordWithSlug($slug);
+        $category = FALSE;
+        if($slug)
+            $category = QuizCategory::getRecordWithSlug($slug);
 
-    	$data['category']       	= $category;
-      $data['active_class']     = 'exams';
-    	$data['user']             = FALSE;
-      $data['title']            = getphrase('all_exams');
+        $data['category']       	= $category;
+        $data['active_class']     = 'exams';
+        $data['user']             = FALSE;
+        $data['title']            = getphrase('all_exams');
 
-      if($category)
-      $data['title']            = $category->category;
-      $data['layout']           = getLayout();
+        if($category)
+            $data['title']            = $category->category;
+        $data['layout']           = getLayout();
 
 
         return view('student.exams.list', $data);
@@ -112,42 +112,42 @@ class StudentQuizController extends Controller
     public function instructions($slug)
     {
 
-      $instruction_page = '';
-      $user_id =   Auth::user()->id;
-      $student_details =  Student::where('user_id','=',$user_id)->first();
+        $instruction_page = '';
+        $user_id =   Auth::user()->id;
+        $student_details =  Student::where('user_id','=',$user_id)->first();
 
-      if($student_details->roll_no==null){
-        flash(getPhrase('Ooops'),getPhrase('Student_Admission_Details_Are_Not_Updated'),'overlay');
-        return back();
-      }
-      $record = Quiz::getRecordWithSlug($slug);
+        if($student_details->roll_no==null){
+            flash(getPhrase('Ooops'),getPhrase('Student_Admission_Details_Are_Not_Updated'),'overlay');
+            return back();
+        }
+        $record = Quiz::getRecordWithSlug($slug);
 
-      if($isValid = $this->isValidRecord($record))
-        return redirect($isValid);
+        if($isValid = $this->isValidRecord($record))
+            return redirect($isValid);
 
-      if($record->instructions_page_id)
-      $instruction_page = App\Instruction::where('id',$record->instructions_page_id)->first();
+        if($record->instructions_page_id)
+            $instruction_page = App\Instruction::where('id',$record->instructions_page_id)->first();
 
-      $data['instruction_data'] = '';
+        $data['instruction_data'] = '';
 
-      if($instruction_page)
-        $data['instruction_data']  = $instruction_page->content;
+        if($instruction_page)
+            $data['instruction_data']  = $instruction_page->content;
         $data['instruction_title'] = $instruction_page->title;
 
 
-      //If Other than student tries to attempt the exam
-      //Restrict the access to that exam
-      if(!checkRole(['student']))
-      {
-        prepareBlockUserMessage();
-        return redirect($this->getReturnUrl());
-      }
+        //If Other than student tries to attempt the exam
+        //Restrict the access to that exam
+        if(!checkRole(['student']))
+        {
+            prepareBlockUserMessage();
+            return redirect($this->getReturnUrl());
+        }
 
-    	$data['record']       	  = $record;
-      $data['active_class']     = 'exams';
-    	$data['layout']           = getLayout();
-      $data['title']            = $record->title;
-         $data['block_navigation']          = TRUE;
+        $data['record']       	  = $record;
+        $data['active_class']     = 'exams';
+        $data['layout']           = getLayout();
+        $data['title']            = $record->title;
+        $data['block_navigation']          = TRUE;
         return view('student.exams.instructions', $data);
     }
 
@@ -161,16 +161,16 @@ class StudentQuizController extends Controller
 
         switch ($key) {
             case 'exam_started':
-                              session()->put($key, '1');
+                session()->put($key, '1');
                 break;
             case 'exam_completed':
-                            session()->forget('exam_started');
+                session()->forget('exam_started');
                 break;
             case 'check':
-                            if(session()->get('exam_started') == null) {
-                                return TRUE;
-                            }
-                            return FALSE; break;
+                if(session()->get('exam_started') == null) {
+                    return TRUE;
+                }
+                return FALSE; break;
         }
 
         return;
@@ -197,12 +197,12 @@ class StudentQuizController extends Controller
          * 2 Removes the session as exam started
          * 3 Redirect to other page by a message
          */
-       if(!$this->examSession('check'))
-       // if(FALSE)
+        if(!$this->examSession('check'))
+            // if(FALSE)
         {
-           flash(getPhrase('Ooops'),getPhrase('exam_aborted'), 'error');
-           $this->examSession('exam_completed');
-           return redirect($this->getRedirectUrl());
+            flash(getPhrase('Ooops'),getPhrase('exam_aborted'), 'error');
+            $this->examSession('exam_completed');
+            return redirect($this->getRedirectUrl());
         }
 
         $user = Auth::user();
@@ -235,11 +235,11 @@ class StudentQuizController extends Controller
 
         $data['right_bar_path']     = 'student.exams.exam-right-bar';
         $data['right_bar_data']     = array(
-                                            'questions'     => $final_questions,
-                                            'quiz'          => $quiz,
-                                            'time_hours'    => $data['time_hours'],
-                                            'time_minutes'  => $data['time_minutes']
-                                            );
+            'questions'     => $final_questions,
+            'quiz'          => $quiz,
+            'time_hours'    => $data['time_hours'],
+            'time_minutes'  => $data['time_minutes']
+        );
         $this->examSession('exam_started');
         return view('student.exams.exam-form', $data);
 
@@ -274,8 +274,8 @@ class StudentQuizController extends Controller
 
         if($this->examSession('check'))
         {
-             flash(getPhrase('Ooops'),getPhrase('exam_already_submitted'), 'info');
-             return redirect($this->getRedirectUrl());
+            flash(getPhrase('Ooops'),getPhrase('exam_already_submitted'), 'info');
+            return redirect($this->getRedirectUrl());
         }
 
         $this->examSession('exam_completed');
@@ -299,8 +299,8 @@ class StudentQuizController extends Controller
         //This is to find the unanswered questions
         //List the unanswered questions list at one place
         $questions = DB::table('questionbank_quizzes')->select('questionbank_id', 'subject_id')
-                     ->where('quize_id','=',$quiz->id)
-                     ->get();
+            ->where('quize_id','=',$quiz->id)
+            ->get();
 
 
         $subject                  = [];
@@ -310,23 +310,23 @@ class StudentQuizController extends Controller
         foreach($questions as $q)
         {
 
-          $subject_id = $q->subject_id;
-           if(! array_key_exists($q->subject_id, $subject)) {
-              $subject[$subject_id]['subject_id']       = $subject_id;
-              $subject[$subject_id]['correct_answers']  = 0;
-              $subject[$subject_id]['wrong_answers']    = 0;
-              $subject[$subject_id]['not_answered']     = 0;
-              $subject[$subject_id]['time_spent']       = 0;
-              $subject[$subject_id]['time_to_spend']       = 0;
-              $subject[$subject_id]['time_spent_correct_answers']    = 0;
-              $subject[$subject_id]['time_spent_wrong_answers']    = 0;
+            $subject_id = $q->subject_id;
+            if(! array_key_exists($q->subject_id, $subject)) {
+                $subject[$subject_id]['subject_id']       = $subject_id;
+                $subject[$subject_id]['correct_answers']  = 0;
+                $subject[$subject_id]['wrong_answers']    = 0;
+                $subject[$subject_id]['not_answered']     = 0;
+                $subject[$subject_id]['time_spent']       = 0;
+                $subject[$subject_id]['time_to_spend']       = 0;
+                $subject[$subject_id]['time_spent_correct_answers']    = 0;
+                $subject[$subject_id]['time_spent_wrong_answers']    = 0;
             }
             if(! array_key_exists($q->questionbank_id, $answers)){
-              $subject[$subject_id]['not_answered']     += 1;
-              $not_answered_questions[] = $q->questionbank_id;
-              $time_spent_not_answered[$q->questionbank_id]['time_to_spend'] = 0;
-              $time_spent_not_answered[$q->questionbank_id]['time_spent'] = $time_spent[$q->questionbank_id];
-              $subject[$subject_id]['time_spent']      += $time_spent[$q->questionbank_id];
+                $subject[$subject_id]['not_answered']     += 1;
+                $not_answered_questions[] = $q->questionbank_id;
+                $time_spent_not_answered[$q->questionbank_id]['time_to_spend'] = 0;
+                $time_spent_not_answered[$q->questionbank_id]['time_spent'] = $time_spent[$q->questionbank_id];
+                $subject[$subject_id]['time_spent']      += $time_spent[$q->questionbank_id];
             }
         }
 
@@ -371,13 +371,13 @@ class StudentQuizController extends Controller
         $content = 'You have attempted exam. The score percentage is '.formatPercentage($record->percentage);
         $record->user_stamp($request);
         $record->save();
-         try{
-         sendEmail('exam-result', array('user_name' => $user->username,'content'=> $content, 'to_email' => Auth::user()->email));
-       }
-       catch(Exception $ex)
-       {
+        try{
+            sendEmail('exam-result', array('user_name' => $user->username,'content'=> $content, 'to_email' => Auth::user()->email));
+        }
+        catch(Exception $ex)
+        {
 
-       }
+        }
 
         $topperStatus = false;
 
@@ -397,20 +397,20 @@ class StudentQuizController extends Controller
 
         $labels_marks = [getPhrase('correct'), getPhrase('wrong'), getPhrase('not_answered')];
         $dataset_marks = [count(json_decode($record->correct_answer_questions)),
-                          count(json_decode($record->wrong_answer_questions)),
-                          count(json_decode($record->not_answered_questions))];
+            count(json_decode($record->wrong_answer_questions)),
+            count(json_decode($record->not_answered_questions))];
 
         $dataset_label_marks = "Marks";
         $bgcolor  = [$color_correct,$color_wrong,$color_not_attempted];
         $border_color = [$color_correct,$color_wrong,$color_not_attempted];
         $chart_data['type'] = 'doughnut';
-         $chart_data['data']   = (object) array(
+        $chart_data['data']   = (object) array(
             'labels'            => $labels_marks,
             'dataset'           => $dataset_marks,
             'dataset_label'     => $dataset_label_marks,
             'bgcolor'           => $bgcolor,
             'border_color'      => $border_color
-            );
+        );
 
         $data['marks_data'][] = (object)$chart_data;
 
@@ -418,15 +418,15 @@ class StudentQuizController extends Controller
         $time_spent = 0;
         foreach(json_decode($record->time_spent_correct_answer_questions) as $rec)
         {
-          $time_spent += $rec->time_spent;
+            $time_spent += $rec->time_spent;
         }
         foreach(json_decode($record->time_spent_wrong_answer_questions) as $rec)
         {
-          $time_spent += $rec->time_spent;
+            $time_spent += $rec->time_spent;
         }
         foreach(json_decode($record->time_spent_not_answered_questions) as $rec)
         {
-          $time_spent += $rec->time_spent;
+            $time_spent += $rec->time_spent;
         }
 
         //Time Chart Data
@@ -443,13 +443,13 @@ class StudentQuizController extends Controller
         $bgcolor              = [$color_correct,$color_wrong,$color_not_attempted];
         $border_color         = [$color_correct,$color_wrong,$color_not_attempted];
         $chart_data['type']   = 'pie';
-         $chart_data['data']  = (object) array(
-                                                'labels'          => $labels_time,
-                                                'dataset'         => $dataset_time,
-                                                'dataset_label'   => $dataset_label_time,
-                                                'bgcolor'         => $bgcolor,
-                                                'border_color'    => $border_color
-                                                );
+        $chart_data['data']  = (object) array(
+            'labels'          => $labels_time,
+            'dataset'         => $dataset_time,
+            'dataset_label'   => $dataset_label_time,
+            'bgcolor'         => $bgcolor,
+            'border_color'    => $border_color
+        );
 
         $data['time_data'][]  = (object)$chart_data;
 
@@ -462,7 +462,7 @@ class StudentQuizController extends Controller
         $toppers              = array();
 
         $data['toppers']      = $toppers;
-          $data['block_navigation']          = TRUE;
+        $data['block_navigation']          = TRUE;
 
         return view('student.exams.results', $data);
     }
@@ -475,9 +475,9 @@ class StudentQuizController extends Controller
     public function getPercentageRecord($percentage)
     {
         return DB::table('grades')
-                ->where('percentage_from', '<=',$percentage)
-                ->where('percentage_to', '>=',$percentage)
-                ->get();
+            ->where('percentage_from', '<=',$percentage)
+            ->where('percentage_to', '>=',$percentage)
+            ->get();
     }
 
     /**
@@ -500,252 +500,252 @@ class StudentQuizController extends Controller
 
         // dd($answers);
         foreach ($answers as $key => $value) {
-          if(is_numeric($key))
-          {
-            $question_record  = $this->getQuestionRecord($key);
-            $question_type    = $question_record->question_type;
-            $actual_answer    = $question_record->correct_answers;
+            if(is_numeric($key))
+            {
+                $question_record  = $this->getQuestionRecord($key);
+                $question_type    = $question_record->question_type;
+                $actual_answer    = $question_record->correct_answers;
 
-            $subject_id       = $question_record->subject_id;
-            if(! array_key_exists($subject_id, $subject)) {
-              $subject[$subject_id]['subject_id']       = $subject_id;
-              $subject[$subject_id]['correct_answers']  = 0;
-              $subject[$subject_id]['wrong_answers']    = 0;
-              $subject[$subject_id]['time_spent_correct_answers']    = 0;
-              $subject[$subject_id]['time_spent_wrong_answers']    = 0;
-              $subject[$subject_id]['time_spent']       = 0;
+                $subject_id       = $question_record->subject_id;
+                if(! array_key_exists($subject_id, $subject)) {
+                    $subject[$subject_id]['subject_id']       = $subject_id;
+                    $subject[$subject_id]['correct_answers']  = 0;
+                    $subject[$subject_id]['wrong_answers']    = 0;
+                    $subject[$subject_id]['time_spent_correct_answers']    = 0;
+                    $subject[$subject_id]['time_spent_wrong_answers']    = 0;
+                    $subject[$subject_id]['time_spent']       = 0;
 
-            }
+                }
 
-             $subject[$subject_id]['time_spent']       += $time_spent[$question_record->id];
-             $subject[$subject_id]['time_to_spend']    += $question_record->time_to_spend;
-            switch ($question_type) {
-                case 'radio':
-                                if($value[0] == $actual_answer)
+                $subject[$subject_id]['time_spent']       += $time_spent[$question_record->id];
+                $subject[$subject_id]['time_to_spend']    += $question_record->time_to_spend;
+                switch ($question_type) {
+                    case 'radio':
+                        if($value[0] == $actual_answer)
+                        {
+                            $correct_answers++;
+                            $obtained_marks                 += $question_record->marks;
+                            $corrent_answer_question[]       = $question_record->id;
+                            $subject[$subject_id]['correct_answers'] +=1;
+                            $subject[$subject_id]['time_spent_correct_answers'] += $time_spent[$question_record->id];
+
+                            $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_correct_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+
+                        }
+                        else {
+
+                            $wrong_answer_question[]          = $question_record->id;
+                            $subject[$subject_id]['wrong_answers'] += 1;
+                            $obtained_marks                   -= $negative_mark;
+                            $obtained_negative_marks          += $negative_mark;
+                            $subject[$subject_id]['time_spent_wrong_answers']
+                                += $time_spent[$question_record->id];
+                            $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+                        }
+
+                        break;
+
+                    case 'checkbox':
+                        $actual_answer = json_decode($actual_answer);
+                        $i=0;
+                        $flag= 1;
+                        foreach($value as $answer_key => $answer_value )
+                        {
+                            if(isset($actual_answer[$answer_key]))
+                            {
+                                if( $actual_answer[$answer_key]->answer !=
+                                    $answer_value )
                                 {
-                                    $correct_answers++;
-                                    $obtained_marks                 += $question_record->marks;
-                                    $corrent_answer_question[]       = $question_record->id;
-                                    $subject[$subject_id]['correct_answers'] +=1;
-                                    $subject[$subject_id]['time_spent_correct_answers'] += $time_spent[$question_record->id];
-
-                                    $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_correct_answer_question[$question_record->id]['time_spent']
-                                                                    = $time_spent[$question_record->id];
-
+                                    $flag = 0; break;
                                 }
-                                else {
+                            }
+                            else {
+                                $flag = 0; break;
+                            }
 
-                                    $wrong_answer_question[]          = $question_record->id;
-                                    $subject[$subject_id]['wrong_answers'] += 1;
-                                    $obtained_marks                   -= $negative_mark;
-                                    $obtained_negative_marks          += $negative_mark;
-                                    $subject[$subject_id]['time_spent_wrong_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_spent']
-                                                                     = $time_spent[$question_record->id];
-                                }
+                        }
 
-                                break;
+                        if($flag)
+                        {
+                            $correct_answers++;
+                            $obtained_marks += $question_record->marks;
+                            $corrent_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['correct_answers'] +=1;
+                            $subject[$subject_id]['time_spent_correct_answers']
+                                += $time_spent[$question_record->id];
+                            $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_correct_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
 
-                case 'checkbox':
-                                $actual_answer = json_decode($actual_answer);
-                                $i=0;
-                                $flag= 1;
-                                foreach($value as $answer_key => $answer_value )
-                                {
-                                    if(isset($actual_answer[$answer_key]))
-                                    {
-                                        if( $actual_answer[$answer_key]->answer !=
-                                            $answer_value )
-                                        {
-                                            $flag = 0; break;
-                                        }
-                                    }
-                                    else {
-                                        $flag = 0; break;
-                                    }
+                        }
+                        else {
+                            $wrong_answer_question[]          = $question_record->id;
+                            $subject[$subject_id]['wrong_answers'] += 1;
+                            $subject[$subject_id]['time_spent_wrong_answers']
+                                += $time_spent[$question_record->id];
+                            $obtained_marks                   -= $negative_mark;
+                            $obtained_negative_marks          += $negative_mark;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+                        }
 
-                                }
+                        break;
+                    case 'blanks':
+                        $actual_answer = json_decode($actual_answer);
+                        $i=0;
+                        $flag= 1;
+                        foreach($actual_answer as $answer)
+                        {
+                            if(strcasecmp(
+                                    trim($answer->answer),
+                                    trim($value[$i++])) != 0)
+                            {
+                                $flag = 0; break;
+                            }
+                        }
 
-                                if($flag)
-                                {
-                                    $correct_answers++;
-                                    $obtained_marks += $question_record->marks;
-                                    $corrent_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['correct_answers'] +=1;
-                                    $subject[$subject_id]['time_spent_correct_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_correct_answer_question[$question_record->id]['time_spent']
-                                                                    = $time_spent[$question_record->id];
-
-                                }
-                                else {
-                                    $wrong_answer_question[]          = $question_record->id;
-                                    $subject[$subject_id]['wrong_answers'] += 1;
-                                     $subject[$subject_id]['time_spent_wrong_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $obtained_marks                   -= $negative_mark;
-                                    $obtained_negative_marks          += $negative_mark;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
-                                                                       = $question_record->time_to_spend;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_spent']
-                                                                       = $time_spent[$question_record->id];
-                                }
-
-                                break;
-                case 'blanks':
-                                $actual_answer = json_decode($actual_answer);
-                                 $i=0;
-                                $flag= 1;
-                                foreach($actual_answer as $answer)
-                                {
-                                    if(strcasecmp(
-                                        trim($answer->answer),
-                                        trim($value[$i++])) != 0)
-                                    {
-                                        $flag = 0; break;
-                                    }
-                                }
-
-                                if($flag)
-                                {
-                                    $correct_answers++;
-                                    $obtained_marks += $question_record->marks;
-                                    $corrent_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['correct_answers'] +=1;
-                                     $subject[$subject_id]['time_spent_correct_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_correct_answer_question[$question_record->id]['time_spent']
-                                                                    = $time_spent[$question_record->id];
+                        if($flag)
+                        {
+                            $correct_answers++;
+                            $obtained_marks += $question_record->marks;
+                            $corrent_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['correct_answers'] +=1;
+                            $subject[$subject_id]['time_spent_correct_answers']
+                                += $time_spent[$question_record->id];
+                            $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_correct_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
 
 
-                                }
-                                else
-                                {
-                                    $wrong_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['wrong_answers'] += 1;
-                                    $subject[$subject_id]['time_spent_wrong_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $obtained_marks                   -= $negative_mark;
-                                    $obtained_negative_marks          += $negative_mark;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
-                                                                       = $question_record->time_to_spend;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_spent']
-                                                                       = $time_spent[$question_record->id];
-                                }
+                        }
+                        else
+                        {
+                            $wrong_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['wrong_answers'] += 1;
+                            $subject[$subject_id]['time_spent_wrong_answers']
+                                += $time_spent[$question_record->id];
+                            $obtained_marks                   -= $negative_mark;
+                            $obtained_negative_marks          += $negative_mark;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+                        }
 
-                                break;
+                        break;
                     case (  $question_type == 'para'  ||
-                            $question_type == 'audio' ||
-                            $question_type == 'video'
-                          ):
-                                 $actual_answer = json_decode($actual_answer);
-                                 $indidual_marks = $question_record->marks/$question_record->total_correct_answers;
-                                // print_r($actual_answer);
-                                $i=0;
-                                $flag= 0;
-                                foreach($value as $answer_key => $answer_value )
-                                {
-                                    if($actual_answer[$answer_key]->answer == $answer_value)
-                                    {
-                                        $flag=1;
-                                        $obtained_marks += $indidual_marks;
-                                    }
-                                }
+                        $question_type == 'audio' ||
+                        $question_type == 'video'
+                    ):
+                        $actual_answer = json_decode($actual_answer);
+                        $indidual_marks = $question_record->marks/$question_record->total_correct_answers;
+                        // print_r($actual_answer);
+                        $i=0;
+                        $flag= 0;
+                        foreach($value as $answer_key => $answer_value )
+                        {
+                            if($actual_answer[$answer_key]->answer == $answer_value)
+                            {
+                                $flag=1;
+                                $obtained_marks += $indidual_marks;
+                            }
+                        }
 
-                                if($flag)
-                                {
-                                    $correct_answers++;
-                                    $corrent_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['correct_answers'] +=1;
-                                    $subject[$subject_id]['time_spent_correct_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_correct_answer_question[$question_record->id]['time_spent']
-                                                                    = $time_spent[$question_record->id];
+                        if($flag)
+                        {
+                            $correct_answers++;
+                            $corrent_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['correct_answers'] +=1;
+                            $subject[$subject_id]['time_spent_correct_answers']
+                                += $time_spent[$question_record->id];
+                            $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_correct_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
 
-                                }
-                                else
-                                {
-                                    $wrong_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['wrong_answers'] += 1;
-                                     $subject[$subject_id]['time_spent_wrong_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $obtained_marks                   -= $negative_mark;
-                                    $obtained_negative_marks          += $negative_mark;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
-                                                                       = $question_record->time_to_spend;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_spent']
-                                                                       = $time_spent[$question_record->id];
-                                }
+                        }
+                        else
+                        {
+                            $wrong_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['wrong_answers'] += 1;
+                            $subject[$subject_id]['time_spent_wrong_answers']
+                                += $time_spent[$question_record->id];
+                            $obtained_marks                   -= $negative_mark;
+                            $obtained_negative_marks          += $negative_mark;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+                        }
 
-                                break;
-                case 'match':
-                                $actual_answer = json_decode($actual_answer);
-                                $indidual_marks = $question_record->marks/$question_record->total_correct_answers;
-                                $i=0;
-                                 $flag= 0;
-                                foreach($actual_answer as $answer)
-                                {
-                                    if($answer->answer == $value[$i++])
-                                    {
-                                       $flag=1;
-                                        $obtained_marks += $indidual_marks;
-                                    }
-                                }
+                        break;
+                    case 'match':
+                        $actual_answer = json_decode($actual_answer);
+                        $indidual_marks = $question_record->marks/$question_record->total_correct_answers;
+                        $i=0;
+                        $flag= 0;
+                        foreach($actual_answer as $answer)
+                        {
+                            if($answer->answer == $value[$i++])
+                            {
+                                $flag=1;
+                                $obtained_marks += $indidual_marks;
+                            }
+                        }
 
-                                if($flag)
-                                {
-                                    $correct_answers++;
-                                    $corrent_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['correct_answers'] +=1;
-                                    $subject[$subject_id]['time_spent_correct_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
-                                                                    = $question_record->time_to_spend;
-                                    $time_spent_correct_answer_question[$question_record->id]['time_spent']
-                                                                    = $time_spent[$question_record->id];
+                        if($flag)
+                        {
+                            $correct_answers++;
+                            $corrent_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['correct_answers'] +=1;
+                            $subject[$subject_id]['time_spent_correct_answers']
+                                += $time_spent[$question_record->id];
+                            $time_spent_correct_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_correct_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
 
-                                }
-                                else
-                                {
-                                    $wrong_answer_question[] = $question_record->id;
-                                    $subject[$subject_id]['wrong_answers'] += 1;
-                                     $subject[$subject_id]['time_spent_wrong_answers']
-                                                                += $time_spent[$question_record->id];
-                                    $obtained_marks                   -= $negative_mark;
-                                    $obtained_negative_marks          += $negative_mark;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
-                                                                       = $question_record->time_to_spend;
-                                    $time_spent_wrong_answer_question[$question_record->id]['time_spent']
-                                                                       = $time_spent[$question_record->id];
-                                }
-                    break;
+                        }
+                        else
+                        {
+                            $wrong_answer_question[] = $question_record->id;
+                            $subject[$subject_id]['wrong_answers'] += 1;
+                            $subject[$subject_id]['time_spent_wrong_answers']
+                                += $time_spent[$question_record->id];
+                            $obtained_marks                   -= $negative_mark;
+                            $obtained_negative_marks          += $negative_mark;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_to_spend']
+                                = $question_record->time_to_spend;
+                            $time_spent_wrong_answer_question[$question_record->id]['time_spent']
+                                = $time_spent[$question_record->id];
+                        }
+                        break;
 
-               }
-          }
+                }
+            }
 
 
         }
-          return array(
-                        'total_correct_answers' => $correct_answers,
-                        'marks_obtained'        => $obtained_marks,
-                        'negative_marks'        => $obtained_negative_marks,
-                        'subject_analysis'      => json_encode($subject),
-                        'correct_answer_questions' => json_encode($corrent_answer_question),
-                        'wrong_answer_questions' => json_encode($wrong_answer_question),
-                        'time_spent_correct_answer_questions' => json_encode($time_spent_correct_answer_question),
-                        'time_spent_wrong_answer_questions' => json_encode($time_spent_wrong_answer_question),
-                        );
+        return array(
+            'total_correct_answers' => $correct_answers,
+            'marks_obtained'        => $obtained_marks,
+            'negative_marks'        => $obtained_negative_marks,
+            'subject_analysis'      => json_encode($subject),
+            'correct_answer_questions' => json_encode($corrent_answer_question),
+            'wrong_answer_questions' => json_encode($wrong_answer_question),
+            'time_spent_correct_answer_questions' => json_encode($time_spent_correct_answer_question),
+            'time_spent_wrong_answer_questions' => json_encode($time_spent_wrong_answer_question),
+        );
 
     }
 
@@ -759,7 +759,7 @@ class StudentQuizController extends Controller
     {
         $percentage = ($total / $goal) * 100;
         if($percentage<0)
-          $percentage = 0;
+            $percentage = 0;
         return $percentage;
     }
 
@@ -773,7 +773,7 @@ class StudentQuizController extends Controller
         return QuestionBank::where('id','=',$question_id)->first();
     }
 
-     /**
+    /**
      * This method returns the datatables data to view
      * @return [type] [description]
      */
@@ -790,7 +790,7 @@ class StudentQuizController extends Controller
         if(isset($user_record->user->settings))
         {
 
-          $interested_categories =  json_decode($user_record->user->settings)->user_preferences;
+            $interested_categories =  json_decode($user_record->user->settings)->user_preferences;
         }
 
 
@@ -802,13 +802,13 @@ class StudentQuizController extends Controller
 
 
             $query->select(['title', 'dueration', 'category', 'is_paid', 'total_marks','tags','quizzes.slug','quizzes.validity','quizzes.cost' ])
-            ->where('total_marks', '!=', 0)
-            ->where('start_date','<=',date('Y-m-d H:i:s'))
-            ->where('end_date','>=',date('Y-m-d H:i:s'));
+                ->where('total_marks', '!=', 0)
+                ->where('start_date','<=',date('Y-m-d H:i:s'))
+                ->where('end_date','>=',date('Y-m-d H:i:s'));
             if($interested_categories)
-            $query = $query->whereIn('category_id',(array) $interested_categories->quiz_categories);
+                $query = $query->whereIn('category_id',(array) $interested_categories->quiz_categories);
             else
-            $query = $query->where('category_id','=','-1');
+                $query = $query->where('category_id','=','-1');
 
             $general_query = $query;
             $records = $general_query->where('applicable_to_specific', '=',0)->get();
@@ -817,17 +817,17 @@ class StudentQuizController extends Controller
         else {
             $category = QuizCategory::getRecordWithSlug($slug);
 
-        $query = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-            ->select(['title', 'dueration', 'category', 'is_paid', 'total_marks','quizzes.slug', 'quizzes.validity','quizzes.cost' ])
-            ->where('applicable_to_specific', '=',0)
-            ->where('quizzes.category_id', '=', $category->id)
-            ->where('total_marks', '!=', 0)
-            ->where('start_date','<=',date('Y-m-d H:i:s'))
-            ->where('end_date','>=',date('Y-m-d H:i:s'));
+            $query = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                ->select(['title', 'dueration', 'category', 'is_paid', 'total_marks','quizzes.slug', 'quizzes.validity','quizzes.cost' ])
+                ->where('applicable_to_specific', '=',0)
+                ->where('quizzes.category_id', '=', $category->id)
+                ->where('total_marks', '!=', 0)
+                ->where('start_date','<=',date('Y-m-d H:i:s'))
+                ->where('end_date','>=',date('Y-m-d H:i:s'));
             if($interested_categories)
-            $query = $query->whereIn('category_id',(array) $interested_categories->quiz_categories);
+                $query = $query->whereIn('category_id',(array) $interested_categories->quiz_categories);
             else
-              $query = $query->where('category_id','=','-1');
+                $query = $query->where('category_id','=','-1');
             $records = $query->get();
 
 
@@ -836,14 +836,14 @@ class StudentQuizController extends Controller
 
 
         return Datatables::of($records)
-        ->addColumn('action', function ($records) {
+            ->addColumn('action', function ($records) {
 
-            if(!checkRole(['student']))
-              if($records->is_paid)
-                return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.getPhrase('buy_now').'</a>';
-              else
-                return '-';
-            return '<div class="dropdown more">
+                if(!checkRole(['student']))
+                    if($records->is_paid)
+                        return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.getPhrase('buy_now').'</a>';
+                    else
+                        return '-';
+                return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
@@ -854,82 +854,82 @@ class StudentQuizController extends Controller
                     </div>';
 
             })
-        ->editColumn('is_paid', function($records)
-        {
-          $status = ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
+            ->editColumn('is_paid', function($records)
+            {
+                $status = ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
 
-         if($records->is_paid) {
-          $extra = '<ul class="list-unstyled payment-col clearfix"><li>'.$status.'</li>';
-          $extra .='<li><p>Cost: '.getCurrencyCode().' '.$records->cost.'</p><p>Validity: '.$records->validity.' '.getPhrase("days").'</p></li></ul>';
-          return $extra;
-        }
-          return $status;
+                if($records->is_paid) {
+                    $extra = '<ul class="list-unstyled payment-col clearfix"><li>'.$status.'</li>';
+                    $extra .='<li><p>Cost: '.getCurrencyCode().' '.$records->cost.'</p><p>Validity: '.$records->validity.' '.getPhrase("days").'</p></li></ul>';
+                    return $extra;
+                }
+                return $status;
 
-        })
-        ->editColumn('dueration', function($records)
-        {
-            return $records->dueration . ' '.getPhrase('mins');
-        })
-        ->editColumn('title', function($records)
-        {
-          if(!checkRole(['student'])) {
-            if($records->is_paid) {
-            return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.$records->title.'</a>';
-            }
-           return $records->title;
-          }
+            })
+            ->editColumn('dueration', function($records)
+            {
+                return $records->dueration . ' '.getPhrase('mins');
+            })
+            ->editColumn('title', function($records)
+            {
+                if(!checkRole(['student'])) {
+                    if($records->is_paid) {
+                        return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.$records->title.'</a>';
+                    }
+                    return $records->title;
+                }
 
-            $paid_type =  false;
-            if($records->is_paid && !isItemPurchased($records->id, 'exam'))
-            $paid_type = true;
-
-
+                $paid_type =  false;
+                if($records->is_paid && !isItemPurchased($records->id, 'exam'))
+                    $paid_type = true;
 
 
-          return '<a onClick="showInstructions(\''.URL_STUDENT_TAKE_EXAM.$records->slug.'\')" href="javascript:void(0);">'.$records->title.'</a>';
 
-        })
-        ->removeColumn('tags')
-        ->removeColumn('id')
-        ->removeColumn('slug')
-        ->removeColumn('validity')
-        ->removeColumn('cost')
 
-        ->make();
+                return '<a onClick="showInstructions(\''.URL_STUDENT_TAKE_EXAM.$records->slug.'\')" href="javascript:void(0);">'.$records->title.'</a>';
+
+            })
+            ->removeColumn('tags')
+            ->removeColumn('id')
+            ->removeColumn('slug')
+            ->removeColumn('validity')
+            ->removeColumn('cost')
+
+            ->make();
     }
 
     public function getScheduledExams($slug)
     {
-      if(!checkRole(getUserGrade(5)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(5)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
 
 
 
-      $user_record = App\User::where('slug','=', $slug)->first();
-      $is_eligible = TRUE;
+        $user_record = App\User::where('slug','=', $slug)->first();
+        $is_eligible = TRUE;
 
-      if(!$user_record)
-      {
-        $is_eligible = FALSE;
-      }
+        if(!$user_record)
+        {
+            $is_eligible = FALSE;
+        }
 
-      if($user_record->role_id != getRoleData('student'))
-        $is_eligible = FALSE;
+        if($user_record->role_id != getRoleData('student'))
+            $is_eligible = FALSE;
 
-      if(!$is_eligible)
-      {
-        flash(getPhrase('Ooops'), getPhrase('invalid_attempt'),'error');
-        return back();
-      }
+        if(!$is_eligible)
+        {
+            flash(getPhrase('Ooops'), getPhrase('invalid_attempt'),'error');
+            return back();
+        }
 
-      $data['user']             = $user_record;
-      $data['active_class']     = 'exams';
-      $data['title']            = $user_record->name.' '.getphrase('scheduled_exams');
-      $data['layout']           = getLayout();
-      return view('student.exams.list', $data);
+        $data['user']             = $user_record;
+        $data['active_class']     = 'exams';
+        $data['title']            = $user_record->name.' '.getphrase('scheduled_exams');
+        $data['layout']           = getLayout();
+        return view('student.exams.list', $data);
     }
 
     /**
@@ -944,29 +944,29 @@ class StudentQuizController extends Controller
         $student_record  = $user_record->student;
 
 
-             $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-              ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
-             ->where('quizzes.type','=','online')
-              ->where('quizapplicability.academic_id', '=',$student_record->academic_id)
-              ->where('quizapplicability.course_id', '=',$student_record->course_id)
-              ->where('quizapplicability.year', '=',$student_record->current_year)
-              ->where('quizapplicability.semister', '=',$student_record->current_semister)
-              ->where('applicable_to_specific', '=',1)
-              ->where('total_marks', '!=', 0)
+        $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+            ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+            /*->where('quizzes.type','=','online')*/
+            ->where('quizapplicability.academic_id', '=',$student_record->academic_id)
+            ->where('quizapplicability.course_id', '=',$student_record->course_id)
+            ->where('quizapplicability.year', '=',$student_record->current_year)
+            ->where('quizapplicability.semister', '=',$student_record->current_semister)
+            ->where('applicable_to_specific', '=',1)
+            ->where('total_marks', '!=', 0)
             ->where('start_date','<=',date('Y-m-d H:i:s'))
             ->where('end_date','>=',date('Y-m-d H:i:s'))
             ->select(['title', 'dueration', 'category', 'is_paid', 'total_marks','tags','quizzes.slug','quizzes.validity','quizzes.cost' ])
             ->get();
 
         return Datatables::of($records)
-        ->addColumn('action', function ($records) {
+            ->addColumn('action', function ($records) {
 
-            if(!checkRole(['student']))
-              if($records->is_paid)
-                return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.getPhrase('buy_now').'</a>';
-              else
-                return '-';
-            return '<div class="dropdown more">
+                if(!checkRole(['student']))
+                    if($records->is_paid)
+                        return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.getPhrase('buy_now').'</a>';
+                    else
+                        return '-';
+                return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
@@ -977,57 +977,57 @@ class StudentQuizController extends Controller
                     </div>';
 
             })
-        ->editColumn('is_paid', function($records)
-        {
-          $status = ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
+            ->editColumn('is_paid', function($records)
+            {
+                $status = ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
 
-         if($records->is_paid) {
-          $extra = '<ul class="list-unstyled payment-col clearfix"><li>'.$status.'</li>';
-          $extra .='<li><p>Cost: '.getCurrencyCode().' '.$records->cost.'</p><p>Validity: '.$records->validity.' '.getPhrase("days").'</p></li></ul>';
-          return $extra;
-        }
-          return $status;
+                if($records->is_paid) {
+                    $extra = '<ul class="list-unstyled payment-col clearfix"><li>'.$status.'</li>';
+                    $extra .='<li><p>Cost: '.getCurrencyCode().' '.$records->cost.'</p><p>Validity: '.$records->validity.' '.getPhrase("days").'</p></li></ul>';
+                    return $extra;
+                }
+                return $status;
 
-        })
-        ->editColumn('dueration', function($records)
-        {
-            return $records->dueration . ' '.getPhrase('mins');
-        })
-        ->editColumn('title', function($records)
-        {
-          if(!checkRole(['student'])) {
+            })
+            ->editColumn('dueration', function($records)
+            {
+                return $records->dueration . ' '.getPhrase('mins');
+            })
+            ->editColumn('title', function($records)
+            {
+                if(!checkRole(['student'])) {
 
-            if($records->is_paid) {
-            return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.$records->title.'</a>';
-            }
-           return $records->title;
-          }
-        	return '<a onClick="showInstructions(\''.URL_STUDENT_TAKE_EXAM.$records->slug.'\')" href="javascript:void(0);">'.$records->title.'</a>';
+                    if($records->is_paid) {
+                        return '<a href="'.URL_PAYMENTS_CHECKOUT.'exam/'.$records->slug.'">'.$records->title.'</a>';
+                    }
+                    return $records->title;
+                }
+                return '<a onClick="showInstructions(\''.URL_STUDENT_TAKE_EXAM.$records->slug.'\')" href="javascript:void(0);">'.$records->title.'</a>';
 
-        })
-        ->removeColumn('tags')
-        ->removeColumn('id')
-        ->removeColumn('slug')
-        ->removeColumn('validity')
-        ->removeColumn('cost')
+            })
+            ->removeColumn('tags')
+            ->removeColumn('id')
+            ->removeColumn('slug')
+            ->removeColumn('validity')
+            ->removeColumn('cost')
 
-        ->make();
+            ->make();
     }
 
     public function isValidRecord($record)
     {
-    	if ($record === null) {
+        if ($record === null) {
 
-    		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
-   			return $this->getRedirectUrl();
-		}
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
+            return $this->getRedirectUrl();
+        }
 
-		return FALSE;
+        return FALSE;
     }
 
     public function getReturnUrl()
     {
-    	return URL_STUDENT_EXAM_CATEGORIES;
+        return URL_STUDENT_EXAM_CATEGORIES;
     }
 
 
@@ -1044,35 +1044,35 @@ class StudentQuizController extends Controller
      */
     public function examAttempts($slug, $exam_slug = '')
     {
-      $user = User::getRecordWithSlug($slug);
+        $user = User::getRecordWithSlug($slug);
 
 
-      if($isValid = $this->isValidRecord($user))
-        return redirect($isValid);
+        if($isValid = $this->isValidRecord($user))
+            return redirect($isValid);
 
-      if(!isEligible($slug))
-          return back();
+        if(!isEligible($slug))
+            return back();
 
-      $exam_record = FALSE;
+        $exam_record = FALSE;
 
-      if($exam_slug)
-      {
-        $exam_record = Quiz::getRecordWithSlug($exam_slug);
-      }
+        if($exam_slug)
+        {
+            $exam_record = Quiz::getRecordWithSlug($exam_slug);
+        }
 
 
         $marks = array();
 
-       if(!$exam_slug)
+        if(!$exam_slug)
         {
-          $marks = App\QuizResult::where('user_id', '=', $user->id)
-           ->orderBy('updated_at','desc')->get();
-      }
-       else {
-        $marks = App\QuizResult::where('user_id', '=', $user->id)
-        ->where('quiz_id', '=', $exam_record->id)
-           ->orderBy('updated_at','desc')->get();
-       }
+            $marks = App\QuizResult::where('user_id', '=', $user->id)
+                ->orderBy('updated_at','desc')->get();
+        }
+        else {
+            $marks = App\QuizResult::where('user_id', '=', $user->id)
+                ->where('quiz_id', '=', $exam_record->id)
+                ->orderBy('updated_at','desc')->get();
+        }
         $chartSettings = new App\ChartSettings();
         $colors = (object) $chartSettings->getRandomColors(count($marks));
         $i=0;
@@ -1102,18 +1102,18 @@ class StudentQuizController extends Controller
             'dataset_label'     => getPhrase('percentage').' (%)',
             'bgcolor'           => $bgcolor,
             'border_color'      => $border_color
-            );
+        );
 
         $data['chart_data'] = (object)$chart_data;
 
-      $data['active_class']       = 'analysis';
-      $data['title']              = getPhrase('quiz_attempts');
-      $data['user']               = $user;
-      $data['exam_record']        = $exam_record;
+        $data['active_class']       = 'analysis';
+        $data['title']              = getPhrase('quiz_attempts');
+        $data['user']               = $user;
+        $data['exam_record']        = $exam_record;
 
         $data['layout']             = getLayout();
 
-      return view('student.exams.attempts-history', $data);
+        return view('student.exams.attempts-history', $data);
 
     }
 
@@ -1127,34 +1127,34 @@ class StudentQuizController extends Controller
 
         $user = User::getRecordWithSlug($slug);
 
-         $exam_record = FALSE;
+        $exam_record = FALSE;
         if($exam_slug)
         {
-          $exam_record = Quiz::getRecordWithSlug($exam_slug);
+            $exam_record = Quiz::getRecordWithSlug($exam_slug);
 
         }
-         $records = array();
-          if(!$exam_slug)
-             $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
-            ->select(['title','is_paid' , 'marks_obtained', 'exam_status','quizresults.created_at', 'quizzes.total_marks','quizzes.slug', 'quizresults.slug as resultsslug','user_id' ])
-            ->where('user_id', '=', $user->id)
-            ->where('quizzes.type', '=', 'online')
-            ->orderBy('quizresults.updated_at', 'desc')
-            ->get();
-          else
+        $records = array();
+        if(!$exam_slug)
             $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
-            ->select(['title','is_paid' , 'marks_obtained', 'exam_status','quizresults.created_at', 'quizzes.total_marks','quizzes.slug', 'quizresults.slug as resultsslug','user_id' ])
-            ->where('user_id', '=', $user->id)
-            ->where('quiz_id', '=', $exam_record->id )
-            ->where('quizzes.type', '=', 'online')
-            ->orderBy('quizresults.updated_at', 'desc')
-            ->get();
+                ->select(['title','is_paid' , 'marks_obtained', 'exam_status','quizresults.created_at', 'quizzes.total_marks','quizzes.slug', 'quizresults.slug as resultsslug','user_id' ])
+                ->where('user_id', '=', $user->id)
+                ->where('quizzes.type', '=', 'online')
+                ->orderBy('quizresults.updated_at', 'desc')
+                ->get();
+        else
+            $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
+                ->select(['title','is_paid' , 'marks_obtained', 'exam_status','quizresults.created_at', 'quizzes.total_marks','quizzes.slug', 'quizresults.slug as resultsslug','user_id' ])
+                ->where('user_id', '=', $user->id)
+                ->where('quiz_id', '=', $exam_record->id )
+                ->where('quizzes.type', '=', 'online')
+                ->orderBy('quizresults.updated_at', 'desc')
+                ->get();
 
         return Datatables::of($records)
-         ->addColumn('action', function($records)
-        {
+            ->addColumn('action', function($records)
+            {
 
-          $options = '<div class="dropdown more">
+                $options = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
@@ -1162,51 +1162,51 @@ class StudentQuizController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="'.URL_RESULTS_VIEW_ANSWERS.$records->slug.'/'.$records->resultsslug.'"><i class="fa fa-pencil"></i>'.getPhrase("view_answers").'</a></li>';
 
-                           $certificate_link = '';
-                           if(getSetting('certificate','module'))
-                           {
-                            $certificate_link = '<li><a href="'.URL_GENERATE_CERTIFICATE.$records->resultsslug.'" target="_blank"><i class="fa fa-certificate"></i>'. getPhrase("generate_certificate").'</a></li>';
-                           }
+                $certificate_link = '';
+                if(getSetting('certificate','module'))
+                {
+                    $certificate_link = '<li><a href="'.URL_GENERATE_CERTIFICATE.$records->resultsslug.'" target="_blank"><i class="fa fa-certificate"></i>'. getPhrase("generate_certificate").'</a></li>';
+                }
 
 
 
-                           $tail = '</ul> </div>';
-          return $options.$certificate_link.$tail;
+                $tail = '</ul> </div>';
+                return $options.$certificate_link.$tail;
 
-        })
-        ->editColumn('title', function($records)
-        {
-           $user = User::where('id', '=', $records->user_id)->get()->first();
-          return '<a href="'.URL_STUDENT_EXAM_ANALYSIS_BYSUBJECT.$user->slug.'/'.$records->slug.'/'.$records->resultsslug.'">'.ucfirst($records->title).'</a>';
-        })
-        ->editColumn('marks_obtained', function($records)
-        {
-          return $records->marks_obtained.' / '.$records->total_marks;
-        })
-        ->editColumn('is_paid', function($records)
-        {
-            return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
-        })
-        ->editColumn('exam_status', function($records)
-        {
-          $result = ucfirst($records->exam_status);
-          return ($result=='Pass') ? '<span class="label label-success">'.$result.'</span>' : '<span class="label label-danger">'.$result.'</span>';
-        })
+            })
+            ->editColumn('title', function($records)
+            {
+                $user = User::where('id', '=', $records->user_id)->get()->first();
+                return '<a href="'.URL_STUDENT_EXAM_ANALYSIS_BYSUBJECT.$user->slug.'/'.$records->slug.'/'.$records->resultsslug.'">'.ucfirst($records->title).'</a>';
+            })
+            ->editColumn('marks_obtained', function($records)
+            {
+                return $records->marks_obtained.' / '.$records->total_marks;
+            })
+            ->editColumn('is_paid', function($records)
+            {
+                return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
+            })
+            ->editColumn('exam_status', function($records)
+            {
+                $result = ucfirst($records->exam_status);
+                return ($result=='Pass') ? '<span class="label label-success">'.$result.'</span>' : '<span class="label label-danger">'.$result.'</span>';
+            })
 
 
 
-        ->removeColumn('total_marks')
-        ->removeColumn('total_marks')
-        ->removeColumn('slug')
-        ->removeColumn('quiz_id')
-        ->removeColumn('created_at')
-        ->removeColumn('user_id')
-        ->removeColumn('resultsslug')
-        ->removeColumn('grade_title')
-        ->removeColumn('grade_points')
-        ->removeColumn('quizzes.total_marks')
+            ->removeColumn('total_marks')
+            ->removeColumn('total_marks')
+            ->removeColumn('slug')
+            ->removeColumn('quiz_id')
+            ->removeColumn('created_at')
+            ->removeColumn('user_id')
+            ->removeColumn('resultsslug')
+            ->removeColumn('grade_title')
+            ->removeColumn('grade_points')
+            ->removeColumn('quizzes.total_marks')
 
-        ->make();
+            ->make();
     }
 
     /**
@@ -1216,24 +1216,24 @@ class StudentQuizController extends Controller
      */
     public function examAnalysis($slug)
     {
-      $user = User::getRecordWithSlug($slug);
+        $user = User::getRecordWithSlug($slug);
 
-      if($isValid = $this->isValidRecord($user))
-        return redirect($isValid);
+        if($isValid = $this->isValidRecord($user))
+            return redirect($isValid);
 
-      if(!isEligible($slug))
-          return back();
+        if(!isEligible($slug))
+            return back();
 
         $userid = $user->id;
-      $data['active_class']       = 'analysis';
-      $data['title']              = getPhrase('exam_analysis_by_attempts');
-      $data['user']               = $user;
+        $data['active_class']       = 'analysis';
+        $data['title']              = getPhrase('exam_analysis_by_attempts');
+        $data['user']               = $user;
 
 
         // Chart code start
         $records = array();
 
-       $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
+        $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
             ->select(['title','is_paid' ,'dueration', 'quizzes.total_marks',  \DB::raw('count(quizresults.user_id) as attempts, quizzes.slug, user_id') ])
             ->where('user_id', '=', $user->id)
             ->groupBy('quizresults.quiz_id')
@@ -1268,15 +1268,15 @@ class StudentQuizController extends Controller
             'dataset_label'     => $dataset_label,
             'bgcolor'           => $bgcolor,
             'border_color'      => $border_color
-            );
+        );
 
         $data['chart_data'][] = (object)$chart_data;
         //Chart Code End
         $data['layout']             = getLayout();
-      return view('student.exams.analysis-by-exam', $data);
+        return view('student.exams.analysis-by-exam', $data);
     }
 
-     /**
+    /**
      * This method returns the datatable for the student exam attempts
      * @param  [type] $slug [description]
      * @return [type]       [description]
@@ -1284,9 +1284,9 @@ class StudentQuizController extends Controller
     public function getExamAnalysisData($slug)
     {
         $user = User::getRecordWithSlug($slug);
-         $records = array();
+        $records = array();
 
-            $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
+        $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
             ->select(['title','is_paid' ,'dueration', 'quizzes.total_marks',  \DB::raw('count(quizresults.user_id) as attempts, quizzes.slug, user_id') ])
             ->where('user_id', '=', $user->id)
             ->where('quizzes.type', '=', 'online')
@@ -1295,25 +1295,25 @@ class StudentQuizController extends Controller
 
         return Datatables::of($records)
 
-         ->editColumn('title', function($records)
-        {
-          $user = User::where('id', '=', $records->user_id)->get()->first();
+            ->editColumn('title', function($records)
+            {
+                $user = User::where('id', '=', $records->user_id)->get()->first();
 
-          return '<a href="'.URL_STUDENT_EXAM_ATTEMPTS.$user->slug.'/'.$records->slug.'"">'.$records->title.'</a>';
-        })
-        ->editColumn('is_paid', function($records)
-        {
-            return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
-        })
+                return '<a href="'.URL_STUDENT_EXAM_ATTEMPTS.$user->slug.'/'.$records->slug.'"">'.$records->title.'</a>';
+            })
+            ->editColumn('is_paid', function($records)
+            {
+                return ($records->is_paid) ? '<span class="label label-primary">'.getPhrase('paid') .'</span>' : '<span class="label label-success">'.getPhrase('free').'</span>';
+            })
 
-        ->editColumn('dueration', function($records)
-        {
-          return $records->dueration.' '.getPhrase('mins');
-        })
-        ->removeColumn('quizzes.total_marks')
-         ->removeColumn('slug')
-         ->removeColumn('user_id')
-        ->make();
+            ->editColumn('dueration', function($records)
+            {
+                return $records->dueration.' '.getPhrase('mins');
+            })
+            ->removeColumn('quizzes.total_marks')
+            ->removeColumn('slug')
+            ->removeColumn('user_id')
+            ->make();
     }
 
     /**
@@ -1324,41 +1324,41 @@ class StudentQuizController extends Controller
      */
     public function subjectAnalysisInExam($slug, $exam_slug = '', $result_slug = '')
     {
-     $user = User::getRecordWithSlug($slug);
+        $user = User::getRecordWithSlug($slug);
 
-      if($isValid = $this->isValidRecord($user))
-        return redirect($isValid);
-      $exam_record = FALSE;
+        if($isValid = $this->isValidRecord($user))
+            return redirect($isValid);
+        $exam_record = FALSE;
 
-      if(!isEligible($slug))
-          return back();
+        if(!isEligible($slug))
+            return back();
 
-      if($exam_slug)
-      {
-        $exam_record = Quiz::getRecordWithSlug($exam_slug);
-      }
+        if($exam_slug)
+        {
+            $exam_record = Quiz::getRecordWithSlug($exam_slug);
+        }
 
 
-      if($isValid = $this->isValidRecord($exam_record))
-        return redirect($isValid);
+        if($isValid = $this->isValidRecord($exam_record))
+            return redirect($isValid);
 
         $result = array();
 
         $result = App\QuizResult::where('user_id', '=', $user->id)
-        ->where('quiz_id', '=', $exam_record->id)
-        ->where('slug', '=', $result_slug)
-           ->get()->first();
+            ->where('quiz_id', '=', $exam_record->id)
+            ->where('slug', '=', $result_slug)
+            ->get()->first();
 
         if($isValid = $this->isValidRecord($result))
-        return redirect($isValid);
+            return redirect($isValid);
 
-      //Everything is fine, we got the exam record and result record,
-      //Process the result record to analyze the weekness and strength in each subject
+        //Everything is fine, we got the exam record and result record,
+        //Process the result record to analyze the weekness and strength in each subject
 
         $data['quizresult'] = $result;
 
         $result = json_decode($result->subject_analysis);
-       $subjects_display = array();
+        $subjects_display = array();
 
         $i=0;
         $color_correct = getColor('background', rand(1,999));
@@ -1369,76 +1369,76 @@ class StudentQuizController extends Controller
         $dataset_time = [];
         $data['chart_data'] = [];
         if($result){
-       foreach($result as $record) {
+            foreach($result as $record) {
 
 
-        $labels = [];
-        $dataset = [];
-        $dataset_label = [];
-        $bgcolor = [];
-        $border_color = [];
+                $labels = [];
+                $dataset = [];
+                $dataset_label = [];
+                $bgcolor = [];
+                $border_color = [];
 
-          $subject_record = Subject::where('id', '=', $record->subject_id)->first();
+                $subject_record = Subject::where('id', '=', $record->subject_id)->first();
 
-            $subjects_display[$i]['subject_name'] = $subject_record->subject_title;
-            $subjects_display[$i]['correct_answers'] = $record->correct_answers;
-            $subjects_display[$i]['wrong_answers'] = $record->wrong_answers;
-            $subjects_display[$i]['not_answered'] = $record->not_answered;
+                $subjects_display[$i]['subject_name'] = $subject_record->subject_title;
+                $subjects_display[$i]['correct_answers'] = $record->correct_answers;
+                $subjects_display[$i]['wrong_answers'] = $record->wrong_answers;
+                $subjects_display[$i]['not_answered'] = $record->not_answered;
 
-            $subjects_display[$i]['time_spent_correct_answers'] = $record->time_spent_correct_answers;
-            $subjects_display[$i]['time_spent_wrong_answers'] = $record->time_spent_wrong_answers;
+                $subjects_display[$i]['time_spent_correct_answers'] = $record->time_spent_correct_answers;
+                $subjects_display[$i]['time_spent_wrong_answers'] = $record->time_spent_wrong_answers;
 
-           $dataset_time = [$record->time_spent_correct_answers, $record->time_spent_wrong_answers];
-           $bgcolor_time  = [$color_correct,$color_wrong];
-           $border_color_time = [$color_correct,$color_wrong];
+                $dataset_time = [$record->time_spent_correct_answers, $record->time_spent_wrong_answers];
+                $bgcolor_time  = [$color_correct,$color_wrong];
+                $border_color_time = [$color_correct,$color_wrong];
 
-            $dataset = [$record->correct_answers, $record->wrong_answers, $record->not_answered];
-            $dataset_label[] = $subject_record->subject_title;
-            $bgcolor  = [$color_correct,$color_wrong,$color_not_attempted];
-            $border_color = [$color_correct,$color_wrong,$color_not_attempted];
-
-
-        $time_data['type'] = 'pie';
-        $time_data['title'] = $subject_record->subject_title;
-        $time_data['data']   = (object) array(
-            'labels'            => $labels_time,
-            'dataset'           => $dataset_time,
-            'dataset_label'     => $dataset_label,
-            'bgcolor'           => $bgcolor_time,
-            'border_color'      => $border_color_time
-            );
-
-        $data['time_data'][] = (object)$time_data;
+                $dataset = [$record->correct_answers, $record->wrong_answers, $record->not_answered];
+                $dataset_label[] = $subject_record->subject_title;
+                $bgcolor  = [$color_correct,$color_wrong,$color_not_attempted];
+                $border_color = [$color_correct,$color_wrong,$color_not_attempted];
 
 
+                $time_data['type'] = 'pie';
+                $time_data['title'] = $subject_record->subject_title;
+                $time_data['data']   = (object) array(
+                    'labels'            => $labels_time,
+                    'dataset'           => $dataset_time,
+                    'dataset_label'     => $dataset_label,
+                    'bgcolor'           => $bgcolor_time,
+                    'border_color'      => $border_color_time
+                );
 
-        $chart_data['type'] = 'doughnut';
-        //horizontalBar, bar, polarArea, line, doughnut, pie
-        $chart_data['title'] = $subject_record->subject_title;
+                $data['time_data'][] = (object)$time_data;
 
-        $chart_data['data']   = (object) array(
-            'labels'            => $labels_marks,
-            'dataset'           => $dataset,
-            'dataset_label'     => $dataset_label,
-            'bgcolor'           => $bgcolor,
-            'border_color'      => $border_color
-            );
 
-        $data['chart_data'][] = (object)$chart_data;
-        $i++;
-       }
-    }
-      $data['subjects_display']   = $subjects_display;
 
-      $data['active_class']       = 'analysis';
-      $data['title']              = getPhrase('subject_wise_analysis');
-      $data['user']               = $user;
-      $data['exam_record']        = $exam_record;
+                $chart_data['type'] = 'doughnut';
+                //horizontalBar, bar, polarArea, line, doughnut, pie
+                $chart_data['title'] = $subject_record->subject_title;
+
+                $chart_data['data']   = (object) array(
+                    'labels'            => $labels_marks,
+                    'dataset'           => $dataset,
+                    'dataset_label'     => $dataset_label,
+                    'bgcolor'           => $bgcolor,
+                    'border_color'      => $border_color
+                );
+
+                $data['chart_data'][] = (object)$chart_data;
+                $i++;
+            }
+        }
+        $data['subjects_display']   = $subjects_display;
+
+        $data['active_class']       = 'analysis';
+        $data['title']              = getPhrase('subject_wise_analysis');
+        $data['user']               = $user;
+        $data['exam_record']        = $exam_record;
 
 
         $data['layout']             = getLayout();
 
-      return view('student.exams.analysis-by-subject', $data);
+        return view('student.exams.analysis-by-subject', $data);
 
     }
 
@@ -1450,26 +1450,26 @@ class StudentQuizController extends Controller
     public function overallSubjectAnalysis($slug)
     {
 
-      $user = User::getRecordWithSlug($slug);
-      if($isValid = $this->isValidRecord($user))
-        return redirect($isValid);
+        $user = User::getRecordWithSlug($slug);
+        if($isValid = $this->isValidRecord($user))
+            return redirect($isValid);
 
-      if(!isEligible($slug))
-          return back();
+        if(!isEligible($slug))
+            return back();
 
         $records = array();
-       $records = ( new App\QuizResult())->getOverallSubjectsReport($user);
+        $records = ( new App\QuizResult())->getOverallSubjectsReport($user);
 
-       if(!$records)
+        if(!$records)
         {
-          flash(getPhrase('Ooops'),getPhrase('No_Records_available'), 'overlay');
-          return back();
+            flash(getPhrase('Ooops'),getPhrase('No_Records_available'), 'overlay');
+            return back();
         }
 
         $color_correct = getColor('background',rand(00,9999));
         $color_wrong = getColor('background', rand(00,9999));
         $color_not_attempted = getColor('background', rand(00,9999));
-       $i=0;
+        $i=0;
 
         $labels = [];
         $dataset = [];
@@ -1480,82 +1480,82 @@ class StudentQuizController extends Controller
         $marks_labels = [getPhrase('correct'), getPhrase('wrong'), getPhrase('not_answered')];
         $time_labels = [getPhrase('time_spent_on_correct_answers'), getPhrase('time_spent_on_wrong_answers')];
 
-       foreach($records as $record) {
-       $record = (object)$record;
+        foreach($records as $record) {
+            $record = (object)$record;
 
-       //Marks
-        $subjects_display[$i]['subject_name'] = $record->subject_name;
-        $subjects_display[$i]['correct_answers'] = $record->correct_answers;
-        $subjects_display[$i]['wrong_answers'] = $record->wrong_answers;
-        $subjects_display[$i]['not_answered'] = $record->not_answered;
+            //Marks
+            $subjects_display[$i]['subject_name'] = $record->subject_name;
+            $subjects_display[$i]['correct_answers'] = $record->correct_answers;
+            $subjects_display[$i]['wrong_answers'] = $record->wrong_answers;
+            $subjects_display[$i]['not_answered'] = $record->not_answered;
 
-        // Time
-         $subjects_display[$i]['time_spent_on_correct_answers'] = $record->time_spent_on_correct_answers;
-         $subjects_display[$i]['time_spent_on_wrong_answers']   = $record->time_spent_on_wrong_answers;
-         $subjects_display[$i]['time_to_spend']                 = $record->time_to_spend;
-         $subjects_display[$i]['time_spent']                    = $record->time_spent;
-
-
-        $marks_dataset = [$record->correct_answers, $record->wrong_answers, $record->not_answered];
-        $time_dataset = [$record->time_spent_on_correct_answers, $record->time_spent_on_wrong_answers];
-        $dataset_label = $record->subject_name;
-
-        $bgcolor  = [$color_correct,$color_wrong,$color_not_attempted];
-
-        $border_color = [$color_correct,$color_wrong,$color_not_attempted];
+            // Time
+            $subjects_display[$i]['time_spent_on_correct_answers'] = $record->time_spent_on_correct_answers;
+            $subjects_display[$i]['time_spent_on_wrong_answers']   = $record->time_spent_on_wrong_answers;
+            $subjects_display[$i]['time_to_spend']                 = $record->time_to_spend;
+            $subjects_display[$i]['time_spent']                    = $record->time_spent;
 
 
-        $marks_data['type'] = 'pie';
-        //horizontalBar, bar, polarArea, line, doughnut, pie
-        $marks_data['title'] = $record->subject_name;
+            $marks_dataset = [$record->correct_answers, $record->wrong_answers, $record->not_answered];
+            $time_dataset = [$record->time_spent_on_correct_answers, $record->time_spent_on_wrong_answers];
+            $dataset_label = $record->subject_name;
 
-        $marks_data['data']   = (object) array(
-            'labels'            => $marks_labels,
-            'dataset'           => $marks_dataset,
-            'dataset_label'     => $dataset_label,
-            'bgcolor'           => $bgcolor,
-            'border_color'      => $border_color
+            $bgcolor  = [$color_correct,$color_wrong,$color_not_attempted];
+
+            $border_color = [$color_correct,$color_wrong,$color_not_attempted];
+
+
+            $marks_data['type'] = 'pie';
+            //horizontalBar, bar, polarArea, line, doughnut, pie
+            $marks_data['title'] = $record->subject_name;
+
+            $marks_data['data']   = (object) array(
+                'labels'            => $marks_labels,
+                'dataset'           => $marks_dataset,
+                'dataset_label'     => $dataset_label,
+                'bgcolor'           => $bgcolor,
+                'border_color'      => $border_color
             );
+
+            $data['chart_data'][] = (object)$marks_data;
+
+
+            $time_data['type'] = 'bar';
+            //horizontalBar, bar, polarArea, line, doughnut, pie
+            $time_data['title'] = $record->subject_name;
+
+            $time_data['data']   = (object) array(
+                'labels'            => $time_labels,
+                'dataset'           => $time_dataset,
+                'dataset_label'     => $dataset_label,
+                'bgcolor'           => $bgcolor,
+                'border_color'      => $border_color
+            );
+
+            $data['time_data'][] = (object)$time_data;
+
+            $i++;
+        }
 
         $data['chart_data'][] = (object)$marks_data;
 
+        $overall_correct_answers = 0;
+        $overall_wrong_answers = 0;
+        $overall_not_answered = 0;
 
-        $time_data['type'] = 'bar';
-        //horizontalBar, bar, polarArea, line, doughnut, pie
-        $time_data['title'] = $record->subject_name;
+        $overall_time_spent_correct_answers = 0;
+        $overall_time_spent_wrong_answers = 0;
 
-        $time_data['data']   = (object) array(
-            'labels'            => $time_labels,
-            'dataset'           => $time_dataset,
-            'dataset_label'     => $dataset_label,
-            'bgcolor'           => $bgcolor,
-            'border_color'      => $border_color
-            );
+        foreach($records as $r)
+        {
+            $r = (object)$r;
+            $overall_correct_answers  += $r->correct_answers;
+            $overall_wrong_answers    += $r->wrong_answers;
+            $overall_not_answered     += $r->not_answered;
 
-        $data['time_data'][] = (object)$time_data;
-
-        $i++;
-       }
-
-      $data['chart_data'][] = (object)$marks_data;
-
-      $overall_correct_answers = 0;
-      $overall_wrong_answers = 0;
-      $overall_not_answered = 0;
-
-      $overall_time_spent_correct_answers = 0;
-      $overall_time_spent_wrong_answers = 0;
-
-      foreach($records as $r)
-      {
-        $r = (object)$r;
-        $overall_correct_answers  += $r->correct_answers;
-        $overall_wrong_answers    += $r->wrong_answers;
-        $overall_not_answered     += $r->not_answered;
-
-        $overall_time_spent_correct_answers     += $r->time_spent_on_correct_answers;
-        $overall_time_spent_wrong_answers       += $r->time_spent_on_wrong_answers;
-      }
+            $overall_time_spent_correct_answers     += $r->time_spent_on_correct_answers;
+            $overall_time_spent_wrong_answers       += $r->time_spent_on_wrong_answers;
+        }
 
         $overall_marks_dataset = [$overall_correct_answers, $overall_wrong_answers, $overall_not_answered];
         $overall_time_dataset = [$overall_time_spent_correct_answers, $overall_time_spent_wrong_answers];
@@ -1569,25 +1569,25 @@ class StudentQuizController extends Controller
             'dataset_label'     => getPhrase('overall_marks_analysis'),
             'bgcolor'           => $bgcolor,
             'border_color'      => $border_color
-            );
+        );
 
-      $data['right_bar_path']     = 'student.exams.subject-analysis.right-bar-performance-chart';
-      $data['right_bar_data']     = array('right_bar_data' => (object)$overall_marks_data);
+        $data['right_bar_path']     = 'student.exams.subject-analysis.right-bar-performance-chart';
+        $data['right_bar_data']     = array('right_bar_data' => (object)$overall_marks_data);
 
-       $data['overall_data'][] = (object)$overall_marks_data;
+        $data['overall_data'][] = (object)$overall_marks_data;
 
-      $data['subjects_display']   = $records;
+        $data['subjects_display']   = $records;
 
-      $data['active_class']       = 'analysis';
-      $data['title']              = getPhrase('overall_subject_wise_analysis');
-      $data['user']               = $user;
+        $data['active_class']       = 'analysis';
+        $data['title']              = getPhrase('overall_subject_wise_analysis');
+        $data['user']               = $user;
 
-      $userid = $user->id;
+        $userid = $user->id;
 
         $data['layout']             = getLayout();
 
-      return view('student.exams.subject-analysis.subject-analysis', $data);
-       //End
+        return view('student.exams.subject-analysis.subject-analysis', $data);
+        //End
     }
 
 
