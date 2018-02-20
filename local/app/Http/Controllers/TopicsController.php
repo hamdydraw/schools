@@ -515,7 +515,7 @@ class TopicsController extends Controller
     {
         Excel::create('topics_report', function ($excel) {
             $excel->sheet('Failed', function ($sheet) {
-                $sheet->row(1, array('Reason', 'topic_name', 'parent_id', 'subject_id', 'description'));
+                $sheet->row(1, array('Reason', 'topic_name','semester_num', 'parent_id', 'subject_id', 'description'));
                 $data = $this->getFailedData();
                 $cnt = 2;
                 foreach ($data['failed'] as $data_item) {
