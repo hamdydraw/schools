@@ -38,7 +38,8 @@
 
 
 									<th id="helper_step2">{{ getPhrase('subject')}}</th>
-									<th>{{ getPhrase('parent')}}</th>
+									<th>{{ getPhrase('semester')}}</th>
+									<th>{{ getPhrase('top_level')}}</th>
 									<th>{{ getPhrase('topic_id')}}</th>
 									<th>{{ getPhrase('description')}}</th>
 
