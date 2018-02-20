@@ -59,13 +59,6 @@ class AcademicsController extends Controller
             ->editColumn('academic_year_title', function ($records) {
                 return '<a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '">' . $records->academic_year_title . ' (' . $records->id . ')' . '</a>';
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
-
             ->removeColumn('id')
             ->removeColumn('slug')
             ->make();

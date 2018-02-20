@@ -67,12 +67,7 @@ class LibraryAssetTypeController extends Controller
         ->editColumn('asset_type',function($records){
             return $records->asset_type.' ('.$records->id.')';
         })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
         ->removeColumn('id')
         ->removeColumn('slug')
 

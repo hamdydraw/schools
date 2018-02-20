@@ -83,12 +83,6 @@ class LmsSeriesController extends Controller
                     $link_data .=$temp;
             return $link_data;
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
         ->editColumn('title', function($records)
         {
         	return '<a href="'.URL_LMS_SERIES_UPDATE_SERIES.$records->slug.'">'.$records->title.'</a>';

@@ -90,12 +90,7 @@ class LmsContentController extends Controller
         ->removeColumn('updated_at')
         ->removeColumn('slug')
 
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
         ->editColumn('image', function($records){
             $image_path = IMAGE_PATH_UPLOAD_LMS_DEFAULT;
 

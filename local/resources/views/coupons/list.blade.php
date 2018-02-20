@@ -40,10 +40,6 @@
 									<th>{{ getPhrase('maximum_discount')}}</th>
 									<th>{{ getPhrase('limit')}}</th>
 									<th>{{ getPhrase('status')}}</th>
-									<th>{{ getPhrase("created_by")}}</th>
-									<th>{{ getPhrase("updated_by")}}</th>
-									<th>{{ getPhrase('creator_ip')}}</th>
-									<th>{{ getPhrase('updater_ip')}}</th>
 									<th>{{ getPhrase('action')}}</th>
 								  
 								</tr>

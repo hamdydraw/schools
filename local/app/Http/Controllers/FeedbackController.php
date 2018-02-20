@@ -100,12 +100,6 @@ class FeedbackController extends Controller
 
             return '<img src="'.$image.'" height="60" width="60"  />';
         })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
 
         ->removeColumn('id')
         ->removeColumn('slug')

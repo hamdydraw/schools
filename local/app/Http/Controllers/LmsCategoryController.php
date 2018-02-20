@@ -106,12 +106,7 @@ class LmsCategoryController extends Controller
 
         ->removeColumn('id')
         ->removeColumn('slug')
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
 
             ->editColumn('image', function($records){
             $image = '<img src="'.IMAGE_PATH_UPLOAD_LMS_DEFAULT.'" height="100" width="100" />';

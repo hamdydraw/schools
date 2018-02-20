@@ -81,12 +81,7 @@ class QuestionBankController extends Controller
             return '<a href="'.URL_QUESTIONBANK_VIEW.$records->slug.'">'.$records->subject_title.'</a>';
         })
 
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
 
             // ->removeColumn('id')
         ->removeColumn('slug')
@@ -165,12 +160,7 @@ class QuestionBankController extends Controller
                         </ul>
                     </div>';
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('updated_at')

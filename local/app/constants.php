@@ -31,6 +31,8 @@ define('ATTENDANCE_COLOR_FORE_COLOR', 'white');
 define('TIMETABLE_START_TIME', '7');
 define('TIMETABLE_END_TIME', '17');
 
+define('POP_UP_DATA', PREFIX.'popup_data/');
+
 
 
 

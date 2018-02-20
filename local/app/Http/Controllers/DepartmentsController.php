@@ -50,12 +50,6 @@ class DepartmentsController extends Controller
                     </div>';
             })
 
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
 
         ->make();
     }

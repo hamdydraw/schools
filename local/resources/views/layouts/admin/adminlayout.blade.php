@@ -46,7 +46,7 @@
 
 </head>
 
-<body ng-app="academia">
+<body ng-app="academia" ng-controller="pop_it_up">
 
 @if(isset($module_helper))
     <div class="fab-buttons">
@@ -443,7 +443,7 @@ if (!isset($right_bar))
 
 
 @yield('footer_scripts')
-
+@include('layouts.scripts.popup')
 @include('errors.formMessages')
 
 @yield('custom_div_end')

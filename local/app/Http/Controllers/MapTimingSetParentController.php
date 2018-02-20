@@ -77,12 +77,7 @@ class TimingsetController extends Controller
         ->editColumn('name',function($records){
             return '<a href="'.URL_TIMINGSET_EDIT.'/'.$records->slug.'">'.$records->name.'</a>';
         })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
         ->removeColumn('id')
         ->removeColumn('slug')
         ->make();

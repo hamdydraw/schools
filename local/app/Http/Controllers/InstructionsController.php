@@ -76,12 +76,7 @@ class InstructionsController extends Controller
                 $link_data .= $temp;
                 return $link_data;
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('updated_at')

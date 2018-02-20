@@ -1105,4 +1105,7 @@ Route::get('/test',function(){
    return URL::to('/');
 });
 
+Route::get('/popup_data',function (){
+    return view("layouts.general");
+});
 

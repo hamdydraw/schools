@@ -77,12 +77,7 @@ class ModuleHelperController extends Controller
         ->editColumn('is_enabled', function($records){
         	return ($records->is_enabled) ? '<i class="fa fa-check text-success" title="Active" ></i>' : '<i class="fa fa-times text-danger" title="Inactive"></i>';
         })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
         ->removeColumn('id')
 
         ->removeColumn('updated_at')

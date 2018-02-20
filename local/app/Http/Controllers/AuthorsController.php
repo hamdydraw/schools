@@ -65,12 +65,7 @@ class AuthorsController extends Controller
         ->editColumn('gender', function($records){
         	return ucfirst($records->gender);
         })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
 
             ->make();
     }

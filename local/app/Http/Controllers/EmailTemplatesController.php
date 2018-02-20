@@ -65,12 +65,6 @@ class EmailTemplatesController extends Controller
                     </div>';
             })
 
-            ->editColumn('created_by_user', function ($records) {
-                return User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return User::get_user_name($records->updated_by_user);
-            })
         ->removeColumn('id')
         ->removeColumn('slug')
 

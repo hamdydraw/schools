@@ -50,3 +50,33 @@ ALTER TABLE `user_feedback`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --end
+
+--drop old dates
+ALTER TABLE `couponcodes_usage` DROP `created_at`;
+ALTER TABLE `password_resets` DROP `updated_at`;
+ALTER TABLE `user_feedback` DROP `updated_at`;
+ALTER TABLE `user_notification` DROP `updated_at`;
+
+--add updated at
+
+ALTER TABLE academics_semesters ADD updated_at TIMESTAMP;
+ALTER TABLE countries ADD updated_at TIMESTAMP;
+ALTER TABLE password_resets    ADD updated_at TIMESTAMP;
+ALTER TABLE permission_role ADD updated_at TIMESTAMP;
+ALTER TABLE role_user ADD updated_at TIMESTAMP;
+ALTER TABLE user_feedback  ADD updated_at TIMESTAMP;
+ALTER TABLE user_notification   ADD updated_at TIMESTAMP;
+ALTER TABLE couponcodes_usage    ADD updated_at TIMESTAMP;
+
+--add created at
+ALTER TABLE `academics_semesters` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `countries` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `password_resets` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `permission_role` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `role_user` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `user_feedback` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `user_notification` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `couponcodes_usage` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+
+

@@ -92,12 +92,7 @@ class CourseSubjectsController extends Controller
             ->editColumn('course_parent_id', function ($records) {
                 return App\Course::find($records->course_parent_id)->course_title;
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
             /*->editColumn('course_id', function ($records) {
                 return App\Course::find($records->course_id)->course_title;
             })*/
