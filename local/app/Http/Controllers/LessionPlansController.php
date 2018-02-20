@@ -459,7 +459,7 @@ class LessionPlansController extends Controller
             ->where('course_subject.subject_id', '=', $subject_id)
             ->where('topics.semester_num', '=', $currentSemester)
             ->select(['topics.topic_name', 'subject_title', 'lessionplans.is_completed', 'lessionplans.completed_on'])
-            ->orderBy('lessionplans.completed_on', 'desc')
+            ->orderBy('topics.id', 'asc')
             ->get();
 
         return json_encode($topics);

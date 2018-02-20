@@ -198,7 +198,6 @@
                 'id': item.id
             };
             $http.post(route, request_data).success(function (result, status) {
-                console.log(result);
                 $scope.topics_completed = result;
             });
 
