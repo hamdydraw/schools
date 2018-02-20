@@ -771,7 +771,7 @@ Route::get('settings/dashboard', 'SettingsController@settingsDashboard');
 Route::get('mastersettings/settings/', 'SettingsController@index');
 Route::get('mastersettings/settings/index', 'SettingsController@index');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'stopOrOn:certificate'], function () {
     Route::get('mastersettings/settings/certificates', 'SettingsController@certificatesdashboard');
 });
 Route::get('mastersettings/settings/timetable', 'SettingsController@timetabledashboard');

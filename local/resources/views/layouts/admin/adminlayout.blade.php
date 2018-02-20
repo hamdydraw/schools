@@ -69,14 +69,18 @@ if (!isset($right_bar))
 ?>
 
 <?php
-        $settings=\App\Settings::where('key','module')->first(['settings_data']);
-        $settings=json_decode($settings->settings_data);
-        $total   = \App\user_feedback::get_new_count();
-        if($settings->push_notifications->value == 1){$total+=\App\user_notifications::get_new_count();}
-        if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
+$settings = \App\Settings::where('key', 'module')->first(['settings_data']);
+$settings = json_decode($settings->settings_data);
+$total = \App\user_feedback::get_new_count();
+if ($settings->push_notifications->value == 1) {
+    $total += \App\user_notifications::get_new_count();
+}
+if ($settings->messaging->value == 1) {
+    $total += Auth::user()->newThreadsCount();
+}
 
-        // \App\user_notifications::get_new_count()
-        // Auth::user()->newThreadsCount();
+// \App\user_notifications::get_new_count()
+// Auth::user()->newThreadsCount();
 ?>
 <div id="wrapper" class="{{$class}}">
     <!-- Navigation -->
@@ -162,21 +166,21 @@ if (!isset($right_bar))
                     </li>
 
                     @if($settings->push_notifications->value == 1)
-                    <li>
-                        <a href="{{URL_ADMIN_NOTIFICATIONS}}">
-                            <sapn><i class="fa fa-bell-o" aria-hidden="true"></i>
-                                <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
-                                {{ getPhrase('notifications') }}
-                            </sapn>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{{URL_ADMIN_NOTIFICATIONS}}">
+                                <sapn><i class="fa fa-bell-o" aria-hidden="true"></i>
+                                    <h6 class="badge badge-success">{{ \App\user_notifications::get_new_count() }}</h6>
+                                    {{ getPhrase('notifications') }}
+                                </sapn>
+                            </a>
+                        </li>
                     @endif
                     @if($settings->messaging->value == 1)
-                    <li>
-                        <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
-                                            class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>
-                            {{ getPhrase('messages')}} </a>
-                    </li>
+                        <li>
+                            <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
+                                                class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>
+                                {{ getPhrase('messages')}} </a>
+                        </li>
                     @endif
                     <li>
                         <a href="{{URL_LANGUAGES_LIST}}">
@@ -230,8 +234,8 @@ if (!isset($right_bar))
                     <!-- <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}"> <i class="fa fa-check-circle"></i>{{ getPhrase('attendance') }}</a></li> -->
 
                         @if($settings->certificate->value == 1)
-                        <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
-                                        class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
+                            <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
+                                            class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
                         @endif
                         <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a></li>
@@ -326,8 +330,11 @@ if (!isset($right_bar))
                                             class="icon-settings"></i> {{ getPhrase('settings') }}</a></li>
 
                         @endif
-                        <li><a href="{{URL_MASTERSETTINGS_CERTIFICATES_SETTINGS}}"> <i
-                                        class="icon-settings"></i> {{ getPhrase('certificates_settings') }}</a></li>
+
+                        @if($settings->certificate->value == 1)
+                            <li><a href="{{URL_MASTERSETTINGS_CERTIFICATES_SETTINGS}}"> <i
+                                            class="icon-settings"></i> {{ getPhrase('certificates_settings') }}</a></li>
+                        @endif
 
                         <li><a href="{{URL_MASTERSETTINGS_RELIGIONS}}"> <i class="fa fa-rebel"
                                                                            aria-hidden="true"></i>{{ getPhrase('religions_master') }}
@@ -378,17 +385,17 @@ if (!isset($right_bar))
 
                 </li>
                 @if(($settings->coupons->value == 1))
-                <li {{ isActive($active_class, 'coupons') }} >
+                    <li {{ isActive($active_class, 'coupons') }} >
 
-                    <a data-toggle="collapse" data-target="#coupons" href="javascript:void()"><i
-                                class="fa fa-hashtag"></i>
-                        {{ getPhrase('coupons') }} </a>
+                        <a data-toggle="collapse" data-target="#coupons" href="javascript:void()"><i
+                                    class="fa fa-hashtag"></i>
+                            {{ getPhrase('coupons') }} </a>
 
-                    <ul id="coupons" class="collapse sidemenu-dropdown">
-                        <li><a href="{{URL_COUPONS}}"> <i class="fa fa-list"></i>{{ getPhrase('list') }}</a></li>
-                        <li><a href="{{URL_COUPONS_ADD}}"> <i class="fa fa-plus"></i>{{ getPhrase('add') }}</a></li>
-                    </ul>
-                </li>
+                        <ul id="coupons" class="collapse sidemenu-dropdown">
+                            <li><a href="{{URL_COUPONS}}"> <i class="fa fa-list"></i>{{ getPhrase('list') }}</a></li>
+                            <li><a href="{{URL_COUPONS_ADD}}"> <i class="fa fa-plus"></i>{{ getPhrase('add') }}</a></li>
+                        </ul>
+                    </li>
                 @endif
                 <li {{ isActive($active_class, 'reports') }} >
                     <a data-toggle="collapse" data-target="#reports"><i class="fa fa-flag" aria-hidden="true"></i>
@@ -397,8 +404,8 @@ if (!isset($right_bar))
                         <li><a href="{{URL_ONLINE_PAYMENT_REPORTS}}"> <i
                                         class="fa fa-link"></i>{{ getPhrase('online_payments') }}</a></li>
                         @if($settings->offline_payment->value ==1 )
-                        <li><a href="{{URL_OFFLINE_PAYMENT_REPORTS}}"> <i
-                                        class="fa fa-chain-broken"></i>{{ getPhrase('offline_payments') }}</a></li>
+                            <li><a href="{{URL_OFFLINE_PAYMENT_REPORTS}}"> <i
+                                            class="fa fa-chain-broken"></i>{{ getPhrase('offline_payments') }}</a></li>
                         @endif
                         <li><a href="{{URL_PAYMENT_REPORT_EXPORT}}"> <i
                                         class="fa fa-file-excel-o"></i>{{ getPhrase('export') }}</a></li>
@@ -415,7 +422,7 @@ if (!isset($right_bar))
             <div class="panel panel-right-sidebar">
                 <?php $data = '';
                 if (isset($right_bar_data))
-                $data = $right_bar_data;
+                    $data = $right_bar_data;
                 ?>
                 @include($right_bar_path, array('data' => $data))
             </div>
