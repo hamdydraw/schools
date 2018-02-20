@@ -58,13 +58,17 @@ class CourseSubjectsController extends Controller
                 'course_parent_id',
                 'course_id',
                 'course_subject.id',
-                'course_subject.created_by_user','course_subject.updated_by_user','course_subject.created_by_ip','course_subject.updated_by_ip'
+                'course_subject.created_by_user','course_subject.updated_by_user','course_subject.created_by_ip','course_subject.updated_by_ip','course_subject.created_at','course_subject.updated_at'
             ])
             ->groupBy('academic_id')
             ->groupBy('course_id');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
+
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
 
 
                 return '<div class="dropdown more">
@@ -75,6 +79,7 @@ class CourseSubjectsController extends Controller
                          <li><a href="' . URL_MASTERSETTINGS_COURSE_SUBJECTS_GET_COURSE_SUBJECTS_SHOW . $records->academic_id . '/' . $records->course_id . '"><i class="icon-eye"></i>' . getPhrase("view") . '</a></li>
 
                           <li><a href="' . URL_COURSE_SUBJECTS_ADD_STAFF . $records->academic_id . '/' . $records->course_id . '"><img src="' . IMAGE_TEACHER_ICON . '">' . getPhrase("allocate_staff") . '</a></li>
+                          '.$view.'
 
 
 
@@ -99,6 +104,12 @@ class CourseSubjectsController extends Controller
             ->removeColumn('id')
             ->removeColumn('academic_id')
             ->removeColumn('course_id')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
 

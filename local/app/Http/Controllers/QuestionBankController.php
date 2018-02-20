@@ -153,12 +153,17 @@ class QuestionBankController extends Controller
         ->select(['subjects.subject_title', 'topics.topic_name',
             'questionbank.question_type', 'questionbank.question', 'questionbank.marks',
             'questionbank.difficulty_level', 'questionbank.id', 'questionbank.slug',
-            'questionbank.updated_at','questionbank.created_by_user','questionbank.updated_by_user','questionbank.created_by_ip','questionbank.updated_by_ip'])
+            'questionbank.updated_at','questionbank.created_at','questionbank.created_by_user','questionbank.updated_by_user','questionbank.created_by_ip','questionbank.updated_by_ip'])
         ->where('questionbank.subject_id','=', $subject->id)
         ->orderBy('updated_at','desc');
 
         $table = Datatables::of($records)->removeColumn('slug')
         ->addColumn('action', function ($records) {
+
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
             return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -168,6 +173,7 @@ class QuestionBankController extends Controller
                        <li><a href="'.URL_QUESTIONBANK_EDIT_QUESTION.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
 
                        <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
+                       '.$view.'
                         </ul>
                     </div>';
             })
@@ -175,6 +181,12 @@ class QuestionBankController extends Controller
         ->removeColumn('id')
         ->removeColumn('slug')
         ->removeColumn('updated_at')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
 
         ->editColumn('question_type', function($results){
         	return ucfirst($results->question_type);

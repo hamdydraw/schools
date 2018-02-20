@@ -56,7 +56,7 @@ class FeedbackController extends Controller
 
 
             $records = Feedback::join('users', 'users.id','=','feedbacks.user_id')
-            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at','feedbacks.created_by_user','feedbacks.updated_by_user','feedbacks.created_by_ip','feedbacks.updated_by_ip'])
+            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at','feedbacks.created_at','feedbacks.created_by_user','feedbacks.updated_by_user','feedbacks.created_by_ip','feedbacks.updated_by_ip'])
             ->orderBy('updated_at', 'desc');
 
         foreach ($records as $record){
@@ -66,12 +66,16 @@ class FeedbackController extends Controller
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
 
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
           $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                           <li><a href="'.URL_FEEDBACK_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>';
+                           <li><a href="'.URL_FEEDBACK_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>'.$view;
 
 
                            $temp = '';
@@ -103,6 +107,12 @@ class FeedbackController extends Controller
 
         ->removeColumn('id')
         ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+
+            ->removeColumn('updated_at')
         ->make();
     }
 
