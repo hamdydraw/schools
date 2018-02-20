@@ -289,7 +289,7 @@ class LessionPlansController extends Controller
         $available_records = App\LessionPlan::where('course_subject_id', '=', $courseSubjectRecord->id)->get();
 
 
-        $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id);
+        $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id,$courseSubjectSemester);
 
 
         if (!count($topics)) {
@@ -327,9 +327,9 @@ class LessionPlansController extends Controller
      * @param  [type] $courseSubjectId [description]
      * @return [type]                  [description]
      */
-    public function prepareTopicsList($subject_id, $courseSubjectId)
+    public function prepareTopicsList($subject_id, $courseSubjectId,$semester)
     {
-        $parent_topics = $this->getTopicRecord($subject_id, 0, 0);
+        $parent_topics = $this->getTopicRecord($subject_id, 0, 0,$semester);
 
         $topics = [];
         foreach ($parent_topics as $topic) {
@@ -337,7 +337,7 @@ class LessionPlansController extends Controller
             $topics[$topic->id] = $topic;
             $topics[$topic->id]['course_subject_id'] = $courseSubjectId;
 
-            $subject_topics_list = App\Topic::where('parent_id', '=', $topic->id)->get()->toArray();
+            $subject_topics_list = App\Topic::where('parent_id', '=', $topic->id)->where('semester_num',$semester)->get()->toArray();
             $lession_plan_topics = App\LessionPlan::where('course_subject_id', '=', $courseSubjectId)
                 ->get()->toArray();
             $topics[$topic->id]['childs'] = $this->prepareChildRecords($subject_topics_list, $lession_plan_topics);
@@ -354,7 +354,7 @@ class LessionPlansController extends Controller
      *
      * @return     <type>   The topic record.
      */
-    public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0)
+    public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0,$semester)
     {
 
         $result = App\Topic::join('subjects', 'subjects.id', '=', 'topics.subject_id')
@@ -363,6 +363,7 @@ class LessionPlansController extends Controller
 
         $result = $result->where('subjects.id', '=', $subject_id)
             ->where('topics.parent_id', '=', $parent_id)
+            ->where('topics.semester_num', '=', $semester)
             ->select(['topics.id as id', 'topic_name', 'lessionplans.is_completed', 'completed_on'])
             ->groupBy(['topics.id'])->get();
         return $result;
