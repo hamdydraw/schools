@@ -91,7 +91,6 @@ class StudentMarksReportController extends Controller
      */
     public function getClassMarks(Request $request)
     {
-
         $academic_id = $request->academic_id;
         $course_id = $request->course_id;
         $course_parent_id = $request->parent_course_id;
@@ -241,8 +240,8 @@ class StudentMarksReportController extends Controller
             $year = $request->year;
         }
         $semister = 0;
-        if ($request->semister) {
-            $semister = $request->semister;
+        if ($request->current_semister) {
+            $semister = $request->current_semister;
         }
         $offline_quiz_category_id = $request->offline_quiz_category_id;
 
@@ -263,7 +262,6 @@ class StudentMarksReportController extends Controller
         if ($offline_quiz_category) {
             $title .= ' ' . $offline_quiz_category->title . ' class marks';
         }
-
         $subjects = App\QuizApplicability::
 
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')

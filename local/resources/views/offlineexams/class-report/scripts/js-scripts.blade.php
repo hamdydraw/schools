@@ -75,7 +75,6 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
-                console.log(result)
                 result = result.data;
                 $scope.result_data = result;
                 $scope.subjects = result.subjects;
