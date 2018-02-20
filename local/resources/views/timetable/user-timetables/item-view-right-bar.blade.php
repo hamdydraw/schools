@@ -5,7 +5,7 @@
 				<div class="panel-body">
 					<ul class="offer-list">
 						<li ng-repeat="topic in topics_completed">
-						<i class="fa fa-check text-success"></i> @{{topic.topic_name}} in <strong>@{{topic.subject_title}} </strong> </li>
+						<i class="fa fa-check text-success"></i> @{{topic.topic_name}} {{getPhrase('in')}} <strong>@{{topic.subject_title}} </strong> </li>
 						
 						<li ng-if="topics_completed.length<=0">
 						 {{getPhrase('no_list_available')}}/{{getPhrase('select_other_class')}}</li>

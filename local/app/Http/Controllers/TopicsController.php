@@ -50,6 +50,7 @@ class TopicsController extends Controller
         $records = Topic::join('subjects', 'topics.subject_id', '=', 'subjects.id')
             ->select([
                 'subjects.subject_title',
+                'semester_num',
                 'parent_id',
                 'topic_name',
                 'description',
@@ -287,7 +288,7 @@ class TopicsController extends Controller
         $list = Topic::getTopicsInSSpecificSemester($subject_id, $semester, 0);
 
         $parents = array();
-        array_push($parents, array('id' => 0, 'text' => 'Parent'));
+        array_push($parents, array('id' => 0, 'text' => getPhrase('top_level')));
 
         foreach ($list as $key => $value) {
             $r = array('id' => $value->id, 'text' => $value->topic_name);
@@ -404,7 +405,7 @@ class TopicsController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash(getPhrase('Ooops'), $e->errorInfo, 'error');
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
             } else {
                 flash(getPhrase('Ooops'), getPhrase('improper_sheet_uploaded'), 'error');
             }
@@ -485,6 +486,7 @@ class TopicsController extends Controller
         $topic = new Topic();
         $name = $request->topic_name;
         $topic->topic_name = $name;
+        $topic->semester_num = $request->semester_num;
         $topic->parent_id = $request->parent_id;
         $topic->slug = $topic->makeSlug(getHashCode());
         $topic->subject_id = $request->subject_id;
@@ -492,7 +494,7 @@ class TopicsController extends Controller
         if ($request->description) {
             $topic->description = $request->description;
         }
-        $topic->user_stamp($request);
+        //$topic->user_stamp($request);
         $topic->save();
         return $topic->id;
     }
@@ -521,6 +523,7 @@ class TopicsController extends Controller
                     $sheet->appendRow($cnt++, array(
                         $data_item->type,
                         $item->topic_name,
+                        $item->semester_num,
                         $item->parent_id,
                         $item->subject_id,
                         $item->description
@@ -529,13 +532,19 @@ class TopicsController extends Controller
             });
 
             $excel->sheet('Success', function ($sheet) {
-                $sheet->row(1, array('topic_name', 'parent_id', 'subject_id', 'description'));
+                $sheet->row(1, array('topic_name', 'semester', 'parent_id', 'subject_id', 'description'));
                 $data = $this->getFailedData();
                 $cnt = 2;
                 foreach ($data['success'] as $data_item) {
                     $item = $data_item;
                     $sheet->appendRow($cnt++,
-                        array($item->topic_name, $item->parent_id, $item->subject_id, $item->description));
+                        array(
+                            $item->topic_name,
+                            $item->semester_num,
+                            $item->parent_id,
+                            $item->subject_id,
+                            $item->description
+                        ));
                 }
 
             });
