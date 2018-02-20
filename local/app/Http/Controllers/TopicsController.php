@@ -245,7 +245,7 @@ class TopicsController extends Controller
         $record->slug = $record->makeSlug($name, true);
         $record->subject_id = $request->subject_id;
         $record->parent_id = $request->parent_id;
-        $record->semester_num = $request->semesters;
+        $record->semester_num = $request->semester_num;
         $record->description = $request->description;
         $record->user_stamp($request);
         $record->save();
@@ -429,7 +429,7 @@ class TopicsController extends Controller
         $data['active_class'] = 'settings';
         $data['heading'] = getPhrase('users');
         $data['title'] = getPhrase('report');
-        // flash('success','record_added_successfully', 'success');
+        flash('success','record_added_successfully', 'success');
         return view('mastersettings.topics.import.import-result', $data);
 
     }
@@ -497,7 +497,7 @@ class TopicsController extends Controller
         $topic = new Topic();
         $name = $request->topic_name;
         $topic->topic_name = $name;
-        $topic->semester_num = $request->semester_num;
+        $topic->semester_num = $request->semester;
         $topic->parent_id = $request->parent_id;
         $topic->slug = $topic->makeSlug(getHashCode());
         $topic->subject_id = $request->subject_id;
@@ -526,7 +526,7 @@ class TopicsController extends Controller
     {
         Excel::create('topics_report', function ($excel) {
             $excel->sheet('Failed', function ($sheet) {
-                $sheet->row(1, array('Reason', 'topic_name', 'parent_id', 'subject_id', 'description'));
+                $sheet->row(1, array('Reason', 'topic_name','semester_num', 'parent_id', 'subject_id', 'description'));
                 $data = $this->getFailedData();
                 $cnt = 2;
                 foreach ($data['failed'] as $data_item) {
