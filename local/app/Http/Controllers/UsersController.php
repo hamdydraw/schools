@@ -91,8 +91,8 @@ class UsersController extends Controller
                     'role_id',
                     'slug',
                     'users.id',
-                    'users.updated_at',
-                    'users.status'
+                    'users.status',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
                 ->orderBy('users.updated_at', 'desc');
         } elseif ($slug == 'student') {
@@ -115,9 +115,9 @@ class UsersController extends Controller
                     'login_enabled',
                     'role_id',
                     'users.slug as slug',
-                    'users.updated_at',
                     'courses.course_dueration',
-                    'courses.is_having_semister'
+                    'courses.is_having_semister',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
                 ->orderBy('users.updated_at', 'desc');
 
@@ -140,7 +140,7 @@ class UsersController extends Controller
                     'login_enabled',
                     'role_id',
                     'users.slug as slug',
-                    'users.updated_at',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at',
                     'users.status',
                     'staff.user_id'
                 ])
@@ -160,7 +160,7 @@ class UsersController extends Controller
                     'login_enabled',
                     'role_id',
                     'users.slug as slug',
-                    'users.updated_at'
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
                 ->orderBy('users.name', 'desc');
 
@@ -169,6 +169,10 @@ class UsersController extends Controller
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
+
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
                 $current_id = '';
 
                 $link_data = '<div class="dropdown more">
@@ -176,8 +180,8 @@ class UsersController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
-                        ';
+                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>.
+                        '.$view;
 
                 if ($records->role_name == 'student') {
 
@@ -259,6 +263,12 @@ class UsersController extends Controller
             ->removeColumn('is_having_semister')
             ->removeColumn('status')
             ->removeColumn('user_id')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
 

@@ -246,7 +246,7 @@ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
 
 
 @yield('footer_scripts')
-
+@include('layouts.scripts.popup')
 @include('errors.formMessages')
 
 @yield('custom_div_end')

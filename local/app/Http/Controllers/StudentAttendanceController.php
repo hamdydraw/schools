@@ -126,11 +126,17 @@ class StudentAttendanceController extends Controller
             'is_having_semister',
             'is_having_elective_subjects',
             'slug',
-            'id'
+            'id',
+            'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'
         ])->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
+
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
                 $editSemister = '';
                 if ($records->parent_id) {
                     if ($records->is_having_semister) {
@@ -146,12 +152,19 @@ class StudentAttendanceController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="/mastersettings/course/edit/' . $records->slug . '"><i class="icon-packages"></i>' . getPhrase("edit") . '</a></li>
                             ' . $editSemister . '
+                            '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="icon-packages"></i>' . getPhrase("delete") . '</a></li>
                         </ul>
                     </div>';
             })
             ->removeColumn('id')
             ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->editColumn('parent_id', function ($records) {
                 return ($records->parent_id == 0) ? getPhrase('parent') :
                     Course::getCourseRecord($records->parent_id)->course_title;

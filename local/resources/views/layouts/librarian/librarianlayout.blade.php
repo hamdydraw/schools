@@ -212,7 +212,7 @@
 	 @yield('footer_scripts')
 
 	@include('errors.formMessages')
-
+ 	@include('layouts.scripts.popup')
  	@yield('custom_div_end')
 	{!!getSetting('google_analytics', 'seo_settings')!!}
 </body>

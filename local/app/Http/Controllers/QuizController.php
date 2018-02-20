@@ -95,7 +95,9 @@ class QuizController extends Controller
                     'total_marks',
                     'tags',
                     'quizzes.slug',
-                    'quizzes.id as quiz_id'
+                    'quizzes.id as quiz_id',
+                    'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
+
                 ])
                 ->orderBy('quizzes.updated_at', 'desc');
 
@@ -112,7 +114,8 @@ class QuizController extends Controller
                     'total_marks',
                     'tags',
                     'quizzes.slug',
-                    'quizzes.id as quiz_id'
+                    'quizzes.id as quiz_id',
+                    'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
                 ])
                 ->where('quizzes.category_id', '=', $category->id)
                 ->orderBy('quizcategories.updated_at', 'desc');
@@ -122,13 +125,17 @@ class QuizController extends Controller
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
 
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
                 $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="' . URL_QUIZ_UPDATE_QUESTIONS . $records->slug . '"><i class="fa fa-spinner" aria-hidden="true"></i>' . getPhrase("update_questions") . '</a></li>
-                            <li><a href="' . URL_QUIZ_EDIT . '/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>';
+                            <li><a href="' . URL_QUIZ_EDIT . '/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>'.$view;
 
                 $temp = '';
                 if (checkRole(getUserGrade(1))) {
@@ -153,6 +160,12 @@ class QuizController extends Controller
             ->removeColumn('quiz_id')
             ->removeColumn('slug')
             ->removeColumn('tags')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
 

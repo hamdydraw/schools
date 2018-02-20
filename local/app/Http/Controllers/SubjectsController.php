@@ -51,11 +51,15 @@ class SubjectsController extends Controller
 
 
          $records = Subject::select([
-          'id','subject_title', 'subject_code','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type', 'slug', 'updated_at'])
+          'id','subject_title', 'subject_code','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
          ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
+
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
 
 
             $link_data = '<div class="dropdown more">
@@ -63,7 +67,7 @@ class SubjectsController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li><a href="'.URL_SUBJECTS_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
+                            <li><a href="'.URL_SUBJECTS_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>'.$view;
                             $temp = '';
                             if(checkRole(getUserGrade(1))) {
                                 $temp .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
@@ -80,6 +84,12 @@ class SubjectsController extends Controller
         ->removeColumn('pass_marks')
         ->removeColumn('maximum_marks')
         ->removeColumn('updated_at')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
 
         ->make();
     }
