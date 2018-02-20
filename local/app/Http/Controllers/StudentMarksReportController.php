@@ -78,7 +78,7 @@ class StudentMarksReportController extends Controller
             ->where('quizapplicability.course_id', '=', $course_id)
             ->where('quizapplicability.course_parent_id', '=', $course_parent_id)
             /* ->where('quizapplicability.year', '=', $year)*/
-            ->where('quizapplicability.semister', '=', 0)
+            ->where('quizapplicability.semister', '=', $semister)
             ->select(['quizofflinecategories.id', 'quizofflinecategories.title'])
             ->groupBy('quizofflinecategories.id')
             ->get();
@@ -114,6 +114,7 @@ class StudentMarksReportController extends Controller
         if ($offline_quiz_category) {
             $title .= ' ' . $offline_quiz_category->title . ' class marks';
         }
+
         $subjects = App\QuizApplicability::
 
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
@@ -121,8 +122,8 @@ class StudentMarksReportController extends Controller
             ->where('quizapplicability.academic_id', '=', $academic_id)
             ->where('quizapplicability.course_id', '=', $course_id)
             ->where('quizapplicability.course_parent_id', '=', $course_parent_id)
-            /*->where('quizapplicability.year', '=', $year)
-            ->where('quizapplicability.semister', '=', $semister)*/
+            /*->where('quizapplicability.year', '=', $year)*/
+            ->where('quizapplicability.semister', '=', $semister)
             /*->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)*/
             ->select([
                 'quizzes.id as quiz_id',
@@ -142,7 +143,7 @@ class StudentMarksReportController extends Controller
                 ->where('quizresults.course_id', '=', $course_id)
                 ->where('quizresults.course_parent_id', '=', $course_parent_id)
                 /*>where('quizresults.year', '=', $year)*/
-                /*->where('quizresults.semister', '=', $currentSemeterOfYear)*/
+                ->where('quizresults.semister', '=', $semister)
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -269,9 +270,9 @@ class StudentMarksReportController extends Controller
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->where('quizapplicability.academic_id', '=', $academic_id)
             ->where('quizapplicability.course_id', '=', $course_id)
-            /*->where('quizapplicability.year', '=', $year)
+            /*->where('quizapplicability.year', '=', $year)*/
             ->where('quizapplicability.semister', '=', $semister)
-            ->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)*/
+            /*->where('quizzes.offline_quiz_category_id', '=', $offline_quiz_category_id)*/
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -289,8 +290,8 @@ class StudentMarksReportController extends Controller
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('quizresults.academic_id', '=', $academic_id)
                 ->where('quizresults.course_id', '=', $course_id)
-               /* ->where('quizresults.year', '=', $year)
-                ->where('quizresults.semister', '=', $semister)*/
+               /* ->where('quizresults.year', '=', $year)*/
+                ->where('quizresults.semister', '=', $semister)
                ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',

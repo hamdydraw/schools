@@ -177,7 +177,7 @@ $scope.current_year = $scope.years.current_year;
 $scope.yearChanged($scope.years.current_year)
 }--}}
 if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "transfers" || $location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed"
-|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-attendance" || $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-marks"
+|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-attendance"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "detainedlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "studentresults"
