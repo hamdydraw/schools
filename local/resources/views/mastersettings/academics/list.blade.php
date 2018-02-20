@@ -35,13 +35,9 @@
 								<tr>
 									
 									<th id="helper_step2">{{ getPhrase('title')}} (ID)</th>
-									<th>{{getPhrase("created_by")}}</th>
-									<th>{{getPhrase("updated_by")}}</th>
 									<th>{{ getPhrase('start_date')}}</th>
 									<th>{{ getPhrase('end_date')}}</th>
 									<th>{{ getPhrase('total_semesters')}}</th>
-									<th>{{ getPhrase('creator_ip')}}</th>
-									<th>{{ getPhrase('updater_ip')}}</th>
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 								  
 								</tr>

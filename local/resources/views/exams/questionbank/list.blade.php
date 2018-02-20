@@ -39,10 +39,6 @@
 									<th>{{ getPhrase('id')}}</th>
 									<th id="helper_step3">{{ getPhrase('subject')}}</th>
 									<th>{{ getPhrase('code')}}</th>
-									<th>{{ getPhrase("created_by")}}</th>
-									<th>{{ getPhrase("updated_by")}}</th>
-									<th>{{ getPhrase('creator_ip')}}</th>
-									<th>{{ getPhrase('updater_ip')}}</th>
 									 <th id="helper_step4">{{ getPhrase('action')}}</th>
 								  
 								</tr>

@@ -59,7 +59,7 @@ class OfflineExamsController extends Controller
                 'quizzes.slug',
                 'start_date',
                 'end_date',
-                'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip'
+                'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
             ])
             ->where('quizzes.type', '!=', 'online')
             ->where('quizapplicability.academic_id', '=', $academic_id)
@@ -67,6 +67,10 @@ class OfflineExamsController extends Controller
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
+
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
 
                 $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,7 +80,7 @@ class OfflineExamsController extends Controller
                             <li><a href="' . URL_OFFLINE_EXAMS_SELECTION_VIEW . $records->slug . '"><i class="fa fa-spinner" aria-hidden="true"></i>
 ' . getPhrase('update_marks') . '</a></li>
 
-                            <li><a href="' . URL_QUIZ_EDIT . '/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase('edit') . '</a></li>';
+                            <li><a href="' . URL_QUIZ_EDIT . '/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase('edit') . '</a></li>'.$view;
 
                 if (checkRole(getUserGrade(1))) {
                     $link_data .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';
@@ -84,12 +88,7 @@ class OfflineExamsController extends Controller
                 $link_data .= '</ul></div>';
                 return $link_data;
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
+
             ->editColumn('title', function ($records) {
 
                 return '<a href="' . URL_OFFLINE_EXAMS_SELECTION_VIEW . $records->slug . '">' . $records->title . ' (' . $records->id . ')' . '</a>';
@@ -97,6 +96,12 @@ class OfflineExamsController extends Controller
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('type')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
 

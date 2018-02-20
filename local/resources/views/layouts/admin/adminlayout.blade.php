@@ -46,7 +46,7 @@
 
 </head>
 
-<body ng-app="academia">
+<body ng-app="academia" ng-controller="pop_it_up">
 
 @if(isset($module_helper))
     <div class="fab-buttons">
@@ -450,7 +450,7 @@ if ($settings->messaging->value == 1) {
 
 
 @yield('footer_scripts')
-
+@include('layouts.scripts.popup')
 @include('errors.formMessages')
 
 @yield('custom_div_end')

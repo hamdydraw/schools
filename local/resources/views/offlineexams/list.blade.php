@@ -45,10 +45,6 @@
 									<th>{{ getPhrase('pass_percentage')}}</th>
 									<th>{{ getPhrase('start_date')}}</th>
 									<th>{{ getPhrase('end_date')}}</th>
-									<th>{{ getPhrase("created_by")}}</th>
-									<th>{{ getPhrase("updated_by")}}</th>
-									<th>{{ getPhrase('creator_ip')}}</th>
-									<th>{{ getPhrase('updater_ip')}}</th>
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 									
 									

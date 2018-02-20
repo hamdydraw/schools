@@ -38,11 +38,13 @@ class AcademicsController extends Controller
     {
         DB::statement(DB::raw('set @rownum=0'));
 
-        $records = Academic::select(['id', 'academic_year_title','created_by_user','updated_by_user', 'academic_start_date', 'academic_end_date','total_semesters','created_by_ip','updated_by_ip', 'slug']);
+        $records = Academic::select(['id', 'academic_year_title', 'academic_start_date', 'academic_end_date','total_semesters','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
-
+                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -52,22 +54,21 @@ class AcademicsController extends Controller
 
                             <li><a href="' . URL_MASTERSETTINGS_ACADEMICS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
 
-                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
+                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
                         </ul>
                     </div>';
             })
             ->editColumn('academic_year_title', function ($records) {
                 return '<a href="' . URL_MASTERSETTINGS_ACADEMICS_COURSES . $records->slug . '">' . $records->academic_year_title . ' (' . $records->id . ')' . '</a>';
             })
-            ->editColumn('created_by_user', function ($records) {
-                return App\User::get_user_name($records->created_by_user);
-            })
-            ->editColumn('updated_by_user', function ($records) {
-                return App\User::get_user_name($records->updated_by_user);
-            })
-
             ->removeColumn('id')
             ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
 
