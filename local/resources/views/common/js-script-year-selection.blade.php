@@ -219,13 +219,12 @@ if(semister.total_semisters>0)
 
 semisters =[];
 
-$scope.semisters = { "current_semister": "Select","values": ['Select'] };
+$scope.semisters = { "current_semister": "<?php echo getPhrase('select'); ?>","values": ['<?php echo getPhrase('select'); ?>'] };
 for(i=1; i<=semister.total_semisters; i++)
 {
 $scope.semisters.values.push(i);
 }
-
-$scope.current_semister = 'select';
+{{--$scope.current_semister = 'select';--}}
 $scope.total_semisters = semister.total_semisters;
 $scope.have_semisters = true;
 }
