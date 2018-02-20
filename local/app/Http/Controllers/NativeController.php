@@ -62,6 +62,7 @@ class NativeController extends Controller
         $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
         $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
         $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
       $link_data = '<div class="dropdown more">
       <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="mdi mdi-dots-vertical"></i>

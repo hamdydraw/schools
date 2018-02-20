@@ -68,10 +68,14 @@ class LibraryMastersController extends Controller
     public function getDatatable()
     {
         $records = LibraryMaster::select([
-         	'asset_type_id', 'image', 'title', 'author_id', 'publisher_id', 'total_assets_count', 'total_assets_available', 'total_assets_issued','edition','id','slug','created_by_ip','updated_by_ip']);
+         	'asset_type_id', 'image', 'title', 'author_id', 'publisher_id', 'total_assets_count', 'total_assets_available', 'total_assets_issued','edition','id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
        $this->setLibrarySettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
+
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
 
 
             return '<div class="dropdown more">
@@ -84,10 +88,13 @@ class LibraryMastersController extends Controller
 
 
                             <li><a href="'.URL_LIBRARY_MASTERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
+                           
+                            '.$view.'
 
                              <li><a href="'.URL_LIBRARY_ASSET_DETAILS.$records->slug.'"><i class="fa fa-outdent" aria-hidden="true"></i>'.getPhrase("asset_details").'</a></li>
 
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
+                            
                         </ul>
                     </div>';
             })
@@ -115,6 +122,12 @@ class LibraryMastersController extends Controller
         })
         ->removeColumn('id')
         ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
         ->make();
     }
 

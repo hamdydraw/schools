@@ -50,18 +50,22 @@ class ModuleHelperController extends Controller
       }
 
          $records = ModuleHelper::select([ 'title',
-            'slug', 'help_link_text','is_enabled','id', 'updated_at','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
+            'slug', 'help_link_text','is_enabled','id', 'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
          ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
            $link_data = '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_MODULEHELPERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
-                            <li><a href="'.URL_MODULEHELPERS_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>';
+                            <li><a href="'.URL_MODULEHELPERS_VIEW.$records->slug.'"><i class="fa fa-eye"></i>'.getPhrase("view").'</a></li>'.$view;
 
 
                     $temp = '';
@@ -81,6 +85,12 @@ class ModuleHelperController extends Controller
         ->removeColumn('id')
 
         ->removeColumn('updated_at')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
         ->make();
     }
 

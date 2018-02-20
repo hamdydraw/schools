@@ -47,11 +47,16 @@ class EmailTemplatesController extends Controller
       }
 
          $records = EmailTemplate::select([
-         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip'])
+         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
          ->orderBy('updated_at', 'DESC');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
+
+            $records->created_by_user_name = User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
+            $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
 
 
             return '<div class="dropdown more">
@@ -60,6 +65,7 @@ class EmailTemplatesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_EMAIL_TEMPLATES_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
+                                                                '.$view.'
 
                         </ul>
                     </div>';
@@ -67,8 +73,15 @@ class EmailTemplatesController extends Controller
 
         ->removeColumn('id')
         ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
 
-        ->make();
+
+            ->make();
     }
 
     /**
