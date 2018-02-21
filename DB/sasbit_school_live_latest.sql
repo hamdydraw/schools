@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
+-- version 4.3.8
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 19, 2018 at 09:42 PM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 7.0.1
+-- Generation Time: Feb 21, 2018 at 03:17 PM
+-- Server version: 5.5.51-38.2
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `elearning`
+-- Database: `sasbit_school`
 --
 
 -- --------------------------------------------------------
@@ -26,8 +26,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `academicholidays`
 --
 
-CREATE TABLE `academicholidays` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `academicholidays` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` enum('day','date') COLLATE utf8_unicode_ci NOT NULL,
@@ -35,13 +35,13 @@ CREATE TABLE `academicholidays` (
   `date_from` date DEFAULT NULL,
   `date_to` date DEFAULT NULL,
   `reason` mediumtext COLLATE utf8_unicode_ci NOT NULL,
-  `updated_by` bigint(20) UNSIGNED NOT NULL,
+  `updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -50,8 +50,8 @@ CREATE TABLE `academicholidays` (
 -- Table structure for table `academics`
 --
 
-CREATE TABLE `academics` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `academics` (
+  `id` bigint(20) unsigned NOT NULL,
   `academic_year_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `academic_start_date` date NOT NULL,
@@ -62,9 +62,9 @@ CREATE TABLE `academics` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `academics`
@@ -81,7 +81,7 @@ INSERT INTO `academics` (`id`, `academic_year_title`, `slug`, `academic_start_da
 -- Table structure for table `academics_semesters`
 --
 
-CREATE TABLE `academics_semesters` (
+CREATE TABLE IF NOT EXISTS `academics_semesters` (
   `id` int(11) NOT NULL,
   `academic_id` int(8) NOT NULL,
   `sem_num` int(3) NOT NULL,
@@ -89,21 +89,23 @@ CREATE TABLE `academics_semesters` (
   `sem_end_date` datetime NOT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `academics_semesters`
 --
 
-INSERT INTO `academics_semesters` (`id`, `academic_id`, `sem_num`, `sem_start_date`, `sem_end_date`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(9, 1, 1, '2017-09-01 00:00:00', '2018-01-01 00:00:00', NULL, NULL, NULL, NULL),
-(10, 1, 2, '2018-01-15 00:00:00', '2018-05-15 00:00:00', NULL, NULL, NULL, NULL),
-(11, 6, 1, '2018-09-01 00:00:00', '2019-01-01 00:00:00', NULL, NULL, NULL, NULL),
-(12, 6, 2, '2019-01-15 00:00:00', '2019-05-15 00:00:00', NULL, NULL, NULL, NULL),
-(13, 7, 1, '2019-09-01 00:00:00', '2020-01-01 00:00:00', NULL, NULL, NULL, NULL),
-(14, 7, 2, '2020-01-15 00:00:00', '2020-05-15 00:00:00', NULL, NULL, NULL, NULL);
+INSERT INTO `academics_semesters` (`id`, `academic_id`, `sem_num`, `sem_start_date`, `sem_end_date`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `updated_at`, `created_at`) VALUES
+(9, 1, 1, '2017-09-01 00:00:00', '2018-01-01 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 1, 2, '2018-01-15 00:00:00', '2018-05-15 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 6, 1, '2018-09-01 00:00:00', '2019-01-01 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 6, 2, '2019-01-15 00:00:00', '2019-05-15 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 7, 1, '2019-09-01 00:00:00', '2020-01-01 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 7, 2, '2020-01-15 00:00:00', '2020-05-15 00:00:00', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -111,18 +113,18 @@ INSERT INTO `academics_semesters` (`id`, `academic_id`, `sem_num`, `sem_start_da
 -- Table structure for table `academic_course`
 --
 
-CREATE TABLE `academic_course` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `academic_course` (
+  `id` bigint(20) unsigned NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `course_parent_id` bigint(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=258 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `academic_course`
@@ -172,8 +174,8 @@ INSERT INTO `academic_course` (`id`, `academic_id`, `course_id`, `course_parent_
 -- Table structure for table `activity_log`
 --
 
-CREATE TABLE `activity_log` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `activity_log` (
+  `id` int(10) unsigned NOT NULL,
   `log_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `subject_id` int(11) DEFAULT NULL,
@@ -185,8 +187,8 @@ CREATE TABLE `activity_log` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -195,8 +197,8 @@ CREATE TABLE `activity_log` (
 -- Table structure for table `authors`
 --
 
-CREATE TABLE `authors` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `authors` (
+  `id` bigint(20) unsigned NOT NULL,
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `gender` enum('male','female') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'male',
@@ -206,9 +208,16 @@ CREATE TABLE `authors` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `authors`
+--
+
+INSERT INTO `authors` (`id`, `author`, `slug`, `gender`, `description`, `record_updated_by`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
+(1, 'احسان عبد القدوس', 'ahsan-aabd-alkdos660', 'male', '', 1790, '2018-02-22 07:22:00', '2018-02-22 07:22:00', NULL, '51.39.70.14', 1790, NULL);
 
 -- --------------------------------------------------------
 
@@ -216,17 +225,17 @@ CREATE TABLE `authors` (
 -- Table structure for table `bookmarks`
 --
 
-CREATE TABLE `bookmarks` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `item_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `bookmarks` (
+  `id` int(10) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `item_id` bigint(20) unsigned NOT NULL,
   `item_type` enum('questions') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'questions',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -235,8 +244,8 @@ CREATE TABLE `bookmarks` (
 -- Table structure for table `categories`
 --
 
-CREATE TABLE `categories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `categories` (
+  `id` bigint(20) unsigned NOT NULL,
   `category_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` enum('Active','Inactive') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Active',
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -244,9 +253,9 @@ CREATE TABLE `categories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `categories`
@@ -264,8 +273,8 @@ INSERT INTO `categories` (`id`, `category_name`, `status`, `slug`, `created_at`,
 -- Table structure for table `certificateissues`
 --
 
-CREATE TABLE `certificateissues` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `certificateissues` (
+  `id` bigint(20) unsigned NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `student_id` bigint(20) NOT NULL,
   `roll_no` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -274,7 +283,7 @@ CREATE TABLE `certificateissues` (
   `certificate_data` text COLLATE utf8_unicode_ci,
   `certificate_type` enum('bonafide','tc') COLLATE utf8_unicode_ci NOT NULL,
   `reference_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `issued_by` bigint(20) UNSIGNED NOT NULL,
+  `issued_by` bigint(20) unsigned NOT NULL,
   `current_year` int(11) NOT NULL,
   `current_semister` int(11) NOT NULL,
   `reason` text COLLATE utf8_unicode_ci NOT NULL,
@@ -282,9 +291,9 @@ CREATE TABLE `certificateissues` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `certificateissues`
@@ -356,7 +365,7 @@ INSERT INTO `certificateissues` (`id`, `user_id`, `student_id`, `roll_no`, `acad
 -- Table structure for table `certificatetemplates`
 --
 
-CREATE TABLE `certificatetemplates` (
+CREATE TABLE IF NOT EXISTS `certificatetemplates` (
   `id` int(20) NOT NULL,
   `title` varchar(30) NOT NULL,
   `slug` varchar(30) NOT NULL,
@@ -364,13 +373,13 @@ CREATE TABLE `certificatetemplates` (
   `content` text NOT NULL,
   `status` enum('active','inactive') NOT NULL DEFAULT 'active',
   `type` enum('content','header','footer','independent') NOT NULL,
-  `updated_by` int(50) UNSIGNED NOT NULL,
+  `updated_by` int(50) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -379,267 +388,269 @@ CREATE TABLE `certificatetemplates` (
 -- Table structure for table `countries`
 --
 
-CREATE TABLE `countries` (
+CREATE TABLE IF NOT EXISTS `countries` (
   `id` bigint(20) NOT NULL,
   `country_code` varchar(2) NOT NULL DEFAULT '',
   `country_name` varchar(100) NOT NULL DEFAULT '',
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM AUTO_INCREMENT=251 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `countries`
 --
 
-INSERT INTO `countries` (`id`, `country_code`, `country_name`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(1, 'AF', 'Afghanistan', NULL, NULL, NULL, NULL),
-(2, 'AL', 'Albania', NULL, NULL, NULL, NULL),
-(3, 'DZ', 'Algeria', NULL, NULL, NULL, NULL),
-(4, 'DS', 'American Samoa', NULL, NULL, NULL, NULL),
-(5, 'AD', 'Andorra', NULL, NULL, NULL, NULL),
-(6, 'AO', 'Angola', NULL, NULL, NULL, NULL),
-(7, 'AI', 'Anguilla', NULL, NULL, NULL, NULL),
-(8, 'AQ', 'Antarctica', NULL, NULL, NULL, NULL),
-(9, 'AG', 'Antigua and Barbuda', NULL, NULL, NULL, NULL),
-(10, 'AR', 'Argentina', NULL, NULL, NULL, NULL),
-(11, 'AM', 'Armenia', NULL, NULL, NULL, NULL),
-(12, 'AW', 'Aruba', NULL, NULL, NULL, NULL),
-(13, 'AU', 'Australia', NULL, NULL, NULL, NULL),
-(14, 'AT', 'Austria', NULL, NULL, NULL, NULL),
-(15, 'AZ', 'Azerbaijan', NULL, NULL, NULL, NULL),
-(16, 'BS', 'Bahamas', NULL, NULL, NULL, NULL),
-(17, 'BH', 'Bahrain', NULL, NULL, NULL, NULL),
-(18, 'BD', 'Bangladesh', NULL, NULL, NULL, NULL),
-(19, 'BB', 'Barbados', NULL, NULL, NULL, NULL),
-(20, 'BY', 'Belarus', NULL, NULL, NULL, NULL),
-(21, 'BE', 'Belgium', NULL, NULL, NULL, NULL),
-(22, 'BZ', 'Belize', NULL, NULL, NULL, NULL),
-(23, 'BJ', 'Benin', NULL, NULL, NULL, NULL),
-(24, 'BM', 'Bermuda', NULL, NULL, NULL, NULL),
-(25, 'BT', 'Bhutan', NULL, NULL, NULL, NULL),
-(26, 'BO', 'Bolivia', NULL, NULL, NULL, NULL),
-(27, 'BA', 'Bosnia and Herzegovina', NULL, NULL, NULL, NULL),
-(28, 'BW', 'Botswana', NULL, NULL, NULL, NULL),
-(29, 'BV', 'Bouvet Island', NULL, NULL, NULL, NULL),
-(30, 'BR', 'Brazil', NULL, NULL, NULL, NULL),
-(31, 'IO', 'British Indian Ocean Territory', NULL, NULL, NULL, NULL),
-(32, 'BN', 'Brunei Darussalam', NULL, NULL, NULL, NULL),
-(33, 'BG', 'Bulgaria', NULL, NULL, NULL, NULL),
-(34, 'BF', 'Burkina Faso', NULL, NULL, NULL, NULL),
-(35, 'BI', 'Burundi', NULL, NULL, NULL, NULL),
-(36, 'KH', 'Cambodia', NULL, NULL, NULL, NULL),
-(37, 'CM', 'Cameroon', NULL, NULL, NULL, NULL),
-(38, 'CA', 'Canada', NULL, NULL, NULL, NULL),
-(39, 'CV', 'Cape Verde', NULL, NULL, NULL, NULL),
-(40, 'KY', 'Cayman Islands', NULL, NULL, NULL, NULL),
-(41, 'CF', 'Central African Republic', NULL, NULL, NULL, NULL),
-(42, 'TD', 'Chad', NULL, NULL, NULL, NULL),
-(43, 'CL', 'Chile', NULL, NULL, NULL, NULL),
-(44, 'CN', 'China', NULL, NULL, NULL, NULL),
-(45, 'CX', 'Christmas Island', NULL, NULL, NULL, NULL),
-(46, 'CC', 'Cocos (Keeling) Islands', NULL, NULL, NULL, NULL),
-(47, 'CO', 'Colombia', NULL, NULL, NULL, NULL),
-(48, 'KM', 'Comoros', NULL, NULL, NULL, NULL),
-(49, 'CG', 'Congo', NULL, NULL, NULL, NULL),
-(50, 'CK', 'Cook Islands', NULL, NULL, NULL, NULL),
-(51, 'CR', 'Costa Rica', NULL, NULL, NULL, NULL),
-(52, 'HR', 'Croatia (Hrvatska)', NULL, NULL, NULL, NULL),
-(53, 'CU', 'Cuba', NULL, NULL, NULL, NULL),
-(54, 'CY', 'Cyprus', NULL, NULL, NULL, NULL),
-(55, 'CZ', 'Czech Republic', NULL, NULL, NULL, NULL),
-(56, 'DK', 'Denmark', NULL, NULL, NULL, NULL),
-(57, 'DJ', 'Djibouti', NULL, NULL, NULL, NULL),
-(58, 'DM', 'Dominica', NULL, NULL, NULL, NULL),
-(59, 'DO', 'Dominican Republic', NULL, NULL, NULL, NULL),
-(60, 'TP', 'East Timor', NULL, NULL, NULL, NULL),
-(61, 'EC', 'Ecuador', NULL, NULL, NULL, NULL),
-(62, 'EG', 'Egypt', NULL, NULL, NULL, NULL),
-(63, 'SV', 'El Salvador', NULL, NULL, NULL, NULL),
-(64, 'GQ', 'Equatorial Guinea', NULL, NULL, NULL, NULL),
-(65, 'ER', 'Eritrea', NULL, NULL, NULL, NULL),
-(66, 'EE', 'Estonia', NULL, NULL, NULL, NULL),
-(67, 'ET', 'Ethiopia', NULL, NULL, NULL, NULL),
-(68, 'FK', 'Falkland Islands (Malvinas)', NULL, NULL, NULL, NULL),
-(69, 'FO', 'Faroe Islands', NULL, NULL, NULL, NULL),
-(70, 'FJ', 'Fiji', NULL, NULL, NULL, NULL),
-(71, 'FI', 'Finland', NULL, NULL, NULL, NULL),
-(72, 'FR', 'France', NULL, NULL, NULL, NULL),
-(73, 'FX', 'France, Metropolitan', NULL, NULL, NULL, NULL),
-(74, 'GF', 'French Guiana', NULL, NULL, NULL, NULL),
-(75, 'PF', 'French Polynesia', NULL, NULL, NULL, NULL),
-(76, 'TF', 'French Southern Territories', NULL, NULL, NULL, NULL),
-(77, 'GA', 'Gabon', NULL, NULL, NULL, NULL),
-(78, 'GM', 'Gambia', NULL, NULL, NULL, NULL),
-(79, 'GE', 'Georgia', NULL, NULL, NULL, NULL),
-(80, 'DE', 'Germany', NULL, NULL, NULL, NULL),
-(81, 'GH', 'Ghana', NULL, NULL, NULL, NULL),
-(82, 'GI', 'Gibraltar', NULL, NULL, NULL, NULL),
-(83, 'GK', 'Guernsey', NULL, NULL, NULL, NULL),
-(84, 'GR', 'Greece', NULL, NULL, NULL, NULL),
-(85, 'GL', 'Greenland', NULL, NULL, NULL, NULL),
-(86, 'GD', 'Grenada', NULL, NULL, NULL, NULL),
-(87, 'GP', 'Guadeloupe', NULL, NULL, NULL, NULL),
-(88, 'GU', 'Guam', NULL, NULL, NULL, NULL),
-(89, 'GT', 'Guatemala', NULL, NULL, NULL, NULL),
-(90, 'GN', 'Guinea', NULL, NULL, NULL, NULL),
-(91, 'GW', 'Guinea-Bissau', NULL, NULL, NULL, NULL),
-(92, 'GY', 'Guyana', NULL, NULL, NULL, NULL),
-(93, 'HT', 'Haiti', NULL, NULL, NULL, NULL),
-(94, 'HM', 'Heard and Mc Donald Islands', NULL, NULL, NULL, NULL),
-(95, 'HN', 'Honduras', NULL, NULL, NULL, NULL),
-(96, 'HK', 'Hong Kong', NULL, NULL, NULL, NULL),
-(97, 'HU', 'Hungary', NULL, NULL, NULL, NULL),
-(98, 'IS', 'Iceland', NULL, NULL, NULL, NULL),
-(99, 'IN', 'India', NULL, NULL, NULL, NULL),
-(100, 'IM', 'Isle of Man', NULL, NULL, NULL, NULL),
-(101, 'ID', 'Indonesia', NULL, NULL, NULL, NULL),
-(102, 'IR', 'Iran (Islamic Republic of)', NULL, NULL, NULL, NULL),
-(103, 'IQ', 'Iraq', NULL, NULL, NULL, NULL),
-(104, 'IE', 'Ireland', NULL, NULL, NULL, NULL),
-(105, 'IL', 'Israel', NULL, NULL, NULL, NULL),
-(106, 'IT', 'Italy', NULL, NULL, NULL, NULL),
-(107, 'CI', 'Ivory Coast', NULL, NULL, NULL, NULL),
-(108, 'JE', 'Jersey', NULL, NULL, NULL, NULL),
-(109, 'JM', 'Jamaica', NULL, NULL, NULL, NULL),
-(110, 'JP', 'Japan', NULL, NULL, NULL, NULL),
-(111, 'JO', 'Jordan', NULL, NULL, NULL, NULL),
-(112, 'KZ', 'Kazakhstan', NULL, NULL, NULL, NULL),
-(113, 'KE', 'Kenya', NULL, NULL, NULL, NULL),
-(114, 'KI', 'Kiribati', NULL, NULL, NULL, NULL),
-(115, 'KP', 'Korea, Democratic People''s Republic of', NULL, NULL, NULL, NULL),
-(116, 'KR', 'Korea, Republic of', NULL, NULL, NULL, NULL),
-(117, 'XK', 'Kosovo', NULL, NULL, NULL, NULL),
-(118, 'KW', 'Kuwait', NULL, NULL, NULL, NULL),
-(119, 'KG', 'Kyrgyzstan', NULL, NULL, NULL, NULL),
-(120, 'LA', 'Lao People''s Democratic Republic', NULL, NULL, NULL, NULL),
-(121, 'LV', 'Latvia', NULL, NULL, NULL, NULL),
-(122, 'LB', 'Lebanon', NULL, NULL, NULL, NULL),
-(123, 'LS', 'Lesotho', NULL, NULL, NULL, NULL),
-(124, 'LR', 'Liberia', NULL, NULL, NULL, NULL),
-(125, 'LY', 'Libyan Arab Jamahiriya', NULL, NULL, NULL, NULL),
-(126, 'LI', 'Liechtenstein', NULL, NULL, NULL, NULL),
-(127, 'LT', 'Lithuania', NULL, NULL, NULL, NULL),
-(128, 'LU', 'Luxembourg', NULL, NULL, NULL, NULL),
-(129, 'MO', 'Macau', NULL, NULL, NULL, NULL),
-(130, 'MK', 'Macedonia', NULL, NULL, NULL, NULL),
-(131, 'MG', 'Madagascar', NULL, NULL, NULL, NULL),
-(132, 'MW', 'Malawi', NULL, NULL, NULL, NULL),
-(133, 'MY', 'Malaysia', NULL, NULL, NULL, NULL),
-(134, 'MV', 'Maldives', NULL, NULL, NULL, NULL),
-(135, 'ML', 'Mali', NULL, NULL, NULL, NULL),
-(136, 'MT', 'Malta', NULL, NULL, NULL, NULL),
-(137, 'MH', 'Marshall Islands', NULL, NULL, NULL, NULL),
-(138, 'MQ', 'Martinique', NULL, NULL, NULL, NULL),
-(139, 'MR', 'Mauritania', NULL, NULL, NULL, NULL),
-(140, 'MU', 'Mauritius', NULL, NULL, NULL, NULL),
-(141, 'TY', 'Mayotte', NULL, NULL, NULL, NULL),
-(142, 'MX', 'Mexico', NULL, NULL, NULL, NULL),
-(143, 'FM', 'Micronesia, Federated States of', NULL, NULL, NULL, NULL),
-(144, 'MD', 'Moldova, Republic of', NULL, NULL, NULL, NULL),
-(145, 'MC', 'Monaco', NULL, NULL, NULL, NULL),
-(146, 'MN', 'Mongolia', NULL, NULL, NULL, NULL),
-(147, 'ME', 'Montenegro', NULL, NULL, NULL, NULL),
-(148, 'MS', 'Montserrat', NULL, NULL, NULL, NULL),
-(149, 'MA', 'Morocco', NULL, NULL, NULL, NULL),
-(150, 'MZ', 'Mozambique', NULL, NULL, NULL, NULL),
-(151, 'MM', 'Myanmar', NULL, NULL, NULL, NULL),
-(152, 'NA', 'Namibia', NULL, NULL, NULL, NULL),
-(153, 'NR', 'Nauru', NULL, NULL, NULL, NULL),
-(154, 'NP', 'Nepal', NULL, NULL, NULL, NULL),
-(155, 'NL', 'Netherlands', NULL, NULL, NULL, NULL),
-(156, 'AN', 'Netherlands Antilles', NULL, NULL, NULL, NULL),
-(157, 'NC', 'New Caledonia', NULL, NULL, NULL, NULL),
-(158, 'NZ', 'New Zealand', NULL, NULL, NULL, NULL),
-(159, 'NI', 'Nicaragua', NULL, NULL, NULL, NULL),
-(160, 'NE', 'Niger', NULL, NULL, NULL, NULL),
-(161, 'NG', 'Nigeria', NULL, NULL, NULL, NULL),
-(162, 'NU', 'Niue', NULL, NULL, NULL, NULL),
-(163, 'NF', 'Norfolk Island', NULL, NULL, NULL, NULL),
-(164, 'MP', 'Northern Mariana Islands', NULL, NULL, NULL, NULL),
-(165, 'NO', 'Norway', NULL, NULL, NULL, NULL),
-(166, 'OM', 'Oman', NULL, NULL, NULL, NULL),
-(167, 'PK', 'Pakistan', NULL, NULL, NULL, NULL),
-(168, 'PW', 'Palau', NULL, NULL, NULL, NULL),
-(169, 'PS', 'Palestine', NULL, NULL, NULL, NULL),
-(170, 'PA', 'Panama', NULL, NULL, NULL, NULL),
-(171, 'PG', 'Papua New Guinea', NULL, NULL, NULL, NULL),
-(172, 'PY', 'Paraguay', NULL, NULL, NULL, NULL),
-(173, 'PE', 'Peru', NULL, NULL, NULL, NULL),
-(174, 'PH', 'Philippines', NULL, NULL, NULL, NULL),
-(175, 'PN', 'Pitcairn', NULL, NULL, NULL, NULL),
-(176, 'PL', 'Poland', NULL, NULL, NULL, NULL),
-(177, 'PT', 'Portugal', NULL, NULL, NULL, NULL),
-(178, 'PR', 'Puerto Rico', NULL, NULL, NULL, NULL),
-(179, 'QA', 'Qatar', NULL, NULL, NULL, NULL),
-(180, 'RE', 'Reunion', NULL, NULL, NULL, NULL),
-(181, 'RO', 'Romania', NULL, NULL, NULL, NULL),
-(182, 'RU', 'Russian Federation', NULL, NULL, NULL, NULL),
-(183, 'RW', 'Rwanda', NULL, NULL, NULL, NULL),
-(184, 'KN', 'Saint Kitts and Nevis', NULL, NULL, NULL, NULL),
-(185, 'LC', 'Saint Lucia', NULL, NULL, NULL, NULL),
-(186, 'VC', 'Saint Vincent and the Grenadines', NULL, NULL, NULL, NULL),
-(187, 'WS', 'Samoa', NULL, NULL, NULL, NULL),
-(188, 'SM', 'San Marino', NULL, NULL, NULL, NULL),
-(189, 'ST', 'Sao Tome and Principe', NULL, NULL, NULL, NULL),
-(190, 'SA', 'Saudi Arabia', NULL, NULL, NULL, NULL),
-(191, 'SN', 'Senegal', NULL, NULL, NULL, NULL),
-(192, 'RS', 'Serbia', NULL, NULL, NULL, NULL),
-(193, 'SC', 'Seychelles', NULL, NULL, NULL, NULL),
-(194, 'SL', 'Sierra Leone', NULL, NULL, NULL, NULL),
-(195, 'SG', 'Singapore', NULL, NULL, NULL, NULL),
-(196, 'SK', 'Slovakia', NULL, NULL, NULL, NULL),
-(197, 'SI', 'Slovenia', NULL, NULL, NULL, NULL),
-(198, 'SB', 'Solomon Islands', NULL, NULL, NULL, NULL),
-(199, 'SO', 'Somalia', NULL, NULL, NULL, NULL),
-(200, 'ZA', 'South Africa', NULL, NULL, NULL, NULL),
-(201, 'GS', 'South Georgia South Sandwich Islands', NULL, NULL, NULL, NULL),
-(202, 'ES', 'Spain', NULL, NULL, NULL, NULL),
-(203, 'LK', 'Sri Lanka', NULL, NULL, NULL, NULL),
-(204, 'SH', 'St. Helena', NULL, NULL, NULL, NULL),
-(205, 'PM', 'St. Pierre and Miquelon', NULL, NULL, NULL, NULL),
-(206, 'SD', 'Sudan', NULL, NULL, NULL, NULL),
-(207, 'SR', 'Suriname', NULL, NULL, NULL, NULL),
-(208, 'SJ', 'Svalbard and Jan Mayen Islands', NULL, NULL, NULL, NULL),
-(209, 'SZ', 'Swaziland', NULL, NULL, NULL, NULL),
-(210, 'SE', 'Sweden', NULL, NULL, NULL, NULL),
-(211, 'CH', 'Switzerland', NULL, NULL, NULL, NULL),
-(212, 'SY', 'Syrian Arab Republic', NULL, NULL, NULL, NULL),
-(213, 'TW', 'Taiwan', NULL, NULL, NULL, NULL),
-(214, 'TJ', 'Tajikistan', NULL, NULL, NULL, NULL),
-(215, 'TZ', 'Tanzania, United Republic of', NULL, NULL, NULL, NULL),
-(216, 'TH', 'Thailand', NULL, NULL, NULL, NULL),
-(217, 'TG', 'Togo', NULL, NULL, NULL, NULL),
-(218, 'TK', 'Tokelau', NULL, NULL, NULL, NULL),
-(219, 'TO', 'Tonga', NULL, NULL, NULL, NULL),
-(220, 'TT', 'Trinidad and Tobago', NULL, NULL, NULL, NULL),
-(221, 'TN', 'Tunisia', NULL, NULL, NULL, NULL),
-(222, 'TR', 'Turkey', NULL, NULL, NULL, NULL),
-(223, 'TM', 'Turkmenistan', NULL, NULL, NULL, NULL),
-(224, 'TC', 'Turks and Caicos Islands', NULL, NULL, NULL, NULL),
-(225, 'TV', 'Tuvalu', NULL, NULL, NULL, NULL),
-(226, 'UG', 'Uganda', NULL, NULL, NULL, NULL),
-(227, 'UA', 'Ukraine', NULL, NULL, NULL, NULL),
-(228, 'AE', 'United Arab Emirates', NULL, NULL, NULL, NULL),
-(229, 'GB', 'United Kingdom', NULL, NULL, NULL, NULL),
-(230, 'US', 'United States', NULL, NULL, NULL, NULL),
-(231, 'UM', 'United States minor outlying islands', NULL, NULL, NULL, NULL),
-(232, 'UY', 'Uruguay', NULL, NULL, NULL, NULL),
-(233, 'UZ', 'Uzbekistan', NULL, NULL, NULL, NULL),
-(234, 'VU', 'Vanuatu', NULL, NULL, NULL, NULL),
-(235, 'VA', 'Vatican City State', NULL, NULL, NULL, NULL),
-(236, 'VE', 'Venezuela', NULL, NULL, NULL, NULL),
-(237, 'VN', 'Vietnam', NULL, NULL, NULL, NULL),
-(238, 'VG', 'Virgin Islands (British)', NULL, NULL, NULL, NULL),
-(239, 'VI', 'Virgin Islands (U.S.)', NULL, NULL, NULL, NULL),
-(240, 'WF', 'Wallis and Futuna Islands', NULL, NULL, NULL, NULL),
-(241, 'EH', 'Western Sahara', NULL, NULL, NULL, NULL),
-(242, 'YE', 'Yemen', NULL, NULL, NULL, NULL),
-(243, 'YU', 'Yugoslavia', NULL, NULL, NULL, NULL),
-(244, 'ZR', 'Zaire', NULL, NULL, NULL, NULL),
-(245, 'ZM', 'Zambia', NULL, NULL, NULL, NULL),
-(246, 'ZW', 'Zimbabwe', NULL, NULL, NULL, NULL);
+INSERT INTO `countries` (`id`, `country_code`, `country_name`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `updated_at`, `created_at`) VALUES
+(250, 'AF', 'Afghanistan', NULL, NULL, NULL, NULL, '2018-02-21 21:06:35', '0000-00-00 00:00:00'),
+(2, 'AL', 'Albania', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'DZ', 'Algeria', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'DS', 'American Samoa', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 'AD', 'Andorra', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'AO', 'Angola', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'AI', 'Anguilla', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'AQ', 'Antarctica', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'AG', 'Antigua and Barbuda', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'AR', 'Argentina', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'AM', 'Armenia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'AW', 'Aruba', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'AU', 'Australia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'AT', 'Austria', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(15, 'AZ', 'Azerbaijan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(16, 'BS', 'Bahamas', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(17, 'BH', 'Bahrain', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(18, 'BD', 'Bangladesh', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(19, 'BB', 'Barbados', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(20, 'BY', 'Belarus', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(21, 'BE', 'Belgium', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(22, 'BZ', 'Belize', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(23, 'BJ', 'Benin', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(24, 'BM', 'Bermuda', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(25, 'BT', 'Bhutan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(26, 'BO', 'Bolivia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(27, 'BA', 'Bosnia and Herzegovina', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(28, 'BW', 'Botswana', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(29, 'BV', 'Bouvet Island', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(30, 'BR', 'Brazil', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(31, 'IO', 'British Indian Ocean Territory', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(32, 'BN', 'Brunei Darussalam', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(33, 'BG', 'Bulgaria', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(34, 'BF', 'Burkina Faso', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(35, 'BI', 'Burundi', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(36, 'KH', 'Cambodia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(37, 'CM', 'Cameroon', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(38, 'CA', 'Canada', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(39, 'CV', 'Cape Verde', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(40, 'KY', 'Cayman Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(41, 'CF', 'Central African Republic', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(42, 'TD', 'Chad', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(43, 'CL', 'Chile', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(44, 'CN', 'China', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(45, 'CX', 'Christmas Island', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(46, 'CC', 'Cocos (Keeling) Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(47, 'CO', 'Colombia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(48, 'KM', 'Comoros', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(49, 'CG', 'Congo', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(50, 'CK', 'Cook Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(51, 'CR', 'Costa Rica', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(52, 'HR', 'Croatia (Hrvatska)', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(53, 'CU', 'Cuba', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(54, 'CY', 'Cyprus', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(55, 'CZ', 'Czech Republic', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(56, 'DK', 'Denmark', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(57, 'DJ', 'Djibouti', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(58, 'DM', 'Dominica', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(59, 'DO', 'Dominican Republic', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(60, 'TP', 'East Timor', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(61, 'EC', 'Ecuador', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(62, 'EG', 'Egypt', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(63, 'SV', 'El Salvador', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(64, 'GQ', 'Equatorial Guinea', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(65, 'ER', 'Eritrea', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(66, 'EE', 'Estonia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(67, 'ET', 'Ethiopia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(68, 'FK', 'Falkland Islands (Malvinas)', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(69, 'FO', 'Faroe Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(70, 'FJ', 'Fiji', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(71, 'FI', 'Finland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(72, 'FR', 'France', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(73, 'FX', 'France, Metropolitan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(74, 'GF', 'French Guiana', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(75, 'PF', 'French Polynesia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(76, 'TF', 'French Southern Territories', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(77, 'GA', 'Gabon', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(78, 'GM', 'Gambia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(79, 'GE', 'Georgia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(80, 'DE', 'Germany', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(81, 'GH', 'Ghana', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(82, 'GI', 'Gibraltar', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(83, 'GK', 'Guernsey', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(84, 'GR', 'Greece', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(85, 'GL', 'Greenland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(86, 'GD', 'Grenada', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(87, 'GP', 'Guadeloupe', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(88, 'GU', 'Guam', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(89, 'GT', 'Guatemala', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(90, 'GN', 'Guinea', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(91, 'GW', 'Guinea-Bissau', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(92, 'GY', 'Guyana', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(93, 'HT', 'Haiti', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(94, 'HM', 'Heard and Mc Donald Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(95, 'HN', 'Honduras', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(96, 'HK', 'Hong Kong', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(97, 'HU', 'Hungary', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(98, 'IS', 'Iceland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(99, 'IN', 'India', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(100, 'IM', 'Isle of Man', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(101, 'ID', 'Indonesia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(102, 'IR', 'Iran (Islamic Republic of)', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(103, 'IQ', 'Iraq', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(104, 'IE', 'Ireland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(105, 'IL', 'Israel', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(106, 'IT', 'Italy', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(107, 'CI', 'Ivory Coast', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(108, 'JE', 'Jersey', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(109, 'JM', 'Jamaica', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(110, 'JP', 'Japan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(111, 'JO', 'Jordan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(112, 'KZ', 'Kazakhstan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(113, 'KE', 'Kenya', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(114, 'KI', 'Kiribati', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(115, 'KP', 'Korea, Democratic People''s Republic of', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(116, 'KR', 'Korea, Republic of', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(117, 'XK', 'Kosovo', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(118, 'KW', 'Kuwait', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(119, 'KG', 'Kyrgyzstan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(120, 'LA', 'Lao People''s Democratic Republic', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(121, 'LV', 'Latvia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(122, 'LB', 'Lebanon', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(123, 'LS', 'Lesotho', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(124, 'LR', 'Liberia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(125, 'LY', 'Libyan Arab Jamahiriya', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(126, 'LI', 'Liechtenstein', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(127, 'LT', 'Lithuania', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(128, 'LU', 'Luxembourg', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(129, 'MO', 'Macau', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(130, 'MK', 'Macedonia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(131, 'MG', 'Madagascar', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(132, 'MW', 'Malawi', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(133, 'MY', 'Malaysia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(134, 'MV', 'Maldives', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(135, 'ML', 'Mali', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(136, 'MT', 'Malta', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(137, 'MH', 'Marshall Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(138, 'MQ', 'Martinique', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(139, 'MR', 'Mauritania', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(140, 'MU', 'Mauritius', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(141, 'TY', 'Mayotte', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(142, 'MX', 'Mexico', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(143, 'FM', 'Micronesia, Federated States of', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(144, 'MD', 'Moldova, Republic of', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(145, 'MC', 'Monaco', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(146, 'MN', 'Mongolia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(147, 'ME', 'Montenegro', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(148, 'MS', 'Montserrat', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(149, 'MA', 'Morocco', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(150, 'MZ', 'Mozambique', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(151, 'MM', 'Myanmar', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(152, 'NA', 'Namibia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(153, 'NR', 'Nauru', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(154, 'NP', 'Nepal', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(155, 'NL', 'Netherlands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(156, 'AN', 'Netherlands Antilles', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(157, 'NC', 'New Caledonia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(158, 'NZ', 'New Zealand', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(159, 'NI', 'Nicaragua', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(160, 'NE', 'Niger', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(161, 'NG', 'Nigeria', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(162, 'NU', 'Niue', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(163, 'NF', 'Norfolk Island', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(164, 'MP', 'Northern Mariana Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(165, 'NO', 'Norway', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(166, 'OM', 'Oman', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(167, 'PK', 'Pakistan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(168, 'PW', 'Palau', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(169, 'PS', 'Palestine', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(170, 'PA', 'Panama', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(171, 'PG', 'Papua New Guinea', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(172, 'PY', 'Paraguay', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(173, 'PE', 'Peru', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(174, 'PH', 'Philippines', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(175, 'PN', 'Pitcairn', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(176, 'PL', 'Poland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(177, 'PT', 'Portugal', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(178, 'PR', 'Puerto Rico', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(179, 'QA', 'Qatar', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(180, 'RE', 'Reunion', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(181, 'RO', 'Romania', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(182, 'RU', 'Russian Federation', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(183, 'RW', 'Rwanda', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(184, 'KN', 'Saint Kitts and Nevis', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(185, 'LC', 'Saint Lucia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(186, 'VC', 'Saint Vincent and the Grenadines', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(187, 'WS', 'Samoa', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(188, 'SM', 'San Marino', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(189, 'ST', 'Sao Tome and Principe', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1, 'SA', 'Saudi Arabia', NULL, NULL, NULL, NULL, '2018-02-21 21:08:16', '0000-00-00 00:00:00'),
+(191, 'SN', 'Senegal', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(192, 'RS', 'Serbia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(193, 'SC', 'Seychelles', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(194, 'SL', 'Sierra Leone', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(195, 'SG', 'Singapore', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(196, 'SK', 'Slovakia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(197, 'SI', 'Slovenia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(198, 'SB', 'Solomon Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(199, 'SO', 'Somalia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(200, 'ZA', 'South Africa', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(201, 'GS', 'South Georgia South Sandwich Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(202, 'ES', 'Spain', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(203, 'LK', 'Sri Lanka', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(204, 'SH', 'St. Helena', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(205, 'PM', 'St. Pierre and Miquelon', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(206, 'SD', 'Sudan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(207, 'SR', 'Suriname', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(208, 'SJ', 'Svalbard and Jan Mayen Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(209, 'SZ', 'Swaziland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(210, 'SE', 'Sweden', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(211, 'CH', 'Switzerland', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(212, 'SY', 'Syrian Arab Republic', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(213, 'TW', 'Taiwan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(214, 'TJ', 'Tajikistan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(215, 'TZ', 'Tanzania, United Republic of', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(216, 'TH', 'Thailand', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(217, 'TG', 'Togo', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(218, 'TK', 'Tokelau', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(219, 'TO', 'Tonga', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(220, 'TT', 'Trinidad and Tobago', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(221, 'TN', 'Tunisia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(222, 'TR', 'Turkey', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(223, 'TM', 'Turkmenistan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(224, 'TC', 'Turks and Caicos Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(225, 'TV', 'Tuvalu', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(226, 'UG', 'Uganda', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(227, 'UA', 'Ukraine', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(228, 'AE', 'United Arab Emirates', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(229, 'GB', 'United Kingdom', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(230, 'US', 'United States', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(231, 'UM', 'United States minor outlying islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(232, 'UY', 'Uruguay', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(233, 'UZ', 'Uzbekistan', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(234, 'VU', 'Vanuatu', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(235, 'VA', 'Vatican City State', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(236, 'VE', 'Venezuela', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(237, 'VN', 'Vietnam', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(238, 'VG', 'Virgin Islands (British)', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(239, 'VI', 'Virgin Islands (U.S.)', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(240, 'WF', 'Wallis and Futuna Islands', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(241, 'EH', 'Western Sahara', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(242, 'YE', 'Yemen', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(243, 'YU', 'Yugoslavia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(244, 'ZR', 'Zaire', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(245, 'ZM', 'Zambia', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(246, 'ZW', 'Zimbabwe', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -647,8 +658,8 @@ INSERT INTO `countries` (`id`, `country_code`, `country_name`, `updated_by_ip`, 
 -- Table structure for table `couponcodes`
 --
 
-CREATE TABLE `couponcodes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `couponcodes` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `coupon_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -667,9 +678,9 @@ CREATE TABLE `couponcodes` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `couponcodes`
@@ -684,20 +695,21 @@ INSERT INTO `couponcodes` (`id`, `title`, `slug`, `coupon_code`, `discount_type`
 -- Table structure for table `couponcodes_usage`
 --
 
-CREATE TABLE `couponcodes_usage` (
+CREATE TABLE IF NOT EXISTS `couponcodes_usage` (
   `id` bigint(20) NOT NULL,
   `item_id` int(11) NOT NULL,
   `item_type` varchar(50) NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `item_cost` decimal(10,2) NOT NULL,
   `total_invoice_amount` decimal(10,2) NOT NULL,
   `discount_amount` decimal(10,2) NOT NULL,
-  `coupon_id` bigint(20) UNSIGNED NOT NULL,
+  `coupon_id` bigint(20) unsigned NOT NULL,
   `updated_at` datetime NOT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -706,8 +718,8 @@ CREATE TABLE `couponcodes_usage` (
 -- Table structure for table `courses`
 --
 
-CREATE TABLE `courses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `courses` (
+  `id` bigint(20) unsigned NOT NULL,
   `parent_id` tinyint(4) NOT NULL DEFAULT '0',
   `course_title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -722,9 +734,9 @@ CREATE TABLE `courses` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `courses`
@@ -775,19 +787,19 @@ INSERT INTO `courses` (`id`, `parent_id`, `course_title`, `slug`, `course_code`,
 -- Table structure for table `coursesemisters`
 --
 
-CREATE TABLE `coursesemisters` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `year` int(10) UNSIGNED NOT NULL,
-  `total_semisters` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `coursesemisters` (
+  `id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
+  `year` int(10) unsigned NOT NULL,
+  `total_semisters` int(10) unsigned NOT NULL,
   `current_semester` tinyint(1) DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `coursesemisters`
@@ -813,25 +825,25 @@ INSERT INTO `coursesemisters` (`id`, `course_id`, `year`, `total_semisters`, `cu
 -- Table structure for table `course_subject`
 --
 
-CREATE TABLE `course_subject` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `course_subject` (
+  `id` bigint(20) unsigned NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_parent_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_parent_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `year` int(11) NOT NULL,
   `semister` int(11) NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `sessions_needed` int(11) NOT NULL,
-  `staff_id` bigint(20) UNSIGNED NOT NULL,
+  `staff_id` bigint(20) unsigned NOT NULL,
   `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `course_subject`
@@ -866,8 +878,8 @@ INSERT INTO `course_subject` (`id`, `slug`, `academic_id`, `course_parent_id`, `
 -- Table structure for table `departments`
 --
 
-CREATE TABLE `departments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `departments` (
+  `id` bigint(20) unsigned NOT NULL,
   `department_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `department_code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -876,9 +888,9 @@ CREATE TABLE `departments` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `departments`
@@ -893,8 +905,8 @@ INSERT INTO `departments` (`id`, `department_name`, `department_code`, `slug`, `
 -- Table structure for table `emailtemplates`
 --
 
-CREATE TABLE `emailtemplates` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `emailtemplates` (
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` enum('header','footer','content') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'content',
@@ -907,9 +919,9 @@ CREATE TABLE `emailtemplates` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `emailtemplates`
@@ -931,11 +943,11 @@ INSERT INTO `emailtemplates` (`id`, `title`, `slug`, `type`, `subject`, `content
 -- Table structure for table `examseries`
 --
 
-CREATE TABLE `examseries` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `examseries` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `category_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) unsigned NOT NULL,
   `is_paid` tinyint(1) NOT NULL DEFAULT '0',
   `cost` decimal(10,2) NOT NULL,
   `validity` int(11) NOT NULL,
@@ -951,9 +963,9 @@ CREATE TABLE `examseries` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `examseries`
@@ -969,17 +981,17 @@ INSERT INTO `examseries` (`id`, `title`, `slug`, `category_id`, `is_paid`, `cost
 -- Table structure for table `examseries_data`
 --
 
-CREATE TABLE `examseries_data` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `examseries_id` bigint(20) UNSIGNED NOT NULL,
-  `quiz_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `examseries_data` (
+  `id` int(10) unsigned NOT NULL,
+  `examseries_id` bigint(20) unsigned NOT NULL,
+  `quiz_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `examseries_data`
@@ -998,20 +1010,20 @@ INSERT INTO `examseries_data` (`id`, `examseries_id`, `quiz_id`, `created_at`, `
 -- Table structure for table `examtoppers`
 --
 
-CREATE TABLE `examtoppers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `examtoppers` (
+  `id` bigint(20) unsigned NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `quiz_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `quiz_id` bigint(20) unsigned NOT NULL,
   `percentage` decimal(10,2) NOT NULL,
   `rank` int(11) NOT NULL,
-  `quiz_result_id` bigint(20) UNSIGNED NOT NULL,
+  `quiz_result_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1020,11 +1032,11 @@ CREATE TABLE `examtoppers` (
 -- Table structure for table `feedbacks`
 --
 
-CREATE TABLE `feedbacks` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `feedbacks` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `read_status` tinyint(4) NOT NULL DEFAULT '0',
@@ -1032,9 +1044,9 @@ CREATE TABLE `feedbacks` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `feedbacks`
@@ -1050,8 +1062,8 @@ INSERT INTO `feedbacks` (`id`, `title`, `slug`, `user_id`, `subject`, `descripti
 -- Table structure for table `grades`
 --
 
-CREATE TABLE `grades` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `grades` (
+  `id` int(10) unsigned NOT NULL,
   `percentage_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `grade_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `percentage_from` decimal(10,2) NOT NULL,
@@ -1061,9 +1073,9 @@ CREATE TABLE `grades` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `grades`
@@ -1081,15 +1093,15 @@ INSERT INTO `grades` (`id`, `percentage_title`, `grade_title`, `percentage_from`
 -- Table structure for table `groups`
 --
 
-CREATE TABLE `groups` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `groups` (
+  `id` int(10) unsigned NOT NULL,
   `group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1098,8 +1110,8 @@ CREATE TABLE `groups` (
 -- Table structure for table `instructions`
 --
 
-CREATE TABLE `instructions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `instructions` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `content` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1107,9 +1119,9 @@ CREATE TABLE `instructions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `instructions`
@@ -1124,8 +1136,8 @@ INSERT INTO `instructions` (`id`, `title`, `slug`, `content`, `created_at`, `upd
 -- Table structure for table `languages`
 --
 
-CREATE TABLE `languages` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `languages` (
+  `id` int(10) unsigned NOT NULL,
   `language` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `code` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1136,18 +1148,18 @@ CREATE TABLE `languages` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `languages`
 --
 
 INSERT INTO `languages` (`id`, `language`, `slug`, `code`, `is_rtl`, `is_default`, `phrases`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(9, 'English', 'english-1', 'en', 0, 0, '{"games_played_or_extra-curricular_activities":"Games Played Or Extra-curricular Activities","general_conduct":"General Conduct","date_of_application_for_certificate":"Date Of Application For Certificate","date_of_issue_certificate":"Date Of Issue Certificate","reason_for_leaving_the_school":"Reason For Leaving The School","any_other_remarks":"Any Other Remarks","print":"Print","date":"Date","serial_no:":"Serial No:","admission_no:":"Admission No:","name_of_the_pupil":"Name Of The Pupil","fathers\\/guardians_name":"Fathers\\/guardians Name","mothers_name":"Mothers Name","nationality":"Nationality","candidate_belongs_to_schedule_caste_or_schedule_tribe":"Candidate Belongs To Schedule Caste Or Schedule Tribe","date_of_first_admission_in_the_school_with_class":"Date Of First Admission In The School With Class","date_of_birth_according_to_the_admission_register":"Date Of Birth According To The Admission Register","class_in_which_the_last_studied_with_name":"Class In Which The Last Studied With Name","school\\/board_annual_examination_last_taken_and_result":"School\\/board Annual Examination Last Taken And Result","whether_failed,_if_once\\/twice_in_the_same_class":"Whether Failed, If Once\\/twice In The Same Class","whether_qualified_for_promotion_to_higer_class_if_so,_to_which_class":"Whether Qualified For Promotion To Higer Class If So, to Which Class","total_number_no_of_working_days":"Total Number No Of Working Days","total_number_no_of_days_present":"Total Number No.of Days Present","whether_n_c_c_cadet\\/boy_scout\\/_girls_guide":"Whether N C C Cadet\\/boy Scout\\/ Girls Guide","whether_ncc_cadet\\/boy_scout\\/_girls_guide":"Whether Ncc Cadet\\/boy Scout\\/ Girls Guide","whether_ncc_cadet\\/_boy_scout\\/_girls_guide":"Whether Ncc Cadet\\/ Boy Scout\\/ Girls Guide","whether_n_c_c_cadet\\/_boy_scout\\/_girls_guide":"Whether N C C Cadet\\/ Boy Scout\\/ Girls Guide","whether_n_cc_cadet\\/_boy_scout\\/_girls_guide":"Whether N.cc Cadet\\/ Boy Scout\\/ Girls Guide","bonafide_certificate":"Bonafide Certificate","select":"Select","academic_operations":"Academic Operations","certificates_dashboard":"Certificates Dashboard","select_details":"Select Details","certificate_type":"Certificate Type","search":"Search","image":"Image","name":"Name","roll_no":"Roll No","admission_no":"Admission No","class":"Class","year":"Year","semester":"Semester","are_you_sure":"Are You Sure","yes":"Yes","delete_it":"Delete It","no":"No","cancel_please":"Cancel Please","cancelled":"Cancelled","your_record_is_safe":"Your Record Is Safe","search_student":"Search Student","latest_users":"Latest Users","was_joined_as":"Was Joined As","see_more":"See More","my_profile":"My Profile","change_password":"Change Password","feedback":"Feedback","notifications":"Notifications","messages":"Messages","languages":"Languages","logout":"Logout","dashboard":" Dashboard","users":"Users","attendance":"Attendance","certificates":"Certificates","transfers":"Transfers","timetable":"Timetable","offline_exams_":"Offline Exams ","class_attendance_report":"Class Attendance Report","class_marks_report":"Class Marks Report","exams":"Exams","categories":" Categories","question_bank":"Question Bank","quiz":"Quiz","exam_series":"Exam Series","instructions":"Instructions","coupons":"Coupons","list":"List","add":"Add","contents":"Contents","series":" Series","master_settings":"Master Settings","settings":"Settings","religions_master":"Religions Master","categories_master":"Categories Master","academics_master":"Academics Master","courses_master":"Courses Master","course_subjects":"Course Subjects","certificate_templates":"Certificate Templates","email_templates":"Email Templates","payment_reports":"Payment Reports","online_payments":"Online Payments","offline_payments":"Offline Payments","export":"Export","certificate_issues_histroy":"Certificate Issues Histroy","select_user_to_view_details":"Select User To View Details","purpose":"Purpose","please_wait":"Please Wait","invalid_setting":"Invalid Setting","id_cards":"Id Cards","lets_start":"Lets Start","bonafide_certificates":"Bonafide Certificates","user_statistics":"User Statistics","success":"Success","pending":"Pending","total":"Total","overall_statistics":"Overall Statistics","payments_reports_in":"Payments Reports In","demanding_quizzes":"Demanding Quizzes","demanding":"Demanding","quizzes":"Quizzes","view_all":"View All","academics":"Academics","library":"Library","courses":"Courses","quizzes_usage":"Quizzes Usage","paid_quizzes_usage":"Paid Quizzes Usage","academic_operations_dashboard":"Academic Operations Dashboard","offline_exams":"Offline Exams","orientation":"Orientation","update":"Update","create":"Create","key":"Key","setting_key":"Setting Key","tool_tip":"Tool Tip","type":"Type","total_options":"Total Options","description":"Description","option_value":"Option Value","option_text":"Option Text","make_default":"Make Default","record_updated_successfully":"Record Updated Successfully","zoomfactor":"Zoomfactor","margin":"Margin","format":"Format","printable_file":"Printable File","id_card_generation":"Id Card Generation","print_header":"Print Header","print_footer":"Print Footer","print_date":"Print Date","print_reference_number":"Print Reference Number","module":"Module","action":"Action","edit":"Edit","view":"View","logo":"Logo","content":" Content","left_sign_image":"Left Sign Image","right_sign_image":"Right Sign Image","left_sign_name":"Left Sign Name","right_sign_name":"Right Sign Name","left_sign_designation":"Left Sign Designation","right_sign_designation":"Right Sign Designation","watermark_image":"Watermark Image","bottom_middle_logo":"Bottom Middle Logo","add_setting":"Add Setting","title":"Title","introduction":"Introduction","description_of_the_topic":"Description Of The Topic","record_added_successfully":"Record Added Successfully","no_settings_available":"No Settings Available","right_designation":"Right Designation","exams_dashboard":"Exams Dashboard","exam-series":"Exam-series","quiz_categories":"Quiz Categories","category":"Category","you_will_not_be_able_to_recover_this_record":"You Will Not Be Able To Recover This Record","deleted":"Deleted","sorry":"Sorry","cannot_delete_this_record_as":"Cannot Delete This Record As","your_record_has_been_deleted":"Your Record Has Been Deleted","delete":"Delete","create_series":"Create Series","duration":"Duration","is_paid":"Is Paid","total_marks":"Total Marks","update_questions":"Update Questions","free":"Free","paid":"Paid","create_quiz":"Create Quiz","quiz_title":"Quiz Title","this_field_is_required":"This Field Is Required","the_text_is_too_short":"The Text Is Too Short","the_text_is_too_long":"The Text Is Too Long","subject":"Subject","select_subject":"Select Subject","online":"Online","offline":"Offline","quiz_type":"Quiz Type","select_type":"Select Type","offline_category":"Offline Category","enter_value_in_minutes":"Enter Value In Minutes","please_enter_valid_number":"Please Enter Valid Number","it_will_be_updated_by_adding_the_questions":"It Will Be Updated By Adding The Questions","pass_percentage":"Pass Percentage","negative_mark":"Negative Mark","instructions_page":"Instructions Page","start_date":"Start Date","end_date":"End Date","validity":"Validity","validity_in_days":"Validity In Days","cost":"Cost","specific_classes":"Specific Classes","applicable_to_specific":"Applicable To Specific","academic_year":"Academic Year","course":"Course","already_item_available":"Already Item Available","item_removed_successfully":"Item Removed Successfully","update_questions_for":"Update Questions For","subjects":"Subjects","difficulty":"Difficulty","easy":"Easy","medium":"Medium","hard":"Hard","question_type":"Question Type","single_answer":"Single Answer","multi_answer":"Multi Answer","fill_in_the_blanks":"Fill In The Blanks","match_the_following":"Match The Following","paragraph":"Paragraph","video":"Video","search_term":"Search Term","enter_search_term":"Enter Search Term","question":"Question","marks":"Marks","saved_questions":"Saved Questions","remove_all":"Remove All","edit_quiz":"Edit Quiz","right_side_name":"Right Side Name","right_side_sign":"Right Side Sign","bonafide_\\/_tc_certificates":"Bonafide \\/ Tc Certificates","bonafide_\\/_transfer_certificates":"Bonafide \\/ Transfer Certificates","bonafide_\\/_transfer_certificate":"Bonafide \\/ Transfer Certificate","users_dashboard":"Users Dashboard","owners":"Owners","admins":"Admins","students":"Students","staff":"Staff","librarians":"Librarians","assistant_librarians":"Assistant Librarians","parents":"Parents","all_users":"All Users","create_user":"Create User","100":"100","update_offline_exams_marks":"Update Offline Exams Marks","import_excel":"Import Excel","exam":"Exam","year_and_semester":"Year And Semester","maximum_marks":"Maximum Marks","update_marks":"Update Marks","select_offline_exams_details":"Select Offline Exams Details","offline_exmas":"Offline Exmas","selection_details":"Selection Details","branch":"Branch","get_details":"Get Details","offline_exam_details":"Offline Exam Details","marks_for":"Marks For","sno":"Sno","photo":"Photo","marks_obtained":"Marks Obtained","exam_status":"Exam Status","pass":"Pass","fail":"Fail","reference_no":"Reference No","oops___!":"Oops...!","no_students_available":"No Students Available","right_side_designation":"Right Side Designation","edit_settings":"Edit Settings","offline_exams_categories":"Offline Exams Categories","offline_quiz_categories":"Offline Quiz Categories","category_name":"Category Name","add_category":"Add Category","invalid_input":"Invalid Input","edit_category":"Edit Category","offline_exmas_quiz_categories":"Offline Exmas Quiz Categories","offline_exmas_categories":"Offline Exmas Categories","add_user":"Add User","staff_id":"Staff Id","job_title":"Job Title","email":"Email","edit_details":"Edit Details","teacher":"Teacher","staff_profile":"Staff Profile","staff_list":"Staff List","profile":"Profile","general_details":"General Details","personal_details":"Personal Details","contact_details":"Contact Details","date_of_join":"Date Of Join","qualification":"Qualification","experience_(years)":"Experience (years)","experience_(months)":"Experience (months)","experience_information":"Experience Information","other_information":"Other Information","first_name":"First Name","middle_name":"Middle Name","last_name":"Last Name","date_of_birth":"Date Of Birth","gender":"Gender","male":"Male","female":"Female","blood_group":"Blood Group","fathers_name":"Fathers Name","mother_tongue":"Mother Tongue","address_lane1":"Address Lane1","address_lane2":"Address Lane2","city":"City","state":"State","country":"Country","zipcode":"Zipcode","mobile":"Mobile","home_phone":"Home Phone","father\\/guardian_name":"Father\\/guardian Name","father_\\/_guardian_name":"Father \\/ Guardian Name","mother_name":"Mother Name","school_\\/_board_annual_examination_last_taken_and_result":"School \\/ Board Annual Examination Last Taken And Result","whether_failed,__if_once_\\/_twice_in_the_same_class":"Whether Failed, If Once \\/ Twice In The Same Class","left_side_name":"Left Side Name","show_left_side_name":"Show Left Side Name","show_left_side_designation":"Show Left Side Designation","show_left_side_image":"Show Left Side Image","whether_qualified_for_promotion_to_higer_class_if_so,__to_which_class":"Whether Qualified For Promotion To Higer Class If So, To Which Class","show_middle_name":"Show Middle Name","show_left_side_sign":"Show Left Side Sign","total_number_no_of_present_days":"Total Number No Of Present Days","show_middle_designation":"Show Middle Designation","show_middle_sign":"Show Middle Sign","whether_ncc_cadet_\\/_boy_scout\\/_girls_guide":"Whether Ncc Cadet \\/ Boy Scout\\/ Girls Guide","show_right_side_name":"Show Right Side Name","show_right_side_designation":"Show Right Side Designation","games_played_or_extra-_curricular_activities":"Games Played Or Extra- Curricular Activities","show_right_side_sign":"Show Right Side Sign","water_mark_image":"Water Mark Image","show_watermark":"Show Watermark","name_of_student":"Name Of Student","father_guardian_name":"Father Guardian Name","candidate_caste":"Candidate Caste","date_of_admission_with_class":"Date Of Admission With Class","last_class_studied":"Last Class Studied","last_taken_exam_and_result":"Last Taken Exam And Result","whether_failed_if_once_twice_in_the_same_class":"Whether Failed If Once Twice In The Same Class","promotion_class":"Promotion Class","total_working_days":"Total Working Days","total_present_days":"Total Present Days","ncc_boy_scout_girls_guide":"Ncc Boy Scout Girls Guide","games_played_or_extra_curricular_activities":"Games Played Or Extra Curricular Activities","date_of_apply":"Date Of Apply","date_of_issue":"Date Of Issue","reason":"Reason","remarks":"Remarks","import_marks":"Import Marks","download_template":"Download Template","upload":"Upload","information_helper_for_excel_data":"Information Helper For Excel Data","file_type_not_allowed":"File Type Not Allowed","marks_report":"Marks Report","total_class":"Total Class","present":"Present","absent":"Absent","leave":"Leave","no_data_available":"No Data Available","student":"Student","year-semester":"Year-semester","admission_details":"Admission Details","correct":"Correct","wrong":"Wrong","not_answered":"Not Answered","overall_performance":"Overall Performance","performance":"Performance","best_performance_in_all_quizzes":"Best Performance In All Quizzes","details":"Details","student_users":"Student Users","details_of":"Details Of","reports":"Reports","exam_history":"Exam History","view_details":"View Details","by_exam":"By Exam","by_subject":"By Subject","subscriptions":"Subscriptions","certificate_settings":"Certificate Settings","bonafide_certificates_contents":"Bonafide Certificates Contents","bonafide_certificates_fields":"Bonafide Certificates Fields","transfer_certificates_contents":"Transfer Certificates Contents","transfer_certificates_fields":"Transfer Certificates Fields","id_cards_contents":"Id Cards Contents","id_cards_fields":"Id Cards Fields","transfer_certificates_content":"Transfer Certificates Content","transfer_certificates_cont":"Transfer Certificates Cont","transfer_certificates_conten":"Transfer Certificates Conten","bonafide_certificates_conten":"Bonafide Certificates Conten","bonafide_certificate_content":"Bonafide Certificate Content","transfer_certificate_content":"Transfer Certificate Content","bonafide_certificatet_fields":"Bonafide Certificatet Fields","bonafide_certificatet_con":"Bonafide Certificatet Con","bonafide_certificatet_cont":"Bonafide Certificatet Cont","bonafide_certificatet_conten":"Bonafide Certificatet Conten","bonafide_certificate_conten":"Bonafide Certificate Conten","bonafide_certificate_fields":"Bonafide Certificate Fields","transfer_certificate_fields":"Transfer Certificate Fields","id_card_contents":"Id Card Contents","id_card_fields":"Id Card Fields","question_subjects":"Question Subjects","import_questions":"Import Questions","add_subject":"Add Subject","code":"Code","view_questions":"View Questions","bonafide_certificate_settings":"Bonafide Certificate Settings","transfer_certificate_settings":"Transfer Certificate Settings","total_exams":"Total Exams","total_questions":"Total Questions","update_quizzes":"Update Quizzes","bonafide_certificate_seting":"Bonafide Certificate Seting","bonafide__contents":"Bonafide Contents","bonafide_settings":"Bonafide Settings","mastersettings_dashboard":"Mastersettings Dashboard","religions":"Religions","start_time":"Start Time","end_time":"End Time","default_sessions_needed":"Default Sessions Needed","iamge":"Iamge","student_profile":"Student Profile","students_list":"Students List","parent_login":"Parent Login","info":"Info","once_saved_the_admission_details_cannot_be_edited%0D%0A":"Once Saved The Admission Details Cannot Be Edited","present_academic_details":"Present Academic Details","current_academic_year":"Current Academic Year","current_branch":"Current Branch","current_course":"Current Course","previous_educational_details":"Previous Educational Details","highest_qualification":"Highest Qualification","percentage":"Percentage","year_passed":"Year Passed","previous_institute_name":"Previous Institute Name","institute_address":"Institute Address","religion":"Religion","guardian_name":"Guardian Name","guardian_phone":"Guardian Phone","relationship_with_guardian":"Relationship With Guardian","guardian_email":"Guardian Email","parent_login_details":"Parent Login Details","parent_name":"Parent Name","parent_user_name":"Parent User Name","parent_email":"Parent Email","password":"Password","staff_users":"Staff Users","lesson_plans":"Lesson Plans","subject_preferences":"Subject Preferences","student_attendance":"Student Attendance","payment_statistics":"Payment Statistics","payment_monthly_statistics":"Payment Monthly Statistics","particulars":"Particulars","general_instructions":"General Instructions","attendance_date":"Attendance Date","from":"From","to":"To","lesson_plans_for":"Lesson Plans For","no_topics_available":"No Topics Available","transfer_details":"Transfer Details","edit_user":"Edit User","username":"Username","please_enter_valid_email":"Please Enter Valid Email","role":"Role","select_role":"Select Role","phone":"Phone","please_enter_10-15_digit_mobile_number":"Please Enter 10-15 Digit Mobile Number","please_enter_valid_phone_number":"Please Enter Valid Phone Number","billing_address":"Billing Address","please_enter_your_address":"Please Enter Your Address","exam_analysis_by_attempts":"Exam Analysis By Attempts","attempts":"Attempts","of":"Of","mins":"Mins","exam_attempts_and_score":"Exam Attempts And Score","quiz_attempts":"Quiz Attempts","result":"Result","view_answers":"View Answers","generate_certificate":"Generate Certificate","answers":"Answers","analysis":"Analysis","time_limit":"Time Limit","time_taken":"Time Taken","previous":"Previous","next":"Next","timetable_for":"Timetable For","sun":"Sun","mon":"Mon","tue":"Tue","wed":"Wed","thu":"Thu","fri":"Fri","sat":"Sat","timetable_for_":"Timetable For ","leisure":"Leisure","lab":"Lab","completed_topics_list":"Completed Topics List","no_list_available":"No List Available","select_other_class":"Select Other Class","please_select_the_details":"Please Select The Details","preferred_subjects":"Preferred Subjects","elective":"Elective","summary":"Summary","labs":"Labs","electives":"Electives","subjects_list":"Subjects List","success___!":"Success...!","records_updated_successfully":"Records Updated Successfully","students_dashboard":"Students Dashboard","view_students":"View Students","overall_subject_wise_analysis":"Overall Subject Wise Analysis","marks_details":"Marks Details","no_data_available_with_the_selection":"No Data Available With The Selection","leasure":"Leasure","break":"Break","printed_on:_":"Printed On: ","attendance_details":"Attendance Details","view_summary":"View Summary","attendance_summary":"Attendance Summary","total_classes":"Total Classes","its_okay":"Its Okay","topics_completed":"Topics Completed","transfer_list":"Transfer List","semister":"Semister","current_year":"Current Year","current_semister":"Current Semister","admin":"Admin","ooops__":"Ooops..","please_select_any_users":"Please Select Any Users","emergency_no":"Emergency No","no_users_available":"No Users Available","from(admission_year-course-year-semester)":"From(admission Year-course-year-semester)","from_(_admission_year-course-year-semester)":"From ( Admission Year-course-year-semester)","from_(_admission_year-_course-_year-_semester)":"From ( Admission Year- Course- Year- Semester)","to_(_admission_year-_course-_year-_semester)":"To ( Admission Year- Course- Year- Semester)","transfers_list":"Transfers List","from_(_admission_year-_course-_year-_semester)<\\/i>_":"From ( Admission Year- Course- Year- Semester)<\\/i> ","from_(_admission_year-_course)":"From ( Admission Year- Course)","to_(_admission_year-_course)":"To ( Admission Year- Course)","from_(_admission_year)":"From ( Admission Year)","to_(_admission_year)":"To ( Admission Year)","modules_helper":"Modules Helper","help_link_text":"Help Link Text","status":"Status","add_helper":"Add Helper","help_me":"Help Me","is_enabled":"Is Enabled","keyboard":"Keyboard","backdrop":"Backdrop","steps":"Steps","element_id":"Element Id","placement":"Placement","sort_order":"Sort Order","add_to_list":"Add To List","element":"Element","student_promotions":"Student Promotions","cancel":"Cancel","confirm":"Confirm","is_completed":"Is Completed","transfer_to_course":"Transfer To Course","transfer_to_year":"Transfer To Year","transfer_to_semister":"Transfer To Semister","promoted":"Promoted","detained":"Detained","course_completed":"Course Completed","transfer":"Transfer","create_category":"Create Category","enter_category_name":"Enter Category Name","record_added_successfully_with_password_":"Record Added Successfully With Password ","%0D%0Acannot_send_email_to_user,_please_check_your_server_settings":"cannot Send Email To User, Please Check Your Server Settings","timings_set":"Timings Set","create_timetable":"Create Timetable","timing_sets":"Timing Sets","timetable_dashboard":"Timetable Dashboard","prepare_timetable":"Prepare Timetable","day":"Day","remove":"Remove","print_timetable":"Print Timetable","enter_notes":"Enter Notes","this_will_be_displayed_bottom_of_the_timetable":"This Will Be Displayed Bottom Of The Timetable","schedule_table":"Schedule Table","attendance_report":"Attendance Report","subjects_reports":"Subjects Reports","view_analysis":"View Analysis","view_report":"View Report","my_bookmarks":"My Bookmarks","scheduled_exams":"Scheduled Exams","by_subjcet":"By Subjcet","history":"History","lms":"Lms","quizzes_dashboard":"Quizzes Dashboard","student_list":"Student List","payments":"Payments","viewww":"Viewww","all_exams":"All Exams","dueration":"Dueration","take_exam":"Take Exam","select_template":"Select Template","please_read_the_instructions_carefully":"Please Read The Instructions Carefully","exam_name":"Exam Name","please_accept_terms_and_conditions":"Please Accept Terms And Conditions","start_exam":"Start Exam","enable_back_side":"Enable Back Side","days":"Days","top_logo":"Top Logo","account_settings":"Account Settings","quiz_and_exam_series":"Quiz And Exam Series","lms_categories":"Lms Categories","academic_years":"Academic Years","courses_dashboard":"Courses Dashboard","allocate_courses":"Allocate Courses","academic_courses":"Academic Courses","course_list":"Course List","record_deleted_successfully":"Record Deleted Successfully","page_not_found":"Page Not Found","ooops___!":"Ooops...!","ooops__!":"Ooops..!","you_have_no_permission_to_access":"You Have No Permission To Access","no_topics_availble":"No Topics Availble","topics":"Topics","import_topics":"Import Topics","add_course":"Add Course","subject_master":"Subject Master","subject_topics":"Subject Topics","allocate_subject_to_course":"Allocate Subject To Course","allocate_staff_to_course":"Allocate Staff To Course","topics_list":"Topics List","import":"Import","parent":"Parent","topic_(id)":"Topic (id)","front_first_item":"Front First Item","allocate_staff_to_subject":"Allocate Staff To Subject","allocate_staff_to_courses":"Allocate Staff To Courses","add_or_edit_course_subjects":"Add Or Edit Course Subjects","allocate_staff":"Allocate Staff","subject_title":"Subject Title","subject_code":"Subject Code","pass_marks":"Pass Marks","is_lab":"Is Lab","is_elective":"Is Elective","view_topics":"View Topics","import_users":"Import Users","front_second_item":"Front Second Item","front_third_item":"Front Third Item","front_fourth_item":"Front Fourth Item","front_fifth_item":"Front Fifth Item","front_sixth_item":"Front Sixth Item","front_seventh_item":"Front Seventh Item","front_total_fields":"Front Total Fields","back_first_item_title":"Back First Item Title","front_first_item_title":"Front First Item Title","front_second_item_title":"Front Second Item Title","front_third_item_title":"Front Third Item Title","front_fourth_item_title":"Front Fourth Item Title","front_fifth_item_title":"Front Fifth Item Title","front_sixth_item_title":"Front Sixth Item Title","front_seventh_item_title":"Front Seventh Item Title","coupon_codes":"Coupon Codes","discount":"Discount","minimum_bill":"Minimum Bill","maximum_discount":"Maximum Discount","limit":"Limit","back_first_item_text":"Back First Item Text","back_second_item_title":"Back Second Item Title","back_second_item_text":"Back Second Item Text","time_spent_on_correct_answers":"Time Spent On Correct Answers","time_spent_on_wrong_answers":"Time Spent On Wrong Answers","overall_marks_analysis":"Overall Marks Analysis","time":"Time","spent_on_correct":"Spent On Correct","spent_on_wrong":"Spent On Wrong","spent_time":"Spent Time","total_time":"Total Time","time_is_shown_in_seconds":"Time Is Shown In Seconds","back_third_item_title":"Back Third Item Title","back_third_item_text":"Back Third Item Text","back_fourth_item_title":"Back Fourth Item Title","back_fourth_item_text":"Back Fourth Item Text","clear_answer":"Clear Answer","bookmarks":"Bookmarks","exam_duration":"Exam Duration","hints":"Hints","unbookmark_this_question":"Unbookmark This Question","bookmark_this_question":"Bookmark This Question","mark_for_review":"Mark For Review","finish":"Finish","warning":"Warning","do_not_press_back\\/refresh_button":"Do Not Press Back\\/refresh Button","answered":"Answered","marked":"Marked","not_visited":"Not Visited","consumed_time":"Consumed Time","result_for":"Result For","score":"Score","view_key":"View Key","allocate_subjects":"Allocate Subjects","no_staff_alotted":"No Staff Alotted","no_subjects_selected":"No Subjects Selected","id":"Id","course_name":"Course Name","grade_type":"Grade Type","edit_semisters":"Edit Semisters","years":"Years","add_religion":"Add Religion","owner":"Owner","total_items":"Total Items","update_lms":"Update Lms","examseries":"Examseries","create_coupon":"Create Coupon","coupon_code":"Coupon Code","value":"Value","percent":"Percent","discount_type":"Discount Type","discount_value":"Discount Value","enter_value":"Enter Value","enter_minimum_bill":"Enter Minimum Bill","discount_maximum_amount":"Discount Maximum Amount","enter_maximum_amount":"Enter Maximum Amount","valid_from":"Valid From","valid_to":"Valid To","usage_limit":"Usage Limit","enter_usage_limit_per_user":"Enter Usage Limit Per User","from_email":"From Email","from_name":"From Name","export_payments_report":"Export Payments Report","export_payment_records":"Export Payment Records","download_excel":"Download Excel","all_records":"All Records","from_date":"From Date","to_date":"To Date","payment_type":"Payment Type","all":"All","payment_status":"Payment Status","select_parent":"Select Parent","course_title":"Course Title","course_code":"Course Code","duration_in_years":"Duration In Years","grade_system":"Grade System","is_having_semisters":"Is Having Semisters","is_having_electives":"Is Having Electives","add_subjects_to_course":"Add Subjects To Course","courses_list":"Courses List","load":"Load","add_subject_to_course":"Add Subject To Course","number_of_sessions_needed":"Number Of Sessions Needed","template_1_logo":"Template 1 Logo","institute_title":"Institute Title","create_set":"Create Set","academic_operatons":"Academic Operatons","period_name":"Period Name","enter_period_name":"Enter Period Name","start_time_cannot_be_greater_than_or_equal_to_end_time":"Start Time Cannot Be Greater Than Or Equal To End Time","start_time_must_be_greater_to_previous_end_time":"Start Time Must Be Greater To Previous End Time","time_spent_correct_answers":"Time Spent Correct Answers","time_spent_wrong_answers":"Time Spent Wrong Answers","subject_wise_analysis":"Subject Wise Analysis","in":"In","attendance_for":"Attendance For","notes":"Notes","create_message":"Create Message","inbox":"Inbox","compose":"Compose","send_message":"Send Message","questions":"Questions","fill_the_blanks":"Fill The Blanks","first_admission_in_the_school":"First Admission In The School","date_of_first_admission_in_the_school":"Date Of First Admission In The School","first_admission_class_in_the_school_with_name":" First Admission Class In The School With Name","completed":"Completed","internal_marks":"Internal Marks","external_marks":"External Marks","please_enter_valid_internal_marks":"Please Enter Valid Internal Marks","please_enter_valid_external_marks":"Please Enter Valid External Marks","please_enter_valid_maximum_marks":"Please Enter Valid Maximum Marks","please_enter_valid_pass_marks":"Please Enter Valid Pass Marks","pass_marks_cannot_be_greater_than_maximum_marks":"Pass Marks Cannot Be Greater Than Maximum Marks","add_topic":"Add Topic","topic_name":"Topic Name","category_deleted_successfully":"Category Deleted Successfully","add_academic":"Add Academic","academic_title":"Academic Title","show_in_list":"Show In List","payu":"Payu","paypal":"Paypal","messaging":"Messaging","offline_payment":"Offline Payment","push_notifications":"Push Notifications","certificate":"Certificate","show_foreign_key_constraint":"Show Foreign Key Constraint","facebook_login":"Facebook Login","google_plus_login":"Google Plus Login","old_password":"Old Password","the_password_is_too_short":"The Password Is Too Short","new_password":"New Password","retype_password":"Retype Password","password_and_confirm_password_does_not_match":"Password And Confirm Password Does Not Match","posted_on":"Posted On","send_messageeee":"Send Messageeee","please_select_the_recipients":"Please Select The Recipients","import_subjects":"Import Subjects","children":"Children","premium":"Premium","subscriptions_list":"Subscriptions List","plan_type":"Plan Type","paid_from":"Paid From","datetime":"Datetime","it_includes":"It Includes","lms_series":"Lms Series","view_more":"View More","items":"Items","learning_management_series":"Learning Management Series","buy_now":"Buy Now","checkout":"Checkout","item":"Item","valid_for":"Valid For","enter_coupon_code":"Enter Coupon Code","apply":"Apply","select_your_child":"Select Your Child","click_here_to_update_payment_details":"Click Here To Update Payment Details","billing_details":"Billing Details","invalid_coupon":"Invalid Coupon","hey_you_are_eligible_for_discount":"Hey You Are Eligible For Discount","printable__file":"Printable File","timetable_settings":"Timetable Settings","printed_onnn:_":"Printed Onnn: ","timetable__contents":"Timetable Contents","certificates_settings_dashboard":"Certificates Settings Dashboard","hai":"Hai","students_list_class_vice":"Students List Class Vice","library_dashboard":"Library Dashboard","book_returns_student":"Book Returns Student","book_returns_staff":"Book Returns Staff","asset_types":"Asset Types","master_data":"Master Data","publishers":"Publishers","authors":"Authors","library_users":"Library Users","issue_asset":"Issue Asset","maximum_allowed":"Maximum Allowed","issued":"Issued","eligible":"Eligible","transactions":"Transactions","books_taken":"Books Taken","issue_book":"Issue Book","general_info":"General Info","contace_details":"Contace Details","assets_on_issue":"Assets On Issue","issued_on":"Issued On","due_date":"Due Date","library_issues":"Library Issues","asset_details":"Asset Details","please_enter_asset_reference_number":"Please Enter Asset Reference Number","return_on":"Return On","book_returns":"Book Returns","academic_details":"Academic Details","asset_no":"Asset No","asset_name":"Asset Name","date-_issue\\/_return":"Date- Issue\\/ Return","return":"Return","department":"Department","id_card_settings":"Id Card Settings","offline_payment_form":"Offline Payment Form","submit":"Submit","offline_payment_instructions":"Offline Payment Instructions","payment_details":"Payment Details","your_request_was_submitted_to_admin":"Your Request Was Submitted To Admin","success_list":"Success List","user_name":"User Name","plan":"Plan","payment_gateway":"Payment Gateway","updated_at":"Updated At","offline_payment_details":"Offline Payment Details","coupon_applied":"Coupon Applied","after_discount":"After Discount","created_at":"Created At","comments":"Comments","approve":"Approve","reject":"Reject","close":"Close","record_was_updated_successfully":"Record Was Updated Successfully","exam_aborted":"Exam Aborted","students_completed_list_class_vice":"Students Completed List Class Vice","students_completed_list":"Students Completed List","course_completed_student_list":"Course Completed Student List","certificate_generation":"Certificate Generation","certificate_for":"Certificate For","improper_sheet_uploaded":"Improper Sheet Uploaded","report":"Report","failed":"Failed","address":"Address","please_select_required_the_details":"Please Select Required The Details","this_record_is_in_use_in_other_modules":"This Record Is In Use In Other Modules","date_of_exam":"Date Of Exam","topic":"Topic","view_all_users":"View All Users","available_timesets":"Available Timesets","library_masters":"Library Masters","author":"Author","publisher":"Publisher","available":"Available","edition":"Edition","library_assets":"Library Assets","eligible_for_fine":"Eligible For Fine","fine_per_day":"Fine Per Day","qualification_details":"Qualification Details","experience":"Experience","months":"Months","create_asset":"Create Asset","asset_type":"Asset Type","is_eligible_for_fine":"Is Eligible For Fine","is_having_max_fine_limit":"Is Having Max Fine Limit","maximum_fine_amount":"Maximum Fine Amount","maximum_issuable":"Maximum Issuable","maximum_days_to_return":"Maximum Days To Return","maximum_advanced_reservations":"Maximum Advanced Reservations","edit_asset":"Edit Asset","issuable":"Issuable","days_to_return":"Days To Return","create_master_asset":"Create Master Asset","asset_belongs_to_subject":"Asset Belongs To Subject","isbn_number":"Isbn Number","actual_price":"Actual Price","chargible_price_if_lost":"Chargible Price If Lost","create_authors":"Create Authors","author_name":"Author Name","create_publisher":"Create Publisher","assets_publishers":"Assets Publishers","publisher_name":"Publisher Name","librarian":"Librarian","back":"Back","collections":"Collections","masters":"Masters","damaged":"Damaged","lost":"Lost","generate_collection":"Generate Collection","series_prefix":"Series Prefix","generate":"Generate","maximum_issues_student":"Maximum Issues Student","maximum_issues_staff":"Maximum Issues Staff","maximum_days_to_return_student":"Maximum Days To Return Student","maximum_days_to_return_staff":"Maximum Days To Return Staff","library_series_prefix":"Library Series Prefix","library_series_number_length":"Library Series Number Length","topper_percentage":"Topper Percentage","barcode":"Barcode","edit_master_asset":"Edit Master Asset","your_not_assigned_to_any_class":"Your Not Assigned To Any Class","edit_author":"Edit Author","course_completed_students_list_class_vice":"Course Completed Students List Class Vice","edit_academic":"Edit Academic","edit_course":"Edit Course","reference_no_":"Reference No.","eligiblity":"Eligiblity","issue":"Issue","asset_issued_successfully":"Asset Issued Successfully","on_issue":"On Issue","edit_subject":"Edit Subject","subjects_listtt":"Subjects Listtt","edit_topic":"Edit Topic","upload_question":"Upload Question","supported_formats_are":"Supported Formats Are","difficulty_level":"Difficulty Level","hint":"Hint","explanation":"Explanation","time_to_spend":"Time To Spend","in_seconds":"In Seconds","answer_number":"Answer Number","total_correct_answers":"Total Correct Answers","total_blank_answers":"Total Blank Answers","left_title":"Left Title","right_title":"Right Title","left_option":"Left Option","add_exam_series":"Add Exam Series","series_title":"Series Title","please_upload_valid_image_type":"Please, Upload Valid Image Type","language":"Language","default_language":"Default Language","students_detained_list":"Students Detained List","student_book_return":"Student Book Return","staff_book_return":"Staff Book Return","master_setup":"Master Setup","update_strings":"Update Strings","disable":"Disable","enable":"Enable","set_default":"Set Default","latest_students":"Latest Students","latest_staff":"Latest Staff","recent_online_payments":"Recent Online Payments","recent_offline_payments":"Recent Offline Payments","recent_quiz_takers":"Recent Quiz Takers","students_list_class_wise":"Students List Class Wise","course_completed_students":"Course Completed Students","detained_students_list_class_wise":"Detained Students List Class Wise","home_page":"Home Page","lms_contents":"Lms Contents","students_certificates":"Students Certificates","student_certificate":"Student Certificate","no_data_available_in_table":"No Data Available In Table","show":"Show","entries":"Entries","showing":"Showing","certificates_settings":"Certificates Settings","master_setup_dashboard":"Master Setup Dashboard","total_semesters":"Total Semesters","staff_inactive_list":"Staff Inactive List","update_master_setup":"Update Master Setup","please_update_master_setup_details":"Please Update Master Setup Details","ok":"Ok","note:":"Note:","if do not update the student admission details, those students are available in all users list.":"If Do Not Update The Student Admission Details, Those Students Are Available In All Users List.","for all users list":"For All Users List","click here":"Click Here","staff_status":"Staff Status","are_you_sure_to_make_user_active":"Are You Sure To Make User Active","are_you_sure_to_make_user_inactive":"Are You Sure To Make User Inactive","library_history":"Library History","printed_on: ":"Printed On: ","logged_out_successfully":"Logged Out Successfully","logged out successfully":"Logged Out Successfully","educate":"Educate","enlightenment":"Enlightenment","enforce":"Enforce","login":"Login","forgot_password":"Forgot Password","number":"Number","today''s_classes":"Today''s Classes","scheduled_exam_marks":"Scheduled Exam Marks","quiz_name":"Quiz Name","note":"Note","if_the_student_admission_details_are_not_updated_those_students_will_be_available_in_all_users_list":"If The Student Admission Details Are Not Updated Those Students Will Be Available In All Users List","for_all_users_list":"For All Users List","click_here":"Click Here","date_time":"Date Time","do_you_want_to_promot_them":"Do You Want To Promot Them","do_you_want_to_graduate_them":"Do You Want To Graduate Them","promote_all":"Promote All","detain_all":"Detain All","no_action":"No Action","url":"Url","sn":"Sn","today_classes":"Today Classes","confirm_password":"Confirm Password","password_and_confirmation_not_matched":"Password And Confirmation Not Matched","change_user_language":"Change User Language","efault_sessions_needed":"Efault Sessions Needed","nd_time":"Nd Time","tart_time":"Tart Time","oogle_client_secret":"Oogle Client Secret","acebook_client_id":"Acebook Client Id","acebook_client_secret":"Acebook Client Secret","acebook_redirect_url":"Acebook Redirect Url","oogle_client_id":"Oogle Client Id","oogle_redirect_url":"Oogle Redirect Url","address_1":"Address 1","emergency_number":"Emergency Number","headquarters":"Headquarters","phone_number":"Phone Number","website":"Website","student_number":"Student Number","course_information":"Course Information","select_language":"Select Language","background_image":"Background Image","urrency_symbol":"Urrency Symbol","urrent_theme":"Urrent Theme","efault_academic_year_id":"Efault Academic Year Id","efault_parent_course_id":"Efault Parent Course Id","ogin_page_title":"Ogin Page Title","site_address":"Site Address","ite_city":"Ite City","ite_country":"Ite Country","site_favicon":"Site Favicon","site_logo":"Site Logo","ite_phone":"Ite Phone","ite_state":"Ite State","ite_title":"Ite Title","ite_zipcode":"Ite Zipcode","ystem_timezone":"Ystem Timezone","default_theme":"Default Theme","green_theme":"Green Theme","red_theme":"Red Theme","file":"File","audio":"Audio","video_url":"Video Url","iframe":"Iframe","audio_url":"Audio Url","add_content":"Add Content","content_type":"Content Type","resource_link":"Resource Link","upload_success":"Upload Success","gateway":"Gateway","printed_on":"Printed On","today":"Today"}', '2016-08-30 00:41:02', '2018-02-10 08:11:18', NULL, NULL, NULL, NULL);
+(9, 'English', 'english1530', 'en', 0, 0, '{"games_played_or_extra-curricular_activities":"Games Played Or Extra-curricular Activities","general_conduct":"General Conduct","date_of_application_for_certificate":"Date Of Application For Certificate","date_of_issue_certificate":"Date Of Issue Certificate","reason_for_leaving_the_school":"Reason For Leaving The School","any_other_remarks":"Any Other Remarks","print":"Print","date":"Date","serial_no:":"Serial No:","admission_no:":"Admission No:","name_of_the_pupil":"Name Of The Pupil","fathers\\/guardians_name":"Fathers\\/guardians Name","mothers_name":"Mothers Name","nationality":"Nationality","candidate_belongs_to_schedule_caste_or_schedule_tribe":"Candidate Belongs To Schedule Caste Or Schedule Tribe","date_of_first_admission_in_the_school_with_class":"Date Of First Admission In The School With Class","date_of_birth_according_to_the_admission_register":"Date Of Birth According To The Admission Register","class_in_which_the_last_studied_with_name":"Class In Which The Last Studied With Name","school\\/board_annual_examination_last_taken_and_result":"School\\/board Annual Examination Last Taken And Result","whether_failed,_if_once\\/twice_in_the_same_class":"Whether Failed, If Once\\/twice In The Same Class","whether_qualified_for_promotion_to_higer_class_if_so,_to_which_class":"Whether Qualified For Promotion To Higer Class If So, to Which Class","total_number_no_of_working_days":"Total Number No Of Working Days","total_number_no_of_days_present":"Total Number No.of Days Present","whether_n_c_c_cadet\\/boy_scout\\/_girls_guide":"Whether N C C Cadet\\/boy Scout\\/ Girls Guide","whether_ncc_cadet\\/boy_scout\\/_girls_guide":"Whether Ncc Cadet\\/boy Scout\\/ Girls Guide","whether_ncc_cadet\\/_boy_scout\\/_girls_guide":"Whether Ncc Cadet\\/ Boy Scout\\/ Girls Guide","whether_n_c_c_cadet\\/_boy_scout\\/_girls_guide":"Whether N C C Cadet\\/ Boy Scout\\/ Girls Guide","whether_n_cc_cadet\\/_boy_scout\\/_girls_guide":"Whether N.cc Cadet\\/ Boy Scout\\/ Girls Guide","bonafide_certificate":"Bonafide Certificate","select":"Select","academic_operations":"Academic Operations","certificates_dashboard":"Certificates Dashboard","select_details":"Select Details","certificate_type":"Certificate Type","search":"Search","image":"Image","name":"Name","roll_no":"Roll No","admission_no":"Admission No","class":"Class","year":"Year","semester":"Semester","are_you_sure":"Are You Sure","yes":"Yes","delete_it":"Delete It","no":"No","cancel_please":"Cancel Please","cancelled":"Cancelled","your_record_is_safe":"Your Record Is Safe","search_student":"Search Student","latest_users":"Latest Users","was_joined_as":"Was Joined As","see_more":"See More","my_profile":"My Profile","change_password":"Change Password","feedback":"Feedback","notifications":"Notifications","messages":"Messages","languages":"Languages","logout":"Logout","dashboard":" Dashboard","users":"Users","attendance":"Attendance","certificates":"Certificates","transfers":"Transfers","timetable":"Timetable","offline_exams_":"Offline Exams ","class_attendance_report":"Class Attendance Report","class_marks_report":"Class Marks Report","exams":"Exams","categories":" Categories","question_bank":"Question Bank","quiz":"Quiz","exam_series":"Exam Series","instructions":"Instructions","coupons":"Coupons","list":"List","add":"Add","contents":"Contents","series":" Series","master_settings":"Master Settings","settings":"Settings","religions_master":"Religions Master","categories_master":"Categories Master","academics_master":"Academics Master","courses_master":"Courses Master","course_subjects":"Course Subjects","certificate_templates":"Certificate Templates","email_templates":"Email Templates","payment_reports":"Payment Reports","online_payments":"Online Payments","offline_payments":"Offline Payments","export":"Export","certificate_issues_histroy":"Certificate Issues Histroy","select_user_to_view_details":"Select User To View Details","purpose":"Purpose","please_wait":"Please Wait","invalid_setting":"Invalid Setting","id_cards":"Id Cards","lets_start":"Lets Start","bonafide_certificates":"Bonafide Certificates","user_statistics":"User Statistics","success":"Success","pending":"Pending","total":"Total","overall_statistics":"Overall Statistics","payments_reports_in":"Payments Reports In","demanding_quizzes":"Demanding Quizzes","demanding":"Demanding","quizzes":"Quizzes","view_all":"View All","academics":"Academics","library":"Library","courses":"Courses","quizzes_usage":"Quizzes Usage","paid_quizzes_usage":"Paid Quizzes Usage","academic_operations_dashboard":"Academic Operations Dashboard","offline_exams":"Offline Exams","orientation":"Orientation","update":"Update","create":"Create","key":"Key","setting_key":"Setting Key","tool_tip":"Tool Tip","type":"Type","total_options":"Total Options","description":"Description","option_value":"Option Value","option_text":"Option Text","make_default":"Make Default","record_updated_successfully":"Record Updated Successfully","zoomfactor":"Zoomfactor","margin":"Margin","format":"Format","printable_file":"Printable File","id_card_generation":"Id Card Generation","print_header":"Print Header","print_footer":"Print Footer","print_date":"Print Date","print_reference_number":"Print Reference Number","module":"Module","action":"Action","edit":"Edit","view":"View","logo":"Logo","content":" Content","left_sign_image":"Left Sign Image","right_sign_image":"Right Sign Image","left_sign_name":"Left Sign Name","right_sign_name":"Right Sign Name","left_sign_designation":"Left Sign Designation","right_sign_designation":"Right Sign Designation","watermark_image":"Watermark Image","bottom_middle_logo":"Bottom Middle Logo","add_setting":"Add Setting","title":"Title","introduction":"Introduction","description_of_the_topic":"Description Of The Topic","record_added_successfully":"Record Added Successfully","no_settings_available":"No Settings Available","right_designation":"Right Designation","exams_dashboard":"Exams Dashboard","exam-series":"Exam-series","quiz_categories":"Quiz Categories","category":"Category","you_will_not_be_able_to_recover_this_record":"You Will Not Be Able To Recover This Record","deleted":"Deleted","sorry":"Sorry","cannot_delete_this_record_as":"Cannot Delete This Record As","your_record_has_been_deleted":"Your Record Has Been Deleted","delete":"Delete","create_series":"Create Series","duration":"Duration","is_paid":"Is Paid","total_marks":"Total Marks","update_questions":"Update Questions","free":"Free","paid":"Paid","create_quiz":"Create Quiz","quiz_title":"Quiz Title","this_field_is_required":"This Field Is Required","the_text_is_too_short":"The Text Is Too Short","the_text_is_too_long":"The Text Is Too Long","subject":"Subject","select_subject":"Select Subject","online":"Online","offline":"Offline","quiz_type":"Quiz Type","select_type":"Select Type","offline_category":"Offline Category","enter_value_in_minutes":"Enter Value In Minutes","please_enter_valid_number":"Please Enter Valid Number","it_will_be_updated_by_adding_the_questions":"It Will Be Updated By Adding The Questions","pass_percentage":"Pass Percentage","negative_mark":"Negative Mark","instructions_page":"Instructions Page","start_date":"Start Date","end_date":"End Date","validity":"Validity","validity_in_days":"Validity In Days","cost":"Cost","specific_classes":"Specific Classes","applicable_to_specific":"Applicable To Specific","academic_year":"Academic Year","course":"Course","already_item_available":"Already Item Available","item_removed_successfully":"Item Removed Successfully","update_questions_for":"Update Questions For","subjects":"Subjects","difficulty":"Difficulty","easy":"Easy","medium":"Medium","hard":"Hard","question_type":"Question Type","single_answer":"Single Answer","multi_answer":"Multi Answer","fill_in_the_blanks":"Fill In The Blanks","match_the_following":"Match The Following","paragraph":"Paragraph","video":"Video","search_term":"Search Term","enter_search_term":"Enter Search Term","question":"Question","marks":"Marks","saved_questions":"Saved Questions","remove_all":"Remove All","edit_quiz":"Edit Quiz","right_side_name":"Right Side Name","right_side_sign":"Right Side Sign","bonafide_\\/_tc_certificates":"Bonafide \\/ Tc Certificates","bonafide_\\/_transfer_certificates":"Bonafide \\/ Transfer Certificates","bonafide_\\/_transfer_certificate":"Bonafide \\/ Transfer Certificate","users_dashboard":"Users Dashboard","owners":"Owners","admins":"Admins","students":"Students","staff":"Staff","librarians":"Librarians","assistant_librarians":"Assistant Librarians","parents":"Parents","all_users":"All Users","create_user":"Create User","100":"100","update_offline_exams_marks":"Update Offline Exams Marks","import_excel":"Import Excel","exam":"Exam","year_and_semester":"Year And Semester","maximum_marks":"Maximum Marks","update_marks":"Update Marks","select_offline_exams_details":"Select Offline Exams Details","offline_exmas":"Offline Exmas","selection_details":"Selection Details","branch":"Branch","get_details":"Get Details","offline_exam_details":"Offline Exam Details","marks_for":"Marks For","sno":"Sno","photo":"Photo","marks_obtained":"Marks Obtained","exam_status":"Exam Status","pass":"Pass","fail":"Fail","reference_no":"Reference No","oops___!":"Oops...!","no_students_available":"No Students Available","right_side_designation":"Right Side Designation","edit_settings":"Edit Settings","offline_exams_categories":"Offline Exams Categories","offline_quiz_categories":"Offline Quiz Categories","category_name":"Category Name","add_category":"Add Category","invalid_input":"Invalid Input","edit_category":"Edit Category","offline_exmas_quiz_categories":"Offline Exmas Quiz Categories","offline_exmas_categories":"Offline Exmas Categories","add_user":"Add User","staff_id":"Staff Id","job_title":"Job Title","email":"Email","edit_details":"Edit Details","teacher":"Teacher","staff_profile":"Staff Profile","staff_list":"Staff List","profile":"Profile","general_details":"General Details","personal_details":"Personal Details","contact_details":"Contact Details","date_of_join":"Date Of Join","qualification":"Qualification","experience_(years)":"Experience (years)","experience_(months)":"Experience (months)","experience_information":"Experience Information","other_information":"Other Information","first_name":"First Name","middle_name":"Middle Name","last_name":"Last Name","date_of_birth":"Date Of Birth","gender":"Gender","male":"Male","female":"Female","blood_group":"Blood Group","fathers_name":"Fathers Name","mother_tongue":"Mother Tongue","address_lane1":"Address Lane1","address_lane2":"Address Lane2","city":"City","state":"State","country":"Country","zipcode":"Zipcode","mobile":"Mobile","home_phone":"Home Phone","father\\/guardian_name":"Father\\/guardian Name","father_\\/_guardian_name":"Father \\/ Guardian Name","mother_name":"Mother Name","school_\\/_board_annual_examination_last_taken_and_result":"School \\/ Board Annual Examination Last Taken And Result","whether_failed,__if_once_\\/_twice_in_the_same_class":"Whether Failed, If Once \\/ Twice In The Same Class","left_side_name":"Left Side Name","show_left_side_name":"Show Left Side Name","show_left_side_designation":"Show Left Side Designation","show_left_side_image":"Show Left Side Image","whether_qualified_for_promotion_to_higer_class_if_so,__to_which_class":"Whether Qualified For Promotion To Higer Class If So, To Which Class","show_middle_name":"Show Middle Name","show_left_side_sign":"Show Left Side Sign","total_number_no_of_present_days":"Total Number No Of Present Days","show_middle_designation":"Show Middle Designation","show_middle_sign":"Show Middle Sign","whether_ncc_cadet_\\/_boy_scout\\/_girls_guide":"Whether Ncc Cadet \\/ Boy Scout\\/ Girls Guide","show_right_side_name":"Show Right Side Name","show_right_side_designation":"Show Right Side Designation","games_played_or_extra-_curricular_activities":"Games Played Or Extra- Curricular Activities","show_right_side_sign":"Show Right Side Sign","water_mark_image":"Water Mark Image","show_watermark":"Show Watermark","name_of_student":"Name Of Student","father_guardian_name":"Father Guardian Name","candidate_caste":"Candidate Caste","date_of_admission_with_class":"Date Of Admission With Class","last_class_studied":"Last Class Studied","last_taken_exam_and_result":"Last Taken Exam And Result","whether_failed_if_once_twice_in_the_same_class":"Whether Failed If Once Twice In The Same Class","promotion_class":"Promotion Class","total_working_days":"Total Working Days","total_present_days":"Total Present Days","ncc_boy_scout_girls_guide":"Ncc Boy Scout Girls Guide","games_played_or_extra_curricular_activities":"Games Played Or Extra Curricular Activities","date_of_apply":"Date Of Apply","date_of_issue":"Date Of Issue","reason":"Reason","remarks":"Remarks","import_marks":"Import Marks","download_template":"Download Template","upload":"Upload","information_helper_for_excel_data":"Information Helper For Excel Data","file_type_not_allowed":"File Type Not Allowed","marks_report":"Marks Report","total_class":"Total Class","present":"Present","absent":"Absent","leave":"Leave","no_data_available":"No Data Available","student":"Student","year-semester":"Year-semester","admission_details":"Admission Details","correct":"Correct","wrong":"Wrong","not_answered":"Not Answered","overall_performance":"Overall Performance","performance":"Performance","best_performance_in_all_quizzes":"Best Performance In All Quizzes","details":"Details","student_users":"Student Users","details_of":"Details Of","reports":"Reports","exam_history":"Exam History","view_details":"View Details","by_exam":"By Exam","by_subject":"By Subject","subscriptions":"Subscriptions","certificate_settings":"Certificate Settings","bonafide_certificates_contents":"Bonafide Certificates Contents","bonafide_certificates_fields":"Bonafide Certificates Fields","transfer_certificates_contents":"Transfer Certificates Contents","transfer_certificates_fields":"Transfer Certificates Fields","id_cards_contents":"Id Cards Contents","id_cards_fields":"Id Cards Fields","transfer_certificates_content":"Transfer Certificates Content","transfer_certificates_cont":"Transfer Certificates Cont","transfer_certificates_conten":"Transfer Certificates Conten","bonafide_certificates_conten":"Bonafide Certificates Conten","bonafide_certificate_content":"Bonafide Certificate Content","transfer_certificate_content":"Transfer Certificate Content","bonafide_certificatet_fields":"Bonafide Certificatet Fields","bonafide_certificatet_con":"Bonafide Certificatet Con","bonafide_certificatet_cont":"Bonafide Certificatet Cont","bonafide_certificatet_conten":"Bonafide Certificatet Conten","bonafide_certificate_conten":"Bonafide Certificate Conten","bonafide_certificate_fields":"Bonafide Certificate Fields","transfer_certificate_fields":"Transfer Certificate Fields","id_card_contents":"Id Card Contents","id_card_fields":"Id Card Fields","question_subjects":"Question Subjects","import_questions":"Import Questions","add_subject":"Add Subject","code":"Code","view_questions":"View Questions","bonafide_certificate_settings":"Bonafide Certificate Settings","transfer_certificate_settings":"Transfer Certificate Settings","total_exams":"Total Exams","total_questions":"Total Questions","update_quizzes":"Update Quizzes","bonafide_certificate_seting":"Bonafide Certificate Seting","bonafide__contents":"Bonafide Contents","bonafide_settings":"Bonafide Settings","mastersettings_dashboard":"Mastersettings Dashboard","religions":"Religions","start_time":"Start Time","end_time":"End Time","default_sessions_needed":"Default Sessions Needed","iamge":"Iamge","student_profile":"Student Profile","students_list":"Students List","parent_login":"Parent Login","info":"Info","once_saved_the_admission_details_cannot_be_edited%0D%0A":"Once Saved The Admission Details Cannot Be Edited","present_academic_details":"Present Academic Details","current_academic_year":"Current Academic Year","current_branch":"Current Branch","current_course":"Current Course","previous_educational_details":"Previous Educational Details","highest_qualification":"Highest Qualification","percentage":"Percentage","year_passed":"Year Passed","previous_institute_name":"Previous Institute Name","institute_address":"Institute Address","religion":"Religion","guardian_name":"Guardian Name","guardian_phone":"Guardian Phone","relationship_with_guardian":"Relationship With Guardian","guardian_email":"Guardian Email","parent_login_details":"Parent Login Details","parent_name":"Parent Name","parent_user_name":"Parent User Name","parent_email":"Parent Email","password":"Password","staff_users":"Staff Users","lesson_plans":"Lesson Plans","subject_preferences":"Subject Preferences","student_attendance":"Student Attendance","payment_statistics":"Payment Statistics","payment_monthly_statistics":"Payment Monthly Statistics","particulars":"Particulars","general_instructions":"General Instructions","attendance_date":"Attendance Date","from":"From","to":"To","lesson_plans_for":"Lesson Plans For","no_topics_available":"No Topics Available","transfer_details":"Transfer Details","edit_user":"Edit User","username":"Username","please_enter_valid_email":"Please Enter Valid Email","role":"Role","select_role":"Select Role","phone":"Phone","please_enter_10-15_digit_mobile_number":"Please Enter 10-15 Digit Mobile Number","please_enter_valid_phone_number":"Please Enter Valid Phone Number","billing_address":"Billing Address","please_enter_your_address":"Please Enter Your Address","exam_analysis_by_attempts":"Exam Analysis By Attempts","attempts":"Attempts","of":"Of","mins":"Mins","exam_attempts_and_score":"Exam Attempts And Score","quiz_attempts":"Quiz Attempts","result":"Result","view_answers":"View Answers","generate_certificate":"Generate Certificate","answers":"Answers","analysis":"Analysis","time_limit":"Time Limit","time_taken":"Time Taken","previous":"Previous","next":"Next","timetable_for":"Timetable For","sun":"Sun","mon":"Mon","tue":"Tue","wed":"Wed","thu":"Thu","fri":"Fri","sat":"Sat","timetable_for_":"Timetable For ","leisure":"Leisure","lab":"Lab","completed_topics_list":"Completed Topics List","no_list_available":"No List Available","select_other_class":"Select Other Class","please_select_the_details":"Please Select The Details","preferred_subjects":"Preferred Subjects","elective":"Elective","summary":"Summary","labs":"Labs","electives":"Electives","subjects_list":"Subjects List","success___!":"Success...!","records_updated_successfully":"Records Updated Successfully","students_dashboard":"Students Dashboard","view_students":"View Students","overall_subject_wise_analysis":"Overall Subject Wise Analysis","marks_details":"Marks Details","no_data_available_with_the_selection":"No Data Available With The Selection","leasure":"Leasure","break":"Break","printed_on:_":"Printed On: ","attendance_details":"Attendance Details","view_summary":"View Summary","attendance_summary":"Attendance Summary","total_classes":"Total Classes","its_okay":"Its Okay","topics_completed":"Topics Completed","transfer_list":"Transfer List","semister":"Semister","current_year":"Current Year","current_semister":"Current Semister","admin":"Admin","ooops__":"Ooops..","please_select_any_users":"Please Select Any Users","emergency_no":"Emergency No","no_users_available":"No Users Available","from(admission_year-course-year-semester)":"From(admission Year-course-year-semester)","from_(_admission_year-course-year-semester)":"From ( Admission Year-course-year-semester)","from_(_admission_year-_course-_year-_semester)":"From ( Admission Year- Course- Year- Semester)","to_(_admission_year-_course-_year-_semester)":"To ( Admission Year- Course- Year- Semester)","transfers_list":"Transfers List","from_(_admission_year-_course-_year-_semester)<\\/i>_":"From ( Admission Year- Course- Year- Semester)<\\/i> ","from_(_admission_year-_course)":"From ( Admission Year- Course)","to_(_admission_year-_course)":"To ( Admission Year- Course)","from_(_admission_year)":"From ( Admission Year)","to_(_admission_year)":"To ( Admission Year)","modules_helper":"Modules Helper","help_link_text":"Help Link Text","status":"Status","add_helper":"Add Helper","help_me":"Help Me","is_enabled":"Is Enabled","keyboard":"Keyboard","backdrop":"Backdrop","steps":"Steps","element_id":"Element Id","placement":"Placement","sort_order":"Sort Order","add_to_list":"Add To List","element":"Element","student_promotions":"Student Promotions","cancel":"Cancel","confirm":"Confirm","is_completed":"Is Completed","transfer_to_course":"Transfer To Course","transfer_to_year":"Transfer To Year","transfer_to_semister":"Transfer To Semister","promoted":"Promoted","detained":"Detained","course_completed":"Course Completed","transfer":"Transfer","create_category":"Create Category","enter_category_name":"Enter Category Name","record_added_successfully_with_password_":"Record Added Successfully With Password ","%0D%0Acannot_send_email_to_user,_please_check_your_server_settings":"cannot Send Email To User, Please Check Your Server Settings","timings_set":"Timings Set","create_timetable":"Create Timetable","timing_sets":"Timing Sets","timetable_dashboard":"Timetable Dashboard","prepare_timetable":"Prepare Timetable","day":"Day","remove":"Remove","print_timetable":"Print Timetable","enter_notes":"Enter Notes","this_will_be_displayed_bottom_of_the_timetable":"This Will Be Displayed Bottom Of The Timetable","schedule_table":"Schedule Table","attendance_report":"Attendance Report","subjects_reports":"Subjects Reports","view_analysis":"View Analysis","view_report":"View Report","my_bookmarks":"My Bookmarks","scheduled_exams":"Scheduled Exams","by_subjcet":"By Subjcet","history":"History","lms":"Lms","quizzes_dashboard":"Quizzes Dashboard","student_list":"Student List","payments":"Payments","viewww":"Viewww","all_exams":"All Exams","dueration":"Dueration","take_exam":"Take Exam","select_template":"Select Template","please_read_the_instructions_carefully":"Please Read The Instructions Carefully","exam_name":"Exam Name","please_accept_terms_and_conditions":"Please Accept Terms And Conditions","start_exam":"Start Exam","enable_back_side":"Enable Back Side","days":"Days","top_logo":"Top Logo","account_settings":"Account Settings","quiz_and_exam_series":"Quiz And Exam Series","lms_categories":"Lms Categories","academic_years":"Academic Years","courses_dashboard":"Courses Dashboard","allocate_courses":"Allocate Courses","academic_courses":"Academic Courses","course_list":"Course List","record_deleted_successfully":"Record Deleted Successfully","page_not_found":"Page Not Found","ooops___!":"Ooops...!","ooops__!":"Ooops..!","you_have_no_permission_to_access":"You Have No Permission To Access","no_topics_availble":"No Topics Availble","topics":"Topics","import_topics":"Import Topics","add_course":"Add Course","subject_master":"Subject Master","subject_topics":"Subject Topics","allocate_subject_to_course":"Allocate Subject To Course","allocate_staff_to_course":"Allocate Staff To Course","topics_list":"Topics List","import":"Import","parent":"Parent","topic_(id)":"Topic (id)","front_first_item":"Front First Item","allocate_staff_to_subject":"Allocate Staff To Subject","allocate_staff_to_courses":"Allocate Staff To Courses","add_or_edit_course_subjects":"Add Or Edit Course Subjects","allocate_staff":"Allocate Staff","subject_title":"Subject Title","subject_code":"Subject Code","pass_marks":"Pass Marks","is_lab":"Is Lab","is_elective":"Is Elective","view_topics":"View Topics","import_users":"Import Users","front_second_item":"Front Second Item","front_third_item":"Front Third Item","front_fourth_item":"Front Fourth Item","front_fifth_item":"Front Fifth Item","front_sixth_item":"Front Sixth Item","front_seventh_item":"Front Seventh Item","front_total_fields":"Front Total Fields","back_first_item_title":"Back First Item Title","front_first_item_title":"Front First Item Title","front_second_item_title":"Front Second Item Title","front_third_item_title":"Front Third Item Title","front_fourth_item_title":"Front Fourth Item Title","front_fifth_item_title":"Front Fifth Item Title","front_sixth_item_title":"Front Sixth Item Title","front_seventh_item_title":"Front Seventh Item Title","coupon_codes":"Coupon Codes","discount":"Discount","minimum_bill":"Minimum Bill","maximum_discount":"Maximum Discount","limit":"Limit","back_first_item_text":"Back First Item Text","back_second_item_title":"Back Second Item Title","back_second_item_text":"Back Second Item Text","time_spent_on_correct_answers":"Time Spent On Correct Answers","time_spent_on_wrong_answers":"Time Spent On Wrong Answers","overall_marks_analysis":"Overall Marks Analysis","time":"Time","spent_on_correct":"Spent On Correct","spent_on_wrong":"Spent On Wrong","spent_time":"Spent Time","total_time":"Total Time","time_is_shown_in_seconds":"Time Is Shown In Seconds","back_third_item_title":"Back Third Item Title","back_third_item_text":"Back Third Item Text","back_fourth_item_title":"Back Fourth Item Title","back_fourth_item_text":"Back Fourth Item Text","clear_answer":"Clear Answer","bookmarks":"Bookmarks","exam_duration":"Exam Duration","hints":"Hints","unbookmark_this_question":"Unbookmark This Question","bookmark_this_question":"Bookmark This Question","mark_for_review":"Mark For Review","finish":"Finish","warning":"Warning","do_not_press_back\\/refresh_button":"Do Not Press Back\\/refresh Button","answered":"Answered","marked":"Marked","not_visited":"Not Visited","consumed_time":"Consumed Time","result_for":"Result For","score":"Score","view_key":"View Key","allocate_subjects":"Allocate Subjects","no_staff_alotted":"No Staff Alotted","no_subjects_selected":"No Subjects Selected","id":"Id","course_name":"Course Name","grade_type":"Grade Type","edit_semisters":"Edit Semisters","years":"Years","add_religion":"Add Religion","owner":"Owner","total_items":"Total Items","update_lms":"Update Lms","examseries":"Examseries","create_coupon":"Create Coupon","coupon_code":"Coupon Code","value":"Value","percent":"Percent","discount_type":"Discount Type","discount_value":"Discount Value","enter_value":"Enter Value","enter_minimum_bill":"Enter Minimum Bill","discount_maximum_amount":"Discount Maximum Amount","enter_maximum_amount":"Enter Maximum Amount","valid_from":"Valid From","valid_to":"Valid To","usage_limit":"Usage Limit","enter_usage_limit_per_user":"Enter Usage Limit Per User","from_email":"From Email","from_name":"From Name","export_payments_report":"Export Payments Report","export_payment_records":"Export Payment Records","download_excel":"Download Excel","all_records":"All Records","from_date":"From Date","to_date":"To Date","payment_type":"Payment Type","all":"All","payment_status":"Payment Status","select_parent":"Select Parent","course_title":"Course Title","course_code":"Course Code","duration_in_years":"Duration In Years","grade_system":"Grade System","is_having_semisters":"Is Having Semisters","is_having_electives":"Is Having Electives","add_subjects_to_course":"Add Subjects To Course","courses_list":"Courses List","load":"Load","add_subject_to_course":"Add Subject To Course","number_of_sessions_needed":"Number Of Sessions Needed","template_1_logo":"Template 1 Logo","institute_title":"Institute Title","create_set":"Create Set","academic_operatons":"Academic Operatons","period_name":"Period Name","enter_period_name":"Enter Period Name","start_time_cannot_be_greater_than_or_equal_to_end_time":"Start Time Cannot Be Greater Than Or Equal To End Time","start_time_must_be_greater_to_previous_end_time":"Start Time Must Be Greater To Previous End Time","time_spent_correct_answers":"Time Spent Correct Answers","time_spent_wrong_answers":"Time Spent Wrong Answers","subject_wise_analysis":"Subject Wise Analysis","in":"In","attendance_for":"Attendance For","notes":"Notes","create_message":"Create Message","inbox":"Inbox","compose":"Compose","send_message":"Send Message","questions":"Questions","fill_the_blanks":"Fill The Blanks","first_admission_in_the_school":"First Admission In The School","date_of_first_admission_in_the_school":"Date Of First Admission In The School","first_admission_class_in_the_school_with_name":" First Admission Class In The School With Name","completed":"Completed","internal_marks":"Internal Marks","external_marks":"External Marks","please_enter_valid_internal_marks":"Please Enter Valid Internal Marks","please_enter_valid_external_marks":"Please Enter Valid External Marks","please_enter_valid_maximum_marks":"Please Enter Valid Maximum Marks","please_enter_valid_pass_marks":"Please Enter Valid Pass Marks","pass_marks_cannot_be_greater_than_maximum_marks":"Pass Marks Cannot Be Greater Than Maximum Marks","add_topic":"Add Topic","topic_name":"Topic Name","category_deleted_successfully":"Category Deleted Successfully","add_academic":"Add Academic","academic_title":"Academic Title","show_in_list":"Show In List","payu":"Payu","paypal":"Paypal","messaging":"Messaging","offline_payment":"Offline Payment","push_notifications":"Push Notifications","certificate":"Certificate","show_foreign_key_constraint":"Show Foreign Key Constraint","facebook_login":"Facebook Login","google_plus_login":"Google Plus Login","old_password":"Old Password","the_password_is_too_short":"The Password Is Too Short","new_password":"New Password","retype_password":"Retype Password","password_and_confirm_password_does_not_match":"Password And Confirm Password Does Not Match","posted_on":"Posted On","send_messageeee":"Send Messageeee","please_select_the_recipients":"Please Select The Recipients","import_subjects":"Import Subjects","children":"Children","premium":"Premium","subscriptions_list":"Subscriptions List","plan_type":"Plan Type","paid_from":"Paid From","datetime":"Datetime","it_includes":"It Includes","lms_series":"Lms Series","view_more":"View More","items":"Items","learning_management_series":"Learning Management Series","buy_now":"Buy Now","checkout":"Checkout","item":"Item","valid_for":"Valid For","enter_coupon_code":"Enter Coupon Code","apply":"Apply","select_your_child":"Select Your Child","click_here_to_update_payment_details":"Click Here To Update Payment Details","billing_details":"Billing Details","invalid_coupon":"Invalid Coupon","hey_you_are_eligible_for_discount":"Hey You Are Eligible For Discount","printable__file":"Printable File","timetable_settings":"Timetable Settings","printed_onnn:_":"Printed Onnn: ","timetable__contents":"Timetable Contents","certificates_settings_dashboard":"Certificates Settings Dashboard","hai":"Hai","students_list_class_vice":"Students List Class Vice","library_dashboard":"Library Dashboard","book_returns_student":"Book Returns Student","book_returns_staff":"Book Returns Staff","asset_types":"Asset Types","master_data":"Master Data","publishers":"Publishers","authors":"Authors","library_users":"Library Users","issue_asset":"Issue Asset","maximum_allowed":"Maximum Allowed","issued":"Issued","eligible":"Eligible","transactions":"Transactions","books_taken":"Books Taken","issue_book":"Issue Book","general_info":"General Info","contace_details":"Contace Details","assets_on_issue":"Assets On Issue","issued_on":"Issued On","due_date":"Due Date","library_issues":"Library Issues","asset_details":"Asset Details","please_enter_asset_reference_number":"Please Enter Asset Reference Number","return_on":"Return On","book_returns":"Book Returns","academic_details":"Academic Details","asset_no":"Asset No","asset_name":"Asset Name","date-_issue\\/_return":"Date- Issue\\/ Return","return":"Return","department":"Department","id_card_settings":"Id Card Settings","offline_payment_form":"Offline Payment Form","submit":"Submit","offline_payment_instructions":"Offline Payment Instructions","payment_details":"Payment Details","your_request_was_submitted_to_admin":"Your Request Was Submitted To Admin","success_list":"Success List","user_name":"User Name","plan":"Plan","payment_gateway":"Payment Gateway","updated_at":"Updated At","offline_payment_details":"Offline Payment Details","coupon_applied":"Coupon Applied","after_discount":"After Discount","created_at":"Created At","comments":"Comments","approve":"Approve","reject":"Reject","close":"Close","record_was_updated_successfully":"Record Was Updated Successfully","exam_aborted":"Exam Aborted","students_completed_list_class_vice":"Students Completed List Class Vice","students_completed_list":"Students Completed List","course_completed_student_list":"Course Completed Student List","certificate_generation":"Certificate Generation","certificate_for":"Certificate For","improper_sheet_uploaded":"Improper Sheet Uploaded","report":"Report","failed":"Failed","address":"Address","please_select_required_the_details":"Please Select Required The Details","this_record_is_in_use_in_other_modules":"This Record Is In Use In Other Modules","date_of_exam":"Date Of Exam","topic":"Topic","view_all_users":"View All Users","available_timesets":"Available Timesets","library_masters":"Library Masters","author":"Author","publisher":"Publisher","available":"Available","edition":"Edition","library_assets":"Library Assets","eligible_for_fine":"Eligible For Fine","fine_per_day":"Fine Per Day","qualification_details":"Qualification Details","experience":"Experience","months":"Months","create_asset":"Create Asset","asset_type":"Asset Type","is_eligible_for_fine":"Is Eligible For Fine","is_having_max_fine_limit":"Is Having Max Fine Limit","maximum_fine_amount":"Maximum Fine Amount","maximum_issuable":"Maximum Issuable","maximum_days_to_return":"Maximum Days To Return","maximum_advanced_reservations":"Maximum Advanced Reservations","edit_asset":"Edit Asset","issuable":"Issuable","days_to_return":"Days To Return","create_master_asset":"Create Master Asset","asset_belongs_to_subject":"Asset Belongs To Subject","isbn_number":"Isbn Number","actual_price":"Actual Price","chargible_price_if_lost":"Chargible Price If Lost","create_authors":"Create Authors","author_name":"Author Name","create_publisher":"Create Publisher","assets_publishers":"Assets Publishers","publisher_name":"Publisher Name","librarian":"Librarian","back":"Back","collections":"Collections","masters":"Masters","damaged":"Damaged","lost":"Lost","generate_collection":"Generate Collection","series_prefix":"Series Prefix","generate":"Generate","maximum_issues_student":"Maximum Issues Student","maximum_issues_staff":"Maximum Issues Staff","maximum_days_to_return_student":"Maximum Days To Return Student","maximum_days_to_return_staff":"Maximum Days To Return Staff","library_series_prefix":"Library Series Prefix","library_series_number_length":"Library Series Number Length","topper_percentage":"Topper Percentage","barcode":"Barcode","edit_master_asset":"Edit Master Asset","your_not_assigned_to_any_class":"Your Not Assigned To Any Class","edit_author":"Edit Author","course_completed_students_list_class_vice":"Course Completed Students List Class Vice","edit_academic":"Edit Academic","edit_course":"Edit Course","reference_no_":"Reference No.","eligiblity":"Eligiblity","issue":"Issue","asset_issued_successfully":"Asset Issued Successfully","on_issue":"On Issue","edit_subject":"Edit Subject","subjects_listtt":"Subjects Listtt","edit_topic":"Edit Topic","upload_question":"Upload Question","supported_formats_are":"Supported Formats Are","difficulty_level":"Difficulty Level","hint":"Hint","explanation":"Explanation","time_to_spend":"Time To Spend","in_seconds":"In Seconds","answer_number":"Answer Number","total_correct_answers":"Total Correct Answers","total_blank_answers":"Total Blank Answers","left_title":"Left Title","right_title":"Right Title","left_option":"Left Option","add_exam_series":"Add Exam Series","series_title":"Series Title","please_upload_valid_image_type":"Please, Upload Valid Image Type","language":"Language","default_language":"Default Language","students_detained_list":"Students Detained List","student_book_return":"Student Book Return","staff_book_return":"Staff Book Return","master_setup":"Master Setup","update_strings":"Update Strings","disable":"Disable","enable":"Enable","set_default":"Set Default","latest_students":"Latest Students","latest_staff":"Latest Staff","recent_online_payments":"Recent Online Payments","recent_offline_payments":"Recent Offline Payments","recent_quiz_takers":"Recent Quiz Takers","students_list_class_wise":"Students List Class Wise","course_completed_students":"Course Completed Students","detained_students_list_class_wise":"Detained Students List Class Wise","home_page":"Home Page","lms_contents":"Lms Contents","students_certificates":"Students Certificates","student_certificate":"Student Certificate","no_data_available_in_table":"No Data Available In Table","show":"Show","entries":"Entries","showing":"Showing","certificates_settings":"Certificates Settings","master_setup_dashboard":"Master Setup Dashboard","total_semesters":"Total Semesters","staff_inactive_list":"Staff Inactive List","update_master_setup":"Update Master Setup","please_update_master_setup_details":"Please Update Master Setup Details","ok":"Ok","note:":"Note:","if do not update the student admission details, those students are available in all users list.":"If Do Not Update The Student Admission Details, Those Students Are Available In All Users List.","for all users list":"For All Users List","click here":"Click Here","staff_status":"Staff Status","are_you_sure_to_make_user_active":"Are You Sure To Make User Active","are_you_sure_to_make_user_inactive":"Are You Sure To Make User Inactive","library_history":"Library History","printed_on: ":"Printed On: ","logged_out_successfully":"Logged Out Successfully","logged out successfully":"Logged Out Successfully","educate":"Educate","enlightenment":"Enlightenment","enforce":"Enforce","login":"Login","forgot_password":"Forgot Password","number":"Number","today''s_classes":"Today''s Classes","scheduled_exam_marks":"Scheduled Exam Marks","quiz_name":"Quiz Name","note":"Note","if_the_student_admission_details_are_not_updated_those_students_will_be_available_in_all_users_list":"If The Student Admission Details Are Not Updated Those Students Will Be Available In All Users List","for_all_users_list":"For All Users List","click_here":"Click Here","date_time":"Date Time","do_you_want_to_promot_them":"Do You Want To Promot Them","do_you_want_to_graduate_them":"Do You Want To Graduate Them","promote_all":"Promote All","detain_all":"Detain All","no_action":"No Action","url":"Url","sn":"Sn","today_classes":"Today Classes","confirm_password":"Confirm Password","password_and_confirmation_not_matched":"Password And Confirmation Not Matched","change_user_language":"Change User Language","efault_sessions_needed":"Efault Sessions Needed","nd_time":"Nd Time","tart_time":"Tart Time","oogle_client_secret":"Oogle Client Secret","acebook_client_id":"Acebook Client Id","acebook_client_secret":"Acebook Client Secret","acebook_redirect_url":"Acebook Redirect Url","oogle_client_id":"Oogle Client Id","oogle_redirect_url":"Oogle Redirect Url","address_1":"Address 1","emergency_number":"Emergency Number","headquarters":"Headquarters","phone_number":"Phone Number","website":"Website","student_number":"Student Number","course_information":"Course Information","select_language":"Select Language","background_image":"Background Image","urrency_symbol":"Urrency Symbol","urrent_theme":"Urrent Theme","efault_academic_year_id":"Efault Academic Year Id","efault_parent_course_id":"Efault Parent Course Id","ogin_page_title":"Ogin Page Title","site_address":"Site Address","ite_city":"Ite City","ite_country":"Ite Country","site_favicon":"Site Favicon","site_logo":"Site Logo","ite_phone":"Ite Phone","ite_state":"Ite State","ite_title":"Ite Title","ite_zipcode":"Ite Zipcode","ystem_timezone":"Ystem Timezone","default_theme":"Default Theme","green_theme":"Green Theme","red_theme":"Red Theme","file":"File","audio":"Audio","video_url":"Video Url","iframe":"Iframe","audio_url":"Audio Url","add_content":"Add Content","content_type":"Content Type","resource_link":"Resource Link","upload_success":"Upload Success","gateway":"Gateway","printed_on":"Printed On","today":"Today"}', '2016-08-30 00:41:02', '2018-02-22 06:03:40', '51.39.70.14', NULL, NULL, 1790);
 INSERT INTO `languages` (`id`, `language`, `slug`, `code`, `is_rtl`, `is_default`, `phrases`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(13, 'العربية', 'alaarby', 'ar', 1, 1, '{"general_conduct":"\\u0627\\u0644\\u0633\\u0644\\u0648\\u0643 \\u0627\\u0644\\u0639\\u0627\\u0645","date_of_application_for_certificate":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u062a\\u0642\\u062f\\u064a\\u0645 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0644\\u0644\\u062d\\u0635\\u0648\\u0644 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","date_of_issue_certificate":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","reason_for_leaving_the_school":"\\u0633\\u0628\\u0628 \\u062a\\u0631\\u0643 \\u0627\\u0644\\u0645\\u062f\\u0631\\u064a\\u0629","any_other_remarks":"\\u0627\\u0649 \\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a \\u0627\\u062e\\u0631\\u064a","print":"\\u0637\\u0628\\u0627\\u0639\\u0629","date":"\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e","name_of_the_pupil":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062a\\u0644\\u0645\\u064a\\u0630","mothers_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0623\\u0645","nationality":"\\u0627\\u0644\\u062c\\u0646\\u0633\\u064a\\u0629","candidate_belongs_to_schedule_caste_or_schedule_tribe":"Candidate Belongs To Schedule Caste Or Schedule Tribe","date_of_first_admission_in_the_school_with_class":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0623\\u0648\\u0644 \\u0641\\u064a \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","date_of_birth_according_to_the_admission_register":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0645\\u064a\\u0644\\u0627\\u062f \\u062d\\u0633\\u0628 \\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","class_in_which_the_last_studied_with_name":"Class In Which The Last Studied With Name","total_number_no_of_working_days":"\\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0639\\u0645\\u0644 \\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a\\u0647","total_number_no_of_days_present":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","select":"\\u0627\\u062e\\u062a\\u0631","academic_operations":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","certificates_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","select_details":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","certificate_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","search":"\\u0628\\u062d\\u062b","image":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","name":"\\u0627\\u0644\\u0627\\u0633\\u0645","roll_no":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a","admission_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","class":"\\u0635\\u0641 \\u062f\\u0631\\u0627\\u0633\\u064a","year":"\\u0627\\u0644\\u0633\\u0646\\u0629","semester":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","are_you_sure":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f","yes":"\\u0646\\u0639\\u0645","delete_it":"\\u0642\\u0645 \\u0628\\u0627\\u0644\\u062d\\u0630\\u0641","no":"\\u0644\\u0627","cancel_please":"\\u0631\\u062c\\u0627\\u0621 \\u0627\\u0644\\u0627\\u0644\\u063a\\u0627\\u0621","cancelled":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u063a\\u0627\\u0621","your_record_is_safe":"\\u0633\\u062c\\u0644\\u0643 \\u0627\\u0645\\u0646","search_student":"\\u0627\\u0644\\u0628\\u062d\\u062b \\u0641\\u0649 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","latest_users":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","was_joined_as":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u062a\\u062d\\u0627\\u0642 \\u0643\\u0640\\u0640","see_more":"\\u0627\\u0642\\u0631\\u0627 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","my_profile":"\\u0645\\u0644\\u0641\\u064a \\u0627\\u0644\\u0634\\u062e\\u0635\\u064a","change_password":"\\u062a\\u063a\\u064a\\u064a\\u0631 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","feedback":"\\u0627\\u0644\\u0623\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","notifications":"\\u0627\\u0644\\u0625\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","messages":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a","languages":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0644\\u063a\\u0629","logout":"\\u0627\\u0644\\u062e\\u0631\\u0648\\u062c","dashboard":"\\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","users":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","attendance":"\\u0627\\u0644\\u062d\\u0636\\u0648\\u0631 \\u0648\\u0627\\u0644\\u063a\\u064a\\u0627\\u0628","certificates":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","transfers":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","timetable":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","offline_exams_":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","class_attendance_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u062d\\u0636\\u0648\\u0631 \\u0641\\u0635\\u0644","class_marks_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","categories":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0623\\u0642\\u0633\\u0627\\u0645","question_bank":"\\u0628\\u0646\\u0643 \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","quiz":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","exam_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","instructions":"\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","coupons":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0642\\u0633\\u0627\\u0626\\u0645","list":"\\u0642\\u0627\\u0626\\u0645\\u0629","add":"\\u0625\\u0636\\u0627\\u0641\\u0629","contents":" \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","series":"\\u0633\\u0644\\u0633\\u0644\\u0629","master_settings":"\\u0627\\u0644\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","settings":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0646\\u0638\\u0627\\u0645","religions_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0623\\u062f\\u064a\\u0627\\u0646","categories_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","academics_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","courses_master":" \\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","course_subjects":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","certificate_templates":"\\u0642\\u0648\\u0627\\u0644\\u0628 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","email_templates":"\\u0642\\u0648\\u0627\\u0644\\u0628 \\u0627\\u0644\\u0627\\u064a\\u0645\\u064a\\u0644\\u0627\\u062a","payment_reports":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","online_payments":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","offline_payments":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","export":"\\u062a\\u0635\\u062f\\u064a\\u0631","certificate_issues_histroy":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631\\u0629 \\u0633\\u0627\\u0628\\u0642\\u0627","select_user_to_view_details":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0644\\u0645\\u0634\\u0627\\u0647\\u062f\\u0629 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","purpose":"\\u0627\\u0644\\u063a\\u0631\\u0636","please_wait":"\\u0646\\u0631\\u062c\\u0648 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","id_cards":"\\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","lets_start":"\\u0644\\u0646\\u0628\\u062f\\u0623","bonafide_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643 ","user_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","success":"\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0646\\u0627\\u062c\\u062d\\u0629","pending":"\\u0642\\u064a\\u062f \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","total":"\\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a","overall_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","payments_reports_in":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0644\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","demanding_quizzes":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u064a \\u062a\\u0645 \\u0637\\u0644\\u0628\\u0647\\u0627","demanding":"\\u062a\\u062d\\u062a \\u0627\\u0644\\u0637\\u0644\\u0628","quizzes":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","view_all":"\\u0645\\u0634\\u0627\\u0647\\u062f\\u0629 \\u0627\\u0644\\u0643\\u0644","academics":"\\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","library":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","courses":"\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","quizzes_usage":"\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","paid_quizzes_usage":"\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0629","academic_operations_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","offline_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","orientation":"\\u0627\\u0644\\u062a\\u0648\\u062c\\u064a\\u0647","update":"\\u062a\\u062d\\u062f\\u064a\\u062b","create":"\\u0625\\u0636\\u0627\\u0641\\u0629","key":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a","setting_key":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","tool_tip":"\\u0646\\u0628\\u0630\\u0629 \\u0645\\u062e\\u062a\\u0635\\u0631\\u0629","type":"\\u0627\\u0644\\u0646\\u0648\\u0639","total_options":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u0627\\u062a","description":"\\u0627\\u0644\\u0634\\u0631\\u062d","option_value":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631","option_text":"\\u0646\\u0635 \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631","make_default":"\\u0627\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a","record_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","zoomfactor":"\\u0639\\u0627\\u0645\\u0644 \\u0627\\u0644\\u062a\\u0643\\u0628\\u064a\\u0631","margin":"\\u0627\\u0644\\u0647\\u0627\\u0645\\u0634","format":"\\u0627\\u0644\\u062a\\u0646\\u0633\\u064a\\u0642","printable_file":"\\u0645\\u0644\\u0641 \\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","id_card_generation":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0647\\u0648\\u064a\\u0629","print_header":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0631\\u0627\\u0633 \\u0627\\u0644\\u0635\\u0641\\u062d\\u0629","print_footer":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0627\\u0633\\u0641\\u0644 \\u0627\\u0644\\u0635\\u0641\\u062d\\u0629","print_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","print_reference_number":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","module":"\\u0627\\u0644\\u0648\\u062d\\u062f\\u0629","action":"\\u0627\\u0644\\u0625\\u062c\\u0631\\u0627\\u0621 ","edit":"\\u062a\\u0639\\u062f\\u064a\\u0644","view":"\\u0639\\u0631\\u0636","logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631","content":"\\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a","left_sign_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631","right_sign_image":"\\u0635\\u0648\\u0631\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","left_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","right_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","left_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","right_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","watermark_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","bottom_middle_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631 \\u0641\\u064a \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641 \\u0648\\u0641\\u064a \\u0627\\u0644\\u0627\\u0633\\u0641\\u0644","add_setting":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0636\\u0628\\u0637","title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","introduction":"\\u0627\\u0644\\u0645\\u0642\\u062f\\u0645\\u0629","description_of_the_topic":"\\u0648\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0633","record_added_successfully":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","no_settings_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","right_designation":"\\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u064a\\u0645\\u064a\\u0646","exams_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a ","exam-series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","category":"\\u0627\\u0644\\u0642\\u0633\\u0645","you_will_not_be_able_to_recover_this_record":"\\u0644\\u0646 \\u062a\\u0633\\u062a\\u0637\\u064a\\u0639 \\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u062c\\u0644 ","deleted":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641","sorry":"\\u0639\\u0630\\u0631\\u0627","cannot_delete_this_record_as":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0644\\u0627\\u0646\\u0647 \\u0645\\u0631\\u062a\\u0628\\u0637 \\u0628\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0641\\u0631\\u0639\\u064a\\u0629 \\u0645\\u0636\\u0627\\u0641\\u0629 \\u0625\\u0644\\u064a\\u0629 \\u064a\\u0631\\u062c\\u064a \\u0645\\u0633\\u062d\\u0647\\u0627 \\u0627\\u0648\\u0644\\u0627","your_record_has_been_deleted":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0628\\u0646\\u062c\\u0627\\u062d","delete":"\\u062d\\u0630\\u0641","create_series":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0633\\u0644\\u0633\\u0644\\u0629 \\u062c\\u062f\\u064a\\u062f\\u0629","duration":"\\u0627\\u0644\\u0641\\u062a\\u0631\\u0629","is_paid":"\\u0645\\u062f\\u0641\\u0648\\u0639","total_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0643\\u0644\\u064a\\u0629","update_questions":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0623\\u0633\\u0626\\u0644\\u0629","free":"\\u0645\\u062c\\u0627\\u0646\\u064a","paid":"\\u0645\\u062f\\u0641\\u0648\\u0639","create_quiz":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","quiz_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","this_field_is_required":"\\u0647\\u0630\\u0627 \\u0627\\u0644\\u062d\\u0642\\u0644 \\u0645\\u0637\\u0644\\u0648\\u0628","the_text_is_too_short":"\\u0627\\u0644\\u0646\\u0635 \\u0642\\u0635\\u064a\\u0631 \\u062c\\u062f\\u0627","the_text_is_too_long":"\\u0627\\u0644\\u0646\\u0635 \\u0637\\u0648\\u064a\\u0644 \\u062c\\u062f\\u0627","subject":"\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","select_subject":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","online":"\\u00a0\\u062d\\u0642\\u064a\\u0642\\u064a","offline":"\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","quiz_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","select_type":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0646\\u0648\\u0639","offline_category":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","enter_value_in_minutes":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0642\\u064a\\u0645\\u0629 \\u0628\\u0627\\u0644\\u062f\\u0642\\u0627\\u0626\\u0642","please_enter_valid_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0631\\u0642\\u0645 \\u0635\\u062d\\u064a\\u062d","it_will_be_updated_by_adding_the_questions":"It Will Be Updated By Adding The Questions","pass_percentage":"\\u0646\\u0633\\u0628\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d","negative_mark":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0631\\u0633\\u0648\\u0628","instructions_page":"\\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","start_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629","end_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","validity":"\\u0641\\u062a\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629","validity_in_days":"\\u0641\\u062a\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629 \\u0628\\u0627\\u0644\\u0627\\u064a\\u0627\\u0645","cost":"\\u0627\\u0644\\u062a\\u0643\\u0644\\u0641\\u0629","specific_classes":"\\u062d\\u062f\\u062f \\u0627\\u0644\\u062d\\u0635\\u0635","applicable_to_specific":"\\u064a\\u0646\\u0637\\u0628\\u0642 \\u0639\\u0644\\u0649 \\u0645\\u062d\\u062f\\u062f","academic_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course":"\\u0627\\u0644\\u0641\\u0635\\u0644","already_item_available":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0645\\u062a\\u0627\\u062d \\u0641\\u0639\\u0644\\u064a\\u0627","item_removed_successfully":"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0628\\u0646\\u062c\\u0627\\u062d","update_questions_for":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0644\\u0640\\u0640","subjects":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","difficulty":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0635\\u0639\\u0648\\u0628\\u0629","easy":"\\u0633\\u0647\\u0644","medium":"\\u0645\\u062a\\u0648\\u0633\\u0637","hard":"\\u0635\\u0639\\u0628","question_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","single_answer":"\\u0627\\u062c\\u0627\\u0628\\u0629 \\u0648\\u0627\\u062d\\u062f\\u0629","multi_answer":"\\u0627\\u0643\\u062b\\u0631 \\u0645\\u0646 \\u0627\\u062c\\u0627\\u0628\\u0629","fill_in_the_blanks":"\\u0627\\u0645\\u0644\\u0627 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","match_the_following":"\\u0648\\u0635\\u0644 \\u0627\\u0644\\u0645\\u062a\\u0634\\u0627\\u0628\\u0647\\u0627\\u062a","paragraph":"\\u0627\\u0644\\u0641\\u0642\\u0631\\u0629","video":"\\u0641\\u064a\\u062f\\u064a\\u0648","search_term":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0628\\u062d\\u062b","enter_search_term":"\\u0627\\u062f\\u062e\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0628\\u062d\\u062b","question":"\\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","marks":"\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","saved_questions":"\\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629","remove_all":"\\u062d\\u0630\\u0641 \\u0627\\u0644\\u0643\\u0644","edit_quiz":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","right_side_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u062c\\u0647\\u0629 \\u064a\\u0645\\u064a\\u0646","right_side_sign":"\\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u062c\\u0647\\u0629 \\u064a\\u0645\\u064a\\u0646","users_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","owners":"\\u0645\\u062f\\u0631\\u0627\\u0621 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","admins":"\\u0627\\u0644\\u0645\\u0634\\u0631\\u0641\\u064a\\u0646","students":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","staff":"\\u0645\\u0639\\u0644\\u0645","librarians":"\\u0645\\u062f\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","assistant_librarians":"\\u0645\\u0648\\u0638\\u0641\\u064a\\u0646 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","parents":"\\u0623\\u0648\\u0644\\u064a\\u0627\\u0621 \\u0627\\u0644\\u0623\\u0645\\u0648\\u0631","all_users":"\\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","create_user":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","update_offline_exams_marks":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","import_excel":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0645\\u0644\\u0641 \\u0627\\u0643\\u0633\\u0644","exam":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","year_and_semester":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","maximum_marks":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","update_marks":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","select_offline_exams_details":"\\u0627\\u062e\\u062a\\u0631 \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","offline_exmas":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","selection_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 ","branch":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","get_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","offline_exam_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","marks_for":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0644\\u0640\\u0640","photo":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","marks_obtained":"\\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u062d\\u0635\\u0644 \\u0639\\u0644\\u064a\\u0647\\u0627 ","exam_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","pass":"\\u0646\\u0627\\u062c\\u062d","fail":"\\u0631\\u0627\\u0633\\u0628","reference_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639","no_students_available":"\\u0644\\u0627 \\u064a\\u0648\\u062c\\u062f \\u0637\\u0644\\u0627\\u0628 ","right_side_designation":"\\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646","edit_settings":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a","offline_exams_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","offline_quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","category_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0642\\u0633\\u0645","add_category":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0642\\u0633\\u0645","invalid_input":"\\u0645\\u062f\\u062e\\u0644 \\u062e\\u0627\\u0637\\u064a","edit_category":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0633\\u0645","offline_exmas_quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","offline_exmas_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","add_user":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","staff_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645","job_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629","email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","edit_details":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 ","teacher":"\\u0645\\u0639\\u0644\\u0645","staff_profile":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 ","staff_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","profile":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0634\\u062e\\u0635\\u064a","general_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","personal_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0634\\u062e\\u0635\\u064a\\u0629","contact_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u062a\\u0635\\u0627\\u0644","date_of_join":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0644\\u062a\\u062d\\u0627\\u0642 ","qualification":"\\u0627\\u0644\\u0645\\u0624\\u0647\\u0644","experience_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0639\\u0646 \\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","other_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u062e\\u0631\\u064a","first_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0648\\u0644","middle_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0648\\u0633\\u0637","last_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u062e\\u064a\\u0631","date_of_birth":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0645\\u064a\\u0644\\u0627\\u062f","gender":"\\u0627\\u0644\\u0646\\u0648\\u0639","male":"\\u0630\\u0643\\u0631","female":"\\u0627\\u0646\\u062b\\u064a","blood_group":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","fathers_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0628","mother_tongue":"\\u0627\\u0644\\u0644\\u063a\\u0629 \\u0627\\u0644\\u0627\\u0645","address_lane1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0637\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644","address_lane2":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0637\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a","city":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","state":"\\u0627\\u0644\\u062d\\u064a","country":"\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","zipcode":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0645\\u0646\\u0637\\u0642\\u0629","mobile":"\\u0627\\u0644\\u062c\\u0648\\u0627\\u0644","home_phone":"\\u0647\\u0627\\u062a\\u0641 \\u0627\\u0644\\u0645\\u0646\\u0632\\u0644","mother_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0645","left_side_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_left_side_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_left_side_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 ","show_left_side_image":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0635\\u0648\\u0631\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_middle_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641","show_left_side_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 ","total_number_no_of_present_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","show_middle_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641 ","show_middle_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641","show_right_side_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646","show_right_side_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 ","games_played_or_extra-_curricular_activities":"\\u0627\\u0644\\u0627\\u0644\\u0639\\u0627\\u0628 \\u0648\\u0627\\u0644\\u0627\\u0646\\u0634\\u0637\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a\\u0629","show_right_side_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 ","water_mark_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","show_watermark":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","name_of_student":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","father_guardian_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 ","candidate_caste":"\\u0627\\u0644\\u0645\\u062a\\u0642\\u062f\\u0645","date_of_admission_with_class":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0645\\u0639 \\u0627\\u0644\\u0641\\u0635\\u0644","last_class_studied":"\\u0627\\u062e\\u0631 \\u0641\\u0635\\u0644 \\u062a\\u0645 \\u062f\\u0631\\u0627\\u0633\\u062a\\u0629","last_taken_exam_and_result":"\\u0627\\u062e\\u0631 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u0645 \\u062f\\u062e\\u0648\\u0644\\u0629 \\u0648\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","whether_failed_if_once_twice_in_the_same_class":"Whether Failed If Once Twice In The Same Class","promotion_class":"\\u062a\\u0631\\u0642\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644","total_working_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0639\\u0645\\u0644","total_present_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","ncc_boy_scout_girls_guide":"Ncc Boy Scout Girls Guide","games_played_or_extra_curricular_activities":"\\u0627\\u0644\\u0627\\u0644\\u0639\\u0627\\u0628 \\u0648\\u0627\\u0644\\u0627\\u0646\\u0634\\u0637\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a\\u0629","date_of_apply":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u062a\\u0642\\u062f\\u064a\\u0645","date_of_issue":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","reason":"\\u0627\\u0644\\u0633\\u0628\\u0628","remarks":"\\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","import_marks":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","download_template":"\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","upload":"\\u0631\\u0641\\u0639 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","information_helper_for_excel_data":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u062a\\u0633\\u0627\\u0639\\u062f\\u0643 \\u0644\\u0641\\u0647\\u0645 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0627\\u0643\\u0633\\u0644","file_type_not_allowed":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0644\\u0641 \\u063a\\u064a\\u0631 \\u0645\\u0633\\u0645\\u0648\\u062d \\u0628\\u0647","marks_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","total_class":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u062d\\u0635\\u0635","present":"\\u062d\\u0627\\u0636\\u0631","absent":"\\u063a\\u0627\\u064a\\u0628 ","leave":"\\u063a\\u0627\\u062f\\u0631","no_data_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","student":"\\u0637\\u0627\\u0644\\u0628","year-semester":"\\u0627\\u0644\\u0633\\u0646\\u0629 - \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","admission_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","correct":"\\u0635\\u062d\\u064a\\u062d","wrong":"\\u062e\\u0637\\u0623","not_answered":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","overall_performance":"\\u0627\\u0644\\u0627\\u062f\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0627\\u0645","performance":"\\u0627\\u0644\\u0627\\u062f\\u0627\\u0621","best_performance_in_all_quizzes":"\\u0627\\u0641\\u0636\\u0644 \\u0627\\u062f\\u0627\\u0621 \\u0641\\u0649 \\u0643\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","student_users":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 ","details_of":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","reports":"\\u0627\\u0644\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631","exam_history":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","view_details":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","by_exam":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0628\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","by_subject":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0628\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","subscriptions":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","bonafide_certificates_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificates_fields":"\\u062d\\u0642\\u0648\\u0644  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificates_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","id_cards_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","id_cards_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","transfer_certificates_content":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_cont":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","bonafide_certificates_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_content":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_content":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","bonafide_certificatet_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_con":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_cont":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","id_card_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","id_card_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","question_subjects":"\\u0627\\u0633\\u0626\\u0644\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","import_questions":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","add_subject":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0627\\u062f\\u0629","code":"\\u0627\\u0644\\u0643\\u0648\\u062f","view_questions":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","bonafide_certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","total_exams":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","total_questions":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","update_quizzes":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","bonafide_certificate_seting":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide__contents":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","mastersettings_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","religions":"\\u0627\\u0644\\u0623\\u062f\\u064a\\u0627\\u0646","start_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629","end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","default_sessions_needed":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u062c\\u0644\\u0633\\u0627\\u062a \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a\\u0629  \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629 ","iamge":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","student_profile":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","students_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","parent_login":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0623\\u0645\\u0631","info":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a","present_academic_details":"\\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_academic_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_branch":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","current_course":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","previous_educational_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","highest_qualification":"\\u0627\\u0644\\u0645\\u0624\\u0647\\u0644\\u0627\\u062a \\u0627\\u0644\\u0639\\u0644\\u064a\\u0627","percentage":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629 ","year_passed":"\\u062a\\u0645 \\u0627\\u062c\\u062a\\u064a\\u0627\\u0632 \\u0627\\u0644\\u0633\\u0646\\u0647","previous_institute_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","institute_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","religion":"\\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0629","guardian_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","guardian_phone":"\\u0647\\u0627\\u062a\\u0641 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","relationship_with_guardian":"\\u0635\\u0644\\u0647 \\u0627\\u0644\\u0642\\u0631\\u0627\\u0628\\u0629 \\u0628\\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","guardian_email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a \\u0644 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","parent_login_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 ","parent_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","parent_user_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0644 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","parent_email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a \\u0644 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","staff_users":"\\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","lesson_plans":"\\u062e\\u0637\\u0637 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","subject_preferences":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u0645\\u0641\\u0636\\u0644\\u0629","student_attendance":"\\u062d\\u0636\\u0648\\u0631 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","payment_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","payment_monthly_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u0634\\u0647\\u0631\\u064a\\u0629","particulars":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","general_instructions":"\\u0627\\u0631\\u0627\\u0634\\u0627\\u062f\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","attendance_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","from":"\\u0645\\u0646","to":"\\u0625\\u0644\\u0649","lesson_plans_for":"\\u062e\\u0637\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0633 \\u0644\\u0640\\u0640","no_topics_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u062f\\u0631\\u0648\\u0633 \\u0645\\u062a\\u0627\\u062d\\u0629","transfer_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0646\\u0642\\u0644","edit_user":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","username":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","please_enter_valid_email":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","role":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","select_role":"\\u0627\\u062e\\u062a\\u0631 \\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","phone":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","please_enter_10-15_digit_mobile_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0645\\u0646 \\u0661\\u0660-\\u0661\\u0665 \\u0631\\u0642\\u0645 \\u0644\\u0644\\u062c\\u0648\\u0627\\u0644","please_enter_valid_phone_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0631\\u0642\\u0645 \\u0647\\u0627\\u062a\\u0641 \\u0633\\u0644\\u064a\\u0645","billing_address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","please_enter_your_address":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0643","exam_analysis_by_attempts":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","attempts":"\\u0627\\u0644\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a","of":"\\u0645\\u0646","mins":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u062f\\u0646\\u064a","exam_attempts_and_score":"\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u0648\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","quiz_attempts":"\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","result":"\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","view_answers":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","generate_certificate":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0634\\u0647\\u0627\\u062f\\u0629","answers":"\\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644","time_limit":"\\u062d\\u062f\\u0648\\u062f \\u0627\\u0644\\u0648\\u0642\\u062a","time_taken":"\\u0648\\u0642\\u062a \\u062f\\u062e\\u0648\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","previous":"\\u0627\\u0644\\u0633\\u0627\\u0628\\u0642","next":"\\u0627\\u0644\\u062a\\u0627\\u0644\\u064a","timetable_for":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","sun":"\\u0627\\u0644\\u0623\\u062d\\u062f","mon":"\\u0627\\u0644\\u0627\\u062b\\u0646\\u064a\\u0646","tue":"\\u0627\\u0644\\u062b\\u0644\\u0627\\u062b\\u0627\\u0621","wed":"\\u0627\\u0644\\u0627\\u0631\\u0628\\u0639\\u0627\\u0621","thu":"\\u0627\\u0644\\u062e\\u0645\\u064a\\u0633","fri":"\\u0627\\u0644\\u062c\\u0645\\u0639\\u0629","sat":"\\u0627\\u0644\\u0633\\u0628\\u062a","timetable_for_":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","leisure":"\\u0631\\u0627\\u062d\\u0629","lab":"\\u0627\\u0644\\u0645\\u062e\\u062a\\u0628\\u0631","completed_topics_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0645\\u0644\\u0629","no_list_available":"\\u0627\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0627\\u062d\\u0629","select_other_class":"\\u0627\\u062e\\u062a\\u0631 \\u0641\\u0635\\u0644 \\u0627\\u062e\\u0631","please_select_the_details":"\\u0631\\u062c\\u0627\\u0621\\u0627 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","preferred_subjects":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u0645\\u0641\\u0636\\u0644\\u0629","elective":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","summary":"\\u0627\\u0644\\u0645\\u0644\\u062e\\u0635","labs":"\\u0627\\u0644\\u0645\\u062e\\u062a\\u0628\\u0631\\u0627\\u062a","electives":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","subjects_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","records_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","students_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","view_students":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","overall_subject_wise_analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","marks_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","no_data_available_with_the_selection":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","leasure":"\\u0631\\u0627\\u062d\\u0629","break":"\\u0627\\u0633\\u062a\\u0631\\u0627\\u062d\\u0629","printed_on:_":"\\u0637\\u0628\\u0639 \\u0639\\u0644\\u0649:","attendance_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","view_summary":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0644\\u062e\\u0635","attendance_summary":"\\u0645\\u0644\\u062e\\u0635 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","total_classes":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u0644\\u062d\\u0635\\u0635","its_okay":"\\u0645\\u0648\\u0627\\u0641\\u0642","topics_completed":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0645\\u0646 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","transfer_list":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","semister":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","current_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_semister":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","admin":"\\u0645\\u0634\\u0631\\u0641","ooops__":"\\u062e\\u0637\\u0623 \\u0640\\u0640\\u0640\\u0640\\u0640!","please_select_any_users":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0649 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","emergency_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0648\\u0627\\u0631\\u0626","no_users_available":"\\u0644\\u0627 \\u064a\\u0648\\u062c\\u062f \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646 ","transfers_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","modules_helper":"\\u0645\\u0633\\u0627\\u0639\\u062f \\u0627\\u0644\\u0648\\u062d\\u062f\\u0629","help_link_text":"\\u0646\\u0635 \\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0633\\u0627\\u0639\\u062f\\u0629","status":"\\u0627\\u0644\\u062d\\u0627\\u0644\\u0629","add_helper":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u0627\\u0639\\u062f","help_me":"\\u0633\\u0627\\u0639\\u062f\\u0646\\u064a","is_enabled":"\\u0647\\u0644 \\u0645\\u062a\\u0627\\u062d","keyboard":"\\u0644\\u0648\\u062d\\u0629 \\u0627\\u0644\\u0645\\u0641\\u0627\\u062a\\u064a\\u062d","backdrop":"\\u062e\\u0644\\u0641\\u064a\\u0629","steps":"\\u0627\\u0644\\u062e\\u0637\\u0648\\u0627\\u062a","element_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","placement":"\\u062a\\u062d\\u062f\\u064a\\u062f \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u064a","sort_order":"\\u0627\\u0645\\u0631 \\u0627\\u0644\\u062a\\u0631\\u062a\\u064a\\u0628","add_to_list":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0644\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629","element":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","student_promotions":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","cancel":"\\u0627\\u0644\\u063a\\u0627\\u0621","confirm":"\\u062a\\u0623\\u0643\\u064a\\u062f","is_completed":"\\u0647\\u0644 \\u062a\\u0648\\u062f \\u0627\\u0644\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0641\\u0635\\u0644 \\u0627\\u0648 \\u0635\\u0641 \\u0627\\u062e\\u0631\\u061f","transfer_to_course":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0641\\u0635\\u0644","transfer_to_year":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","transfer_to_semister":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","promoted":"\\u0646\\u0642\\u0644","detained":"\\u0627\\u064a\\u0642\\u0627\\u0641","course_completed":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","transfer":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","create_category":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","enter_category_name":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","record_added_successfully_with_password_":"\\u062a\\u0645 \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0633\\u062c\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d \\u0645\\u0639 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","timings_set":"\\u0636\\u0628\\u0637 \\u0627\\u0648\\u0642\\u0627\\u062a \\u0627\\u0644\\u062d\\u0635\\u0635","create_timetable":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","timing_sets":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062d\\u0635\\u0635","timetable_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","prepare_timetable":"\\u0627\\u0639\\u062f\\u0627\\u062f \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","day":"\\u0627\\u0644\\u064a\\u0648\\u0645","remove":"\\u062d\\u0630\\u0641","print_timetable":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","enter_notes":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","this_will_be_displayed_bottom_of_the_timetable":"\\u0633\\u064a\\u0638\\u0647\\u0631 \\u0630\\u0644\\u0643 \\u0627\\u0633\\u0641\\u0644 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","schedule_table":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","attendance_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","subjects_reports":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","view_analysis":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644","view_report":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0642\\u0631\\u064a\\u0631","my_bookmarks":"\\u0645\\u0641\\u0636\\u0644\\u0627\\u062a\\u064a","scheduled_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062c\\u062f\\u0648\\u0644\\u0629","by_subjcet":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0628\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","history":"\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e","lms":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","quizzes_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","payments":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","viewww":"\\u0639\\u0631\\u0636","all_exams":"\\u0643\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","dueration":"\\u0627\\u0644\\u0645\\u062f\\u0629","take_exam":"\\u062f\\u062e\\u0648\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","select_template":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","please_read_the_instructions_carefully":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u0642\\u0631\\u0627 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0628\\u0639\\u0646\\u0627\\u064a\\u0629","exam_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","please_accept_terms_and_conditions":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0642\\u0645 \\u0628\\u0627\\u0644\\u0645\\u0648\\u0627\\u0641\\u0642\\u0629 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0634\\u0631\\u0648\\u0637 \\u0648\\u0627\\u0644\\u0627\\u062d\\u0643\\u0627\\u0645","start_exam":"\\u0627\\u0628\\u062f\\u0623 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","enable_back_side":"\\u062a\\u0645\\u0643\\u064a\\u0646 \\u0627\\u0644\\u062c\\u0627\\u0646\\u0628 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","days":"\\u0627\\u0644\\u0627\\u064a\\u0627\\u0645","top_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631 \\u0627\\u0644\\u0645\\u062a\\u0648\\u0627\\u062c\\u062f \\u0628\\u0627\\u0644\\u0627\\u0639\\u0644\\u064a","account_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062d\\u0633\\u0627\\u0628","quiz_and_exam_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0648\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","lms_categories":"\\u0627\\u0642\\u0633\\u0627\\u0645 \\u0627\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","academic_years":"\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","courses_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_courses":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 ","academic_courses":"\\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","record_deleted_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0628\\u0646\\u062c\\u0627\\u062d","page_not_found":"\\u0627\\u0644\\u0635\\u0641\\u062d\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u0648\\u062c\\u0648\\u062f\\u0629","you_have_no_permission_to_access":"\\u0644\\u064a\\u0633 \\u0644\\u062f\\u064a\\u0643 \\u0635\\u0644\\u0627\\u062d\\u064a\\u0629 \\u0644\\u0644\\u0648\\u0635\\u0648\\u0644","no_topics_availble":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u062f\\u0631\\u0648\\u0633 \\u0645\\u062a\\u0627\\u062d\\u0629","topics":"\\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import_topics":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u062f\\u0631\\u0648\\u0633","add_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","subject_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","subject_topics":"\\u062f\\u0631\\u0648\\u0633 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_subject_to_course":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","allocate_staff_to_course":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0641\\u0635\\u0644","topics_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f","parent":"\\u0648\\u0644\\u064a \\u0623\\u0645\\u0631","front_first_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","allocate_staff_to_subject":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_staff_to_courses":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","add_or_edit_course_subjects":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0648 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0648\\u0627\\u062f \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_staff":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","subject_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","subject_code":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","pass_marks":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d","is_lab":"\\u0647\\u0644 \\u0645\\u0631\\u062a\\u0628\\u0637 \\u0628\\u0645\\u062e\\u062a\\u0628\\u0631\\u061f","is_elective":"\\u0625\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u061f","view_topics":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import_users":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","front_second_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_third_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fourth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fifth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062e\\u0627\\u0645\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_sixth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u062f\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_seventh_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_total_fields":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u062d\\u0642\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a\\u0629","back_first_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","front_first_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_second_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_third_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fourth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fifth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062e\\u0627\\u0645\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_sixth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u062f\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_seventh_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","coupon_codes":"\\u0627\\u0643\\u0648\\u0627\\u062f \\u0627\\u0644\\u0642\\u0633\\u0627\\u0626\\u0645","discount":"\\u0627\\u0644\\u062e\\u0635\\u0645","minimum_bill":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u062f\\u0646\\u0649 \\u0645\\u0646 \\u0627\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","maximum_discount":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u062e\\u0635\\u0645","limit":"\\u0627\\u0644\\u062d\\u062f","back_first_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_second_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_second_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","time_spent_on_correct_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u0629","time_spent_on_wrong_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626\\u0629","overall_marks_analysis":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u0634\\u0627\\u0645\\u0644 \\u0644\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","time":"\\u0627\\u0644\\u0648\\u0642\\u062a","spent_on_correct":"\\u0645\\u0627 \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d","spent_on_wrong":"\\u0645\\u0627 \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626","spent_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u0645\\u0636\\u064a","total_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0643\\u0644\\u064a","time_is_shown_in_seconds":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0645\\u0639\\u0631\\u0648\\u0636 \\u0628\\u0627\\u0644\\u062b\\u0648\\u0627\\u0646\\u064a","back_third_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_third_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_fourth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_fourth_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","clear_answer":"\\u0645\\u0633\\u062d \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","bookmarks":"\\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a\\u0629","exam_duration":"\\u0645\\u062f\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","hints":"\\u0627\\u0644\\u062a\\u0644\\u0645\\u064a\\u062d\\u0627\\u062a","unbookmark_this_question":"\\u0627\\u0632\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a\\u0629 \\u0644\\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","bookmark_this_question":"\\u0627\\u0636\\u0641 \\u0639\\u0644\\u0627\\u0645\\u0629 \\u0645\\u0631\\u062c\\u0639\\u064a\\u0629 \\u0644\\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","mark_for_review":"\\u0636\\u0639 \\u0639\\u0644\\u0627\\u0645\\u0629 \\u0644\\u0644\\u0645\\u0631\\u0627\\u062c\\u0639\\u0629","finish":"\\u0627\\u0646\\u0647\\u0627\\u0621","warning":"\\u062a\\u062d\\u0630\\u064a\\u0631","answered":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","marked":"\\u062a\\u0645\\u062a \\u0648\\u0636\\u0639 \\u0639\\u0644\\u0627\\u0645\\u0629","not_visited":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0632\\u064a\\u0627\\u0631\\u062a\\u0647","consumed_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u0647\\u0644\\u0643","result_for":"\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629 \\u0644\\u0640\\u0640","score":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0629","view_key":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a ","allocate_subjects":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","no_staff_alotted":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062e\\u0635\\u064a\\u0635 \\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","no_subjects_selected":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","id":"\\u0627\\u0644\\u0631\\u0642\\u0645","course_name":"\\u0627\\u0644\\u0627\\u0633\\u0645","grade_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629","edit_semisters":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","years":"\\u0633\\u0646\\u0629","add_religion":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u062f\\u064a\\u0646","owner":"\\u0645\\u062f\\u064a\\u0631 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","total_items":"\\u0627\\u0644\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0644\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631","update_lms":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","examseries":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","create_coupon":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0642\\u0633\\u064a\\u0645\\u0629","coupon_code":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","value":"\\u0627\\u0644\\u0642\\u064a\\u0645\\u0629","percent":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629","discount_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062e\\u0635\\u0645","discount_value":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u062e\\u0635\\u0645","enter_value":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0642\\u064a\\u0645\\u0629","enter_minimum_bill":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u062f\\u0646\\u064a \\u0644\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","discount_maximum_amount":"\\u062e\\u0635\\u0645 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u0645\\u0628\\u0644\\u063a","enter_maximum_amount":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u0645\\u0628\\u0644\\u063a","valid_from":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0645\\u0646","valid_to":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0627\\u0644\\u0649","usage_limit":"\\u062d\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645","enter_usage_limit_per_user":"\\u0627\\u062f\\u062e\\u0644 \\u062d\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645 \\u0644\\u0643\\u0644 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","from_email":"\\u0645\\u0646 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","from_name":"\\u0645\\u0646 \\u0627\\u0644\\u0627\\u0633\\u0645","export_payments_report":"\\u062a\\u0635\\u062f\\u064a\\u0631 \\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","export_payment_records":"\\u062a\\u0635\\u062f\\u064a\\u0631 \\u0633\\u062c\\u0644\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","download_excel":"\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0627\\u0643\\u0633\\u0644","all_records":"\\u0643\\u0644 \\u0627\\u0644\\u0633\\u062c\\u0644\\u0627\\u062a","from_date":"\\u0645\\u0646 \\u062a\\u0627\\u0631\\u064a\\u062e","to_date":"\\u0627\\u0644\\u0649 \\u062a\\u0627\\u0631\\u064a\\u062e","payment_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062f\\u0641\\u0639","all":"\\u0627\\u0644\\u0643\\u0644","payment_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0641\\u0639","select_parent":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u064a \\u0627\\u0644\\u0627\\u0639\\u0644\\u064a","course_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","course_code":"\\u0627\\u0644\\u0643\\u0648\\u062f","duration_in_years":"\\u0627\\u0644\\u0645\\u062f\\u0629 \\u0628\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a","grade_system":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","is_having_semisters":"\\u0647\\u0644 \\u064a\\u0648\\u062c\\u062f \\u0641\\u0635\\u0648\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","is_having_electives":"\\u0647\\u0644 \\u062a\\u0643\\u0648\\u0646 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","add_subjects_to_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","courses_list":"\\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","load":"\\u062a\\u062d\\u0645\\u064a\\u0644","add_subject_to_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","number_of_sessions_needed":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u062c\\u0644\\u0633\\u0627\\u062a \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629","template_1_logo":"\\u0634\\u0639\\u0627\\u0631 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628 \\u0661 ","institute_title":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","create_set":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","academic_operatons":"\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","period_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0629","enter_period_name":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0629","start_time_cannot_be_greater_than_or_equal_to_end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629 \\u0644\\u0627\\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u064a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628\\u0631 \\u0645\\u0646 \\u0627\\u0648 \\u064a\\u0633\\u0627\\u0648\\u064a \\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","start_time_must_be_greater_to_previous_end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629 \\u064a\\u062c\\u0628 \\u0627\\u0646 \\u064a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628 \\u0631\\u0645\\u0646 \\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642","time_spent_correct_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0646\\u0642\\u0636\\u064a \\u0641\\u064a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u064a\\u0629","time_spent_wrong_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0646\\u0642\\u0636\\u064a \\u0641\\u064a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626\\u0629","subject_wise_analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","in":"\\u0641\\u0649","attendance_for":"\\u0627\\u0644\\u062d\\u0636\\u0648\\u0631 \\u0644\\u0640\\u0640\\u0640","notes":"\\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","create_message":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0631\\u0633\\u0627\\u0644\\u0629","inbox":"\\u0635\\u0646\\u062f\\u0648\\u0642 \\u0627\\u0644\\u0648\\u0627\\u0631\\u062f","compose":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0631\\u0633\\u0627\\u0644\\u0629 \\u062c\\u062f\\u064a\\u062f\\u0629","send_message":"\\u0627\\u0631\\u0633\\u0627\\u0644","questions":"\\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","fill_the_blanks":"\\u0627\\u0645\\u0644\\u0627 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","first_admission_in_the_school":"\\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","date_of_first_admission_in_the_school":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","first_admission_class_in_the_school_with_name":"\\u0641\\u0635\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629 \\u0645\\u0639 \\u0627\\u0644\\u0627\\u0633\\u0645","completed":"\\u0627\\u0646\\u062a\\u0647\\u062a","internal_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a\\u0629","external_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0631\\u062c\\u064a\\u0629","please_enter_valid_internal_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a\\u0629 \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_external_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0631\\u062c\\u064a\\u0629 \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_maximum_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0642\\u0635\\u0648\\u064a \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_pass_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645","pass_marks_cannot_be_greater_than_maximum_marks":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d \\u0644\\u0627\\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u062a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628\\u0631 \\u0645\\u0646 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0642\\u0635\\u0648\\u064a","add_topic":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u062f\\u0631\\u0633","topic_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0633","category_deleted_successfully":"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0642\\u0633\\u0645 \\u0628\\u0646\\u062c\\u0627\\u062d","add_academic":"\\u0627\\u0636\\u0627\\u0641\\u0629 ","academic_title":"\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","show_in_list":"\\u0627\\u0644\\u0639\\u0631\\u0636 \\u0641\\u0649 \\u0627\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629","payu":"Payu","paypal":"\\u0628\\u0627\\u064a \\u0628\\u0627\\u0644","messaging":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","offline_payment":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","push_notifications":"\\u0627\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0627\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","certificate":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","show_foreign_key_constraint":"Show Foreign Key Constraint","facebook_login":"\\u0627\\u0644\\u062f\\u062e\\u0648\\u0644 \\u0628\\u062d\\u0633\\u0627\\u0628 \\u0627\\u0644\\u0641\\u064a\\u0633 \\u0628\\u0648\\u0643","google_plus_login":"\\u0627\\u0644\\u062f\\u062e\\u0648\\u0644 \\u0628\\u062d\\u0633\\u0627\\u0628 \\u062c\\u0648\\u062c\\u0644 \\u0628\\u0644\\u0633","old_password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0627\\u0644\\u0642\\u062f\\u064a\\u0645\\u0629","the_password_is_too_short":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0642\\u0635\\u064a\\u0631\\u0629 \\u062c\\u062f\\u0627","new_password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0627\\u0644\\u062c\\u062f\\u064a\\u062f\\u0629","retype_password":"\\u0627\\u0639\\u062f \\u0627\\u062f\\u062e\\u0627\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","password_and_confirm_password_does_not_match":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0648\\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0637\\u0627\\u0628\\u0642\\u0627\\u0646","posted_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u062f\\u062e\\u0627\\u0644 \\u0641\\u0649 ","send_messageeee":"\\u0627\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","please_select_the_recipients":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0631\\u0633\\u0644 \\u0627\\u0644\\u064a\\u0647\\u0645","import_subjects":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","children":"\\u0627\\u0644\\u0627\\u0628\\u0646\\u0627\\u0621","premium":"Premium","subscriptions_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","plan_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062e\\u0637\\u0629","paid_from":"\\u0645\\u062f\\u0641\\u0648\\u0639 \\u0645\\u0646","datetime":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0648\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e","it_includes":"\\u062a\\u0634\\u0645\\u0644","lms_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","view_more":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","items":"\\u0627\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631","learning_management_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","buy_now":"\\u0642\\u0645 \\u0628\\u0627\\u0644\\u0634\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0627\\u0646","checkout":"\\u0627\\u062c\\u0631\\u0627\\u0621 \\u0627\\u0644\\u062f\\u0641\\u0639","item":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","valid_for":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0644\\u0640\\u0640\\u0640","enter_coupon_code":"\\u0627\\u062f\\u062e\\u0644  \\u0643\\u0648\\u062f \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","apply":"\\u062a\\u0642\\u062f\\u0645","select_your_child":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0627\\u0628\\u0646","click_here_to_update_payment_details":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","billing_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","invalid_coupon":"\\u0642\\u0633\\u064a\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0635\\u0627\\u0644\\u062d\\u0629","hey_you_are_eligible_for_discount":"\\u0645\\u0647\\u0644\\u0627 \\u0623\\u0646\\u062a \\u0645\\u0624\\u0647\\u0644 \\u0644\\u0644\\u062e\\u0635\\u0645","printable__file":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","timetable_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","printed_onnn:_":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0641\\u0649:","timetable__contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","certificates_settings_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","hai":"\\u0645\\u0647\\u0644\\u0627","students_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","library_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","book_returns_student":"\\u0645\\u0631\\u062a\\u062c\\u0639\\u0627\\u062a \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","book_returns_staff":"\\u0645\\u0631\\u062a\\u062c\\u0639\\u0627\\u062a \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","asset_types":"\\u0627\\u0646\\u0648\\u0627\\u0639 \\u0645\\u0633\\u062a\\u0648\\u062f\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","master_data":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","publishers":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631\\u0648\\u0646","authors":"\\u0627\\u0644\\u0645\\u0624\\u0644\\u0641\\u0648\\u0646","library_users":"\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","issue_asset":"\\u0625\\u0635\\u062f\\u0627\\u0631 \\u0645\\u0627\\u062f\\u0629 \\u0627\\u0648 \\u0643\\u062a\\u0627\\u0628","maximum_allowed":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0627\\u0644\\u0645\\u0633\\u0645\\u0648\\u062d \\u0628\\u0647","issued":"\\u0646\\u0634\\u0631","eligible":"\\u0645\\u0624\\u0647\\u0644","transactions":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a","books_taken":"\\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0639\\u0627\\u0631\\u0629","issue_book":"\\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631\\u0629","general_info":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","contace_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u062a\\u0635\\u0627\\u0644","assets_on_issue":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u0627\\u062d\\u0629 \\u0644\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","issued_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631 \\u0641\\u0649 ","due_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0633\\u062a\\u062d\\u0642\\u0627\\u0642","library_issues":"\\u0627\\u0635\\u062f\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","asset_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","please_enter_asset_reference_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a \\u0644\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 ","return_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0641\\u0649 ","book_returns":"\\u0639\\u0648\\u062f\\u0629 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","academic_details":"Academic Details","asset_no":"Asset No","asset_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","return":"\\u0627\\u0644\\u0627\\u0633\\u062a\\u0631\\u062f\\u0627\\u062f","department":"\\u0627\\u0644\\u0642\\u0633\\u0645","id_card_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","offline_payment_form":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a\\u0629 \\u0645\\u0646","submit":"\\u0645\\u0648\\u0627\\u0641\\u0642","offline_payment_instructions":"\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u0649","payment_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","your_request_was_submitted_to_admin":"\\u062a\\u0645 \\u0627\\u0631\\u0633\\u0627\\u0644 \\u0637\\u0644\\u0628\\u0643 \\u0644\\u0644\\u0645\\u0634\\u0631\\u0641","success_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0627\\u0644\\u0646\\u0627\\u062c\\u062d\\u0629","user_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","plan":"\\u0627\\u0644\\u062e\\u0637\\u0629","payment_gateway":"\\u0628\\u0648\\u0627\\u0628\\u0629 \\u0627\\u0644\\u062f\\u0641\\u0639","updated_at":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0641\\u0649 ","offline_payment_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","coupon_applied":"\\u062a\\u0645 \\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645 \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","after_discount":"\\u0628\\u0639\\u062f \\u0627\\u0644\\u062e\\u0635\\u0645","created_at":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0641\\u0649 ","comments":"\\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0642\\u0627\\u062a","approve":"\\u0627\\u0639\\u062a\\u0645\\u0627\\u062f","reject":"\\u0631\\u0641\\u0636","close":"\\u0627\\u063a\\u0644\\u0627\\u0642","record_was_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u0646\\u062c\\u0627\\u062d","exam_aborted":"\\u062a\\u0645 \\u0627\\u0644\\u062e\\u0631\\u0648\\u062c \\u0645\\u0646 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","students_completed_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","students_completed_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","course_completed_student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","certificate_generation":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0634\\u0647\\u0627\\u062f\\u0629","certificate_for":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0644\\u0640\\u0640","improper_sheet_uploaded":"\\u062a\\u0645 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0648\\u0631\\u0642\\u0629 \\u063a\\u064a\\u0631 \\u0644\\u0627\\u0626\\u0642\\u0629","report":"\\u0627\\u0644\\u0625\\u0628\\u0644\\u0627\\u063a","failed":"\\u0631\\u0633\\u0628","address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","please_select_required_the_details":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629","this_record_is_in_use_in_other_modules":"\\u0627\\u0644\\u0633\\u062c\\u0644 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u062c\\u0632\\u0621 \\u0627\\u062e\\u0631 \\u0645\\u0646 \\u0627\\u0644\\u0646\\u0638\\u0627\\u0645","date_of_exam":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","topic":"\\u0627\\u0644\\u062f\\u0631\\u0633","view_all_users":"\\u0639\\u0631\\u0636 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","available_timesets":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u062a\\u0627\\u062d\\u0629","library_masters":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","author":"\\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","publisher":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631","available":"\\u0645\\u062a\\u0627\\u062d","edition":"\\u0625\\u0635\\u062f\\u0627\\u0631","library_assets":"\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u064a\\u0629","eligible_for_fine":"\\u0645\\u0633\\u062a\\u062d\\u0642 \\u0644\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","fine_per_day":"\\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629 \\u0627\\u0644\\u064a\\u0648\\u0645\\u064a\\u0629","qualification_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0645\\u0624\\u0647\\u0644","experience":"\\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","months":"\\u0627\\u0644\\u0634\\u0647\\u0648\\u0631","create_asset":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","asset_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","is_eligible_for_fine":"\\u0647\\u0644 \\u064a\\u0633\\u062a\\u062d\\u0642 \\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629\\u061f","is_having_max_fine_limit":"\\u0647\\u0644 \\u0648\\u0635\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","maximum_fine_amount":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0645\\u0628\\u0644\\u063a \\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","maximum_issuable":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u0625\\u0635\\u062f\\u0627\\u0631","maximum_days_to_return":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0644\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639","maximum_advanced_reservations":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u062d\\u062c\\u0648\\u0632\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u0642\\u062f\\u0645\\u0629","edit_asset":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","issuable":"\\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0635\\u062f\\u0627\\u0631","days_to_return":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0644\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639","create_master_asset":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0631\\u0626\\u064a\\u0633\\u064a","asset_belongs_to_subject":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0627\\u0644\\u062a\\u0627\\u0628\\u0639 \\u0644\\u0645\\u0627\\u062f\\u0629 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","isbn_number":"\\u0631\\u0642\\u0645 Isbn ","actual_price":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u0627\\u0644\\u0641\\u0639\\u0644\\u064a","chargible_price_if_lost":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u0627\\u0630\\u0627 \\u062a\\u0645 \\u0636\\u064a\\u0627\\u0639\\u0647","create_authors":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0624\\u0644\\u0641","author_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","create_publisher":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0646\\u0627\\u0634\\u0631","assets_publishers":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631\\u0648\\u0646","publisher_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0646\\u0627\\u0634\\u0631","librarian":"\\u0645\\u062f\\u064a\\u0631 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","back":"\\u0627\\u0644\\u0639\\u0648\\u062f\\u0629","collections":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a","masters":"Masters","damaged":"\\u0627\\u0644\\u062a\\u0627\\u0644\\u0641","lost":"\\u0627\\u0644\\u0645\\u0641\\u0642\\u0648\\u062f","generate_collection":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","series_prefix":"\\u0644\\u0642\\u0628 \\u0627\\u0644\\u0633\\u0644\\u0627\\u0633\\u0644","generate":"\\u0627\\u0646\\u0634\\u0627\\u0621","maximum_issues_student":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u0649 \\u0639\\u062f\\u062f \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0635\\u0627\\u062f\\u0631 \\u0644\\u0647\\u0645","maximum_issues_staff":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u0649 \\u0639\\u062f\\u062f \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0635\\u0627\\u062f\\u0631 \\u0644\\u0647\\u0645","maximum_days_to_return_student":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","maximum_days_to_return_staff":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","library_series_prefix":"\\u0644\\u0642\\u0628 \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","library_series_number_length":"\\u0639\\u062f\\u062f \\u0627\\u0631\\u0642\\u0627\\u0645 \\u0633\\u0644\\u0633\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","topper_percentage":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629 \\u0627\\u0644\\u0645\\u0626\\u0648\\u064a\\u0629 \\u0627\\u0644\\u0623\\u0639\\u0644\\u0649","barcode":"\\u0628\\u0627\\u0631\\u0643\\u0648\\u062f","edit_master_asset":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","your_not_assigned_to_any_class":"\\u0627\\u0646\\u062a \\u063a\\u064a\\u0631 \\u0645\\u0636\\u0627\\u0641 \\u0639\\u0644\\u0649 \\u0627\\u0649 \\u0641\\u0635\\u0644","edit_author":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","course_completed_students_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","edit_academic":"\\u062a\\u0639\\u062f\\u064a\\u0644","edit_course":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644","reference_no_":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a","eligiblity":"\\u0627\\u0644\\u0623\\u062d\\u0642\\u064a\\u0629","issue":"\\u0627\\u0635\\u062f\\u0627\\u0631","asset_issued_successfully":"\\u062a\\u0645 \\u0627\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","on_issue":"\\u062a\\u062d\\u062a \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","edit_subject":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0627\\u062f\\u0629","subjects_listtt":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","edit_topic":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0633","upload_question":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0624\\u0627\\u0644","supported_formats_are":"\\u0627\\u0644\\u0627\\u0645\\u062a\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0645\\u062f\\u0639\\u0648\\u0645\\u0647 \\u0647\\u064a","difficulty_level":"\\u0645\\u0633\\u062a\\u0648\\u064a \\u0627\\u0644\\u0635\\u0639\\u0648\\u0628\\u0629","hint":"\\u062a\\u0644\\u0645\\u064a\\u062d","explanation":"\\u0627\\u0644\\u0634\\u0631\\u062d","time_to_spend":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0644\\u0627\\u0632\\u0645","in_seconds":"\\u0628\\u0627\\u0644\\u062b\\u0648\\u0627\\u0646\\u064a","answer_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","total_correct_answers":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u0629","total_blank_answers":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0641\\u0627\\u0631\\u063a\\u0629","left_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u064a\\u0633\\u0631","right_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u064a\\u0645\\u0646","left_option":"\\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0627\\u064a\\u0633\\u0631","add_exam_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","series_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","please_upload_valid_image_type":"\\u0627\\u0644\\u0631\\u062c\\u0627\\u0621 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0646\\u0648\\u0639 \\u0635\\u0648\\u0631\\u0629 \\u0635\\u0627\\u0644\\u062d","it_will_be_updated_by_adding_the_exams":"\\u0633\\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0629 \\u0628\\u0645\\u062c\\u0631\\u062f \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","short_description":"\\u0648\\u0635\\u0641 \\u0642\\u0635\\u064a\\u0631","update_series_for":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","exam_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","saved_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629","add_content":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u062d\\u062a\\u0648\\u064a","content_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a","resource_link":"\\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631","lms_file":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","add_lms_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0633\\u0629 \\u0645\\u062d\\u062a\\u0648\\u064a \\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","lms_category":"\\u0642\\u0633\\u0645 \\u0645\\u062d\\u062a\\u0648\\u064a \\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","it_will_be_updated_by_adding_the_lms_items":"\\u0633\\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0647\\u0627 \\u0628\\u0639\\u062f \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","master_setup":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","master_setup_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","mastersettings_course_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","edit_course_semister":" \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","edit_semister":" \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u0646\\u0635\\u0641 \\u0633\\u0646\\u0648\\u064a","improper_data_in_the_question":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d\\u0629 \\u0641\\u064a \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","record_already_exists_with_this_title":"\\u0627\\u0644\\u0633\\u062c\\u0644 \\u0645\\u0648\\u062c\\u0648\\u062f \\u0628\\u0627\\u0644\\u0641\\u0639\\u0644 \\u0645\\u0639 \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","operations_are_disabled_in_demo_version":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0645\\u0639\\u0637\\u0644\\u0629 \\u0641\\u064a \\u0627\\u0644\\u0625\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","no_records_available":"No Records Available","no_categories_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u0642\\u0633\\u0627\\u0645 \\u0645\\u062a\\u0627\\u062d\\u0629","click_here_to_change_your_preferences":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u062a\\u063a\\u064a\\u064a\\u0631 \\u062e\\u064a\\u0627\\u0631\\u0627\\u062a\\u0643","language":"\\u0627\\u0644\\u0644\\u063a\\u0629","default_language":"\\u0627\\u0644\\u0644\\u063a\\u0629 \\u0627\\u0644\\u0627\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a\\u0629","latest_students":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","latest_staff":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","recent_online_payments":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a\\u0629","recent_offline_payments":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a\\u0629","students_detained_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","student_book_return":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","staff_book_return":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","recent_quiz_takers":"\\u0627\\u062e\\u0631 \\u0637\\u0627\\u0644\\u0628 \\u0642\\u0627\\u0645 \\u0628\\u0627\\u0644\\u0625\\u062e\\u062a\\u064a\\u0627\\u0631","library_history":"\\u0633\\u062c\\u0644\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","number":"\\u0627\\u0644\\u0631\\u0642\\u0645","today''s_classes":"\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u064a\\u0648\\u0645","lesson_plan_statistics":"\\u0625\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u062e\\u0637\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0633","staff_inactive_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0627\\u0644\\u063a\\u064a\\u0631 \\u0645\\u0641\\u0639\\u0644\\u064a\\u0646","update_master_setup":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","please_update_master_setup_details":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u0633\\u062a\\u0643\\u0645\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u062a \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","ok":"\\u062d\\u0633\\u0646\\u0627","students_list_class_wise":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0628\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","course_completed_students":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0630\\u064a\\u0646 \\u0627\\u0633\\u062a\\u0643\\u0645\\u0644\\u0648\\u0627 \\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0627\\u0631\\u0633\\u064a","detained_students_list_class_wise":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646 \\u0628\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","improper_selection":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u063a\\u064a\\u0631 \\u0644\\u0627\\u0626\\u0642","url":"\\u0627\\u0644\\u0631\\u0627\\u0628\\u0637","all_payments":"\\u0643\\u0644 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","update_strings":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629  ","disable":"\\u062a\\u0639\\u0637\\u064a\\u0644","enable":"\\u0645\\u0643\\u0646","set_default":"\\u0648\\u0636\\u0639 \\u0643\\u0625\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a","staff_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","are_you_sure_to_make_user_active":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u062a\\u0641\\u0639\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","are_you_sure_to_make_user_inactive":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0648\\u0642\\u0641 \\u062a\\u0641\\u0639\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","time_table_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","no_item_selected":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0649 \\u0639\\u0646\\u0635\\u0631","cannot_remove_this_item_as_it_is_in_use":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0645\\u0633\\u062d \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0644\\u0627\\u0646\\u0647 \\u0642\\u064a\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645","is_having_semesters":"\\u0647\\u0644 \\u0644\\u0647 \\u0641\\u0635\\u0648\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","detained_student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","make_inactive":"\\u0648\\u0642\\u0641 \\u062a\\u0641\\u0639\\u064a\\u0644\\u0647","religion_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0647","ooops":"\\u0639\\u0630\\u0631\\u0627","for_all_users_list":"\\u0644\\u0639\\u0631\\u0636 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","click_here":"\\u0627\\u0646\\u0642\\u0631 \\u0647\\u0646\\u0627","date_time":"\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e \\u0648\\u0627\\u0644\\u0648\\u0642\\u062a","today":"\\u0627\\u0644\\u064a\\u0648\\u0645","library_books_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","master_asset_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","issue_on":"\\u0645\\u0635\\u062f\\u0631\\u0647 \\u0641\\u0649","password_updated_successfully":"\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","offline_exam_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629 ","improper_data_submitted":"\\u062a\\u0645 \\u062a\\u0642\\u062f\\u064a\\u0645 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d\\u0629","cannot_remove_this_subject_as_allocated_to_staff":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629 \\u0644\\u0627\\u0646\\u0647\\u0627 \\u0645\\u062e\\u0635\\u0635\\u0629 \\u0644\\u0645\\u0639\\u0644\\u0645","site_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","login_page_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u062f\\u062e\\u0648\\u0644","site_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631","site_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0643\\u0627\\u0646","site_city":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","site_favicon":"\\u0627\\u064a\\u0642\\u0648\\u0646\\u0647 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0641\\u0649 \\u0634\\u0631\\u064a\\u0637 \\u0627\\u0644\\u0639\\u0646\\u0627\\u0648\\u064a\\u0646","site_state":"\\u0627\\u0644\\u0648\\u0644\\u0627\\u064a\\u0629","site_country":"\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","site_zipcode":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f\\u064a","site_phone":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","system_timezone":"\\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u062a","background_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a\\u0629","default_academic_year_id":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","default_parent_course_id":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a","current_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","currency_symbol":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","default_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a","green_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u0627\\u062e\\u0636\\u0631","red_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u0627\\u062d\\u0645\\u0631","cannot_remove_as_staff_is_assigned_to_classes":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0644\\u0645\\u0633\\u062d \\u0644\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 \\u0645\\u062e\\u0635\\u0635 \\u0644\\u0641\\u0635\\u0648\\u0644","staff_removed_successfully":"\\u062a\\u0645 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645","please_update_master_setup_details_before_creating_users_":"\\u0627\\u0644\\u0631\\u062c\\u0627\\u0621 \\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0625\\u0639\\u062f\\u0627\\u062f \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a \\u0642\\u0628\\u0644 \\u0625\\u0646\\u0634\\u0627\\u0621 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646.","status_changed_successfully":"\\u062a\\u0645 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","make_active":"\\u0648\\u0642\\u0641 \\u0627\\u0644\\u062a\\u0641\\u0639\\u064a\\u0644","assets_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a","edit_branch_and_course":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","add_total_blank_columns":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0639\\u0645\\u062f\\u0629 \\u0641\\u0627\\u0631\\u063a\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u062f\\u0648\\u0644","assistant_librarian":"\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","template":"\\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","please_check_your_email_master_settings":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0631\\u0627\\u062c\\u0639 \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","roll_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","meta_description":"\\u0648\\u0635\\u0641 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0639","meta_keywords":"\\u0643\\u0644\\u0645\\u0627\\u062a \\u0627\\u0644\\u0628\\u062d\\u062b","google_analytics":"\\u062a\\u062d\\u0644\\u064a\\u0644\\u0627\\u062a \\u062c\\u0648\\u062c\\u0644","edit_template":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","welcome":"\\u0645\\u0631\\u062d\\u0628\\u0627","email_content":"\\u0645\\u062d\\u062a\\u0648\\u0649 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","select_course":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0641\\u0635\\u0644","invalid_details_supplied":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u062e\\u0627\\u0637\\u0626\\u0629","add_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0633\\u0644\\u0629","scheduled_exam_marks":"\\u0646\\u062a\\u0627\\u0626\\u062c \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","no_series_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0645\\u062a\\u0627\\u062d\\u0629","time_table_is_not_created_for_your_class":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u0646\\u0634\\u0627\\u0624\\u0647 \\u0644\\u0641\\u0635\\u0644\\u0643","timingsets_cannot_be_empty":"\\u0627\\u0644\\u062d\\u0635\\u0635 \\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u062a\\u0643\\u0648\\u0646 \\u0641\\u0627\\u0631\\u063a\\u0629","token_mismatch_exception":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d","offline_payment_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","edit_question":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0633\\u0624\\u0627\\u0644","are_you_sure_to_make_clear_image":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0644\\u0641","clear_image":"\\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0644\\u0641","audio":"\\u0635\\u0648\\u062a\\u064a","gateway":"\\u0628\\u0648\\u0627\\u0628\\u0629","pending_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","currency":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u0629","account_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062d\\u0633\\u0627\\u0628","mail_driver":"Mail Driver","mail_host":"Mail Host","mail_port":"Mail Port","mail_username":"Mail Username","mail_password":"Mail Password","mail_encryption":"Mail Encryption","payu_merchant_key":"Payu Merchant Key","payu_salt":"Payu Salt","payu_working_key":"Payu Working Key","payu_testmode":"Payu Testmode","you_already_purchased_this_item":"\\u0627\\u0646\\u062a \\u0641\\u0639\\u0644\\u064a\\u0627 \\u0642\\u0645\\u062a \\u0628\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0627\\u0644\\u0634\\u0631\\u0627\\u0621","click_here_to_list_subjects":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","exam_already_submitted":"\\u062a\\u0645 \\u0627\\u0646\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","quiz_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","create_template":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0642\\u0627\\u0644\\u0628","file_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0644\\u0641","saved_items":"\\u0627\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0647","sorry_no_messages_available":"\\u0639\\u0641\\u0648\\u0627 \\u0644\\u0627\\u062a\\u0648\\u062c\\u062f \\u0631\\u0633\\u0627\\u0626\\u0644","undefined_user":"\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u063a\\u064a\\u0631 \\u0645\\u0639\\u0631\\u0648\\u0641","add_notification":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0634\\u0639\\u0627\\u0631","edit_language":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0644\\u063a\\u0629","language_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0644\\u063a\\u0629","language_code":"\\u0631\\u0645\\u0632 \\u0627\\u0644\\u0644\\u063a\\u0629","supported_language_codes":"\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629","is_rtl":"\\u0647\\u0644 \\u0627\\u062a\\u062c\\u0627\\u0647 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628\\u0629 \\u0645\\u0646 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 \\u061f","_empty_":"\\u0641\\u0627\\u0631\\u063a","student_book_returns":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0647 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","are_you_sure_to_return_the_book":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","password_reset_link_sent_to_email":"\\u062a\\u0645 \\u0627\\u0631\\u0633\\u0627\\u0644 \\u0631\\u0627\\u0628\\u0637 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0639\\u0644\\u0649 \\u0627\\u064a\\u0645\\u064a\\u0644\\u0643","reset_password":"\\u0627\\u0639\\u0627\\u062f\\u0629 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","email_address":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","confirm_password":"\\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","password_changed_successfully":"\\u062a\\u0645 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0628\\u0646\\u062c\\u0627\\u062d","latest_quizzes":"\\u0627\\u062e\\u0631 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","latest":"\\u0627\\u0644\\u0627\\u062e\\u064a\\u0631","children_analysis":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u0627\\u0628\\u0646\\u0627\\u0621","no_quizzes_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","to_change_your_settings":"\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a\\u0643","staff_book_returns":"\\u0627\\u0631\\u062c\\u0627\\u0639 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","chargeable_price_if_lost":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u062d\\u0627\\u0644\\u0629 \\u0636\\u064a\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","give_feedback":"\\u0634\\u0627\\u0631\\u0643\\u0646\\u0627 \\u0628\\u0631\\u0623\\u064a\\u0643","feedback_form":"\\u0627\\u0633\\u062a\\u0645\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","send":"\\u0627\\u0631\\u0633\\u0627\\u0644","edit_religion":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0629","course_parent_id":"\\u0627\\u0644\\u0645\\u0631\\u062d\\u0644\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a\\u0629","add_language":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0644\\u063a\\u0629","LMS":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","feed_backs":"\\u0627\\u0644\\u0622\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","educate":"\\u062a\\u0639\\u0644\\u064a\\u0645","enlight":"ENLIGHT","enforce":"\\u0642\\u064a\\u0627\\u062f\\u0629","login":"\\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u062f\\u062e\\u0648\\u0644","forgot_password":"\\u0647\\u0644 \\u0646\\u0633\\u064a\\u062a \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","enlightenment":"\\u062a\\u0646\\u0648\\u064a\\u0631","please_select_academic_year_and_course":"\\u064a\\u0631\\u062c\\u0649 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","lms_contents":"\\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","home_page":"\\u0627\\u0644\\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","bonafide_transfer_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","students_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","student_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","students_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","logged_out_successfully":"\\u062a\\u0645 \\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u062e\\u0631\\u0648\\u062c \\u0628\\u0646\\u062c\\u0627\\u062d","once_saved_the_admission_details_cannot_be_edited\\n":"\\u0645\\u0631\\u0629 \\u0648\\u0627\\u062d\\u062f\\u0629 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629 \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u062a\\u062d\\u0631\\u064a\\u0631\\u0647\\u0627","transfer_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644","staff_is_busy_for_that_slot":"\\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 \\u0645\\u0634\\u063a\\u0648\\u0644 \\u0641\\u0649 \\u0647\\u0630\\u0647 \\u0627\\u0644\\u062d\\u0635\\u0647","facebook_client_id":"facebook client id","facebook_client_secret":"facebook client secret","facebook_redirect_url":"facebook redirect url","google_client_id":"google client id","google_client_secret":"google client secret","google_redirect_url":" google redirect url","edit_series":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","edit_instruction":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","add_instructions":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","promote_all":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0643\\u0644","detain_all":"\\u0627\\u064a\\u0642\\u0627\\u0641 \\u0627\\u0644\\u0643\\u0644 ","no_action":"\\u0628\\u062f\\u0648\\u0646 \\u0627\\u062c\\u0631\\u0627\\u0621 ","do_you_want_to_promot_them":"\\u0646\\u0642\\u0644 \\u0628\\u064a\\u0646 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644\\u061f","do_you_want_to_graduate_them":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u062e\\u0631\\u064a\\u062c\\u064a\\u0646\\u061f","select_all":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0643\\u0644","cancel_all":"\\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0643\\u0644 ","reback_completed":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0639\\u0644\\u0649 \\u0631\\u0623\\u0633 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u0629","reback_them":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0639\\u0644\\u0649 \\u0631\\u0623\\u0633 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u0629","course_detained_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","item_is_not_exists":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u0648\\u062c\\u0648\\u062f","error":"\\u062d\\u062f\\u062b \\u062e\\u0637\\u0623 \\u0645\\u0627","no_data_available_in_table":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u062a\\u0648\\u0641\\u0631\\u0629 \\u0641\\u064a \\u0627\\u0644\\u062c\\u062f\\u0648\\u0644","show":"\\u0639\\u0631\\u0636","entries":"\\u0627\\u0644\\u0645\\u062f\\u062e\\u0644\\u0627\\u062a","showing":"\\u0639\\u0631\\u0636","password_and_confirmation_not_matched":"\\u062e\\u0627\\u0646\\u0629 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0648\\u062e\\u0627\\u0646\\u0629 \\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u0637\\u0627\\u0628\\u0642\\u062a\\u064a\\u0646","is_parent_account_available":"\\u0647\\u0644 \\u062d\\u0633\\u0627\\u0628 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 \\u0645\\u062a\\u0627\\u062d","you_should_choose_one_student_at_least":"\\u064a\\u062c\\u0628 \\u0639\\u0644\\u064a\\u0643 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0637\\u0627\\u0644\\u0628 \\u0648\\u0627\\u062d\\u062f \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0623\\u0642\\u0644","students_have_moved_to_schooling_again":"\\u0648\\u0642\\u062f \\u0627\\u0646\\u062a\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0625\\u0644\\u0649 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0645\\u0631\\u0629 \\u0623\\u062e\\u0631\\u0649","an_error_occurred":"\\u062d\\u062f\\u062b \\u062e\\u0637\\u0623 \\u0645\\u0627","completed_students_of_year":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646 \\u0644\\u0644\\u0639\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","for_year":"\\u0644\\u0644\\u0639\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","list_of_courses":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","total_semesters":"\\u0645\\u062c\\u0645\\u0648\\u0639 \\u0627\\u0644\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","currernt_semester":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","edit_notification":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0625\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","read_more":"\\u0627\\u0642\\u0631\\u0623 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","certificates_settings":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","add_semester":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0641\\u0635\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a","semester_start_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","semester_end_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","semester_start_date 1":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_end_date 1":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_start_date 2":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","semester_end_date 2":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","semester_start_date 3":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 3","semester_end_date 3":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 3","address_middle":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0623\\u0648\\u0633\\u0637","skip":"\\u062a\\u062e\\u0637\\u0649","dob":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","bonafide_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","messaging_system_for":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","edit_coupon":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","invalid_setting":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062e\\u0627\\u0637\\u0626\\u0629","sn":"\\u0627\\u0644\\u062a\\u0633\\u0644\\u0633\\u0644","bonafide_or_transfer_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0648\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","note":"\\u0645\\u0644\\u062d\\u0648\\u0638\\u0629","bonafide_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0648\\u0646\\u0641\\u064a\\u062f","nstitute_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","nstitute_title":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","elect_template":"\\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","if_the_student_admission_details_are_not_updated_those_students_will_be_available_in_all_users_list":"\\u0625\\u0630\\u0627 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0644\\u0643\\u0644 \\u0637\\u0627\\u0644\\u0628 \\u0641\\u0644\\u0646 \\u062a\\u0638\\u0647\\u0631 \\u0623\\u0633\\u0645\\u0627\\u0624\\u0647\\u0645 \\u0641\\u0649 \\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0648\\u0644\\u0643\\u0646 \\u0633\\u064a\\u0643\\u0648\\u0646\\u0648\\u0627 \\u0641\\u0649 \\u0642\\u0627\\u0626\\u0645\\u0629 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","done":"\\u0627\\u0646\\u062a\\u0647\\u064a","this_user_is_detained":"\\u062a\\u0645 \\u0627\\u064a\\u0642\\u0627\\u0641 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0627\\u062f\\u0627\\u0631\\u0629","today_classes":"\\u062d\\u0635\\u0635 \\u0627\\u0644\\u064a\\u0648\\u0645","change_user_language":"\\u062a\\u063a\\u064a\\u064a\\u0631 \\u0644\\u063a\\u0629 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","no_action_all":"\\u0628\\u062f\\u0648\\u0646 \\u0625\\u062c\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0643\\u0644","ibrary_series_number_length":"\\u0639\\u062f\\u062f \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u0643\\u062a\\u064a\\u0629","ibrary_series_prefix":"\\u0627\\u0644\\u0645\\u0633\\u0645\\u064a \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","aximum_days_to_return_staff":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062a\\u0649 \\u062a\\u0633\\u062a\\u0631\\u062f \\u062e\\u0644\\u0627\\u0644\\u0647\\u0627 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","aximum_days_to_return_student":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062a\\u0649 \\u062a\\u0633\\u062a\\u0631\\u062f \\u062e\\u0644\\u0627\\u0644\\u0647\\u0627 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","aximum_issues_staff":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0639\\u0627\\u0631\\u0629 \\u0644\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 ","aximum_issues_student":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0639\\u0627\\u0631\\u0629 \\u0644\\u0644\\u0637\\u0644\\u0627\\u0628 ","eft_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","eft_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","ight_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","ight_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646 ","ft_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","ft_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","ght_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","ght_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646 ","t_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","t_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","ht_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","ht_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646 ","essaging_system_for":"\\u062a\\u062a\\u0645 \\u0627\\u0644\\u0645\\u0631\\u0627\\u0633\\u0644\\u0629 \\u0644\\u0640\\u0640","ccount_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062d\\u0633\\u0627\\u0628","urrency":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u0629","mail":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","ail_driver":"\\u0645\\u0634\\u063a\\u0644 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a - \\u062f\\u0631\\u0627\\u064a\\u0641\\u0631","ail_encryption":"\\u0637\\u0631\\u064a\\u0642\\u0629 \\u0627\\u0644\\u062a\\u0634\\u0641\\u064a\\u0631","ail_host":"\\u0645\\u0633\\u062a\\u0636\\u064a\\u0641 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","ail_password":"\\u0643\\u0644\\u0645\\u0629 \\u0645\\u0631\\u0648\\u0631 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","ail_port":"\\u0627\\u0644\\u0628\\u0648\\u0631\\u062a \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","ail_username":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","efault_sessions_needed":"\\u0627\\u0644\\u062c\\u0644\\u0633\\u0627\\u062a \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a\\u0629 \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629","nd_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629 ","tart_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629","once_saved_the_admission_details_cannot_be_edited":"\\u0644\\u0627\\u064a\\u0645\\u0643\\u0646\\u0643 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0639\\u0644\\u0649 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0628\\u0639\\u062f \\u0627\\u062c\\u0631\\u0627\\u0621 \\u0639\\u0645\\u0644\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0641\\u0638","address_line_1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0623\\u0648\\u0644","address_line_2":"\\u0633\\u0637\\u0631 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 2","main_branch":"\\u0627\\u0644\\u0641\\u0631\\u0639 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","student_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","blood_type":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","phone_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","web_site":"\\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","admission_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","course_information":"\\u0627\\u0644\\u0641\\u0635\\u0644","full_address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0643\\u0627\\u0645\\u0644","city_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","address_of_city_and_state":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629 \\u0648\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","validity_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629","mobile_number":"\\u0627\\u0644\\u062c\\u0648\\u0627\\u0644","home_phone_number":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","address_1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 1","emergency_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0648\\u0627\\u0631\\u0626","headquarters":"\\u0627\\u0644\\u0645\\u0642\\u0631 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","website":"\\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","template_1":"\\u0627\\u0644\\u0646\\u0645\\u0648\\u0630\\u062c 1","template_2":"\\u0627\\u0644\\u0646\\u0645\\u0648\\u0630\\u062c 2","select_language":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629","academic_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0641\\u0635\\u0644","oogle_client_secret":"google client secret","acebook_client_id":"facebook client id","acebook_client_secret":"facebook client secret","acebook_redirect_url":"facebook redirect url","oogle_client_id":"google client id","oogle_redirect_url":"google redirect url","topic_id":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0633 (\\u0627\\u0644\\u0631\\u0642\\u0645)","please_type_any_details_for_search":"\\u064a\\u0631\\u062c\\u0649 \\u0643\\u062a\\u0627\\u0628\\u0629 \\u0623\\u064a \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0644\\u0644\\u0628\\u062d\\u062b","urrency_symbol":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","urrent_theme":"\\u0627\\u0644\\u062a\\u0635\\u0645\\u064a\\u0645 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","efault_academic_year_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","efault_parent_course_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","ogin_page_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0639","ite_city":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","ite_country":"\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","ite_phone":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","ite_state":"\\u0627\\u0644\\u0645\\u0646\\u0637\\u0642\\u0629","ite_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","ite_zipcode":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f\\u064a","ystem_timezone":"\\u062a\\u0648\\u0642\\u064a\\u062a \\u0627\\u0644\\u0646\\u0638\\u0627\\u0645","fill_in_blanks":"\\u0625\\u0645\\u0644\\u0623 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","upload_failed":"\\u0644\\u0642\\u062f \\u0641\\u0634\\u0644\\u062a \\u0639\\u0645\\u0644\\u064a\\u0629 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0644\\u0641","upload_success":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","image_cleared_successfully":"\\u062a\\u0645 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0635\\u0648\\u0631\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","do_not_press_back_or_refresh_button":"\\u0644\\u0627 \\u062a\\u0636\\u063a\\u0637 \\u0639\\u0644\\u0649 \\u0632\\u0631 \\u0627\\u0644\\u0631\\u062c\\u0648\\u0639 \\u0623\\u0648 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b","not_allowed":"\\u063a\\u064a\\u0631 \\u0645\\u0633\\u0645\\u0648\\u062d","this_service_is_not_available_now":"\\u0647\\u0630\\u0647 \\u0627\\u0644\\u062e\\u062f\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0627\\u062d\\u0629 \\u062d\\u0627\\u0644\\u064a\\u0627","semester_1":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_2":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","file":"\\u0627\\u0644\\u0645\\u0644\\u0641","video_url":"\\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0641\\u064a\\u062f\\u064a\\u0648","iframe":"IFRAME","audio_url":"\\u0631\\u0627\\u0628\\u0637 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0635\\u0648\\u062a","100":"100","feedback_submitted_successfully":"\\u062a\\u0645 \\u0625\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d \\u0628\\u0646\\u062c\\u0627\\u062d","feedback_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d","feedbacks":"\\u0627\\u0644\\u0622\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","record_added_successfully_with_password":"\\u062a\\u0645 \\u0625\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0628\\u0646\\u062c\\u0627\\u062d \\u0648\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0647\\u064a ","send_to":"\\u0627\\u0631\\u0633\\u0644 \\u0625\\u0644\\u0649","feedback_subject":"\\u0645\\u0648\\u0636\\u0648\\u0639 \\u0627\\u0644\\u0625\\u0642\\u062a\\u0631\\u0627\\u062d","feedback_description":"\\u0634\\u0631\\u062d \\u0627\\u0644\\u0625\\u0642\\u062a\\u0631\\u0627\\u062d","send_messages":"\\u0625\\u0631\\u0633\\u0644 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","select_user":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","message_subject":"\\u0645\\u0648\\u0636\\u0648\\u0639 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0644\\u0629","message_description":"\\u0646\\u0635 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0644\\u0629","user_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","teachers":"\\u0645\\u0639\\u0644\\u0645\\u0648\\u0646","choose":"\\u0623\\u062e\\u062a\\u0631","experience_years":"\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","experience_months":"\\u062a\\u062c\\u0631\\u0628\\u0629 \\u0623\\u0634\\u0647\\u0631","your_admission_details_are_not_updated":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0627\\u0635\\u0629 \\u0628\\u0643 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0647\\u0627","departments":"\\u0627\\u0644\\u0625\\u062f\\u0627\\u0631\\u0627\\u062a","create_department":"\\u0625\\u0646\\u0634\\u0627\\u0621 \\u0625\\u062f\\u0627\\u0631\\u0629","sno":"\\u0633\\u0646\\u0648","slug":"\\u0633\\u0628\\u064a\\u0643\\u0629","add_department":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0625\\u062f\\u0627\\u0631\\u0629","department_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0642\\u0633\\u0645","department_code":"\\u0643\\u0648\\u062f \\u0642\\u0633\\u0645","help_link_url":"\\u0631\\u0627\\u0628\\u0637 \\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0633\\u0627\\u0639\\u062f\\u0629","you_have_answered_the_question":"\\u0644\\u0642\\u062f \\u0623\\u062c\\u0628\\u062a \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","you_have_not_answered_the_question":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u0644\\u0631\\u062f \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","you_have_answered_the_question_but_have_marked_the_question_for_review":"\\u0644\\u0642\\u062f \\u0623\\u062c\\u0628\\u062a \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0648\\u0644\\u0643\\u0646 \\u0648\\u0636\\u0639 \\u0639\\u0644\\u0627\\u0645\\u0629 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0644\\u0644\\u0645\\u0631\\u0627\\u062c\\u0639\\u0629","you_have_not_visited_the_question_yet":"\\u0644\\u0645 \\u062a\\u062a\\u0645 \\u0632\\u064a\\u0627\\u0631\\u062a\\u0643 \\u0628\\u0639\\u062f","the_computer_provided_to_me_is_in_proper_working_condition":"\\u0627\\u0644\\u0643\\u0645\\u0628\\u064a\\u0648\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0642\\u062f\\u0645\\u0629 \\u0644\\u064a \\u0647\\u0648 \\u0641\\u064a \\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0639\\u0645\\u0644 \\u0627\\u0644\\u0645\\u0646\\u0627\\u0633\\u0628\\u0629","i_have_read_and_understood_the_instructions_given_above":"\\u0644\\u0642\\u062f \\u0642\\u0631\\u0623\\u062a \\u0648\\u0641\\u0647\\u0645\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0630\\u0643\\u0648\\u0631\\u0629 \\u0623\\u0639\\u0644\\u0627\\u0647"}', '2017-08-12 00:27:26', '2018-02-16 06:27:27', NULL, NULL, NULL, NULL);
+(13, 'العربية', 'alaarby', 'ar', 1, 1, '{"general_conduct":"\\u0627\\u0644\\u0633\\u0644\\u0648\\u0643 \\u0627\\u0644\\u0639\\u0627\\u0645","date_of_application_for_certificate":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u062a\\u0642\\u062f\\u064a\\u0645 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0644\\u0644\\u062d\\u0635\\u0648\\u0644 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","date_of_issue_certificate":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","reason_for_leaving_the_school":"\\u0633\\u0628\\u0628 \\u062a\\u0631\\u0643 \\u0627\\u0644\\u0645\\u062f\\u0631\\u064a\\u0629","any_other_remarks":"\\u0627\\u0649 \\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a \\u0627\\u062e\\u0631\\u064a","print":"\\u0637\\u0628\\u0627\\u0639\\u0629","date":"\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e","name_of_the_pupil":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062a\\u0644\\u0645\\u064a\\u0630","mothers_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0623\\u0645","nationality":"\\u0627\\u0644\\u062c\\u0646\\u0633\\u064a\\u0629","candidate_belongs_to_schedule_caste_or_schedule_tribe":"Candidate Belongs To Schedule Caste Or Schedule Tribe","date_of_first_admission_in_the_school_with_class":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0623\\u0648\\u0644 \\u0641\\u064a \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","date_of_birth_according_to_the_admission_register":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0645\\u064a\\u0644\\u0627\\u062f \\u062d\\u0633\\u0628 \\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","class_in_which_the_last_studied_with_name":"Class In Which The Last Studied With Name","total_number_no_of_working_days":"\\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0639\\u0645\\u0644 \\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a\\u0647","total_number_no_of_days_present":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","select":"\\u0627\\u062e\\u062a\\u0631","academic_operations":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","certificates_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","select_details":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","certificate_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","search":"\\u0628\\u062d\\u062b","image":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","name":"\\u0627\\u0644\\u0627\\u0633\\u0645","roll_no":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a","admission_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","class":"\\u0635\\u0641 \\u062f\\u0631\\u0627\\u0633\\u064a","year":"\\u0627\\u0644\\u0633\\u0646\\u0629","semester":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","are_you_sure":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f","yes":"\\u0646\\u0639\\u0645","delete_it":"\\u0642\\u0645 \\u0628\\u0627\\u0644\\u062d\\u0630\\u0641","no":"\\u0644\\u0627","cancel_please":"\\u0631\\u062c\\u0627\\u0621 \\u0627\\u0644\\u0627\\u0644\\u063a\\u0627\\u0621","cancelled":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u063a\\u0627\\u0621","your_record_is_safe":"\\u0633\\u062c\\u0644\\u0643 \\u0627\\u0645\\u0646","search_student":"\\u0627\\u0644\\u0628\\u062d\\u062b \\u0641\\u0649 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","latest_users":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","was_joined_as":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u062a\\u062d\\u0627\\u0642 \\u0643\\u0640\\u0640","see_more":"\\u0627\\u0642\\u0631\\u0627 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","my_profile":"\\u0645\\u0644\\u0641\\u064a \\u0627\\u0644\\u0634\\u062e\\u0635\\u064a","change_password":"\\u062a\\u063a\\u064a\\u064a\\u0631 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","feedback":"\\u0627\\u0644\\u0623\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","notifications":"\\u0627\\u0644\\u0625\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","messages":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a","languages":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0644\\u063a\\u0629","logout":"\\u0627\\u0644\\u062e\\u0631\\u0648\\u062c","dashboard":"\\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","users":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","attendance":"\\u0627\\u0644\\u062d\\u0636\\u0648\\u0631 \\u0648\\u0627\\u0644\\u063a\\u064a\\u0627\\u0628","certificates":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","transfers":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","timetable":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","offline_exams_":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","class_attendance_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u062d\\u0636\\u0648\\u0631 \\u0641\\u0635\\u0644","class_marks_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u062f\\u0631\\u062c\\u0627\\u062a \\u0641\\u0635\\u0644","exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","categories":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0623\\u0642\\u0633\\u0627\\u0645","question_bank":"\\u0628\\u0646\\u0643 \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","quiz":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","exam_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","instructions":"\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","coupons":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0642\\u0633\\u0627\\u0626\\u0645","list":"\\u0642\\u0627\\u0626\\u0645\\u0629","add":"\\u0625\\u0636\\u0627\\u0641\\u0629","contents":" \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","series":"\\u0633\\u0644\\u0633\\u0644\\u0629","master_settings":"\\u0627\\u0644\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","settings":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0646\\u0638\\u0627\\u0645","religions_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0623\\u062f\\u064a\\u0627\\u0646","categories_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","academics_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","courses_master":" \\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","course_subjects":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","certificate_templates":"\\u0642\\u0648\\u0627\\u0644\\u0628 \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","email_templates":"\\u0642\\u0648\\u0627\\u0644\\u0628 \\u0627\\u0644\\u0627\\u064a\\u0645\\u064a\\u0644\\u0627\\u062a","payment_reports":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","online_payments":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","offline_payments":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","export":"\\u062a\\u0635\\u062f\\u064a\\u0631","certificate_issues_histroy":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631\\u0629 \\u0633\\u0627\\u0628\\u0642\\u0627","select_user_to_view_details":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0644\\u0645\\u0634\\u0627\\u0647\\u062f\\u0629 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","purpose":"\\u0627\\u0644\\u063a\\u0631\\u0636","please_wait":"\\u0646\\u0631\\u062c\\u0648 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","id_cards":"\\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","lets_start":"\\u0644\\u0646\\u0628\\u062f\\u0623","bonafide_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643 ","user_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","success":"\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0646\\u0627\\u062c\\u062d\\u0629","pending":"\\u0642\\u064a\\u062f \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","total":"\\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a","overall_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","payments_reports_in":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0644\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","demanding_quizzes":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u064a \\u062a\\u0645 \\u0637\\u0644\\u0628\\u0647\\u0627","demanding":"\\u062a\\u062d\\u062a \\u0627\\u0644\\u0637\\u0644\\u0628","quizzes":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","view_all":"\\u0645\\u0634\\u0627\\u0647\\u062f\\u0629 \\u0627\\u0644\\u0643\\u0644","academics":"\\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","library":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","courses":"\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","quizzes_usage":"\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","paid_quizzes_usage":"\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0629","academic_operations_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","offline_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","orientation":"\\u0627\\u0644\\u062a\\u0648\\u062c\\u064a\\u0647","update":"\\u062a\\u062d\\u062f\\u064a\\u062b","create":"\\u0625\\u0636\\u0627\\u0641\\u0629","key":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a","setting_key":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","tool_tip":"\\u0646\\u0628\\u0630\\u0629 \\u0645\\u062e\\u062a\\u0635\\u0631\\u0629","type":"\\u0627\\u0644\\u0646\\u0648\\u0639","total_options":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u0627\\u062a","description":"\\u0627\\u0644\\u0634\\u0631\\u062d","option_value":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631","option_text":"\\u0646\\u0635 \\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631","make_default":"\\u0627\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a","record_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","zoomfactor":"\\u0639\\u0627\\u0645\\u0644 \\u0627\\u0644\\u062a\\u0643\\u0628\\u064a\\u0631","margin":"\\u0627\\u0644\\u0647\\u0627\\u0645\\u0634","format":"\\u0627\\u0644\\u062a\\u0646\\u0633\\u064a\\u0642","printable_file":"\\u0645\\u0644\\u0641 \\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","id_card_generation":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0647\\u0648\\u064a\\u0629","print_header":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0631\\u0627\\u0633 \\u0627\\u0644\\u0635\\u0641\\u062d\\u0629","print_footer":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0627\\u0633\\u0641\\u0644 \\u0627\\u0644\\u0635\\u0641\\u062d\\u0629","print_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","print_reference_number":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","module":"\\u0627\\u0644\\u0648\\u062d\\u062f\\u0629","action":"\\u0627\\u0644\\u0625\\u062c\\u0631\\u0627\\u0621 ","edit":"\\u062a\\u0639\\u062f\\u064a\\u0644","view":"\\u0639\\u0631\\u0636","logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631","content":"\\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a","left_sign_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631","right_sign_image":"\\u0635\\u0648\\u0631\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","left_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","right_sign_name":"\\u0627\\u0633\\u0645 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","left_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0633\\u0627\\u0631 ","right_sign_designation":"\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0635\\u0627\\u062d\\u0628 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u064a\\u0645\\u064a\\u0646","watermark_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","bottom_middle_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631 \\u0641\\u064a \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641 \\u0648\\u0641\\u064a \\u0627\\u0644\\u0627\\u0633\\u0641\\u0644","add_setting":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0636\\u0628\\u0637","title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","introduction":"\\u0627\\u0644\\u0645\\u0642\\u062f\\u0645\\u0629","description_of_the_topic":"\\u0648\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0633","record_added_successfully":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","no_settings_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","right_designation":"\\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u064a\\u0645\\u064a\\u0646","exams_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a ","exam-series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","category":"\\u0627\\u0644\\u0642\\u0633\\u0645","you_will_not_be_able_to_recover_this_record":"\\u0644\\u0646 \\u062a\\u0633\\u062a\\u0637\\u064a\\u0639 \\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u062c\\u0644 ","deleted":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641","sorry":"\\u0639\\u0630\\u0631\\u0627","cannot_delete_this_record_as":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0644\\u0627\\u0646\\u0647 \\u0645\\u0631\\u062a\\u0628\\u0637 \\u0628\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0641\\u0631\\u0639\\u064a\\u0629 \\u0645\\u0636\\u0627\\u0641\\u0629 \\u0625\\u0644\\u064a\\u0629 \\u064a\\u0631\\u062c\\u064a \\u0645\\u0633\\u062d\\u0647\\u0627 \\u0627\\u0648\\u0644\\u0627","your_record_has_been_deleted":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0628\\u0646\\u062c\\u0627\\u062d","delete":"\\u062d\\u0630\\u0641","create_series":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0633\\u0644\\u0633\\u0644\\u0629 \\u062c\\u062f\\u064a\\u062f\\u0629","duration":"\\u0627\\u0644\\u0641\\u062a\\u0631\\u0629","is_paid":"\\u0645\\u062f\\u0641\\u0648\\u0639","total_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0643\\u0644\\u064a\\u0629","update_questions":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0623\\u0633\\u0626\\u0644\\u0629","free":"\\u0645\\u062c\\u0627\\u0646\\u064a","paid":"\\u0645\\u062f\\u0641\\u0648\\u0639","create_quiz":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","quiz_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","this_field_is_required":"\\u0647\\u0630\\u0627 \\u0627\\u0644\\u062d\\u0642\\u0644 \\u0645\\u0637\\u0644\\u0648\\u0628","the_text_is_too_short":"\\u0627\\u0644\\u0646\\u0635 \\u0642\\u0635\\u064a\\u0631 \\u062c\\u062f\\u0627","the_text_is_too_long":"\\u0627\\u0644\\u0646\\u0635 \\u0637\\u0648\\u064a\\u0644 \\u062c\\u062f\\u0627","subject":"\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","select_subject":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","online":"\\u00a0\\u062d\\u0642\\u064a\\u0642\\u064a","offline":"\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","quiz_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","select_type":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0646\\u0648\\u0639","offline_category":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","enter_value_in_minutes":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0642\\u064a\\u0645\\u0629 \\u0628\\u0627\\u0644\\u062f\\u0642\\u0627\\u0626\\u0642","please_enter_valid_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0631\\u0642\\u0645 \\u0635\\u062d\\u064a\\u062d","it_will_be_updated_by_adding_the_questions":"It Will Be Updated By Adding The Questions","pass_percentage":"\\u0646\\u0633\\u0628\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d","negative_mark":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0631\\u0633\\u0648\\u0628","instructions_page":"\\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","start_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629","end_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","validity":"\\u0641\\u062a\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629","validity_in_days":"\\u0641\\u062a\\u0631\\u0629 \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629 \\u0628\\u0627\\u0644\\u0627\\u064a\\u0627\\u0645","cost":"\\u0627\\u0644\\u062a\\u0643\\u0644\\u0641\\u0629","specific_classes":"\\u062d\\u062f\\u062f \\u0627\\u0644\\u062d\\u0635\\u0635","applicable_to_specific":"\\u064a\\u0646\\u0637\\u0628\\u0642 \\u0639\\u0644\\u0649 \\u0645\\u062d\\u062f\\u062f","academic_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course":"\\u0627\\u0644\\u0641\\u0635\\u0644","already_item_available":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0645\\u062a\\u0627\\u062d \\u0641\\u0639\\u0644\\u064a\\u0627","item_removed_successfully":"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0628\\u0646\\u062c\\u0627\\u062d","update_questions_for":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0644\\u0640\\u0640","subjects":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","difficulty":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0635\\u0639\\u0648\\u0628\\u0629","easy":"\\u0633\\u0647\\u0644","medium":"\\u0645\\u062a\\u0648\\u0633\\u0637","hard":"\\u0635\\u0639\\u0628","question_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","single_answer":"\\u0627\\u062c\\u0627\\u0628\\u0629 \\u0648\\u0627\\u062d\\u062f\\u0629","multi_answer":"\\u0627\\u0643\\u062b\\u0631 \\u0645\\u0646 \\u0627\\u062c\\u0627\\u0628\\u0629","fill_in_the_blanks":"\\u0627\\u0645\\u0644\\u0627 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","match_the_following":"\\u0648\\u0635\\u0644 \\u0627\\u0644\\u0645\\u062a\\u0634\\u0627\\u0628\\u0647\\u0627\\u062a","paragraph":"\\u0627\\u0644\\u0641\\u0642\\u0631\\u0629","video":"\\u0641\\u064a\\u062f\\u064a\\u0648","search_term":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0628\\u062d\\u062b","enter_search_term":"\\u0627\\u062f\\u062e\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0628\\u062d\\u062b","question":"\\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","marks":"\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","saved_questions":"\\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629","remove_all":"\\u062d\\u0630\\u0641 \\u0627\\u0644\\u0643\\u0644","edit_quiz":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","right_side_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u062c\\u0647\\u0629 \\u064a\\u0645\\u064a\\u0646","right_side_sign":"\\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u062c\\u0647\\u0629 \\u064a\\u0645\\u064a\\u0646","users_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","owners":"\\u0645\\u062f\\u0631\\u0627\\u0621 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","admins":"\\u0627\\u0644\\u0645\\u0634\\u0631\\u0641\\u064a\\u0646","students":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","staff":"\\u0645\\u0639\\u0644\\u0645","librarians":"\\u0645\\u062f\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","assistant_librarians":"\\u0645\\u0648\\u0638\\u0641\\u064a\\u0646 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","parents":"\\u0623\\u0648\\u0644\\u064a\\u0627\\u0621 \\u0627\\u0644\\u0623\\u0645\\u0648\\u0631","all_users":"\\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","create_user":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","update_offline_exams_marks":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","import_excel":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0645\\u0644\\u0641 \\u0627\\u0643\\u0633\\u0644","exam":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","year_and_semester":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","maximum_marks":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","update_marks":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","select_offline_exams_details":"\\u0627\\u062e\\u062a\\u0631 \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","offline_exmas":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","selection_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 ","branch":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","get_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","offline_exam_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","marks_for":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0644\\u0640\\u0640","photo":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","marks_obtained":"\\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u062d\\u0635\\u0644 \\u0639\\u0644\\u064a\\u0647\\u0627 ","exam_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","pass":"\\u0646\\u0627\\u062c\\u062d","fail":"\\u0631\\u0627\\u0633\\u0628","reference_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639","no_students_available":"\\u0644\\u0627 \\u064a\\u0648\\u062c\\u062f \\u0637\\u0644\\u0627\\u0628 ","right_side_designation":"\\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646","edit_settings":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a","offline_exams_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","offline_quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","category_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0642\\u0633\\u0645","add_category":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0642\\u0633\\u0645","invalid_input":"\\u0645\\u062f\\u062e\\u0644 \\u062e\\u0627\\u0637\\u064a","edit_category":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0633\\u0645","offline_exmas_quiz_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","offline_exmas_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629","add_user":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","staff_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645","job_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629","email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","edit_details":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 ","teacher":"\\u0645\\u0639\\u0644\\u0645","staff_profile":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 ","staff_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","profile":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0634\\u062e\\u0635\\u064a","general_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","personal_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0634\\u062e\\u0635\\u064a\\u0629","contact_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u062a\\u0635\\u0627\\u0644","date_of_join":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0644\\u062a\\u062d\\u0627\\u0642 ","qualification":"\\u0627\\u0644\\u0645\\u0624\\u0647\\u0644","experience_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0639\\u0646 \\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","other_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u062e\\u0631\\u064a","first_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0648\\u0644","middle_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0648\\u0633\\u0637","last_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u062e\\u064a\\u0631","date_of_birth":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0645\\u064a\\u0644\\u0627\\u062f","gender":"\\u0627\\u0644\\u0646\\u0648\\u0639","male":"\\u0630\\u0643\\u0631","female":"\\u0627\\u0646\\u062b\\u064a","blood_group":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","fathers_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0628","mother_tongue":"\\u0627\\u0644\\u0644\\u063a\\u0629 \\u0627\\u0644\\u0627\\u0645","address_lane1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0637\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644","address_lane2":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0637\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a","city":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","state":"\\u0627\\u0644\\u062d\\u064a","country":"\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","zipcode":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0645\\u0646\\u0637\\u0642\\u0629","mobile":"\\u0627\\u0644\\u062c\\u0648\\u0627\\u0644","home_phone":"\\u0647\\u0627\\u062a\\u0641 \\u0627\\u0644\\u0645\\u0646\\u0632\\u0644","mother_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0627\\u0645","left_side_name":"\\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_left_side_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_left_side_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 ","show_left_side_image":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0635\\u0648\\u0631\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631","show_middle_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641","show_left_side_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 ","total_number_no_of_present_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","show_middle_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641 ","show_middle_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u0646\\u062a\\u0635\\u0641","show_right_side_name":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0645 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646","show_right_side_designation":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0648\\u0638\\u064a\\u0641\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 ","games_played_or_extra-_curricular_activities":"\\u0627\\u0644\\u0627\\u0644\\u0639\\u0627\\u0628 \\u0648\\u0627\\u0644\\u0627\\u0646\\u0634\\u0637\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a\\u0629","show_right_side_sign":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u0639 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u0647\\u0629 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 ","water_mark_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","show_watermark":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0627\\u0626\\u064a\\u0629","name_of_student":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","father_guardian_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 ","candidate_caste":"\\u0627\\u0644\\u0645\\u062a\\u0642\\u062f\\u0645","date_of_admission_with_class":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0645\\u0639 \\u0627\\u0644\\u0641\\u0635\\u0644","last_class_studied":"\\u0627\\u062e\\u0631 \\u0641\\u0635\\u0644 \\u062a\\u0645 \\u062f\\u0631\\u0627\\u0633\\u062a\\u0629","last_taken_exam_and_result":"\\u0627\\u062e\\u0631 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u062a\\u0645 \\u062f\\u062e\\u0648\\u0644\\u0629 \\u0648\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","whether_failed_if_once_twice_in_the_same_class":"Whether Failed If Once Twice In The Same Class","promotion_class":"\\u062a\\u0631\\u0642\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644","total_working_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0639\\u0645\\u0644","total_present_days":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","ncc_boy_scout_girls_guide":"Ncc Boy Scout Girls Guide","games_played_or_extra_curricular_activities":"\\u0627\\u0644\\u0627\\u0644\\u0639\\u0627\\u0628 \\u0648\\u0627\\u0644\\u0627\\u0646\\u0634\\u0637\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u064a\\u0629","date_of_apply":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u062a\\u0642\\u062f\\u064a\\u0645","date_of_issue":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","reason":"\\u0627\\u0644\\u0633\\u0628\\u0628","remarks":"\\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","import_marks":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","download_template":"\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","upload":"\\u0631\\u0641\\u0639 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","information_helper_for_excel_data":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u062a\\u0633\\u0627\\u0639\\u062f\\u0643 \\u0644\\u0641\\u0647\\u0645 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0627\\u0643\\u0633\\u0644","file_type_not_allowed":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0644\\u0641 \\u063a\\u064a\\u0631 \\u0645\\u0633\\u0645\\u0648\\u062d \\u0628\\u0647","marks_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","total_class":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u062d\\u0635\\u0635","present":"\\u062d\\u0627\\u0636\\u0631","absent":"\\u063a\\u0627\\u064a\\u0628 ","leave":"\\u063a\\u0627\\u062f\\u0631","no_data_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","student":"\\u0637\\u0627\\u0644\\u0628","year-semester":"\\u0627\\u0644\\u0633\\u0646\\u0629 - \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","admission_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","correct":"\\u0635\\u062d\\u064a\\u062d","wrong":"\\u062e\\u0637\\u0623","not_answered":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","overall_performance":"\\u0627\\u0644\\u0627\\u062f\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0627\\u0645","performance":"\\u0627\\u0644\\u0627\\u062f\\u0627\\u0621","best_performance_in_all_quizzes":"\\u0627\\u0641\\u0636\\u0644 \\u0627\\u062f\\u0627\\u0621 \\u0641\\u0649 \\u0643\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","student_users":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 ","details_of":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","reports":"\\u0627\\u0644\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631","exam_history":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","view_details":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","by_exam":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0628\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","by_subject":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0628\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","subscriptions":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629","bonafide_certificates_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificates_fields":"\\u062d\\u0642\\u0648\\u0644  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificates_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","id_cards_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","id_cards_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","transfer_certificates_content":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_cont":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","transfer_certificates_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","bonafide_certificates_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_content":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_content":"\\u0645\\u062d\\u062a\\u0648\\u064a  \\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","bonafide_certificatet_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_con":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_cont":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificatet_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_conten":"\\u0645\\u062d\\u062a\\u0648\\u064a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_certificate_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","id_card_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0627\\u062a \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","id_card_fields":"\\u062d\\u0642\\u0648\\u0644 \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","question_subjects":"\\u0627\\u0633\\u0626\\u0644\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","import_questions":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","add_subject":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0627\\u062f\\u0629","code":"\\u0627\\u0644\\u0643\\u0648\\u062f","view_questions":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","bonafide_certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","transfer_certificate_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","total_exams":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","total_questions":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","update_quizzes":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","bonafide_certificate_seting":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide__contents":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","bonafide_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","mastersettings_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","religions":"\\u0627\\u0644\\u0623\\u062f\\u064a\\u0627\\u0646","start_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629","end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","default_sessions_needed":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u062c\\u0644\\u0633\\u0627\\u062a \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a\\u0629  \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629 ","iamge":"\\u0627\\u0644\\u0635\\u0648\\u0631\\u0629","student_profile":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","students_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","parent_login":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0623\\u0645\\u0631","info":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a","present_academic_details":"\\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_academic_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_branch":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","current_course":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","previous_educational_details":"\\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","highest_qualification":"\\u0627\\u0644\\u0645\\u0624\\u0647\\u0644\\u0627\\u062a \\u0627\\u0644\\u0639\\u0644\\u064a\\u0627","percentage":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629 ","year_passed":"\\u062a\\u0645 \\u0627\\u062c\\u062a\\u064a\\u0627\\u0632 \\u0627\\u0644\\u0633\\u0646\\u0647","previous_institute_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","institute_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","religion":"\\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0629","guardian_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","guardian_phone":"\\u0647\\u0627\\u062a\\u0641 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","relationship_with_guardian":"\\u0635\\u0644\\u0647 \\u0627\\u0644\\u0642\\u0631\\u0627\\u0628\\u0629 \\u0628\\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","guardian_email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a \\u0644 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","parent_login_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 ","parent_name":"\\u0627\\u0633\\u0645 \\u0648\\u0644\\u0649 \\u0627\\u0644\\u0627\\u0645\\u0631","parent_user_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0644 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","parent_email":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a \\u0644 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631","password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","staff_users":"\\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","lesson_plans":"\\u062e\\u0637\\u0637 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","subject_preferences":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u0645\\u0641\\u0636\\u0644\\u0629","student_attendance":"\\u062d\\u0636\\u0648\\u0631 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","payment_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","payment_monthly_statistics":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u0634\\u0647\\u0631\\u064a\\u0629","particulars":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","general_instructions":"\\u0627\\u0631\\u0627\\u0634\\u0627\\u062f\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","attendance_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","from":"\\u0645\\u0646","to":"\\u0625\\u0644\\u0649","lesson_plans_for":"\\u062e\\u0637\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0633 \\u0644\\u0640\\u0640","no_topics_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u062f\\u0631\\u0648\\u0633 \\u0645\\u062a\\u0627\\u062d\\u0629","transfer_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0646\\u0642\\u0644","edit_user":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","username":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","please_enter_valid_email":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","role":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","select_role":"\\u0627\\u062e\\u062a\\u0631 \\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","phone":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","please_enter_10-15_digit_mobile_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0645\\u0646 \\u0661\\u0660-\\u0661\\u0665 \\u0631\\u0642\\u0645 \\u0644\\u0644\\u062c\\u0648\\u0627\\u0644","please_enter_valid_phone_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0631\\u0642\\u0645 \\u0647\\u0627\\u062a\\u0641 \\u0633\\u0644\\u064a\\u0645","billing_address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","please_enter_your_address":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0643","exam_analysis_by_attempts":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","attempts":"\\u0627\\u0644\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a","of":"\\u0645\\u0646","mins":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u062f\\u0646\\u064a","exam_attempts_and_score":"\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u0648\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","quiz_attempts":"\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","result":"\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629","view_answers":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","generate_certificate":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0634\\u0647\\u0627\\u062f\\u0629","answers":"\\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a","analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644","time_limit":"\\u062d\\u062f\\u0648\\u062f \\u0627\\u0644\\u0648\\u0642\\u062a","time_taken":"\\u0648\\u0642\\u062a \\u062f\\u062e\\u0648\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","previous":"\\u0627\\u0644\\u0633\\u0627\\u0628\\u0642","next":"\\u0627\\u0644\\u062a\\u0627\\u0644\\u064a","timetable_for":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","sun":"\\u0627\\u0644\\u0623\\u062d\\u062f","mon":"\\u0627\\u0644\\u0627\\u062b\\u0646\\u064a\\u0646","tue":"\\u0627\\u0644\\u062b\\u0644\\u0627\\u062b\\u0627\\u0621","wed":"\\u0627\\u0644\\u0627\\u0631\\u0628\\u0639\\u0627\\u0621","thu":"\\u0627\\u0644\\u062e\\u0645\\u064a\\u0633","fri":"\\u0627\\u0644\\u062c\\u0645\\u0639\\u0629","sat":"\\u0627\\u0644\\u0633\\u0628\\u062a","timetable_for_":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","leisure":"\\u0631\\u0627\\u062d\\u0629","lab":"\\u0627\\u0644\\u0645\\u062e\\u062a\\u0628\\u0631","completed_topics_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0645\\u0644\\u0629","no_list_available":"\\u0627\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0627\\u062d\\u0629","select_other_class":"\\u0627\\u062e\\u062a\\u0631 \\u0641\\u0635\\u0644 \\u0627\\u062e\\u0631","please_select_the_details":"\\u0631\\u062c\\u0627\\u0621\\u0627 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644","preferred_subjects":"\\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u0645\\u0641\\u0636\\u0644\\u0629","elective":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","summary":"\\u0627\\u0644\\u0645\\u0644\\u062e\\u0635","labs":"\\u0627\\u0644\\u0645\\u062e\\u062a\\u0628\\u0631\\u0627\\u062a","electives":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","subjects_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","records_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","students_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","view_students":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","overall_subject_wise_analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","marks_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","no_data_available_with_the_selection":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","leasure":"\\u0631\\u0627\\u062d\\u0629","break":"\\u0627\\u0633\\u062a\\u0631\\u0627\\u062d\\u0629","printed_on:_":"\\u0637\\u0628\\u0639 \\u0639\\u0644\\u0649:","attendance_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","view_summary":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0644\\u062e\\u0635","attendance_summary":"\\u0645\\u0644\\u062e\\u0635 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","total_classes":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0639\\u062f\\u062f \\u0627\\u0644\\u062d\\u0635\\u0635","its_okay":"\\u0645\\u0648\\u0627\\u0641\\u0642","topics_completed":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0647\\u0627\\u0621 \\u0645\\u0646 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","transfer_list":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","semister":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","current_year":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","current_semister":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","admin":"\\u0645\\u0634\\u0631\\u0641","ooops__":"\\u062e\\u0637\\u0623 \\u0640\\u0640\\u0640\\u0640\\u0640!","please_select_any_users":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0649 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","emergency_no":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0648\\u0627\\u0631\\u0626","no_users_available":"\\u0644\\u0627 \\u064a\\u0648\\u062c\\u062f \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646 ","transfers_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","modules_helper":"\\u0645\\u0633\\u0627\\u0639\\u062f \\u0627\\u0644\\u0648\\u062d\\u062f\\u0629","help_link_text":"\\u0646\\u0635 \\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0633\\u0627\\u0639\\u062f\\u0629","status":"\\u0627\\u0644\\u062d\\u0627\\u0644\\u0629","add_helper":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0633\\u0627\\u0639\\u062f","help_me":"\\u0633\\u0627\\u0639\\u062f\\u0646\\u064a","is_enabled":"\\u0647\\u0644 \\u0645\\u062a\\u0627\\u062d","keyboard":"\\u0644\\u0648\\u062d\\u0629 \\u0627\\u0644\\u0645\\u0641\\u0627\\u062a\\u064a\\u062d","backdrop":"\\u062e\\u0644\\u0641\\u064a\\u0629","steps":"\\u0627\\u0644\\u062e\\u0637\\u0648\\u0627\\u062a","element_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","placement":"\\u062a\\u062d\\u062f\\u064a\\u062f \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u064a","sort_order":"\\u0627\\u0645\\u0631 \\u0627\\u0644\\u062a\\u0631\\u062a\\u064a\\u0628","add_to_list":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0644\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629","element":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","student_promotions":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","cancel":"\\u0627\\u0644\\u063a\\u0627\\u0621","confirm":"\\u062a\\u0623\\u0643\\u064a\\u062f","is_completed":"\\u0647\\u0644 \\u062a\\u0648\\u062f \\u0627\\u0644\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0641\\u0635\\u0644 \\u0627\\u0648 \\u0635\\u0641 \\u0627\\u062e\\u0631\\u061f","transfer_to_course":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0641\\u0635\\u0644","transfer_to_year":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","transfer_to_semister":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0644\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","promoted":"\\u0646\\u0642\\u0644","detained":"\\u0627\\u064a\\u0642\\u0627\\u0641","course_completed":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","transfer":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","create_category":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","enter_category_name":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","record_added_successfully_with_password_":"\\u062a\\u0645 \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0633\\u062c\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d \\u0645\\u0639 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","timings_set":"\\u0636\\u0628\\u0637 \\u0627\\u0648\\u0642\\u0627\\u062a \\u0627\\u0644\\u062d\\u0635\\u0635","create_timetable":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","timing_sets":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062d\\u0635\\u0635","timetable_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","prepare_timetable":"\\u0627\\u0639\\u062f\\u0627\\u062f \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","day":"\\u0627\\u0644\\u064a\\u0648\\u0645","remove":"\\u062d\\u0630\\u0641","print_timetable":"\\u0637\\u0628\\u0627\\u0639\\u0629 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","enter_notes":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","this_will_be_displayed_bottom_of_the_timetable":"\\u0633\\u064a\\u0638\\u0647\\u0631 \\u0630\\u0644\\u0643 \\u0627\\u0633\\u0641\\u0644 \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","schedule_table":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","attendance_report":"\\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062d\\u0636\\u0648\\u0631","subjects_reports":"\\u062a\\u0642\\u0627\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","view_analysis":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644","view_report":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062a\\u0642\\u0631\\u064a\\u0631","my_bookmarks":"\\u0645\\u0641\\u0636\\u0644\\u0627\\u062a\\u064a","scheduled_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062c\\u062f\\u0648\\u0644\\u0629","by_subjcet":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0628\\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","history":"\\u0627\\u0644\\u0645\\u062d\\u0627\\u0648\\u0644\\u0627\\u062a \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642\\u0629","lms":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","quizzes_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","payments":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","viewww":"\\u0639\\u0631\\u0636","all_exams":"\\u0643\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","dueration":"\\u0627\\u0644\\u0645\\u062f\\u0629","take_exam":"\\u062f\\u062e\\u0648\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","select_template":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","please_read_the_instructions_carefully":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u0642\\u0631\\u0627 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0628\\u0639\\u0646\\u0627\\u064a\\u0629","exam_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","please_accept_terms_and_conditions":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0642\\u0645 \\u0628\\u0627\\u0644\\u0645\\u0648\\u0627\\u0641\\u0642\\u0629 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0634\\u0631\\u0648\\u0637 \\u0648\\u0627\\u0644\\u0627\\u062d\\u0643\\u0627\\u0645","start_exam":"\\u0627\\u0628\\u062f\\u0623 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","enable_back_side":"\\u062a\\u0645\\u0643\\u064a\\u0646 \\u0627\\u0644\\u062c\\u0627\\u0646\\u0628 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","days":"\\u0627\\u0644\\u0627\\u064a\\u0627\\u0645","top_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631 \\u0627\\u0644\\u0645\\u062a\\u0648\\u0627\\u062c\\u062f \\u0628\\u0627\\u0644\\u0627\\u0639\\u0644\\u064a","account_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062d\\u0633\\u0627\\u0628","quiz_and_exam_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0648\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","lms_categories":"\\u0627\\u0642\\u0633\\u0627\\u0645 \\u0627\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","academic_years":"\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","courses_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_courses":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 ","academic_courses":"\\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","record_deleted_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062d\\u0630\\u0641 \\u0628\\u0646\\u062c\\u0627\\u062d","page_not_found":"\\u0627\\u0644\\u0635\\u0641\\u062d\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u0648\\u062c\\u0648\\u062f\\u0629","you_have_no_permission_to_access":"\\u0644\\u064a\\u0633 \\u0644\\u062f\\u064a\\u0643 \\u0635\\u0644\\u0627\\u062d\\u064a\\u0629 \\u0644\\u0644\\u0648\\u0635\\u0648\\u0644","no_topics_availble":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u062f\\u0631\\u0648\\u0633 \\u0645\\u062a\\u0627\\u062d\\u0629","topics":"\\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import_topics":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u062f\\u0631\\u0648\\u0633","add_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","subject_master":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","subject_topics":"\\u062f\\u0631\\u0648\\u0633 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_subject_to_course":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","allocate_staff_to_course":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0641\\u0635\\u0644","topics_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f","parent":"\\u0648\\u0644\\u064a \\u0623\\u0645\\u0631","front_first_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","allocate_staff_to_subject":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_staff_to_courses":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","add_or_edit_course_subjects":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0648 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0648\\u0627\\u062f \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","allocate_staff":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","subject_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","subject_code":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","pass_marks":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d","is_lab":"\\u0647\\u0644 \\u0645\\u0631\\u062a\\u0628\\u0637 \\u0628\\u0645\\u062e\\u062a\\u0628\\u0631\\u061f","is_elective":"\\u0625\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u061f","view_topics":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u062f\\u0631\\u0648\\u0633","import_users":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","front_second_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_third_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fourth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fifth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062e\\u0627\\u0645\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_sixth_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u062f\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_seventh_item":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_total_fields":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0627\\u0644\\u062d\\u0642\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a\\u0629","back_first_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","front_first_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_second_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_third_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fourth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_fifth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062e\\u0627\\u0645\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_sixth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u062f\\u0633 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","front_seventh_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0639 \\u0627\\u0644\\u0627\\u0645\\u0627\\u0645\\u064a","coupon_codes":"\\u0627\\u0643\\u0648\\u0627\\u062f \\u0627\\u0644\\u0642\\u0633\\u0627\\u0626\\u0645","discount":"\\u0627\\u0644\\u062e\\u0635\\u0645","minimum_bill":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u062f\\u0646\\u0649 \\u0645\\u0646 \\u0627\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","maximum_discount":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u062e\\u0635\\u0645","limit":"\\u0627\\u0644\\u062d\\u062f","back_first_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_second_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_second_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0646\\u064a \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","time_spent_on_correct_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u0629","time_spent_on_wrong_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626\\u0629","overall_marks_analysis":"\\u0627\\u0644\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u0634\\u0627\\u0645\\u0644 \\u0644\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","time":"\\u0627\\u0644\\u0648\\u0642\\u062a","spent_on_correct":"\\u0645\\u0627 \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d","spent_on_wrong":"\\u0645\\u0627 \\u062a\\u0645 \\u0642\\u0636\\u0627\\u0624\\u0647 \\u0641\\u0649 \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626","spent_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0630\\u064a \\u0645\\u0636\\u064a","total_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0643\\u0644\\u064a","time_is_shown_in_seconds":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0645\\u0639\\u0631\\u0648\\u0636 \\u0628\\u0627\\u0644\\u062b\\u0648\\u0627\\u0646\\u064a","back_third_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_third_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u062b\\u0627\\u0644\\u062b \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_fourth_item_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","back_fourth_item_text":"\\u0646\\u0635 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0627\\u0644\\u0631\\u0627\\u0628\\u0639 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a","clear_answer":"\\u0645\\u0633\\u062d \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","bookmarks":"\\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a\\u0629","exam_duration":"\\u0645\\u062f\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","hints":"\\u0627\\u0644\\u062a\\u0644\\u0645\\u064a\\u062d\\u0627\\u062a","unbookmark_this_question":"\\u0627\\u0632\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0639\\u0644\\u0627\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a\\u0629 \\u0644\\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","bookmark_this_question":"\\u0627\\u0636\\u0641 \\u0639\\u0644\\u0627\\u0645\\u0629 \\u0645\\u0631\\u062c\\u0639\\u064a\\u0629 \\u0644\\u0647\\u0630\\u0627 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","mark_for_review":"\\u0636\\u0639 \\u0639\\u0644\\u0627\\u0645\\u0629 \\u0644\\u0644\\u0645\\u0631\\u0627\\u062c\\u0639\\u0629","finish":"\\u0627\\u0646\\u0647\\u0627\\u0621","warning":"\\u062a\\u062d\\u0630\\u064a\\u0631","answered":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","marked":"\\u062a\\u0645\\u062a \\u0648\\u0636\\u0639 \\u0639\\u0644\\u0627\\u0645\\u0629","not_visited":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0632\\u064a\\u0627\\u0631\\u062a\\u0647","consumed_time":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0633\\u062a\\u0647\\u0644\\u0643","result_for":"\\u0627\\u0644\\u0646\\u062a\\u064a\\u062c\\u0629 \\u0644\\u0640\\u0640","score":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0629","view_key":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a ","allocate_subjects":"\\u062a\\u062e\\u0635\\u064a\\u0635 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","no_staff_alotted":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062e\\u0635\\u064a\\u0635 \\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","no_subjects_selected":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","id":"\\u0627\\u0644\\u0631\\u0642\\u0645","course_name":"\\u0627\\u0644\\u0627\\u0633\\u0645","grade_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629","edit_semisters":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","years":"\\u0633\\u0646\\u0629","add_religion":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u062f\\u064a\\u0646","owner":"\\u0645\\u062f\\u064a\\u0631 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","total_items":"\\u0627\\u0644\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0645\\u0627\\u0644\\u064a \\u0644\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631","update_lms":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","examseries":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","create_coupon":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0642\\u0633\\u064a\\u0645\\u0629","coupon_code":"\\u0643\\u0648\\u062f \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","value":"\\u0627\\u0644\\u0642\\u064a\\u0645\\u0629","percent":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629","discount_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062e\\u0635\\u0645","discount_value":"\\u0642\\u064a\\u0645\\u0629 \\u0627\\u0644\\u062e\\u0635\\u0645","enter_value":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0642\\u064a\\u0645\\u0629","enter_minimum_bill":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u062f\\u0646\\u064a \\u0644\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","discount_maximum_amount":"\\u062e\\u0635\\u0645 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u0645\\u0628\\u0644\\u063a","enter_maximum_amount":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u0645\\u0628\\u0644\\u063a","valid_from":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0645\\u0646","valid_to":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0627\\u0644\\u0649","usage_limit":"\\u062d\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645","enter_usage_limit_per_user":"\\u0627\\u062f\\u062e\\u0644 \\u062d\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645 \\u0644\\u0643\\u0644 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","from_email":"\\u0645\\u0646 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","from_name":"\\u0645\\u0646 \\u0627\\u0644\\u0627\\u0633\\u0645","export_payments_report":"\\u062a\\u0635\\u062f\\u064a\\u0631 \\u062a\\u0642\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","export_payment_records":"\\u062a\\u0635\\u062f\\u064a\\u0631 \\u0633\\u062c\\u0644\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","download_excel":"\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0627\\u0643\\u0633\\u0644","all_records":"\\u0643\\u0644 \\u0627\\u0644\\u0633\\u062c\\u0644\\u0627\\u062a","from_date":"\\u0645\\u0646 \\u062a\\u0627\\u0631\\u064a\\u062e","to_date":"\\u0627\\u0644\\u0649 \\u062a\\u0627\\u0631\\u064a\\u062e","payment_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062f\\u0641\\u0639","all":"\\u0627\\u0644\\u0643\\u0644","payment_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0641\\u0639","select_parent":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u064a \\u0627\\u0644\\u0627\\u0639\\u0644\\u064a","course_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","course_code":"\\u0627\\u0644\\u0643\\u0648\\u062f","duration_in_years":"\\u0627\\u0644\\u0645\\u062f\\u0629 \\u0628\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a","grade_system":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a","is_having_semisters":"\\u0647\\u0644 \\u064a\\u0648\\u062c\\u062f \\u0641\\u0635\\u0648\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","is_having_electives":"\\u0647\\u0644 \\u062a\\u0643\\u0648\\u0646 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631\\u064a\\u0629","add_subjects_to_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","courses_list":"\\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","load":"\\u062a\\u062d\\u0645\\u064a\\u0644","add_subject_to_course":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0644\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","number_of_sessions_needed":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u062c\\u0644\\u0633\\u0627\\u062a \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629","template_1_logo":"\\u0634\\u0639\\u0627\\u0631 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628 \\u0661 ","institute_title":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","create_set":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","academic_operatons":"\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","period_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0629","enter_period_name":"\\u0627\\u062f\\u062e\\u0644 \\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062f\\u0629","start_time_cannot_be_greater_than_or_equal_to_end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629 \\u0644\\u0627\\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u064a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628\\u0631 \\u0645\\u0646 \\u0627\\u0648 \\u064a\\u0633\\u0627\\u0648\\u064a \\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629","start_time_must_be_greater_to_previous_end_time":"\\u0648\\u0642\\u062a \\u0627\\u0644\\u0628\\u062f\\u0627\\u064a\\u0629 \\u064a\\u062c\\u0628 \\u0627\\u0646 \\u064a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628 \\u0631\\u0645\\u0646 \\u0648\\u0642\\u062a \\u0627\\u0644\\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0627\\u0628\\u0642","time_spent_correct_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0646\\u0642\\u0636\\u064a \\u0641\\u064a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u064a\\u0629","time_spent_wrong_answers":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u0646\\u0642\\u0636\\u064a \\u0641\\u064a \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0637\\u0626\\u0629","subject_wise_analysis":"\\u062a\\u062d\\u0644\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629","in":"\\u0641\\u0649","attendance_for":"\\u0627\\u0644\\u062d\\u0636\\u0648\\u0631 \\u0644\\u0640\\u0640\\u0640","notes":"\\u0627\\u0644\\u0645\\u0644\\u0627\\u062d\\u0638\\u0627\\u062a","create_message":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0631\\u0633\\u0627\\u0644\\u0629","inbox":"\\u0635\\u0646\\u062f\\u0648\\u0642 \\u0627\\u0644\\u0648\\u0627\\u0631\\u062f","compose":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0631\\u0633\\u0627\\u0644\\u0629 \\u062c\\u062f\\u064a\\u062f\\u0629","send_message":"\\u0627\\u0631\\u0633\\u0627\\u0644","questions":"\\u0627\\u0644\\u0627\\u0633\\u0626\\u0644\\u0629","fill_the_blanks":"\\u0627\\u0645\\u0644\\u0627 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","first_admission_in_the_school":"\\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","date_of_first_admission_in_the_school":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629","first_admission_class_in_the_school_with_name":"\\u0641\\u0635\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u0627\\u0648\\u0644 \\u0641\\u0649 \\u0627\\u0644\\u0645\\u062f\\u0631\\u0633\\u0629 \\u0645\\u0639 \\u0627\\u0644\\u0627\\u0633\\u0645","completed":"\\u0627\\u0646\\u062a\\u0647\\u062a","internal_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a\\u0629","external_marks":"\\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0631\\u062c\\u064a\\u0629","please_enter_valid_internal_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062f\\u0627\\u062e\\u0644\\u064a\\u0629 \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_external_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0627\\u062a \\u0627\\u0644\\u062e\\u0627\\u0631\\u062c\\u064a\\u0629 \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_maximum_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0642\\u0635\\u0648\\u064a \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645 ","please_enter_valid_pass_marks":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062f\\u062e\\u0644 \\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d \\u0628\\u0634\\u0643\\u0644 \\u0633\\u0644\\u064a\\u0645","pass_marks_cannot_be_greater_than_maximum_marks":"\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0646\\u062c\\u0627\\u062d \\u0644\\u0627\\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u062a\\u0643\\u0648\\u0646 \\u0627\\u0643\\u0628\\u0631 \\u0645\\u0646 \\u0627\\u0644\\u062f\\u0631\\u062c\\u0629 \\u0627\\u0644\\u0642\\u0635\\u0648\\u064a","add_topic":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u062f\\u0631\\u0633","topic_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0633","category_deleted_successfully":"\\u062a\\u0645 \\u062d\\u0630\\u0641 \\u0627\\u0644\\u0642\\u0633\\u0645 \\u0628\\u0646\\u062c\\u0627\\u062d","add_academic":"\\u0627\\u0636\\u0627\\u0641\\u0629 ","academic_title":"\\u0627\\u0644\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","show_in_list":"\\u0627\\u0644\\u0639\\u0631\\u0636 \\u0641\\u0649 \\u0627\\u0644\\u0642\\u0627\\u0626\\u0645\\u0629","payu":"Payu","paypal":"\\u0628\\u0627\\u064a \\u0628\\u0627\\u0644","messaging":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","offline_payment":"\\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","push_notifications":"\\u0627\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0627\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","certificate":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","show_foreign_key_constraint":"Show Foreign Key Constraint","facebook_login":"\\u0627\\u0644\\u062f\\u062e\\u0648\\u0644 \\u0628\\u062d\\u0633\\u0627\\u0628 \\u0627\\u0644\\u0641\\u064a\\u0633 \\u0628\\u0648\\u0643","google_plus_login":"\\u0627\\u0644\\u062f\\u062e\\u0648\\u0644 \\u0628\\u062d\\u0633\\u0627\\u0628 \\u062c\\u0648\\u062c\\u0644 \\u0628\\u0644\\u0633","old_password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0627\\u0644\\u0642\\u062f\\u064a\\u0645\\u0629","the_password_is_too_short":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0642\\u0635\\u064a\\u0631\\u0629 \\u062c\\u062f\\u0627","new_password":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0627\\u0644\\u062c\\u062f\\u064a\\u062f\\u0629","retype_password":"\\u0627\\u0639\\u062f \\u0627\\u062f\\u062e\\u0627\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","password_and_confirm_password_does_not_match":"\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0648\\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0637\\u0627\\u0628\\u0642\\u0627\\u0646","posted_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u062f\\u062e\\u0627\\u0644 \\u0641\\u0649 ","send_messageeee":"\\u0627\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","please_select_the_recipients":"\\u0641\\u0636\\u0644\\u0627 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0631\\u0633\\u0644 \\u0627\\u0644\\u064a\\u0647\\u0645","import_subjects":"\\u0627\\u0633\\u062a\\u064a\\u0631\\u0627\\u062f \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","children":"\\u0627\\u0644\\u0627\\u0628\\u0646\\u0627\\u0621","premium":"Premium","subscriptions_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","plan_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062e\\u0637\\u0629","paid_from":"\\u0645\\u062f\\u0641\\u0648\\u0639 \\u0645\\u0646","datetime":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0648\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e","it_includes":"\\u062a\\u0634\\u0645\\u0644","lms_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","view_more":"\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","items":"\\u0627\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631","learning_management_series":"\\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","buy_now":"\\u0642\\u0645 \\u0628\\u0627\\u0644\\u0634\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0627\\u0646","checkout":"\\u0627\\u062c\\u0631\\u0627\\u0621 \\u0627\\u0644\\u062f\\u0641\\u0639","item":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631","valid_for":"\\u0635\\u0627\\u0644\\u062d\\u0629 \\u0644\\u0640\\u0640\\u0640","enter_coupon_code":"\\u0627\\u062f\\u062e\\u0644  \\u0643\\u0648\\u062f \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","apply":"\\u062a\\u0642\\u062f\\u0645","select_your_child":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0627\\u0628\\u0646","click_here_to_update_payment_details":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","billing_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0627\\u062a\\u0648\\u0631\\u0629","invalid_coupon":"\\u0642\\u0633\\u064a\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0635\\u0627\\u0644\\u062d\\u0629","hey_you_are_eligible_for_discount":"\\u0645\\u0647\\u0644\\u0627 \\u0623\\u0646\\u062a \\u0645\\u0624\\u0647\\u0644 \\u0644\\u0644\\u062e\\u0635\\u0645","printable__file":"\\u0627\\u0644\\u0645\\u0644\\u0641 \\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629","timetable_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","printed_onnn:_":"\\u062a\\u0645\\u062a \\u0627\\u0644\\u0637\\u0628\\u0627\\u0639\\u0629 \\u0641\\u0649:","timetable__contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","certificates_settings_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","hai":"\\u0645\\u0647\\u0644\\u0627","students_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","library_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","book_returns_student":"\\u0645\\u0631\\u062a\\u062c\\u0639\\u0627\\u062a \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","book_returns_staff":"\\u0645\\u0631\\u062a\\u062c\\u0639\\u0627\\u062a \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","asset_types":"\\u0627\\u0646\\u0648\\u0627\\u0639 \\u0645\\u0633\\u062a\\u0648\\u062f\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","master_data":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a","publishers":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631\\u0648\\u0646","authors":"\\u0627\\u0644\\u0645\\u0624\\u0644\\u0641\\u0648\\u0646","library_users":"\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","issue_asset":"\\u0625\\u0635\\u062f\\u0627\\u0631 \\u0645\\u0627\\u062f\\u0629 \\u0627\\u0648 \\u0643\\u062a\\u0627\\u0628","maximum_allowed":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0627\\u0644\\u0645\\u0633\\u0645\\u0648\\u062d \\u0628\\u0647","issued":"\\u0646\\u0634\\u0631","eligible":"\\u0645\\u0624\\u0647\\u0644","transactions":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a","books_taken":"\\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0639\\u0627\\u0631\\u0629","issue_book":"\\u0627\\u0644\\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631\\u0629","general_info":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0639\\u0627\\u0645\\u0629","contace_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u062a\\u0635\\u0627\\u0644","assets_on_issue":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u0627\\u062d\\u0629 \\u0644\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","issued_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631 \\u0641\\u0649 ","due_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0627\\u0633\\u062a\\u062d\\u0642\\u0627\\u0642","library_issues":"\\u0627\\u0635\\u062f\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","asset_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","please_enter_asset_reference_number":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062f\\u062e\\u0644 \\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a \\u0644\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 ","return_on":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0641\\u0649 ","book_returns":"\\u0639\\u0648\\u062f\\u0629 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","academic_details":"Academic Details","asset_no":"Asset No","asset_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","return":"\\u0627\\u0644\\u0627\\u0633\\u062a\\u0631\\u062f\\u0627\\u062f","department":"\\u0627\\u0644\\u0642\\u0633\\u0645","id_card_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0628\\u0637\\u0627\\u0642\\u0629 \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","offline_payment_form":"\\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a\\u0629 \\u0645\\u0646","submit":"\\u0645\\u0648\\u0627\\u0641\\u0642","offline_payment_instructions":"\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u0649","payment_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639","your_request_was_submitted_to_admin":"\\u062a\\u0645 \\u0627\\u0631\\u0633\\u0627\\u0644 \\u0637\\u0644\\u0628\\u0643 \\u0644\\u0644\\u0645\\u0634\\u0631\\u0641","success_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0627\\u0644\\u0646\\u0627\\u062c\\u062d\\u0629","user_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","plan":"\\u0627\\u0644\\u062e\\u0637\\u0629","payment_gateway":"\\u0628\\u0648\\u0627\\u0628\\u0629 \\u0627\\u0644\\u062f\\u0641\\u0639","updated_at":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0641\\u0649 ","offline_payment_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","coupon_applied":"\\u062a\\u0645 \\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645 \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","after_discount":"\\u0628\\u0639\\u062f \\u0627\\u0644\\u062e\\u0635\\u0645","created_at":"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0641\\u0649 ","comments":"\\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0642\\u0627\\u062a","approve":"\\u0627\\u0639\\u062a\\u0645\\u0627\\u062f","reject":"\\u0631\\u0641\\u0636","close":"\\u0627\\u063a\\u0644\\u0627\\u0642","record_was_updated_successfully":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u0646\\u062c\\u0627\\u062d","exam_aborted":"\\u062a\\u0645 \\u0627\\u0644\\u062e\\u0631\\u0648\\u062c \\u0645\\u0646 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","students_completed_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","students_completed_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","course_completed_student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","certificate_generation":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0634\\u0647\\u0627\\u062f\\u0629","certificate_for":"\\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0644\\u0640\\u0640","improper_sheet_uploaded":"\\u062a\\u0645 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0648\\u0631\\u0642\\u0629 \\u063a\\u064a\\u0631 \\u0644\\u0627\\u0626\\u0642\\u0629","report":"\\u0627\\u0644\\u0625\\u0628\\u0644\\u0627\\u063a","failed":"\\u0631\\u0633\\u0628","address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","please_select_required_the_details":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0645\\u0637\\u0644\\u0648\\u0628\\u0629","this_record_is_in_use_in_other_modules":"\\u0627\\u0644\\u0633\\u062c\\u0644 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u062c\\u0632\\u0621 \\u0627\\u062e\\u0631 \\u0645\\u0646 \\u0627\\u0644\\u0646\\u0638\\u0627\\u0645","date_of_exam":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","topic":"\\u0627\\u0644\\u062f\\u0631\\u0633","view_all_users":"\\u0639\\u0631\\u0636 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","available_timesets":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0645\\u062a\\u0627\\u062d\\u0629","library_masters":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","author":"\\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","publisher":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631","available":"\\u0645\\u062a\\u0627\\u062d","edition":"\\u0625\\u0635\\u062f\\u0627\\u0631","library_assets":"\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u064a\\u0629","eligible_for_fine":"\\u0645\\u0633\\u062a\\u062d\\u0642 \\u0644\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","fine_per_day":"\\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629 \\u0627\\u0644\\u064a\\u0648\\u0645\\u064a\\u0629","qualification_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0645\\u0624\\u0647\\u0644","experience":"\\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","months":"\\u0627\\u0644\\u0634\\u0647\\u0648\\u0631","create_asset":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","asset_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","is_eligible_for_fine":"\\u0647\\u0644 \\u064a\\u0633\\u062a\\u062d\\u0642 \\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629\\u061f","is_having_max_fine_limit":"\\u0647\\u0644 \\u0648\\u0635\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","maximum_fine_amount":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0645\\u0628\\u0644\\u063a \\u0627\\u0644\\u063a\\u0631\\u0627\\u0645\\u0629","maximum_issuable":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u0625\\u0635\\u062f\\u0627\\u0631","maximum_days_to_return":"\\u0627\\u0642\\u0635\\u064a \\u0639\\u062f\\u062f \\u0627\\u064a\\u0627\\u0645 \\u0644\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639","maximum_advanced_reservations":"\\u0627\\u0644\\u062d\\u062f \\u0627\\u0644\\u0623\\u0642\\u0635\\u0649 \\u0644\\u0644\\u062d\\u062c\\u0648\\u0632\\u0627\\u062a \\u0627\\u0644\\u0645\\u062a\\u0642\\u062f\\u0645\\u0629","edit_asset":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639","issuable":"\\u0642\\u0627\\u0628\\u0644 \\u0644\\u0644\\u0635\\u062f\\u0627\\u0631","days_to_return":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0644\\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639","create_master_asset":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0631\\u0626\\u064a\\u0633\\u064a","asset_belongs_to_subject":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0627\\u0644\\u062a\\u0627\\u0628\\u0639 \\u0644\\u0645\\u0627\\u062f\\u0629 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","isbn_number":"\\u0631\\u0642\\u0645 Isbn ","actual_price":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u0627\\u0644\\u0641\\u0639\\u0644\\u064a","chargible_price_if_lost":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u0627\\u0630\\u0627 \\u062a\\u0645 \\u0636\\u064a\\u0627\\u0639\\u0647","create_authors":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u0624\\u0644\\u0641","author_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","create_publisher":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0646\\u0627\\u0634\\u0631","assets_publishers":"\\u0627\\u0644\\u0646\\u0627\\u0634\\u0631\\u0648\\u0646","publisher_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0646\\u0627\\u0634\\u0631","librarian":"\\u0645\\u062f\\u064a\\u0631 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","back":"\\u0627\\u0644\\u0639\\u0648\\u062f\\u0629","collections":"\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a","masters":"Masters","damaged":"\\u0627\\u0644\\u062a\\u0627\\u0644\\u0641","lost":"\\u0627\\u0644\\u0645\\u0641\\u0642\\u0648\\u062f","generate_collection":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0645\\u062c\\u0645\\u0648\\u0639\\u0629","series_prefix":"\\u0644\\u0642\\u0628 \\u0627\\u0644\\u0633\\u0644\\u0627\\u0633\\u0644","generate":"\\u0627\\u0646\\u0634\\u0627\\u0621","maximum_issues_student":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u0649 \\u0639\\u062f\\u062f \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0635\\u0627\\u062f\\u0631 \\u0644\\u0647\\u0645","maximum_issues_staff":"\\u0627\\u062c\\u0645\\u0627\\u0644\\u0649 \\u0639\\u062f\\u062f \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0635\\u0627\\u062f\\u0631 \\u0644\\u0647\\u0645","maximum_days_to_return_student":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","maximum_days_to_return_staff":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u064a\\u0627\\u0645 \\u0627\\u0644\\u0627\\u0642\\u0635\\u064a \\u0644\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","library_series_prefix":"\\u0644\\u0642\\u0628 \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","library_series_number_length":"\\u0639\\u062f\\u062f \\u0627\\u0631\\u0642\\u0627\\u0645 \\u0633\\u0644\\u0633\\u0629 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","topper_percentage":"\\u0627\\u0644\\u0646\\u0633\\u0628\\u0629 \\u0627\\u0644\\u0645\\u0626\\u0648\\u064a\\u0629 \\u0627\\u0644\\u0623\\u0639\\u0644\\u0649","barcode":"\\u0628\\u0627\\u0631\\u0643\\u0648\\u062f","edit_master_asset":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u062f\\u0639 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","your_not_assigned_to_any_class":"\\u0627\\u0646\\u062a \\u063a\\u064a\\u0631 \\u0645\\u0636\\u0627\\u0641 \\u0639\\u0644\\u0649 \\u0627\\u0649 \\u0641\\u0635\\u0644","edit_author":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0624\\u0644\\u0641","course_completed_students_list_class_vice":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646","edit_academic":"\\u062a\\u0639\\u062f\\u064a\\u0644","edit_course":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644","reference_no_":"\\u0627\\u0644\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0645\\u0631\\u062c\\u0639\\u064a","eligiblity":"\\u0627\\u0644\\u0623\\u062d\\u0642\\u064a\\u0629","issue":"\\u0627\\u0635\\u062f\\u0627\\u0631","asset_issued_successfully":"\\u062a\\u0645 \\u0627\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","on_issue":"\\u062a\\u062d\\u062a \\u0627\\u0644\\u0627\\u0635\\u062f\\u0627\\u0631","edit_subject":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0645\\u0627\\u062f\\u0629","subjects_listtt":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","edit_topic":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0633","upload_question":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0624\\u0627\\u0644","supported_formats_are":"\\u0627\\u0644\\u0627\\u0645\\u062a\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0645\\u062f\\u0639\\u0648\\u0645\\u0647 \\u0647\\u064a","difficulty_level":"\\u0645\\u0633\\u062a\\u0648\\u064a \\u0627\\u0644\\u0635\\u0639\\u0648\\u0628\\u0629","hint":"\\u062a\\u0644\\u0645\\u064a\\u062d","explanation":"\\u0627\\u0644\\u0634\\u0631\\u062d","time_to_spend":"\\u0627\\u0644\\u0648\\u0642\\u062a \\u0627\\u0644\\u0644\\u0627\\u0632\\u0645","in_seconds":"\\u0628\\u0627\\u0644\\u062b\\u0648\\u0627\\u0646\\u064a","answer_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0629","total_correct_answers":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0635\\u062d\\u064a\\u062d\\u0629","total_blank_answers":"\\u0639\\u062f\\u062f \\u0627\\u0644\\u0627\\u062c\\u0627\\u0628\\u0627\\u062a \\u0627\\u0644\\u0641\\u0627\\u0631\\u063a\\u0629","left_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u064a\\u0633\\u0631","right_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0627\\u064a\\u0645\\u0646","left_option":"\\u0627\\u0644\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0627\\u064a\\u0633\\u0631","add_exam_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","series_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","please_upload_valid_image_type":"\\u0627\\u0644\\u0631\\u062c\\u0627\\u0621 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0646\\u0648\\u0639 \\u0635\\u0648\\u0631\\u0629 \\u0635\\u0627\\u0644\\u062d","it_will_be_updated_by_adding_the_exams":"\\u0633\\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0629 \\u0628\\u0645\\u062c\\u0631\\u062f \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","short_description":"\\u0648\\u0635\\u0641 \\u0642\\u0635\\u064a\\u0631","update_series_for":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","exam_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","saved_exams":"\\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629","add_content":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0645\\u062d\\u062a\\u0648\\u064a","content_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a","resource_link":"\\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0635\\u062f\\u0631","lms_file":"\\u0645\\u0644\\u0641 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","add_lms_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0633\\u0629 \\u0645\\u062d\\u062a\\u0648\\u064a \\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","lms_category":"\\u0642\\u0633\\u0645 \\u0645\\u062d\\u062a\\u0648\\u064a \\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","it_will_be_updated_by_adding_the_lms_items":"\\u0633\\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0647\\u0627 \\u0628\\u0639\\u062f \\u0627\\u0636\\u0627\\u0641\\u0629 \\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","master_setup":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","master_setup_dashboard":"\\u0644\\u0648\\u062d\\u0629 \\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","mastersettings_course_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","edit_course_semister":" \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","edit_semister":" \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u0646\\u0635\\u0641 \\u0633\\u0646\\u0648\\u064a","improper_data_in_the_question":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d\\u0629 \\u0641\\u064a \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","record_already_exists_with_this_title":"\\u0627\\u0644\\u0633\\u062c\\u0644 \\u0645\\u0648\\u062c\\u0648\\u062f \\u0628\\u0627\\u0644\\u0641\\u0639\\u0644 \\u0645\\u0639 \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","operations_are_disabled_in_demo_version":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0627\\u062a \\u0645\\u0639\\u0637\\u0644\\u0629 \\u0641\\u064a \\u0627\\u0644\\u0625\\u0635\\u062f\\u0627\\u0631 \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a","no_records_available":"No Records Available","no_categories_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u0642\\u0633\\u0627\\u0645 \\u0645\\u062a\\u0627\\u062d\\u0629","click_here_to_change_your_preferences":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u062a\\u063a\\u064a\\u064a\\u0631 \\u062e\\u064a\\u0627\\u0631\\u0627\\u062a\\u0643","language":"\\u0627\\u0644\\u0644\\u063a\\u0629","default_language":"\\u0627\\u0644\\u0644\\u063a\\u0629 \\u0627\\u0644\\u0627\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a\\u0629","latest_students":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","latest_staff":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","recent_online_payments":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a\\u0629","recent_offline_payments":"\\u0627\\u062e\\u0631 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a\\u0629","students_detained_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","student_book_return":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","staff_book_return":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0628 \\u0645\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","recent_quiz_takers":"\\u0627\\u062e\\u0631 \\u0637\\u0627\\u0644\\u0628 \\u0642\\u0627\\u0645 \\u0628\\u0627\\u0644\\u0625\\u062e\\u062a\\u064a\\u0627\\u0631","library_history":"\\u0633\\u062c\\u0644\\u0627\\u062a \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","number":"\\u0627\\u0644\\u0631\\u0642\\u0645","today''s_classes":"\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u064a\\u0648\\u0645","lesson_plan_statistics":"\\u0625\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u062e\\u0637\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0633","staff_inactive_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 \\u0627\\u0644\\u063a\\u064a\\u0631 \\u0645\\u0641\\u0639\\u0644\\u064a\\u0646","update_master_setup":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","please_update_master_setup_details":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0627\\u0633\\u062a\\u0643\\u0645\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0627\\u0639\\u062f\\u0627\\u062f\\u062a \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","ok":"\\u062d\\u0633\\u0646\\u0627","students_list_class_wise":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0628\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","course_completed_students":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0630\\u064a\\u0646 \\u0627\\u0633\\u062a\\u0643\\u0645\\u0644\\u0648\\u0627 \\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0627\\u0631\\u0633\\u064a","detained_students_list_class_wise":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646 \\u0628\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","improper_selection":"\\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u063a\\u064a\\u0631 \\u0644\\u0627\\u0626\\u0642","url":"\\u0627\\u0644\\u0631\\u0627\\u0628\\u0637","all_payments":"\\u0643\\u0644 \\u0627\\u0644\\u0645\\u062f\\u0641\\u0648\\u0639\\u0627\\u062a","update_strings":"\\u062a\\u062d\\u062f\\u064a\\u062b \\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629  ","disable":"\\u062a\\u0639\\u0637\\u064a\\u0644","enable":"\\u0645\\u0643\\u0646","set_default":"\\u0648\\u0636\\u0639 \\u0643\\u0625\\u0641\\u062a\\u0631\\u0627\\u0636\\u064a","staff_status":"\\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","are_you_sure_to_make_user_active":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u062a\\u0641\\u0639\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","are_you_sure_to_make_user_inactive":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0648\\u0642\\u0641 \\u062a\\u0641\\u0639\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","time_table_settings":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635","no_item_selected":"\\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0649 \\u0639\\u0646\\u0635\\u0631","cannot_remove_this_item_as_it_is_in_use":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0645\\u0633\\u062d \\u0647\\u0630\\u0627 \\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u0644\\u0627\\u0646\\u0647 \\u0642\\u064a\\u062f \\u0627\\u0644\\u0627\\u0633\\u062a\\u062e\\u062f\\u0627\\u0645","is_having_semesters":"\\u0647\\u0644 \\u0644\\u0647 \\u0641\\u0635\\u0648\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","detained_student_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","make_inactive":"\\u0648\\u0642\\u0641 \\u062a\\u0641\\u0639\\u064a\\u0644\\u0647","religion_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0647","ooops":"\\u0639\\u0630\\u0631\\u0627","for_all_users_list":"\\u0644\\u0639\\u0631\\u0636 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","click_here":"\\u0627\\u0646\\u0642\\u0631 \\u0647\\u0646\\u0627","date_time":"\\u0627\\u0644\\u062a\\u0627\\u0631\\u064a\\u062e \\u0648\\u0627\\u0644\\u0648\\u0642\\u062a","today":"\\u0627\\u0644\\u064a\\u0648\\u0645","library_books_details":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0643\\u062a\\u0628","master_asset_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0629 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","issue_on":"\\u0645\\u0635\\u062f\\u0631\\u0647 \\u0641\\u0649","password_updated_successfully":"\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","offline_exam_categories":"\\u0623\\u0642\\u0633\\u0627\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u062a\\u062c\\u0631\\u064a\\u0628\\u064a\\u0629 ","improper_data_submitted":"\\u062a\\u0645 \\u062a\\u0642\\u062f\\u064a\\u0645 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d\\u0629","cannot_remove_this_subject_as_allocated_to_staff":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0627\\u062f\\u0629 \\u0644\\u0627\\u0646\\u0647\\u0627 \\u0645\\u062e\\u0635\\u0635\\u0629 \\u0644\\u0645\\u0639\\u0644\\u0645","site_title":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646","login_page_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u062f\\u062e\\u0648\\u0644","site_logo":"\\u0627\\u0644\\u0634\\u0639\\u0627\\u0631","site_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0643\\u0627\\u0646","site_city":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","site_favicon":"\\u0627\\u064a\\u0642\\u0648\\u0646\\u0647 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0641\\u0649 \\u0634\\u0631\\u064a\\u0637 \\u0627\\u0644\\u0639\\u0646\\u0627\\u0648\\u064a\\u0646","site_state":"\\u0627\\u0644\\u0648\\u0644\\u0627\\u064a\\u0629","site_country":"\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","site_zipcode":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f\\u064a","site_phone":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","system_timezone":"\\u0627\\u0644\\u062a\\u0648\\u0642\\u064a\\u062a","background_image":"\\u0635\\u0648\\u0631\\u0629 \\u0627\\u0644\\u062e\\u0644\\u0641\\u064a\\u0629","default_academic_year_id":"\\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a\\u0629","default_parent_course_id":"\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a","current_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","currency_symbol":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","default_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u062a\\u0644\\u0642\\u0627\\u0626\\u064a","green_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u0627\\u062e\\u0636\\u0631","red_theme":"\\u0627\\u0644\\u0634\\u0643\\u0644 \\u0627\\u0644\\u0627\\u062d\\u0645\\u0631","cannot_remove_as_staff_is_assigned_to_classes":"\\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0644\\u0645\\u0633\\u062d \\u0644\\u0627\\u0646 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 \\u0645\\u062e\\u0635\\u0635 \\u0644\\u0641\\u0635\\u0648\\u0644","staff_removed_successfully":"\\u062a\\u0645 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645","please_update_master_setup_details_before_creating_users_":"\\u0627\\u0644\\u0631\\u062c\\u0627\\u0621 \\u062a\\u062d\\u062f\\u064a\\u062b \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0625\\u0639\\u062f\\u0627\\u062f \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a \\u0642\\u0628\\u0644 \\u0625\\u0646\\u0634\\u0627\\u0621 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646.","status_changed_successfully":"\\u062a\\u0645 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062d\\u0627\\u0644\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","make_active":"\\u0648\\u0642\\u0641 \\u0627\\u0644\\u062a\\u0641\\u0639\\u064a\\u0644","assets_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u062c\\u0645\\u0648\\u0639\\u0627\\u062a","edit_branch_and_course":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","add_total_blank_columns":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0639\\u0645\\u062f\\u0629 \\u0641\\u0627\\u0631\\u063a\\u0629 \\u0641\\u0649 \\u0627\\u0644\\u062c\\u062f\\u0648\\u0644","assistant_librarian":"\\u0645\\u0648\\u0638\\u0641 \\u0627\\u0644\\u0645\\u0643\\u062a\\u0628\\u0629","template":"\\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","please_check_your_email_master_settings":"\\u0645\\u0646 \\u0641\\u0636\\u0644\\u0643 \\u0631\\u0627\\u062c\\u0639 \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","roll_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","meta_description":"\\u0648\\u0635\\u0641 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0639","meta_keywords":"\\u0643\\u0644\\u0645\\u0627\\u062a \\u0627\\u0644\\u0628\\u062d\\u062b","google_analytics":"\\u062a\\u062d\\u0644\\u064a\\u0644\\u0627\\u062a \\u062c\\u0648\\u062c\\u0644","edit_template":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0627\\u0644\\u0628","welcome":"\\u0645\\u0631\\u062d\\u0628\\u0627","email_content":"\\u0645\\u062d\\u062a\\u0648\\u0649 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","select_course":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0641\\u0635\\u0644","invalid_details_supplied":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u062e\\u0627\\u0637\\u0626\\u0629","add_series":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0633\\u0644\\u0633\\u0644\\u0629","scheduled_exam_marks":"\\u0646\\u062a\\u0627\\u0626\\u062c \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","no_series_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0645\\u062a\\u0627\\u062d\\u0629","time_table_is_not_created_for_your_class":"\\u062c\\u062f\\u0648\\u0644 \\u0627\\u0644\\u062d\\u0635\\u0635 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u0627\\u0646\\u0634\\u0627\\u0624\\u0647 \\u0644\\u0641\\u0635\\u0644\\u0643","timingsets_cannot_be_empty":"\\u0627\\u0644\\u062d\\u0635\\u0635 \\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u0627\\u0646 \\u062a\\u0643\\u0648\\u0646 \\u0641\\u0627\\u0631\\u063a\\u0629","token_mismatch_exception":"\\u0627\\u0644\\u0631\\u0645\\u0632 \\u063a\\u064a\\u0631 \\u0635\\u062d\\u064a\\u062d","offline_payment_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u062f\\u0641\\u0639 \\u0627\\u0644\\u062a\\u0642\\u0644\\u064a\\u062f\\u064a","edit_question":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0633\\u0624\\u0627\\u0644","are_you_sure_to_make_clear_image":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0644\\u0641","clear_image":"\\u0645\\u0633\\u062d \\u0627\\u0644\\u0645\\u0644\\u0641","audio":"\\u0635\\u0648\\u062a\\u064a","gateway":"\\u0628\\u0648\\u0627\\u0628\\u0629","pending_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0627\\u0646\\u062a\\u0638\\u0627\\u0631","currency":"\\u0627\\u0644\\u0639\\u0645\\u0644\\u0629","account_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u062d\\u0633\\u0627\\u0628","mail_driver":"Mail Driver","mail_host":"Mail Host","mail_port":"Mail Port","mail_username":"Mail Username","mail_password":"Mail Password","mail_encryption":"Mail Encryption","payu_merchant_key":"Payu Merchant Key","payu_salt":"Payu Salt","payu_working_key":"Payu Working Key","payu_testmode":"Payu Testmode","you_already_purchased_this_item":"\\u0627\\u0646\\u062a \\u0641\\u0639\\u0644\\u064a\\u0627 \\u0642\\u0645\\u062a \\u0628\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0627\\u0644\\u0634\\u0631\\u0627\\u0621","click_here_to_list_subjects":"\\u0627\\u0636\\u063a\\u0637 \\u0647\\u0646\\u0627 \\u0644\\u0639\\u0631\\u0636 \\u0627\\u0644\\u0645\\u0648\\u0627\\u062f","exam_already_submitted":"\\u062a\\u0645 \\u0627\\u0646\\u0647\\u0627\\u0621 \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631","quiz_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0625\\u062e\\u062a\\u0628\\u0627\\u0631","create_template":"\\u0627\\u0646\\u0634\\u0627\\u0621 \\u0642\\u0627\\u0644\\u0628","file_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0644\\u0641","saved_items":"\\u0627\\u0644\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0647","sorry_no_messages_available":"\\u0639\\u0641\\u0648\\u0627 \\u0644\\u0627\\u062a\\u0648\\u062c\\u062f \\u0631\\u0633\\u0627\\u0626\\u0644","undefined_user":"\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u063a\\u064a\\u0631 \\u0645\\u0639\\u0631\\u0648\\u0641","add_notification":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0634\\u0639\\u0627\\u0631","edit_language":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0644\\u063a\\u0629","language_title":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0644\\u063a\\u0629","language_code":"\\u0631\\u0645\\u0632 \\u0627\\u0644\\u0644\\u063a\\u0629","supported_language_codes":"\\u0639\\u0646\\u0627\\u0635\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629","is_rtl":"\\u0647\\u0644 \\u0627\\u062a\\u062c\\u0627\\u0647 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628\\u0629 \\u0645\\u0646 \\u0627\\u0644\\u064a\\u0645\\u064a\\u0646 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u064a\\u0633\\u0627\\u0631 \\u061f","_empty_":"\\u0641\\u0627\\u0631\\u063a","student_book_returns":"\\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0647 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","are_you_sure_to_return_the_book":"\\u0647\\u0644 \\u0627\\u0646\\u062a \\u0645\\u062a\\u0627\\u0643\\u062f \\u0645\\u0646 \\u0627\\u0633\\u062a\\u0631\\u062c\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","password_reset_link_sent_to_email":"\\u062a\\u0645 \\u0627\\u0631\\u0633\\u0627\\u0644 \\u0631\\u0627\\u0628\\u0637 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0639\\u0644\\u0649 \\u0627\\u064a\\u0645\\u064a\\u0644\\u0643","reset_password":"\\u0627\\u0639\\u0627\\u062f\\u0629 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","email_address":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","confirm_password":"\\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 ","password_changed_successfully":"\\u062a\\u0645 \\u062a\\u0639\\u062f\\u064a\\u0644 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0628\\u0646\\u062c\\u0627\\u062d","latest_quizzes":"\\u0627\\u062e\\u0631 \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a","latest":"\\u0627\\u0644\\u0627\\u062e\\u064a\\u0631","children_analysis":"\\u0627\\u062d\\u0635\\u0627\\u0621\\u0627\\u062a \\u0627\\u0644\\u0627\\u0628\\u0646\\u0627\\u0621","no_quizzes_available":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a \\u0645\\u062a\\u0627\\u062d\\u0629","to_change_your_settings":"\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a\\u0643","staff_book_returns":"\\u0627\\u0631\\u062c\\u0627\\u0639 \\u0643\\u062a\\u0628 \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646","chargeable_price_if_lost":"\\u0627\\u0644\\u0633\\u0639\\u0631 \\u062d\\u0627\\u0644\\u0629 \\u0636\\u064a\\u0627\\u0639 \\u0627\\u0644\\u0643\\u062a\\u0627\\u0628","give_feedback":"\\u0634\\u0627\\u0631\\u0643\\u0646\\u0627 \\u0628\\u0631\\u0623\\u064a\\u0643","feedback_form":"\\u0627\\u0633\\u062a\\u0645\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","send":"\\u0627\\u0631\\u0633\\u0627\\u0644","edit_religion":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u062f\\u064a\\u0627\\u0646\\u0629","course_parent_id":"\\u0627\\u0644\\u0645\\u0631\\u062d\\u0644\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a\\u0629","add_language":"\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0644\\u063a\\u0629","LMS":"\\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","feed_backs":"\\u0627\\u0644\\u0622\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","educate":"\\u062a\\u0639\\u0644\\u064a\\u0645","enlight":"ENLIGHT","enforce":"\\u0642\\u064a\\u0627\\u062f\\u0629","login":"\\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u062f\\u062e\\u0648\\u0644","forgot_password":"\\u0647\\u0644 \\u0646\\u0633\\u064a\\u062a \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631","enlightenment":"\\u062a\\u0646\\u0648\\u064a\\u0631","please_select_academic_year_and_course":"\\u064a\\u0631\\u062c\\u0649 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0635\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","lms_contents":"\\u0627\\u0644\\u0645\\u062d\\u062a\\u0648\\u064a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u064a","home_page":"\\u0627\\u0644\\u0635\\u0641\\u062d\\u0629 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a\\u0629","bonafide_transfer_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","students_certificates":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628","student_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","students_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","logged_out_successfully":"\\u062a\\u0645 \\u062a\\u0633\\u062c\\u064a\\u0644 \\u0627\\u0644\\u062e\\u0631\\u0648\\u062c \\u0628\\u0646\\u062c\\u0627\\u062d","once_saved_the_admission_details_cannot_be_edited\\n":"\\u0645\\u0631\\u0629 \\u0648\\u0627\\u062d\\u062f\\u0629 \\u0627\\u0644\\u0645\\u062d\\u0641\\u0648\\u0638\\u0629 \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0644\\u0627 \\u064a\\u0645\\u0643\\u0646 \\u062a\\u062d\\u0631\\u064a\\u0631\\u0647\\u0627","transfer_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u0646\\u0642\\u0644","staff_is_busy_for_that_slot":"\\u0627\\u0644\\u0645\\u0639\\u0644\\u0645 \\u0645\\u0634\\u063a\\u0648\\u0644 \\u0641\\u0649 \\u0647\\u0630\\u0647 \\u0627\\u0644\\u062d\\u0635\\u0647","facebook_client_id":"facebook client id","facebook_client_secret":"facebook client secret","facebook_redirect_url":"facebook redirect url","google_client_id":"google client id","google_client_secret":"google client secret","google_redirect_url":" google redirect url","edit_series":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","edit_instruction":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","add_instructions":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a","promote_all":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0643\\u0644","detain_all":"\\u0627\\u064a\\u0642\\u0627\\u0641 \\u0627\\u0644\\u0643\\u0644 ","no_action":"\\u0628\\u062f\\u0648\\u0646 \\u0627\\u062c\\u0631\\u0627\\u0621 ","do_you_want_to_promot_them":"\\u0646\\u0642\\u0644 \\u0628\\u064a\\u0646 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644\\u061f","do_you_want_to_graduate_them":"\\u0646\\u0642\\u0644 \\u0627\\u0644\\u0649 \\u0627\\u0644\\u062e\\u0631\\u064a\\u062c\\u064a\\u0646\\u061f","select_all":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0643\\u0644","cancel_all":"\\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0627\\u0644\\u0643\\u0644 ","reback_completed":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0639\\u0644\\u0649 \\u0631\\u0623\\u0633 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u0629","reback_them":"\\u0627\\u0644\\u0646\\u0642\\u0644 \\u0639\\u0644\\u0649 \\u0631\\u0623\\u0633 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u0629","course_detained_list":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u0648\\u0642\\u0648\\u0641\\u064a\\u0646","item_is_not_exists":"\\u0627\\u0644\\u0639\\u0646\\u0635\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u0648\\u062c\\u0648\\u062f","error":"\\u062d\\u062f\\u062b \\u062e\\u0637\\u0623 \\u0645\\u0627","no_data_available_in_table":"\\u0644\\u0627 \\u062a\\u0648\\u062c\\u062f \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0645\\u062a\\u0648\\u0641\\u0631\\u0629 \\u0641\\u064a \\u0627\\u0644\\u062c\\u062f\\u0648\\u0644","show":"\\u0639\\u0631\\u0636","entries":"\\u0627\\u0644\\u0645\\u062f\\u062e\\u0644\\u0627\\u062a","showing":"\\u0639\\u0631\\u0636","password_and_confirmation_not_matched":"\\u062e\\u0627\\u0646\\u0629 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0648\\u062e\\u0627\\u0646\\u0629 \\u062a\\u0623\\u0643\\u064a\\u062f \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u063a\\u064a\\u0631 \\u0645\\u0637\\u0627\\u0628\\u0642\\u062a\\u064a\\u0646","is_parent_account_available":"\\u0647\\u0644 \\u062d\\u0633\\u0627\\u0628 \\u0648\\u0644\\u064a \\u0627\\u0644\\u0627\\u0645\\u0631 \\u0645\\u062a\\u0627\\u062d","you_should_choose_one_student_at_least":"\\u064a\\u062c\\u0628 \\u0639\\u0644\\u064a\\u0643 \\u0627\\u062e\\u062a\\u064a\\u0627\\u0631 \\u0637\\u0627\\u0644\\u0628 \\u0648\\u0627\\u062d\\u062f \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0623\\u0642\\u0644","students_have_moved_to_schooling_again":"\\u0648\\u0642\\u062f \\u0627\\u0646\\u062a\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0625\\u0644\\u0649 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0645\\u0631\\u0629 \\u0623\\u062e\\u0631\\u0649","an_error_occurred":"\\u062d\\u062f\\u062b \\u062e\\u0637\\u0623 \\u0645\\u0627","completed_students_of_year":"\\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0627\\u0644\\u0645\\u062a\\u062e\\u0631\\u062c\\u064a\\u0646 \\u0644\\u0644\\u0639\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","for_year":"\\u0644\\u0644\\u0639\\u0627\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","list_of_courses":"\\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0635\\u0641\\u0648\\u0641 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629 \\u0648\\u0627\\u0644\\u0641\\u0635\\u0648\\u0644","total_semesters":"\\u0645\\u062c\\u0645\\u0648\\u0639 \\u0627\\u0644\\u0641\\u0635\\u0648\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","currernt_semester":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a \\u0627\\u0644\\u062d\\u0627\\u0644\\u064a","edit_notification":"\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0627\\u0644\\u0625\\u0634\\u0639\\u0627\\u0631\\u0627\\u062a","read_more":"\\u0627\\u0642\\u0631\\u0623 \\u0627\\u0644\\u0645\\u0632\\u064a\\u062f","certificates_settings":"\\u0625\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u0627\\u0644\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a","add_semester":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0641\\u0635\\u0644 \\u062f\\u0631\\u0627\\u0633\\u064a","semester_start_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","semester_end_date":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a","semester_start_date 1":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_end_date 1":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_start_date 2":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","semester_end_date 2":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","semester_start_date 3":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0628\\u062f\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 3","semester_end_date 3":"\\u062a\\u0627\\u0631\\u064a\\u062e \\u0646\\u0647\\u0627\\u064a\\u0629 \\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 3","address_middle":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0623\\u0648\\u0633\\u0637","skip":"\\u062a\\u062e\\u0637\\u0649","dob":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","bonafide_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0629 \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","messaging_system_for":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644 \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0640\\u0640","edit_coupon":"\\u062a\\u062d\\u0631\\u064a\\u0631 \\u0627\\u0644\\u0642\\u0633\\u064a\\u0645\\u0629","invalid_setting":"\\u0627\\u0639\\u062f\\u0627\\u062f\\u0627\\u062a \\u062e\\u0627\\u0637\\u0626\\u0629","sn":"\\u0627\\u0644\\u062a\\u0633\\u0644\\u0633\\u0644","bonafide_or_transfer_certificate":"\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0648\\u0634\\u0647\\u0627\\u062f\\u0627\\u062a \\u062d\\u0633\\u0646 \\u0627\\u0644\\u0633\\u0644\\u0648\\u0643","note":"\\u0645\\u0644\\u062d\\u0648\\u0638\\u0629","bonafide_contents":"\\u0645\\u062d\\u062a\\u0648\\u064a\\u0627\\u062a \\u0628\\u0648\\u0646\\u0641\\u064a\\u062f","if_the_student_admission_details_are_not_updated_those_students_will_be_available_in_all_users_list":"\\u0625\\u0630\\u0627 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0644\\u0643\\u0644 \\u0637\\u0627\\u0644\\u0628 \\u0641\\u0644\\u0646 \\u062a\\u0638\\u0647\\u0631 \\u0623\\u0633\\u0645\\u0627\\u0624\\u0647\\u0645 \\u0641\\u0649 \\u0642\\u0627\\u0626\\u0645\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628 \\u0648\\u0644\\u0643\\u0646 \\u0633\\u064a\\u0643\\u0648\\u0646\\u0648\\u0627 \\u0641\\u0649 \\u0642\\u0627\\u0626\\u0645\\u0629 \\u0643\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\\u064a\\u0646","done":"\\u0627\\u0646\\u062a\\u0647\\u064a","this_user_is_detained":"\\u062a\\u0645 \\u0627\\u064a\\u0642\\u0627\\u0641 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0627\\u062f\\u0627\\u0631\\u0629","today_classes":"\\u062d\\u0635\\u0635 \\u0627\\u0644\\u064a\\u0648\\u0645","change_user_language":"\\u062a\\u063a\\u064a\\u064a\\u0631 \\u0644\\u063a\\u0629 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","no_action_all":"\\u0628\\u062f\\u0648\\u0646 \\u0625\\u062c\\u0631\\u0627\\u0621 \\u0627\\u0644\\u0643\\u0644","ibrary_series_number_length":"\\u0639\\u062f\\u062f \\u0633\\u0644\\u0627\\u0633\\u0644 \\u0627\\u0644\\u0645\\u0643\\u062a\\u064a\\u0629","ibrary_series_prefix":"\\u0627\\u0644\\u0645\\u0633\\u0645\\u064a \\u0627\\u0644\\u062e\\u0627\\u0635 \\u0628\\u0627\\u0644\\u0633\\u0644\\u0633\\u0644\\u0629","mail":"\\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a ","once_saved_the_admission_details_cannot_be_edited":"\\u0644\\u0627\\u064a\\u0645\\u0643\\u0646\\u0643 \\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644 \\u0639\\u0644\\u0649 \\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0628\\u0639\\u062f \\u0627\\u062c\\u0631\\u0627\\u0621 \\u0639\\u0645\\u0644\\u064a\\u0629 \\u0627\\u0644\\u062d\\u0641\\u0638","address_line_1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0623\\u0648\\u0644","address_line_2":"\\u0633\\u0637\\u0631 \\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 2","main_branch":"\\u0627\\u0644\\u0641\\u0631\\u0639 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","student_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0627\\u0644\\u0628","blood_type":"\\u0641\\u0635\\u064a\\u0644\\u0629 \\u0627\\u0644\\u062f\\u0645","phone_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","web_site":"\\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","admission_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644","course_information":"\\u0627\\u0644\\u0641\\u0635\\u0644","full_address":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0643\\u0627\\u0645\\u0644","city_address":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629","address_of_city_and_state":"\\u0639\\u0646\\u0648\\u0627\\u0646 \\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629 \\u0648\\u0627\\u0644\\u062f\\u0648\\u0644\\u0629","validity_information":"\\u0645\\u0639\\u0644\\u0648\\u0645\\u0627\\u062a \\u0627\\u0644\\u0635\\u0644\\u0627\\u062d\\u064a\\u0629","mobile_number":"\\u0627\\u0644\\u062c\\u0648\\u0627\\u0644","home_phone_number":"\\u0627\\u0644\\u0647\\u0627\\u062a\\u0641","address_1":"\\u0627\\u0644\\u0639\\u0646\\u0648\\u0627\\u0646 1","emergency_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0637\\u0648\\u0627\\u0631\\u0626","headquarters":"\\u0627\\u0644\\u0645\\u0642\\u0631 \\u0627\\u0644\\u0631\\u0626\\u064a\\u0633\\u064a","website":"\\u0627\\u0644\\u0645\\u0648\\u0642\\u0639 \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","template_1":"\\u0627\\u0644\\u0646\\u0645\\u0648\\u0630\\u062c 1","template_2":"\\u0627\\u0644\\u0646\\u0645\\u0648\\u0630\\u062c 2","select_language":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0644\\u063a\\u0629","academic_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0633\\u0646\\u0629 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a\\u0629","course_id":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0641\\u0635\\u0644","topic_id":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u062f\\u0631\\u0633 (\\u0627\\u0644\\u0631\\u0642\\u0645)","please_type_any_details_for_search":"\\u064a\\u0631\\u062c\\u0649 \\u0643\\u062a\\u0627\\u0628\\u0629 \\u0623\\u064a \\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0644\\u0644\\u0628\\u062d\\u062b","fill_in_blanks":"\\u0625\\u0645\\u0644\\u0623 \\u0627\\u0644\\u0641\\u0631\\u0627\\u063a\\u0627\\u062a","upload_failed":"\\u0644\\u0642\\u062f \\u0641\\u0634\\u0644\\u062a \\u0639\\u0645\\u0644\\u064a\\u0629 \\u062a\\u062d\\u0645\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0644\\u0641","upload_success":"\\u062a\\u0645 \\u0627\\u0644\\u062a\\u062d\\u0645\\u064a\\u0644 \\u0628\\u0646\\u062c\\u0627\\u062d","image_cleared_successfully":"\\u062a\\u0645 \\u0645\\u0633\\u062d \\u0627\\u0644\\u0635\\u0648\\u0631\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d","do_not_press_back_or_refresh_button":"\\u0644\\u0627 \\u062a\\u0636\\u063a\\u0637 \\u0639\\u0644\\u0649 \\u0632\\u0631 \\u0627\\u0644\\u0631\\u062c\\u0648\\u0639 \\u0623\\u0648 \\u0627\\u0644\\u062a\\u062d\\u062f\\u064a\\u062b","not_allowed":"\\u063a\\u064a\\u0631 \\u0645\\u0633\\u0645\\u0648\\u062d","this_service_is_not_available_now":"\\u0647\\u0630\\u0647 \\u0627\\u0644\\u062e\\u062f\\u0645\\u0629 \\u063a\\u064a\\u0631 \\u0645\\u062a\\u0627\\u062d\\u0629 \\u062d\\u0627\\u0644\\u064a\\u0627","semester_1":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 1","semester_2":"\\u0627\\u0644\\u0641\\u0635\\u0644 \\u0627\\u0644\\u062f\\u0631\\u0627\\u0633\\u064a 2","file":"\\u0627\\u0644\\u0645\\u0644\\u0641","video_url":"\\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0641\\u064a\\u062f\\u064a\\u0648","iframe":"IFRAME","audio_url":"\\u0631\\u0627\\u0628\\u0637 \\u0645\\u0644\\u0641 \\u0627\\u0644\\u0635\\u0648\\u062a","100":"100","feedback_submitted_successfully":"\\u062a\\u0645 \\u0625\\u0631\\u0633\\u0627\\u0644 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d \\u0628\\u0646\\u062c\\u0627\\u062d","feedback_details":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d","feedbacks":"\\u0627\\u0644\\u0622\\u0631\\u0627\\u0621 \\u0648\\u0627\\u0644\\u0645\\u0642\\u062a\\u0631\\u062d\\u0627\\u062a","record_added_successfully_with_password":"\\u062a\\u0645 \\u0625\\u0636\\u0627\\u0641\\u0629 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0628\\u0646\\u062c\\u0627\\u062d \\u0648\\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631 \\u0647\\u064a ","send_to":"\\u0627\\u0631\\u0633\\u0644 \\u0625\\u0644\\u0649","feedback_subject":"\\u0645\\u0648\\u0636\\u0648\\u0639 \\u0627\\u0644\\u0625\\u0642\\u062a\\u0631\\u0627\\u062d","feedback_description":"\\u0634\\u0631\\u062d \\u0627\\u0644\\u0625\\u0642\\u062a\\u0631\\u0627\\u062d","send_messages":"\\u0625\\u0631\\u0633\\u0644 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0626\\u0644","select_user":"\\u0627\\u062e\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","message_subject":"\\u0645\\u0648\\u0636\\u0648\\u0639 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0644\\u0629","message_description":"\\u0646\\u0635 \\u0627\\u0644\\u0631\\u0633\\u0627\\u0644\\u0629","user_type":"\\u0646\\u0648\\u0639 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645","teachers":"\\u0645\\u0639\\u0644\\u0645\\u0648\\u0646","choose":"\\u0623\\u062e\\u062a\\u0631","experience_years":"\\u0633\\u0646\\u0648\\u0627\\u062a \\u0627\\u0644\\u062e\\u0628\\u0631\\u0629","experience_months":"\\u062a\\u062c\\u0631\\u0628\\u0629 \\u0623\\u0634\\u0647\\u0631","your_admission_details_are_not_updated":"\\u062a\\u0641\\u0627\\u0635\\u064a\\u0644 \\u0627\\u0644\\u0642\\u0628\\u0648\\u0644 \\u0627\\u0644\\u062e\\u0627\\u0635\\u0629 \\u0628\\u0643 \\u0644\\u0645 \\u064a\\u062a\\u0645 \\u062a\\u062d\\u062f\\u064a\\u062b\\u0647\\u0627","departments":"\\u0627\\u0644\\u0625\\u062f\\u0627\\u0631\\u0627\\u062a","create_department":"\\u0625\\u0646\\u0634\\u0627\\u0621 \\u0625\\u062f\\u0627\\u0631\\u0629","sno":"\\u0633\\u0646\\u0648","slug":"\\u0633\\u0628\\u064a\\u0643\\u0629","add_department":"\\u0625\\u0636\\u0627\\u0641\\u0629 \\u0625\\u062f\\u0627\\u0631\\u0629","department_name":"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0642\\u0633\\u0645","department_code":"\\u0643\\u0648\\u062f \\u0642\\u0633\\u0645","help_link_url":"\\u0631\\u0627\\u0628\\u0637 \\u0631\\u0627\\u0628\\u0637 \\u0627\\u0644\\u0645\\u0633\\u0627\\u0639\\u062f\\u0629","you_have_answered_the_question":"\\u0644\\u0642\\u062f \\u0623\\u062c\\u0628\\u062a \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","you_have_not_answered_the_question":"\\u0644\\u0645 \\u062a\\u062a\\u0645 \\u0627\\u062c\\u0627\\u0628\\u0629 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644","you_have_answered_the_question_but_have_marked_the_question_for_review":"\\u0644\\u0642\\u062f \\u0623\\u062c\\u0628\\u062a \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0648\\u0644\\u0643\\u0646\\u0643 \\u0648\\u0636\\u0639\\u062a \\u0639\\u0644\\u0627\\u0645\\u0647 \\u0645\\u0631\\u062c\\u0639\\u064a\\u0629 \\u0639\\u0644\\u064a\\u0629","you_have_not_visited_the_question_yet":"\\u0644\\u0645 \\u062a\\u0642\\u0645 \\u0628\\u0627\\u0644\\u062f\\u062e\\u0648\\u0644 \\u0639\\u0644\\u0649 \\u0627\\u0644\\u0633\\u0624\\u0627\\u0644 \\u0645\\u0646 \\u0642\\u0628\\u0644","the_computer_provided_to_me_is_in_proper_working_condition":"\\u0627\\u0644\\u0643\\u0645\\u0628\\u064a\\u0648\\u062a\\u0631 \\u0627\\u0644\\u0645\\u0642\\u062f\\u0645\\u0629 \\u0644\\u064a \\u0647\\u0648 \\u0641\\u064a \\u062d\\u0627\\u0644\\u0629 \\u0627\\u0644\\u0639\\u0645\\u0644 \\u0627\\u0644\\u0645\\u0646\\u0627\\u0633\\u0628\\u0629","i_have_read_and_understood_the_instructions_given_above":"\\u0644\\u0642\\u062f \\u0642\\u0631\\u0623\\u062a \\u0648\\u0641\\u0647\\u0645\\u062a \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645\\u0627\\u062a \\u0627\\u0644\\u0645\\u0630\\u0643\\u0648\\u0631\\u0629 \\u0623\\u0639\\u0644\\u0627\\u0647","created_by":"\\u0627\\u0636\\u064a\\u0641 \\u0628\\u0648\\u0627\\u0633\\u0637\\u0629","updated_by":"\\u0639\\u062f\\u0644 \\u0628\\u0648\\u0627\\u0633\\u0637\\u0629","creator_ip":"\\u0631\\u0642\\u0645 \\u062d\\u0627\\u0633\\u0628 \\u0627\\u0644\\u0645\\u0636\\u064a\\u0641","updater_ip":"\\u0631\\u0642\\u0645 \\u062d\\u0627\\u0633\\u0628 \\u0627\\u062e\\u0631 \\u0645\\u0646 \\u0642\\u0627\\u0645 \\u0628\\u0627\\u0644\\u062a\\u0639\\u062f\\u064a\\u0644","smtp":"\\u0628\\u0631\\u0648\\u062a\\u0648\\u0643\\u0648\\u0644 \\u0646\\u0642\\u0644 \\u0627\\u0644\\u0628\\u0631\\u064a\\u062f \\u0627\\u0644\\u0625\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","sparkpost":"Sparkpost","sendmail":"\\u0627\\u0631\\u0633\\u0644 \\u0628\\u0631\\u064a\\u062f","mailgun":"Mailgun","mandrill":"\\u0627\\u0644\\u0645\\u064a\\u0645\\u0648\\u0646 \\u0642\\u0631\\u062f","ses":"\\u0625\\u0633 \\u0625\\u064a \\u0625\\u0633","log":"\\u0633\\u062c\\u0644","top_level":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u0648\\u064a \\u0627\\u0644\\u0623\\u0639\\u0644\\u064a","invalid_subject_id":"\\u0645\\u0639\\u0631\\u0641 \\u0627\\u0644\\u0645\\u0648\\u0636\\u0648\\u0639 \\u063a\\u064a\\u0631 \\u0635\\u0627\\u0644\\u062d","view_record_history":"\\u0628\\u064a\\u0627\\u0646\\u0627\\u062a \\u062a\\u062a\\u0628\\u0639 \\u0627\\u0644\\u0633\\u062c\\u0644","creator_username":"\\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0627\\u0644\\u0630\\u064a \\u0636\\u0627\\u0641 \\u0627\\u0644\\u0633\\u062c\\u0644","updater_username":"\\u0627\\u062e\\u0631 \\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0639\\u062f\\u0644 \\u0639\\u0644\\u0649  \\u0627\\u0644\\u0633\\u062c\\u0644","id_number":"\\u0631\\u0642\\u0645 \\u0627\\u0644\\u0647\\u0648\\u064a\\u0629","printed_on":"\\u0637\\u0628\\u0639 \\u0639\\u0644\\u0649"}', '2017-08-12 00:27:26', '2018-02-22 06:07:07', '51.39.70.14', NULL, NULL, 1790);
 
 -- --------------------------------------------------------
 
@@ -1155,19 +1167,19 @@ INSERT INTO `languages` (`id`, `language`, `slug`, `code`, `is_rtl`, `is_default
 -- Table structure for table `lessionplans`
 --
 
-CREATE TABLE `lessionplans` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `course_subject_id` bigint(20) UNSIGNED NOT NULL,
-  `topic_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lessionplans` (
+  `id` bigint(20) unsigned NOT NULL,
+  `course_subject_id` bigint(20) unsigned NOT NULL,
+  `topic_id` bigint(20) unsigned NOT NULL,
   `is_completed` tinyint(4) NOT NULL DEFAULT '0',
   `completed_on` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lessionplans`
@@ -1179,7 +1191,12 @@ INSERT INTO `lessionplans` (`id`, `course_subject_id`, `topic_id`, `is_completed
 (9, 3, 24, 1, '2018-02-12', '2018-02-12 08:40:42', '2018-02-12 08:40:42', NULL, NULL, NULL, NULL),
 (10, 3, 22, 1, '2018-02-12', '2018-02-12 08:40:43', '2018-02-12 08:40:43', NULL, NULL, NULL, NULL),
 (11, 3, 21, 1, '2018-02-12', '2018-02-12 08:40:45', '2018-02-12 08:40:45', NULL, NULL, NULL, NULL),
-(12, 3, 23, 1, '2018-02-12', '2018-02-12 08:40:47', '2018-02-12 08:40:47', NULL, NULL, NULL, NULL);
+(12, 3, 23, 1, '2018-02-12', '2018-02-12 08:40:47', '2018-02-12 08:40:47', NULL, NULL, NULL, NULL),
+(13, 6, 17, 1, '2018-02-21', '2018-02-21 10:57:14', '2018-02-21 10:57:14', NULL, '156.214.42.48', 1868, NULL),
+(14, 6, 19, 1, '2018-02-21', '2018-02-21 10:57:15', '2018-02-21 10:57:15', NULL, '156.214.42.48', 1868, NULL),
+(15, 6, 18, 1, '2018-02-21', '2018-02-21 10:57:15', '2018-02-21 10:57:18', '156.214.42.48', '156.214.42.48', 1868, 1868),
+(16, 6, 20, 1, '2018-02-21', '2018-02-21 10:57:16', '2018-02-21 10:57:16', NULL, '156.214.42.48', 1868, NULL),
+(17, 6, 22, 1, '2018-02-21', '2018-02-21 10:57:17', '2018-02-21 10:57:17', NULL, '156.214.42.48', 1868, NULL);
 
 -- --------------------------------------------------------
 
@@ -1187,22 +1204,22 @@ INSERT INTO `lessionplans` (`id`, `course_subject_id`, `topic_id`, `is_completed
 -- Table structure for table `libraryassetinstances`
 --
 
-CREATE TABLE `libraryassetinstances` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `libraryassetinstances` (
+  `id` bigint(20) unsigned NOT NULL,
   `asset_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `library_prefix` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `series_prefix` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `number` int(50) NOT NULL,
-  `library_master_id` bigint(20) UNSIGNED NOT NULL,
+  `library_master_id` bigint(20) unsigned NOT NULL,
   `status` enum('available','issued','damaged','lost') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'available',
   `asset_type` enum('reference','staff','general') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'general',
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1211,8 +1228,8 @@ CREATE TABLE `libraryassetinstances` (
 -- Table structure for table `libraryassettypes`
 --
 
-CREATE TABLE `libraryassettypes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `libraryassettypes` (
+  `id` bigint(20) unsigned NOT NULL,
   `asset_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `is_eligible_for_fine` tinyint(4) NOT NULL DEFAULT '0',
@@ -1228,9 +1245,9 @@ CREATE TABLE `libraryassettypes` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `libraryassettypes`
@@ -1245,11 +1262,11 @@ INSERT INTO `libraryassettypes` (`id`, `asset_type`, `slug`, `is_eligible_for_fi
 -- Table structure for table `libraryissues`
 --
 
-CREATE TABLE `libraryissues` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `master_asset_id` bigint(20) UNSIGNED NOT NULL,
-  `library_instance_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `libraryissues` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `master_asset_id` bigint(20) unsigned NOT NULL,
+  `library_instance_id` bigint(20) unsigned NOT NULL,
   `library_asset_no` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `issued_on` datetime NOT NULL,
   `due_date` date NOT NULL,
@@ -1260,14 +1277,14 @@ CREATE TABLE `libraryissues` (
   `paid_amount` decimal(10,2) NOT NULL,
   `is_paid` tinyint(4) NOT NULL DEFAULT '0',
   `paid_datetime` datetime DEFAULT NULL,
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `return_on` datetime DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1276,35 +1293,42 @@ CREATE TABLE `libraryissues` (
 -- Table structure for table `librarymasters`
 --
 
-CREATE TABLE `librarymasters` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `asset_type_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `librarymasters` (
+  `id` bigint(20) unsigned NOT NULL,
+  `asset_type_id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `asset_belongs_to_subject` tinyint(4) NOT NULL DEFAULT '0',
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
-  `author_id` bigint(20) UNSIGNED NOT NULL,
-  `publisher_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
+  `author_id` bigint(20) unsigned NOT NULL,
+  `publisher_id` bigint(20) unsigned NOT NULL,
   `isbn` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `edition` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `actual_price` decimal(10,2) NOT NULL,
-  `chargible_price_if_lost` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
-  `total_assets_count` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `total_assets_available` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `total_assets_issued` int(50) UNSIGNED NOT NULL DEFAULT '0',
-  `total_assets_damaged` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `total_assets_lost` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `chargible_price_if_lost` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
+  `total_assets_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `total_assets_available` int(10) unsigned NOT NULL DEFAULT '0',
+  `total_assets_issued` int(50) unsigned NOT NULL DEFAULT '0',
+  `total_assets_damaged` int(10) unsigned NOT NULL DEFAULT '0',
+  `total_assets_lost` int(10) unsigned NOT NULL DEFAULT '0',
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `other` text COLLATE utf8_unicode_ci NOT NULL,
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `librarymasters`
+--
+
+INSERT INTO `librarymasters` (`id`, `asset_type_id`, `title`, `slug`, `asset_belongs_to_subject`, `subject_id`, `author_id`, `publisher_id`, `isbn`, `edition`, `actual_price`, `chargible_price_if_lost`, `total_assets_count`, `total_assets_available`, `total_assets_issued`, `total_assets_damaged`, `total_assets_lost`, `image`, `description`, `other`, `record_updated_by`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
+(1, 1, 'التعليمات', 'altaalymat611', 0, 0, 1, 1, '12312312', '123123123', '200.00', '200.00', 0, 0, 0, 0, 0, '', '', '', 1790, '2018-02-22 07:23:17', '2018-02-22 07:23:17', NULL, '51.39.70.14', 1790, NULL);
 
 -- --------------------------------------------------------
 
@@ -1312,8 +1336,8 @@ CREATE TABLE `librarymasters` (
 -- Table structure for table `lmscategories`
 --
 
-CREATE TABLE `lmscategories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lmscategories` (
+  `id` bigint(20) unsigned NOT NULL,
   `category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1323,9 +1347,9 @@ CREATE TABLE `lmscategories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lmscategories`
@@ -1342,13 +1366,13 @@ INSERT INTO `lmscategories` (`id`, `category`, `slug`, `image`, `description`, `
 -- Table structure for table `lmscontents`
 --
 
-CREATE TABLE `lmscontents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lmscontents` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `code` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `content_type` enum('file','video','audio','url','video_url','audio_url','iframe') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'file',
   `is_url` tinyint(1) NOT NULL DEFAULT '0',
   `file_path` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1358,9 +1382,9 @@ CREATE TABLE `lmscontents` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lmscontents`
@@ -1377,15 +1401,15 @@ INSERT INTO `lmscontents` (`id`, `title`, `slug`, `code`, `image`, `subject_id`,
 -- Table structure for table `lmsseries`
 --
 
-CREATE TABLE `lmsseries` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lmsseries` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `is_paid` tinyint(4) NOT NULL DEFAULT '0',
   `cost` decimal(10,2) NOT NULL,
   `validity` int(11) NOT NULL,
   `total_items` int(11) NOT NULL,
-  `lms_category_id` bigint(20) UNSIGNED NOT NULL,
+  `lms_category_id` bigint(20) unsigned NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `short_description` text COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1396,9 +1420,9 @@ CREATE TABLE `lmsseries` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lmsseries`
@@ -1414,17 +1438,17 @@ INSERT INTO `lmsseries` (`id`, `title`, `slug`, `is_paid`, `cost`, `validity`, `
 -- Table structure for table `lmsseries_data`
 --
 
-CREATE TABLE `lmsseries_data` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `lmsseries_id` bigint(20) UNSIGNED NOT NULL,
-  `lmscontent_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `lmsseries_data` (
+  `id` bigint(20) unsigned NOT NULL,
+  `lmsseries_id` bigint(20) unsigned NOT NULL,
+  `lmscontent_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `lmsseries_data`
@@ -1440,18 +1464,18 @@ INSERT INTO `lmsseries_data` (`id`, `lmsseries_id`, `lmscontent_id`, `created_at
 -- Table structure for table `messenger_messages`
 --
 
-CREATE TABLE `messenger_messages` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `thread_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `messenger_messages` (
+  `id` int(10) unsigned NOT NULL,
+  `thread_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `body` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `messenger_messages`
@@ -1476,19 +1500,19 @@ INSERT INTO `messenger_messages` (`id`, `thread_id`, `user_id`, `body`, `created
 -- Table structure for table `messenger_participants`
 --
 
-CREATE TABLE `messenger_participants` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `thread_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `messenger_participants` (
+  `id` int(10) unsigned NOT NULL,
+  `thread_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
   `last_read` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `messenger_participants`
@@ -1514,17 +1538,17 @@ INSERT INTO `messenger_participants` (`id`, `thread_id`, `user_id`, `last_read`,
 -- Table structure for table `messenger_threads`
 --
 
-CREATE TABLE `messenger_threads` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `messenger_threads` (
+  `id` int(10) unsigned NOT NULL,
   `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `messenger_threads`
@@ -1543,13 +1567,13 @@ INSERT INTO `messenger_threads` (`id`, `subject`, `created_at`, `updated_at`, `d
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
+CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -1639,8 +1663,8 @@ INSERT INTO `migrations` (`migration`, `batch`, `updated_by_ip`, `created_by_ip`
 -- Table structure for table `modulehelper`
 --
 
-CREATE TABLE `modulehelper` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `modulehelper` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `help_link_text` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Help Me',
@@ -1651,9 +1675,9 @@ CREATE TABLE `modulehelper` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `modulehelper`
@@ -1694,8 +1718,8 @@ INSERT INTO `modulehelper` (`id`, `title`, `slug`, `help_link_text`, `is_enabled
 -- Table structure for table `notifications`
 --
 
-CREATE TABLE `notifications` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `notifications` (
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `short_description` text COLLATE utf8_unicode_ci NOT NULL,
@@ -1708,9 +1732,9 @@ CREATE TABLE `notifications` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `notifications`
@@ -1728,8 +1752,8 @@ INSERT INTO `notifications` (`id`, `title`, `slug`, `short_description`, `descri
 -- Table structure for table `parenttimingsetmap`
 --
 
-CREATE TABLE `parenttimingsetmap` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `parenttimingsetmap` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(50) CHARACTER SET utf8 NOT NULL,
   `slug` varchar(50) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
@@ -1737,8 +1761,8 @@ CREATE TABLE `parenttimingsetmap` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1747,14 +1771,15 @@ CREATE TABLE `parenttimingsetmap` (
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE `password_resets` (
+CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1763,12 +1788,12 @@ CREATE TABLE `password_resets` (
 -- Table structure for table `payments`
 --
 
-CREATE TABLE `payments` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `payments` (
+  `id` int(10) unsigned NOT NULL,
   `slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `item_id` int(11) NOT NULL,
   `item_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `plan_type` enum('combo','lms','exam','other') COLLATE utf8_unicode_ci NOT NULL,
@@ -1792,9 +1817,9 @@ CREATE TABLE `payments` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `payments`
@@ -1811,8 +1836,8 @@ INSERT INTO `payments` (`id`, `slug`, `item_id`, `item_name`, `user_id`, `start_
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE `permissions` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `display_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -1820,8 +1845,8 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1830,13 +1855,15 @@ CREATE TABLE `permissions` (
 -- Table structure for table `permission_role`
 --
 
-CREATE TABLE `permission_role` (
-  `permission_id` int(10) UNSIGNED NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `permission_role` (
+  `permission_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1845,20 +1872,27 @@ CREATE TABLE `permission_role` (
 -- Table structure for table `publishers`
 --
 
-CREATE TABLE `publishers` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `publishers` (
+  `id` bigint(20) unsigned NOT NULL,
   `publisher` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `country` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `publishers`
+--
+
+INSERT INTO `publishers` (`id`, `publisher`, `slug`, `country`, `description`, `record_updated_by`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
+(1, 'نجيب محفوط', 'njyb-mhfot2592', 'EG', '', 1790, '2018-02-22 07:21:24', '2018-02-22 07:21:24', NULL, '51.39.70.14', 1790, NULL);
 
 -- --------------------------------------------------------
 
@@ -1866,21 +1900,21 @@ CREATE TABLE `publishers` (
 -- Table structure for table `questionbank`
 --
 
-CREATE TABLE `questionbank` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
-  `topic_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `questionbank` (
+  `id` bigint(20) unsigned NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
+  `topic_id` bigint(20) unsigned NOT NULL,
   `question_tags` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `question_type` enum('radio','checkbox','descriptive','blanks','match','para','video','audio') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'radio',
   `question` text COLLATE utf8_unicode_ci NOT NULL,
   `question_file` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `question_file_is_url` tinyint(1) NOT NULL DEFAULT '0',
-  `total_answers` int(10) UNSIGNED NOT NULL,
+  `total_answers` int(10) unsigned NOT NULL,
   `answers` text COLLATE utf8_unicode_ci NOT NULL,
   `total_correct_answers` int(50) NOT NULL DEFAULT '1',
   `correct_answers` text COLLATE utf8_unicode_ci NOT NULL,
-  `marks` int(10) UNSIGNED NOT NULL,
+  `marks` int(10) unsigned NOT NULL,
   `time_to_spend` int(11) NOT NULL DEFAULT '1',
   `difficulty_level` enum('easy','medium','hard') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'easy',
   `hint` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
@@ -1891,9 +1925,9 @@ CREATE TABLE `questionbank` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `questionbank`
@@ -1916,19 +1950,19 @@ INSERT INTO `questionbank` (`id`, `subject_id`, `topic_id`, `question_tags`, `sl
 -- Table structure for table `questionbank_quizzes`
 --
 
-CREATE TABLE `questionbank_quizzes` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `questionbank_id` bigint(20) UNSIGNED NOT NULL,
-  `quize_id` bigint(20) UNSIGNED NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `questionbank_quizzes` (
+  `id` int(10) unsigned NOT NULL,
+  `questionbank_id` bigint(20) unsigned NOT NULL,
+  `quize_id` bigint(20) unsigned NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `marks` int(50) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `questionbank_quizzes`
@@ -1952,35 +1986,35 @@ INSERT INTO `questionbank_quizzes` (`id`, `questionbank_id`, `quize_id`, `subjec
 -- Table structure for table `quizapplicability`
 --
 
-CREATE TABLE `quizapplicability` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `quiz_id` bigint(20) UNSIGNED NOT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_parent_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
-  `year` int(11) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `quizapplicability` (
+  `id` bigint(20) unsigned NOT NULL,
+  `quiz_id` bigint(20) unsigned NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_parent_id` bigint(20) unsigned DEFAULT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
+  `year` int(11) unsigned NOT NULL,
   `semister` int(2) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quizapplicability`
 --
 
 INSERT INTO `quizapplicability` (`id`, `quiz_id`, `academic_id`, `course_parent_id`, `course_id`, `year`, `semister`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(3, 2, 1, 17, 30, 1, 0, '2017-10-17 23:36:35', '2017-10-17 23:36:35', NULL, NULL, NULL, NULL),
-(4, 2, 1, 17, 29, 1, 0, '2017-10-17 23:36:35', '2017-10-17 23:36:35', NULL, NULL, NULL, NULL),
-(13, 3, 1, 17, 30, 1, 0, '2017-12-18 23:28:46', '2017-12-18 23:28:46', NULL, NULL, NULL, NULL),
-(14, 3, 1, 17, 29, 1, 0, '2017-12-18 23:28:46', '2017-12-18 23:28:46', NULL, NULL, NULL, NULL),
-(15, 4, 1, 17, 30, 1, 0, '2017-12-18 23:34:15', '2017-12-18 23:34:15', NULL, NULL, NULL, NULL),
-(16, 4, 1, 17, 29, 1, 0, '2017-12-18 23:34:15', '2017-12-18 23:34:15', NULL, NULL, NULL, NULL),
-(17, 7, 1, 17, 30, 1, 0, '2018-01-26 20:23:35', '2018-01-26 20:23:35', NULL, NULL, NULL, NULL),
-(18, 7, 1, 17, 29, 1, 0, '2018-01-26 20:23:35', '2018-01-26 20:23:35', NULL, NULL, NULL, NULL);
+(3, 2, 1, 17, 30, 1, 1, '2017-10-17 23:36:35', '2017-10-17 23:36:35', NULL, NULL, NULL, NULL),
+(4, 2, 1, 17, 29, 1, 1, '2017-10-17 23:36:35', '2017-10-17 23:36:35', NULL, NULL, NULL, NULL),
+(13, 3, 1, 17, 30, 1, 1, '2017-12-18 23:28:46', '2017-12-18 23:28:46', NULL, NULL, NULL, NULL),
+(14, 3, 1, 17, 29, 1, 1, '2017-12-18 23:28:46', '2017-12-18 23:28:46', NULL, NULL, NULL, NULL),
+(15, 4, 1, 17, 30, 1, 1, '2017-12-18 23:34:15', '2017-12-18 23:34:15', NULL, NULL, NULL, NULL),
+(16, 4, 1, 17, 29, 1, 1, '2017-12-18 23:34:15', '2017-12-18 23:34:15', NULL, NULL, NULL, NULL),
+(17, 7, 1, 17, 30, 1, 1, '2018-01-26 20:23:35', '2018-01-26 20:23:35', NULL, NULL, NULL, NULL),
+(18, 7, 1, 17, 29, 1, 1, '2018-01-26 20:23:35', '2018-01-26 20:23:35', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1988,8 +2022,8 @@ INSERT INTO `quizapplicability` (`id`, `quiz_id`, `academic_id`, `course_parent_
 -- Table structure for table `quizcategories`
 --
 
-CREATE TABLE `quizcategories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `quizcategories` (
+  `id` bigint(20) unsigned NOT NULL,
   `category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -1999,9 +2033,9 @@ CREATE TABLE `quizcategories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quizcategories`
@@ -2018,8 +2052,8 @@ INSERT INTO `quizcategories` (`id`, `category`, `slug`, `image`, `description`, 
 -- Table structure for table `quizofflinecategories`
 --
 
-CREATE TABLE `quizofflinecategories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `quizofflinecategories` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
@@ -2027,9 +2061,9 @@ CREATE TABLE `quizofflinecategories` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quizofflinecategories`
@@ -2045,11 +2079,11 @@ INSERT INTO `quizofflinecategories` (`id`, `title`, `slug`, `status`, `created_a
 -- Table structure for table `quizresults`
 --
 
-CREATE TABLE `quizresults` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `quizresults` (
+  `id` bigint(20) unsigned NOT NULL,
   `slug` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `quiz_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `quiz_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `marks_obtained` int(10) NOT NULL DEFAULT '0',
   `negative_marks` decimal(10,2) NOT NULL DEFAULT '0.00',
   `total_marks` int(10) NOT NULL DEFAULT '0',
@@ -2068,36 +2102,39 @@ CREATE TABLE `quizresults` (
   `grade_points` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `rank` int(11) DEFAULT NULL,
   `total_users_for_this_quiz` int(11) DEFAULT NULL,
-  `academic_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `course_parent_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `course_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `academic_id` bigint(20) unsigned DEFAULT NULL,
+  `course_parent_id` bigint(20) unsigned DEFAULT NULL,
+  `course_id` bigint(20) unsigned DEFAULT NULL,
   `year` int(11) NOT NULL,
   `semister` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quizresults`
 --
 
 INSERT INTO `quizresults` (`id`, `slug`, `quiz_id`, `user_id`, `marks_obtained`, `negative_marks`, `total_marks`, `percentage`, `exam_status`, `answers`, `subject_analysis`, `correct_answer_questions`, `wrong_answer_questions`, `not_answered_questions`, `time_spent_correct_answer_questions`, `time_spent_wrong_answer_questions`, `time_spent_not_answered_questions`, `percentage_title`, `grade_title`, `grade_points`, `rank`, `total_users_for_this_quiz`, `academic_id`, `course_parent_id`, `course_id`, `year`, `semister`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(1, '3f4fff9c82f317a01d1f20f70038ce5460086a97', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["1"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":24,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":24}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"24"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-26 20:26:20', '2018-01-26 20:26:20', NULL, NULL, NULL, NULL),
-(2, 'ee66c6a0528cf0ff1e40faf9d93a5e51f4efebaf', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["1","2"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":36,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":36}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"36"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-29 07:04:51', '2018-01-29 07:04:51', NULL, NULL, NULL, NULL),
-(3, 'e5fce434ae8b74f275f05687ef0189d83181efda', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["2"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":4,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":4}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"4"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-29 07:07:33', '2018-01-29 07:07:33', NULL, NULL, NULL, NULL),
-(4, '4955113804fc1cbec8123fe80f3e5b22581cac05', 4, 1796, 5, '0.00', 16, '31.25', 'pass', '{"1":["3"],"2":["\\u0645\\u064f\\u0641\\u0631\\u0645\\u0629"],"4":["2","4"],"5":["2","3","1","4"]}', '{"1":{"subject_id":"1","correct_answers":3,"wrong_answers":1,"not_answered":0,"time_spent":261,"time_to_spend":570,"time_spent_correct_answers":176,"time_spent_wrong_answers":85}}', '[1,2,5]', '[4]', '[]', '{"1":{"time_to_spend":"120","time_spent":"26"},"2":{"time_to_spend":"90","time_spent":"83"},"5":{"time_to_spend":"120","time_spent":"67"}}', '{"4":{"time_to_spend":"240","time_spent":"85"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-29 07:29:59', '2018-01-29 07:29:59', NULL, NULL, NULL, NULL),
-(5, 'df88dbcb4f94dcdd989783a2734e0bb73b3648f2', 2, 1796, 30, '0.00', 100, '30.00', 'fail', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(6, 'ce9d46dda9c98d2d042256ab887f18687ce818db', 2, 1805, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(7, 'caa7e8aae833f2ef88669bf1e44f22f92adffb89', 2, 1806, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(8, 'f68bb6330f1100ab4017235cc047eff1b42313df', 2, 1807, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(9, 'd34ca2659ef9ad5e8d69e46bf5e0c1a412840e8c', 2, 1838, 75, '0.00', 100, '75.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(10, '3d03e4f85ce5465bebb3c75283e9dc0afdd1dfd4', 2, 1839, 80, '0.00', 100, '80.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(11, '15398d5c10e65544dfaae1fed932489aecd50ad5', 2, 1875, 50, '0.00', 100, '50.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
-(12, '1a4678a493ba19ab916cf158799d43a256794c09', 2, 1877, 30, '0.00', 100, '30.00', 'fail', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 0, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL);
+(1, '3f4fff9c82f317a01d1f20f70038ce5460086a97', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["1"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":24,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":24}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"24"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-26 20:26:20', '2018-01-26 20:26:20', NULL, NULL, NULL, NULL),
+(2, 'ee66c6a0528cf0ff1e40faf9d93a5e51f4efebaf', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["1","2"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":36,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":36}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"36"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-29 07:04:51', '2018-01-29 07:04:51', NULL, NULL, NULL, NULL),
+(3, 'e5fce434ae8b74f275f05687ef0189d83181efda', 7, 1796, -39, '0.00', 1, '0.00', 'fail', '{"6":["2"]}', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":1,"not_answered":0,"time_spent":4,"time_to_spend":30,"time_spent_correct_answers":0,"time_spent_wrong_answers":4}}', '[]', '[6]', '[]', '[]', '{"6":{"time_to_spend":"30","time_spent":"4"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-29 07:07:33', '2018-01-29 07:07:33', NULL, NULL, NULL, NULL),
+(4, '4955113804fc1cbec8123fe80f3e5b22581cac05', 4, 1796, 5, '0.00', 16, '31.25', 'pass', '{"1":["3"],"2":["\\u0645\\u064f\\u0641\\u0631\\u0645\\u0629"],"4":["2","4"],"5":["2","3","1","4"]}', '{"1":{"subject_id":"1","correct_answers":3,"wrong_answers":1,"not_answered":0,"time_spent":261,"time_to_spend":570,"time_spent_correct_answers":176,"time_spent_wrong_answers":85}}', '[1,2,5]', '[4]', '[]', '{"1":{"time_to_spend":"120","time_spent":"26"},"2":{"time_to_spend":"90","time_spent":"83"},"5":{"time_to_spend":"120","time_spent":"67"}}', '{"4":{"time_to_spend":"240","time_spent":"85"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-29 07:29:59', '2018-01-29 07:29:59', NULL, NULL, NULL, NULL),
+(5, 'df88dbcb4f94dcdd989783a2734e0bb73b3648f2', 2, 1796, 30, '0.00', 100, '30.00', 'fail', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(6, 'ce9d46dda9c98d2d042256ab887f18687ce818db', 2, 1805, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(7, 'caa7e8aae833f2ef88669bf1e44f22f92adffb89', 2, 1806, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(8, 'f68bb6330f1100ab4017235cc047eff1b42313df', 2, 1807, 90, '0.00', 100, '90.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(9, 'd34ca2659ef9ad5e8d69e46bf5e0c1a412840e8c', 2, 1838, 75, '0.00', 100, '75.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(10, '3d03e4f85ce5465bebb3c75283e9dc0afdd1dfd4', 2, 1839, 80, '0.00', 100, '80.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(11, '15398d5c10e65544dfaae1fed932489aecd50ad5', 2, 1875, 50, '0.00', 100, '50.00', 'pass', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(12, '1a4678a493ba19ab916cf158799d43a256794c09', 2, 1877, 30, '0.00', 100, '30.00', 'fail', '0', NULL, NULL, NULL, NULL, '0', '0', '0', '0', '0', '0', NULL, NULL, 1, 17, 29, 1, 1, '2018-01-31 08:34:31', '2018-01-31 08:34:31', NULL, NULL, NULL, NULL),
+(13, '34116477c2d00ea2d86f511fefd585f59ec1746b', 7, 1806, 0, '0.00', 1, '0.00', 'fail', '[]', '{"8":{"subject_id":"8","correct_answers":0,"wrong_answers":0,"not_answered":1,"time_spent":0,"time_to_spend":0,"time_spent_correct_answers":0,"time_spent_wrong_answers":0}}', '[]', '[]', '["6"]', '[]', '[]', '{"6":{"time_to_spend":0,"time_spent":"0"}}', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-02-20 08:30:15', '2018-02-20 08:30:15', NULL, '197.37.10.140', 1806, NULL),
+(14, '854fe4e7ab8db284919301139354eb65e2e8b235', 4, 1806, -24, '0.00', 16, '0.00', 'fail', '{"1":["2"],"2":[""],"5":["","","",""]}', '{"1":{"subject_id":"1","correct_answers":0,"wrong_answers":3,"not_answered":1,"time_spent":13,"time_to_spend":330,"time_spent_correct_answers":0,"time_spent_wrong_answers":13}}', '[]', '[1,2,5]', '["4"]', '[]', '{"1":{"time_to_spend":"120","time_spent":"13"},"2":{"time_to_spend":"90","time_spent":"0"},"5":{"time_to_spend":"120","time_spent":"0"}}', '{"4":{"time_to_spend":0,"time_spent":"0"}}', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-02-20 08:33:08', '2018-02-20 08:33:08', NULL, '197.37.10.140', 1806, NULL),
+(15, '4e345366ce1542eb70ed44990a465663bb331f6a', 4, 1806, -23, '0.00', 16, '0.00', 'fail', '{"1":["2"],"2":["\\u0633\\u0633"],"4":["2","2"],"5":["1","2","3","4"]}', '{"1":{"subject_id":"1","correct_answers":1,"wrong_answers":3,"not_answered":0,"time_spent":13,"time_to_spend":570,"time_spent_correct_answers":5,"time_spent_wrong_answers":8}}', '[5]', '[1,2,4]', '[]', '{"5":{"time_to_spend":"120","time_spent":"5"}}', '{"1":{"time_to_spend":"120","time_spent":"2"},"2":{"time_to_spend":"90","time_spent":"3"},"4":{"time_to_spend":"240","time_spent":"3"}}', '[]', '', '', '', NULL, NULL, 1, 17, 29, 1, 1, '2018-02-20 08:37:27', '2018-02-20 08:37:27', NULL, '197.37.10.140', 1806, NULL);
 
 -- --------------------------------------------------------
 
@@ -2105,40 +2142,40 @@ INSERT INTO `quizresults` (`id`, `slug`, `quiz_id`, `user_id`, `marks_obtained`,
 -- Table structure for table `quizzes`
 --
 
-CREATE TABLE `quizzes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `quizzes` (
+  `id` bigint(20) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` enum('online','offline') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'online',
   `offline` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `online` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `dueration` int(11) NOT NULL,
-  `category_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `category_id` bigint(20) unsigned DEFAULT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `is_paid` tinyint(4) NOT NULL DEFAULT '0',
   `cost` decimal(10,2) DEFAULT NULL,
   `validity` int(11) NOT NULL,
-  `total_marks` int(20) UNSIGNED NOT NULL DEFAULT '0',
+  `total_marks` int(20) unsigned NOT NULL DEFAULT '0',
   `having_negative_mark` tinyint(1) NOT NULL DEFAULT '0',
   `negative_mark` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `pass_percentage` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00',
+  `pass_percentage` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `tags` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `publish_results_immediately` tinyint(4) NOT NULL DEFAULT '1',
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `total_questions` int(50) NOT NULL,
-  `instructions_page_id` bigint(20) UNSIGNED NOT NULL,
+  `instructions_page_id` bigint(20) unsigned NOT NULL,
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `applicable_to_specific` tinyint(1) NOT NULL DEFAULT '0',
-  `offline_quiz_category_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `offline_quiz_category_id` bigint(20) unsigned DEFAULT NULL,
   `record_updated_by` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `quizzes`
@@ -2157,8 +2194,8 @@ INSERT INTO `quizzes` (`id`, `title`, `slug`, `type`, `offline`, `online`, `duer
 -- Table structure for table `religions`
 --
 
-CREATE TABLE `religions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `religions` (
+  `id` bigint(20) unsigned NOT NULL,
   `religion_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` enum('Active','Inactive') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Active',
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -2166,9 +2203,9 @@ CREATE TABLE `religions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `religions`
@@ -2184,8 +2221,8 @@ INSERT INTO `religions` (`id`, `religion_name`, `status`, `slug`, `created_at`, 
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `display_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -2193,9 +2230,9 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -2216,49 +2253,54 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, 
 -- Table structure for table `role_user`
 --
 
-CREATE TABLE `role_user` (
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `role_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `role_user` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `role_user`
 --
 
-INSERT INTO `role_user` (`user_id`, `role_id`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(1790, 1, NULL, NULL, NULL, NULL),
-(1796, 5, NULL, NULL, NULL, NULL),
-(1800, 3, NULL, NULL, NULL, NULL),
-(1802, 2, NULL, NULL, NULL, NULL),
-(1803, 3, NULL, NULL, NULL, NULL),
-(1805, 5, NULL, NULL, NULL, NULL),
-(1806, 5, NULL, NULL, NULL, NULL),
-(1807, 5, NULL, NULL, NULL, NULL),
-(1835, 3, NULL, NULL, NULL, NULL),
-(1836, 3, NULL, NULL, NULL, NULL),
-(1837, 3, NULL, NULL, NULL, NULL),
-(1838, 5, NULL, NULL, NULL, NULL),
-(1839, 5, NULL, NULL, NULL, NULL),
-(1840, 5, NULL, NULL, NULL, NULL),
-(1859, 5, NULL, NULL, NULL, NULL),
-(1860, 5, NULL, NULL, NULL, NULL),
-(1868, 3, NULL, NULL, NULL, NULL),
-(1869, 6, NULL, NULL, NULL, NULL),
-(1870, 7, NULL, NULL, NULL, NULL),
-(1871, 5, NULL, NULL, NULL, NULL),
-(1872, 3, NULL, NULL, NULL, NULL),
-(1873, 3, NULL, NULL, NULL, NULL),
-(1874, 5, NULL, NULL, NULL, NULL),
-(1875, 5, NULL, NULL, NULL, NULL),
-(1876, 3, NULL, NULL, NULL, NULL),
-(1877, 5, NULL, NULL, NULL, NULL),
-(1878, 1, NULL, NULL, NULL, NULL),
-(1879, 8, NULL, NULL, NULL, NULL),
-(1880, 5, NULL, NULL, NULL, NULL);
+INSERT INTO `role_user` (`user_id`, `role_id`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `updated_at`, `created_at`) VALUES
+(1790, 1, NULL, NULL, NULL, NULL, '2018-02-21 18:31:04', '0000-00-00 00:00:00'),
+(1796, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1800, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1802, 2, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1803, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1805, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1806, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1807, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1835, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1836, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1837, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1838, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1839, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1840, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1859, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1860, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1868, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1869, 6, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1870, 7, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1872, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1873, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1874, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1875, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1876, 3, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1877, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1878, 1, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1879, 8, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1880, 5, NULL, NULL, NULL, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(1881, 2, NULL, NULL, NULL, NULL, '2018-02-21 18:48:59', '0000-00-00 00:00:00'),
+(1882, 5, NULL, NULL, NULL, NULL, '2018-02-21 18:52:35', '0000-00-00 00:00:00'),
+(1883, 6, NULL, NULL, NULL, NULL, '2018-02-21 18:57:44', '0000-00-00 00:00:00'),
+(1884, 6, NULL, NULL, NULL, NULL, '2018-02-21 19:01:12', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2266,9 +2308,9 @@ INSERT INTO `role_user` (`user_id`, `role_id`, `updated_by_ip`, `created_by_ip`,
 -- Table structure for table `semisters`
 --
 
-CREATE TABLE `semisters` (
-  `id` bigint(10) UNSIGNED NOT NULL,
-  `course_id` bigint(11) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `semisters` (
+  `id` bigint(10) unsigned NOT NULL,
+  `course_id` bigint(11) unsigned NOT NULL,
   `year` int(11) NOT NULL,
   `total_semisters` int(11) NOT NULL,
   `semister_prefix` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
@@ -2276,8 +2318,8 @@ CREATE TABLE `semisters` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2286,8 +2328,8 @@ CREATE TABLE `semisters` (
 -- Table structure for table `settings`
 --
 
-CREATE TABLE `settings` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -2298,9 +2340,9 @@ CREATE TABLE `settings` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `settings`
@@ -2313,7 +2355,7 @@ INSERT INTO `settings` (`id`, `title`, `key`, `slug`, `image`, `settings_data`, 
 (6, 'اعدادات الموقع', 'site_settings', 'site-settings', 'qXwtdsGTGqvRdC7.png', '{"site_title":{"value":"\\u0646\\u0638\\u0627\\u0645 \\u0633\\u0627\\u0633\\u0628\\u062a \\u0644\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","type":"text","extra":"","tool_tip":"Site Title"},"login_page_title":{"value":"\\u0646\\u0638\\u0627\\u0645 \\u0625\\u062f\\u0627\\u0631\\u0629 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0623\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a","type":"text","extra":"","tool_tip":"Type Of Education System"},"site_logo":{"value":"7g4r5q6tci0eA3Y.png","type":"file","extra":"","tool_tip":"Site Logo"},"site_address":{"value":"","type":"textarea","extra":"","tool_tip":"Address"},"site_city":{"value":"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629 \\u0627\\u0644\\u0645\\u0646\\u0648\\u0631\\u0629","type":"text","extra":"","tool_tip":"City"},"site_favicon":{"value":"bPVIbnviqkfCQsa.ico","type":"file","extra":"","tool_tip":"Favicon"},"site_state":{"value":"\\u0627\\u0644\\u063a\\u0631\\u0628\\u064a\\u0629","type":"text","extra":"","tool_tip":"State"},"site_country":{"value":"\\u0627\\u0644\\u0633\\u0639\\u0648\\u062f\\u064a\\u0629","type":"text","extra":"","tool_tip":"Country"},"site_zipcode":{"value":"41321","type":"text","extra":"","tool_tip":"Postal Code"},"site_phone":{"value":"0548300367","type":"text","extra":"","tool_tip":"Phone"},"system_timezone":{"value":"Asia\\/Riyadh","type":"text","extra":"","tool_tip":"Refer http:\\/\\/php.net\\/manual\\/en\\/timezones.php"},"background_image":{"value":"khdGHPReGFDSq9C.jpg","type":"file","extra":"","tool_tip":"Front background image"},"default_academic_year_id":{"value":"1","type":"number","extra":"","tool_tip":"Enter default academic year"},"default_parent_course_id":{"value":"1","type":"number","extra":"","tool_tip":"Enter default parent course ID"},"current_theme":{"value":"default","type":"select","extra":{"total_options":"3","options":{"default":"Default Theme","red":"Red Theme","green":"Green Theme"}},"tool_tip":"Select theme"},"currency_symbol":{"value":"\\u064d\\u0650SAR","type":"text","extra":{"total_options":"3","options":{"default":"Default Theme","red":"Red Theme","green":"Green Theme"}},"tool_tip":"Add your currency symbol"}}', 'Here you can manage the title, logo, favicon and all general settings', '2016-09-29 06:46:54', '2017-10-15 23:28:47', NULL, NULL, NULL, NULL),
 (7, 'Seo Settings', 'seo_settings', 'seo-settings-1', '', '{"google_analytics":{"value":"","type":"textarea","extra":"","tool_tip":"Update your google analytics code"},"meta_description":{"value":"\\u0646\\u0638\\u0627\\u0645 \\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a \\u0633\\u0627\\u0633\\u0628\\u062a","type":"textarea","extra":"","tool_tip":"Site Meta Description"},"meta_keywords":{"value":"\\u0627\\u0644\\u062a\\u0639\\u0644\\u064a\\u0645 \\u0627\\u0644\\u0627\\u0644\\u0643\\u062a\\u0631\\u0648\\u0646\\u064a, \\u0633\\u0627\\u0633\\u0628\\u062a, \\u0627\\u0644\\u0637\\u0644\\u0627\\u0628, \\u0627\\u0644\\u0645\\u0639\\u0644\\u0645\\u064a\\u0646 , \\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631\\u0627\\u062a , \\u0627\\u0644\\u0648\\u0627\\u062c\\u0628\\u0627\\u062a , \\u0627\\u0648\\u0644\\u064a\\u0627\\u0621 \\u0627\\u0644\\u0627\\u0645\\u0648\\u0631, \\u0627\\u0644\\u0627\\u0634\\u062a\\u0631\\u0627\\u0643\\u0627\\u062a","type":"textarea","extra":"","tool_tip":"Site Meta Keywords"}}', 'Contains all SEO settings', '2016-09-30 13:33:46', '2018-02-01 11:08:06', NULL, NULL, NULL, NULL),
 (8, 'Payment Gateways', 'payment_gateways', 'payment-gateways', '', '{"offline_payment_information":{"value":"1) Pay the amount through DD\\/Check\\/Deposit in favor of Admin, Academia, India <br\\/>\\r\\n2) Update the Payment information in the below box <br\\/>\\r\\n3) Admin will validate the payment details and update your subscription <br\\/>","type":"textarea","extra":"","tool_tip":"Information related to offline payment"}}', 'Contains all list of payment gateways in the system and the status of availability ', '2016-10-02 09:48:19', '2017-10-18 00:00:34', NULL, NULL, NULL, NULL),
-(9, 'تفعيل وإيقاف الخدمات', 'module', 'module', '', '{"certificate":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Certificate Module"},"coupons":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Coupons Module"},"facebook_login":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Facebook Login"},"google_plus_login":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Google+ Login"},"messaging":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Messaging Module"},"offline_payment":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Offline Payment Option"},"parent":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Parent Module"},"paypal":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Paypal Payment Gateway"},"payu":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable PayU Payment Gateway"},"push_notifications":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Push Notifications"},"show_foreign_key_constraint":{"value":0,"type":"checkbox","extra":"","tool_tip":"sho foreign key constraint message at delete operation"}}', 'لتفعيل وايقاف تفعيل الخدمات فى نظام التعليم الالكتروني ', '2016-10-12 11:36:22', '2018-02-16 06:35:19', NULL, NULL, NULL, NULL),
+(9, 'تفعيل وإيقاف الخدمات', 'module', 'module', '', '{"certificate":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Certificate Module"},"coupons":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Coupons Module"},"facebook_login":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Facebook Login"},"google_plus_login":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Google+ Login"},"messaging":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Messaging Module"},"offline_payment":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Offline Payment Option"},"parent":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Parent Module"},"paypal":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Paypal Payment Gateway"},"payu":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable PayU Payment Gateway"},"push_notifications":{"value":"1","type":"checkbox","extra":"","tool_tip":"Enable\\/Disable Push Notifications"},"show_foreign_key_constraint":{"value":0,"type":"checkbox","extra":"","tool_tip":"sho foreign key constraint message at delete operation"}}', 'لتفعيل وايقاف تفعيل الخدمات فى نظام التعليم الالكتروني ', '2016-10-12 11:36:22', '2018-02-21 04:24:51', '51.39.240.33', NULL, NULL, 1790),
 (11, 'إعدادات الشهادة', 'certificate', 'certificate', '', '{\n  "bottom_middle_logo": {\n    "value": "Xnbf7A5pUDnseoH.png",\n    "type": "file",\n    "extra": "",\n    "tool_tip": "Bottom middle logo"\n  },\n  "content": {\n    "value": "<span style=\\"font-size:18px; font-style:italic;\\">This is to certify that <b style=\\"padding:0 10px; font-size:22px;\\">{{$username}}</b> Lorem Ipsum is simply dummy text <b style=\\"padding:0 10px; font-size:22px;\\">{{$course_name}}</b> of the printing with score of <b style=\\"padding:0 10px; font-size:22px;\\">{{$marks}}</b> and typesetting industry. Lorem Ipsum has been the industry''s standard dummy text ever since the 1500s, when an unknown printer took</span>",\n    "type": "textarea",\n    "extra": "",\n    "tool_tip": "Content for the certificate"\n  },\n  "left_sign_designation": {\n    "value": "المعلم ",\n    "type": "text",\n    "extra": "",\n    "tool_tip": "Left Sign Designation"\n  },\n  "left_sign_name": {\n    "value": "منتصر الصاوي",\n    "type": "text",\n    "extra": "",\n    "tool_tip": "Left Sign Name"\n  },\n  "right_sign_designation": {\n    "value": "مدير المدرسة",\n    "type": "text",\n    "extra": "",\n    "tool_tip": "Right Sign Designation"\n  },\n  "right_sign_name": {\n    "value": "خالد الحربي",\n    "type": "text",\n    "extra": "",\n    "tool_tip": "Right Sign Name"\n  },\n  "left_sign_image": {\n    "value": "CbWZkuET6ivwbH9.png",\n    "type": "file",\n    "extra": "",\n    "tool_tip": "Left Sign Image"\n  },\n  "logo": {\n    "value": "m1JlokolQneUJjA.png",\n    "type": "file",\n    "extra": "",\n    "tool_tip": "Header logo of certificate"\n  },\n  "right_sign_image": {\n    "value": "ITKaR4FJcEp8blq.png",\n    "type": "file",\n    "extra": "",\n    "tool_tip": "Right Sign Image"\n  },\n  "watermark_image": {\n    "value": "HtgCy1IffrwfK3G.png",\n    "type": "file",\n    "extra": "",\n    "tool_tip": "Water Mark Image for transparent background"\n  }\n}', 'This Module contains the settings for Certificate', '2016-10-13 06:57:36', '2018-02-01 07:34:15', NULL, NULL, NULL, NULL),
 (12, 'تسجيل الدخول من خلال مواقع التواصل الاجتماعي', 'social_logins', 'social-logins', '', '{"facebook_client_id":{"value":"649337055234832","type":"text","extra":"","tool_tip":"Facebook Client ID"},"facebook_client_secret":{"value":"5a67e2912d64971af65c4c05b0c6b2ae","type":"text","extra":"","tool_tip":"Facebook Client Secret"},"facebook_redirect_url":{"value":"http:\\/\\/conquerorslabs.com\\/exam2\\/auth\\/facebook\\/callback","type":"text","extra":"","tool_tip":"It should be http (or) https:\\/\\/yourservername\\/auth\\/google\\/callback"},"google_client_id":{"value":"881078848150-i20jdtp5g3pg9i2p4tgts4ao5i1ja6cv.apps.googleusercontent.com","type":"text","extra":"","tool_tip":"Google Plus Client ID"},"Google_client_secret":{"value":"ndH8wRWVaB6Mv6pICFRPIhJr","type":"text","extra":"","tool_tip":"Google Client Secret Key"},"google_redirect_url":{"value":"http:\\/\\/conquerorslabs.com\\/exam2\\/auth\\/google\\/callback","type":"text","extra":"","tool_tip":"http (or) https:\\/\\/yourserver.com\\/auth\\/google\\/callback"}}', 'Add/Update Settings for Social Logins (Facebook and Google plus)', '2016-10-28 10:56:37', '2017-12-22 11:27:24', NULL, NULL, NULL, NULL),
 (13, 'اعدادات نظام الرسائل', 'messaging_system', 'messaging-system', '', '{"messaging_system_for":{"value":"admin_student_staff","type":"select","extra":{"total_options":"2","options":{"all":"All","admin":"Admin and Student","admin_student_staff":"Admin, Staff and Student"}},"tool_tip":"To whome you want to use this system"}}', '', '2016-10-29 11:03:37', '2018-01-24 19:13:56', NULL, NULL, NULL, NULL),
@@ -2332,12 +2374,12 @@ INSERT INTO `settings` (`id`, `title`, `key`, `slug`, `image`, `settings_data`, 
 -- Table structure for table `staff`
 --
 
-CREATE TABLE `staff` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `staff` (
+  `id` bigint(20) unsigned NOT NULL,
   `staff_id` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `course_parent_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `course_parent_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `job_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `first_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `middle_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
@@ -2371,9 +2413,9 @@ CREATE TABLE `staff` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `staff`
@@ -2396,29 +2438,29 @@ INSERT INTO `staff` (`id`, `staff_id`, `user_id`, `course_parent_id`, `course_id
 -- Table structure for table `studentattendance`
 --
 
-CREATE TABLE `studentattendance` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `studentattendance` (
+  `id` bigint(20) unsigned NOT NULL,
+  `student_id` bigint(20) unsigned NOT NULL,
   `roll_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_parent_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_parent_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `year` int(11) NOT NULL,
-  `semester` bigint(20) UNSIGNED NOT NULL,
+  `semester` bigint(20) unsigned NOT NULL,
   `attendance_date` date NOT NULL,
   `attendance_code` varchar(2) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `total_class` int(11) NOT NULL DEFAULT '1',
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `remarks` text COLLATE utf8_unicode_ci,
   `notes` text COLLATE utf8_unicode_ci,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `studentattendance`
@@ -2449,10 +2491,10 @@ INSERT INTO `studentattendance` (`id`, `student_id`, `roll_no`, `academic_id`, `
 -- Table structure for table `studentpromotions`
 --
 
-CREATE TABLE `studentpromotions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `studentpromotions` (
+  `id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `student_id` bigint(20) unsigned NOT NULL,
   `type` enum('admission','promoted','detained','completed') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'admission',
   `from_academic_id` int(11) NOT NULL,
   `from_course_parent_id` int(11) NOT NULL,
@@ -2466,14 +2508,14 @@ CREATE TABLE `studentpromotions` (
   `to_semister` int(11) NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `remarks` text COLLATE utf8_unicode_ci NOT NULL,
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `studentpromotions`
@@ -2504,7 +2546,8 @@ INSERT INTO `studentpromotions` (`id`, `user_id`, `student_id`, `type`, `from_ac
 (26, 1807, 6, 'admission', 1, 17, 29, 1, 0, 0, 1, 0, 1, 0, '', '', 1790, '2018-02-04 09:57:09', '2018-02-04 09:58:24', NULL, NULL, NULL, NULL),
 (27, 1838, 34, 'admission', 1, 17, 29, 1, 0, 0, 1, 0, 1, 0, '', '', 1790, '2018-02-04 09:57:09', '2018-02-04 09:58:24', NULL, NULL, NULL, NULL),
 (28, 1839, 35, 'admission', 1, 17, 29, 1, 0, 0, 1, 0, 1, 0, '', '', 1790, '2018-02-04 09:57:09', '2018-02-04 10:07:32', NULL, NULL, NULL, NULL),
-(29, 1875, 65, 'admission', 1, 17, 29, 1, 0, 0, 1, 0, 1, 0, '', '', 1790, '2018-02-04 09:57:09', '2018-02-04 10:07:32', NULL, NULL, NULL, NULL);
+(29, 1875, 65, 'admission', 1, 17, 29, 1, 0, 0, 1, 0, 1, 0, '', '', 1790, '2018-02-04 09:57:09', '2018-02-04 10:07:32', NULL, NULL, NULL, NULL),
+(30, 1882, 68, 'admission', 1, 17, 30, 0, 0, 0, 1, 0, 0, 0, '', '', 1790, '2018-02-22 06:23:18', '2018-02-22 06:23:18', NULL, '51.39.70.14', 1790, NULL);
 
 -- --------------------------------------------------------
 
@@ -2512,17 +2555,17 @@ INSERT INTO `studentpromotions` (`id`, `user_id`, `student_id`, `type`, `from_ac
 -- Table structure for table `students`
 --
 
-CREATE TABLE `students` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `students` (
+  `id` bigint(20) unsigned NOT NULL,
   `admission_no` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `roll_no` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_parent_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_parent_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `first_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `middle_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
   `date_of_birth` date DEFAULT NULL,
   `date_of_join` date DEFAULT NULL,
   `gender` enum('male','female') COLLATE utf8_unicode_ci NOT NULL,
@@ -2532,8 +2575,8 @@ CREATE TABLE `students` (
   `mothers_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `mother_tongue` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `nationality` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `category_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `religion_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `category_id` bigint(20) unsigned DEFAULT NULL,
+  `religion_id` bigint(20) unsigned DEFAULT NULL,
   `parent_first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent_last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent_relation` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -2549,7 +2592,7 @@ CREATE TABLE `students` (
   `parent_phone1` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent_phone2` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent_mobile` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `parent_user_id` bigint(20) UNSIGNED NOT NULL,
+  `parent_user_id` bigint(20) unsigned NOT NULL,
   `guardian_name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `guardian_phone` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `relationship_with_guardian` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
@@ -2572,15 +2615,15 @@ CREATE TABLE `students` (
   `other_information` text COLLATE utf8_unicode_ci NOT NULL,
   `settings` text COLLATE utf8_unicode_ci NOT NULL,
   `extra_fields` text COLLATE utf8_unicode_ci,
-  `record_updated_by` bigint(20) UNSIGNED NOT NULL,
+  `record_updated_by` bigint(20) unsigned NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `students`
@@ -2599,7 +2642,8 @@ INSERT INTO `students` (`id`, `admission_no`, `roll_no`, `academic_id`, `course_
 (64, 'ACA1874', NULL, 0, 0, 0, 'سامي', '', '', 1874, NULL, NULL, 'male', 'single', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', NULL, 0, NULL, '2018-01-14 08:05:44', '2018-01-14 08:05:44', NULL, NULL, NULL, NULL),
 (65, 'ACA1875', '2018-01-14 02:16:03am26569994', 1, 17, 29, 'سامي', '', '', 1875, NULL, '2018-01-14', 'male', 'single', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 0, '', '', NULL, 1790, NULL, '2018-01-14 08:07:57', '2018-01-14 08:16:03', NULL, NULL, NULL, NULL),
 (66, 'ACA1877', 'p4970658', 1, 17, 29, 'yazid', '', '', 1877, NULL, '2018-01-16', 'male', 'single', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1, 0, '', '', NULL, 1790, NULL, '2018-01-16 09:18:26', '2018-01-16 09:19:01', NULL, NULL, NULL, NULL),
-(67, 'ACA1880', NULL, 0, 0, 0, 'hasan hussain', '', '', 1880, NULL, NULL, 'male', 'single', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', NULL, 0, NULL, '2018-02-15 08:46:49', '2018-02-15 08:46:49', NULL, NULL, NULL, NULL);
+(67, 'ACA1880', NULL, 0, 0, 0, 'hasan hussain', '', '', 1880, NULL, NULL, 'male', 'single', '', '', '', '', '', NULL, NULL, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0, '', '', NULL, 0, NULL, '2018-02-15 08:46:49', '2018-02-15 08:46:49', NULL, NULL, NULL, NULL),
+(68, 'ACA1882', 'p5100753', 1, 17, 30, 'حسن كامل', 'حسين', 'الصاوي', 1882, '2018-02-22', '2018-02-22', 'male', 'single', 'A -ve', 'حسين', 'سارة', 'العربية', 'EG', 1, 1, '', '', '', '', '', '0.00', '', '', '', '', '', '', '', '', '', 0, 'Montaser El-Sawy', '548300367', 'asd', 'montaserelsawy@gmail.com', 'ase', 'asdf', 'Madina', 'dafad', '42314', 'SA', '548300367', '23423423423', '', '', '', '', '', 1, 0, '', '', NULL, 1790, NULL, '2018-02-22 06:22:35', '2018-02-22 06:24:37', '51.39.70.14', '51.39.70.14', 1790, 1790);
 
 -- --------------------------------------------------------
 
@@ -2607,19 +2651,19 @@ INSERT INTO `students` (`id`, `admission_no`, `roll_no`, `academic_id`, `course_
 -- Table structure for table `subjectpreferences`
 --
 
-CREATE TABLE `subjectpreferences` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `subjectpreferences` (
+  `id` bigint(20) unsigned NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `staff_id` bigint(20) UNSIGNED NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `staff_id` bigint(20) unsigned NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `subjectpreferences`
@@ -2638,8 +2682,8 @@ INSERT INTO `subjectpreferences` (`id`, `slug`, `user_id`, `staff_id`, `subject_
 -- Table structure for table `subjects`
 --
 
-CREATE TABLE `subjects` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `subjects` (
+  `id` bigint(20) unsigned NOT NULL,
   `subject_title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `subject_code` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -2654,9 +2698,9 @@ CREATE TABLE `subjects` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `subjects`
@@ -2703,8 +2747,8 @@ INSERT INTO `subjects` (`id`, `subject_title`, `subject_code`, `slug`, `maximum_
 -- Table structure for table `subscriptions`
 --
 
-CREATE TABLE `subscriptions` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` int(10) unsigned NOT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -2716,8 +2760,8 @@ CREATE TABLE `subscriptions` (
   `stripe_plan` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -2726,26 +2770,26 @@ CREATE TABLE `subscriptions` (
 -- Table structure for table `timetable`
 --
 
-CREATE TABLE `timetable` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `timetable` (
+  `id` bigint(20) unsigned NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `academic_id` bigint(20) UNSIGNED NOT NULL,
-  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `academic_id` bigint(20) unsigned NOT NULL,
+  `course_id` bigint(20) unsigned NOT NULL,
   `day` int(11) NOT NULL,
-  `timingset_id` bigint(20) UNSIGNED NOT NULL,
-  `timingset_map_id` bigint(20) UNSIGNED NOT NULL,
-  `timingset_details_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+  `timingset_id` bigint(20) unsigned NOT NULL,
+  `timingset_map_id` bigint(20) unsigned NOT NULL,
+  `timingset_details_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `year` int(11) NOT NULL,
   `semister` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `timetable`
@@ -2771,8 +2815,8 @@ INSERT INTO `timetable` (`id`, `slug`, `academic_id`, `course_id`, `day`, `timin
 -- Table structure for table `timingset`
 --
 
-CREATE TABLE `timingset` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `timingset` (
+  `id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `slug` varchar(255) CHARACTER SET utf8 NOT NULL,
   `description` text CHARACTER SET utf8 NOT NULL,
@@ -2780,9 +2824,9 @@ CREATE TABLE `timingset` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `timingset`
@@ -2797,9 +2841,9 @@ INSERT INTO `timingset` (`id`, `name`, `slug`, `description`, `created_at`, `upd
 -- Table structure for table `timingsetdetails`
 --
 
-CREATE TABLE `timingsetdetails` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `timingset_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `timingsetdetails` (
+  `id` bigint(20) unsigned NOT NULL,
+  `timingset_id` bigint(20) unsigned NOT NULL,
   `period_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
@@ -2808,9 +2852,9 @@ CREATE TABLE `timingsetdetails` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `timingsetdetails`
@@ -2831,17 +2875,17 @@ INSERT INTO `timingsetdetails` (`id`, `timingset_id`, `period_name`, `start_time
 -- Table structure for table `timingsetmap`
 --
 
-CREATE TABLE `timingsetmap` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `timingsetmap` (
+  `id` bigint(20) unsigned NOT NULL,
   `day` int(11) NOT NULL,
-  `timingset_id` bigint(20) UNSIGNED NOT NULL,
+  `timingset_id` bigint(20) unsigned NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) DEFAULT NULL,
   `created_by_ip` varchar(120) DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `timingsetmap`
@@ -2861,9 +2905,9 @@ INSERT INTO `timingsetmap` (`id`, `day`, `timingset_id`, `created_at`, `updated_
 -- Table structure for table `topics`
 --
 
-CREATE TABLE `topics` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `subject_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `topics` (
+  `id` bigint(20) unsigned NOT NULL,
+  `subject_id` bigint(20) unsigned NOT NULL,
   `parent_id` bigint(20) NOT NULL DEFAULT '0',
   `semester_num` int(1) DEFAULT '1',
   `topic_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -2874,9 +2918,9 @@ CREATE TABLE `topics` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `topics`
@@ -2885,7 +2929,6 @@ CREATE TABLE `topics` (
 INSERT INTO `topics` (`id`, `subject_id`, `parent_id`, `semester_num`, `topic_name`, `slug`, `description`, `sort_order`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
 (1, 1, 0, 1, 'النصوص', 'alnsos-bd1e8cc1ee53d0225f9ea6bb49d037a19842b2e5', '', 1, '2017-08-10 01:29:17', '2017-08-10 01:29:17', NULL, NULL, NULL, NULL),
 (2, 1, 1, 1, 'قصيدة شعرية', 'ksyd-shaary-da6fbc80cb20001b42e878968baed93aca767d', '', 1, '2017-08-10 01:29:40', '2017-08-10 01:29:40', NULL, NULL, NULL, NULL),
-(3, 2, 0, 1, 'القواعد', 'alkoaaad-0bb77668eb0613926e5413f4ea5e90575c894ed2', '', 1, '2017-08-10 01:30:04', '2017-08-10 01:30:16', NULL, NULL, NULL, NULL),
 (6, 4, 0, 1, 'الوحدة الاولي', 'alohd-alaoly-94183a016216711f412159d235b32699df7ae', '', 1, '2017-10-16 23:11:26', '2017-12-13 06:28:08', NULL, NULL, NULL, NULL),
 (7, 4, 0, 1, 'الوحدة الثانية', 'alohd-althany-dc2c5fa8df68be9b0cfcf4de0db74d03e962', '', 1, '2017-10-16 23:11:36', '2017-12-13 06:28:33', NULL, NULL, NULL, NULL),
 (8, 4, 6, 1, 'كوكب المريخ', 'kokb-almrykh-335def4a24d8c36f764b9e9a10a7cd2587319', 'كوكب المريخ', 1, '2017-12-13 06:27:15', '2017-12-13 06:27:15', NULL, NULL, NULL, NULL),
@@ -2901,7 +2944,12 @@ INSERT INTO `topics` (`id`, `subject_id`, `parent_id`, `semester_num`, `topic_na
 (22, 3, 16, 2, 'قصص الطرح', 'kss-altrh-1dfc7f9a22850d35b1c5c280124cf909a7f78c26', '', 1, '2018-02-12 08:29:29', '2018-02-12 08:29:29', NULL, NULL, NULL, NULL),
 (23, 3, 16, 2, 'تمثيل الطرح', 'tmthyl-altrh-730636c1b6cec0843c0253b58465a7f099704', '', 1, '2018-02-12 08:29:52', '2018-02-12 08:29:52', NULL, NULL, NULL, NULL),
 (24, 3, 16, 2, 'جُمل الطرح', 'jml-altrh-dfd3d86b8baf382fd64a0a48e2debc15f3326f16', '', 1, '2018-02-12 08:30:05', '2018-02-12 08:30:45', NULL, NULL, NULL, NULL),
-(25, 3, 16, 2, 'طرح الصفر والكل', 'trh-alsfr-oalkl-097496c78082e09c1a22b5a2bbef6fadee', '', 1, '2018-02-12 08:30:31', '2018-02-12 08:30:31', NULL, NULL, NULL, NULL);
+(25, 3, 16, 2, 'طرح الصفر والكل', 'trh-alsfr-oalkl-097496c78082e09c1a22b5a2bbef6fadee', '', 1, '2018-02-12 08:30:31', '2018-02-12 08:30:31', NULL, NULL, NULL, NULL),
+(43, 1, 0, 1, 'الادب', '62cc5ecd383239828aa874acfc69f9f36fe566162714', 'تفاصيل 1', 1, '2018-02-21 10:39:15', '2018-02-21 10:39:15', NULL, NULL, NULL, NULL),
+(44, 1, 0, 1, 'البلاغة', 'd9436863a559c848c630b9249c986500db0bac132670', 'تفاصيل2', 1, '2018-02-21 10:39:15', '2018-02-21 10:39:15', NULL, NULL, NULL, NULL),
+(45, 1, 0, 1, 'القصة', '94d1ee2d3bf3758cf927084b9e8738853b4634c4637', 'تفاصيل 3', 1, '2018-02-21 10:39:15', '2018-02-21 10:39:15', NULL, NULL, NULL, NULL),
+(46, 1, 0, 2, 'الادب', 'd1067286c87e67e6a597d87a30fcd72b0c52c5c83000', 'تفاصيل 4', 1, '2018-02-21 10:39:15', '2018-02-21 10:39:15', NULL, NULL, NULL, NULL),
+(47, 1, 0, 2, 'البلاغة', '2acaf98b30b66ed38bfe38b5455f965c9118415f1678', 'تفاصيل5', 1, '2018-02-21 10:39:15', '2018-02-21 10:39:15', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2909,10 +2957,11 @@ INSERT INTO `topics` (`id`, `subject_id`, `parent_id`, `semester_num`, `topic_na
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `id_number` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -2920,7 +2969,7 @@ CREATE TABLE `users` (
   `role_id` int(11) NOT NULL,
   `default_lang` int(11) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
-  `parent_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `parent_id` bigint(20) unsigned DEFAULT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `phone` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `address` text COLLATE utf8_unicode_ci NOT NULL,
@@ -2939,44 +2988,47 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `updated_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=1885 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `slug`, `login_enabled`, `role_id`, `default_lang`, `status`, `parent_id`, `image`, `phone`, `address`, `stripe_active`, `stripe_id`, `stripe_plan`, `paypal_email`, `card_brand`, `card_last_four`, `trial_ends_at`, `subscription_ends_at`, `remember_token`, `settings`, `deleted_at`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(1790, 'منتصر الصاوي', 'montaserelsawy', 'montaserelsawy@gmail.com', '$2y$10$CFmh3JY.2S2P3jdDxnGHS.aiOW11IBNNlnvKWrl2pXLKIHmx0DU1O', 'mntsr-alsaoy', 1, 1, 13, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'j7A3lC90pAInQrD4GDdD3oY9DaR8LEf0BdcAqBCNFXCOPdUAxC7qZkLiYuEP', NULL, NULL, '2017-08-08 00:07:43', '2018-02-14 18:28:02', NULL, NULL, NULL, NULL),
-(1796, 'يامن', 'yamen', 'montaser_sawy1@hotmail.com', '$2y$10$FznT4r0kcw2vHu6n4T/kWet786X17o9lf02cThU0kMTDCGJRy3QEO', 'yamn', 1, 5, 13, 1, 1869, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5jWicdpfLuCNWthGMVisRvISRRT5IfKPzce3RkAd5oVhb6oPbLvu5NXjnFPu', '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[1,2,3,4]}}', NULL, '2017-08-15 07:05:03', '2018-02-20 07:43:12', NULL, NULL, NULL, NULL),
-(1800, 'هشام خليل', 'Teacher1', 'Teacher@gmail.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'hsham-khlyl', 1, 3, NULL, 1, NULL, '', '052012345678', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'R7ESpFAoGFvrMDR6SiwVHuAJUPogukYapOIrt45tpAA5JnaZjvqCL81Mvvdx', NULL, NULL, '2017-10-13 07:11:42', '2017-12-20 19:53:54', NULL, NULL, NULL, NULL),
-(1802, 'Supervisor', 'Supervisor', 'Supervisor@gmail.com', '$2y$10$5Tq206n4KZu6xP2oUPQ9JeSTjLab0vITXgnMXbk8SmL7RgOlVg7IW', 'supervisor', 1, 2, 13, 1, NULL, '', '050456589653', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'XTHU2v5QUxLNJrcekFEpmvQSPW3kKRNmLsLZJjBCfFLQY1ofrrVaR67DSPEq', NULL, NULL, '2017-10-13 07:13:53', '2018-02-14 08:19:34', NULL, NULL, NULL, NULL),
-(1803, 'محمود', 'mahmoud', 'mahmoud@sasbit.com', '$2y$10$SdWp98wJjOytyxqAu08fP.GfoadzKxK0f3LuOP33/hnDyzIagWSaa', 'mhmod', 1, 3, NULL, 1, NULL, '', '0548300367', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-14 10:24:34', '2017-10-14 10:24:34', NULL, NULL, NULL, NULL),
-(1805, 'خالد عصام يوسف ابوسعده', 'std1', 'email1@gmail.com', '$2y$10$fTHdhO3BZfxVQmAPQHFq2OMX2PL3nWd5102p/djX7rTOfIZEo7WXi', 'khald-aasam-yosf-abosaadh', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'oOUyyN4YpIY8abLuaur3opuyHkDbF4zddpbq4MMcaKsD4MFDR9e9AaXWUaBI', '{"user_preferences":{"quiz_categories":[1,2],"lms_categories":[]}}', NULL, '2017-10-15 22:46:47', '2017-10-17 23:46:28', NULL, NULL, NULL, NULL),
-(1806, 'بيان عبدالله حافظ حسين', 'std2', 'email2@gmail.com', '$2y$10$0Rcu.KAzuFzOf2.JnXE/Uu8OROm60BKNy28yBD2DyL74j8TMlFtIO', 'byan-aabdallh-hafth-hsyn', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[]}}', NULL, '2017-10-15 22:46:47', '2018-02-20 06:09:52', NULL, NULL, NULL, NULL),
-(1807, 'تالا نواف بن سليم القرني', 'std3', 'email3@gmail.com', '$2y$10$8dzcsrrr2oWCR6NuXizAheFNzWm6B3FRujVEVT/t9FnyEH4rPtC.C', 'tala-noaf-bn-slym-alkrny', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:46:47', '2017-10-15 22:46:47', NULL, NULL, NULL, NULL),
-(1835, 'خالد الحربي', 'teacher2', 'teacher2@gmail.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'khald-alhrby', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:54:24', '2017-10-15 22:56:32', NULL, NULL, NULL, NULL),
-(1836, 'حسين العتيبي', 'Teacher3', 'Teacher3@gmail.com', '$2y$10$xTIyV7Awh/vdQmIgGOU4OOlcHwhUqqqej8sPLvBNDK0hDe42KsWH.', 'hsyn-alaatyby', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:55:37', '2017-10-15 22:56:17', NULL, NULL, NULL, NULL),
-(1837, 'خالد الصافي', 'teacher4', 'teacher4@sasbit.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'khald-alsafy', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:57:54', '2017-10-15 22:57:54', NULL, NULL, NULL, NULL),
-(1838, 'خالد عصام يوسف ابوسعده', 'std31', 'email31@sasbit.com', '$2y$10$FAYFtkI7Vg8LhuIvTCSQU.PKxfM0W7JfWaW86DDBAdBq2Qg5FBjKS', 'khald-aasam-yosf-abosaadh', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
-(1839, 'بيان عبدالله حافظ حسين', 'std32', 'email32@sasbit.com', '$2y$10$uC2UsPLEYLfxLkj2.dCD3e5wWbtZma89jAFc1mxaNndXenNLSIPLi', 'byan-aabdallh-hafth-hsyn', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
-(1840, 'تالا نواف بن سليم القرني', 'std33', 'email33@sasbit.com', '$2y$10$mv.xDkkrh/lgmzv3DdnnyO33fHgyG3jAkrAzrx4Eqe2fkz/fcqp2S', 'tala-noaf-bn-slym-alkrny', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
-(1859, 'علي بن صادق بن عبدالعظيم الممتن', 'std52', 'email52@sasbit.com', '$2y$10$cZVyEZrM3rW1RuwxFMZ65.fuCGL9ICTNdSixmWJcNVKpJGPis7GAS', 'aaly-bn-sadk-bn-aabdalaathym-almmtn', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[1,2,3,4]}}', NULL, '2017-10-15 23:01:15', '2018-01-24 19:09:30', NULL, NULL, NULL, NULL),
-(1860, 'محمد ابراهيم بن عبدالرحمن الهزيم', 'std53', 'email53@sasbit.com', '$2y$10$vHGDHK/OUlOHskOmrMrzI.BZciqduPY9H5fuDJ6mk3W2fWpkdR.Be', 'mhmd-abrahym-bn-aabdalrhmn-alhzym', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:15', '2017-10-15 23:01:15', NULL, NULL, NULL, NULL),
-(1868, 'teacher5', 'teacher5', 'mont_sawy@yahoo.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'teacher5', 1, 3, 13, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CVRZNGBmL8boJKTvmuTuOVYQYnJNxxrieh8ne0FHCQZXISyrDUL56opyljlH', NULL, NULL, '2017-10-20 07:32:20', '2018-02-15 08:56:13', NULL, NULL, NULL, NULL),
-(1869, 'منتصر صلاح', 'montaser', 'montaser@sasbit.com', '$2y$10$58YYt48IVMRmv9cl6mZXDeVkZidOappERrBHRRwAhwYMXsd.0sfle', 'mntsr-slah', 1, 6, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'xt04reSTSvpEO4nNxl5tYmdDchqg6FaDsxOUeaJuH89q5XyvT3SjY4cct4Yt', '{"user_preferences":{"quiz_categories":[1,2],"lms_categories":[1,2,3]}}', NULL, '2017-12-16 02:57:45', '2018-02-14 08:41:26', NULL, NULL, NULL, NULL),
-(1870, 'lib', 'lib', 'support@sasbit.com', '$2y$10$Pt7zhHQMG0R9W48abGQzsuvLaL1/E8XM73hIAKc15BkxtjdJl2pqO', 'lib', 1, 7, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5b7UXZXXx0cQaoqymaBqJMn5xSQohL9vpjFwWaNTNA88jQ4w6IpnZlbtZFRE', NULL, NULL, '2017-12-16 03:01:49', '2018-02-14 09:02:47', NULL, NULL, NULL, NULL),
-(1871, 'test', 'test31', 'fayez.elghoul@gmail.com', '$2y$10$hf4pQYW2BAhp6Vts9pAsI.3CBA76MTZUlrzbFqQHShGht8npPhGVi', 'test', 1, 5, NULL, 1, NULL, '', '0534426545', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-08 18:35:06', '2018-01-08 18:46:47', NULL, NULL, NULL, NULL),
-(1872, 'أحمد يوسف', 'ahmed2', 'kh71aled19711@hotmail.com', '$2y$10$ZVgbqE.UbKH269Os.OqYQu8res.6kiNxSjdgQh9FFvQOIJQAWVB5a', 'ahmd-yosf', 1, 3, NULL, 1, NULL, '', '0534426545', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'tCB3ZmK0Y01VS8anPjdXRAqOxlhW7KepdiQGoR6XSZj8h775Z3jUM3nPFlqG', NULL, NULL, '2018-01-08 19:04:11', '2018-01-08 19:25:30', NULL, NULL, NULL, NULL),
-(1873, 'Montaser El-Sawy', 'monty', 'montaser_sawy3@hotmail.com', '$2y$10$BkMuBd1g6QZMazjlLWz0O.PWvcrqS2zQSreMemEG0rZ3sgdYHyvGu', 'montaser-el-sawy', 1, 3, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 07:43:57', '2018-02-15 08:45:39', NULL, NULL, NULL, NULL),
-(1874, 'سامي1', 'sami', 'sami@eee.com', '$2y$10$BsoCTlNz/oDi/2We8MTUge0r9ye.0PP8ygLqKo1VLwOx7K.Kb7p8e', 'samy1', 1, 5, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:05:44', '2018-01-14 08:12:24', NULL, NULL, NULL, NULL),
-(1875, 'سامي', 'sami2', 'montaser_sawy44@hotmail.com', '$2y$10$qJiB709R9LU3yOHEBAO36.MiVeAzBSnne1VEfdJcR.RpNKDzbZ0O6', 'samy', 1, 5, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:07:57', '2018-01-14 08:13:06', NULL, NULL, NULL, NULL),
-(1876, 'معلم للاختبار', 'teacher55', 'montaser_sawy@hotmail.com', '$2y$10$G2b3D9AsAMQAPZe7yawzTuj8/6Ch1PsceuL/TJwtCRUYIQB76A.J2', 'maalm-llakhtbar', 1, 3, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:14:08', '2018-01-14 08:14:08', NULL, NULL, NULL, NULL),
-(1877, 'yazid', 'yazid', 'yazid@yazid.com', '$2y$10$RHkZNQSTWhvHWOo463XiVuCKLtdBvBuatqjXhg/iuiQafBTuAxGZ6', 'yazid', 1, 5, NULL, 1, 1869, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-16 09:18:26', '2018-02-02 05:53:11', NULL, NULL, NULL, NULL),
-(1878, 'Owner1', 'owner1', 'owner1@owner1.com', '$2y$10$tyPcmnhLjwQniu6k4gaBrOcmsRSkr7KZ.P83.mcyyazG.YZ5EbzBS', 'owner1', 1, 1, 9, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'nkaas6oQec0tGcWiVjqPnkPcmLV9Y6EnHItFS5PIsKr2CotYNcfTKsvHf7ux', NULL, NULL, '2018-02-14 05:26:40', '2018-02-15 07:16:45', NULL, NULL, NULL, NULL),
-(1879, 'libassistant', 'libassistant', 'libassistant@libassistant.com', '$2y$10$qL.LXyFtp.MUMuoVGwVxFegEgErIA.SBpkjVtkyChsoZ6upd3q7KW', 'libassistant', 1, 8, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GXRMAZCdKQWAYtcTSVywQuVzhGjYAddHWo1qgTJcnhcEzd4a2yiVHmvJscvN', NULL, NULL, '2018-02-14 05:28:38', '2018-02-15 08:56:51', NULL, NULL, NULL, NULL),
-(1880, 'hasan hussain', 'hasan', 'montaserelsawy3@gmail.com', '$2y$10$25IzabonBjTBf1GKCcRYpuwkA4bVvTM8Su65vwvOK0J5awzKDlKBK', 'hasan-hussain1179', 1, 5, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-02-15 08:46:49', '2018-02-15 08:46:49', NULL, NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `name`, `username`, `id_number`, `email`, `password`, `slug`, `login_enabled`, `role_id`, `default_lang`, `status`, `parent_id`, `image`, `phone`, `address`, `stripe_active`, `stripe_id`, `stripe_plan`, `paypal_email`, `card_brand`, `card_last_four`, `trial_ends_at`, `subscription_ends_at`, `remember_token`, `settings`, `deleted_at`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
+(1790, 'منتصر الصاوي', 'montaserelsawy', '2269548687', 'montaserelsawy@gmail.com', '$2y$10$CFmh3JY.2S2P3jdDxnGHS.aiOW11IBNNlnvKWrl2pXLKIHmx0DU1O', 'mntsr-alsaoy', 1, 1, 13, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'SXxIfhn8i5WAvDuwb48C6EaO0FtzuMXFBIjIvNCmn3DL9Qy0aivEf6XzLgQO', NULL, NULL, '2017-08-08 00:07:43', '2018-02-22 07:26:52', '51.39.70.14', NULL, NULL, 1790),
+(1796, 'يامن', 'yamen', NULL, 'montaser_sawy1@hotmail.com', '$2y$10$FznT4r0kcw2vHu6n4T/kWet786X17o9lf02cThU0kMTDCGJRy3QEO', 'yamn', 1, 5, 13, 1, 1869, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'nUzMdAjjPeR5v6EJ3Ac1vVgzDTDJbokHp7uxWfQNvOfFP5qm33u0ErfnEcSD', '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[1,2,3,4]}}', NULL, '2017-08-15 07:05:03', '2018-02-22 07:29:06', NULL, NULL, NULL, NULL),
+(1800, 'هشام خليل', 'Teacher1', NULL, 'Teacher@gmail.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'hsham-khlyl', 1, 3, NULL, 1, NULL, '', '052012345678', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'R7ESpFAoGFvrMDR6SiwVHuAJUPogukYapOIrt45tpAA5JnaZjvqCL81Mvvdx', NULL, NULL, '2017-10-13 07:11:42', '2017-12-20 19:53:54', NULL, NULL, NULL, NULL),
+(1802, 'Supervisor', 'Supervisor', NULL, 'Supervisor@gmail.com', '$2y$10$5Tq206n4KZu6xP2oUPQ9JeSTjLab0vITXgnMXbk8SmL7RgOlVg7IW', 'supervisor', 1, 2, 13, 1, NULL, '', '050456589653', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'XTHU2v5QUxLNJrcekFEpmvQSPW3kKRNmLsLZJjBCfFLQY1ofrrVaR67DSPEq', NULL, NULL, '2017-10-13 07:13:53', '2018-02-14 08:19:34', NULL, NULL, NULL, NULL),
+(1803, 'محمود', 'mahmoud', NULL, 'mahmoud@sasbit.com', '$2y$10$SdWp98wJjOytyxqAu08fP.GfoadzKxK0f3LuOP33/hnDyzIagWSaa', 'mhmod', 1, 3, NULL, 1, NULL, '', '0548300367', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-14 10:24:34', '2017-10-14 10:24:34', NULL, NULL, NULL, NULL),
+(1805, 'خالد عصام يوسف ابوسعده', 'std1', NULL, 'email1@gmail.com', '$2y$10$fTHdhO3BZfxVQmAPQHFq2OMX2PL3nWd5102p/djX7rTOfIZEo7WXi', 'khald-aasam-yosf-abosaadh', 1, 5, NULL, 1, 1884, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'oOUyyN4YpIY8abLuaur3opuyHkDbF4zddpbq4MMcaKsD4MFDR9e9AaXWUaBI', '{"user_preferences":{"quiz_categories":[1,2],"lms_categories":[]}}', NULL, '2017-10-15 22:46:47', '2018-02-22 06:31:12', '51.39.70.14', NULL, NULL, 1790),
+(1806, 'بيان عبدالله حافظ حسين', 'std2', NULL, 'email2@gmail.com', '$2y$10$0Rcu.KAzuFzOf2.JnXE/Uu8OROm60BKNy28yBD2DyL74j8TMlFtIO', 'byan-aabdallh-hafth-hsyn', 1, 5, 13, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Pz2fHfzXXN4SNfInlpWyvIQPorWSV8bOrIerHS5WqNikywIj8jZa7YdXUudY', '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[]}}', NULL, '2017-10-15 22:46:47', '2018-02-20 23:33:59', '51.39.240.33', NULL, NULL, 1806),
+(1807, 'تالا نواف بن سليم القرني', 'std3', NULL, 'email3@gmail.com', '$2y$10$8dzcsrrr2oWCR6NuXizAheFNzWm6B3FRujVEVT/t9FnyEH4rPtC.C', 'tala-noaf-bn-slym-alkrny', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:46:47', '2017-10-15 22:46:47', NULL, NULL, NULL, NULL),
+(1835, 'خالد الحربي', 'teacher2', NULL, 'teacher2@gmail.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'khald-alhrby', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:54:24', '2017-10-15 22:56:32', NULL, NULL, NULL, NULL),
+(1836, 'حسين العتيبي', 'Teacher3', NULL, 'Teacher3@gmail.com', '$2y$10$xTIyV7Awh/vdQmIgGOU4OOlcHwhUqqqej8sPLvBNDK0hDe42KsWH.', 'hsyn-alaatyby', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:55:37', '2017-10-15 22:56:17', NULL, NULL, NULL, NULL),
+(1837, 'خالد الصافي', 'teacher4', NULL, 'teacher4@sasbit.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'khald-alsafy', 1, 3, NULL, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 22:57:54', '2017-10-15 22:57:54', NULL, NULL, NULL, NULL),
+(1838, 'خالد عصام يوسف ابوسعده', 'std31', NULL, 'email31@sasbit.com', '$2y$10$FAYFtkI7Vg8LhuIvTCSQU.PKxfM0W7JfWaW86DDBAdBq2Qg5FBjKS', 'khald-aasam-yosf-abosaadh', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
+(1839, 'بيان عبدالله حافظ حسين', 'std32', NULL, 'email32@sasbit.com', '$2y$10$uC2UsPLEYLfxLkj2.dCD3e5wWbtZma89jAFc1mxaNndXenNLSIPLi', 'byan-aabdallh-hafth-hsyn', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
+(1840, 'تالا نواف بن سليم القرني', 'std33', NULL, 'email33@sasbit.com', '$2y$10$mv.xDkkrh/lgmzv3DdnnyO33fHgyG3jAkrAzrx4Eqe2fkz/fcqp2S', 'tala-noaf-bn-slym-alkrny', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:13', '2017-10-15 23:01:13', NULL, NULL, NULL, NULL),
+(1859, 'علي بن صادق بن عبدالعظيم الممتن', 'std52', NULL, 'email52@sasbit.com', '$2y$10$cZVyEZrM3rW1RuwxFMZ65.fuCGL9ICTNdSixmWJcNVKpJGPis7GAS', 'aaly-bn-sadk-bn-aabdalaathym-almmtn', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[1,2,3,4]}}', NULL, '2017-10-15 23:01:15', '2018-01-24 19:09:30', NULL, NULL, NULL, NULL),
+(1860, 'محمد ابراهيم بن عبدالرحمن الهزيم', 'std53', NULL, 'email53@sasbit.com', '$2y$10$vHGDHK/OUlOHskOmrMrzI.BZciqduPY9H5fuDJ6mk3W2fWpkdR.Be', 'mhmd-abrahym-bn-aabdalrhmn-alhzym', 1, 5, NULL, 1, NULL, '', '1234567891', 'Test Address', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-10-15 23:01:15', '2017-10-15 23:01:15', NULL, NULL, NULL, NULL),
+(1868, 'teacher5', 'teacher5', NULL, 'mont_sawy@yahoo.com', '$2y$10$fCuGZQBScfZtW7UaWNIEq.DHJcX1BIj7J9EycDc8m3/phUG7oESlK', 'teacher5', 1, 3, 13, 1, NULL, '', '0548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'geMwKcllooqn6H9gFvG12cfOxWCaEUXf0HHds5i0D2CCoacMTyzApb7mOosX', NULL, NULL, '2017-10-20 07:32:20', '2018-02-20 09:06:55', NULL, NULL, NULL, NULL),
+(1869, 'منتصر صلاح', 'montaser', NULL, 'montaser@sasbit.com', '$2y$10$58YYt48IVMRmv9cl6mZXDeVkZidOappERrBHRRwAhwYMXsd.0sfle', 'mntsr-slah', 1, 6, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ANnH91BKh9306qy4UuYLMkX1DPn2XMXRsLawJT0KBnxEkzdgryp8W58nczKP', '{"user_preferences":{"quiz_categories":[1,2],"lms_categories":[1,2,3]}}', NULL, '2017-12-16 02:57:45', '2018-02-22 07:28:05', NULL, NULL, NULL, NULL),
+(1870, 'lib', 'lib', NULL, 'support@sasbit.com', '$2y$10$Pt7zhHQMG0R9W48abGQzsuvLaL1/E8XM73hIAKc15BkxtjdJl2pqO', 'lib', 1, 7, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5b7UXZXXx0cQaoqymaBqJMn5xSQohL9vpjFwWaNTNA88jQ4w6IpnZlbtZFRE', NULL, NULL, '2017-12-16 03:01:49', '2018-02-14 09:02:47', NULL, NULL, NULL, NULL),
+(1872, 'أحمد يوسف', 'ahmed2', NULL, 'kh71aled19711@hotmail.com', '$2y$10$ZVgbqE.UbKH269Os.OqYQu8res.6kiNxSjdgQh9FFvQOIJQAWVB5a', 'ahmd-yosf', 1, 3, NULL, 1, NULL, '', '0534426545', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'tCB3ZmK0Y01VS8anPjdXRAqOxlhW7KepdiQGoR6XSZj8h775Z3jUM3nPFlqG', NULL, NULL, '2018-01-08 19:04:11', '2018-01-08 19:25:30', NULL, NULL, NULL, NULL),
+(1873, 'Montaser El-Sawy', 'monty', NULL, 'montaser_sawy3@hotmail.com', '$2y$10$BkMuBd1g6QZMazjlLWz0O.PWvcrqS2zQSreMemEG0rZ3sgdYHyvGu', 'montaser-el-sawy', 1, 3, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 07:43:57', '2018-02-15 08:45:39', NULL, NULL, NULL, NULL),
+(1874, 'سامي1', 'sami', NULL, 'sami@eee.com', '$2y$10$BsoCTlNz/oDi/2We8MTUge0r9ye.0PP8ygLqKo1VLwOx7K.Kb7p8e', 'samy1', 1, 5, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:05:44', '2018-01-14 08:12:24', NULL, NULL, NULL, NULL),
+(1875, 'سامي', 'sami2', NULL, 'montaser_sawy44@hotmail.com', '$2y$10$qJiB709R9LU3yOHEBAO36.MiVeAzBSnne1VEfdJcR.RpNKDzbZ0O6', 'samy', 1, 5, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:07:57', '2018-01-14 08:13:06', NULL, NULL, NULL, NULL),
+(1876, 'معلم للاختبار', 'teacher55', NULL, 'montaser_sawy@hotmail.com', '$2y$10$G2b3D9AsAMQAPZe7yawzTuj8/6Ch1PsceuL/TJwtCRUYIQB76A.J2', 'maalm-llakhtbar', 1, 3, NULL, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-14 08:14:08', '2018-01-14 08:14:08', NULL, NULL, NULL, NULL),
+(1877, 'yazid', 'yazid', NULL, 'yazid@yazid.com', '$2y$10$RHkZNQSTWhvHWOo463XiVuCKLtdBvBuatqjXhg/iuiQafBTuAxGZ6', 'yazid', 1, 5, NULL, 1, 1869, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-01-16 09:18:26', '2018-02-02 05:53:11', NULL, NULL, NULL, NULL),
+(1878, 'Owner1', 'owner1', NULL, 'owner1@owner1.com', '$2y$10$tyPcmnhLjwQniu6k4gaBrOcmsRSkr7KZ.P83.mcyyazG.YZ5EbzBS', 'owner1', 1, 1, 9, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'nkaas6oQec0tGcWiVjqPnkPcmLV9Y6EnHItFS5PIsKr2CotYNcfTKsvHf7ux', NULL, NULL, '2018-02-14 05:26:40', '2018-02-15 07:16:45', NULL, NULL, NULL, NULL),
+(1879, 'libassistant', 'libassistant', NULL, 'libassistant@libassistant.com', '$2y$10$qL.LXyFtp.MUMuoVGwVxFegEgErIA.SBpkjVtkyChsoZ6upd3q7KW', 'libassistant', 1, 8, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GXRMAZCdKQWAYtcTSVywQuVzhGjYAddHWo1qgTJcnhcEzd4a2yiVHmvJscvN', NULL, NULL, '2018-02-14 05:28:38', '2018-02-15 08:56:51', NULL, NULL, NULL, NULL),
+(1880, 'hasan hussain', 'hasan', NULL, 'montaserelsawy3@gmail.com', '$2y$10$25IzabonBjTBf1GKCcRYpuwkA4bVvTM8Su65vwvOK0J5awzKDlKBK', 'hasan-hussain1179', 1, 5, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-02-15 08:46:49', '2018-02-15 08:46:49', NULL, NULL, NULL, NULL),
+(1881, 'admin', 'admin', '2245545678', 'admin@admin.com', '$2y$10$wvXJbCTu2wmI1tikbUh6o.64YAYE3m5hnrkxiiu3KMjEadk2RAYFq', 'admin115', 1, 2, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-02-22 06:18:59', '2018-02-22 06:18:59', NULL, '51.39.70.14', 1790, NULL),
+(1882, 'حسن كامل', 'hasankamel', '2223456789', 'hasan_kamel@sdd.com', '$2y$10$uLksnhZHFMW3N.S5cLJLr.YAdkQ36lqBG7zCJybYa07/QdxTZvEPC', 'hsn-kaml850', 1, 5, 13, 1, 1883, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-02-22 06:22:35', '2018-02-22 06:25:44', '51.39.70.14', '51.39.70.14', 1790, 1790),
+(1883, 'كامل', 'kamel', '2321345678', 'kamel@kkl.com', '$2y$10$tklj5JWnawR9TdlrQMTV8ujNw7b8PuR5dwdqTJIicpxGI2Td4pvf.', 'kamel1072', 1, 6, 13, 1, NULL, '', '548300367', 'King Abdaziz St.\r\nAlareed district', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'k0gPDL8SucqV8mq72FhlH98SxFZ7rk1BFeSNAtMFbxdRnUehRbcbTLolOH9u', '{"user_preferences":{"quiz_categories":[1,2,3],"lms_categories":[1,2,4]}}', NULL, '2018-02-22 06:25:44', '2018-02-22 06:31:35', '51.39.70.14', '51.39.70.14', 1790, 1883),
+(1884, 'عصام', 'essam', '2245545672', 'essam@yazid.com', '$2y$10$U8JwFDrD7/LHRGurmrN9M.Gg4cDD1wRrKB0PdgH3XKQodVlbQ2qmy', 'essam1368', 1, 6, NULL, 1, NULL, '', NULL, '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2018-02-22 06:31:12', '2018-02-22 06:31:12', NULL, '51.39.70.14', 1790, NULL);
 
 -- --------------------------------------------------------
 
@@ -2984,28 +3036,29 @@ INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `slug`, `log
 -- Table structure for table `user_feedback`
 --
 
-CREATE TABLE `user_feedback` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `feedback_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_feedback` (
+  `id` int(10) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `feedback_id` int(10) unsigned NOT NULL,
   `state` varchar(150) COLLATE utf8_bin NOT NULL DEFAULT 'new',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by_ip` varchar(120) COLLATE utf8_bin DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_bin DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `user_feedback`
 --
 
-INSERT INTO `user_feedback` (`id`, `user_id`, `feedback_id`, `state`, `created_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(1, 1790, 1, 'old', '2018-02-12 19:57:51', NULL, NULL, NULL, NULL),
-(2, 1802, 1, 'old', '2018-02-12 19:57:51', NULL, NULL, NULL, NULL),
-(3, 1790, 2, 'old', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL),
-(4, 1802, 2, 'new', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL),
-(5, 1878, 2, 'new', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL);
+INSERT INTO `user_feedback` (`id`, `user_id`, `feedback_id`, `state`, `created_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `updated_at`) VALUES
+(1, 1790, 1, 'old', '2018-02-12 19:57:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(2, 1802, 1, 'old', '2018-02-12 19:57:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(3, 1790, 2, 'old', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(4, 1802, 2, 'new', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(5, 1878, 2, 'new', '2018-02-13 19:11:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -3013,160 +3066,156 @@ INSERT INTO `user_feedback` (`id`, `user_id`, `feedback_id`, `state`, `created_a
 -- Table structure for table `user_notification`
 --
 
-CREATE TABLE `user_notification` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `notification_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `user_notification` (
+  `id` int(10) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `notification_id` int(10) unsigned NOT NULL,
   `state` varchar(150) COLLATE utf8_bin NOT NULL DEFAULT 'new',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by_ip` varchar(120) COLLATE utf8_bin DEFAULT NULL,
   `created_by_ip` varchar(120) COLLATE utf8_bin DEFAULT NULL,
-  `created_by_user` bigint(20) UNSIGNED DEFAULT NULL,
-  `updated_by_user` bigint(20) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  `created_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_by_user` bigint(20) unsigned DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `user_notification`
 --
 
-INSERT INTO `user_notification` (`id`, `user_id`, `notification_id`, `state`, `created_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
-(64, 1796, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(65, 1800, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(66, 1802, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(67, 1803, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(68, 1805, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(69, 1806, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(70, 1807, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(71, 1835, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(72, 1836, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(73, 1837, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(74, 1838, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(75, 1839, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(76, 1840, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(77, 1859, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(78, 1860, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(79, 1868, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(80, 1869, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(81, 1871, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(82, 1872, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(83, 1873, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(84, 1874, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(85, 1875, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(86, 1876, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(87, 1877, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(88, 1878, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(89, 1879, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL),
-(90, 1879, 7, 'new', '2018-02-13 21:10:30', NULL, NULL, NULL, NULL),
-(91, 1796, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(92, 1800, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(93, 1802, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(94, 1803, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(95, 1805, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(96, 1806, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(97, 1807, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(98, 1835, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(99, 1836, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(100, 1837, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(101, 1838, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(102, 1839, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(103, 1840, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(104, 1859, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(105, 1860, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(106, 1868, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(107, 1869, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(108, 1870, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(109, 1871, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(110, 1872, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(111, 1873, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(112, 1874, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(113, 1875, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(114, 1876, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(115, 1877, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(116, 1878, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(117, 1879, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL),
-(118, 1796, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(119, 1800, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(120, 1802, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(121, 1803, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(122, 1805, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(123, 1806, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(124, 1807, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(125, 1835, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(126, 1836, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(127, 1837, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(128, 1838, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(129, 1839, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(130, 1840, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(131, 1859, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(132, 1860, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(133, 1868, 8, 'old', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(134, 1869, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(135, 1870, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(136, 1871, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(137, 1872, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(138, 1873, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(139, 1874, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(140, 1875, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(141, 1876, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(142, 1877, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(143, 1878, 8, 'old', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(144, 1879, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL),
-(145, 1796, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(146, 1800, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(147, 1802, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(148, 1803, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(149, 1805, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(150, 1806, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(151, 1807, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(152, 1835, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(153, 1836, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(154, 1837, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(155, 1838, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(156, 1839, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(157, 1840, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(158, 1859, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(159, 1860, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(160, 1868, 8, 'old', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(161, 1869, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(162, 1870, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(163, 1871, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(164, 1872, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(165, 1873, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(166, 1874, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(167, 1875, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(168, 1876, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(169, 1877, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(170, 1878, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(171, 1879, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(172, 1880, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL),
-(173, 1796, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(174, 1800, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(175, 1802, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(176, 1803, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(177, 1805, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(178, 1806, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(179, 1807, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(180, 1835, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(181, 1836, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(182, 1837, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(183, 1838, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(184, 1839, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(185, 1840, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(186, 1859, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(187, 1860, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(188, 1868, 9, 'old', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(189, 1869, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(190, 1870, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(191, 1871, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(192, 1872, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(193, 1873, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(194, 1874, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(195, 1875, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(196, 1876, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(197, 1877, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(198, 1878, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(199, 1879, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL),
-(200, 1880, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL);
+INSERT INTO `user_notification` (`id`, `user_id`, `notification_id`, `state`, `created_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `updated_at`) VALUES
+(64, 1796, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(65, 1800, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(66, 1802, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(67, 1803, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(68, 1805, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(69, 1806, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(70, 1807, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(71, 1835, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(72, 1836, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(73, 1837, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(74, 1838, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(75, 1839, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(76, 1840, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(77, 1859, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(78, 1860, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(79, 1868, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(80, 1869, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(82, 1872, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(83, 1873, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(84, 1874, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(85, 1875, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(86, 1876, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(87, 1877, 6, 'new', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(88, 1878, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(89, 1879, 6, 'old', '2018-02-13 21:08:46', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(90, 1879, 7, 'new', '2018-02-13 21:10:30', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(91, 1796, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(92, 1800, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(93, 1802, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(94, 1803, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(95, 1805, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(96, 1806, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(97, 1807, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(98, 1835, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(99, 1836, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(100, 1837, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(101, 1838, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(102, 1839, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(103, 1840, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(104, 1859, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(105, 1860, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(106, 1868, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(107, 1869, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(108, 1870, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(110, 1872, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(111, 1873, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(112, 1874, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(113, 1875, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(114, 1876, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(115, 1877, 6, 'new', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(116, 1878, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(117, 1879, 6, 'old', '2018-02-13 21:31:14', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(118, 1796, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(119, 1800, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(120, 1802, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(121, 1803, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(122, 1805, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(123, 1806, 8, 'old', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(124, 1807, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(125, 1835, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(126, 1836, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(127, 1837, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(128, 1838, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(129, 1839, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(130, 1840, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(131, 1859, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(132, 1860, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(133, 1868, 8, 'old', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(134, 1869, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(135, 1870, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(137, 1872, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(138, 1873, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(139, 1874, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(140, 1875, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(141, 1876, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(142, 1877, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(143, 1878, 8, 'old', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(144, 1879, 8, 'new', '2018-02-13 21:35:17', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(145, 1796, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(146, 1800, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(147, 1802, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(148, 1803, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(149, 1805, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(150, 1806, 8, 'old', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(151, 1807, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(152, 1835, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(153, 1836, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(154, 1837, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(155, 1838, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(156, 1839, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(157, 1840, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(158, 1859, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(159, 1860, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(160, 1868, 8, 'old', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(161, 1869, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(162, 1870, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(164, 1872, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(165, 1873, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(166, 1874, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(167, 1875, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(168, 1876, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(169, 1877, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(170, 1878, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(171, 1879, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(172, 1880, 8, 'new', '2018-02-14 21:17:20', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(173, 1796, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(174, 1800, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(175, 1802, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(176, 1803, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(177, 1805, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(178, 1806, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(179, 1807, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(180, 1835, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(181, 1836, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(182, 1837, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(183, 1838, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(184, 1839, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(185, 1840, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(186, 1859, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(187, 1860, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(188, 1868, 9, 'old', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(189, 1869, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(190, 1870, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(192, 1872, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(193, 1873, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(194, 1874, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(195, 1875, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(196, 1876, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(197, 1877, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(198, 1878, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(199, 1879, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00'),
+(200, 1880, 9, 'new', '2018-02-14 21:18:51', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -3176,15 +3225,13 @@ INSERT INTO `user_notification` (`id`, `user_id`, `notification_id`, `state`, `c
 -- Indexes for table `academicholidays`
 --
 ALTER TABLE `academicholidays`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `updated_by` (`updated_by`);
+  ADD PRIMARY KEY (`id`), ADD KEY `updated_by` (`updated_by`);
 
 --
 -- Indexes for table `academics`
 --
 ALTER TABLE `academics`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `academics_semesters`
@@ -3196,9 +3243,7 @@ ALTER TABLE `academics_semesters`
 -- Indexes for table `academic_course`
 --
 ALTER TABLE `academic_course`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `academic_id` (`academic_id`),
-  ADD KEY `course_id` (`course_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `academic_id` (`academic_id`), ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `activity_log`
@@ -3210,33 +3255,25 @@ ALTER TABLE `activity_log`
 -- Indexes for table `authors`
 --
 ALTER TABLE `authors`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `authors_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `authors_slug_unique` (`slug`);
 
 --
 -- Indexes for table `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `categories_category_name_unique` (`category_name`),
-  ADD UNIQUE KEY `categories_slug_unique` (`slug`),
-  ADD KEY `category_name` (`category_name`,`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `categories_category_name_unique` (`category_name`), ADD UNIQUE KEY `categories_slug_unique` (`slug`), ADD KEY `category_name` (`category_name`,`slug`);
 
 --
 -- Indexes for table `certificateissues`
 --
 ALTER TABLE `certificateissues`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `issued_by` (`issued_by`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `issued_by` (`issued_by`);
 
 --
 -- Indexes for table `certificatetemplates`
@@ -3260,42 +3297,31 @@ ALTER TABLE `couponcodes`
 -- Indexes for table `couponcodes_usage`
 --
 ALTER TABLE `couponcodes_usage`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `coupon_id` (`coupon_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `coupon_id` (`coupon_id`);
 
 --
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `coursesemisters`
 --
 ALTER TABLE `coursesemisters`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `course_id` (`course_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `course_subject`
 --
 ALTER TABLE `course_subject`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `academic_id` (`academic_id`),
-  ADD KEY `course_parent_id` (`course_parent_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `staff_id` (`staff_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `academic_id` (`academic_id`), ADD KEY `course_parent_id` (`course_parent_id`), ADD KEY `course_id` (`course_id`), ADD KEY `subject_id` (`subject_id`), ADD KEY `staff_id` (`staff_id`);
 
 --
 -- Indexes for table `departments`
 --
 ALTER TABLE `departments`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `departments_department_code_unique` (`department_code`),
-  ADD UNIQUE KEY `departments_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `departments_department_code_unique` (`department_code`), ADD UNIQUE KEY `departments_slug_unique` (`slug`);
 
 --
 -- Indexes for table `emailtemplates`
@@ -3307,34 +3333,25 @@ ALTER TABLE `emailtemplates`
 -- Indexes for table `examseries`
 --
 ALTER TABLE `examseries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `category_id` (`category_id`);
 
 --
 -- Indexes for table `examseries_data`
 --
 ALTER TABLE `examseries_data`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `examseries_id` (`examseries_id`),
-  ADD KEY `quiz_id` (`quiz_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `examseries_id` (`examseries_id`), ADD KEY `quiz_id` (`quiz_id`);
 
 --
 -- Indexes for table `examtoppers`
 --
 ALTER TABLE `examtoppers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `quiz_id` (`quiz_id`),
-  ADD KEY `quiz_result_id` (`quiz_result_id`),
-  ADD KEY `quiz_id_2` (`quiz_id`),
-  ADD KEY `quiz_result_id_2` (`quiz_result_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `quiz_id` (`quiz_id`), ADD KEY `quiz_result_id` (`quiz_result_id`), ADD KEY `quiz_id_2` (`quiz_id`), ADD KEY `quiz_result_id_2` (`quiz_result_id`);
 
 --
 -- Indexes for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `grades`
@@ -3346,8 +3363,7 @@ ALTER TABLE `grades`
 -- Indexes for table `groups`
 --
 ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `groups_group_unique` (`group`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `groups_group_unique` (`group`);
 
 --
 -- Indexes for table `instructions`
@@ -3359,85 +3375,61 @@ ALTER TABLE `instructions`
 -- Indexes for table `languages`
 --
 ALTER TABLE `languages`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `code` (`code`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `code` (`code`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `lessionplans`
 --
 ALTER TABLE `lessionplans`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `course_subject_id` (`course_subject_id`),
-  ADD KEY `topic_id` (`topic_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `course_subject_id` (`course_subject_id`), ADD KEY `topic_id` (`topic_id`);
 
 --
 -- Indexes for table `libraryassetinstances`
 --
 ALTER TABLE `libraryassetinstances`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `libraryassetinstances_asset_no_unique` (`asset_no`),
-  ADD KEY `record_updated_by` (`record_updated_by`),
-  ADD KEY `library_master_id` (`library_master_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `libraryassetinstances_asset_no_unique` (`asset_no`), ADD KEY `record_updated_by` (`record_updated_by`), ADD KEY `library_master_id` (`library_master_id`);
 
 --
 -- Indexes for table `libraryassettypes`
 --
 ALTER TABLE `libraryassettypes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `libraryissues`
 --
 ALTER TABLE `libraryissues`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`,`master_asset_id`,`library_instance_id`,`record_updated_by`),
-  ADD KEY `master_asset_id` (`master_asset_id`),
-  ADD KEY `library_instance_id` (`library_instance_id`),
-  ADD KEY `record_updated_by` (`record_updated_by`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`,`master_asset_id`,`library_instance_id`,`record_updated_by`), ADD KEY `master_asset_id` (`master_asset_id`), ADD KEY `library_instance_id` (`library_instance_id`), ADD KEY `record_updated_by` (`record_updated_by`);
 
 --
 -- Indexes for table `librarymasters`
 --
 ALTER TABLE `librarymasters`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `librarymasters_slug_unique` (`slug`),
-  ADD KEY `asset_type_id` (`asset_type_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `author_id` (`author_id`,`publisher_id`,`record_updated_by`),
-  ADD KEY `publisher_id` (`publisher_id`),
-  ADD KEY `record_updated_by` (`record_updated_by`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `librarymasters_slug_unique` (`slug`), ADD KEY `asset_type_id` (`asset_type_id`), ADD KEY `subject_id` (`subject_id`), ADD KEY `author_id` (`author_id`,`publisher_id`,`record_updated_by`), ADD KEY `publisher_id` (`publisher_id`), ADD KEY `record_updated_by` (`record_updated_by`);
 
 --
 -- Indexes for table `lmscategories`
 --
 ALTER TABLE `lmscategories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `lmscategories_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `lmscategories_slug_unique` (`slug`);
 
 --
 -- Indexes for table `lmscontents`
 --
 ALTER TABLE `lmscontents`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `lmscontents_slug_unique` (`slug`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `lmscontents_slug_unique` (`slug`), ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Indexes for table `lmsseries`
 --
 ALTER TABLE `lmsseries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `lms_category_id` (`lms_category_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `lms_category_id` (`lms_category_id`);
 
 --
 -- Indexes for table `lmsseries_data`
 --
 ALTER TABLE `lmsseries_data`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `lmsseries_id` (`lmsseries_id`),
-  ADD KEY `lmscontent_id` (`lmscontent_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `lmsseries_id` (`lmsseries_id`), ADD KEY `lmscontent_id` (`lmscontent_id`);
 
 --
 -- Indexes for table `messenger_messages`
@@ -3479,72 +3471,55 @@ ALTER TABLE `parenttimingsetmap`
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`),
-  ADD KEY `password_resets_token_index` (`token`);
+  ADD KEY `password_resets_email_index` (`email`), ADD KEY `password_resets_token_index` (`token`);
 
 --
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_name_unique` (`name`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `permissions_name_unique` (`name`);
 
 --
 -- Indexes for table `permission_role`
 --
 ALTER TABLE `permission_role`
-  ADD PRIMARY KEY (`permission_id`,`role_id`),
-  ADD KEY `permission_role_role_id_foreign` (`role_id`);
+  ADD PRIMARY KEY (`permission_id`,`role_id`), ADD KEY `permission_role_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `publishers`
 --
 ALTER TABLE `publishers`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `publishers_publisher_unique` (`publisher`),
-  ADD UNIQUE KEY `publishers_slug_unique` (`slug`),
-  ADD KEY `record_updated_by` (`record_updated_by`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `publishers_publisher_unique` (`publisher`), ADD UNIQUE KEY `publishers_slug_unique` (`slug`), ADD KEY `record_updated_by` (`record_updated_by`);
 
 --
 -- Indexes for table `questionbank`
 --
 ALTER TABLE `questionbank`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `topic_id` (`topic_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `subject_id` (`subject_id`), ADD KEY `topic_id` (`topic_id`);
 
 --
 -- Indexes for table `questionbank_quizzes`
 --
 ALTER TABLE `questionbank_quizzes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `questionbank_quizzes_questionbank_id_foreign` (`questionbank_id`),
-  ADD KEY `quize_id` (`quize_id`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `questionbank_quizzes_questionbank_id_foreign` (`questionbank_id`), ADD KEY `quize_id` (`quize_id`), ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Indexes for table `quizapplicability`
 --
 ALTER TABLE `quizapplicability`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quiz_id` (`quiz_id`),
-  ADD KEY `academic_id` (`academic_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `course_parent_id` (`course_parent_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `quiz_id` (`quiz_id`), ADD KEY `academic_id` (`academic_id`), ADD KEY `course_id` (`course_id`), ADD KEY `course_parent_id` (`course_parent_id`);
 
 --
 -- Indexes for table `quizcategories`
 --
 ALTER TABLE `quizcategories`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `quizcategories_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `quizcategories_slug_unique` (`slug`);
 
 --
 -- Indexes for table `quizofflinecategories`
@@ -3556,119 +3531,79 @@ ALTER TABLE `quizofflinecategories`
 -- Indexes for table `quizresults`
 --
 ALTER TABLE `quizresults`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quiz_id` (`quiz_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `academic_id` (`academic_id`),
-  ADD KEY `course_parent_id` (`course_parent_id`),
-  ADD KEY `course_id` (`course_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `quiz_id` (`quiz_id`), ADD KEY `user_id` (`user_id`), ADD KEY `academic_id` (`academic_id`), ADD KEY `course_parent_id` (`course_parent_id`), ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `quizzes_slug_unique` (`slug`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `instructions_page_id` (`instructions_page_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `offline_quiz_category_id` (`offline_quiz_category_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `quizzes_slug_unique` (`slug`), ADD KEY `category_id` (`category_id`), ADD KEY `instructions_page_id` (`instructions_page_id`), ADD KEY `subject_id` (`subject_id`), ADD KEY `offline_quiz_category_id` (`offline_quiz_category_id`);
 
 --
 -- Indexes for table `religions`
 --
 ALTER TABLE `religions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `religions_religion_name_unique` (`religion_name`),
-  ADD UNIQUE KEY `religions_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `religions_religion_name_unique` (`religion_name`), ADD UNIQUE KEY `religions_slug_unique` (`slug`);
 
 --
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roles_name_unique` (`name`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `roles_name_unique` (`name`);
 
 --
 -- Indexes for table `role_user`
 --
 ALTER TABLE `role_user`
-  ADD PRIMARY KEY (`user_id`,`role_id`),
-  ADD KEY `role_user_role_id_foreign` (`role_id`);
+  ADD PRIMARY KEY (`user_id`,`role_id`), ADD KEY `role_user_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `semisters`
 --
 ALTER TABLE `semisters`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `course_id` (`course_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `settings_key_unique` (`key`),
-  ADD UNIQUE KEY `settings_slug_unique` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `settings_key_unique` (`key`), ADD UNIQUE KEY `settings_slug_unique` (`slug`);
 
 --
 -- Indexes for table `staff`
 --
 ALTER TABLE `staff`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `staff_staff_id_unique` (`staff_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `staff_staff_id_unique` (`staff_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `studentattendance`
 --
 ALTER TABLE `studentattendance`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`,`academic_id`,`course_parent_id`,`course_id`,`subject_id`,`record_updated_by`),
-  ADD KEY `semester` (`semester`),
-  ADD KEY `academic_id` (`academic_id`),
-  ADD KEY `record_updated_by` (`record_updated_by`),
-  ADD KEY `studentattendance_ibfk_4` (`subject_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `student_id` (`student_id`,`academic_id`,`course_parent_id`,`course_id`,`subject_id`,`record_updated_by`), ADD KEY `semester` (`semester`), ADD KEY `academic_id` (`academic_id`), ADD KEY `record_updated_by` (`record_updated_by`), ADD KEY `studentattendance_ibfk_4` (`subject_id`);
 
 --
 -- Indexes for table `studentpromotions`
 --
 ALTER TABLE `studentpromotions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`,`student_id`,`record_updated_by`),
-  ADD KEY `student_id` (`student_id`),
-  ADD KEY `record_updated_by` (`record_updated_by`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`,`student_id`,`record_updated_by`), ADD KEY `student_id` (`student_id`), ADD KEY `record_updated_by` (`record_updated_by`);
 
 --
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roll_no` (`roll_no`),
-  ADD KEY `academic_id` (`academic_id`,`course_parent_id`,`course_id`,`user_id`,`parent_user_id`,`record_updated_by`),
-  ADD KEY `course_parent_id` (`course_parent_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `parent_user_id` (`parent_user_id`),
-  ADD KEY `record_updated_by` (`record_updated_by`),
-  ADD KEY `students_ibfk_4` (`user_id`),
-  ADD KEY `category_id` (`category_id`),
-  ADD KEY `religion_id` (`religion_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `roll_no` (`roll_no`), ADD KEY `academic_id` (`academic_id`,`course_parent_id`,`course_id`,`user_id`,`parent_user_id`,`record_updated_by`), ADD KEY `course_parent_id` (`course_parent_id`), ADD KEY `course_id` (`course_id`), ADD KEY `parent_user_id` (`parent_user_id`), ADD KEY `record_updated_by` (`record_updated_by`), ADD KEY `students_ibfk_4` (`user_id`), ADD KEY `category_id` (`category_id`), ADD KEY `religion_id` (`religion_id`);
 
 --
 -- Indexes for table `subjectpreferences`
 --
 ALTER TABLE `subjectpreferences`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `staff_id` (`staff_id`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `staff_id` (`staff_id`), ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Indexes for table `subjects`
 --
 ALTER TABLE `subjects`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
 -- Indexes for table `subscriptions`
@@ -3680,14 +3615,7 @@ ALTER TABLE `subscriptions`
 -- Indexes for table `timetable`
 --
 ALTER TABLE `timetable`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `academic_id` (`academic_id`,`course_id`,`timingset_id`,`timingset_map_id`,`timingset_details_id`,`user_id`,`subject_id`),
-  ADD KEY `subject_id` (`subject_id`),
-  ADD KEY `timingset_id` (`timingset_id`),
-  ADD KEY `timingsetmap_id` (`timingset_map_id`),
-  ADD KEY `course_id` (`course_id`),
-  ADD KEY `timig_set_details_id` (`timingset_details_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `academic_id` (`academic_id`,`course_id`,`timingset_id`,`timingset_map_id`,`timingset_details_id`,`user_id`,`subject_id`), ADD KEY `subject_id` (`subject_id`), ADD KEY `timingset_id` (`timingset_id`), ADD KEY `timingsetmap_id` (`timingset_map_id`), ADD KEY `course_id` (`course_id`), ADD KEY `timig_set_details_id` (`timingset_details_id`), ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `timingset`
@@ -3699,48 +3627,37 @@ ALTER TABLE `timingset`
 -- Indexes for table `timingsetdetails`
 --
 ALTER TABLE `timingsetdetails`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `timingset_id` (`timingset_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `timingset_id` (`timingset_id`);
 
 --
 -- Indexes for table `timingsetmap`
 --
 ALTER TABLE `timingsetmap`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `academic_id` (`timingset_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `academic_id` (`timingset_id`);
 
 --
 -- Indexes for table `topics`
 --
 ALTER TABLE `topics`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`),
-  ADD KEY `subject_id` (`subject_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`), ADD KEY `subject_id` (`subject_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `id` (`id`),
-  ADD KEY `parent_id` (`parent_id`);
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `users_email_unique` (`email`), ADD KEY `id` (`id`), ADD KEY `parent_id` (`parent_id`);
 
 --
 -- Indexes for table `user_feedback`
 --
 ALTER TABLE `user_feedback`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `feedback_id` (`feedback_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `feedback_id` (`feedback_id`);
 
 --
 -- Indexes for table `user_notification`
 --
 ALTER TABLE `user_notification`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `notification_id` (`notification_id`);
+  ADD PRIMARY KEY (`id`), ADD KEY `user_id` (`user_id`), ADD KEY `notification_id` (`notification_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -3750,47 +3667,47 @@ ALTER TABLE `user_notification`
 -- AUTO_INCREMENT for table `academicholidays`
 --
 ALTER TABLE `academicholidays`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `academics`
 --
 ALTER TABLE `academics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `academics_semesters`
 --
 ALTER TABLE `academics_semesters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `academic_course`
 --
 ALTER TABLE `academic_course`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=258;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=258;
 --
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `certificateissues`
 --
 ALTER TABLE `certificateissues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `certificatetemplates`
 --
@@ -3800,12 +3717,12 @@ ALTER TABLE `certificatetemplates`
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=251;
 --
 -- AUTO_INCREMENT for table `couponcodes`
 --
 ALTER TABLE `couponcodes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `couponcodes_usage`
 --
@@ -3815,287 +3732,287 @@ ALTER TABLE `couponcodes_usage`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=54;
 --
 -- AUTO_INCREMENT for table `coursesemisters`
 --
 ALTER TABLE `coursesemisters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `course_subject`
 --
 ALTER TABLE `course_subject`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `emailtemplates`
 --
 ALTER TABLE `emailtemplates`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `examseries`
 --
 ALTER TABLE `examseries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `examseries_data`
 --
 ALTER TABLE `examseries_data`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `examtoppers`
 --
 ALTER TABLE `examtoppers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `grades`
 --
 ALTER TABLE `grades`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `instructions`
 --
 ALTER TABLE `instructions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `languages`
 --
 ALTER TABLE `languages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `lessionplans`
 --
 ALTER TABLE `lessionplans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `libraryassetinstances`
 --
 ALTER TABLE `libraryassetinstances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `libraryassettypes`
 --
 ALTER TABLE `libraryassettypes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `libraryissues`
 --
 ALTER TABLE `libraryissues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `librarymasters`
 --
 ALTER TABLE `librarymasters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `lmscategories`
 --
 ALTER TABLE `lmscategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `lmscontents`
 --
 ALTER TABLE `lmscontents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `lmsseries`
 --
 ALTER TABLE `lmsseries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `lmsseries_data`
 --
 ALTER TABLE `lmsseries_data`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `messenger_messages`
 --
 ALTER TABLE `messenger_messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `messenger_participants`
 --
 ALTER TABLE `messenger_participants`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `messenger_threads`
 --
 ALTER TABLE `messenger_threads`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `modulehelper`
 --
 ALTER TABLE `modulehelper`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `parenttimingsetmap`
 --
 ALTER TABLE `parenttimingsetmap`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `publishers`
 --
 ALTER TABLE `publishers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `questionbank`
 --
 ALTER TABLE `questionbank`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `questionbank_quizzes`
 --
 ALTER TABLE `questionbank_quizzes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `quizapplicability`
 --
 ALTER TABLE `quizapplicability`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `quizcategories`
 --
 ALTER TABLE `quizcategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `quizofflinecategories`
 --
 ALTER TABLE `quizofflinecategories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `quizresults`
 --
 ALTER TABLE `quizresults`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `religions`
 --
 ALTER TABLE `religions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `semisters`
 --
 ALTER TABLE `semisters`
-  MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `studentattendance`
 --
 ALTER TABLE `studentattendance`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `studentpromotions`
 --
 ALTER TABLE `studentpromotions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `subjectpreferences`
 --
 ALTER TABLE `subjectpreferences`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `timetable`
 --
 ALTER TABLE `timetable`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `timingset`
 --
 ALTER TABLE `timingset`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `timingsetdetails`
 --
 ALTER TABLE `timingsetdetails`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `timingsetmap`
 --
 ALTER TABLE `timingsetmap`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `topics`
 --
 ALTER TABLE `topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1881;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1885;
 --
 -- AUTO_INCREMENT for table `user_feedback`
 --
 ALTER TABLE `user_feedback`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user_notification`
 --
 ALTER TABLE `user_notification`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=201;
 --
 -- Constraints for dumped tables
 --
@@ -4104,270 +4021,270 @@ ALTER TABLE `user_notification`
 -- Constraints for table `academic_course`
 --
 ALTER TABLE `academic_course`
-  ADD CONSTRAINT `academic_course_ibfk_1` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
-  ADD CONSTRAINT `academic_course_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+ADD CONSTRAINT `academic_course_ibfk_1` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
+ADD CONSTRAINT `academic_course_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  ADD CONSTRAINT `bookmarks_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `questionbank` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `bookmarks_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `bookmarks_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `questionbank` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `bookmarks_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `couponcodes_usage`
 --
 ALTER TABLE `couponcodes_usage`
-  ADD CONSTRAINT `couponcodes_usage_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `couponcodes_usage_ibfk_2` FOREIGN KEY (`coupon_id`) REFERENCES `couponcodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `couponcodes_usage_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `couponcodes_usage_ibfk_2` FOREIGN KEY (`coupon_id`) REFERENCES `couponcodes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `coursesemisters`
 --
 ALTER TABLE `coursesemisters`
-  ADD CONSTRAINT `coursesemisters_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+ADD CONSTRAINT `coursesemisters_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `course_subject`
 --
 ALTER TABLE `course_subject`
-  ADD CONSTRAINT `course_subject_ibfk_1` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `course_subject_ibfk_2` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`),
-  ADD CONSTRAINT `course_subject_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-  ADD CONSTRAINT `course_subject_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
+ADD CONSTRAINT `course_subject_ibfk_1` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `course_subject_ibfk_2` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`),
+ADD CONSTRAINT `course_subject_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+ADD CONSTRAINT `course_subject_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
 
 --
 -- Constraints for table `examseries`
 --
 ALTER TABLE `examseries`
-  ADD CONSTRAINT `examseries_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `quizcategories` (`id`);
+ADD CONSTRAINT `examseries_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `quizcategories` (`id`);
 
 --
 -- Constraints for table `examseries_data`
 --
 ALTER TABLE `examseries_data`
-  ADD CONSTRAINT `examseries_data_ibfk_1` FOREIGN KEY (`examseries_id`) REFERENCES `examseries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `examseries_data_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`);
+ADD CONSTRAINT `examseries_data_ibfk_1` FOREIGN KEY (`examseries_id`) REFERENCES `examseries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `examseries_data_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`);
 
 --
 -- Constraints for table `examtoppers`
 --
 ALTER TABLE `examtoppers`
-  ADD CONSTRAINT `examtoppers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `examtoppers_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
-  ADD CONSTRAINT `examtoppers_ibfk_3` FOREIGN KEY (`quiz_result_id`) REFERENCES `quizresults` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `examtoppers_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `examtoppers_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
+ADD CONSTRAINT `examtoppers_ibfk_3` FOREIGN KEY (`quiz_result_id`) REFERENCES `quizresults` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
-  ADD CONSTRAINT `feedbacks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `feedbacks_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `lessionplans`
 --
 ALTER TABLE `lessionplans`
-  ADD CONSTRAINT `lessionplans_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lessionplans_ibfk_2` FOREIGN KEY (`course_subject_id`) REFERENCES `course_subject` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `lessionplans_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `lessionplans_ibfk_2` FOREIGN KEY (`course_subject_id`) REFERENCES `course_subject` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `libraryassetinstances`
 --
 ALTER TABLE `libraryassetinstances`
-  ADD CONSTRAINT `libraryassetinstances_ibfk_1` FOREIGN KEY (`library_master_id`) REFERENCES `librarymasters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `libraryassetinstances_ibfk_2` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`);
+ADD CONSTRAINT `libraryassetinstances_ibfk_1` FOREIGN KEY (`library_master_id`) REFERENCES `librarymasters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `libraryassetinstances_ibfk_2` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `libraryissues`
 --
 ALTER TABLE `libraryissues`
-  ADD CONSTRAINT `libraryissues_ibfk_1` FOREIGN KEY (`master_asset_id`) REFERENCES `librarymasters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `libraryissues_ibfk_2` FOREIGN KEY (`library_instance_id`) REFERENCES `libraryassetinstances` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `libraryissues_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `libraryissues_ibfk_1` FOREIGN KEY (`master_asset_id`) REFERENCES `librarymasters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `libraryissues_ibfk_2` FOREIGN KEY (`library_instance_id`) REFERENCES `libraryassetinstances` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `libraryissues_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `librarymasters`
 --
 ALTER TABLE `librarymasters`
-  ADD CONSTRAINT `librarymasters_ibfk_1` FOREIGN KEY (`asset_type_id`) REFERENCES `libraryassettypes` (`id`),
-  ADD CONSTRAINT `librarymasters_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`),
-  ADD CONSTRAINT `librarymasters_ibfk_3` FOREIGN KEY (`publisher_id`) REFERENCES `publishers` (`id`);
+ADD CONSTRAINT `librarymasters_ibfk_1` FOREIGN KEY (`asset_type_id`) REFERENCES `libraryassettypes` (`id`),
+ADD CONSTRAINT `librarymasters_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`),
+ADD CONSTRAINT `librarymasters_ibfk_3` FOREIGN KEY (`publisher_id`) REFERENCES `publishers` (`id`);
 
 --
 -- Constraints for table `lmscontents`
 --
 ALTER TABLE `lmscontents`
-  ADD CONSTRAINT `lmscontents_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
+ADD CONSTRAINT `lmscontents_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
 
 --
 -- Constraints for table `lmsseries`
 --
 ALTER TABLE `lmsseries`
-  ADD CONSTRAINT `lmsseries_ibfk_1` FOREIGN KEY (`lms_category_id`) REFERENCES `lmscategories` (`id`);
+ADD CONSTRAINT `lmsseries_ibfk_1` FOREIGN KEY (`lms_category_id`) REFERENCES `lmscategories` (`id`);
 
 --
 -- Constraints for table `lmsseries_data`
 --
 ALTER TABLE `lmsseries_data`
-  ADD CONSTRAINT `lmsseries_data_ibfk_1` FOREIGN KEY (`lmsseries_id`) REFERENCES `lmsseries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `lmsseries_data_ibfk_2` FOREIGN KEY (`lmscontent_id`) REFERENCES `lmscontents` (`id`);
+ADD CONSTRAINT `lmsseries_data_ibfk_1` FOREIGN KEY (`lmsseries_id`) REFERENCES `lmsseries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `lmsseries_data_ibfk_2` FOREIGN KEY (`lmscontent_id`) REFERENCES `lmscontents` (`id`);
 
 --
 -- Constraints for table `payments`
 --
 ALTER TABLE `payments`
-  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `permission_role`
 --
 ALTER TABLE `permission_role`
-  ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `publishers`
 --
 ALTER TABLE `publishers`
-  ADD CONSTRAINT `publishers_ibfk_1` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`);
+ADD CONSTRAINT `publishers_ibfk_1` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `questionbank`
 --
 ALTER TABLE `questionbank`
-  ADD CONSTRAINT `questionbank_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
-  ADD CONSTRAINT `questionbank_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`);
+ADD CONSTRAINT `questionbank_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
+ADD CONSTRAINT `questionbank_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`);
 
 --
 -- Constraints for table `questionbank_quizzes`
 --
 ALTER TABLE `questionbank_quizzes`
-  ADD CONSTRAINT `questionbank_quizzes_ibfk_1` FOREIGN KEY (`questionbank_id`) REFERENCES `questionbank` (`id`),
-  ADD CONSTRAINT `questionbank_quizzes_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
-  ADD CONSTRAINT `questionbank_quizzes_ibfk_3` FOREIGN KEY (`quize_id`) REFERENCES `quizzes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `questionbank_quizzes_ibfk_1` FOREIGN KEY (`questionbank_id`) REFERENCES `questionbank` (`id`),
+ADD CONSTRAINT `questionbank_quizzes_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
+ADD CONSTRAINT `questionbank_quizzes_ibfk_3` FOREIGN KEY (`quize_id`) REFERENCES `quizzes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `quizapplicability`
 --
 ALTER TABLE `quizapplicability`
-  ADD CONSTRAINT `quizapplicability_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `quizapplicability_ibfk_2` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `quizapplicability_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-  ADD CONSTRAINT `quizapplicability_ibfk_4` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`);
+ADD CONSTRAINT `quizapplicability_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `quizapplicability_ibfk_2` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `quizapplicability_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+ADD CONSTRAINT `quizapplicability_ibfk_4` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `quizresults`
 --
 ALTER TABLE `quizresults`
-  ADD CONSTRAINT `quizresults_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
-  ADD CONSTRAINT `quizresults_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `quizresults_ibfk_3` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
-  ADD CONSTRAINT `quizresults_ibfk_4` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-  ADD CONSTRAINT `quizresults_ibfk_5` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`);
+ADD CONSTRAINT `quizresults_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizzes` (`id`),
+ADD CONSTRAINT `quizresults_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `quizresults_ibfk_3` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
+ADD CONSTRAINT `quizresults_ibfk_4` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+ADD CONSTRAINT `quizresults_ibfk_5` FOREIGN KEY (`course_parent_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  ADD CONSTRAINT `quizzes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `quizcategories` (`id`),
-  ADD CONSTRAINT `quizzes_ibfk_2` FOREIGN KEY (`instructions_page_id`) REFERENCES `instructions` (`id`),
-  ADD CONSTRAINT `quizzes_ibfk_3` FOREIGN KEY (`offline_quiz_category_id`) REFERENCES `quizofflinecategories` (`id`);
+ADD CONSTRAINT `quizzes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `quizcategories` (`id`),
+ADD CONSTRAINT `quizzes_ibfk_2` FOREIGN KEY (`instructions_page_id`) REFERENCES `instructions` (`id`),
+ADD CONSTRAINT `quizzes_ibfk_3` FOREIGN KEY (`offline_quiz_category_id`) REFERENCES `quizofflinecategories` (`id`);
 
 --
 -- Constraints for table `role_user`
 --
 ALTER TABLE `role_user`
-  ADD CONSTRAINT `role_user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `role_user_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `semisters`
 --
 ALTER TABLE `semisters`
-  ADD CONSTRAINT `semisters_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
+ADD CONSTRAINT `semisters_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`);
 
 --
 -- Constraints for table `staff`
 --
 ALTER TABLE `staff`
-  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `studentattendance`
 --
 ALTER TABLE `studentattendance`
-  ADD CONSTRAINT `studentattendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `studentattendance_ibfk_2` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
-  ADD CONSTRAINT `studentattendance_ibfk_3` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `studentattendance_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
+ADD CONSTRAINT `studentattendance_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `studentattendance_ibfk_2` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`),
+ADD CONSTRAINT `studentattendance_ibfk_3` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`),
+ADD CONSTRAINT `studentattendance_ibfk_4` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`);
 
 --
 -- Constraints for table `studentpromotions`
 --
 ALTER TABLE `studentpromotions`
-  ADD CONSTRAINT `studentpromotions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `studentpromotions_ibfk_2` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `studentpromotions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `studentpromotions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `studentpromotions_ibfk_2` FOREIGN KEY (`record_updated_by`) REFERENCES `users` (`id`),
+ADD CONSTRAINT `studentpromotions_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `students`
 --
 ALTER TABLE `students`
-  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`religion_id`) REFERENCES `religions` (`id`),
-  ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `students_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`religion_id`) REFERENCES `religions` (`id`),
+ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
+ADD CONSTRAINT `students_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `subjectpreferences`
 --
 ALTER TABLE `subjectpreferences`
-  ADD CONSTRAINT `subjectpreferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `subjectpreferences_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
-  ADD CONSTRAINT `subjectpreferences_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `subjectpreferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `subjectpreferences_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
+ADD CONSTRAINT `subjectpreferences_ibfk_3` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `timetable`
 --
 ALTER TABLE `timetable`
-  ADD CONSTRAINT `timetable_ibfk_10` FOREIGN KEY (`timingset_map_id`) REFERENCES `timingsetmap` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_11` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_12` FOREIGN KEY (`timingset_details_id`) REFERENCES `timingsetdetails` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_13` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_14` FOREIGN KEY (`timingset_details_id`) REFERENCES `timingsetdetails` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_7` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
-  ADD CONSTRAINT `timetable_ibfk_8` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `timetable_ibfk_9` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
+ADD CONSTRAINT `timetable_ibfk_10` FOREIGN KEY (`timingset_map_id`) REFERENCES `timingsetmap` (`id`),
+ADD CONSTRAINT `timetable_ibfk_11` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+ADD CONSTRAINT `timetable_ibfk_12` FOREIGN KEY (`timingset_details_id`) REFERENCES `timingsetdetails` (`id`),
+ADD CONSTRAINT `timetable_ibfk_13` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+ADD CONSTRAINT `timetable_ibfk_14` FOREIGN KEY (`timingset_details_id`) REFERENCES `timingsetdetails` (`id`),
+ADD CONSTRAINT `timetable_ibfk_7` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
+ADD CONSTRAINT `timetable_ibfk_8` FOREIGN KEY (`academic_id`) REFERENCES `academics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `timetable_ibfk_9` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
 
 --
 -- Constraints for table `timingsetdetails`
 --
 ALTER TABLE `timingsetdetails`
-  ADD CONSTRAINT `timingsetdetails_ibfk_1` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
+ADD CONSTRAINT `timingsetdetails_ibfk_1` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
 
 --
 -- Constraints for table `timingsetmap`
 --
 ALTER TABLE `timingsetmap`
-  ADD CONSTRAINT `timingsetmap_ibfk_6` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
+ADD CONSTRAINT `timingsetmap_ibfk_6` FOREIGN KEY (`timingset_id`) REFERENCES `timingset` (`id`);
 
 --
 -- Constraints for table `topics`
 --
 ALTER TABLE `topics`
-  ADD CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
 
 --
 -- Constraints for table `user_notification`
 --
 ALTER TABLE `user_notification`
-  ADD CONSTRAINT `notifi_id` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `notifi_id` FOREIGN KEY (`notification_id`) REFERENCES `notifications` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
