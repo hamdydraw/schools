@@ -2,11 +2,12 @@
 @if(!isset($load_module) )
  <script src="{{JS}}angular.js"></script>
 @endif
-
+<script src="{{JS}}barcode.js"></script>
 <script>
 
 @if(!isset($load_module) )
-var app = angular.module('academia', []);
+var app = angular.module('academia', ['io-barcode']);
+var app2 = angular.module('special', ['io-barcode']);
 @endif
 
 app.factory('httpPreConfig', function($http, $rootScope, $timeout, $q) {

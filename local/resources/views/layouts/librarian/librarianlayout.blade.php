@@ -201,6 +201,7 @@
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="{{JS}}bootstrap.min.js"></script>
+ <script src="{{JS}}Barcode.min.js"></script>
 
  
 	<!--JS Control-->

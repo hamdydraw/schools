@@ -142,6 +142,9 @@
                                                             </li>
                                                         @endif
                                                     @endfor
+                                                        <li class="text-right" ng-if="user.id_number">
+                                                            <io-barcode code="@{{user.id_number}}" type="CODE128B" options="options" style="width: 200px;height: 100px;margin-top: -14%;"></io-barcode>
+                                                        </li>
                                                     {{--<li><strong>{{getSetting('back_first_item_title','id_card_fields')}}
                                                             : </strong> {{getSetting('back_first_item_text','id_card_fields')}}
                                                     </li>

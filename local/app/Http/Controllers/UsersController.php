@@ -84,6 +84,7 @@ class UsersController extends Controller
                 ->select([
                     'users.name',
                     'image',
+                    'id_number',
                     'email',
                     'roles.display_name',
                     'roles.name as role_name',
@@ -106,6 +107,7 @@ class UsersController extends Controller
                     'users.id',
                     'users.name',
                     'image',
+                    'id_number',
                     'students.roll_no',
                     'courses.course_title',
                     'students.current_year',
@@ -132,6 +134,7 @@ class UsersController extends Controller
                 ->select([
                     'users.name',
                     'image',
+                    'id_number',
                     'staff.staff_id',
                     'staff.job_title',
                     'courses.course_title',
@@ -155,6 +158,7 @@ class UsersController extends Controller
                 ->select([
                     'users.name',
                     'image',
+                    'id_number',
                     'email',
                     'roles.name as role_name',
                     'login_enabled',
@@ -180,8 +184,7 @@ class UsersController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>.
-                        '.$view;
+                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>';
 
                 if ($records->role_name == 'student') {
 
@@ -191,6 +194,8 @@ class UsersController extends Controller
 
                             <li><a href="' . URL_USER_DETAILS . $records->slug . '"><i class="fa fa-university" aria-hidden="true"></i>' . getPhrase("profile") . '</a></li>';
                 }
+
+
 
                 if ($records->role_name == 'staff') {
                     $status_name = getPhrase('make_inactive');
@@ -205,7 +210,7 @@ class UsersController extends Controller
                 }
 
                 $temp = '';
-
+                $link_data.=$view;
                 //Show delete option to only the owner user
                 if (checkRole(getUserGrade(1)) && $records->id != \Auth::user()->id) {
                     $temp = '<li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';

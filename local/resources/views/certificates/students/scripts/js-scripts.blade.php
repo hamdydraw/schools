@@ -1,8 +1,15 @@
 @include('common.angular-factory')
-
 <script>
     app.controller('TabController', function ($scope, $http, $rootScope, httpPreConfig, $location) {
         @include('common.js-script-year-selection')
+
+            $scope.options = {
+            width: 3,
+            height: 100,
+            displayValue: true,
+            textAlign: 'center',
+            fontSize: 25,
+        }
 
             $scope.tab = 1;
         $scope.users = [];
@@ -44,6 +51,7 @@
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
                 result = result.data;
+                console.log(result);
                 /*$scope.result_data = [];*/
                 angular.forEach(result, function (value, key) {
                     $scope.result_data.push(value);
