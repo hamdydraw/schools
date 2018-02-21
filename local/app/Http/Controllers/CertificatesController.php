@@ -278,6 +278,7 @@ class CertificatesController extends Controller
                 'students.user_id as id',
                 'users.name',
                 'roll_no',
+                'id_number',
                 'admission_no',
                 'course_title',
                 'blood_group',

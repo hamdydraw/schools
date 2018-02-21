@@ -547,6 +547,7 @@ class StudentController extends Controller
                 'current_year',
                 'current_semister',
                 'course_dueration',
+                'id_number',
                 'students.academic_id as academic_id',
                 'students.course_id as course_id',
                 'students.user_id as user_id',

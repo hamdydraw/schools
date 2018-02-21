@@ -52,6 +52,7 @@
 
 								<th id="helper_step2">{{ getPhrase('name')}}</th>
 								<th>{{ getPhrase('image')}}</th>
+								<th>{{ getPhrase('ID_number')}}</th>
 								<th>{{ getPhrase('roll_no')}}</th>
 								<th>{{ getPhrase('course')}}</th>
 								<th>{{ getPhrase('year-semester')}}</th>
@@ -62,6 +63,7 @@
 
 								<th>{{ getPhrase('name')}}</th>
 								<th>{{ getPhrase('image')}}</th>
+								<th>{{ getPhrase('ID_number')}}</th>
 								<th>{{ getPhrase('staff_id')}}</th>
 								<th>{{ getPhrase('job_title')}}</th>
 								<th>{{ getPhrase('branch')}}</th>
@@ -72,6 +74,7 @@
 
 								<th>{{ getPhrase('name')}}</th>
 								<th>{{ getPhrase('image')}}</th>
+								<th>{{ getPhrase('ID_number')}}</th>
 								<th>{{ getPhrase('email')}}</th>
 								<th>{{ getPhrase('role')}}</th>
 								<th>{{ getPhrase('action')}}</th>
@@ -80,6 +83,7 @@
 
 								<th>{{ getPhrase('name')}}</th>
 								<th>{{ getPhrase('image')}}</th>
+								<th>{{ getPhrase('ID_number')}}</th>
 								<th>{{ getPhrase('email')}}</th>
 								<th>{{ getPhrase('action')}}</th>
 

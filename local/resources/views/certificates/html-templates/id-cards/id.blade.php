@@ -25,7 +25,9 @@
         }
     </style>
 </head>
-
+<script src="{{JS}}jquery.min.js"></script>
+<script src="{{JS}}jsBarCode.min.js"></script>
+<link rel="stylesheet" href="{{CSS}}bootstrap.css">
 <body>
 <div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
@@ -121,6 +123,23 @@
                         </tr>
                     @endif
                 @endfor
+                @if($users_list[$std]['id_number'] != null)
+                <tr>
+                    <td style="padding: 8px;" class="text-right">
+                            {{--<h3>{{$users_list[$std]['id_number']}}</h3>--}}
+                        <svg class="barcode"
+                             jsbarcode-format="CODE128"
+                             jsbarcode-value="{{$users_list[$std]['id_number']}}"
+                             jsbarcode-textmargin="0"
+                             jsbarcode-fontoptions="bold"
+                        >
+                        </svg>
+                        <script>
+                            JsBarcode(".barcode").init();
+                        </script>
+                    </td>
+                </tr>
+                    @endif
 
 
             </table>

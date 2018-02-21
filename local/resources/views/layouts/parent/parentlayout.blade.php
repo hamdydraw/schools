@@ -380,7 +380,7 @@ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
 	<!-- Bootstrap Core JavaScript -->
 
 	<script src="{{JS}}bootstrap.min.js"></script>
-
+	<script src="{{JS}}Barcode.min.js"></script>
 
      <script src="{{JS}}main.js"></script>
 
