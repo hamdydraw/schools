@@ -379,8 +379,9 @@ class StudentController extends Controller
     public function updateParentDetails(Request $request, $slug)
     {
 
+
         if($request->account == 0){
-            if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '') {
+            if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '' || $request->id_number == '' || strlen($request->id_number) != 10) {
 
                 flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
                 return redirect('student/profile/edit/' . $slug . '/parent');
@@ -404,6 +405,7 @@ class StudentController extends Controller
             $parent_user->role_id = $role_id;
             $parent_user->slug = $parent_user->makeSlug($request->parent_user_name);
             $parent_user->email = $request->parent_email;
+            $parent_user->id_number = $request->id_number;
             $parent_user->password = bcrypt('password');
 
 
@@ -701,6 +703,7 @@ class StudentController extends Controller
         where('name', 'LIKE', '%' . $term . '%')
             ->orWhere('username', 'LIKE', '%' . $term . '%')
             ->orWhere('phone', 'LIKE', '%' . $term . '%')
+            ->orWhere('id_number', 'LIKE', '%' . $term . '%')
             ->groupBy('id')
             ->havingRaw('role_id=' . $role_id)
             ->select(['id', 'role_id', 'name', 'username', 'email', 'phone'])

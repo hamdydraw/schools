@@ -46,7 +46,7 @@
 
 </head>
 
-<body ng-app="academia" ng-controller="pop_it_up">
+<body ng-app="academia">
 
 @if(isset($module_helper))
     <div class="fab-buttons">

@@ -1,10 +1,6 @@
-<script src="{{JS}}angular.js"></script>
-
 
 <Script>
-    var app = angular.module('academia', []);
-    app.controller('pop_it_up', function ($scope, $timeout) {
-    });
+
 
 
     function pop_it(data) {
