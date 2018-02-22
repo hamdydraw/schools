@@ -14,8 +14,8 @@
 							<li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a> </li>
 							<li><a href="{{URL_STUDENT_QUIZ_DASHBOARD}}">{{getPhrase('quizzes_dashboard')}}</a></li>
 							<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> {{getPhrase('quiz_categories')}} </a> </li>
-							 
-							
+
+
 							<li>{{ $title }}</li>
 
 						</ol>
@@ -33,13 +33,13 @@
 							<div class="col-md-12">
 								<h2>{{getPhrase('exam_name')}}:   {{$record->title}} </h2>
 								<h3>{{$instruction_title}}:</h3>
-								@if($instruction_data=='')			
+								@if($instruction_data=='')
 								<ol>
 									<li>Total of {{$record->dueration}} minutes duration will be given to attempt all the questions.</li>
 									<li>The clock has been set at the server and the countdown timer at the top right corner of your screen will display the time remaining for you to complete the exam. When the clock runs out the exam ends by default - you are not required to end or submit your exam.</li>
 									<li>The question palette at the right of screen shows one of the following statuses of each of the questions numbered:</li>
 								</ol>
-								@else 
+								@else
 								{!! $instruction_data !!}
 								@endif
 
@@ -66,22 +66,22 @@
 						<hr>
 						<?php
 						$paid_type =  false;
-						if($record->is_paid && !isItemPurchased($record->id, 'exam'))	
+						if($record->is_paid && !isItemPurchased($record->id, 'exam'))
 						$paid_type = true;
 						?>
 						<div class="form-group row">
 						{!! Form::open(array('url' => 'exams/student/start-exam/'.$record->slug, 'method' => 'POST')) !!}
 							<div class="col-md-12">
-							@if(!$paid_type)	
+							@if(!$paid_type)
 								<input type="checkbox" name="option" id="free" checked="" ng-model="agreeTerms">
 								<label for="free" > <span class="fa-stack checkbox-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase("The_computer_provided_to_me_is_in_proper_working_condition")}}. {{getPhrase("I_have_read_and_understood_the_instructions_given_above")}}. </label>
-								
-								<br><span class="text-danger" ng-show="!agreeTerms">{{ getPhrase('please_accept_terms_and_conditions')}}</span> 
+
+								<br><span class="text-danger" ng-show="!agreeTerms">{{ getPhrase('please_accept_terms_and_conditions')}}</span>
 
 								@endif
 								<div class="text-center">
-									@if($paid_type)	
-									<a href="{{URL_PAYMENTS_CHECKOUT.'exam/'.$record->slug}}" class="btn button btn-lg btn-primary"><i class="icon-credit-card"></i> {{getPhrase('buy_now')}}</a>	
+									@if($paid_type)
+									<a href="{{URL_PAYMENTS_CHECKOUT.'exam/'.$record->slug}}" class="btn button btn-lg btn-primary"><i class="icon-credit-card"></i> {{getPhrase('buy_now')}}</a>
 									@else
 
 									<button ng-if="agreeTerms" class="btn button btn-lg btn-primary">{{getPhrase('start_exam')}}</button>
@@ -100,14 +100,14 @@
 
 		</div>
 @endsection
- 
+
 
 @section('footer_scripts')
   <script src="{{JS}}angular.js"></script>
   <script>
  var app = angular.module('academia', []);
 app.controller('instructions', function($scope, $http) {
-	
+
 });
 </script>
 
