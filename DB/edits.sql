@@ -82,3 +82,4 @@ ALTER TABLE `couponcodes_usage` ADD `created_at` TIMESTAMP;
 
 ALTER TABLE `users` ADD `id_number` VARCHAR(150) NULL DEFAULT NULL AFTER `username`;
 
+ALTER TABLE `users` ADD UNIQUE(`id_number`);

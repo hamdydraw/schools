@@ -465,7 +465,7 @@ class UsersController extends Controller
 
         $columns = array(
             'name' => 'bail|required',
-            'id_number' => 'bail|required|numeric|digits:10',
+            'id_number' => 'bail|required|numeric|digits:10|unique:users,id_number',
             'username' => 'bail|required|unique:users,username',
             'email' => 'bail|required|unique:users,email',
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
@@ -765,7 +765,7 @@ class UsersController extends Controller
          //dd($role_name);
         $validation = [
             'name' => 'bail|required',
-            'id_number' => 'bail|required|numeric|digits:10',
+            'id_number' => 'bail|required|numeric|digits:10|unique:users,id_number,'.$record->id,
             'email' => 'bail|required|unique:users,email,' . $record->id,
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
             'default_lang' => 'required'
