@@ -313,8 +313,7 @@
                 padding:15px; min-height: 470px;">
                                         <table cellpadding="0" width="100%" cellspacing="0" border="0" style="font-family: sans-serif;
                     font-size: 14px; color: #999;
-                    line-height:24px;
-                    margin-bottom: 140px;">
+                    line-height:24px;">
                                             <tbody><br><br><br>
                                             <tr>
                                                 <td align="center" style="padding: 5px 10px; ">
@@ -341,6 +340,12 @@
                                                                 </tr>
                                                                 @endif
                                                                 @endfor
+                                                            <tr class="text-right" ng-if="user.id_number">
+                                                                <td>
+                                                                    <io-barcode code="@{{user.id_number}}" type="CODE128B" options="options" style="width: 200px;height: 100px;"></io-barcode>
+                                                                </td>
+
+                                                            </tr>
 
 
                                                                 </tbody>
