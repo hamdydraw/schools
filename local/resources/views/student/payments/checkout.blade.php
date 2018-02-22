@@ -153,11 +153,11 @@
                             </div>
 
                             <div class="col-md-3  text-right">
-                                <strong>{{ getCurrencyCode().$item->cost }}</strong>
+                                <strong>{{ getCurrencyCode().' '.$item->cost }}</strong>
                             </div>
 
                             <div class="col-md-3  text-right">
-                                <strong>{{ getCurrencyCode().$item->cost }}</strong>
+                                <strong>{{ getCurrencyCode() .' '.$item->cost }}</strong>
                             </div>
 
                         </div>
@@ -206,16 +206,16 @@
 
                                     <li>
 
-                                        <p class="pull-left light">Cart Subtotal</p>
+                                        <p class="pull-left light">{{getPhrase('cart_Subtotal')}}</p>
 
-                                        <p class="pull-right ">{{ getCurrencyCode().$item->cost }}</p>
+                                        <p class="pull-right ">{{ getCurrencyCode().' '.$item->cost }}</p>
 
 
                                     </li>
 
                                     <li>
 
-                                        <p class="pull-left light">Discount</p>
+                                        <p class="pull-left light">{{getPhrase('discount')}}</p>
 
                                         <p class="pull-right">{{ getCurrencyCode()}}
 
@@ -227,7 +227,7 @@
 
                                     <li class="order-total">
 
-                                        <p class="pull-left">Order Total</p>
+                                        <p class="pull-left">{{getPhrase('order_total')}}</p>
 
                                         <p class="pull-right ">{{ getCurrencyCode()}}
 

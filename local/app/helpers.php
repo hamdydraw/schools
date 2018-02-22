@@ -592,7 +592,7 @@ function getHashCode()
  */
 function getCurrencyCode()
 {
-  return getSetting('currency_code', 'site_settings');
+  return getSetting('currency_symbol', 'site_settings');
 }
 
 /**
