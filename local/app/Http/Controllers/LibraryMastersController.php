@@ -89,10 +89,10 @@ class LibraryMastersController extends Controller
 
                             <li><a href="'.URL_LIBRARY_MASTERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
                            
-                            '.$view.'
+                            
 
                              <li><a href="'.URL_LIBRARY_ASSET_DETAILS.$records->slug.'"><i class="fa fa-outdent" aria-hidden="true"></i>'.getPhrase("asset_details").'</a></li>
-
+                            '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
                             
                         </ul>

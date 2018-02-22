@@ -160,6 +160,9 @@ class StudentController extends Controller
         $data['ph_no'] = $phone_number;
         $data['user_name'] = $userRecord->name;
         $data['layout'] = getLayout();
+        foreach ($data['countries'] as $key => $value){
+            $data['countries'][$key] = getPhrase($value);
+        }
 
         return view('users.student.add-edit-student', $data);
     }
@@ -389,6 +392,14 @@ class StudentController extends Controller
             }
         }
 
+        $columns = array(
+            'parent_name' => 'bail|required',
+            'id_number' => 'bail|required|numeric|digits:10|unique:users,id_number',
+            'parent_user_name' => 'bail|required|unique:users,username',
+            'parent_email' => 'bail|required|unique:users,email'
+        );
+
+        $this->validate($request, $columns);
 
         $user = User::where('slug', '=', $slug)->first();
         $role_id = getRoleData('parent');
@@ -406,7 +417,8 @@ class StudentController extends Controller
             $parent_user->slug = $parent_user->makeSlug($request->parent_user_name);
             $parent_user->email = $request->parent_email;
             $parent_user->id_number = $request->id_number;
-            $parent_user->password = bcrypt('password');
+            $parent_user->password = bcrypt($request->parent_password);
+            $parent_user->default_lang = App\Language::getDefaultLanguage();
 
 
             try {
