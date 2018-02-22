@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
-
+<script src="{{JS}}jquery.min.js"></script>
+<script src="{{JS}}jsBarCode.min.js"></script>
+<link rel="stylesheet" href="{{CSS}}bootstrap.css">
 <div id="DivIdToPrint">
     @for($std=0; $std < count($users_list);$std++)
         <table cellpadding="10" width="740" cellspacing="0" border="0" align="center" @if($lang==1) dir="rtl"
@@ -81,7 +83,7 @@
                                 cellspacing="0" border="0"
                                 style="font-family: sans-serif;
                     font-size: 14px; color: #999; 
-                    line-height:24px;margin-bottom: 140px;">
+                    line-height:24px;">
                             <tr>
                                 <td align="center" style="padding: 5px 10px; ">
                                     <img src="{{IMAGE_PATH_SETTINGS.getSetting('template_1_logo', 'id_card_settings')}}"
@@ -107,6 +109,23 @@
                                                 </tr>
                                             @endif
                                         @endfor
+                                            @if($users_list[$std]['id_number'] != null)
+                                                <tr>
+                                                    <td style="padding: 8px;" class="text-right">
+                                                        {{--<h3>{{$users_list[$std]['id_number']}}</h3>--}}
+                                                        <svg class="barcode"
+                                                             jsbarcode-format="CODE128"
+                                                             jsbarcode-value="{{$users_list[$std]['id_number']}}"
+                                                             jsbarcode-textmargin="0"
+                                                             jsbarcode-fontoptions="bold"
+                                                        >
+                                                        </svg>
+                                                        <script>
+                                                            JsBarcode(".barcode").init();
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                     </table>
                                 </td>
                             </tr>
