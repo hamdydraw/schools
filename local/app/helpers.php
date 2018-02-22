@@ -592,7 +592,10 @@ function getHashCode()
  */
 function getCurrencyCode()
 {
-  return getSetting('currency_symbol', 'site_settings');
+  /*return getSetting('currency_symbol', 'site_settings');*/
+  $currency=\App\Settings::where('key','site_settings')->first();
+ return json_decode($currency->settings_data,true)['currency_symbol']['value'];
+
 }
 
 /**

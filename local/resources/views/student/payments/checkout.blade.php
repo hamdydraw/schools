@@ -206,7 +206,7 @@
 
                                     <li>
 
-                                        <p class="pull-left light">{{getPhrase('cart_Subtotal')}}</p>
+                                        <p class="pull-left light">{{getPhrase('cart_subtotal')}}</p>
 
                                         <p class="pull-right ">{{ getCurrencyCode().' '.$item->cost }}</p>
 
