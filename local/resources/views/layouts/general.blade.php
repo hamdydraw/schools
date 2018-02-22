@@ -1,5 +1,6 @@
 @include('layouts.scripts.popup')
-
+<html dir="{{ (App\Language::isDefaultLanuageRtl()) ? 'rtl' : 'ltr' }}">
+<body>
 <div id="appender">
 
 </div>
@@ -16,3 +17,6 @@
     $("#appender").append("<h3>{{getPhrase('created_at')}} : "+window.data.created_at+" </h3>");
     $("#appender").append("<h3>{{getPhrase('updated_at')}} : "+window.data.updated_at+" </h3>");
 </script>
+
+</body>
+</html>

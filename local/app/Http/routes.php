@@ -1082,28 +1082,8 @@ Route::post('/test', function (Request $request) {
     return json_encode($request->all());
 });
 
-Route::get('/by_ip/{db}', function ($db) {
-    $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
-    foreach ($tables as $table){
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_ip VARCHAR(120)");
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_ip VARCHAR(120)");
-    }
-    return json_encode($tables);
-});
 
 
-Route::get('/by_user/{db}', function ($db) {
-    $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
-    foreach ($tables as $table){
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD created_by_user bigint(20) unsigned");
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD updated_by_user bigint(20) unsigned");
-    }
-    return json_encode($tables);
-});
-
-Route::get('/test',function(){
-   return URL::to('/');
-});
 
 Route::get('/popup_data',function (){
     return view("layouts.general");

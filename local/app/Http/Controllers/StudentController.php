@@ -160,6 +160,9 @@ class StudentController extends Controller
         $data['ph_no'] = $phone_number;
         $data['user_name'] = $userRecord->name;
         $data['layout'] = getLayout();
+        foreach ($data['countries'] as $key => $value){
+            $data['countries'][$key] = getPhrase($value);
+        }
 
         return view('users.student.add-edit-student', $data);
     }
