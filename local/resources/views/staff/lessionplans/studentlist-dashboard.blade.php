@@ -32,7 +32,7 @@
                  
 				 <?php 
 
-				 $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id, $subject->staff_id, $subject->id);
+				 $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id, $subject->staff_id, $subject->id,$subject->semister);
 				 $percent_completed = round($summary->percent_completed);
 				 ?>
 				    <div class="col-md-3">

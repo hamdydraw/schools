@@ -13,7 +13,7 @@
             <?php
 
             $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id, $subject->staff_id,
-                $subject->id);
+                $subject->id, $subject->semister);
             $percent_completed = round($summary->percent_completed);
             ?>
             @if($subject->semister !== $semester)

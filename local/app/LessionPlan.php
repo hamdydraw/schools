@@ -61,12 +61,13 @@ class LessionPlan extends Model
      * @param  [type] $subject_id [description]
      * @return [type]             [description]
      */
-    public function getSubjectCompletedStatus($subject_id, $user_id, $course_subject_id)
+    public function getSubjectCompletedStatus($subject_id, $user_id, $course_subject_id, $semester=0)
     {
         //Get the Topics count with the given subject id
         $academic = new Academic();
         $current_academic_id = $academic->getCurrentAcademic()['id'];
         $total_topics = Topic::where('subject_id', '=', $subject_id)
+            ->where('semester_num', $semester)
             ->where('parent_id', '!=', 0)
             ->count();
         $completed_topics = LessionPlan::join('course_subject',
