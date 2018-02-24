@@ -672,13 +672,18 @@ class StudentController extends Controller
                 'roll_no',
                 'admission_no',
                 'course_title',
+                'courses.parent_id as C_id',
                 'blood_group',
                 'mobile',
+                'id_number',
                 'home_phone',
                 'image',
                 'academic_year_title',
                 'current_year',
                 'current_semister',
+                'students.first_name',
+                'students.middle_name',
+                'students.last_name',
                 'fathers_name',
                 'mothers_name',
                 'address_lane1',
@@ -692,6 +697,8 @@ class StudentController extends Controller
                 'is_having_semister'
             ])->limit(10);
 
+
+
         if ($completed_students_request) {
             $certificate_type = $request->certificate_type;
             if ($certificate_type == 'tc') {
@@ -704,6 +711,10 @@ class StudentController extends Controller
         }
 
         $records = $records->get();
+
+        foreach ($records as $record){
+            $record->education_level = Course::where('id',$record->C_id)->pluck('course_title')->first();
+        }
 
         return $records;
     }

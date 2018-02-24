@@ -57,7 +57,7 @@
 
                         <fieldset class="form-group">
                         {{ Form::label ('search', getphrase('search')) }}
-                    <input type="text" class="form-control" name="search" ng-model="search" placeholder="{{'search'}}" ng-change="textChanged(search)">
+                    <input type="text" class="form-control" name="search" ng-model="search" placeholder="{{getPhrase('search')}}" ng-change="textChanged(search)">
                         </fieldset>
                         
                          
@@ -73,10 +73,10 @@
         <thead>
             <th>{{getPhrase('image')}}</th>
             <th>{{getPhrase('name')}}</th>
-            <th>{{getPhrase('roll_no')}}</th>
-            <th>{{getPhrase('admission_no')}}</th>
+            <th>{{getPhrase('academic_year')}}</th>
+            <th>{{getPhrase('Educational_level')}}</th>
             <th>{{getPhrase('class')}}</th>
-            <th>{{getPhrase('year')}}-{{getPhrase('semester')}}</th>
+            <th>{{getPhrase('semester')}}</th>
         </thead>
         <tbody>
         <tr ng-repeat="user in users" id="@{{'selected_'+user.id}}" ng-click="getUserDetails(user)">
@@ -86,9 +86,9 @@
             
             <img ng-if="user.image==null || user.image==''" class="thumb" src="{{IMAGE_PATH_USERS_DEFAULT_THUMB}}">
             </td>
-            <td valign="middle">@{{user.name}}</td>
-            <td valign="middle">@{{user.roll_no}}</td>
-            <td valign="middle">@{{user.admission_no}}</td>
+            <td valign="middle">@{{user.first_name}} @{{ user.middle_name }} @{{ user.last_name }}</td>
+            <td valign="middle">@{{user.academic_year_title}}</td>
+            <td valign="middle">@{{user.education_level}}</td>
             <td valign="middle"> @{{user.academic_title+' '+user.course_title}} </td>
             <td valign="middle"> @{{user.current_year}} 
                 <span ng-if="user.current_semister!=0"> - @{{user.current_semister}}</span> 
