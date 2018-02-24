@@ -27,6 +27,9 @@ class LessionPlansController extends Controller
      */
     public function index($slug)
     {
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
 
         $user = App\User::where('slug', '=', $slug)->first();
 
@@ -34,14 +37,16 @@ class LessionPlansController extends Controller
         if ($isValid = $this->isValidRecord($user)) {
             return redirect($isValid);
         }
-
-        if (!checkRole(getUserGrade(3))) {
-            prepareBlockUserMessage();
-            return back();
+        if ($role != 'educational_supervisor') {
+            if (!checkRole(getUserGrade(3))) {
+                prepareBlockUserMessage();
+                return back();
+            }
         }
-
-        if (!isEligible($slug)) {
-            return back();
+        if ($role != 'educational_supervisor') {
+            if (!isEligible($slug)) {
+                return back();
+            }
         }
 
         $subjects = App\LessionPlan::getSubjects($user->id);

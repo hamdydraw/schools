@@ -67,10 +67,14 @@
 
                             </ul>
                         </div>
-                        {!! Form::open(array('url' => URL_STUDENT_ATTENDENCE_ADD.$userdata->slug, 'method' => 'POST')) !!}
+                        @if($role_name =='staff')
+                            {!! Form::open(array('url' => URL_STUDENT_ATTENDENCE_ADD.$userdata->slug, 'method' => 'POST')) !!}
+                        @elseif($role_name=='educational_supervisor')
+                            {!! Form::open(array('url' => 'supervisor/staff/students-attendance/'.$userdata->slug, 'method' => 'POST')) !!}
+                        @endif
 
 
-                        @if($role_name!='staff')
+                        @if($role_name!='staff' and $role_name!='educational_supervisor')
 
                             <div class="col-md-6">
 
@@ -130,9 +134,9 @@
 
 
                         <div class="text-center">
-                            <button type="submit" class="btn button btn-lg btn-primary">
-                                {{getPhrase('get_details')}}
-                            </button>
+                                <button type="submit" class="btn button btn-lg btn-primary">
+                                    {{getPhrase('get_details')}}
+                                </button>
                         </div>
 
 

@@ -189,6 +189,23 @@ Route::get('staff/profile/{slug}', 'StaffController@show');
 Route::get('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@subjectPreferences');
 Route::post('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@update');
 
+//supervisors
+Route::get('mastersettings/supervisor/assign-staff', 'SupervisorController@index');
+Route::get('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@assignStuff');
+Route::post('mastersettings/mastersettings/assign-staff/check-status', 'SupervisorController@checkStatus');
+
+Route::get('supervisor/staff/{slug}', 'SupervisorController@getTeachers');
+Route::get('supervisor/staff/lesson-plans/{slug}', 'LessionPlansController@index');
+Route::get('supervisor/staff/teacher-timetable/{slug}', 'TimetableController@staffTimetable');
+Route::get('supervisor/staff/assign-subject/{slug}', 'SubjectPreferencesController@subjectPreferences');
+Route::get('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@index');
+Route::post('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@create');
+Route::post('supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
+
+Route::get('supervisor/staff/students-marks/{slug}', 'SupervisorController@getStudentsView');
+Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
+
+
 Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //////////////////////
 //Parent Controller //
@@ -244,6 +261,7 @@ Route::get('mastersettings/academics/get-academics', 'AcademicsController@getAca
 
 //Academic Courses
 Route::post('mastersettings/academic-courses/check-status', 'AcademicCoursesController@checkStatus');
+
 
 Route::get('mastersettings/academic-courses/{slug}', 'AcademicCoursesController@academicCoursesArrangment');
 Route::post('mastersettings/academic-courses/{slug}', 'AcademicCoursesController@updateAcademicCourses');
