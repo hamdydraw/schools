@@ -2,7 +2,7 @@
 		<h2>{{getPhrase('User_Profile')}}</h2></div>
  
 <div ng-if="selected_user==null || selected_user==''" class="panel-body">
-Select User to view details
+	{{getPhrase('Select_User_to_view_details')}}
 </div>
 
 	
