@@ -334,7 +334,7 @@ function getUserWithSlug($slug='')
     if(checkRole(['parent']))
         $layout             = 'layouts.parent.parentlayout';
 
-    if(checkRole(['staff']))
+    if(checkRole(['staff','educational_supervisor']))
         $layout             = 'layouts.staff.stafflayout';
 
     if(checkRole(['librarian','assistant_librarian']))
@@ -594,7 +594,7 @@ function getCurrencyCode()
 {
   /*return getSetting('currency_symbol', 'site_settings');*/
   $currency=\App\Settings::where('key','site_settings')->first();
- return json_decode($currency->settings_data,true)['currency_symbol']['value'];
+ return typeOf($currency->settings_data);
 
 }
 

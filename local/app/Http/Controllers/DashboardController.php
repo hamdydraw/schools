@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $role = getRoleData($user->role_id);
 
         if ($role == 'admin' || $role == 'owner' || $role == 'staff'
-            || $role == 'librarian' || $role == 'assistant_librarian') {
+            || $role == 'librarian' || $role == 'assistant_librarian' || $role == 'educational_supervisor') {
 
 
             if ($role == 'librarian' || $role == 'assistant_librarian') {
@@ -104,11 +104,20 @@ class DashboardController extends Controller
                 $view_page = 'admin.dashboard';
                 $data['module_helper'] = getModuleHelper('owner-dashboard');
             }
-            if ($role == 'staff') {
+            if ($role == 'staff' || $role == 'educational_supervisor') {
                 $view_page = 'staff.dashboard';
-                $data['right_bar'] = true;
-                $data['right_bar_path'] = 'staff.right-bar';
-                $data['right_bar_data'] = array();
+
+                if ($role == 'educational_supervisor')
+                {
+                    $data['role']='educational_supervisor';
+                }
+                if ($role == 'staff')
+                {
+                    $data['role']='staff';
+                    $data['right_bar'] = true;
+                    $data['right_bar_path'] = 'staff.right-bar';
+                    $data['right_bar_data'] = array();
+                }
 
             }
 

@@ -24,17 +24,23 @@ class StudentAttendanceController extends Controller
     public function index($slug)
     {
         $user = App\User::where('slug', '=', $slug)->first();
-
-        if (!checkRole(getUserGrade(11))) {
-            prepareBlockUserMessage();
-            return back();
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
+        if ($role != 'educational_supervisor') {
+            if (!checkRole(getUserGrade(11))) {
+                prepareBlockUserMessage();
+                return back();
+            }
+        }
+        if ($role != 'educational_supervisor') {
+            if (!isEligible($slug)) {
+                return back();
+            }
         }
 
-        if (!isEligible($slug)) {
-            return back();
-        }
-
-        $current_academic_id = getDefaultAcademicId();
+        $current_academic_id = new Academic();
+        $current_academic_id=$current_academic_id->getCurrentAcademic()->id;
 
         /**
          * 1) Get the list of records from course_subjects table with
@@ -192,11 +198,15 @@ class StudentAttendanceController extends Controller
     {
 
         $user = App\User::where('slug', '=', $slug)->first();
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
+        if ($role != 'educational_supervisor') {
+            if (!checkRole(getUserGrade(3))) {
 
-        if (!checkRole(getUserGrade(3))) {
-
-            prepareBlockUserMessage();
-            return back();
+                prepareBlockUserMessage();
+                return back();
+            }
         }
         if ($request->course_subject_id == '' || $request->total_class == '' || $request->attendance_date == '') {
 

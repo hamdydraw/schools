@@ -56,9 +56,17 @@ if (!isset($right_bar))
 <?php
 $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
 $settings = json_decode($settings->settings_data);
-$total   = 0;
-if($settings->push_notifications->value == 1){$total+=\App\user_notifications::get_new_count();}
-if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
+$total = 0;
+if ($settings->push_notifications->value == 1) {
+    $total += \App\user_notifications::get_new_count();
+}
+if ($settings->messaging->value == 1) {
+    $total += Auth::user()->newThreadsCount();
+}
+?>
+<?php
+$user = getUserRecord();
+$role = getRoleData($user->role_id);
 ?>
 <div id="wrapper" class="{{$class}}">
     <!-- Navigation -->
@@ -82,7 +90,7 @@ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
                         @if($settings->push_notifications->value == 1 || $settings->messaging->value == 1)
-                        <h6 class="badge badge-success">{{ $total }}</h6>
+                            <h6 class="badge badge-success">{{ $total }}</h6>
                         @endif
                         <div class="username">
                             <h2>{{Auth::user()->name}}</h2>
@@ -164,55 +172,83 @@ if($settings->messaging->value == 1){$total+=Auth::user()->newThreadsCount();}
     <aside class="left-sidebar">
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
+
                 <li {{ isActive($active_class, 'dashboard') }}>
                     <a href="{{PREFIX}}">
                         <i class="icon-home"></i> {{ getPhrase('dashboard') }}
                     </a>
                 </li>
+                @if($role == 'staff')
+                    <li {{ isActive($active_class, 'subjectPreferences') }} >
 
-                <li {{ isActive($active_class, 'subjectPreferences') }} >
+                        <a href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">
+                            <i class="fa fa-hand-o-up"></i>{{ getPhrase('subject_preferences') }}</a></li>
 
-                    <a href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">
-                        <i class="fa fa-hand-o-up"></i>{{ getPhrase('subject_preferences') }}</a></li>
+                    <li {{ isActive($active_class, 'academic') }} >
 
-                <li {{ isActive($active_class, 'academic') }} >
+                        <a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
+                            <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }}</a></li>
 
-                    <a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
-                        <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }}</a></li>
+                    <li {{ isActive($active_class, 'lession') }} >
 
-                <li {{ isActive($active_class, 'lession') }} >
+                        <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
+                            <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
 
-                    <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
-                        <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
+                    <li {{ isActive($active_class, 'timetable') }} >
 
-                <li {{ isActive($active_class, 'timetable') }} >
+                        <a href="{{URL_TIMETABLE_STAFF.Auth::user()->slug}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('timetable') }}</a></li>
 
-                    <a href="{{URL_TIMETABLE_STAFF.Auth::user()->slug}}">
-                        <i class="fa fa-calendar"></i>{{ getPhrase('timetable') }}</a></li>
+                    </li>
 
-                </li>
-
-                @if($settings->messaging->value == 1)
-                    @if($messages_module)
-                        <li {{ isActive($active_class, 'messages') }} >
-                            <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x" aria-hidden="true"><h5
-                                                class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
-                                {{ getPhrase('messages')}} </a>
+                    @if($settings->messaging->value == 1)
+                        @if($messages_module)
+                            <li {{ isActive($active_class, 'messages') }} >
+                                <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x"
+                                                                    aria-hidden="true"><h5
+                                                    class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
+                                    {{ getPhrase('messages')}} </a>
 
 
+                        @endif
                     @endif
-                @endif
-                @if($settings->push_notifications->value == 1)
-                    <li {{ isActive($active_class, 'notifications') }} >
+                    @if($settings->push_notifications->value == 1)
+                        <li {{ isActive($active_class, 'notifications') }} >
 
-                        <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
+                            <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
 
-                            {{ getPhrase('notifications') }} </a>
+                                {{ getPhrase('notifications') }} </a>
 
+
+                        </li>
+                    @endif
+                @else
+                    <li>
+                        <a href="{{url('supervisor/staff/teachers-subjects')}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
+
+                    </li>
+                    <li>
+                        <a href="{{url('supervisor/staff/staff-topic-plan')}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
+
+                    </li>
+                    <li>
+                        <a href="{{url('supervisor/staff/teacher-student-attendence')}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
+
+                    </li>
+                    <li>
+                        <a href="{{url('supervisor/staff/teachers-timetable')}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('teachers_timetables') }}</a></li>
+
+                    </li>
+                    <li>
+                        <a href="{{url('supervisor/staff/students-marks/teacher5')}}">
+                            <i class="fa fa-calendar"></i>{{ getPhrase('teacher_students_marks') }}</a></li>
 
                     </li>
                 @endif
-
             </ul>
         </div>
     </aside>
