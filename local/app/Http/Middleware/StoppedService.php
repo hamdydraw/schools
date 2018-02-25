@@ -16,7 +16,7 @@ class StoppedService
         {
             return $next($request);
         }
-        flash(getPhrase('not_allowed'), getPhrase('this_service_is_not_available_now'), 'success');
+        flash(getPhrase('not_allowed'), getPhrase('this_service_is_not_available_now'), 'error');
         return redirect()->back();
     }
 }

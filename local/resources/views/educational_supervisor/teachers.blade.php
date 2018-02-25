@@ -32,7 +32,7 @@
     <table id="customers">
         <tr>
             <th>
-                {{getPhrase('supervisor_name')}}</th>
+                @if($roleNameOfAuth == 9) {{getPhrase('teacher_name')}}</th> @else {{getPhrase('supervisor_name')}}</th> @endif
             <th>{{getPhrase('action')}}</th>
         </tr>
         @foreach($teachers as $teacher)
@@ -58,6 +58,10 @@
                             @elseif(isset($timetable))
                                 <li>
                                     <a href="{{url('supervisor/staff/teacher-timetable/'.$teacher->slug)}}">{{getPhrase('timetable')}}</a>
+                                </li>
+                            @elseif(isset($marks))
+                                <li>
+                                    <a href="{{url('supervisor/staff/students-marks/'.$teacher->slug)}}">{{getPhrase('students_marks')}}</a>
                                 </li>
                             @endif
                         </ul>

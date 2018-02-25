@@ -17,14 +17,20 @@
                                 </i>
                             </a>
                         </li>
-                        @if($role_name!='staff')
+                        @if($role_name!='staff' and $role_name !='educational_supervisor')
                             <li>
                                 <a href="{{URL_ACADEMICOPERATIONS_DASHBOARD}}">
                                     {{getPhrase('academic_operations')}}
                                 </a>
                             </li>
+                        @elseif($role_name =='educational_supervisor' or $role_name == 'staff')
+                            <li>{{getPhrase('student_attendance_of_teacher')}}</li>
+                            <li>
+                                <a href="">
+                                    {{$slugData->name}}
+                                </a>
+                            </li>
                         @endif
-                        <li>{{getphrase('particulars')}}</li>
                     </ol>
                 </div>
             </div>
@@ -134,9 +140,9 @@
 
 
                         <div class="text-center">
-                                <button type="submit" class="btn button btn-lg btn-primary">
-                                    {{getPhrase('get_details')}}
-                                </button>
+                            <button type="submit" class="btn button btn-lg btn-primary">
+                                {{getPhrase('get_details')}}
+                            </button>
                         </div>
 
 

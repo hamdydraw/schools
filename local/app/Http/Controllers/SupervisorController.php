@@ -23,6 +23,10 @@ class SupervisorController extends Controller
 
     public function index()
     {
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
         $data['active_class'] = 'dashboard';
 
 
@@ -33,10 +37,11 @@ class SupervisorController extends Controller
     }
     public function getStudentsView($slug)
     {
+        $user=User::where('slug',$slug)->first(['name']);
         $data['title'] = getPhrase('students-marks-of-teacher');
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['slug'] = $slug;
+        $data['slug'] = $user;
         return view('educational_supervisor.students-marks',$data);
     }
     public function getSubjectMarks($user_id, $subject_id)
@@ -163,6 +168,8 @@ class SupervisorController extends Controller
     }
     public function getTeachers($slug)
     {
+        $roleNameOfAuth=Auth::user()->role_id;
+        $data['roleNameOfAuth']=$roleNameOfAuth;
         $data['active_class'] = 'dashboard';
         $data['layout'] = getLayout();
         $data['title'] = getPhrase('dashboard');
@@ -182,6 +189,8 @@ class SupervisorController extends Controller
             $data['attendance'] = true;
         } elseif ($slug == 'teachers-timetable') {
             $data['timetable'] = true;
+        } elseif ($slug == 'students-marks') {
+            $data['marks'] = true;
         }
         return view('educational_supervisor.teachers', $data);
     }
@@ -268,9 +277,99 @@ class SupervisorController extends Controller
 
     public function checkStatus(Request $request)
     {
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
         $supervisorId = $request->supervisorId;
         $staffId = $request->staffId;
-        $toDelete = SupervisorStaff::where('supervisor_id', $supervisorId)->where('staff_id', $staffId)->delete();
+        SupervisorStaff::where('supervisor_id', $supervisorId)->where('staff_id', $staffId)->delete();
+
+    }
+    public function printClassMarks(Request $request,$slug)
+    {
+        $user=User::where('slug',$slug)->first(['id','name']);
+        $currentAcademic=new Academic();
+        $currentAcademic=$currentAcademic->getCurrentAcademic()->id;
+        $currentSemester=new AcademicSemester();
+        $currentSemester=$currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
+        $quiz_details = Quiz::get();
+        $subjects = QuizApplicability::
+
+
+        join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+            ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+            ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
+            /* ->where('course_subject.staff_id',$user->id)*/
+            ->where('quizapplicability.academic_id', '=', $currentAcademic)
+            ->where('quizapplicability.semister', '=', $currentSemester)
+            ->select([
+                'quizzes.id as quiz_id',
+                'quizzes.title',
+                'quizzes.subject_id',
+                'subject_title',
+                'subject_code',
+                'quizzes.offline_quiz_category_id',
+                'total_marks'
+            ])
+            ->groupBy('quiz_id')
+            ->get();
+        foreach ($quiz_details as $quiz_datail) {
+            $students = Student::join('users', 'users.id', '=', 'students.user_id')
+                ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
+                ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+                ->where('quizresults.academic_id', '=', $currentAcademic)
+                ->where('quizresults.semister', '=', $currentSemester)
+                ->groupBy('roll_no')
+                ->select([
+                    'users.id as user_id',
+                    'roll_no',
+                    'name',
+                    'image',
+                    'students.id as student_id',
+                    'users.slug as user_slug'
+                ])
+                ->get();
+        }
+        $students_list = [];
+        $final_list = [];
+
+        foreach ($students as $student) {
+            $temp = [];
+            $temp['user_id'] = $student->user_id;
+            $temp['name'] = $student->name;
+            $temp['roll_no'] = $student->roll_no;
+            $temp['image'] = $student->image;
+            $temp['slug'] = $student->user_slug;
+            $subject_marks = [];
+            $average = 0;
+            foreach ($subjects as $subject) {
+                $marks_records = $this->getSubjectMarks($student->user_id,
+                    $subject->subject_id);
+
+                $subject_marks['subject_id'] = $subject->subject_id;
+                $subject_marks['subject_title'] = $subject->subject_title;
+                $subject_marks['subject_code'] = $subject->subject_code;
+                $subject_marks ['score'] = isset($marks_records) ? $marks_records : null;
+                $subject_marks ['percentage'] = isset($marks_records->percentage) ? $marks_records->percentage : 0;
+                $average = $average + $subject_marks ['percentage'];
+                $temp['marks'][] = $subject_marks;
+            }
+            $temp['average'] = 0;
+            $total_subjects = count($subjects);
+
+            if ($total_subjects) {
+                $temp['average'] = round($average / count($subjects));
+            }
+
+            $students_list[] = $temp;
+
+        }
+        $final_list['students'] = $students_list;
+        $final_list['subjects'] = $subjects;
+        $data ['final_list'] = $final_list;
+        $data['title']=getPhrase('students_marks_of_teacher').$user->name;
+        return view('educational_supervisor.print_marks',$data);
 
     }
 }

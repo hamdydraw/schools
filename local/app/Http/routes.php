@@ -12,7 +12,6 @@
 */
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
 
@@ -190,21 +189,25 @@ Route::get('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@su
 Route::post('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@update');
 
 //supervisors
+
 Route::get('mastersettings/supervisor/assign-staff', 'SupervisorController@index');
 Route::get('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@assignStuff');
 Route::post('mastersettings/mastersettings/assign-staff/check-status', 'SupervisorController@checkStatus');
 
+
 Route::get('supervisor/staff/{slug}', 'SupervisorController@getTeachers');
-Route::get('supervisor/staff/lesson-plans/{slug}', 'LessionPlansController@index');
-Route::get('supervisor/staff/teacher-timetable/{slug}', 'TimetableController@staffTimetable');
-Route::get('supervisor/staff/assign-subject/{slug}', 'SubjectPreferencesController@subjectPreferences');
-Route::get('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@index');
-Route::post('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@create');
-Route::post('supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
+Route::group(['middleware' => 'supervisor'], function () {
+    Route::get('supervisor/staff/lesson-plans/{slug}', 'LessionPlansController@index');
+    Route::get('supervisor/staff/teacher-timetable/{slug}', 'TimetableController@staffTimetable');
+    Route::get('supervisor/staff/assign-subject/{slug}', 'SubjectPreferencesController@subjectPreferences');
+    Route::get('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@index');
+    Route::post('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@create');
+    Route::post('supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
 
-Route::get('supervisor/staff/students-marks/{slug}', 'SupervisorController@getStudentsView');
-Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
-
+    Route::get('supervisor/staff/students-marks/{slug}', 'SupervisorController@getStudentsView');
+    Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
+    Route::post('supervisor/staff/print-students-marks/{slug}', 'SupervisorController@printClassMarks');
+});
 
 Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //////////////////////
@@ -1101,9 +1104,7 @@ Route::post('/test', function (Request $request) {
 });
 
 
-
-
-Route::get('/popup_data',function (){
+Route::get('/popup_data', function () {
     return view("layouts.general");
 });
 

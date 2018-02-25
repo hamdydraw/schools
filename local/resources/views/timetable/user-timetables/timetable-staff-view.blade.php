@@ -9,6 +9,7 @@
     if (isset($allocated_periods)) {
         $data = $allocated_periods;
     }
+    $roleId=Auth::user()->role_id;
     ?>
     <div ng-controller="TimetableController" ng-init="ingAngData({{$data}})">
         @stop
@@ -24,6 +25,11 @@
                                         </i>
                                     </a>
                                 </li>
+                                <li>
+
+                                    {{$title}}
+
+                                </li>
                                 @if($role!='staff')
                                     <li>
                                         <a href="{{URL_TIMETABLE_DASHBOARD}}">
@@ -38,12 +44,7 @@
                                     <li><a href="{{URL_USERS."staff"}}">{{ getPhrase('staff_users') }}</a></li>
                                 @endif
                                 <li>
-                                    <a href="{{URL_STAFF_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a>
-                                </li>
-                                <li>
-
-                                    {{$title}}
-
+                                    <a href="@if($roleId!= 9){{URL_STAFF_DETAILS.$record->slug}}@endif">{{ $record->name }}</a>
                                 </li>
                             </ol>
                         </div>

@@ -17,20 +17,18 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL_ACADEMICOPERATIONS_DASHBOARD}}">
+                            <a href="">
                                 {{getPhrase('teacher_students_marks')}}
                             </a>
                         </li>
 
                         <li>
-
-                            {{getPhrase($slug.'_students_marks')}}
-
+                            {{$slug->name.getPhrase('students_marks')}}
                         </li>
                     </ol>
                 </div>
             </div>
-            {!! Form::open(array('url' => URL_PRINT_CLASS_OFFLINE_MARKS_REPORT, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
+            {!! Form::open(array('url' => 'supervisor/staff/print-students-marks/'.$slug, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
 
             <div class="panel panel-custom">
                 <div class="panel-body instruction">
@@ -74,7 +72,7 @@
                             <th style="border:1px solid #000;">{{getPhrase('roll_no')}}</th>
                             <th style="border:1px solid #000;" ng-repeat="subject in subjects">@{{subject.subject_code}} (@{{subject.total_marks}})</th>
                             <th style="border:1px solid #000;">AVG. %</th>
-                            <th style="border:1px solid #000;">{{getPhrase('excellence_grade')}}</th>
+                            <th style="border:1px solid #000;">{{getPhrase('excellence_level')}}</th>
 
                             </thead>
                             <tbody>
@@ -95,7 +93,7 @@
 
                                 </td>
                                 <td style="border:1px solid #000;" ng-if="student.average >= 70">{{getPhrase('excellent_level')}}</td>
-                                <td style="border:1px solid #000;" ng-if="student.average < 70">{{getPhrase('low_level')}}</td>
+                                <td style="border:1px solid #000;" ng-if="student.average < 70">{{getPhrase('ordinary_level')}}</td>
                             </tr>
                             </tbody>
                         </table>
