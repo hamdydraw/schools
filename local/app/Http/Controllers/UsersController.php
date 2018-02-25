@@ -48,7 +48,7 @@ class UsersController extends Controller
             return back();
         }
 
-        $expected_roles = ['owner', 'admin', 'staff', 'student', 'librarian', 'assistant_librarian', 'parent', 'users'];
+        $expected_roles = ['owner','educational_supervisor','admin', 'staff', 'student', 'librarian', 'assistant_librarian', 'parent', 'users'];
 
         if (!in_array($role, $expected_roles)) {
             $role = 'student';

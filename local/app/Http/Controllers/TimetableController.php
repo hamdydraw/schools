@@ -205,17 +205,17 @@ class TimetableController extends Controller
                 if ($user_id == 0) {
                     $timetable_record = $timetable_record
                         ->where('timetable.academic_id', '=', $academic_id)
-                        ->where('timetable.course_id', '=', $course_id)
-                        ->where('timetable.year', '=', $year)
-                        ->where('timetable.semister', '=', $semister);
+                        ->where('timetable.course_id', '=', $course_id);
+                       /* ->where('timetable.year', '=', $year)
+                        ->where('timetable.semister', '=', $semister);*/
 
                 }
                 $timetable_record = $timetable_record->where('day', '=', $record->day)
                     ->where('timetable.academic_id', '=', $academic_id)
                     ->where('timingset_id', '=', $record->timingset_id)
                     ->where('timingset_map_id', '=', $record->map_id)
-                    ->where('timingset_details_id', '=', $details->id)
-                    ->where('timetable.semister', '=', $semister);
+                    ->where('timingset_details_id', '=', $details->id);
+                  /*  ->where('timetable.semister', '=', $semister);*/
 
                 if ($user_id != 0) {
                     $timetable_record = $timetable_record->where('timetable.user_id', '=', $user_id);
@@ -785,10 +785,11 @@ class TimetableController extends Controller
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('timetable');
         $days = getDay();
-
+        $academicSemester = new App\AcademicSemester();
+        $currentSemester = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
         if ($user_id) {
             //Print Staff Timetable
-            $allocated_periods = (object)$this->getSchedules($academic_id, 0, 0, 0, $user_id);
+            $allocated_periods = (object)$this->getSchedules($academic_id, 0, 0, $currentSemester['sem_num'], $user_id);
 
             if (!count($allocated_periods->timemaps[1]['timeset'])) {
                 flash(getPhrase('Ooops'), getPhrase('Time_table_is_not_allocated_for_you'), 'overlay');

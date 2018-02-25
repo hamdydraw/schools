@@ -17,7 +17,6 @@
                             <ol class="breadcrumb">
                                 <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
                                 <li><a href="{{URL_COURSES_DASHBOARD}}">{{getphrase('master_setup_dashboard')}}</a></li>
-                                <li><a href="{{URL_MASTERSETTINGS_ACADEMICS}}">{{ getPhrase('academics')}}</a></li>
                                 <li class="active">{{isset($title) ? $title : ''}}</li>
                             </ol>
                         </div>
@@ -29,7 +28,7 @@
 
                         <div class="panel-heading">
                             <div class="pull-right messages-buttons helper_step1">
-                                <a href="{{URL_MASTERSETTINGS_ACADEMICS}}"
+                                <a href="{{url('mastersettings/supervisor/assign-staff')}}"
                                    class="btn  btn-primary button">{{ getPhrase('list')}}</a>
                             </div>
                             <h1>{{ $title }}  </h1>
@@ -39,7 +38,7 @@
 
                             <?php $button_name = getPhrase('update'); ?>
                             {{ Form::model($record,
-                            array('url' => 'supervisor/assign-staff/'.$record->slug,
+                            array('url' => 'mastersettings/supervisor/assign-staff/'.$record->slug,
                             'method'=>'post')) }}
 
 

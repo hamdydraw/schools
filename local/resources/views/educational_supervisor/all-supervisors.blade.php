@@ -1,61 +1,42 @@
 @extends($layout)
 
 @section('content')
-    <style>
-        #customers {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 50%;
-            margin-top: 60px;
-            margin-right: 350px;
-            text-align: center;
-        }
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
 
-        #customers td, #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+                        <li><a href="{{URL_COURSES_DASHBOARD}}">{{ getPhrase('master_setup_dashboard')}}</a></li>
+                        <li><a href="">{{ getPhrase('assign_teachers_to_supervisor')}}</a></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="panel panel-custom">
+                <div class="panel-body packages">
+                    <div>
+                        <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
 
-        #customers tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+                                <th id="helper_step2">{{ getPhrase('supervisor_name')}}</th>
+                                <th id="helper_step3">{{ getPhrase('action')}}</th>
 
-        #customers tr:hover {
-            background-color: #ddd;
-        }
+                            </tr>
+                            </thead>
 
-        #customers th {
-            text-align: center;
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
-    <table id="customers">
-        <tr>
-            <th>
-                {{getPhrase('supervisor_name')}}</th>
-            <th>{{getPhrase('action')}}</th>
-        </tr>
-        @foreach($supervisors as $supervisor)
-            <tr>
-                <td>{{$supervisor->name}}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">---
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{{url('mastersettings/supervisor/assign-staff/'.$supervisor->slug)}}">{{getPhrase('assign_teachers')}}</a>
-                            </li>
-                        </ul>
+                        </table>
+
+
                     </div>
-                </td>
-            </tr>
-        @endforeach
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('footer_scripts')
-
-
+    @include('common.datatables', array('route'=>'supervisors.dataTable'))
 @stop

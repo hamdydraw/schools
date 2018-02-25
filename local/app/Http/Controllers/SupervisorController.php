@@ -13,6 +13,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\Datatables\Datatables;
 
 class SupervisorController extends Controller
 {
@@ -32,34 +33,90 @@ class SupervisorController extends Controller
 
         $data['layout'] = getLayout();
         $data['title'] = getPhrase('dashboard');
-        $data['supervisors'] = User::where('role_id', 9)->get(['id', 'name', 'username', 'slug']);
         return view('educational_supervisor.all-supervisors', $data);
     }
+
+    public function getDatatableOfTeachers()
+    {
+
+        $records = User::join('supervisors_staff', 'supervisors_staff.staff_id', '=', 'users.id')
+            ->where('supervisors_staff.supervisor_id', Auth::user()->id)->get([
+                'users.name',
+                'users.slug'
+            ]);
+        $currentSlug = explode('/', $_SERVER['HTTP_REFERER']);
+        $currentSlug = $currentSlug[count($currentSlug) - 1];
+        $link='';
+        $titleOfAction='';
+        if ($currentSlug == 'teachers-subjects') {
+            $link='assign-subject/';
+            $titleOfAction='assign_subject_to_teacher';
+        } elseif ($currentSlug == 'staff-topic-plan') {
+            $link='lesson-plans/';
+            $titleOfAction='lesson_plans_of_teacher';
+        } elseif ($currentSlug == 'teacher-student-attendance') {
+            $link='students-attendance/';
+            $titleOfAction='teacher_students_attendance';
+        } elseif ($currentSlug == 'teachers-timetable') {
+            $link='teacher-timetable/';
+            $titleOfAction='teacher_timetable';
+        } elseif ($currentSlug == 'students-marks') {
+            $link='students-marks/';
+            $titleOfAction='students_marks';
+        }
+
+        return Datatables::of($records)
+            ->addColumn('action', function ($records) use ($link,$titleOfAction) {
+                return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li>
+                       
+                            <a href="'.$link.$records->slug.'"><i class="fa fa-pencil"></i>' . getPhrase("$titleOfAction") . '</a></li>
+                            
+                            </ul>
+                    </div>';
+            })
+            ->removeColumn('id')
+            ->removeColumn('username')
+            ->removeColumn('slug')
+            ->make();
+    }
+
+    public function getDatatable()
+    {
+        $records = User::where('role_id', 9)->get(['name', 'slug']);
+        return Datatables::of($records)
+            ->addColumn('action', function ($records) {
+                return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li>
+                       
+                            <a href="assign-staff/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("assign_teachers_to_supervisor") . '</a></li>
+                            
+                            </ul>
+                    </div>';
+            })
+            ->removeColumn('slug')
+            ->make();
+    }
+
     public function getStudentsView($slug)
     {
-        $user=User::where('slug',$slug)->first(['name']);
+        $user = User::where('slug', $slug)->first(['name']);
         $data['title'] = getPhrase('students-marks-of-teacher');
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['slug'] = $user;
-        return view('educational_supervisor.students-marks',$data);
+        return view('educational_supervisor.students-marks', $data);
     }
-    public function getSubjectMarks($user_id, $subject_id)
-    {
-        $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
-            ->where('quizzes.subject_id', '=', $subject_id)
-            ->where('quizresults.user_id', '=', $user_id)
-            ->select([
-                'user_id',
-                'quizresults.marks_obtained',
-                'subject_id',
-                'quizresults.total_marks',
-                'quizresults.percentage',
-                'quizresults.exam_status'
-            ])->first();
-        return $records;
-    }
-    public function getClassMarks(Request $request,$slug)
+
+    public function getClassMarks(Request $request, $slug)
     {
         /*$academic_id = $request->academic_id;
         $course_id = $request->course_id;
@@ -84,11 +141,11 @@ class SupervisorController extends Controller
             $title .= ' ' . $offline_quiz_category->title . ' class marks';
         }*/
 
-        $user=User::where('slug',$slug)->first(['id']);
-        $currentAcademic=new Academic();
-        $currentAcademic=$currentAcademic->getCurrentAcademic()->id;
-        $currentSemester=new AcademicSemester();
-        $currentSemester=$currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
+        $user = User::where('slug', $slug)->first(['id']);
+        $currentAcademic = new Academic();
+        $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
+        $currentSemester = new AcademicSemester();
+        $currentSemester = $currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
         $quiz_details = Quiz::get();
         $subjects = QuizApplicability::
 
@@ -96,7 +153,7 @@ class SupervisorController extends Controller
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-           /* ->where('course_subject.staff_id',$user->id)*/
+            /* ->where('course_subject.staff_id',$user->id)*/
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
             ->where('quizapplicability.semister', '=', $currentSemester)
             ->select([
@@ -163,34 +220,42 @@ class SupervisorController extends Controller
         }
         $final_list['students'] = $students_list;
         $final_list['subjects'] = $subjects;
-       // $final_list['course_title'] = $title;
+        // $final_list['course_title'] = $title;
         return $final_list;
     }
+
+    public function getSubjectMarks($user_id, $subject_id)
+    {
+        $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
+            ->where('quizzes.subject_id', '=', $subject_id)
+            ->where('quizresults.user_id', '=', $user_id)
+            ->select([
+                'user_id',
+                'quizresults.marks_obtained',
+                'subject_id',
+                'quizresults.total_marks',
+                'quizresults.percentage',
+                'quizresults.exam_status'
+            ])->first();
+        return $records;
+    }
+
     public function getTeachers($slug)
     {
-        $roleNameOfAuth=Auth::user()->role_id;
-        $data['roleNameOfAuth']=$roleNameOfAuth;
+        $roleNameOfAuth = Auth::user()->role_id;
+        $data['roleNameOfAuth'] = $roleNameOfAuth;
         $data['active_class'] = 'dashboard';
         $data['layout'] = getLayout();
-        $data['title'] = getPhrase('dashboard');
-        $allocated_staff = User::join('supervisors_staff', 'supervisors_staff.staff_id', '=', 'users.id')
-            ->where('supervisors_staff.supervisor_id', Auth::user()->id)->get([
-                'users.id',
-                'users.name',
-                'users.username',
-                'users.slug'
-            ]);
-        $data['teachers'] = $allocated_staff;
         if ($slug == 'teachers-subjects') {
-            $data['subjects'] = true;
+            $data['title']=getPhrase('assign_subjects_to_teachers');
         } elseif ($slug == 'staff-topic-plan') {
-            $data['topic_plans'] = true;
-        } elseif ($slug == 'teacher-student-attendence') {
-            $data['attendance'] = true;
+            $data['title']=getPhrase('staff_topic_plan');
+        } elseif ($slug == 'teacher-student-attendance') {
+            $data['title']=getPhrase('students_attendance_of_teacher');
         } elseif ($slug == 'teachers-timetable') {
-            $data['timetable'] = true;
+            $data['title']=getPhrase('teacher_timetable');
         } elseif ($slug == 'students-marks') {
-            $data['marks'] = true;
+            $data['title']=getPhrase('students_marks');
         }
         return view('educational_supervisor.teachers', $data);
     }
@@ -286,13 +351,14 @@ class SupervisorController extends Controller
         SupervisorStaff::where('supervisor_id', $supervisorId)->where('staff_id', $staffId)->delete();
 
     }
-    public function printClassMarks(Request $request,$slug)
+
+    public function printClassMarks(Request $request, $slug)
     {
-        $user=User::where('slug',$slug)->first(['id','name']);
-        $currentAcademic=new Academic();
-        $currentAcademic=$currentAcademic->getCurrentAcademic()->id;
-        $currentSemester=new AcademicSemester();
-        $currentSemester=$currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
+        $user = User::where('slug', $slug)->first(['id', 'name']);
+        $currentAcademic = new Academic();
+        $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
+        $currentSemester = new AcademicSemester();
+        $currentSemester = $currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
         $quiz_details = Quiz::get();
         $subjects = QuizApplicability::
 
@@ -368,8 +434,8 @@ class SupervisorController extends Controller
         $final_list['students'] = $students_list;
         $final_list['subjects'] = $subjects;
         $data ['final_list'] = $final_list;
-        $data['title']=getPhrase('students_marks_of_teacher').$user->name;
-        return view('educational_supervisor.print_marks',$data);
+        $data['title'] = getPhrase('students_marks_of_teacher') . $user->name;
+        return view('educational_supervisor.print_marks', $data);
 
     }
 }

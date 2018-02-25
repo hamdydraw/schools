@@ -189,21 +189,28 @@ Route::get('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@su
 Route::post('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@update');
 
 //supervisors
-
+  //from admin side
 Route::get('mastersettings/supervisor/assign-staff', 'SupervisorController@index');
 Route::get('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@assignStuff');
-Route::post('mastersettings/mastersettings/assign-staff/check-status', 'SupervisorController@checkStatus');
+Route::post('mastersettings/assign-staff/check-status', 'SupervisorController@checkStatus');
+Route::get('mastersettings/supervisor/getList', [
+    'as' => 'supervisors.dataTable',
+    'uses' => 'SupervisorController@getDatatable'
+]);
+Route::post('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
 
-
+//from supervisor side
 Route::get('supervisor/staff/{slug}', 'SupervisorController@getTeachers');
+Route::get('mastersettings/teachers/getList', [
+    'as' => 'teachers.dataTable',
+    'uses' => 'SupervisorController@getDatatableOfTeachers'
+]);
 Route::group(['middleware' => 'supervisor'], function () {
     Route::get('supervisor/staff/lesson-plans/{slug}', 'LessionPlansController@index');
     Route::get('supervisor/staff/teacher-timetable/{slug}', 'TimetableController@staffTimetable');
     Route::get('supervisor/staff/assign-subject/{slug}', 'SubjectPreferencesController@subjectPreferences');
     Route::get('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@index');
     Route::post('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@create');
-    Route::post('supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
-
     Route::get('supervisor/staff/students-marks/{slug}', 'SupervisorController@getStudentsView');
     Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
     Route::post('supervisor/staff/print-students-marks/{slug}', 'SupervisorController@printClassMarks');
@@ -222,6 +229,8 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 // Master Settings //
 /////////////////////
 
+//skills
+Route::get('mastersettings/skills', 'SkillsController@index');
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');
 Route::get('mastersettings/religions/add', 'ReligionsController@create');

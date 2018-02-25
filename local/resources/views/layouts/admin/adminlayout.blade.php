@@ -237,8 +237,8 @@ if ($settings->messaging->value == 1) {
                             <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
                                             class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
                         @endif
-                        <li><a href="{{url('mastersettings/supervisor/assign-staff')}}"> <i
-                                        class="fa fa-exchange"></i> {{ getPhrase('assign_teachers_to_supervisors')}}</a></li>
+                        <li><a href="{{url('mastersettings/skills')}}"> <i
+                                        class="fa fa-exchange"></i> {{ getPhrase('skills')}}</a></li>
                         <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a></li>
 

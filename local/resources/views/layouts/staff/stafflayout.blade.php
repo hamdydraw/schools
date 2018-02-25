@@ -234,7 +234,7 @@ $role = getRoleData($user->role_id);
 
                     </li>
                     <li>
-                        <a href="{{url('supervisor/staff/teacher-student-attendence')}}">
+                        <a href="{{url('supervisor/staff/teacher-student-attendance')}}">
                             <i class="fa fa-calendar-check-o"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
 
                     </li>

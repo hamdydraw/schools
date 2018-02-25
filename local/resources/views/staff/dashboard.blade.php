@@ -82,23 +82,7 @@
                             </a>
                         </div>
                     </div>
-
-
-                    <div class="col-md-4 ">
-                        <div class="card card-yellow text-xs-center">
-                            <div class="card-block">
-                                <h4 class="card-title"><i class="fa fa-book"></i></h4>
-                                <p class="card-text">{{ getPhrase('library_history')}}</p>
-                            </div>
-                            <a class="card-footer text-muted" href="{{URL_USER_LIBRARY_DETAILS.Auth::user()->slug}}">
-                                {{ getPhrase('view_all')}}
-                            </a>
-                        </div>
-                    </div>
-
-
                 </div>
-
             </div>
             <!-- /#page-wrapper -->
         </div>

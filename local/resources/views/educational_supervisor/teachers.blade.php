@@ -1,79 +1,43 @@
 @extends($layout)
 @section('content')
-    <style>
-        #customers {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 50%;
-            margin-top: 60px;
-            margin-right: 350px;
-            text-align: center;
-        }
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
 
-        #customers td, #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+                        <li><a href="">{{$title}}</a></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="panel panel-custom">
+                <div class="panel-body packages">
+                    <div>
+                        <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
 
-        #customers tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+                                <th id="helper_step2">{{ getPhrase('teacher_name')}}</th>
+                                <th id="helper_step3">{{ getPhrase('action')}}</th>
 
-        #customers tr:hover {
-            background-color: #ddd;
-        }
+                            </tr>
+                            </thead>
 
-        #customers th {
-            text-align: center;
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
-    <table id="customers">
-        <tr>
-            <th>
-                @if($roleNameOfAuth == 9) {{getPhrase('teacher_name')}}</th> @else {{getPhrase('supervisor_name')}}</th> @endif
-            <th>{{getPhrase('action')}}</th>
-        </tr>
-        @foreach($teachers as $teacher)
-            <tr>
-                <td>{{$teacher->name}}</td>
-                <td>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">---
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            @if(isset($subjects))
-                                <li>
-                                    <a href="{{url('supervisor/staff/assign-subject/'.$teacher->slug)}}">{{getPhrase('assign_subject_to_teacher')}}</a>
-                                </li>
-                            @elseif(isset($topic_plans))
-                                <li>
-                                    <a href="{{url('supervisor/staff/lesson-plans/'.$teacher->slug)}}">{{getPhrase('topic_plans')}}</a>
-                                </li>
-                            @elseif(isset($attendance))
-                                <li>
-                                    <a href="{{url('supervisor/staff/students-attendance/'.$teacher->slug)}}">{{getPhrase('students_attendance')}}</a>
-                                </li>
-                            @elseif(isset($timetable))
-                                <li>
-                                    <a href="{{url('supervisor/staff/teacher-timetable/'.$teacher->slug)}}">{{getPhrase('timetable')}}</a>
-                                </li>
-                            @elseif(isset($marks))
-                                <li>
-                                    <a href="{{url('supervisor/staff/students-marks/'.$teacher->slug)}}">{{getPhrase('students_marks')}}</a>
-                                </li>
-                            @endif
-                        </ul>
+                        </table>
+
+
                     </div>
-                </td>
-            </tr>
-        @endforeach
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('footer_scripts')
-
-
+    @include('common.datatables', array('route'=>'teachers.dataTable'))
 @stop
+
+
 
