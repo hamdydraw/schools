@@ -1,4 +1,7 @@
 @extends($layout)
+@section('header_scripts')
+    <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
+@stop
 @section('content')
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -13,6 +16,13 @@
                 </div>
             </div>
             <div class="panel panel-custom">
+                <div class="panel-heading">
+
+                    <div class="pull-right messages-buttons helper_step2">
+
+                    </div>
+                    <h1>{{getphrase('all_teachers')}}</h1>
+                </div>
                 <div class="panel-body packages">
                     <div>
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">

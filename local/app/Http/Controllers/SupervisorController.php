@@ -28,8 +28,7 @@ class SupervisorController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-        $data['active_class'] = 'dashboard';
-
+        $data['active_class'] = 'master_settings';
 
         $data['layout'] = getLayout();
         $data['title'] = getPhrase('dashboard');
