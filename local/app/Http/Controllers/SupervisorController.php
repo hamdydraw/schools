@@ -117,29 +117,6 @@ class SupervisorController extends Controller
 
     public function getClassMarks(Request $request, $slug)
     {
-        /*$academic_id = $request->academic_id;
-        $course_id = $request->course_id;
-        $course_parent_id = $request->parent_course_id;
-        $year = $request->year;
-        $semister = $request->semister;
-        $offline_quiz_category_id = $request->offline_quiz_category_id;
-
-        $course_record = App\Course::where('id', '=', $course_id)->first();
-        $academic_record = App\Academic::where('id', '=', $academic_id)->first();
-        $offline_quiz_category = App\OfflineQuizCategories::where('id', '=', $offline_quiz_category_id)->first();
-        $quiz_details = App\Quiz::get();
-        $title = $academic_record->academic_year_title . ' ' . $course_record->course_title;
-        if ($course_record->course_dueration > 1) {
-            $title .= ' Year-' . $year;
-            if ($course_record->is_having_semister && $semister > 0) {
-                $title .= ' Sem-' . $semister;
-            }
-        }
-
-        if ($offline_quiz_category) {
-            $title .= ' ' . $offline_quiz_category->title . ' class marks';
-        }*/
-
         $user = User::where('slug', $slug)->first(['id']);
         $currentAcademic = new Academic();
         $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
@@ -314,9 +291,18 @@ class SupervisorController extends Controller
         }
         DB::beginTransaction();
         try {
+            $teacherNames='';
+            $exist='';
             if (count($request->selected_list)) {
                 $previousRecord = SupervisorStaff::where('supervisor_id', $record->id)->delete();
                 foreach (array_unique($request->selected_list) as $key => $value) {
+                    if (SupervisorStaff::where('staff_id',$value)->first() != null)
+                    {
+                        $teacherName=User::where('id',$value)->first(['name']);
+                        $exist=1;
+                        $teacherNames .='('.$teacherName->name .')';
+                        continue;
+                    }
                     $newRecord = new SupervisorStaff();
                     $newRecord->supervisor_id = $record->id;
                     $newRecord->staff_id = $value;
@@ -325,7 +311,11 @@ class SupervisorController extends Controller
 
             }
             DB::commit();
-            flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
+            if ($exist == 1){
+                flash(getPhrase('Ooops'), $teacherNames . ' '.getPhrase('Assigned_to_another_supervisor'), 'error');
+            }else {
+                flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
+            }
         } catch (Exception $ex) {
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {

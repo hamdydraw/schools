@@ -18,6 +18,7 @@
                                 <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
                                 <li><a href="{{URL_COURSES_DASHBOARD}}">{{getphrase('master_setup_dashboard')}}</a></li>
                                 <li class="active">{{isset($title) ? $title : ''}}</li>
+                                <li class="active">{{$record->name}}</li>
                             </ol>
                         </div>
                     </div>
