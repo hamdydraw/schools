@@ -11,7 +11,7 @@ define('PREFIX', $base);
 //Design Source File Paths
 define('CSS', PREFIX.'css/');
 define('JS', PREFIX.'js/');
-define('FONTAWSOME', PREFIX.'font-awesome/css/');
+define('FONTAWSOME', PREFIX.'css/');
 define('IMAGES', PREFIX.'images/');
 define('UPLOADS', PREFIX.'uploads/');
 define('EXAM_UPLOADS', UPLOADS.'exams/');

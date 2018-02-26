@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="login-content">
+<div class="login-content" ng-controller="login">
 
 		<div class="logo text-center"><img src="{{IMAGE_PATH_SETTINGS.getSetting('site_logo', 'site_settings')}}" alt="" height="59" width="211" ></div>
 		 <div class="men-caption">
@@ -83,8 +83,15 @@
 			</div>
 
 		{!! Form::close() !!}
+	<div class="row">
+		<div class="text-center buttons">
+			<a ng-click="authenticate('facebook')" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i>{{getPhrase('login')}}</a>
+			<a href="{{ url('/auth/google') }}" class="btn btn-google-plus"><i class="fa fa-google"></i>{{getPhrase('login')}}</a>
+		</div>
+	</div>
 
-		
+
+
 
 		<div class="footer">
 
@@ -172,7 +179,6 @@
 </div>
 
 @stop
-
 
 
 @section('footer_scripts')

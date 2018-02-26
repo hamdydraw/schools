@@ -50,8 +50,6 @@ Route::get('dashboard', 'DashboardController@index');
 Route::get('dashboard/testlang', 'DashboardController@testLanguage');
 
 
-Route::get('auth/{slug}', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/{slug}/callback', 'Auth\AuthController@handleProviderCallback');
 
 
 // Authentication Routes...
@@ -60,6 +58,8 @@ Route::get('login', 'Auth\AuthController@getLogin');
 
 // Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
+Route::post('auth/facebook','socialAuth@facebook');
+
 
 Route::get('logout', function () {
 

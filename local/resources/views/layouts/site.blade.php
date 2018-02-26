@@ -48,7 +48,7 @@
 
 	<link href="{{CSS}}materialdesignicons.css" rel="stylesheet" type="text/css">
 
-	<link href="{{FONTAWSOME}}font-awesome.min.css?s=<?php echo mt_rand()?>" rel="stylesheet" type="text/css">
+	<link href="{{FONTAWSOME}}font-awesome.css" rel="stylesheet" type="text/css">
 
 	<link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
 
