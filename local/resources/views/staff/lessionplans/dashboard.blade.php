@@ -17,10 +17,10 @@
 
                             <li><a href="{{URL_USERS."staff"}}">{{ getPhrase('staff_users') }}</a></li>
                         @endif
-                        <li>
-                            <a href="{{URL_STAFF_DETAILS.$record->slug}}">{{ $record->name }} {{getPhrase('details') }}</a>
-                        </li>
                         <li>{{ $title }}</li>
+                        <li>
+                            <a href="{{URL_STAFF_DETAILS.$record->slug}}">{{ $record->name }}</a>
+                        </li>
                     </ol>
                 </div>
             </div>

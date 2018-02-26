@@ -23,7 +23,7 @@ class StudentAttendanceController extends Controller
      */
     public function index($slug)
     {
-        $user = App\User::where('slug', '=', $slug)->first();
+        $userData = App\User::where('slug', '=', $slug)->first();
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role']=$role;
@@ -111,6 +111,8 @@ class StudentAttendanceController extends Controller
 
         $data['role_name'] = getRoleData($user->role_id);
         $data['userdata'] = $user;
+        $data['slugData']=$userData;
+
         $data['layout'] = getLayout();
 
 
@@ -197,7 +199,8 @@ class StudentAttendanceController extends Controller
     public function create(Request $request, $slug)
     {
 
-        $user = App\User::where('slug', '=', $slug)->first();
+        $userData = App\User::where('slug', '=', $slug)->first();
+        $data['slugData']=$userData;
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role']=$role;

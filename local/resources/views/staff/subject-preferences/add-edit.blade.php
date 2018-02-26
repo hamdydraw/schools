@@ -15,14 +15,15 @@
           <div class="col-lg-12">
             <ol class="breadcrumb">
               <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-              
+
               <li class="active">{{isset($title) ? $title : ''}}</li>
+              <li class="active">{{$record->name}}</li>
             </ol>
           </div>
         </div>
           @include('errors.errors')
         <!-- /.row -->
-        
+
         <div class="panel panel-custom academia_visiblelist_fix" data-spy="affix" data-offset-top="0" id="app">
           <div class="panel-heading">
 
@@ -30,15 +31,15 @@
           </div>
           <div class="panel-body form-auth-style " >
           <?php $button_name = getPhrase('create'); ?>
-          
+
            <?php $button_name = getPhrase('update'); ?>
-            {{ Form::model($record, 
-            array('url' => URL_STAFF_SUBJECT_PREFERENCES.$record->slug, 
+            {{ Form::model($record,
+            array('url' => URL_STAFF_SUBJECT_PREFERENCES.$record->slug,
             'method'=>'post')) }}
-          
-         
-           
-    
+
+
+
+
         <div class="row">
           <div class="col-md-8">
 <h2 class="selected-item-title">{{getPhrase('preferred_subjects')}}</h2>
@@ -47,11 +48,11 @@
               <div ng-repeat="item in target_items" class="items-sub" id="target_items-@{{item.id}}">@{{item.subject_title}}
               <input type="hidden" name="selected_list[]" data-myname="@{{item.subject_title}}" value="@{{item.id}}">
               <div class="buttons-right">
-                
+
               <i class="fa fa-trash text-danger pull-right" ng-click="removeItem(item, target_items, 'target_items')"></i>
 
-              <i ng-if="item.is_lab==1" class="fa fa-flask pull-right text-primary" title="{{getPhrase('lab')}}" aria-hidden="true"></i> 
-           
+              <i ng-if="item.is_lab==1" class="fa fa-flask pull-right text-primary" title="{{getPhrase('lab')}}" aria-hidden="true"></i>
+
           <i ng-if="item.is_elective_type==1" class="fa fa-hand-pointer-o pull-right text-info" title="{{getPhrase('elective')}}" aria-hidden="true"></i>
               </div>
 
@@ -59,7 +60,7 @@
               </div>
 
            </div>
-    
+
 
            </div>
            <div class="col-md-4 instruction">
@@ -87,7 +88,7 @@
                                 </span>
                                 {{getPhrase('electives')}} &nbsp; @{{target_items_electives}}
                             </li>
-                            
+
                         </ul>
                     </div>
         </div>
@@ -95,12 +96,12 @@
     <div class="text-center">
       <button class="btn btn-primary btn-lg">Update</button>
     </div>
- 
 
 
-           
+
+
           {!! Form::close() !!}
-           
+
 
 
 
@@ -111,7 +112,7 @@
     </div>
     <!-- /#page-wrapper -->
 
-  
+
 @stop
 
 @section('custom_div_end')

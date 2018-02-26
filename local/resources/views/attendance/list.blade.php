@@ -12,14 +12,13 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
-                        @if($role_name!='staff')
+                        @if($role_name!='staff' and $role_name != 'educational_supervisor')
                             <li><a href="{{URL_ACADEMICOPERATIONS_DASHBOARD}}">
                                     {{getPhrase('academic_operations')}}</a></li>
                         @endif
-                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{getphrase('particulars')}}</a>
-                        </li>
-
                         <li>{{ $title }}</li>
+                        <li>{{ $slugData->name }}</li>
+                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{getphrase('particulars')}}</a></li>
                     </ol>
                 </div>
             </div>

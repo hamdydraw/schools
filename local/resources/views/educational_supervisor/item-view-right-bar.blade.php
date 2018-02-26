@@ -13,8 +13,7 @@
 
     <div class="draggable-item-list" id="source">
         <div ng-repeat="item in staff | filter:search track by $index" class="items-sub"
-             ng-drag="true" ng-drag-data="item" ng-drag-success="onDragComplete($data,$event)"
-        >@{{item.name}}
+             ng-drag="true" ng-drag-data="item" ng-drag-success="onDragComplete($data,$event)">@{{item.name}}</p>
             <input type="hidden" name="course_id[]" data-myname="@{{item.course_title}}"  value="@{{item.id}}">
             <input type="hidden" name="parent_id[]" value="@{{item.parent_id}}">
         </div>

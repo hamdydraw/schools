@@ -225,17 +225,17 @@ $role = getRoleData($user->role_id);
                 @else
                     <li>
                         <a href="{{url('supervisor/staff/teachers-subjects')}}">
-                            <i class="fa fa-calendar"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
+                            <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
 
                     </li>
                     <li>
                         <a href="{{url('supervisor/staff/staff-topic-plan')}}">
-                            <i class="fa fa-calendar"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
+                            <i class="fa fa-paper-plane-o"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
 
                     </li>
                     <li>
-                        <a href="{{url('supervisor/staff/teacher-student-attendence')}}">
-                            <i class="fa fa-calendar"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
+                        <a href="{{url('supervisor/staff/teacher-student-attendance')}}">
+                            <i class="fa fa-calendar-check-o"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
 
                     </li>
                     <li>
@@ -244,8 +244,8 @@ $role = getRoleData($user->role_id);
 
                     </li>
                     <li>
-                        <a href="{{url('supervisor/staff/students-marks/teacher5')}}">
-                            <i class="fa fa-calendar"></i>{{ getPhrase('teacher_students_marks') }}</a></li>
+                        <a href="{{url('supervisor/staff/students-marks')}}">
+                            <i class="fa fa-users"></i>{{ getPhrase('teacher_students_marks') }}</a></li>
 
                     </li>
                 @endif
