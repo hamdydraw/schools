@@ -216,9 +216,8 @@ class AuthController extends Controller
             }
 
 
-
-
     }
+
 
 
      /**
@@ -226,57 +225,21 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function redirectToProvider($logintype)
+    protected $providers = [
+        'facebook' => FacebookServiceProvider::class,
+    ];
+
+    public function redirectToProvider($driver)
     {
-
-        // dd(getSetting($logintype.'_login', 'module'));
-        if(!getSetting($logintype.'_login', 'module'))
-        {
-            flash(getPhrase('Ooops'), $logintype.' '.getPhrase('login_is_disabled'),'error');
-             return redirect(PREFIX);
-        }
-        $this->provider = $logintype;
-        return Socialite::driver($this->provider)->redirect();
-
+        return (new $this->providers[$driver])->redirect();
     }
+
 
      /**
      * Obtain the user information from GitHub.
      *
      * @return Response
      */
-    public function handleProviderCallback($logintype)
-    {
-
-        try{
-        $user = Socialite::driver($logintype);
-
-
-        if(!$user)
-        {
-            return redirect(PREFIX);
-        }
-
-        $user = $user->user();
-
-
-         if($user)
-         {
-
-            if($this->checkIsUserAvailable($user)) {
-                Auth::login($this->dbuser, true);
-                flash(getPhrase('success'), getPhrase('log_in_success'), 'success');
-                return redirect(PREFIX);
-            }
-            flash(getPhrase('Ooops'), getPhrase('faiiled_to_login'), 'error');
-            return redirect(PREFIX);
-         }
-     }
-         catch (Exception $ex)
-         {
-            return redirect(PREFIX);
-         }
-    }
 
     /**
      * This method checks for the user availability

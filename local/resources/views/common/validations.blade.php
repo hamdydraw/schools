@@ -1,13 +1,18 @@
  @if(!isset($isLoaded))
    <script src="{{JS}}angular.js"></script>
-    <script src="{{JS}}angular-messages.js"></script> 
+    <script src="{{JS}}angular-messages.js"></script>
+   <script src="{{JS}}satellizer.min.js"></script>
 @endif
 
     <script >
 
     @if(!isset($isLoaded))
-    	 app = angular.module('academia', ['ngMessages']);
+    	 app = angular.module('academia', ['ngMessages','satellizer']);
     @endif
+
+
+
+
         app.directive('stringToNumber', function() {
           return {
             require: 'ngModel',
@@ -134,4 +139,40 @@ var validImage = function($rootScope) {
     	};
 	};
 app.directive("validImage", validImage);
+
+    app.config(function ($authProvider, $httpProvider,$locationProvider){
+        $authProvider.loginUrl = 'http://localhost/cast/api/login';
+        $authProvider.signupUrl = 'http://localhost/cast/api/signup';
+        // google
+        $authProvider.google({
+            clientId: '616835419124-ort0mtke5m67mgekkrr66tm5u75lq66t.apps.googleusercontent.com',//
+            url: 'auth/google',
+            redirectUri: "http://localhost/schoolsysrepo",
+            scope:['profile','email'],
+        });
+        //facebook
+        $authProvider.facebook({
+            clientId: '579685009052342',
+            url: '{{PREFIX}}auth/facebook',
+            redirectUri: "http://localhost/schoolsysrepo/login",
+            scope: ['email'],
+        });
+
+    });
+
+
+    app.controller('login',['$scope','$http','$rootScope','$auth','$location',function($scope,$http,$rootScope,$auth,$location) {
+
+        console.log("my controller is running");
+
+		$scope.authenticate = function(provider) {
+		    console.log(provider);
+
+			$auth.authenticate(provider).then(function(response) {
+				console.log("here");
+				console.log(response.data);
+			});
+		};
+    }]);
+
     </script>
