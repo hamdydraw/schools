@@ -180,7 +180,7 @@
                 </fieldset>
                 {{--for another year class--}}
                 <fieldset ng-if="showToNewParent" class="form-group">
-                  <label for="to_course_parent_id">النقل لصف جديد</label>
+                  <label for="to_course_parent_id">{{getphrase('transfer_to_course')}}</label>
                   <select required
                   name="to_course_parent_id"
                   id="to_course_parent_id"
@@ -194,7 +194,7 @@
               </fieldset>
               <fieldset ng-if="showToCourses" class="form-group">
 
-                <label for="course_id">{{getPhrase('transfer_to_course')}}</label>
+                <label for="course_id">{{getPhrase('transfer_to_class')}}</label>
                 <select required
                 name="to_course"
                 id="to_course"
