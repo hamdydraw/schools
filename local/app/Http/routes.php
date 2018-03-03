@@ -231,6 +231,7 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 
 //skills
 Route::get('mastersettings/skills', 'SkillsController@index');
+Route::get('mastersettings/skills/getRelatedSubjects', 'SkillsController@getRelatedSubjects');
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');
 Route::get('mastersettings/religions/add', 'ReligionsController@create');

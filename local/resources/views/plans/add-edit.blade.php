@@ -12,7 +12,7 @@
 						</ol>
 					</div>
 				</div>
-				@include('errors.errors')	
+				@include('errors.errors')
 				<div class="panel panel-custom" >
 					<div class="panel-heading">
 						<div class="pull-right messages-buttons">
@@ -24,14 +24,14 @@
 					<?php $button_name = getPhrase('create'); ?>
 					@if ($record)
 					 <?php $button_name = getPhrase('update'); ?>
-						{{ Form::model($record, 
-						array('url' => ['subscription/plans/edit', $record->slug], 
+						{{ Form::model($record,
+						array('url' => ['subscription/plans/edit', $record->slug],
 						'method'=>'patch')) }}
 					@else
 						{!! Form::open(array('url' => 'subscription/plans/add', 'method' => 'POST', 'files' => true)) !!}
 					@endif
 
-					 @include('plans.form_elements', 
+					 @include('plans.form_elements',
 					 array('button_name'=> $button_name),
 					 array('record' => $record))
 					{!! Form::close() !!}
@@ -44,7 +44,7 @@
 		<!-- /#page-wrapper -->
 @stop
 @section('footer_scripts')
- 
+
 
 @stop
  

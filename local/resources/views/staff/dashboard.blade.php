@@ -53,7 +53,7 @@
                                 <h4 class="card-title"><i class="fa fa-calendar-check-o"></i></h4>
                                 <p class="card-text">{{ getPhrase('teacher_students_attendance') }}</p>
                             </div>
-                            <a class="card-footer text-muted" href="{{url('supervisor/staff/teacher-student-attendence')}}">
+                            <a class="card-footer text-muted" href="{{url('supervisor/staff/teacher-student-attendance')}}">
                                 {{ getPhrase('view_all')}}
                             </a>
                         </div>

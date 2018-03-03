@@ -110,7 +110,7 @@ class SupervisorController extends Controller
         $user = User::where('slug', $slug)->first(['name']);
         $data['title'] = getPhrase('students-marks-of-teacher');
         $data['layout'] = getLayout();
-        $data['active_class'] = 'academic';
+        $data['active_class'] = 'students-marks';
         $data['slug'] = $user;
         return view('educational_supervisor.students-marks', $data);
     }
@@ -220,17 +220,21 @@ class SupervisorController extends Controller
     {
         $roleNameOfAuth = Auth::user()->role_id;
         $data['roleNameOfAuth'] = $roleNameOfAuth;
-        $data['active_class'] = 'dashboard';
         $data['layout'] = getLayout();
         if ($slug == 'teachers-subjects') {
+            $data['active_class'] = 'teachers-subjects';
             $data['title']=getPhrase('assign_subjects_to_teachers');
         } elseif ($slug == 'staff-topic-plan') {
+            $data['active_class'] = 'staff-topic-plan';
             $data['title']=getPhrase('staff_topic_plan');
         } elseif ($slug == 'teacher-student-attendance') {
+            $data['active_class'] = 'teacher-student-attendance';
             $data['title']=getPhrase('students_attendance_of_teacher');
         } elseif ($slug == 'teachers-timetable') {
+            $data['active_class'] = 'teachers-timetable';
             $data['title']=getPhrase('teacher_timetable');
         } elseif ($slug == 'students-marks') {
+            $data['active_class'] = 'students-marks';
             $data['title']=getPhrase('students_marks');
         }
         return view('educational_supervisor.teachers', $data);

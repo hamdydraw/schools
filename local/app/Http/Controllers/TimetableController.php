@@ -548,6 +548,7 @@ class TimetableController extends Controller
 
         $academicSemester = new App\AcademicSemester();
         $currentSemester = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
+        $authRole = getRoleData(Auth::user()->role_id);
         $role = getRoleData($user_record->role_id);
 
         if ($role == 'staff') {
@@ -594,6 +595,9 @@ class TimetableController extends Controller
             $data['active_class'] = 'academic';
         } else {
             $data['active_class'] = 'timetable';
+        }
+        if($authRole == 'educational_supervisor'){
+            $data['active_class'] = 'teachers-timetable';
         }
 
         $data['title'] = getPhrase('timetable');

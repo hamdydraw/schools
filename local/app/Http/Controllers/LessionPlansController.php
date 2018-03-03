@@ -58,6 +58,9 @@ class LessionPlansController extends Controller
         } else {
             $data['active_class'] = 'lession';
         }
+        if(getRoleData(Auth::user()->role_id) == 'educational_supervisor'){
+            $data['active_class'] = 'staff-topic-plan';
+        }
 
         $data['user'] = $user;
         $data['record'] = $user;
@@ -70,7 +73,9 @@ class LessionPlansController extends Controller
         }
 
         flash(getPhrase('Ooops'), getPhrase('no_data_available'), 'overlay');
-
+        if ($role == 'educational_supervisor') {
+            return redirect()->back();
+        }
         return redirect(URL_USERS . "staff");
     }
 
