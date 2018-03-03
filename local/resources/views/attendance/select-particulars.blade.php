@@ -76,7 +76,7 @@
                         @if($role_name =='staff')
                             {!! Form::open(array('url' => URL_STUDENT_ATTENDENCE_ADD.$userdata->slug, 'method' => 'POST')) !!}
                         @elseif($role_name=='educational_supervisor')
-                            {!! Form::open(array('url' => 'supervisor/staff/students-attendance/'.$userdata->slug, 'method' => 'POST')) !!}
+                            {!! Form::open(array('url' => 'supervisor/staff/students-attendance/'.$slugData->slug, 'method' => 'POST')) !!}
                         @endif
 
 

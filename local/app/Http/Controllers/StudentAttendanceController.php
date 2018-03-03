@@ -54,7 +54,7 @@ class StudentAttendanceController extends Controller
             ->join('subjects', 'subjects.id', '=',
                 'course_subject.subject_id')
             ->where('academic_id', '=', $current_academic_id)
-            ->where('staff_id', '=', $user->id)
+            ->where('staff_id', '=', $userData->id)
             ->select([
                 'course_subject.id as id',
                 'course_subject.slug',
@@ -103,7 +103,12 @@ class StudentAttendanceController extends Controller
                 $select_options[$record->id] = $final_title;
             }
         }
-        $data['active_class'] = 'academic';
+        if (getRoleData(Auth::user()->role_id) == 'educational_supervisor')
+        {
+            $data['active_class'] = 'teacher-student-attendance';
+        }else {
+            $data['active_class'] = 'academic';
+        }
         $data['title'] = getPhrase('attendance');
 
         $data['subjects'] = $select_options;
@@ -249,7 +254,11 @@ class StudentAttendanceController extends Controller
 
 
         $data['record'] = false;
-        $data['active_class'] = 'academic';
+        if ($role == 'educational_supervisor'){
+            $data['active_class'] = 'teacher-student-attendance';
+        }else {
+            $data['active_class'] = 'academic';
+        }
         $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
 
         $submitted_data = array(

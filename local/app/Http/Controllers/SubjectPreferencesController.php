@@ -58,6 +58,9 @@ class SubjectPreferencesController extends Controller
         } else {
             $data['active_class'] = 'subjectPreferences';
         }
+        if($role == 'educational_supervisor'){
+            $data['active_class'] = 'teachers-subjects';
+        }
         $data['record'] = $record;
         $data['title'] = getPhrase('subject_preferences');
         $data['items'] = json_encode(array('source_items' => $subjects, 'target_items' => $list));

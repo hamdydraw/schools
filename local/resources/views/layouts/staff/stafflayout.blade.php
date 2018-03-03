@@ -223,27 +223,27 @@ $role = getRoleData($user->role_id);
                         </li>
                     @endif
                 @else
-                    <li>
+                    <li {{ isActive($active_class, 'teachers-subjects') }} >
                         <a href="{{url('supervisor/staff/teachers-subjects')}}">
                             <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
 
                     </li>
-                    <li>
+                    <li {{ isActive($active_class, 'staff-topic-plan') }} >
                         <a href="{{url('supervisor/staff/staff-topic-plan')}}">
                             <i class="fa fa-paper-plane-o"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
 
                     </li>
-                    <li>
+                    <li {{ isActive($active_class, 'teacher-student-attendance') }} >
                         <a href="{{url('supervisor/staff/teacher-student-attendance')}}">
                             <i class="fa fa-calendar-check-o"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
 
                     </li>
-                    <li>
+                    <li {{ isActive($active_class, 'teachers-timetable') }} >
                         <a href="{{url('supervisor/staff/teachers-timetable')}}">
                             <i class="fa fa-calendar"></i>{{ getPhrase('teachers_timetables') }}</a></li>
 
                     </li>
-                    <li>
+                    <li {{ isActive($active_class, 'students-marks') }} >
                         <a href="{{url('supervisor/staff/students-marks')}}">
                             <i class="fa fa-users"></i>{{ getPhrase('teacher_students_marks') }}</a></li>
 
