@@ -51,6 +51,7 @@ define('IMAGE_PATH_UPLOAD_EXAMSERIES_DEFAULT', UPLOADS.'exams/series/default.png
 define('IMAGE_PATH_UPLOAD_LMS_CATEGORIES', UPLOADS.'lms/categories/');
 define('IMAGE_PATH_UPLOAD_LMS_DEFAULT', UPLOADS.'lms/categories/default.png');
 define('IMAGE_PATH_UPLOAD_LMS_CONTENTS', UPLOADS.'lms/content/');
+define('IMAGE_PATH_UPLOAD_STUDENT_PAPERS', UPLOADS.'student_papers/');
 
 
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_VEHICLE', UPLOADS.'transportation/vehicletype/');
@@ -510,7 +511,10 @@ define('URL_ADMIN_NOTIFICATIONS_GETLIST', PREFIX.'admin/notifications/getList');
 define('URL_NOTIFICATIONS', PREFIX.'notifications/list');
 define('URL_NOTIFICATIONS_VIEW', PREFIX.'notifications/show/');
 
+//papers Student
 
+define('URL_STUDENT_PAPER_LIST', PREFIX.'student/papers/getList/');
+define('URL_STUDENT_PAPERS_TABLE',PREFIX.'student/papers/list/');
 
 
 //LMS MODULE

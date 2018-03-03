@@ -1,9 +1,9 @@
  @if(!isset($isLoaded))
    <script src="{{JS}}angular.js"></script>
     <script src="{{JS}}angular-messages.js"></script>
-   <script src="{{JS}}satellizer.min.js"></script>
 @endif
 
+ <script src="{{JS}}satellizer.min.js"></script>
     <script >
 
     @if(!isset($isLoaded))
@@ -11,6 +11,9 @@
     @endif
 
 
+<?php
+        $social = App\Settings::getSocialKeys();
+ ?>
 
 
         app.directive('stringToNumber', function() {
@@ -141,20 +144,20 @@ var validImage = function($rootScope) {
 app.directive("validImage", validImage);
 
     app.config(function ($authProvider, $httpProvider,$locationProvider){
-        $authProvider.loginUrl = 'http://localhost/cast/api/login';
-        $authProvider.signupUrl = 'http://localhost/cast/api/signup';
+        $authProvider.loginUrl = '';
+        $authProvider.signupUrl = '';
         // google
         $authProvider.google({
-            clientId: '616835419124-ort0mtke5m67mgekkrr66tm5u75lq66t.apps.googleusercontent.com',//
-            url: 'auth/google',
-            redirectUri: "http://localhost/schoolsysrepo",
+            url: '{{PREFIX}}/auth/google',
+            clientId: '{{$social['google_client_id']->value}}',
+            redirectUri: "{{$social['google_redirect_url']->value}}",
             scope:['profile','email'],
         });
         //facebook
         $authProvider.facebook({
-            clientId: '579685009052342',
+            clientId: '{{$social['facebook_client_id']->value}}',
             url: '{{PREFIX}}auth/facebook',
-            redirectUri: "http://localhost/schoolsysrepo/login",
+            redirectUri: "{{$social['facebook_redirect_url']->value}}",
             scope: ['email'],
         });
 
@@ -163,14 +166,17 @@ app.directive("validImage", validImage);
 
     app.controller('login',['$scope','$http','$rootScope','$auth','$location',function($scope,$http,$rootScope,$auth,$location) {
 
-        console.log("my controller is running");
 
 		$scope.authenticate = function(provider) {
 		    console.log(provider);
 
 			$auth.authenticate(provider).then(function(response) {
-				console.log("here");
-				console.log(response.data);
+				if(response.data.state == 'success'){
+                    location.reload();
+                }
+                else{
+                    $scope.warning = response.data.message;
+                }
 			});
 		};
     }]);

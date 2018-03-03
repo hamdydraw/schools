@@ -27,11 +27,12 @@ class socialAuth extends Controller
 
     public function facebook(Request $request){
         $client = new GuzzleHttp\Client();
+        $social = App\Settings::getSocialKeys();
         $params = [
             'code' => $request->code,
-            'client_id' => $request->clientId,
-            'redirect_uri' => $request->redirectUri,
-            'client_secret' => '3a35faae1bd85ec67ecde5670ececf75'
+            'client_id' => $social['facebook_client_id']->value,
+            'redirect_uri' => $social['facebook_redirect_url']->value,
+            'client_secret' => $social['facebook_client_secret']->value
         ];
         $accessTokenResponse = $client->request('GET', 'https://graph.facebook.com/v2.5/oauth/access_token', [
             'query' => $params
@@ -45,14 +46,51 @@ class socialAuth extends Controller
             ]
         ]);
         $profile = json_decode($profileResponse->getBody(), true);
+        if(!isset($profile['email'])){
+            return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
+        }
         $email = $profile['email'];
         $user = App\User::where('email',$email)->first();
-
+        if(!$user){
+            return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
+        }
         $this->postLogin($user->id);
 
-        return json_encode("nothing");
+        return json_encode(['state' => 'success' ,'message' => getPhrase('login_success')]);
     }
 
+    public function google(Request $request){
+        $client = new GuzzleHttp\Client();
+
+        $social = App\Settings::getSocialKeys();
+
+        $params = [
+            'code' => $request->code,
+            'client_id' => $social['google_client_id']->value,
+            'client_secret' => $social['Google_client_secret']->value,
+            'redirect_uri' => $social['google_redirect_url']->value,
+            'grant_type' => 'authorization_code',
+        ];
+        $accessTokenResponse = $client->request('POST', 'https://accounts.google.com/o/oauth2/token', [
+            'form_params' => $params
+        ]);
+        $accessToken = json_decode($accessTokenResponse->getBody(), true);
+        $profileResponse = $client->request('GET', 'https://www.googleapis.com/plus/v1/people/me/openIdConnect', [
+            'headers' => array('Authorization' => 'Bearer ' . $accessToken['access_token'])
+        ]);
+        $profile = json_decode($profileResponse->getBody(), true);
+        if(!isset($profile['email'])){
+            return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
+        }
+        $email = $profile['email'];
+        $user = App\User::where('email',$email)->first();
+        if(!$user){
+            return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
+        }
+        $this->postLogin($user->id);
+
+        return json_encode(['state' => 'success' ,'message' => getPhrase('login_success')]);
+    }
 
     public function postLogin($sent)
     {

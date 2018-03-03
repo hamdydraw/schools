@@ -84,6 +84,15 @@
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-6">
+						<div class="card card-red text-xs-center">
+							<div class="card-block">
+								<h4 class="card-title"><i class="fa fa-credit-card"></i></h4>
+								<p class="card-text">{{ getPhrase('student_papers_and_achievements')}}</p>
+							</div>
+							<a class="card-footer text-muted" href="{{URL_STUDENT_PAPERS_TABLE.$record->slug}}">{{ getPhrase('view_details')}}</a>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
 					<div class="card card-red text-xs-center">
 							<div class="card-block">
 								<h4 class="card-title"><i class="fa fa-pencil"></i></h4>

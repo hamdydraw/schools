@@ -14,6 +14,20 @@ class Settings extends Model
         return Settings::where('slug', '=', $slug)->first();
     }
 
+    public static function getSocialKeys(){
+        $record = Settings::where('slug', 'social-logins')->get()->first();
+        $data = getArrayFromJson($record->settings_data);
+        return $data;
+    }
+
+    public static function Social_switch(){
+        $record = Settings::where('slug', 'module')->first();
+        $values = json_decode($record->settings_data);
+        $switch['facebook'] = $values->facebook_login->value;
+        $switch['google'] = $values->google_plus_login->value;
+        return $switch;
+    }
+
     /**
      * This method validates and sends the setting value
      * @param  [type] $setting_type [description]
@@ -101,8 +115,5 @@ class Settings extends Model
         return TRUE;
 
     }
-
-
-
 
 }

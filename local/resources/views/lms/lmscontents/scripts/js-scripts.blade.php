@@ -5,7 +5,7 @@
 <script src="{{JS}}angular-toastr.tpls.min.js"></script>
 
 <script>
-    var app = angular.module('academia', ['ngMessages','ngFileUpload','toastr']);
+    var app = angular.module('academia', ['ngMessages','satellizer','ngFileUpload','toastr']);
 app.controller('angLmsController', function($scope, $http,Upload) {
 
 

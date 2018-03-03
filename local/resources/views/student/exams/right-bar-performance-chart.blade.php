@@ -1,5 +1,5 @@
 <div class="panel-heading">
-		<h2>Progress Report</h2></div>
+		<h2>{{getPhrase('Progress_Report')}}</h2></div>
  
 	
 	<?php $ids=[];?>

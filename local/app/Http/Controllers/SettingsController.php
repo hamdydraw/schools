@@ -380,7 +380,9 @@ class SettingsController extends Controller
         }
 
         $data['settings_data'] = getArrayFromJson($record->settings_data);
-        ksort($data['settings_data']);
+        if($slug != 'social-logins'){
+            ksort($data['settings_data']);
+        }
         $data['record'] = $record;
         $data['active_class'] = 'master_settings';
         $data['title'] = $record->title;

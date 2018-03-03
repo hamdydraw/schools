@@ -14,9 +14,14 @@
 
 		{!! Form::open(array('url' => URL_USERS_LOGIN, 'method' => 'POST', 'name'=>'formLanguage ', 'novalidate'=>'', 'class'=>"loginform", 'name'=>"loginForm")) !!}
 
+<?php $key = \App\Settings::Social_switch() ?>
 
-
-		@include('errors.errors')	
+		@include('errors.errors')
+	<div class="alert alert-danger" ng-if="warning">
+		<ul>
+			<li>@{{warning}}</li>
+		</ul>
+	</div>
 
 		
 
@@ -85,8 +90,12 @@
 		{!! Form::close() !!}
 	<div class="row">
 		<div class="text-center buttons">
-			<a ng-click="authenticate('facebook')" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i>{{getPhrase('login')}}</a>
-			<a href="{{ url('/auth/google') }}" class="btn btn-google-plus"><i class="fa fa-google"></i>{{getPhrase('login')}}</a>
+			@if($key['facebook'] == 1)
+				<a ng-click="authenticate('facebook')" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i>{{getPhrase('login')}}</a>
+			@endif
+			@if($key['google'] == 1)
+			<a ng-click="authenticate('google')" class="btn btn-google-plus"><i class="fa fa-google"></i>{{getPhrase('login')}}</a>
+			@endif
 		</div>
 	</div>
 

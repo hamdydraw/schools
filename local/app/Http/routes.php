@@ -58,6 +58,7 @@ Route::get('login', 'Auth\AuthController@getLogin');
 // Route::get('login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
 Route::post('auth/facebook','socialAuth@facebook');
+Route::post('auth/google','socialAuth@google');
 
 
 Route::get('logout', function () {
@@ -162,6 +163,19 @@ Route::get('users/import-report', 'UsersController@importResult');
 Route::get('users/{role?}', 'UsersController@index');
 
 Route::post('users/import/get-excel-information', 'UsersController@getExcelUploadInformation');
+
+//student papers routes
+
+Route::get('student/papers/create/{slug}','studentPapers@index');
+Route::post('student/papers/upload','studentPapers@upload');
+Route::post('student/papers/update/{slug}','studentPapers@update');
+Route::get('student/papers/getData/{slug}','studentPapers@getData');
+Route::get('student/papers/list/{slug}','studentPapers@table');
+Route::get('student/papers/getList/{slug}', [
+    'as' => 'papers.dataTable',
+    'uses' => 'studentPapers@getDatatable'
+]);
+//end
 
 
 Route::get('users/list/getList/{role_name?}', [
