@@ -24,6 +24,9 @@ class studentPapers extends Controller
     public function upload(Request $request){
 
         if($request->hasFile('file')) {
+            $this->validate($request,[
+                'file' => 'required|mimes:png,jpg,mp4,jpeg,xlsx,docx,pdf,mp4'
+            ]);
             $value = $this->processUpload($request, 'file');
             return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
         }
@@ -72,7 +75,7 @@ class studentPapers extends Controller
                     return "<video width='200' height='150' controls>
                                 <source src=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file.">
                             </video>";
-                }else if ($records->type == 'document'){
+                }else if ($records->type == 'application'){
                     return "<a href=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file." download>
                                 <img border='0' src='".PREFIX."images/document.jpg' width=\"200\" height=\"120\">
                             </a>";

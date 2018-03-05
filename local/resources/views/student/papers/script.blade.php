@@ -8,10 +8,11 @@
 
         $scope.add_filled = function () {
             $scope.item = {
-                'id'   : $scope.current_id+1,
-                'name' : '',
-                'type' : 'document',
-                'file' : ''
+                'id'    : $scope.current_id+1,
+                'name'  : '',
+                'type'  : 'document',
+                'file'  : '',
+                'error' : false,
             }
             $scope.items.push($scope.item);
             $scope.current_id+=1;
@@ -45,6 +46,7 @@
 
         $scope.file_upload = function($files,citem) {
             var file = $files[0];
+            type = file.type.substring(0, file.type.indexOf('/'));
             $('.'+citem.id).show();
             Upload.upload({
                 url: '{{PREFIX}}student/papers/upload',
@@ -58,12 +60,20 @@
                 $("#"+citem.id).css('width',progress+'%');
             }).then(function (response, status, headers, config) {
                 $('.'+citem.id).hide();
+                $('.filer').val('');
                 citem.file = response.data.file;
+                citem.type = type;
                 if(citem.type == 'video'){
                     citem.video = '{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}'+citem.file;
                 }
                 //$('#upload1').css({pointerEvents: "initial"});
                 $('.filer').val('');
+            },function (resp) {
+                $('.'+citem.id).hide();
+                $('.filer').val('');
+                citem.error = true;
+                console.log(resp.data.file[0]);
+
             });
         };
             

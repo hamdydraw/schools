@@ -1118,13 +1118,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //test Route
 
-Route::post('/test', function (Request $request) {
-//    $key =  $request->get('string');
-//    $data = \App\Language::getPhrase($key);
-//    return json_encode($data);
-    return $request->ip();
-
-    return json_encode($request->all());
+Route::get('/test', function (Request $request) {
+    return view('test');
 });
 
 

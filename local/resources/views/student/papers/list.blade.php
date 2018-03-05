@@ -17,22 +17,29 @@
                     <li class="active">{{isset($title) ? $title : ''}}</li>
                 </ol>
             </div>
+            <div class="panel panel-custom">
+                <div class="panel-heading">
 
-            <div class="panel-body packages">
-                <div>
-                    <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th>{{ getPhrase('name')}}</th>
-                            <th>{{ getPhrase('type')}}</th>
-                            <th>{{ getPhrase('file')}}</th>
-                            <th>{{ getPhrase('action')}}</th>
-                        </tr>
-                        </thead>
+                    <h1>{{ $title }}</h1>
 
-                    </table>
                 </div>
 
+                <div class="panel-body packages">
+                    <div>
+                        <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>{{ getPhrase('name')}}</th>
+                                <th>{{ getPhrase('type')}}</th>
+                                <th>{{ getPhrase('file')}}</th>
+                                <th>{{ getPhrase('action')}}</th>
+                            </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                </div>
             </div>
 
         </div>

@@ -44,7 +44,6 @@
 
 	<link href="{{CSS}}materialdesignicons.css" rel="stylesheet" type="text/css">
 
-	{{-- <link href="{{FONTAWSOME}}font-awesome.min.css" rel="stylesheet" type="text/css"> --}}
 	<link rel="stylesheet" href="{{CSS}}font-awesome.css"/>
 	<link href="{{CSS}}sweetalert.css" rel="stylesheet" type="text/css">
 

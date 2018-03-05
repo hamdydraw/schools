@@ -144,8 +144,8 @@ var validImage = function($rootScope) {
 app.directive("validImage", validImage);
 
     app.config(function ($authProvider, $httpProvider,$locationProvider){
-        $authProvider.loginUrl = '';
-        $authProvider.signupUrl = '';
+        $authProvider.loginUrl = 'http://localhost/cast/api/login';
+        $authProvider.signupUrl = 'http://localhost/cast/api/signup';
         // google
         $authProvider.google({
             url: '{{PREFIX}}/auth/google',
@@ -153,6 +153,7 @@ app.directive("validImage", validImage);
             redirectUri: "{{$social['google_redirect_url']->value}}",
             scope:['profile','email'],
         });
+
         //facebook
         $authProvider.facebook({
             clientId: '{{$social['facebook_client_id']->value}}',

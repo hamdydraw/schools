@@ -37,7 +37,6 @@
                     </div>
                     <h1>{{ $title }}  </h1>
                 </div>
-            </div>
 
             <div class="panel-body form-auth-style" id="app" style="display: none">
                 {{ Form::model($records,array('url' => PREFIX.'student/papers/update/'.$user->slug,'method'=>'post','name'=>'formAcademics ', 'novalidate'=>'')) }}
@@ -47,34 +46,26 @@
                     </fieldset>
                 </div>
                 <div class="row show" ng-repeat="item in items" style="padding-bottom: 2%">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <fieldset class="form-group">
                             <label for="name">{{getPhrase('name')}}</label>
                             <span class="text-red">*</span>
                             <input class="form-control" placeholder="{{getPhrase('name')}}" name="name[]" type="text" ng-model="item.name" required>
                         </fieldset>
                     </div>
-                    <div class="col-md-2">
-                        <fieldset class="form-group">
-                            <label for="name">{{getPhrase('file_type')}}</label>
-                            <span class="text-red">*</span>
-                            <select class="form-control"  name="type[]" id="" ng-model="item.type" required>
-                                <option value="document">{{getPhrase('document')}}</option>
-                                <option value="image">{{getPhrase('image')}}</option>
-                                <option value="video">{{getPhrase('video')}}</option>
-                            </select>
-                        </fieldset>
-                    </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label for="file">{{getPhrase('file')}}</label>
                         <span class="text-red">*</span>
-                        <input ng-if="item.type == 'document'" type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept=".xlsx,.docx,.pdf">
-                        <input ng-if="item.type == 'image'"  type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept="image/x-png,image/png,image/jpeg">
-                        <input ng-if="item.type == 'video'" type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept=".mp4">
+                        <input type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept=".xlsx,.docx,.pdf,.jpg,.png,.mp4">
+                        <span>{{getPhrase('Supported_files')}}:pdf,jpg,png,mp4,docx,xlsx</span>
                         <input type="hidden" ng-model="item.file" value="@{{item.file}}"  name="file[]" required>
+                        <input type="hidden" class="form-control"  name="type[]" value="@{{ item.type }}" id="" ng-model="item.type" required>
                     </div>
                     <div class="col-md-1">
                         <button type="button" ng-click="delete_item(item)" class="btn btn-danger" style="margin-top: 33%;">{{getPhrase('delete')}}</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 2%;" ng-if="item.error">
+                        <span style="font-size: 20px;color: red">{{getPhrase('invalid_file_type')}}</span>
                     </div>
                     <div class="col-md-4">
                         <div class="progressbar @{{ item.id }}" style="display: none;">
@@ -88,7 +79,7 @@
                                 <source src="@{{ item.video }}">
                             </video>
                         </div>
-                        <div ng-if="item.type == 'document' && item.file != ''">
+                        <div ng-if="item.type == 'application' && item.file != ''">
                             <a href="{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}@{{ item.file }}" download>
                                 <img border="0" src="{{PREFIX}}images/document.jpg" alt="W3Schools" width="200" height="120">
                             </a>
@@ -102,6 +93,7 @@
                 {!! Form::close() !!}
             </div>
 
+        </div>
         </div>
     </div>
 @endsection

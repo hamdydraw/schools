@@ -106,7 +106,6 @@ class UsersController extends Controller
                     'users.id',
                     'users.name',
                     'image',
-                    'users.slug as Sslug',
                     'id_number',
                     'students.roll_no',
                     'courses.course_title',
@@ -190,7 +189,7 @@ class UsersController extends Controller
                 if ($records->role_name == 'student') {
 
                     //student/papers/create/{slug}
-                    $papers = "<li><a href='".PREFIX."student/papers/create/$records->Sslug'><i class='fa fa-trophy' aria-hidden='true'></i>".getPhrase('Papers_and_achievements_of_the_student')."</a></li>";
+                    $papers = "<li><a href='".PREFIX."student/papers/create/$records->slug'><i class='fa fa-trophy' aria-hidden='true'></i>".getPhrase('Papers_and_achievements_of_the_student')."</a></li>";
                     $link_data .= '
                            <li ><a href="' . URL_STUDENT_EDIT_PROFILE . $records->slug . '"><i class="fa fa-user" aria-hidden="true"></i>' . getPhrase("admission_details") . '</a></li>
 
@@ -265,7 +264,6 @@ class UsersController extends Controller
             ->removeColumn('current_semister')
             ->removeColumn('id')
             ->removeColumn('slug')
-            ->removeColumn('Sslug')
             ->removeColumn('updated_at')
             ->removeColumn('course_dueration')
             ->removeColumn('is_having_semister')
