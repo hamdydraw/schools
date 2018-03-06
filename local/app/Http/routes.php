@@ -12,6 +12,7 @@
 */
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 Route::get('/', function () {
 
@@ -1118,8 +1119,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //test Route
 
-Route::get('/test', function (Request $request) {
-    return view('test');
+Route::get('/test', function () {
+//    $encrypted = Crypt::encrypt('secret');
 });
 
 

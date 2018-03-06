@@ -148,7 +148,7 @@ app.directive("validImage", validImage);
         $authProvider.signupUrl = 'http://localhost/cast/api/signup';
         // google
         $authProvider.google({
-            url: '{{PREFIX}}/auth/google',
+            url: '{{PREFIX}}auth/google',
             clientId: '{{$social['google_client_id']->value}}',
             redirectUri: "{{$social['google_redirect_url']->value}}",
             scope:['profile','email'],

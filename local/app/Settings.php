@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Settings extends Model
 {
@@ -17,6 +18,10 @@ class Settings extends Model
     public static function getSocialKeys(){
         $record = Settings::where('slug', 'social-logins')->get()->first();
         $data = getArrayFromJson($record->settings_data);
+        foreach ($data as $key => $value) {
+            // echo json_encode($value)."<br>";
+            $data[$key]->value = Crypt::decrypt($value->value);
+        }
         return $data;
     }
 

@@ -70,7 +70,7 @@ class studentPapers extends Controller
             })
             ->editColumn('file', function ($records) {
                 if($records->type == 'image'){
-                    return "<div><img src=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file." width='200' height='150'></div>";
+                    return "<a href=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file." download><img src=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file." width='200' height='150'></a>";
                 }else if ($records->type == 'video'){
                     return "<video width='200' height='150' controls>
                                 <source src=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file.">

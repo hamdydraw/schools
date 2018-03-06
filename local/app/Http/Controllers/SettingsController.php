@@ -7,6 +7,7 @@ use App\Settings;
 use DB;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Image;
 use ImageSettings;
 use Input;
@@ -593,7 +594,14 @@ class SettingsController extends Controller
                 'extra' => $extra,
                 'tool_tip' => $submitted_value->tool_tip
             );
+        }
 
+        if($slug == 'social-logins'){
+            //encrypt social data
+            foreach ($data as $key => $value) {
+               // echo json_encode($value)."<br>";
+                $data[$key]['value'] = Crypt::encrypt($value['value']);
+            }
         }
 
 

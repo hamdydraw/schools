@@ -1,6 +1,6 @@
 @extends($layout)
 @section('header_scripts')
-    <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
+
 @stop
 <style>
     .progressbar {
@@ -18,27 +18,22 @@
 </style>
 @section('content')
     <div id="page-wrapper" ng-controller="student_papers">
-        <div class="row">
-            <div class="col-lg-12">
-                <ol class="breadcrumb">
-                    <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
-                    <li><a href="{{PREFIX}}users/student">{{ getPhrase('students')}}</a></li>
-                    <li class="active">{{isset($title) ? $title : ''}}</li>
-                </ol>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
+                        <li><a href="{{PREFIX}}users/student">{{ getPhrase('students')}}</a></li>
+                        <li class="active">{{isset($title) ? $title : ''}}</li>
+                    </ol>
+                </div>
             </div>
 
-            @include('errors.errors')
-
-            <div class="panel panel-custom">
-                <div class="panel-heading">
-                    <div class="pull-right messages-buttons helper_step2">
-                        <a href="{{PREFIX}}users/student"
-                           class="btn  btn-primary button">{{ getPhrase('list')}}</a>
-                    </div>
-                    <h1>{{ $title }}  </h1>
-                </div>
-
-            <div class="panel-body form-auth-style" id="app" style="display: none">
+        <div class="panel panel-custom">
+            <div class="panel-heading">
+                <h1>{{ $title }}</h1>
+            </div>
+            <div class="panel-body packages" id="appy" style="display: none">
                 {{ Form::model($records,array('url' => PREFIX.'student/papers/update/'.$user->slug,'method'=>'post','name'=>'formAcademics ', 'novalidate'=>'')) }}
                 <div class="row">
                     <fieldset class="form-group col-md-6">
@@ -72,7 +67,9 @@
                             <div class="progressbar_2" id="@{{item.id}}"></div>
                         </div>
                         <div ng-if="item.type == 'image' && item.file != ''">
-                            <img src="{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}@{{ item.file }}" width="200" height="120" alt="">
+                            <a href="{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}@{{ item.file }}" download>
+                                <img src="{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}@{{ item.file }}" width="200" height="120" alt="">
+                            </a>
                         </div>
                         <div ng-if="item.type == 'video' && item.file != ''">
                             <video width="200" height="120" controls>
@@ -91,11 +88,11 @@
                     <button type="submit" class="btn btn-lg btn-primary button" ng-disabled="formAcademics.$invalid">{{getPhrase('Edit')}}</button>
                 </div>
                 {!! Form::close() !!}
+                </div>
             </div>
-
-        </div>
         </div>
     </div>
+
 @endsection
 @include('student.papers.script')
 @section('footer_scripts')

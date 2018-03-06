@@ -39,7 +39,7 @@
                 if($scope.items.length != 0){
                     $scope.current_id = $scope.items[$scope.items.length-1].id + 1;
                 }else{ $scope.current_id = 1}
-                $("#app").show();
+                $("#appy").show();
             })
         }
         $scope.get_recoreds();
