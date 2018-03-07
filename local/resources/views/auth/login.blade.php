@@ -98,7 +98,7 @@
 					<a ng-click="authenticate('facebook')" class="btn btn-block btn-social btn-facebook"><span style="padding-left: 5%;" class="fa fa-facebook" aria-hidden="true"></span>{{getPhrase('Sign_in_with_Facebook')}}</a>
                     @endif
                     <br>
-                    @if($key['facebook'] == 1)
+                    @if($key['google'] == 1)
                     <a ng-click="authenticate('google')" class="btn btn-block btn-social btn-google-plus"><span style="padding-left: 5%;" class="fa fa-google"></span>{{getPhrase('Sign_in_with_Google')}}</a>
                     @endif
 				</div>

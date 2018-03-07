@@ -1123,7 +1123,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 Route::get('/test', function () {
 //    $encrypted = Crypt::encrypt('secret');
    //579685009052342
-    return  Crypt::encrypt('http://localhost/schoolsysrepo/login');
+    return  Crypt::encrypt('http://school.sasbit.com/login');
 });
 
 
