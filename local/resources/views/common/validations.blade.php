@@ -147,7 +147,13 @@ app.directive("validImage", validImage);
         $authProvider.loginUrl = 'http://localhost/cast/api/login';
         $authProvider.signupUrl = 'http://localhost/cast/api/signup';
         // google
-        $authProvider.google({
+        {{--$authProvider.google({--}}
+            {{--url: '{{PREFIX}}auth/google',--}}
+            {{--clientId: '{{$social['google_client_id']->value}}',--}}
+            {{--redirectUri: "{{$social['google_redirect_url']->value}}",--}}
+            {{--scope:['profile','email'],--}}
+        {{--});--}}
+         $authProvider.google({
             url: '{{PREFIX}}auth/google',
             clientId: '{{$social['google_client_id']->value}}',
             redirectUri: "{{$social['google_redirect_url']->value}}",
@@ -155,7 +161,14 @@ app.directive("validImage", validImage);
         });
 
         //facebook
-        $authProvider.facebook({
+        {{--$authProvider.facebook({--}}
+            {{--clientId: '{{$social['facebook_client_id']->value}}',--}}
+            {{--url: '{{PREFIX}}auth/facebook',--}}
+            {{--redirectUri: "{{$social['facebook_redirect_url']->value}}",--}}
+            {{--scope: ['email'],--}}
+        {{--});--}}
+
+                $authProvider.facebook({
             clientId: '{{$social['facebook_client_id']->value}}',
             url: '{{PREFIX}}auth/facebook',
             redirectUri: "{{$social['facebook_redirect_url']->value}}",
@@ -167,7 +180,7 @@ app.directive("validImage", validImage);
 
     app.controller('login',['$scope','$http','$rootScope','$auth','$location',function($scope,$http,$rootScope,$auth,$location) {
 
-
+        $("#warn_him").css('display','block');
 		$scope.authenticate = function(provider) {
 		    console.log(provider);
 
@@ -176,6 +189,7 @@ app.directive("validImage", validImage);
                     location.reload();
                 }
                 else{
+
                     $scope.warning = response.data.message;
                 }
 			});

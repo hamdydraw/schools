@@ -13,6 +13,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 Route::get('/', function () {
 
@@ -1121,6 +1122,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 Route::get('/test', function () {
 //    $encrypted = Crypt::encrypt('secret');
+   //579685009052342
+    return  Crypt::encrypt('http://localhost/schoolsysrepo/login');
 });
 
 

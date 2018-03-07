@@ -17,9 +17,9 @@
 <?php $key = \App\Settings::Social_switch() ?>
 
 		@include('errors.errors')
-	<div class="alert alert-danger" ng-if="warning">
-		<ul>
-			<li>@{{warning}}</li>
+	<div id="warn_him" style="display:none">
+		<ul class="error" ng-if="warning">
+			<li style="color:red;">@{{warning}}</li>
 		</ul>
 	</div>
 
@@ -90,12 +90,19 @@
 		{!! Form::close() !!}
 	<div class="row">
 		<div class="text-center buttons">
-			@if($key['facebook'] == 1)
-				<a ng-click="authenticate('facebook')" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i>{{getPhrase('login')}}</a>
-			@endif
-			@if($key['google'] == 1)
-			<a ng-click="authenticate('google')" class="btn btn-google-plus"><i class="fa fa-google"></i>{{getPhrase('login')}}</a>
-			@endif
+			<div class="col-md-4">
+
+			</div>
+				<div class="col-md-4">
+                    @if($key['facebook'] == 1)
+					<a ng-click="authenticate('facebook')" class="btn btn-block btn-social btn-facebook"><span style="padding-left: 5%;" class="fa fa-facebook" aria-hidden="true"></span>{{getPhrase('Sign_in_with_Facebook')}}</a>
+                    @endif
+                    <br>
+                    @if($key['facebook'] == 1)
+                    <a ng-click="authenticate('google')" class="btn btn-block btn-social btn-google-plus"><span style="padding-left: 5%;" class="fa fa-google"></span>{{getPhrase('Sign_in_with_Google')}}</a>
+                    @endif
+				</div>
+
 		</div>
 	</div>
 
