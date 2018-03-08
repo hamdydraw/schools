@@ -28,7 +28,7 @@
 
 						 	$email_types = (array) $settings->record_type; ?>
 
-						{{ Form::label('type', getphrase('type')) }}
+						{{ Form::label('type', getphrase('content_type')) }}
 						<span class="text-red">*</span>
 						{{Form::select('type',$email_types , null, [
 						'class'=>'form-control','placeholder'=>'select',
@@ -37,7 +37,7 @@
 					</fieldset>
 
  					 <fieldset class="form-group">
-						{{ Form::label('subject', getphrase('subject')) }}
+						{{ Form::label('subject', getphrase('message_subject')) }}
 						<span class="text-red">*</span>
 						{{ Form::text('subject', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('welcome'),
 							'ng-model'=>'subject',

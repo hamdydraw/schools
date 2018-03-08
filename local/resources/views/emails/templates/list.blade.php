@@ -29,20 +29,20 @@
 
 					</div>
 
-				</div>								
+				</div>
 
 				<!-- /.row -->
 
 				<div class="panel panel-custom">
 
 					<div class="panel-heading">
-						
+
 
 						<div class="pull-right messages-buttons">
-							 
+
 
 							<a href="{{URL_EMAIL_TEMPLATES_ADD}}" class="btn  btn-primary button" >{{ getPhrase('create')}}</a>
-							 
+
 
 						</div>
 
@@ -52,29 +52,29 @@
 
 					<div class="panel-body packages">
 
-						<div > 
+						<div >
 
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 
 							<thead>
 
-								<tr>									 
+								<tr>
 
-									<th>{{ getPhrase('title')}}</th>
+									<th>{{ getphrase('key')}}</th>
 
-									<th>{{ getPhrase('subject')}}</th>
+									<th>{{ getPhrase('message_subject')}}</th>
 
-									<th>{{ getPhrase('type')}}</th>							 
+									<th>{{ getPhrase('content_type')}}</th>
 
 									<th>{{ getPhrase('from_email')}}</th>
 
 									<th>{{ getPhrase('from_name')}}</th>
 
-									<th>{{ getPhrase('action')}}</th>								  
+									<th>{{ getPhrase('action')}}</th>
 
 								</tr>
 
-							</thead>							 
+							</thead>
 
 						</table>
 
@@ -99,4 +99,3 @@
  @include('common.deletescript', array('route'=>'/email/templates/delete/'))
 
 @stop
-
