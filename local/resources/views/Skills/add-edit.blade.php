@@ -5,21 +5,32 @@
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a></li>
-                    <li>{{ $title }}</li>
+                    <li><a href="{{url('/mastersettings/skills')}}">{{getPhrase('skills')}}</a></li>
+                    <li>{{ getPhrase($title) }}</li>
                 </ol>
             </div>
         </div>
         <div class="container-fluid">
-            {{ Form::open(array('url' => '/', 'method'=>'patch')) }}
+            @if($title == 'add_skills')
+            {{ Form::open(array('url' => 'mastersettings/skills/store', 'method'=>'post')) }}
+            @else
+                {{ Form::open(array('url' => 'mastersettings/skills/update/'.$record->id, 'method'=>'post')) }}
+            @endif
+            {{csrf_field()}}
             <fieldset class="form-group">
                 {{ Form::label('course', getphrase('course')) }}
                 <span class="text-red">*</span>
-                {{Form::select('courses',$courses , null, ['class'=>'form-control','id'=>'course_selection'])}}
+                <select name="courses" class="form-control" id="course_selection" required="required">
+                    <option>{{getPhrase('select')}}</option>
+                    @foreach($courses as $key=>$value)
+                        <option value="{{$key}}" @if(isset($record) and $record->course_id == $key) selected @endif>{{$value}}</option>
+                    @endforeach
+                </select>
             </fieldset>
             <fieldset class="form-group">
                 {{ Form::label('subject', getphrase('subject')) }}
                 <span class="text-red">*</span>
-                <select name="subjects" class="form-control" id="subjects">
+                <select name="subjects" class="form-control" id="subjects" required="required">
                     <option>{{getPhrase('select')}}</option>
                 </select>
             </fieldset>
@@ -28,11 +39,13 @@
                     <fieldset class="form-group col-md-3">
                         {{ Form::label('skill', getphrase('skill')) }}
                         <span class="text-red">*</span>
-                        {{ Form::text('skill[]', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Skill Name','id'=>'skill')) }}
+                        {{ Form::text('skills[]', $value = isset($record->skill_title)? $record->skill_title : null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => 'Skill Name','id'=>'skill')) }}
                     </fieldset>
+                    @if($title == 'add_skills')
                     <fieldset class="form-group col-md-3" style="margin-top: 35px;">
                         <button class="btn btn-primary">{{getPhrase('new')}}</button>
                     </fieldset>
+                    @endif
                 </div>
             </div>
             <div class="row">
@@ -46,5 +59,5 @@
     </div>
 @stop
 @section('footer_scripts')
-    @include('Skills.js-script'))
+    @include('Skills.js-script',array('record'=>isset($record)?$record:null))
 @stop

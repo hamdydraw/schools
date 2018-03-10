@@ -75,6 +75,7 @@ class ParentsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="'.URL_USERS_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
+                           <li><a href="purchase-expenses/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("school_expenses").'</a></li>
 
                         </ul>
                     </div>';

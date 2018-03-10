@@ -11,7 +11,6 @@ class SupervisorLinks
 {
     public function handle($request, Closure $next)
     {
-
         $currentTeacher = explode('/', url()->current());
         $currentTeacher=$currentTeacher[count($currentTeacher)-1];
         $teacherId=User::where('slug',$currentTeacher)->first(['id'])->id;

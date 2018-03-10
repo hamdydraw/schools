@@ -945,8 +945,8 @@ class StudentQuizController extends Controller
         $user_record = prepareStudentSessionRecord($slug);
         $student_record  = $user_record->student;
         $current_semister=new App\AcademicSemester;
+        
         $current_semister=$current_semister->getCurrentSemeterOfAcademicYear($student_record->academic_id)->sem_num;
-
 
         $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
             ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
@@ -957,8 +957,8 @@ class StudentQuizController extends Controller
             ->where('quizapplicability.semister', '=',$current_semister)
             ->where('applicable_to_specific', '=',1)
             ->where('total_marks', '!=', 0)
-            ->where('start_date','<=',date('Y-m-d H:i:s'))
-            ->where('end_date','>=',date('Y-m-d H:i:s'))
+            /*->where('start_date','<=',date('Y-m-d H:i:s'))
+            ->where('end_date','>=',date('Y-m-d H:i:s'))*/
             ->select(['title', 'dueration', 'category', 'is_paid', 'total_marks','tags','quizzes.slug','quizzes.validity','quizzes.cost' ])
             ->get();
 

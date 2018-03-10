@@ -447,11 +447,16 @@ class QuestionBankController extends Controller
 
 
     public function upload(Request $request){
+
+
         if($request->hasFile('file')) {
+
+
             $value = $this->processUpload($request, null, 'file', 'question');
             return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
         }
         return json_encode(['state' => 'failed','desc' => getPhrase('upload_failed')]);
+
     }
 
     /**
