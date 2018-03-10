@@ -16,6 +16,11 @@
         border-radius: 10px;
     }
 </style>
+
+<?php
+$data =  \App\Settings::get_extensions();
+$extn = $data->value;
+?>
 @section('content')
     <div id="page-wrapper" ng-controller="student_papers">
         <div class="container-fluid">
@@ -51,8 +56,8 @@
                     <div class="col-md-3">
                         <label for="file">{{getPhrase('file')}}</label>
                         <span class="text-red">*</span>
-                        <input type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept=".xlsx,.docx,.pdf,.jpg,.png,.mp4">
-                        <span>{{getPhrase('Supported_files')}}:pdf,jpg,png,mp4,docx,xlsx</span>
+                        <input type="file" class="form-control filer" ngf-select="file_upload($files,item)" accept="{{$extn}}">
+                        <span>{{getPhrase('Supported_files')}}:{{$extn}}</span>
                         <input type="hidden" ng-model="item.file" value="@{{item.file}}"  name="file[]" required>
                         <input type="hidden" class="form-control"  name="type[]" value="@{{ item.type }}" id="" ng-model="item.type" required>
                     </div>
@@ -80,6 +85,11 @@
                             <a href="{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}@{{ item.file }}" download>
                                 <img border="0" src="{{PREFIX}}images/document.jpg" alt="W3Schools" width="200" height="120">
                             </a>
+                        </div>
+                        <div ng-if="item.type == 'audio' && item.file != ''">
+                            <audio controls style="margin-top: 6%;">
+                                <source src="@{{ item.video }}">
+                            </audio>
                         </div>
                     </div>
                     <br><br><br>

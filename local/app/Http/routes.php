@@ -1121,9 +1121,10 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test', function () {
-//    $encrypted = Crypt::encrypt('secret');
-   //579685009052342
-    return  Crypt::encrypt('http://school.sasbit.com/login');
+    $data =  \App\Settings::get_extensions();
+    $extn = str_replace(".","",$data->value);
+    $extn = explode(",",$extn);
+    return $extn;
 });
 
 

@@ -32,7 +32,7 @@
             }).then(function (response) {
                 $scope.items = response.data.records;
                 angular.forEach($scope.items,function (thing) {
-                    if(thing.type == 'video'){
+                    if(thing.type == 'video' || thing.type == 'audio'){
                         thing.video = '{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}'+thing.file;
                     }
                 })
@@ -59,14 +59,16 @@
                 var progress = (e.loaded / e.total) * 100;
                 $("#"+citem.id).css('width',progress+'%');
             }).then(function (response, status, headers, config) {
-                $('.'+citem.id).hide();
-                $('.filer').val('');
-                citem.file = response.data.file;
-                citem.type = type;
-                if(citem.type == 'video'){
-                    citem.video = '{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}'+citem.file;
+                if(response.data.state == 'failed'){
+                    citem.error = true;
+                }else{
+                    citem.file = response.data.file;
+                    citem.type = type;
+                    if(citem.type == 'video' || citem.type == 'audio'){
+                        citem.video = '{{IMAGE_PATH_UPLOAD_STUDENT_PAPERS}}'+citem.file;
+                    }
                 }
-                //$('#upload1').css({pointerEvents: "initial"});
+                $('.'+citem.id).hide();
                 $('.filer').val('');
             },function (resp) {
                 $('.'+citem.id).hide();

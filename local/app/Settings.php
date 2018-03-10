@@ -31,6 +31,7 @@ class Settings extends Model
 
         return $data;
     }
+    //allowed_sys_files
 
     public static function Social_switch(){
         $record = Settings::where('slug', 'module')->first();
@@ -38,6 +39,12 @@ class Settings extends Model
         $switch['facebook'] = $values->facebook_login->value;
         $switch['google'] = $values->google_plus_login->value;
         return $switch;
+    }
+
+    public static function get_extensions(){
+        $record = Settings::where('slug', 'allowed_sys_files')->first();
+        $values = json_decode($record->settings_data);
+        return $values->student_achievement_file_extensions;
     }
 
     /**

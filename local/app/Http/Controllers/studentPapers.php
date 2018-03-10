@@ -23,10 +23,24 @@ class studentPapers extends Controller
 
     public function upload(Request $request){
 
+        $flag = 0;
+        $data =  \App\Settings::get_extensions();
+        $extn = str_replace(".","",$data->value);
+        $extn = explode(",",$extn);
+        //$request->$file_name->guessClientExtension()
         if($request->hasFile('file')) {
-            $this->validate($request,[
-                'file' => 'required|mimes:png,jpg,mp4,jpeg,xlsx,docx,pdf,mp4'
-            ]);
+            $file_extn = $request->file('file')->extension();
+            foreach ($extn as $key => $value){
+                if($value == $file_extn){
+                    $flag = 1;
+                }
+            }
+            if($file_extn == 'mpga' && in_array("mp3", $extn)){
+                $flag = 1;
+            }
+            if($flag == 0){
+                return json_encode(['state' => 'failed','desc' => getPhrase('invalid_file_type')]);
+            }
             $value = $this->processUpload($request, 'file');
             return json_encode(['state' => 'success','desc' => getPhrase('upload_success'),'file' => $value]);
         }
@@ -79,7 +93,12 @@ class studentPapers extends Controller
                     return "<a href=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file." download>
                                 <img border='0' src='".PREFIX."images/document.jpg' width=\"200\" height=\"120\">
                             </a>";
-                }else{
+                }else if($records->type == 'audio'){
+                    return "<audio controls>
+                                <source src=".IMAGE_PATH_UPLOAD_STUDENT_PAPERS.$records->file.">
+                            </audio>";
+                }
+                else{
                     return "";
                 }
             })
@@ -162,7 +181,7 @@ class studentPapers extends Controller
             if ($request->hasFile($file_name)) {
                 $imageObject = new App\ImageSettings();
                 $destinationPath = "uploads/student_papers/";
-                $fileName = $record1 . '-' . $file_name . '-' . $record2 . '.' . $request->$file_name->guessClientExtension();
+                $fileName = $record1 . '-' . $file_name . '-' . $record2 . '.' . $request->file($file_name)->extension();
             }
         $request->file($file_name)->move($destinationPath, $fileName);
         return $fileName;
