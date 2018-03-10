@@ -83,3 +83,6 @@ ALTER TABLE `couponcodes_usage` ADD `created_at` TIMESTAMP;
 ALTER TABLE `users` ADD `id_number` VARCHAR(150) NULL DEFAULT NULL AFTER `username`;
 
 ALTER TABLE `users` ADD UNIQUE(`id_number`);
+
+INSERT INTO `settings` (`id`, `title`, `key`, `slug`, `image`, `settings_data`, `description`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`) VALUES
+(22, 'Ø§Ù„Ù…Ù„ÙØ§Øª Ø§Ù„Ù…Ø³Ù…ÙˆØ­ Ø¨Ù‡Ø§ Ø¹Ù„ÙŠ Ø§Ù„Ù†Ø¸Ø§Ù…', 'allowed_files', 'allowed_sys_files', NULL, '{"student_achievement_file_extensions":{"value":".xlsx,.docx,.pdf,.jpg,.png,.mp4,.mp3,.jpeg","type":"text","extra":"","tool_tip":"extensions only are allowed"}}', 'edit the files extensions allowed in the system', NULL, '2018-03-10 12:40:43', '::1', NULL, 0, 1790);
