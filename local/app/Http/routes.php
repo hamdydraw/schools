@@ -247,7 +247,28 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 
 //skills
 Route::get('mastersettings/skills', 'SkillsController@index');
+Route::get('mastersettings/skills/create', 'SkillsController@create');
+Route::get('mastersettings/skills/edit/{id}', 'SkillsController@edit');
+Route::post('mastersettings/skills/update/{id}', 'SkillsController@update');
+Route::get('mastersettings/skills/delete/{id}', 'SkillsController@delete');
 Route::get('mastersettings/skills/getRelatedSubjects', 'SkillsController@getRelatedSubjects');
+Route::post('mastersettings/skills/store', 'SkillsController@store');
+Route::get('mastersettings/skills/getList', [
+    'as' => 'skills.dataTable',
+    'uses' => 'SkillsController@getDatatable'
+]);
+//academic_dues
+Route::get('mastersettings/dues','DuesController@index');
+Route::get('mastersettings/dues/create','DuesController@create');
+Route::post('mastersettings/dues/store','DuesController@store');
+Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
+Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
+Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
+Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
+Route::get('mastersettings/dues/getList', [
+    'as' => 'dues.dataTable',
+    'uses' => 'DuesController@getDatatable'
+]);
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');
 Route::get('mastersettings/religions/add', 'ReligionsController@create');

@@ -230,7 +230,6 @@ class PaymentsController extends Controller
      */
     public function paynow(Request $request, $slug)
     {
-
         $type = $request->type;
 
         /**
@@ -288,7 +287,7 @@ class PaymentsController extends Controller
                 return back();
             }
 
-            $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,$request);
+            $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,1,$request);
             $config = config();
             $payumoney = $config['indipay']['payumoney'];
 
@@ -320,7 +319,7 @@ class PaymentsController extends Controller
                     return back();
                 }
 
-                $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,$request);
+                $token = $this->preserveBeforeSave($item, $type, $payment_gateway, $other_details,1,$request);
 
 
                 $paypal = new Paypal();
@@ -422,7 +421,7 @@ class PaymentsController extends Controller
                 $payment->notes = $other_details['payment_details'];
             }
         }
-        $payment->user_stamp();
+        /*$payment->user_stamp();*/
         $payment->user_stamp($request);
         $payment->save();
         return $payment->slug;
@@ -843,7 +842,7 @@ class PaymentsController extends Controller
         $other_details['payment_details'] = $request->payment_details;
 
         $payment_gateway = $payment_data->gateway;
-        $token = $this->preserveBeforeSave($item, $payment_data->type, $payment_gateway, $other_details,$request);
+        $token = $this->preserveBeforeSave($item, $payment_data->type, $payment_gateway, $other_details,1,$request);
         flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
         return redirect(URL_PAYMENTS_LIST . Auth::user()->slug);
     }
