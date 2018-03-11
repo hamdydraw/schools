@@ -1121,10 +1121,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test', function () {
-    $data =  \App\Settings::get_extensions();
-    $extn = str_replace(".","",$data->value);
-    $extn = explode(",",$extn);
-    return $extn;
+    $data = \App\Settings::get_default_theme();
+    return json_encode($data);
 });
 
 

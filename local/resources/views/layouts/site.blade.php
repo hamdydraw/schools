@@ -28,10 +28,10 @@
 
 	@if(Session::has('lang_dir') && Session::get('lang_dir') == 0 )
 		<link href="{{CSS}}bootstrap_en.min.css" rel="stylesheet">
-		<link href="{{CSS}}default-themeـen.css" rel="stylesheet">
+		<link href="{{CSS}}{{\App\Settings::get_default_theme()}}-theme-en.css" rel="stylesheet">
 	@else
 		<link href="{{CSS}}bootstrap.min.css" rel="stylesheet">
-		<link href="{{CSS}}default-theme.css" rel="stylesheet">
+		<link href="{{CSS}}{{\App\Settings::get_default_theme()}}-theme.css" rel="stylesheet">
 @endif
 
 	<!-- Morris Charts CSS -->

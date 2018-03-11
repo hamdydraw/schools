@@ -47,6 +47,11 @@ class Settings extends Model
         return $values->student_achievement_file_extensions;
     }
 
+    public static function get_default_theme(){
+        $record = Settings::where('slug', 'site-settings')->first();
+        $values = json_decode($record->settings_data);
+        return $values->current_theme->value;
+    }
     /**
      * This method validates and sends the setting value
      * @param  [type] $setting_type [description]
