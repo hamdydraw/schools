@@ -381,7 +381,7 @@ class SettingsController extends Controller
         }
 
         $data['settings_data'] = getArrayFromJson($record->settings_data);
-        if($slug != 'social-logins'){
+        if($slug != 'social-logins' && $slug != 'messaging-system'){
             ksort($data['settings_data']);
         }
         $data['record'] = $record;
