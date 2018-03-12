@@ -11,7 +11,15 @@ class user_notifications extends Model
     public $timestamps = false;
 
     public static function get_new_count(){
-        return user_notifications::where('state','new')->where('user_id',Auth::user()->id)->count();
+        $date = date('Y-m-d');
+        $count = Notification::join('user_notification','notifications.id','=','user_notification.notification_id')
+            ->where('user_notification.user_id',Auth::user()->id)
+            ->where('notifications.valid_from', '<=', $date)
+            ->where('notifications.valid_to', '>=', $date)
+            ->where('user_notification.state','new')
+            ->count();
+       // return user_notifications::where('state','new')->where('user_id',Auth::user()->id)->count();
+        return $count;
     }
 
     public static function viewed($id){
