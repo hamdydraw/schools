@@ -44,26 +44,14 @@ class MessagesController extends Controller
             pageNotFound();
             return back();
         }
-        $module_for = getSetting('messaging_system_for','messaging_system');
+        //$module_for = getSetting('messaging_system_for','messaging_system');
 
+        $available_types = App\Settings::getMassages();
 
-        if($current_user_role == 'parent')
+        if(!in_array($current_user->role_id,$available_types))
         {
-            if($module_for!='all')
-            {
                 pageNotFound();
                 return back();
-            }
-        }
-        else if($current_user_role == 'staff' )
-        {
-            if(!($module_for=='all' || $module_for=='admin_student_staff'))
-            {
-
-                pageNotFound();
-                return back();
-            }
-
         }
 
         $currentUserId = $current_user->id;
@@ -148,33 +136,9 @@ class MessagesController extends Controller
             return back();
         }
 
-        $query = User::where('id', '!=', Auth::id());
-       $type = getSetting('messaging_system_for','messaging_system');
 
-
-        $admin_role = getRoleData('admin');
-        $owner_role = getRoleData('owner');
-        $student_role = getRoleData('student');
-        $query->where('role_id', '=', $admin_role);
-        $query->orWhere('role_id', '=', $student_role)
-              ->orWhere('role_id', '=', $owner_role);
-
-       if($type == 'admin_student_staff' || $type == 'all')
-       {
-            $staff_role = getRoleData('staff');
-            $query->orWhere('role_id','=',$staff_role);
-       }
-
-       if($type == 'all')
-       {
-            $parent_role = getRoleData('parent');
-            $query->orWhere('role_id','=',$parent_role);
-       }
-
-
-        $users = $query->get();
-
-
+        $available_types = App\Settings::getMassages();
+        $users = App\User::whereIn('role_id',$available_types)->where('id','!=',Auth::user()->id)->get();
         $data['title']               = getPhrase('send_message');
         $data['active_class']        = 'messages';
         $data['users']      = $users;

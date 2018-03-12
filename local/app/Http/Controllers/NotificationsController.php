@@ -114,7 +114,7 @@ class NotificationsController extends Controller
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'notifications';
      	$data['title']              = getPhrase('add_notification');
-     	$data['layout']              = getLayout();
+     	$data['layout']             = getLayout();
     	return view('notifications.add-edit', $data);
     }
 

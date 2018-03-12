@@ -4,8 +4,8 @@
 	}
 </style>
 
+<?php $roles      = App\Role::all(); ?>
 <div class="row">
-
  					 <fieldset class="form-group col-md-6">
 
 						{{ Form::label('title', getphrase('title')) }}
@@ -105,13 +105,9 @@
 						<br>
 						{{ Form::label('send_to', getphrase('send_to')) }}:
 						<br>
-						{{ Form::checkbox('to[0]', '1' , true) }} {{getPhrase('owners')}}<br>
-						{{ Form::checkbox('to[1]', '2' , true) }} <span>{{getPhrase('admins')}}</span><br>
-						{{ Form::checkbox('to[2]', '3' , true) }} <span>{{getPhrase('staff_users')}}</span><br>
-						{{ Form::checkbox('to[3]', '5' , true) }} <span>{{getPhrase('students')}}</span><br>
-						{{ Form::checkbox('to[4]', '6' , true) }} <span>{{getPhrase('parents')}}</span><br>
-						{{ Form::checkbox('to[5]', '7' , true) }} <span>{{getPhrase('librarians')}}</span><br>
-						{{ Form::checkbox('to[6]', '8' , true) }} <span>{{getPhrase('assistant_librarians')}}</span>
+						@for($i = 0; $i < count($roles); $i++)
+							{{ Form::checkbox("to[$i]", $roles[$i]->id , true) }} {{getPhrase($roles[$i]->name)}}<br>
+						@endfor
 					</fieldset>
 
 

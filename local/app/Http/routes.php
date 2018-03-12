@@ -1142,8 +1142,9 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test', function () {
-    $data = \App\Settings::get_default_theme();
-    return json_encode($data);
+    $data = \App\Settings::getMassages();
+
+    return $data;
 });
 
 

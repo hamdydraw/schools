@@ -52,6 +52,20 @@ class Settings extends Model
         $values = json_decode($record->settings_data);
         return $values->current_theme->value;
     }
+
+    public static function getMassages(){
+        $record    = Settings::where('slug', 'messaging-system')->first();
+        $types     = getArrayFromJson($record->settings_data);
+        $keys      = array_keys($types);
+        $available = [];
+        foreach ($keys as $key){
+            if($types[$key]->value == "1"){
+                $id = Role::where('name',$key)->pluck('id')->first();
+                array_push($available,$id);
+            }
+        }
+        return $available;
+    }
     /**
      * This method validates and sends the setting value
      * @param  [type] $setting_type [description]
@@ -66,6 +80,7 @@ class Settings extends Model
        
         return Settings::isSettingAvailable($key, $setting_module);
     }    
+
 
     /**
      * This method finds the key is available in module or not
