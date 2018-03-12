@@ -49,6 +49,11 @@
                             <img src="{{IMAGE_PATH_SETTINGS.$record->image}}" width="100" height="100">
                         @endif
                     </div>
+                    @if($slug == 'messaging-system')
+                        <div class="row" style="margin-bottom: 3%;margin-right: 4%;">
+                            <h4>{{getPhrase('messaging_system_for')}}</h4>
+                        </div>
+                        @endif
                     {!! Form::open(array('url' => URL_SETTINGS_ADD_SUBSETTINGS.$record->slug, 'method' => 'PATCH',
                         'novalidate'=>'','name'=>'formSettings ', 'files'=>'true')) !!}
                     <div class="row">
