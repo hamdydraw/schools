@@ -45,7 +45,7 @@ class UsersDashboardController extends Controller
       $course_details             = Course::select('course_title')->get();
       $data['course_details']     = $course_details;
       $data['module_helper']      = getModuleHelper('users-dashborad-list');
-      return view('users.dashboard', $data);  
+      return view('users.dashboard', $data);
        
     }
 }   

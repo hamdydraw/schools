@@ -183,7 +183,7 @@ if ($record) {
     @include('exams.questionbank.form_elements_para', array('record'=>$record))
 @endif
 @if($skills != null)
-<fieldset class="form-group ">
+<fieldset class="form-group">
    {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
    <select name="skills" class="form-control" id="skills">
        <option value="0">{{getPhrase('select')}}</option>
@@ -195,8 +195,6 @@ if ($record) {
    </select>
 </fieldset>
 @endif
-
-
 <!-- Load the files end as independent -->
 
 <div class="buttons text-center">

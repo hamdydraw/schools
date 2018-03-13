@@ -43,6 +43,7 @@
 									<th>{{ getPhrase('question')}}</th>
 									<th>{{ getPhrase('marks')}}</th>
 									<th>{{ getPhrase('difficulty')}}</th>
+									<th>{{ getPhrase('skills')}}</th>
 									<th>{{ getPhrase('action')}}</th>
 								  
 								</tr>

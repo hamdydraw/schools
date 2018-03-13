@@ -122,7 +122,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-md-3 ">
+                {{--<div class="col-md-3 ">
                     <div class="card card-yellow text-xs-center helper_step7">
                         <div class="card-block">
                             <h4 class="card-title">
@@ -136,8 +136,8 @@
                             {{ getPhrase('view_all')}}
                         </a>
                     </div>
-                </div>
-
+                </div>--}}
+            </div>
 @stop
 
 @section('footer_scripts')

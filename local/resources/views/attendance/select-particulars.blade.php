@@ -37,11 +37,15 @@
             <!-- /.row -->
             <div class="panel panel-custom">
                 <div class="panel-heading">
-                    <h1>
-                        {{getPhrase('select_details')}}
-
-                    </h1>
+                    <div class="pull-right">
+                        @if ($role == 'educational_supervisor')
+                            <a class="btn btn-primary"
+                               href="{{url('supervisor/staff/teacher-student-attendance')}}">{{getPhrase('all')}}</a>
+                        @endif
+                    </div>
+                    <h1>{{getPhrase('select_details')}}</h1>
                 </div>
+
                 <div class="panel-body instruction">
 
 

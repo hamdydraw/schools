@@ -29,7 +29,7 @@ class LessionPlansController extends Controller
     {
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
-        $data['role']=$role;
+        $data['role'] = $role;
 
         $user = App\User::where('slug', '=', $slug)->first();
 
@@ -58,7 +58,7 @@ class LessionPlansController extends Controller
         } else {
             $data['active_class'] = 'lession';
         }
-        if(getRoleData(Auth::user()->role_id) == 'educational_supervisor'){
+        if (getRoleData(Auth::user()->role_id) == 'educational_supervisor') {
             $data['active_class'] = 'staff-topic-plan';
         }
 
@@ -260,15 +260,31 @@ class LessionPlansController extends Controller
     public function viewTopics($userSlug, $courseSubjectSlug)
     {
         //Check the user Grade
-        if (!checkRole(getUserGrade(3))) {
-            prepareBlockUserMessage();
-            return back();
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
+        $recordOfSlug = App\User::where('slug', $userSlug)->first(['id']);
+        if ($role == 'educational_supervisor') {
+            $checkIfExist = App\SupervisorStaff::where('supervisor_id', $user->id)->where('staff_id',
+                $recordOfSlug->id)->first();
+            if ($checkIfExist == null) {
+                flash(getPhrase('error'), getPhrase("you_are_not_eligible_to_enter_here"), 'error');
+                return redirect('dashboard');
+            }
+        }
+        if ($role != 'educational_supervisor') {
+            if (!checkRole(getUserGrade(3))) {
+                prepareBlockUserMessage();
+                return back();
+            }
         }
 
         //*********VALIDATING THE USER START*****************//
         //Make sure that the user is accessing only his record apart from admin/owner
-        if (!isEligible($userSlug)) {
-            return back();
+        if ($role != 'educational_supervisor') {
+            if (!isEligible($userSlug)) {
+                return back();
+            }
         }
 
 
@@ -279,7 +295,7 @@ class LessionPlansController extends Controller
         }
 
         $courseSubjectRecord = App\CourseSubject::where('slug', '=', $courseSubjectSlug)->first();
-        $courseSubjectSemester=$courseSubjectRecord->semister;
+        $courseSubjectSemester = $courseSubjectRecord->semister;
 
         if ($isValid = $this->isValidRecord($courseSubjectRecord)) {
             return redirect($isValid);
@@ -299,7 +315,8 @@ class LessionPlansController extends Controller
         $available_records = App\LessionPlan::where('course_subject_id', '=', $courseSubjectRecord->id)->get();
 
 
-        $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id,$courseSubjectSemester);
+        $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id,
+            $courseSubjectSemester);
 
 
         if (!count($topics)) {
@@ -325,7 +342,7 @@ class LessionPlansController extends Controller
 
         $data['role_name'] = getRoleData(Auth::user()->role_id);
 
-        $data['title'] = getPhrase('lesson_plans_for') . ' ' . $subjectRecord->subject_title. ' ' .getphrase('semester_'.$courseSubjectSemester);
+        $data['title'] = getPhrase('lesson_plans_for') . ' ' . $subjectRecord->subject_title . ' ' . getphrase('semester_' . $courseSubjectSemester);
         $data['layout'] = getLayout();
         return view('staff.lessionplans.topics', $data);
 
@@ -337,9 +354,9 @@ class LessionPlansController extends Controller
      * @param  [type] $courseSubjectId [description]
      * @return [type]                  [description]
      */
-    public function prepareTopicsList($subject_id, $courseSubjectId,$semester)
+    public function prepareTopicsList($subject_id, $courseSubjectId, $semester)
     {
-        $parent_topics = $this->getTopicRecord($subject_id, 0, 0,$semester);
+        $parent_topics = $this->getTopicRecord($subject_id, 0, 0, $semester);
 
         $topics = [];
         foreach ($parent_topics as $topic) {
@@ -347,7 +364,8 @@ class LessionPlansController extends Controller
             $topics[$topic->id] = $topic;
             $topics[$topic->id]['course_subject_id'] = $courseSubjectId;
 
-            $subject_topics_list = App\Topic::where('parent_id', '=', $topic->id)->where('semester_num',$semester)->get()->toArray();
+            $subject_topics_list = App\Topic::where('parent_id', '=', $topic->id)->where('semester_num',
+                $semester)->get()->toArray();
             $lession_plan_topics = App\LessionPlan::where('course_subject_id', '=', $courseSubjectId)
                 ->get()->toArray();
             $topics[$topic->id]['childs'] = $this->prepareChildRecords($subject_topics_list, $lession_plan_topics);
@@ -364,7 +382,7 @@ class LessionPlansController extends Controller
      *
      * @return     <type>   The topic record.
      */
-    public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0,$semester)
+    public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0, $semester)
     {
 
         $result = App\Topic::join('subjects', 'subjects.id', '=', 'topics.subject_id')

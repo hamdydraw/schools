@@ -262,7 +262,7 @@ class SupervisorController extends Controller
                 'users.slug'
             ]);
         $data['record'] = $record;
-        $data['active_class'] = 'mastersettings';
+        $data['active_class'] = 'users';
         $data['title'] = getPhrase('staff_to_supervisor');
         $data['items'] = json_encode(array('staff' => $staff_records, 'allocated_staff' => $allocated_staff));
         $data['right_bar'] = true;

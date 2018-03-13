@@ -28,12 +28,15 @@
             <!-- /.row -->
             <div class="panel panel-custom">
                 <div class="panel-heading">
-
-                    <div class="pull-right messages-buttons">
-
+                    <div class="pull-right">
+                        @if ($role == 'educational_supervisor')
+                            <a class="btn btn-primary"
+                               href="{{url('supervisor/staff/staff-topic-plan')}}">{{getPhrase('all')}}</a>
+                        @endif
                     </div>
-                    <h1>{{ $title }}</h1>
+                    <h1>{{ $title }} </h1>
                 </div>
+
                 <div class="panel-body packages">
                     <?php
                     $lessionPlanObject = new App\LessionPlan();
@@ -43,7 +46,7 @@
                         <?php
 
                         $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id,
-                            $subject->staff_id, $subject->id,$subject->semister);
+                            $subject->staff_id, $subject->id, $subject->semister);
                         $percent_completed = round($summary->percent_completed);
                         ?>
                         @if($subject->semister !== $semester)

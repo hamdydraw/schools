@@ -29,8 +29,8 @@
 
                         <div class="panel-heading">
                             <div class="pull-right messages-buttons helper_step1">
-                                <a href="{{url('mastersettings/supervisor/assign-staff')}}"
-                                   class="btn  btn-primary button">{{ getPhrase('list')}}</a>
+                                <a href="{{url('users/educational_supervisor')}}"
+                                   class="btn  btn-primary button">{{ getPhrase('all')}}</a>
                             </div>
                             <h1>{{ $title }}  </h1>
                         </div>

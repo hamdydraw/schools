@@ -486,7 +486,7 @@ public function downloadExcel()
         $data['layout']             = getLayout();
         $data['title']              = getPhrase('topics_list');
         $data['module_helper']      = getModuleHelper('view-topics');
-        return view('mastersettings.course-subjects.view-topics', $data);
+        //return view('mastersettings.course-subjects.view-topics', $data);
     }
 
 

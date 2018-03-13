@@ -22,8 +22,12 @@
             <!-- /.row -->
             <div class="panel panel-custom">
                 <div class="panel-heading">
-
-
+                    <div class="pull-right">
+                        @if ($role == 'educational_supervisor')
+                            <a class="btn btn-primary"
+                               href="{{url('supervisor/staff/staff-topic-plan')}}">{{getPhrase('all')}}</a>
+                        @endif
+                    </div>
                     <h1>{{ $title }}</h1>
                 </div>
 

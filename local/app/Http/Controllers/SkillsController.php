@@ -62,7 +62,6 @@ class SkillsController extends Controller
     }
     public function edit($id)
     {
-
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['title'] ='edit_skills';

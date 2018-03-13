@@ -196,7 +196,9 @@ class UsersController extends Controller
                             <li><a href="' . URL_USER_DETAILS . $records->slug . '"><i class="fa fa-university" aria-hidden="true"></i>' . getPhrase("profile") . '</a></li>'.$papers;
                 }
 
-
+                if ($records->role_name == 'educational_supervisor') {
+                    $link_data.=' <li ><a href="../mastersettings/supervisor/assign-staff/'. $records->slug . '"><i class="fa fa-user" aria-hidden="true"></i>' . getPhrase("assign_teacher_to_supervisor") . '</a></li>';
+                }
 
                 if ($records->role_name == 'staff') {
                     $status_name = getPhrase('make_inactive');

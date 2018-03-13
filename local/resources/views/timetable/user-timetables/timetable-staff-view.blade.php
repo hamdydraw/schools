@@ -9,7 +9,7 @@
     if (isset($allocated_periods)) {
         $data = $allocated_periods;
     }
-    $roleId=Auth::user()->role_id;
+    $roleId = Auth::user()->role_id;
     ?>
     <div ng-controller="TimetableController" ng-init="ingAngData({{$data}})">
         @stop
@@ -57,10 +57,17 @@
                         <div class="panel-heading">
                             <h1>
                                 {{getPhrase('timetable_for').' '.$user->name}}
+                                <div class="pull-right">
+                                    <a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.$user->slug}}"
+                                       class="btn btn-primary">
+                                        {{getPhrase('print')}}</a>
+                                    @if ($role == 'educational_supervisor')
+                                        <a href="{{url('supervisor/staff/teachers-timetable')}}"
+                                           class="btn btn-primary">
+                                            {{getPhrase('all')}}</a>
+                                    @endif
+                                </div>
 
-                                <a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.$user->slug}}"
-                                   class="btn btn-primary pull-right">
-                                    {{getPhrase('print')}}</a>
                             </h1>
                         </div>
                         <div class="panel-body">

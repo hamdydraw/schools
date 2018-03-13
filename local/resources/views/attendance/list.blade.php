@@ -18,7 +18,8 @@
                         @endif
                         <li>{{ $title }}</li>
                         <li>{{ $slugData->name }}</li>
-                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{getphrase('particulars')}}</a></li>
+                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{getphrase('particulars')}}</a>
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -97,9 +98,8 @@
                                         <td>{{ $student->first_name }}</td>
                                         <td>
                                             <div class="col-md-4">
-
                                                 <?php
-                                                $present = true;
+                                                $present = false;
                                                 $absent = false;
                                                 $leave = false;
                                                 $remarks = '';

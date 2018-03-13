@@ -31,6 +31,13 @@
             {!! Form::open(array('url' => 'supervisor/staff/print-students-marks/'.$slug, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
 
             <div class="panel panel-custom">
+                <div class="panel-heading">
+                    <div class="pull-right">
+                        <a class="btn btn-primary"
+                           href="{{url('supervisor/staff/students-marks')}}">{{getPhrase('all')}}</a> &nbsp;
+                    </div>
+                    <h1>{{getPhrase('student_marks')}}</h1>
+                </div>
                 <div class="panel-body instruction">
 
                     <?php

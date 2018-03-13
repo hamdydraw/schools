@@ -206,13 +206,13 @@ Route::post('staff/subjects/preferences/{slug}', 'SubjectPreferencesController@u
 
 //supervisors
   //from admin side
-Route::get('mastersettings/supervisor/assign-staff', 'SupervisorController@index');
+//Route::get('mastersettings/supervisor/assign-staff', 'SupervisorController@index');
 Route::get('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@assignStuff');
 Route::post('mastersettings/assign-staff/check-status', 'SupervisorController@checkStatus');
-Route::get('mastersettings/supervisor/getList', [
+/*Route::get('mastersettings/supervisor/getList', [
     'as' => 'supervisors.dataTable',
     'uses' => 'SupervisorController@getDatatable'
-]);
+]);*/
 Route::post('mastersettings/supervisor/assign-staff/{slug}', 'SupervisorController@updateStaffSupervisors');
 
 //from supervisor side
