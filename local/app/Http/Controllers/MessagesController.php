@@ -21,6 +21,7 @@ class MessagesController extends Controller
 
 
 
+
      /**
      * Show all of the message threads to the user.
      *
@@ -36,8 +37,8 @@ class MessagesController extends Controller
             return back();
         }
 
-        $current_user =     Auth::user();
-        $current_user_role = getRoleData($current_user->role_id);
+
+        //$current_user_role = getRoleData($current_user->role_id);
 
         if(!getUserGrade(14))
         {
@@ -45,7 +46,7 @@ class MessagesController extends Controller
             return back();
         }
         //$module_for = getSetting('messaging_system_for','messaging_system');
-
+        $current_user =     Auth::user();
         $available_types = App\Settings::getMassages();
 
         if(!in_array($current_user->role_id,$available_types))
@@ -77,6 +78,15 @@ class MessagesController extends Controller
     public function show($id)
     {
         if(!getSetting('messaging', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
+
+        $current_user =     Auth::user();
+        $available_types = App\Settings::getMassages();
+
+        if(!in_array($current_user->role_id,$available_types))
         {
             pageNotFound();
             return back();
@@ -136,6 +146,15 @@ class MessagesController extends Controller
             return back();
         }
 
+        $current_user =     Auth::user();
+        $available_types = App\Settings::getMassages();
+
+        if(!in_array($current_user->role_id,$available_types))
+        {
+            pageNotFound();
+            return back();
+        }
+
 
         $available_types = App\Settings::getMassages();
         $users = App\User::whereIn('role_id',$available_types)->where('id','!=',Auth::user()->id)->get();
@@ -149,6 +168,15 @@ class MessagesController extends Controller
      public function store()
     {
         if(!getSetting('messaging', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
+
+        $current_user =     Auth::user();
+        $available_types = App\Settings::getMassages();
+
+        if(!in_array($current_user->role_id,$available_types))
         {
             pageNotFound();
             return back();
@@ -207,6 +235,15 @@ class MessagesController extends Controller
             return back();
         }
 
+        $current_user =     Auth::user();
+        $available_types = App\Settings::getMassages();
+
+        if(!in_array($current_user->role_id,$available_types))
+        {
+            pageNotFound();
+            return back();
+        }
+
         try {
             $thread = Thread::findOrFail($id);
         } catch (ModelNotFoundException $e) {
@@ -237,4 +274,5 @@ class MessagesController extends Controller
         }
         return redirect('messages/' . $id);
     }
+
 }

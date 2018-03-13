@@ -75,9 +75,9 @@ $total = \App\user_feedback::get_new_count();
 if ($settings->push_notifications->value == 1) {
     $total += \App\user_notifications::get_new_count();
 }
-if ($settings->messaging->value == 1) {
-    $total += Auth::user()->newThreadsCount();
-}
+$available_types = App\Settings::getMassages();
+$current_user =     Auth::user();
+if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types)){$total+=Auth::user()->newThreadsCount();}
 
 // \App\user_notifications::get_new_count()
 // Auth::user()->newThreadsCount();
@@ -175,7 +175,7 @@ if ($settings->messaging->value == 1) {
                             </a>
                         </li>
                     @endif
-                    @if($settings->messaging->value == 1)
+                    @if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types))
                         <li>
                             <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
                                                 class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>

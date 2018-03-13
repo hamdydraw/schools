@@ -60,9 +60,9 @@ $total = 0;
 if ($settings->push_notifications->value == 1) {
     $total += \App\user_notifications::get_new_count();
 }
-if ($settings->messaging->value == 1) {
-    $total += Auth::user()->newThreadsCount();
-}
+$available_types = App\Settings::getMassages();
+$current_user =     Auth::user();
+if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types)){$total+=Auth::user()->newThreadsCount();}
 ?>
 <?php
 $user = getUserRecord();
@@ -89,7 +89,7 @@ $role = getRoleData($user->role_id);
             <li class="dropdown profile-menu">
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
                     @if(Auth::check())
-                        @if($settings->push_notifications->value == 1 || $settings->messaging->value == 1)
+                        @if($settings->push_notifications->value == 1 || ($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types)))
                             <h6 class="badge badge-success">{{ $total }}</h6>
                         @endif
                         <div class="username">
@@ -122,7 +122,7 @@ $role = getRoleData($user->role_id);
                     }
                     ?>
 
-                    @if($settings->messaging->value == 1)
+                    @if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types))
                         <li>
                             <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"><h6
                                                 class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h6></i></span>
