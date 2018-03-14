@@ -375,13 +375,20 @@ class SettingsController extends Controller
             return back();
         }
 
+        if($slug == 'module'){
+            if (!checkRole(getUserGrade(1))) {
+                prepareBlockUserMessage();
+                return back();
+            }
+        }
+
         $record = Settings::where('slug', $slug)->get()->first();
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
         }
 
         $data['settings_data'] = getArrayFromJson($record->settings_data);
-        if($slug != 'social-logins' && $slug != 'messaging-system'){
+        if($slug != 'social-logins' && $slug != 'messaging-system' && $slug != 'module'){
             ksort($data['settings_data']);
         }
         $data['record'] = $record;

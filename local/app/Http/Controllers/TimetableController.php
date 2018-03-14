@@ -21,6 +21,12 @@ class TimetableController extends Controller
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('timetable');
 
+        if(!Module_state('daily_school_schedule'))
+        {
+            pageNotFound();
+            return back();
+        }
+
         $data['layout'] = getLayout();
         $data['module_helper'] = getModuleHelper('timetable-dashboard');
 
@@ -37,6 +43,12 @@ class TimetableController extends Controller
         $data['title'] = getPhrase('timetable');
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $time_mapings = App\TimingsetMap::get();
+
+        if(!Module_state('daily_school_schedule'))
+        {
+            pageNotFound();
+            return back();
+        }
 
         $data['layout'] = getLayout();
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
@@ -537,6 +549,13 @@ class TimetableController extends Controller
             return redirect($isValid);
         }
 
+
+        if(!Module_state('daily_school_schedule'))
+        {
+            pageNotFound();
+            return back();
+        }
+
         //$academic_id = getDefaultAcademicId();
         $academic_id = new App\Academic();
         $academic_id = $academic_id->getCurrentAcademic()['id'];
@@ -653,6 +672,13 @@ class TimetableController extends Controller
     public function printTimetable(Request $request)
     {
 
+        if(!Module_state('daily_school_schedule'))
+        {
+            pageNotFound();
+            return back();
+        }
+
+
         $academic_id = $request->academic_id;
         $course_id = $request->course_id;
         $year = $request->year;
@@ -723,6 +749,13 @@ class TimetableController extends Controller
         $user_record = App\User::where('slug', '=', $slug)->first();
         if ($isValid = $this->isValidRecord($user_record)) {
             return redirect($isValid);
+        }
+
+
+        if(!Module_state('daily_school_schedule'))
+        {
+            pageNotFound();
+            return back();
         }
 
         $academic_id = getDefaultAcademicId();

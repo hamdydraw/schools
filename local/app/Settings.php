@@ -66,6 +66,16 @@ class Settings extends Model
         }
         return $available;
     }
+
+    public static function Module_state($key){
+        $settings = Settings::where('key','module')->first();
+        $setting_data = (array) json_decode($settings['settings_data']);
+        if(!array_key_exists($key, $setting_data))
+        {
+            return getPhrase('invalid_setting');
+        }
+        return $setting_data[$key]->value;
+    }
     /**
      * This method validates and sends the setting value
      * @param  [type] $setting_type [description]
@@ -119,7 +129,6 @@ class Settings extends Model
         }
     
         $sub_settings = (array) $settings[$setting_module];
-
         if(!array_key_exists($key, $sub_settings))
         {
             return getPhrase('invalid_setting');

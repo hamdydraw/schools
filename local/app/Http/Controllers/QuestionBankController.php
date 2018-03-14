@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Image;
 use ImageSettings;
 use Input;
+use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Datatables;
 
 class QuestionBankController extends Controller

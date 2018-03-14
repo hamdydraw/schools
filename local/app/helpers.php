@@ -388,6 +388,9 @@ function pageNotFound()
     return '';
 }
 
+function Module_state($key){
+    return \App\Settings::Module_state($key);
+}
 
 function isEligible($slug)
 {

@@ -186,7 +186,12 @@
 
 				<div  class="row" ng-if="quiz_type!='offline'">
 
-				<?php $payment_options = array('1'=>'Paid', '0'=>'Free');?>
+                    <?php
+                    if(Module_state('paid_tests_only')){
+                        $payment_options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
+                    }else{$payment_options = array('0'=> getPhrase('free'));}
+                    ?>
+
 					 <fieldset class="form-group col-md-6" >
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>

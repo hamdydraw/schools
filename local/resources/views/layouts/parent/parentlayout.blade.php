@@ -265,31 +265,23 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 					{{ getPhrase('analysis') }} </a> 
 
 					</li>
-
+					@if(Module_state('exams'))
 					<li {{ isActive($active_class, 'exams') }} > 
-
-
 
 					<a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o" ></i> 
 
 					{{ getPhrase('exams') }} </a> 
 
-					
 
 					<ul id="exams" class="collapse sidemenu-dropdown">
 
 						<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
 
 						<li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"> <i class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
-
-						
-
 					</ul>
-
-
-
 					</li>
-
+					@endif
+					@if(Module_state('management_of_educational_content'))
 					<li {{ isActive($active_class, 'lms') }} > 
         <a data-toggle="collapse" data-target="#lms"><i class="fa fa-leanpub" ></i> 
 
@@ -306,6 +298,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 					</ul>
 
 					</li>
+					@endif
 				
 
 					<li {{ isActive($active_class, 'subscriptions') }} > 

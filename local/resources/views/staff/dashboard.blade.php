@@ -58,7 +58,8 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-4 ">
+                    @if(Module_state('daily_school_schedule'))
+                    <div class="col-md-4">
                         <div class="card card-red text-xs-center">
                             <div class="card-block">
                                 <h4 class="card-title"><i class="fa fa-calendar"></i></h4>
@@ -69,7 +70,7 @@
                             </a>
                         </div>
                     </div>
-
+                    @endif
                     <div class="col-md-4 ">
                         <div class="card card-black text-xs-center">
                             <div class="card-block">
@@ -141,6 +142,7 @@
                             </a>
                         </div>
                     </div>
+                    @if(Module_state('daily_school_schedule'))
                     <div class="col-md-4 ">
                         <div class="card card-red text-xs-center">
                             <div class="card-block">
@@ -152,6 +154,7 @@
                             </a>
                         </div>
                     </div>
+                    @endif
 
                     <div class="col-md-4 ">
                         <div class="card card-black text-xs-center">

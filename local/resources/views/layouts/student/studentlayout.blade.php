@@ -275,6 +275,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                 </li>
 
 
+                @if(Module_state('exams'))
                 <li {{ isActive($active_class, 'exams') }} >
 
 
@@ -299,6 +300,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
 
 
                 </li>
+                @endif
 
                 <li {{ isActive($active_class, 'analysis') }} >
 
@@ -327,16 +329,16 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                                                                        aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
                             </a></li>--}}
                         {{-- <li><a href="{{URL_STUDENT_ATTENDENCE_REPORT.'/'.Auth::user()->slug }}"> <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }} </a></li> --}}
-
+                        @if(Module_state('daily_school_schedule'))
                         <li><a target="_blank" href="{{URL_TIMETABLE_STAFF_STUDENT_PRINT.Auth::user()->slug }}"> <i
                                         class="fa fa-calendar"></i>{{ getPhrase('timetable') }} </a></li>
-
+                        @endif
                     </ul>
 
 
                 </li>
 
-
+                @if(Module_state('management_of_educational_content'))
                 <li {{ isActive($active_class, 'lms') }} >
 
 
@@ -357,6 +359,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                     </ul>
 
                 </li>
+                @endif
                 <li {{ isActive($active_class, 'library') }} >
                     <a href="{{URL_USER_LIBRARY_DETAILS.Auth::user()->slug}}"><i class="fa fa-book"
                                                                                  aria-hidden="true"></i>

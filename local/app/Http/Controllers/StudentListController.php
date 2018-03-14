@@ -102,6 +102,12 @@ class StudentListController extends Controller
         $data['academic_years']     = addSelectToList(getAcademicYears());
         $list                       = App\Course::getCourses(0);
 
+        if(!getSetting('transfer_students', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
+
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('course-completed-student-list');
 
@@ -166,6 +172,12 @@ class StudentListController extends Controller
     {
         $data['active_class']       = 'academic';
         $data['title']              = getPhrase('detained_student_list');
+
+        if(!getSetting('transfer_students', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
 
         $data['academic_years']     = addSelectToList(getAcademicYears());
         $list                       = App\Course::getCourses(0);

@@ -18,6 +18,7 @@ use ImageSettings;
 use File;
 use Input;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class ExamSeriesController extends Controller
 {
@@ -25,7 +26,10 @@ class ExamSeriesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
+        if(!Module_state('exams')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
 
     }
 

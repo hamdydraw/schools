@@ -241,12 +241,15 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                                         class="fa fa-exchange"></i> {{ getPhrase('skills')}}</a></li>
                         <li><a href="{{url('mastersettings/dues')}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('academic_dues')}}</a></li>
+                        @if(getSetting("transfer_students", 'module'))
                         <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
-                                        class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a></li>
-
+                                        class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a>
+                        </li>
+                        @endif
+                        @if(Module_state('daily_school_schedule'))
                         <li><a href="{{URL_TIMETABLE_DASHBOARD}}"> <i
                                         class="fa fa-clock-o"></i> {{ getPhrase('timetable')}}</a></li>
-
+                        @endif
                         <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}"> <i class="fa fa-check-square-o"
                                                                            aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
                             </a></li>
@@ -258,18 +261,20 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                         <li><a href="{{URL_STUDENT_LIST}}"><i class="fa fa-users"
                                                               aria-hidden="true"></i> {{ getPhrase('student_list')}}</a>
                         </li>
-
+                        @if(getSetting("transfer_students", 'module'))
                         <li><a href="{{URL_STUDENT_COMPLETED_LIST}}"><i class="fa fa-graduation-cap"
                                                                         aria-hidden="true"></i> {{ getPhrase('students_completed_list')}}
                             </a></li>
-
+                        @endif
+                        @if(getSetting("transfer_students", 'module'))
                         <li><a href="{{URL_STUDENT_DETAINED_LIST}}"><i class="fa fa-user-circle-o"
                                                                        aria-hidden="true"></i> {{ getPhrase('students_detained_list')}}
                             </a></li>
-
+                        @endif
                     </ul>
 
                 </li>
+                @if(Module_state('exams'))
                 <li {{ isActive($active_class, 'exams') }} >
 
                     <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
@@ -297,8 +302,9 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                     </ul>
 
                 </li>
+                @endif
 
-
+                @if(Module_state('management_of_educational_content'))
                 <li {{ isActive($active_class, 'lms') }} >
 
                     <a data-toggle="collapse" data-target="#lms" href="{{URL_LMS_DASHBOARD}}"><i class="fa fa-leanpub"
@@ -315,6 +321,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                             </a></li>
                     </ul>
                 </li>
+                @endif
 
                 <li {{ isActive($active_class, 'master_settings') }} >
 

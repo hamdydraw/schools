@@ -23,7 +23,7 @@
 </a>
 </div>
 </div>
-
+	@if(Module_state('exams'))
 <div class="col-md-4">
 <div class="card card-yellow text-xs-center">
 <div class="card-block">
@@ -35,7 +35,7 @@
 </a>
 </div>
 </div>
-
+@endif
 <div class="col-md-4">
 <div class="card card-green text-xs-center">
 <div class="card-block">
@@ -60,6 +60,7 @@
 </a>
 </div>
 </div>
+	@if(Module_state('daily_school_schedule'))
 <div class="col-md-4">
 <div class="card card-blue text-xs-center">
 <div class="card-block">
@@ -71,6 +72,7 @@
 </a>
 </div>
 </div>
+	@endif
 <div class="col-md-4">
 <div class="card card-yellow text-xs-center">
 <div class="card-block">
@@ -151,6 +153,7 @@
 				  </div>
 				</div>
 
+	@if(Module_state('daily_school_schedule'))
 				<div class="col-md-6">
   				  <div class="panel panel-primary dsPanel">
 				    <div class="panel-heading"><i class="fa  fa-bell"></i> {{getPhrase("today_classes")}}</div>
@@ -196,6 +199,7 @@
 				    </div>
 				  </div>
 				</div>
+		@endif
 
 	</div>
 <div class="row"><?php $ids=[];?>

@@ -23,7 +23,7 @@
 							</a>
 						</div>
 					</div>
-
+					 @if(Module_state('exams'))
 					<div class="col-md-4">
 						<div class="card card-yellow text-xs-center">
 							<div class="card-block">
@@ -35,7 +35,7 @@
 							</a>
 						</div>
 					</div>
-
+					@endif
 					<div class="col-md-4">
 						<div class="card card-green text-xs-center">
 							<div class="card-block">
@@ -51,6 +51,7 @@
 				 
 				</div>
 				<div class="row">
+					@if(Module_state('exams'))
 					<div class="col-md-6">
 					     <div class="panel panel-primary">
 					      <div class="panel-heading">{{getPhrase('latest_quizzes')}}</div>
@@ -98,7 +99,8 @@
 					    </div>
 					 
 					</div>
-
+					@endif
+						@if(Module_state('management_of_educational_content'))
 						<div class="col-md-6">
 					     <div class="panel panel-primary">
 					      <div class="panel-heading">{{getPhrase('latest')}} LMS {{getPhrase('series')}}</div>
@@ -146,6 +148,7 @@
 					    </div>
 					 
 					</div>
+							@endif
 
 				</div>
 				 

@@ -30,7 +30,10 @@
 
 
 					<?php
-					$options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
+							if(Module_state('paid_tests_only')){
+                                $options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
+							}else{$options = array('0'=> getPhrase('free'));}
+
 						?>
 
 

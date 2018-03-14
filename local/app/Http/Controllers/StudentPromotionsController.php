@@ -22,6 +22,11 @@ class StudentPromotionsController extends Controller
             prepareBlockUserMessage();
             return back();
         }
+        if(!getSetting('transfer_students', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
         $data['active_class'] = 'academic';
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $data['title'] = getPhrase('student_promotions');

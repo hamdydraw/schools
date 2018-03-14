@@ -1142,9 +1142,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test', function () {
-    $data = \App\Settings::getMassages();
-
-    return $data;
+    //session_unset();
+    return Module_state('daily_school_schedule');
 });
 
 

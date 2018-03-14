@@ -18,12 +18,17 @@ use Auth;
 use App\User;
 use Input;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class StudentQuizController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        if(!Module_state('exams')){
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
+            return Redirect::to('/')->send();
+        }
     }
 
     /**

@@ -12,6 +12,7 @@ use DB;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Redirect;
 
 class QuizController extends Controller
 {

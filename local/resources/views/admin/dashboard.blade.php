@@ -44,7 +44,7 @@
 							</a>
 						</div>
 					</div>
-
+					 @if(Module_state('exams'))
 					<div class="col-md-3">
 						<div class="card card-red text-xs-center helper_step3">
 							<div class="card-block">
@@ -58,7 +58,8 @@
 							</a>
 						</div>
 					</div>
-
+					@endif
+					 @if(Module_state('management_of_educational_content'))
 					<div class="col-md-3">
 						<div class="card card-yellow text-xs-center helper_step4">
 							<div class="card-block">
@@ -72,6 +73,7 @@
 							</a>
 						</div>
 					</div>
+					 @endif
 
 
 					<div class="col-md-3">

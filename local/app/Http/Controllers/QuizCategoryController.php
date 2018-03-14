@@ -12,6 +12,7 @@ use Image;
 use ImageSettings;
 use File;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 class QuizCategoryController extends Controller
 {
 

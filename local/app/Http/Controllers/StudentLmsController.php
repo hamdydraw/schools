@@ -13,11 +13,17 @@ use Image;
 use ImageSettings;
 use File;
 use Response;
+use Illuminate\Support\Facades\Redirect;
+
 class StudentLmsController extends Controller
 {
      public function __construct()
     {
     	$this->middleware('auth');
+        if(!Module_state('management_of_educational_content')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
     }
 
      /**

@@ -194,12 +194,13 @@ $role = getRoleData($user->role_id);
                         <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
                             <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
 
+                @if(Module_state('daily_school_schedule'))
                     <li {{ isActive($active_class, 'timetable') }} >
 
                         <a href="{{URL_TIMETABLE_STAFF.Auth::user()->slug}}">
                             <i class="fa fa-calendar"></i>{{ getPhrase('timetable') }}</a></li>
+                    @endif
 
-                    </li>
 
                     @if($settings->messaging->value == 1)
                         @if($messages_module)
