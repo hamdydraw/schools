@@ -20,11 +20,16 @@ use Exception;
 use App\LibraryIssue;
 use Form;
 use Charts;
+use Illuminate\Support\Facades\Redirect;
 class LibraryDashboardController extends Controller
 {
     public function __construct()
     {
       $this->middleware('auth');
+        if(!Module_state('library_Management')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
     }
 
     public function index()

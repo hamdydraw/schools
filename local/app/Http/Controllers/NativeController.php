@@ -16,7 +16,7 @@ use DB;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Hash;
 use Input;
-
+use Illuminate\Support\Facades\Redirect;
 class NativeController extends Controller
 {
 
@@ -25,6 +25,10 @@ class NativeController extends Controller
     $currentUser = \Auth::user();
 
     $this->middleware('auth');
+      if(!Module_state('language_settings')){
+          prepareBlockUserMessage();
+          return Redirect::to('/')->send();
+      }
 
   }
 

@@ -179,6 +179,7 @@ if ($record) {
 
 </fieldset>
 
+@if(Module_state('language_settings'))
 <fieldset class="form-group">
     {{ Form::label('default_language', getphrase('default_language')) }}
 
@@ -194,7 +195,7 @@ if ($record) {
  ])}}
 
 </fieldset>
-
+@endif
 @if(!checkRole(['parent']))
 
     <fieldset class="form-group">

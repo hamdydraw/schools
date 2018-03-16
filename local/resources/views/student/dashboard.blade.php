@@ -84,7 +84,7 @@
 </a>
 </div>
 </div>
-
+	@if(Module_state('library_Management'))
 <div class="col-md-4">
 <div class="card card-black text-xs-center">
 <div class="card-block">
@@ -96,11 +96,12 @@
 </a>
 </div>
 </div>
-
+@endif
 
 
 </div>
 <div class="row">
+	@if(Module_state('library_Management'))
 				<div class="col-md-6">
   				  <div class="panel panel-primary dsPanel">
 				    <div class="panel-heading"><i class="fa fa-book"></i> {{getPhrase('library_history')}}</div>
@@ -152,6 +153,7 @@
 				    </div>
 				  </div>
 				</div>
+	@endif
 
 	@if(Module_state('daily_school_schedule'))
 				<div class="col-md-6">

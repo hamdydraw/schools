@@ -13,12 +13,17 @@ use File;
 use Illuminate\Http\Request;
 use Input;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Redirect;
 
 class OfflineExamsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        if(!Module_state('experimental_tests_only')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
     }
 
     public function index()

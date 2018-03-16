@@ -477,7 +477,6 @@ class UsersController extends Controller
             'username' => 'bail|required|unique:users,username',
             'email' => 'bail|required|unique:users,email',
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
-            'default_lang' => 'required',
 
         );
         // dd($columns);
@@ -503,7 +502,10 @@ class UsersController extends Controller
         $user->name = $name;
         $user->email = $request->email;
         $user->id_number = $request->id_number;
-        $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
+        if(isset($request->default_lang)){
+            $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
+        }else{  $user->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
+
         if ($request->has('password')) {
             $password = $request->password;
         } else {
@@ -776,7 +778,6 @@ class UsersController extends Controller
             'id_number' => 'bail|required|numeric|digits:10|unique:users,id_number,'.$record->id,
             'email' => 'bail|required|unique:users,email,' . $record->id,
             'image' => 'bail|mimes:png,jpg,jpeg|max:2048',
-            'default_lang' => 'required'
         ];
 
 
@@ -805,7 +806,9 @@ class UsersController extends Controller
         $record->name = $name;
         $record->email = $request->email;
         $record->id_number = $request->id_number;
-        $record->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
+        if(isset($request->default_lang)){
+            $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
+        }else{  $user->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
 
         if (checkRole(getUserGrade(2))) {
             if ($record->role_id != 3) {
@@ -1010,6 +1013,10 @@ class UsersController extends Controller
 
         if (!checkRole(getUserGrade(14))) {
             prepareBlockUserMessage();
+            return back();
+        }
+        if(!Module_state('library_Management')){
+            pageNotFound();
             return back();
         }
         $record = User::where('slug', $slug)->get()->first();

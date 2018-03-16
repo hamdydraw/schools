@@ -360,6 +360,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
 
                 </li>
                 @endif
+                @if(Module_state('library_Management'))
                 <li {{ isActive($active_class, 'library') }} >
                     <a href="{{URL_USER_LIBRARY_DETAILS.Auth::user()->slug}}"><i class="fa fa-book"
                                                                                  aria-hidden="true"></i>
@@ -367,7 +368,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                         {{ getPhrase('library') }} </a>
 
                 </li>
-
+                @endif
 
                 @if($settings->messaging->value == 1)
 

@@ -9,6 +9,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Auth;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class LibraryAssetTypeController extends Controller
 {
@@ -16,6 +17,10 @@ class LibraryAssetTypeController extends Controller
     public function __construct()
     {
     	$this->middleware('auth');
+        if(!Module_state('library_Management')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
     }
 
 

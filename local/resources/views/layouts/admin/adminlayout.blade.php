@@ -182,13 +182,14 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                                 {{ getPhrase('messages')}} </a>
                         </li>
                     @endif
+                    @if(Module_state('language_settings'))
                     <li>
                         <a href="{{URL_LANGUAGES_LIST}}">
                             <sapn><i class="fa fa-language" aria-hidden="true"></i>
                                 {{ getPhrase('languages') }}</sapn>
                         </a>
                     </li>
-
+                    @endif
 
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">
@@ -293,9 +294,11 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                         <li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"
                                                                                aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
                             </a></li>
+                        @if(Module_state('experimental_tests_only'))
                         <li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"
                                                                 aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}
                             </a></li>
+                        @endif
                         <li><a href="{{URL_INSTRUCTIONS}}"> <i
                                         class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
 
@@ -363,7 +366,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                     </ul>
                 </li>
 
-
+                @if(Module_state('library_Management'))
                 <li {{ isActive($active_class, 'library') }} >
 
                     <a data-toggle="collapse" data-target="#library" href="{{URL_LIBRARY_LIBRARYDASHBOARD}}"><i
@@ -395,6 +398,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                     </ul>
 
                 </li>
+                @endif
                 @if(($settings->coupons->value == 1))
                     <li {{ isActive($active_class, 'coupons') }} >
 

@@ -66,7 +66,11 @@
 
              <div  class="row">
 
-                  <?php $payment_options = array('1'=>'Paid', '0'=>'Free');?>
+                 <?php
+                 if(Module_state('paid_educational_content_only')){
+                     $payment_options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
+                 }else{$payment_options = array('0'=> getPhrase('free'));}
+                 ?>
 
 					 <fieldset class="form-group col-md-6" >
 

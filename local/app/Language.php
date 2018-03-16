@@ -179,7 +179,10 @@ class Language extends Model
 		}
 		else {
       //Language key dosn't  exists, so returns requested string string by adding the language to db
-			(new Language())->addPhrase($key);
+            if(Module_state('language_settings')){
+                (new Language())->addPhrase($key);
+            }
+
 
 			return Language::cleanPhrase($key);
 

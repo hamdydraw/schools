@@ -75,7 +75,7 @@
 					</div>
 					 @endif
 
-
+					 @if(Module_state('library_Management'))
 					<div class="col-md-3">
 						<div class="card card-black text-xs-center helper_step6">
 							<div class="card-block">
@@ -89,6 +89,8 @@
 							</a>
 						</div>
 					</div>
+					 @endif
+					 @if(Module_state('language_settings'))
 					<div class="col-md-3">
 						<div class="card card-yellow text-xs-center helper_step7">
 							<div class="card-block">
@@ -102,6 +104,7 @@
 							</a>
 						</div>
 					</div>
+					 @endif
 					<div class="col-md-3">
 						<div class="card card-green text-xs-center helper_step8">
 							<div class="card-block">

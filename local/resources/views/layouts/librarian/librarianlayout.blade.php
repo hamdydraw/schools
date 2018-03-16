@@ -139,6 +139,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                         {{ getPhrase('dashboard') }}
                     </a>
                 </li>
+                @if(Module_state('library_Management'))
                 @if(checkRole(getUserGrade(8)))
                     <li {{ isActive($active_class, 'library') }} >
 
@@ -155,6 +156,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
                         </ul>
                     </li>
+                @endif
                 @endif
                 <li {{ isActive($active_class, 'students') }} >
                     <a href="{{URL_LIBRARY_USERS}}student"> <i class="fa fa-users"></i>{{ getPhrase('students') }}</a>

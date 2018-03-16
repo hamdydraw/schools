@@ -169,7 +169,7 @@
                         </div>
                     </div>
 
-
+                    @if(Module_state('library_Management'))
                     <div class="col-md-4 ">
                         <div class="card card-yellow text-xs-center">
                             <div class="card-block">
@@ -181,7 +181,7 @@
                             </a>
                         </div>
                     </div>
-
+                @endif
 
                 </div>
 
