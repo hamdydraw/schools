@@ -228,10 +228,10 @@ Route::group(['middleware' => 'supervisor'], function () {
     Route::get('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@index');
     Route::post('supervisor/staff/students-attendance/{slug}', 'StudentAttendanceController@create');
     Route::get('supervisor/staff/students-marks/{slug}', 'SupervisorController@getStudentsView');
-    Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
-    Route::post('supervisor/staff/print-students-marks/{slug}', 'SupervisorController@printClassMarks');
-});
 
+});
+Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
+Route::post('supervisor/staff/print-students-marks/{slug}', 'SupervisorController@printClassMarks');
 Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //////////////////////
 //Parent Controller //
