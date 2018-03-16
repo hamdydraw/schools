@@ -192,7 +192,6 @@
               							</span>
 
                                         </div>
-
                                     @endif
                                 </div>
 
