@@ -41,12 +41,12 @@
                         <div class="col-sm-4 text-right">
                             <ul class="list-unstyled attendance_summary">
                                 <li class="clearfix">
-                                    <p class="pull-left"><strong>Total:</strong> @{{total}}</p>
-                                    <p class="pull-right"><strong>Present:</strong> @{{present}}</p>
+                                    <p class="pull-left"><strong>{{getphrase('total')}}:</strong> @{{total}}</p>
+                                    <p class="pull-right"><strong>{{getphrase('present')}}:</strong> @{{present}}</p>
                                 </li>
                                 <li class="clearfix">
-                                    <p class="pull-left text-danger"><strong>Absent:</strong> @{{absent}}</p>
-                                    <p class="pull-right"><strong>Leave:</strong> @{{leave}}</p>
+                                    <p class="pull-left text-danger"><strong>{{getphrase('absent')}}:</strong> @{{absent}}</p>
+                                    <p class="pull-right"><strong>{{getphrase('leave')}}:</strong> @{{leave}}</p>
                                 </li>
                             </ul>
                             <span>

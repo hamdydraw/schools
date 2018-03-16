@@ -8,7 +8,7 @@ class QuizCategory extends Model
 {
     protected $table = "quizcategories";
 
-   
+
     public static function getRecordWithSlug($slug)
     {
         return QuizCategory::where('slug', '=', $slug)->first();
@@ -19,15 +19,15 @@ class QuizCategory extends Model
      * @return [type] [description]
      */
     public function quizzes()
-    {        
+    {
         return $this->getQuizzes()
         ->where('start_date','<=',date('Y-m-d H:i:s'))
         ->where('end_date','>=',date('Y-m-d H:i:s'))
         ->where('total_questions','>','0')
-        ->where('applicable_to_specific', '=', 0)
+        ->where('applicable_to_specific', '=', 1)
         ->get();
 
-        
+
     }
 
     public function getQuizzes()

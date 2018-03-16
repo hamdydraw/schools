@@ -1,6 +1,6 @@
 @extends($layout)
 @section('header_scripts')
-    {!! Charts::assets() !!}
+    {{--{!! Charts::assets() !!}--}}
 @stop
 @section('content')
 

@@ -107,7 +107,7 @@ class SupervisorController extends Controller
 
     public function getStudentsView($slug)
     {
-        $user = User::where('slug', $slug)->first(['name']);
+        $user = User::where('slug', $slug)->first(['name','slug']);
         $data['title'] = getPhrase('students-marks-of-teacher');
         $data['layout'] = getLayout();
         $data['active_class'] = 'students-marks';

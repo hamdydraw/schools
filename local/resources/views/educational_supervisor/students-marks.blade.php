@@ -28,7 +28,7 @@
                     </ol>
                 </div>
             </div>
-            {!! Form::open(array('url' => 'supervisor/staff/print-students-marks/'.$slug, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
+            {!! Form::open(array('url' => 'supervisor/staff/print-students-marks/'.$slug->slug, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
 
             <div class="panel panel-custom">
                 <div class="panel-heading">
