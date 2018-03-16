@@ -950,8 +950,15 @@ class StudentQuizController extends Controller
         $user_record = prepareStudentSessionRecord($slug);
         $student_record  = $user_record->student;
         $current_semister=new App\AcademicSemester;
-        
-        $current_semister=$current_semister->getCurrentSemeterOfAcademicYear($student_record->academic_id)->sem_num;
+
+        $current_semister=$current_semister->getCurrentSemeterOfAcademicYear($student_record->academic_id);
+        if($current_semister != null)
+        {
+            $current_semister=$current_semister->sem_num;
+        }
+        else{
+            $current_semister=0;
+        }
 
         $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
             ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
