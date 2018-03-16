@@ -72,11 +72,7 @@ class StudentQuizController extends Controller
             }
         }
 
-        // dd($data['categories']);
-
         $data['layout'] = getLayout();
-        $user = Auth::user();
-
         return view('student.exams.categories', $data);
     }
 
@@ -791,14 +787,6 @@ class StudentQuizController extends Controller
 
             $interested_categories = json_decode($user_record->user->settings)->user_preferences;
         }
-        $current_semister = new App\AcademicSemester;
-
-        $current_semister = $current_semister->getCurrentSemeterOfAcademicYear($student_record->academic_id);
-        if ($current_semister != null) {
-            $current_semister = $current_semister->sem_num;
-        } else {
-            $current_semister = 0;
-        }
 
         if ($slug == 'all') {
 
@@ -845,12 +833,10 @@ class StudentQuizController extends Controller
                     'quizzes.cost'
                 ])
                 ->where('quizzes.category_id', '=', $category->id)
-                ->where('quizapplicability.academic_id', '=', $student_record->academic_id)
-                ->where('quizapplicability.course_id', '=', $student_record->course_id)
-                ->where('quizapplicability.year', '=', $student_record->current_year)
-                ->where('quizapplicability.semister', '=', $current_semister)
-                ->where('applicable_to_specific', '=', 1)
-                ->where('total_marks', '!=', 0);
+                ->where('start_date','<=',date('Y-m-d H:i:s'))
+                ->where('end_date','>=',date('Y-m-d H:i:s'))
+                ->where('total_questions','>','0')
+                ->where('applicable_to_specific', '=', 1);
             if ($interested_categories) {
                 $query = $query->whereIn('category_id', (array)$interested_categories->quiz_categories);
             } else {
@@ -967,24 +953,14 @@ class StudentQuizController extends Controller
         $student_record = $user_record->student;
         $current_semister = new App\AcademicSemester;
 
-        $current_semister = $current_semister->getCurrentSemeterOfAcademicYear($student_record->academic_id);
-        if ($current_semister != null) {
-            $current_semister = $current_semister->sem_num;
-        } else {
-            $current_semister = 0;
-        }
 
         $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
             ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             /*->where('quizzes.type','=','online')*/
-            ->where('quizapplicability.academic_id', '=', $student_record->academic_id)
-            ->where('quizapplicability.course_id', '=', $student_record->course_id)
-            ->where('quizapplicability.year', '=', $student_record->current_year)
-            ->where('quizapplicability.semister', '=', $current_semister)
             ->where('applicable_to_specific', '=', 1)
             ->where('total_marks', '!=', 0)
-            /*->where('start_date','<=',date('Y-m-d H:i:s'))
-            ->where('end_date','>=',date('Y-m-d H:i:s'))*/
+            ->where('start_date','<=',date('Y-m-d H:i:s'))
+            ->where('end_date','>=',date('Y-m-d H:i:s'))
             ->select([
                 'title',
                 'dueration',
