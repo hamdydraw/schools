@@ -807,8 +807,8 @@ class UsersController extends Controller
         $record->email = $request->email;
         $record->id_number = $request->id_number;
         if(isset($request->default_lang)){
-            $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
-        }else{  $user->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
+            $record->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
+        }else{  $record->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
 
         if (checkRole(getUserGrade(2))) {
             if ($record->role_id != 3) {
