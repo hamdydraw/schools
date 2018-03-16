@@ -842,7 +842,7 @@ class StudentQuizController extends Controller
             } else {
                 $query = $query->where('category_id', '=', '-1');
             }
-            $records = $query->get();
+            $records = $query->groupBy('quizzes.slug')->get();
 
 
 
@@ -972,6 +972,7 @@ class StudentQuizController extends Controller
                 'quizzes.validity',
                 'quizzes.cost'
             ])
+            ->groupBy('quizzes.slug')
             ->get();
 
         return Datatables::of($records)
