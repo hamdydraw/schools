@@ -33,8 +33,8 @@
                             <thead>
                             <tr>
                                 <th id="helper_step2">{{getPhrase('skill_name')}}</th>
-                                <th id="helper_step3">{{getPhrase('course_name')}}</th>
-                                <th id="helper_step3">{{getPhrase('skill_name')}}</th>
+                                <th id="helper_step3">{{getPhrase('branch')}}</th>
+                                <th id="helper_step3">{{getPhrase('subject')}}</th>
                                 <th id="helper_step3">{{getPhrase('action')}}</th>
                             </tr>
                             </thead>

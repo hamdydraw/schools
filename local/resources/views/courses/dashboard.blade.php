@@ -122,21 +122,21 @@
                         </a>
                     </div>
                 </div>
-                {{--<div class="col-md-3 ">
-                    <div class="card card-yellow text-xs-center helper_step7">
+                <div class="col-md-3 ">
+                    <div class="card card-blue text-xs-center helper_step7">
                         <div class="card-block">
                             <h4 class="card-title">
 
                                 <i class="fa fa-archive" aria-hidden="true"></i>
                             </h4>
-                            <p class="card-text">{{ getPhrase('assign_teachers_to_supervisors')}}</p>
+                            <p class="card-text">{{ getPhrase('skills_administration')}}</p>
                         </div>
                         <a class="card-footer text-muted"
-                           href="{{url('mastersettings/supervisor/assign-staff')}}">
+                           href="{{url('mastersettings/skills')}}">
                             {{ getPhrase('view_all')}}
                         </a>
                     </div>
-                </div>--}}
+                </div>
             </div>
 @stop
 

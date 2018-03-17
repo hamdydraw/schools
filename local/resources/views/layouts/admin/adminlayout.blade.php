@@ -76,8 +76,10 @@ if ($settings->push_notifications->value == 1) {
     $total += \App\user_notifications::get_new_count();
 }
 $available_types = App\Settings::getMassages();
-$current_user =     Auth::user();
-if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types)){$total+=Auth::user()->newThreadsCount();}
+$current_user = Auth::user();
+if ($settings->messaging->value == 1 && in_array($current_user->role_id, $available_types)) {
+    $total += Auth::user()->newThreadsCount();
+}
 
 // \App\user_notifications::get_new_count()
 // Auth::user()->newThreadsCount();
@@ -183,12 +185,12 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                         </li>
                     @endif
                     @if(Module_state('language_settings'))
-                    <li>
-                        <a href="{{URL_LANGUAGES_LIST}}">
-                            <sapn><i class="fa fa-language" aria-hidden="true"></i>
-                                {{ getPhrase('languages') }}</sapn>
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{{URL_LANGUAGES_LIST}}">
+                                <sapn><i class="fa fa-language" aria-hidden="true"></i>
+                                    {{ getPhrase('languages') }}</sapn>
+                            </a>
+                        </li>
                     @endif
 
                     <li>
@@ -238,93 +240,97 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                             <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
                                             class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
                         @endif
-                        <li><a href="{{url('mastersettings/skills')}}"> <i
-                                        class="fa fa-exchange"></i> {{ getPhrase('skills')}}</a></li>
                         <li><a href="{{url('mastersettings/dues')}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('academic_dues')}}</a></li>
                         @if(getSetting("transfer_students", 'module'))
-                        <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
-                                        class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a>
-                        </li>
+                            <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
+                                            class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a>
+                            </li>
                         @endif
                         @if(Module_state('daily_school_schedule'))
-                        <li><a href="{{URL_TIMETABLE_DASHBOARD}}"> <i
-                                        class="fa fa-clock-o"></i> {{ getPhrase('timetable')}}</a></li>
+                            <li><a href="{{URL_TIMETABLE_DASHBOARD}}"> <i
+                                            class="fa fa-clock-o"></i> {{ getPhrase('timetable')}}</a></li>
                         @endif
                         <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}"> <i class="fa fa-check-square-o"
                                                                            aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
                             </a></li>
                         @if(Module_state('exams'))
-                        <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
-                                                                       aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
-                            </a></li>
+                            <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
+                                                                           aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
+                                </a></li>
                         @endif
 
                         <li><a href="{{URL_STUDENT_LIST}}"><i class="fa fa-users"
                                                               aria-hidden="true"></i> {{ getPhrase('student_list')}}</a>
                         </li>
                         @if(getSetting("transfer_students", 'module'))
-                        <li><a href="{{URL_STUDENT_COMPLETED_LIST}}"><i class="fa fa-graduation-cap"
-                                                                        aria-hidden="true"></i> {{ getPhrase('students_completed_list')}}
-                            </a></li>
+                            <li><a href="{{URL_STUDENT_COMPLETED_LIST}}"><i class="fa fa-graduation-cap"
+                                                                            aria-hidden="true"></i> {{ getPhrase('students_completed_list')}}
+                                </a></li>
                         @endif
                         @if(getSetting("transfer_students", 'module'))
-                        <li><a href="{{URL_STUDENT_DETAINED_LIST}}"><i class="fa fa-user-circle-o"
-                                                                       aria-hidden="true"></i> {{ getPhrase('students_detained_list')}}
-                            </a></li>
+                            <li><a href="{{URL_STUDENT_DETAINED_LIST}}"><i class="fa fa-user-circle-o"
+                                                                           aria-hidden="true"></i> {{ getPhrase('students_detained_list')}}
+                                </a></li>
                         @endif
                     </ul>
 
                 </li>
                 @if(Module_state('exams'))
-                <li {{ isActive($active_class, 'exams') }} >
+                    <li {{ isActive($active_class, 'exams') }} >
 
-                    <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
-                                class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </i>
-                        {{ getPhrase('exams') }} </a>
+                        <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
+                                    class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </i>
+                            {{ getPhrase('exams') }} </a>
 
-                    <ul id="exams" class="collapse sidemenu-dropdown">
-                        <li><a href="{{URL_QUIZ_QUESTIONBANK}}"> <i
-                                        class="fa fa-question"></i>{{ getPhrase('question_bank') }}</a></li>
-                        <li><a href="{{URL_QUIZ_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('categories') }}
-                            </a></li>
-                        <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a></li>
-                        <li><a href="{{URL_EXAM_SERIES}}"> <i class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
-                            </a></li>
-                        @if(Module_state('experimental_tests_only'))
-                        <li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"
-                                                                               aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
-                            </a></li>
-                        <li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"
-                                                                aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}
-                            </a></li>
-                        @endif
-                        <li><a href="{{URL_INSTRUCTIONS}}"> <i
-                                        class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
+                        <ul id="exams" class="collapse sidemenu-dropdown">
+                            <li><a href="{{URL_QUIZ_QUESTIONBANK}}"> <i
+                                            class="fa fa-question"></i>{{ getPhrase('question_bank') }}</a></li>
+                            <li><a href="{{URL_QUIZ_CATEGORIES}}"> <i
+                                            class="fa fa-random"></i>{{ getPhrase('categories') }}
+                                </a></li>
+                            <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
+                            </li>
+                            <li><a href="{{URL_EXAM_SERIES}}"> <i
+                                            class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
+                                </a></li>
+                            @if(Module_state('experimental_tests_only'))
+                                <li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"
+                                                                                       aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
+                                    </a></li>
+                                <li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"
+                                                                        aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}
+                                    </a></li>
+                            @endif
+                            <li><a href="{{URL_INSTRUCTIONS}}"> <i
+                                            class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
 
-                    </ul>
+                        </ul>
 
-                </li>
+                    </li>
                 @endif
 
                 @if(Module_state('management_of_educational_content'))
-                <li {{ isActive($active_class, 'lms') }} >
+                    <li {{ isActive($active_class, 'lms') }} >
 
-                    <a data-toggle="collapse" data-target="#lms" href="{{URL_LMS_DASHBOARD}}"><i class="fa fa-leanpub"
-                                                                                                 aria-hidden="true"></i>
-                        </i>
-                        {{ getPhrase('LMS') }} </a>
+                        <a data-toggle="collapse" data-target="#lms" href="{{URL_LMS_DASHBOARD}}"><i
+                                    class="fa fa-leanpub"
+                                    aria-hidden="true"></i>
+                            </i>
+                            {{ getPhrase('LMS') }} </a>
 
-                    <ul id="lms" class="collapse sidemenu-dropdown">
-                        <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
-                                        class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
-                        <li><a href="{{ URL_LMS_CONTENT }}"> <i class="icon-books"></i>{{ getPhrase('lms_contents') }}
-                            </a></li>
-                        <li><a href="{{ URL_LMS_SERIES }}"> <i class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
-                            </a></li>
-                    </ul>
-                </li>
+                        <ul id="lms" class="collapse sidemenu-dropdown">
+                            <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
+                                            class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
+                            <li><a href="{{ URL_LMS_CONTENT }}"> <i
+                                            class="icon-books"></i>{{ getPhrase('lms_contents') }}
+                                </a></li>
+                            <li><a href="{{ URL_LMS_SERIES }}"> <i
+                                            class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
+                                </a></li>
+                        </ul>
+                    </li>
                 @endif
 
                 <li {{ isActive($active_class, 'master_settings') }} >
@@ -368,37 +374,40 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                 </li>
 
                 @if(Module_state('library_Management'))
-                <li {{ isActive($active_class, 'library') }} >
+                    <li {{ isActive($active_class, 'library') }} >
 
-                    <a data-toggle="collapse" data-target="#library" href="{{URL_LIBRARY_LIBRARYDASHBOARD}}"><i
-                                class="fa fa-book" aria-hidden="true"></i>
+                        <a data-toggle="collapse" data-target="#library" href="{{URL_LIBRARY_LIBRARYDASHBOARD}}"><i
+                                    class="fa fa-book" aria-hidden="true"></i>
 
-                        {{ getPhrase('library') }} </a>
+                            {{ getPhrase('library') }} </a>
 
-                    <ul id="library" class="collapse sidemenu-dropdown">
+                        <ul id="library" class="collapse sidemenu-dropdown">
 
-                        <li><a href="{{URL_LIBRARY_ASSETS}}"> <i
-                                        class="fa fa-database"></i>{{ getPhrase('asset_types') }}</a></li>
+                            <li><a href="{{URL_LIBRARY_ASSETS}}"> <i
+                                            class="fa fa-database"></i>{{ getPhrase('asset_types') }}</a></li>
 
-                        <li><a href="{{URL_LIBRARY_MASTERS}}"> <i class="fa fa-book"
-                                                                  aria-hidden="true"></i> {{ getPhrase('master_data')}}
-                            </a></li>
-                        <li><a href="{{URL_PUBLISHERS}}"> <i class="fa fa-paint-brush"></i>{{ getPhrase('publishers') }}
-                            </a></li>
-                        <li><a href="{{URL_AUTHORS}}"> <i class="fa fa-mortar-board"></i>{{ getPhrase('authors') }}</a>
-                        </li>
-                        <li><a href="{{URL_LIBRARY_USERS}}student"> <i
-                                        class="fa fa-user"></i>{{ getPhrase('students') }}</a></li>
-                        <li><a href="{{URL_LIBRARY_USERS}}staff"><i class="fa fa-user-circle" aria-hidden="true"></i>
-                                {{ getPhrase('staff') }}</a></li>
-                        <li><a href="{{URL_LIBRARY_LIBRARYDASHBOARD_BOOKS}}"> <i
-                                        class="fa fa-book"></i>{{ getPhrase('student_book_return') }}</a></li>
-                        <li><a href="{{URL_LIBRARY_LIBRARYDASHBOARD_BOOKS_STAFF}}"> <i class="fa fa-address-book"
-                                                                                       aria-hidden="true"></i>{{ getPhrase('staff_book_return') }}
-                            </a></li>
-                    </ul>
+                            <li><a href="{{URL_LIBRARY_MASTERS}}"> <i class="fa fa-book"
+                                                                      aria-hidden="true"></i> {{ getPhrase('master_data')}}
+                                </a></li>
+                            <li><a href="{{URL_PUBLISHERS}}"> <i
+                                            class="fa fa-paint-brush"></i>{{ getPhrase('publishers') }}
+                                </a></li>
+                            <li><a href="{{URL_AUTHORS}}"> <i class="fa fa-mortar-board"></i>{{ getPhrase('authors') }}
+                                </a>
+                            </li>
+                            <li><a href="{{URL_LIBRARY_USERS}}student"> <i
+                                            class="fa fa-user"></i>{{ getPhrase('students') }}</a></li>
+                            <li><a href="{{URL_LIBRARY_USERS}}staff"><i class="fa fa-user-circle"
+                                                                        aria-hidden="true"></i>
+                                    {{ getPhrase('staff') }}</a></li>
+                            <li><a href="{{URL_LIBRARY_LIBRARYDASHBOARD_BOOKS}}"> <i
+                                            class="fa fa-book"></i>{{ getPhrase('student_book_return') }}</a></li>
+                            <li><a href="{{URL_LIBRARY_LIBRARYDASHBOARD_BOOKS_STAFF}}"> <i class="fa fa-address-book"
+                                                                                           aria-hidden="true"></i>{{ getPhrase('staff_book_return') }}
+                                </a></li>
+                        </ul>
 
-                </li>
+                    </li>
                 @endif
                 @if(($settings->coupons->value == 1))
                     <li {{ isActive($active_class, 'coupons') }} >
