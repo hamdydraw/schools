@@ -586,10 +586,10 @@ class Builder
      */
     public function delete()
     {
+
         if (isset($this->onDelete)) {
             return call_user_func($this->onDelete, $this);
         }
-
         return $this->toBase()->delete();
     }
 

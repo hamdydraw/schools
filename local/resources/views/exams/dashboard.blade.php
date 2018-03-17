@@ -75,6 +75,7 @@
 						 </a>
 					 </div>
 				 </div>
+					 @if(Module_state('experimental_tests_only'))
 					<div class="col-md-3 ">
 						<div class="card card-blue text-xs-center helper_step4">
 							<div class="card-block">
@@ -105,6 +106,7 @@
 						</div>
 
 					</div>
+					 @endif
 
 					<div class="col-md-3 ">
 						<div class="card card-yellow text-xs-center helper_step7">

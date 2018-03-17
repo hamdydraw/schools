@@ -2193,10 +2193,11 @@ class Builder
         // If an ID is passed to the method, we will set the where clause to check
         // the ID to allow developers to simply and quickly remove a single row
         // from their database without manually specifying the where clauses.
+
         if (! is_null($id)) {
             $this->where('id', '=', $id);
         }
-
+        //return $this->update(['record_status' => 3]);
         $sql = $this->grammar->compileDelete($this);
 
         return $this->connection->delete($sql, $this->getBindings());

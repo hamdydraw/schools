@@ -209,6 +209,7 @@
 		@endif
 
 	</div>
+	@if(Module_state('exams'))
 <div class="row"><?php $ids=[];?>
 @for($i=0; $i<count($chart_data); $i++)
 <?php
@@ -223,6 +224,7 @@ $ids[] = $newid; ?>
 @endfor
 
 </div>
+		@endif
 </div>
 <!-- /.container-fluid -->
 </div>
@@ -231,5 +233,7 @@ $ids[] = $newid; ?>
 @stop
 
 @section('footer_scripts')
+	@if(Module_state('exams'))
 @include('common.chart', array($chart_data,'ids' =>$ids));
+	@endif
 @stop

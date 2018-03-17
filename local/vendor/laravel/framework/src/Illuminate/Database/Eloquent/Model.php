@@ -3594,10 +3594,13 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     public function update_stamp(Request $request)
     {
-        $this->record_status   = 2;
+        //$this->record_status   = 2;
         $this->updated_by_ip   = $request->ip();
         $this->updated_by_user = Auth::user()->id;
     }
 
+//    public function record_delete(){
+//        $this->record_status = 3;
+//    }
     
 }

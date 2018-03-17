@@ -172,7 +172,7 @@
  
 
 @section('footer_scripts')
- 
+	@if(Module_state('exams'))
  @include('common.chart', array($chart_data,'ids' =>$ids));
-
+	@endif
 @stop

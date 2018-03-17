@@ -11,12 +11,17 @@ use Yajra\Datatables\Datatables;
 use DB;
 use App\OfflineQuizCategories;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 class OfflineQuizCategoriesController extends Controller
 {
 
 	public function __construct()
     {
     	$this->middleware('auth');
+        if(!Module_state('experimental_tests_only')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
     }
 
 

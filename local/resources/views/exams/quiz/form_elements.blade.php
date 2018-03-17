@@ -44,7 +44,12 @@
 
 					<fieldset class="form-group col-md-6">
 
-						<?php $quiz_types = array('online' => getPhrase('online'), 'offline' => getPhrase('offline'), );?>
+
+                        <?php
+                        if(Module_state('experimental_tests_only')){
+                            $quiz_types = array('online'=> getPhrase('online'), 'offline'=> getPhrase('offline'));
+                        }else{$quiz_types = array('online'=> getPhrase('online'));}
+                        ?>
 
 						{{ Form::label('type', getphrase('quiz_type')) }}
 						<span class="text-red">*</span>
@@ -191,6 +196,7 @@
                         $payment_options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
                     }else{$payment_options = array('0'=> getPhrase('free'));}
                     ?>
+
 
 					 <fieldset class="form-group col-md-6" >
 						{{ Form::label('is_paid', getphrase('is_paid')) }}

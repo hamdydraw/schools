@@ -1143,7 +1143,8 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 Route::get('/test_it', function () {
 
-    return \App\User::where('slug','awder2884')->delete();
+
+    return \App\User::where('slug','teacher5')->delete();
 });
 Route::get('/record_status/{db}', function ($db) {
     $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
