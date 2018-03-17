@@ -118,6 +118,9 @@ class SettingsController extends Controller
         if ($settings->facebook_login->value == 0 and $settings->google_plus_login->value == 0) {
             $records=$records->whereNotIn('key',['social_logins']);
         }
+        if(!Module_state('daily_school_schedule')){
+            $records = $records->whereNotIn('key',['time_table']);
+        }
         $records = $records->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
@@ -380,6 +383,10 @@ class SettingsController extends Controller
                 prepareBlockUserMessage();
                 return back();
             }
+        }
+        if(!Module_state('daily_school_schedule') && $slug == 'time-table'){
+            pageNotFound();
+            return back();
         }
 
         $record = Settings::where('slug', $slug)->get()->first();

@@ -254,10 +254,11 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
                         <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}"> <i class="fa fa-check-square-o"
                                                                            aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
                             </a></li>
-
+                        @if(Module_state('exams'))
                         <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
                                                                        aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
                             </a></li>
+                        @endif
 
                         <li><a href="{{URL_STUDENT_LIST}}"><i class="fa fa-users"
                                                               aria-hidden="true"></i> {{ getPhrase('student_list')}}</a>

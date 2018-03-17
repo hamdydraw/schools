@@ -301,7 +301,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
 
                 </li>
                 @endif
-
+                @if(Module_state('exams'))
                 <li {{ isActive($active_class, 'analysis') }} >
 
 
@@ -337,6 +337,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
 
 
                 </li>
+                @endif
 
                 @if(Module_state('management_of_educational_content'))
                 <li {{ isActive($active_class, 'lms') }} >

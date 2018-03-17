@@ -11,12 +11,17 @@ use Illuminate\Http\Request;
 use Image;
 use ImageSettings;
 use Input;
+use Illuminate\Support\Facades\Redirect;
 
 class ReportsController extends Controller
 {
     public function __construct()
     {
         $currentUser = \Auth::user();
+        if(!Module_state('exams')){
+            prepareBlockUserMessage();
+            return Redirect::to('/')->send();
+        }
 
         $this->middleware('auth');
 

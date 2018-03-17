@@ -52,7 +52,7 @@
 						</div>
 
 
-
+							@if(Module_state('library_Management'))
 						<div class="col-lg-3 col-md-6">
 						<div class="card card-yellow text-xs-center">
 						<div class="card-block">
@@ -63,7 +63,8 @@
 							<a class="card-footer text-muted" href="{{URL_USER_LIBRARY_DETAILS.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 						</div>
-
+@endif
+							@if(Module_state('daily_school_schedule'))
 						<div class="col-lg-3 col-md-6">
 						<div class="card card-green text-xs-center">
 						<div class="card-block">
@@ -74,6 +75,7 @@
 							<a class="card-footer text-muted" href="{{URL_TIMETABLE_STAFF.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 						</div>
+								@endif
 					</div>
 					</div>
 						 

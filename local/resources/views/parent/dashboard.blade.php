@@ -11,7 +11,9 @@
 						</ol>
 					</div>
 				</div>
+
 				 <div class="row">
+					 @if(Module_state('exams'))
 					<div class="col-md-4">
 						<div class="card card-blue text-xs-center">
 							<div class="card-block">
@@ -23,6 +25,7 @@
 							</a>
 						</div>
 					</div>
+					 @endif
 					 @if(Module_state('exams'))
 					<div class="col-md-4">
 						<div class="card card-yellow text-xs-center">

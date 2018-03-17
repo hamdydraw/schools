@@ -44,6 +44,7 @@
 						<hr>
 						<h3 class="profile-details-title">{{ getPhrase('reports')}}</h3>
 				<div class="row">
+					@if(Module_state('exams'))
 						<div class="col-lg-3 col-md-6">
 						<div class="card card-blue text-xs-center">
 						<div class="card-block">
@@ -53,7 +54,6 @@
 							<a class="card-footer text-muted" href="{{URL_STUDENT_EXAM_ATTEMPTS.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 					</div>
-
 					<div class="col-lg-3 col-md-6">
 						<div class="card card-yellow text-xs-center">
 							<div class="card-block">
@@ -63,7 +63,6 @@
 								<a class="card-footer text-muted" href="{{URL_STUDENT_ANALYSIS_BY_EXAM.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 					</div>
-
 					<div class="col-lg-3 col-md-6">
 					<div class="card card-green text-xs-center">
 							<div class="card-block">
@@ -73,6 +72,7 @@
 								<a class="card-footer text-muted" href="{{URL_STUDENT_ANALYSIS_SUBJECT.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 						</div>
+					@endif
 
 				<div class="col-lg-3 col-md-6">
 						<div class="card card-red text-xs-center">
@@ -87,11 +87,12 @@
 						<div class="card card-red text-xs-center">
 							<div class="card-block">
 								<h4 class="card-title"><i class="fa fa-credit-card"></i></h4>
-								<p class="card-text">{{ getPhrase('student_papers_and_achievements')}}</p>
+								<p class="card-text">{{ getPhrase('student_achievements')}}</p>
 							</div>
 							<a class="card-footer text-muted" href="{{URL_STUDENT_PAPERS_TABLE.$record->slug}}">{{ getPhrase('view_details')}}</a>
 						</div>
 					</div>
+						@if(Module_state('exams'))
 					<div class="col-lg-3 col-md-6">
 					<div class="card card-red text-xs-center">
 							<div class="card-block">
@@ -102,6 +103,7 @@
 						</div>
 		
 					</div>
+						@endif
 					<div class="col-lg-3 col-md-6">
 
 					<div class="card card-green text-xs-center">
@@ -113,7 +115,7 @@
 						</div>
 
 					</div>
-
+					@if(Module_state('daily_school_schedule'))
 					<div class="col-lg-3 col-md-6">
 					<div class="card card-blue text-xs-center">
 							<div class="card-block">
@@ -126,7 +128,8 @@
 
 						
 					</div>
-
+					@endif
+					@if(Module_state('library_Management'))
 					<div class="col-lg-3 col-md-6">
 					<div class="card card-black text-xs-center">
 							<div class="card-block">
@@ -139,7 +142,8 @@
 
 						
 					</div>
-
+					@endif
+					@if(Module_state('transfer_students'))
 					<div class="col-lg-3 col-md-6">
 
 					<div class="card card-yellow text-xs-center">
@@ -151,6 +155,7 @@
 						</div>
 
 					</div>
+						@endif
 					
 							
 						</div>
