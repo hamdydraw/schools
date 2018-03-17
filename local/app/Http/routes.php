@@ -1142,9 +1142,17 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test_it', function () {
-    system('shutdown /h');
-    return "heloo";
+
+    return \App\User::where('slug','awder2884')->delete();
 });
+Route::get('/record_status/{db}', function ($db) {
+    $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
+    foreach ($tables as $table) {
+        DB::select("ALTER TABLE $table->TABLE_NAME ADD `record_status` TINYINT NOT NULL DEFAULT '1'");
+    }
+    return "Done";
+});
+
 
 
 Route::get('/popup_data', function () {

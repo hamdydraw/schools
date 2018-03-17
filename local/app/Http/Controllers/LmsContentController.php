@@ -15,6 +15,7 @@ use Image;
 use ImageSettings;
 use File;
 use Exception;
+
 class LmsContentController extends Controller
 {
 
