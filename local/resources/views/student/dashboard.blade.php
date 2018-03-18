@@ -7,10 +7,34 @@
 <div class="col-lg-12">
 <ol class="breadcrumb">
 
+	<?php
+		$student_info = getStudentInfo(Auth::user()->slug);
+	?>
 <li>{{ $title}}</li>
 </ol>
 </div>
 </div>
+	<div class="row">
+	<div class="table-responsive vertical-scroll">
+		<table class="table">
+			<thead>
+			<th>{{getPhrase('current_academic_year')}}</th>
+			<th>{{getPhrase('current_semester')}}</th>
+			<th>{{getPhrase('current_grade')}}</th>
+			<th>{{getPhrase('current_class')}}</th>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{{$student_info['current_academic_year']}}</td>
+				<td>{{getPhrase($student_info['current_semester'])}}</td>
+				<td>{{$student_info['current_grade']}}</td>
+				<td>{{$student_info['current_class']}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<hr>
+	</div>
 <div class="row">
 	@if(Module_state('exams'))
 <div class="col-md-4">
@@ -122,7 +146,7 @@
 				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('title')}}
 				    				</strong></th>
-				    				<th><strong>{{getPhrase('number')}}</th>
+									<th><strong>{{getPhrase('number')}}</strong></th>
 				    				<th><strong>{{getPhrase('issued')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('status')}}
@@ -175,7 +199,7 @@
 				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('subject')}}
 				    				</strong></th>
-				    				<th><strong>{{getPhrase('class')}}</th>
+									<th><strong>{{getPhrase('class')}}</strong></th>
 				    				<th><strong>{{getPhrase('from')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('to')}}

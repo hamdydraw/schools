@@ -42,6 +42,26 @@
 
 						</div>
 						<hr>
+						<h3 class="profile-details-title">{{ getPhrase('student_information')}}</h3>
+						<div class="table-responsive vertical-scroll">
+							<table class="table">
+								<thead>
+								<th>{{getPhrase('current_academic_year')}}</th>
+								<th>{{getPhrase('current_semester')}}</th>
+								<th>{{getPhrase('current_grade')}}</th>
+								<th>{{getPhrase('current_class')}}</th>
+								</thead>
+								<tbody>
+								<tr>
+									<td>{{$student_info['current_academic_year']}}</td>
+									<td>{{getPhrase($student_info['current_semester'])}}</td>
+									<td>{{$student_info['current_grade']}}</td>
+									<td>{{$student_info['current_class']}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<hr>
 						<h3 class="profile-details-title">{{ getPhrase('reports')}}</h3>
 				<div class="row">
 					@if(Module_state('exams'))

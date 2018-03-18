@@ -1096,7 +1096,6 @@ class UsersController extends Controller
 
         $data['record'] = $record;
 
-
         $user = $record;
         //Overall performance Report
         $resultObject = new App\QuizResult();
@@ -1113,7 +1112,6 @@ class UsersController extends Controller
             $correct_answers += $record->correct_answers;
             $wrong_answers += $record->wrong_answers;
             $not_answered += $record->not_answered;
-
         }
 
         $labels = [getPhrase('correct'), getPhrase('wrong'), getPhrase('not_answered')];
@@ -1174,6 +1172,7 @@ class UsersController extends Controller
         $data['title'] = $name . ' ' . getPhrase('details');
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
+        $data['student_info'] = getStudentInfo($slug);
         if (checkRole(['parent'])) {
             $data['active_class'] = 'children';
         }

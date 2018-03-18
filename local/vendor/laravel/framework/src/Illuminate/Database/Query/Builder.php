@@ -2197,7 +2197,7 @@ class Builder
         if (! is_null($id)) {
             $this->where('id', '=', $id);
         }
-        //return $this->update(['record_status' => 3]);
+        return $this->update(['record_status' => 3]);
         $sql = $this->grammar->compileDelete($this);
 
         return $this->connection->delete($sql, $this->getBindings());

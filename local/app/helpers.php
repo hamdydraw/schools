@@ -1064,3 +1064,28 @@ function getDefaultParentCourseId()
 {
     return getSetting('default_parent_course_id', 'site_settings');
 }
+
+/**
+ * This method will return student info
+ * @return [type] [description]
+ */
+
+function getStudentInfo($slug){
+    $student_id = \App\User::where('slug',$slug)->pluck('id')->first();
+    $student    = \App\Student::where('user_id',$student_id)->first();
+    $academic_id = new App\Academic();
+    $academic_id = $academic_id->getCurrentAcademic()['id'];
+    $academicSemester = new App\AcademicSemester();
+    $currentSemester  = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
+    //get the needed info
+    $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
+    $data['current_grade']         = \App\Course::where('id',$student->course_parent_id)->pluck('course_title')->first();
+    $data['current_class']         = \App\Course::where('id',$student->course_id)->pluck('course_title')->first();
+    if($currentSemester->sem_num == 1){
+        $data['current_semester']      = "the_first";
+    }else{
+        $data['current_semester']      = "the_second";
+    }
+    //return the data
+    return $data;
+}
