@@ -1142,8 +1142,9 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test_it', function () {
-    return Auth::user()->slug;
+    return \App\Academic::all();
 });
+
 Route::get('/record_status/{db}', function ($db) {
     $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
     foreach ($tables as $table) {

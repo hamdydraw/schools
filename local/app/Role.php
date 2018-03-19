@@ -25,6 +25,7 @@ class Role extends EntrustRole
     {
     	return Role::where('name', '=', $role_name)->get()->first();
     }
+
  
 
 

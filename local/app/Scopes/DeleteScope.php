@@ -16,6 +16,6 @@ class DeleteScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        return $builder->where('record_status', '!=', 3);
+        return $builder->where($model->getTable().".record_status", '!=', 3);
     }
 }

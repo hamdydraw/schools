@@ -10,7 +10,7 @@ class Quiz extends Model
 {
     protected $table= "quizzes";
 
-      
+
 
     public static function getRecordWithSlug($slug)
     {
