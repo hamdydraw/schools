@@ -844,8 +844,8 @@ class UsersController extends Controller
                 DB::table('role_user')
                     ->where('user_id', '=', $record->id)
                     ->where('role_id', '=', $previous_role_id)
-                    ->delete();
-                $record->roles()->attach($request->role_id);
+                    ->update(['role_id' => $request->role_id]);
+                //$record->roles()->attach($request->role_id);
             }
         }
 
