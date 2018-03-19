@@ -14,6 +14,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use App\Scopes\DeleteScope;
 
 Route::get('/', function () {
 
@@ -1142,7 +1143,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test_it', function () {
-    return \App\Academic::all();
+    return \App\Student::withoutGlobalScope(DeleteScope::class)->get();
 });
 
 Route::get('/record_status/{db}', function ($db) {
