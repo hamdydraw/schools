@@ -19,12 +19,11 @@ class InstructionsController extends Controller
 
     /**
      * Course listing method
-     * @return Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -43,7 +42,7 @@ class InstructionsController extends Controller
     public function getDatatable($slug = '')
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -100,7 +99,7 @@ class InstructionsController extends Controller
      */
     public function create()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -119,7 +118,7 @@ class InstructionsController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -156,7 +155,7 @@ class InstructionsController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -194,7 +193,7 @@ class InstructionsController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -223,7 +222,7 @@ class InstructionsController extends Controller
      */
     public function delete($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

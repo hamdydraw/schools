@@ -42,7 +42,7 @@ class LmsContentController extends Controller
      */
     public function index()
     {
-       if(!checkRole(getUserGrade(2)))
+       if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -60,16 +60,23 @@ class LmsContentController extends Controller
      */
     public function getDatatable()
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
       }
 
-    $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
-    		->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
-            ->orderBy('updated_at','desc');
-
+      if(Auth::user()->role_id == 3){
+          $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
+              ->join('subjectpreferences','lmscontents.subject_id','=','subjectpreferences.subject_id')
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->where('subjectpreferences.user_id','=',Auth::user()->id);
+      }
+      else{
+          $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->orderBy('updated_at','desc');
+      }
 
         $this->setSettings();
         return Datatables::of($records)
@@ -123,14 +130,17 @@ class LmsContentController extends Controller
      */
     public function create()
     {
-       if(!checkRole(getUserGrade(2)))
+       if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
       }
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'lms';
-    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['title']              = getPhrase('add_content');
     	$data['layout']              = getLayout();
         $data['module_helper']      = getModuleHelper('lms-content-create');
@@ -144,7 +154,7 @@ class LmsContentController extends Controller
      */
     public function edit($slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -170,7 +180,7 @@ class LmsContentController extends Controller
      */
     public function update(Request $request, $slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -289,7 +299,7 @@ class LmsContentController extends Controller
     {
 
 
-       if(!checkRole(getUserGrade(2)))
+       if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -383,7 +393,7 @@ class LmsContentController extends Controller
      */
     public function delete($slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();

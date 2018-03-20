@@ -28,7 +28,9 @@
 					<div class="panel-heading">
 						
 						<div class="pull-right messages-buttons helper_step1">
+							@if(!is_teacher())
 							<a href="{{URL_OFFLINE_EXAMS_IMPORT_MARKS}}" class="btn  btn-primary button" >{{ getPhrase('import_excel')}}</a>
+							@endif
 						</div>
 					 
 						<h1>{{ $title }}</h1>

@@ -194,6 +194,62 @@ $role = getRoleData($user->role_id);
                         <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
                             <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
 
+                    @if(Module_state('management_of_educational_content'))
+                        <li {{ isActive($active_class, 'lms') }} >
+
+                            <a data-toggle="collapse" data-target="#lms" href="{{URL_LMS_DASHBOARD}}"><i
+                                        class="fa fa-leanpub"
+                                        aria-hidden="true"></i>
+                                </i>
+                                {{ getPhrase('LMS') }} </a>
+
+                            <ul id="lms" class="collapse sidemenu-dropdown">
+                                <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
+                                                class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
+                                <li><a href="{{ URL_LMS_CONTENT }}"> <i
+                                                class="icon-books"></i>{{ getPhrase('lms_contents') }}
+                                    </a></li>
+                                <li><a href="{{ URL_LMS_SERIES }}"> <i
+                                                class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
+                                    </a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Module_state('exams'))
+                        <li {{ isActive($active_class, 'exams') }} >
+
+                            <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
+                                        class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </i>
+                                {{ getPhrase('exams') }} </a>
+
+                            <ul id="exams" class="collapse sidemenu-dropdown">
+                                <li><a href="{{URL_QUIZ_QUESTIONBANK}}"> <i
+                                                class="fa fa-question"></i>{{ getPhrase('question_bank') }}</a></li>
+                                <li><a href="{{URL_QUIZ_CATEGORIES}}"> <i
+                                                class="fa fa-random"></i>{{ getPhrase('categories') }}
+                                    </a></li>
+                                <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
+                                </li>
+                                <li><a href="{{URL_EXAM_SERIES}}"> <i
+                                                class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
+                                    </a></li>
+                                @if(Module_state('experimental_tests_only'))
+                                    <li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"
+                                                                                           aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
+                                        </a></li>
+                                    <li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"
+                                                                            aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}
+                                        </a></li>
+                                @endif
+                                <li><a href="{{URL_INSTRUCTIONS}}"> <i
+                                                class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
+
+                            </ul>
+
+                        </li>
+                    @endif
+
                 @if(Module_state('daily_school_schedule'))
                     <li {{ isActive($active_class, 'timetable') }} >
 

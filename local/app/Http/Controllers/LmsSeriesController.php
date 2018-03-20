@@ -29,7 +29,7 @@ class LmsSeriesController extends Controller
      */
     public function index()
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -49,7 +49,7 @@ class LmsSeriesController extends Controller
     public function getDatatable()
     {$data['module_helper']      = getModuleHelper('lms-series-list');
 
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -130,7 +130,7 @@ class LmsSeriesController extends Controller
      */
     public function create()
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -151,7 +151,7 @@ class LmsSeriesController extends Controller
      */
     public function edit($slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -177,7 +177,7 @@ class LmsSeriesController extends Controller
      */
     public function update(Request $request, $slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -240,7 +240,7 @@ class LmsSeriesController extends Controller
      */
     public function store(Request $request)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -338,7 +338,7 @@ class LmsSeriesController extends Controller
      */
     public function delete($slug)
     {
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
@@ -414,7 +414,7 @@ class LmsSeriesController extends Controller
     public function updateSeries($slug)
     {
 
-       if(!checkRole(getUserGrade(2)))
+       if(!checkRole(getUserGrade(3)))
        {
             prepareBlockUserMessage();
             return back();
@@ -465,7 +465,7 @@ class LmsSeriesController extends Controller
 
     public function storeSeries(Request $request, $slug)
     {
-    	if(!checkRole(getUserGrade(2)))
+    	if(!checkRole(getUserGrade(3)))
         {
             prepareBlockUserMessage();
             return back();

@@ -16,6 +16,7 @@ use ImageSettings;
 use Input;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionBankController extends Controller
 {
@@ -33,9 +34,14 @@ class QuestionBankController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
+        }
+
+        $data['is_staff'] = true;
+        if(Auth::user()->role_id == 3){
+            $data['is_staff'] = false;
         }
 
         $data['active_class'] = 'exams';
@@ -50,26 +56,45 @@ class QuestionBankController extends Controller
      */
     public function getDatatable(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
-
-        $records = Subject::select([
-            'id',
-            'subject_title',
-            'subject_code',
-            'slug',
-            'is_lab',
-            'created_by_user',
-            'updated_by_user',
-            'created_by_ip',
-            'updated_by_ip',
-            'created_at',
-            'updated_at'
-        ])
-            // ->where('is_lab','=','0')
-            ->orderBy('updated_at', 'desc');
+        if(is_teacher()){
+            $records = Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')
+                ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                ->select([
+                    'subjects.id',
+                    'subjects.subject_title',
+                    'subjects.subject_code',
+                    'subjects.slug',
+                    'subjects.is_lab',
+                    'subjects.created_by_user',
+                    'subjects.updated_by_user',
+                    'subjects.created_by_ip',
+                    'subjects.updated_by_ip',
+                    'subjects.created_at',
+                    'subjects.updated_at'
+                ])
+                ->orderBy('updated_at', 'desc');
+        }
+        else{
+            $records = Subject::select([
+                'id',
+                'subject_title',
+                'subject_code',
+                'slug',
+                'is_lab',
+                'created_by_user',
+                'updated_by_user',
+                'created_by_ip',
+                'updated_by_ip',
+                'created_at',
+                'updated_at'
+            ])
+                // ->where('is_lab','=','0')
+                ->orderBy('updated_at', 'desc');
+        }
 
         $table = Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -116,7 +141,12 @@ class QuestionBankController extends Controller
      */
     public function show($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        if(!teacher_subject($slug)){
             prepareBlockUserMessage();
             return back();
         }
@@ -152,7 +182,12 @@ class QuestionBankController extends Controller
      */
     public function getQuestions($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        if(!teacher_subject($slug)){
             prepareBlockUserMessage();
             return back();
         }
@@ -242,7 +277,12 @@ class QuestionBankController extends Controller
      */
     public function create($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        if(!teacher_subject($slug)){
             prepareBlockUserMessage();
             return back();
         }
@@ -288,10 +328,12 @@ class QuestionBankController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
+
+
         $record = QuestionBank::getRecordWithSlug($slug);
 
         if ($isValid = $this->isValidRecord($record)) {
@@ -347,10 +389,11 @@ class QuestionBankController extends Controller
     public function update(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
+
         $record = QuestionBank::where('slug', $slug)->get()->first();
 
 
@@ -837,10 +880,11 @@ class QuestionBankController extends Controller
         /**
          * Validation for the Master Data of a question
          */
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
+
 
 
         DB::beginTransaction();
@@ -1014,7 +1058,7 @@ class QuestionBankController extends Controller
      */
     public function delete($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -1112,7 +1156,7 @@ class QuestionBankController extends Controller
      */
     public function import()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -1144,7 +1188,7 @@ class QuestionBankController extends Controller
             'excel' => 'required|mimes:xls,xlsx'
         ]);
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

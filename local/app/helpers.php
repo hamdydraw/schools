@@ -7,6 +7,7 @@
  * @return void
  */
 
+use Illuminate\Support\Facades\Auth;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1088,4 +1089,22 @@ function getStudentInfo($slug){
     }
     //return the data
     return $data;
+}
+
+//check if the user is a teacher
+function is_teacher(){
+    if(Auth::user()->role_id == 3){
+        return true;
+    }
+    return false;
+}
+
+//check if this subject is for the teacher
+function teacher_subject($slug){
+    $subject_id  = \App\Subject::where('slug',$slug)->pluck('id')->first();
+    $his_subject = \App\SubjectPreference::where('subject_id',$subject_id)->where('user_id',Auth::user()->id)->first();
+    if($his_subject){
+        return true;
+    }
+    return false;
 }

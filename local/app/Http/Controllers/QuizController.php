@@ -41,7 +41,7 @@ class QuizController extends Controller
     public function quizdashboard()
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -60,7 +60,7 @@ class QuizController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -78,7 +78,7 @@ class QuizController extends Controller
     public function getDatatable($slug = '')
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -86,21 +86,42 @@ class QuizController extends Controller
         $records = array();
 
         if ($slug == '') {
-            $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-                ->select([
-                    'type',
-                    'title',
-                    'dueration',
-                    'quizcategories.category',
-                    'is_paid',
-                    'total_marks',
-                    'tags',
-                    'quizzes.slug',
-                    'quizzes.id as quiz_id',
-                    'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
+            if(is_teacher()){
+                $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                    ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                    ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                    ->select([
+                        'type',
+                        'title',
+                        'dueration',
+                        'quizcategories.category',
+                        'is_paid',
+                        'total_marks',
+                        'tags',
+                        'quizzes.slug',
+                        'quizzes.id as quiz_id',
+                        'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
-                ])
-                ->orderBy('quizzes.updated_at', 'desc');
+                    ])
+                    ->orderBy('quizzes.updated_at', 'desc');
+
+            }else {
+                $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                    ->select([
+                        'type',
+                        'title',
+                        'dueration',
+                        'quizcategories.category',
+                        'is_paid',
+                        'total_marks',
+                        'tags',
+                        'quizzes.slug',
+                        'quizzes.id as quiz_id',
+                        'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
+
+                    ])
+                    ->orderBy('quizzes.updated_at', 'desc');
+            }
 
 
         } else {
@@ -176,7 +197,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -186,7 +207,10 @@ class QuizController extends Controller
         $data['offline_categories'] = array_pluck(App\OfflineQuizCategories::
         where('status', '=', 1)->get(), 'title', 'id');
         $data['instructions'] = array_pluck(App\Instruction::all(), 'title', 'id');
-        $data['subjects'] = array_pluck(App\Subject::all(), 'subject_title', 'id');
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $data['items'] = json_encode(
             array(
@@ -205,7 +229,7 @@ class QuizController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -224,7 +248,10 @@ class QuizController extends Controller
         $data['instructions'] = array_pluck(App\Instruction::all(), 'title', 'id');
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
         $data['title'] = getPhrase('edit_quiz');
-        $data['subjects'] = array_pluck(App\Subject::all(), 'subject_title', 'id');
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
 
         $items = App\QuizApplicability::join('academics', 'academics.id', '=', 'quizapplicability.academic_id')
@@ -275,7 +302,7 @@ class QuizController extends Controller
     public function update(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -387,7 +414,7 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -500,7 +527,7 @@ class QuizController extends Controller
      */
     public function delete($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -569,7 +596,7 @@ class QuizController extends Controller
      */
     public function updateQuestions($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -614,8 +641,10 @@ class QuizController extends Controller
         }
 
 
-        $data['subjects'] = array_pluck(App\Subject::all(),
-            'subject_title', 'id');
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
 
         $data['title'] = getPhrase('update_questions_for') . ' ' . $record->title;
         $data['module_helper'] = getModuleHelper('update-questions-in-quiz');
@@ -626,7 +655,7 @@ class QuizController extends Controller
     public function storeQuestions(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

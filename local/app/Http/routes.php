@@ -1143,7 +1143,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test_it', function () {
-    return \App\Student::withoutGlobalScope(DeleteScope::class)->get();
+    return teacher_subject('alaalom-aol-ebtdaey-08dc39ad698e1d35391e41f6be4d12');
 });
 
 Route::get('/record_status/{db}', function ($db) {

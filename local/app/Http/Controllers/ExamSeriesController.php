@@ -39,7 +39,7 @@ class ExamSeriesController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -58,7 +58,7 @@ class ExamSeriesController extends Controller
     public function getDatatable()
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -148,7 +148,7 @@ class ExamSeriesController extends Controller
      */
     public function create()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -166,7 +166,7 @@ class ExamSeriesController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -193,7 +193,7 @@ class ExamSeriesController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -257,7 +257,7 @@ class ExamSeriesController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -357,7 +357,7 @@ class ExamSeriesController extends Controller
      */
     public function delete($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -412,9 +412,17 @@ class ExamSeriesController extends Controller
     {
 
         $category_id = $request->category_id;
-        $exams = Quiz::where('category_id', '=', $category_id)
-            ->where('total_marks', '!=', '0')
-            ->get();
+        if(is_teacher()){
+            $exams = Quiz::where('quizzes.category_id', '=', $category_id)
+                ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                ->where('quizzes.total_marks', '!=', '0')
+                ->get();
+        }else {
+            $exams = Quiz::where('category_id', '=', $category_id)
+                ->where('total_marks', '!=', '0')
+                ->get();
+        }
         return json_encode(array('exams' => $exams));
     }
 
@@ -426,7 +434,7 @@ class ExamSeriesController extends Controller
     public function updateSeries($slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -479,7 +487,7 @@ class ExamSeriesController extends Controller
     public function storeSeries(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
