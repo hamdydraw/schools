@@ -1143,7 +1143,20 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 //test Route
 
 Route::get('/test_it', function () {
-    return teacher_subject('alaalom-aol-ebtdaey-08dc39ad698e1d35391e41f6be4d12');
+    $tables = DB::select('SHOW TABLES');
+    $main_tables = array();
+
+    foreach ($tables as $table){
+        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        if(in_array('slug',$columns)) {
+            array_push($main_tables,$table->Tables_in_sasbit_school);
+            echo json_encode($columns);
+        }
+
+    }
+    return $main_tables;
+
+
 });
 
 Route::get('/record_status/{db}', function ($db) {

@@ -35,6 +35,7 @@ class LmsSeriesController extends Controller
         return back();
       }
 
+        $data['layout'] = getLayout();
         $data['active_class']       = 'lms';
         $data['title']              = 'LMS'.' '.getPhrase('series');
         $data['module_helper']      = getModuleHelper('lms-series-list');
@@ -57,9 +58,14 @@ class LmsSeriesController extends Controller
 
         $records = array();
 
-
-            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity',  'total_items','slug', 'id', 'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
-            ->orderBy('updated_at', 'desc');
+        if(is_teacher()){
+            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity', 'total_items', 'slug', 'id', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])
+                ->where('created_by_user','=',Auth::user()->id)
+                ->orderBy('updated_at', 'desc');
+        }else {
+            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity', 'total_items', 'slug', 'id', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])
+                ->orderBy('updated_at', 'desc');
+        }
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -430,7 +436,12 @@ class LmsSeriesController extends Controller
     	$data['active_class']       = 'lms';
         $data['right_bar']          = TRUE;
         $data['right_bar_path']     = 'lms.lmsseries.right-bar-update-lmslist';
-		$data['categories']       	= array_pluck(App\Subject::all(),'subject_title', 'id');
+
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['categories']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['categories']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
+
         $data['settings']           = FALSE;
         $previous_records = array();
         if($record->total_items > 0)

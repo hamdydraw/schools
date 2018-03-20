@@ -166,7 +166,10 @@ class LmsContentController extends Controller
     	$data['record']         	= $record;
     	$data['title']       		= getPhrase('edit').' '.$record->title;
     	$data['active_class']       = 'lms';
-    	$data['subjects']           = array_pluck(App\Subject::all(), 'subject_title', 'id');
+        if(Auth::user()->role_id == 3){
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
+        }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
     	$data['settings']           = json_encode($record);
         $data['layout']              = getLayout();
     	return view('lms.lmscontents.add-edit', $data);
