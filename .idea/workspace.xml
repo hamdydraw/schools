@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3ebf800-289d-4584-9629-593fe77754b2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/custom-fonts.css" afterPath="$PROJECT_DIR$/css/custom-fonts.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/default-theme-en.css" afterPath="$PROJECT_DIR$/css/default-theme-en.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/default-theme.css" afterPath="$PROJECT_DIR$/css/default-theme.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local/.env" afterPath="$PROJECT_DIR$/local/.env" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -347,12 +344,12 @@
       <option name="presentableId" value="Default" />
       <updated>1521572549430</updated>
       <workItem from="1521572552053" duration="3273000" />
-      <workItem from="1521619769960" duration="6070000" />
+      <workItem from="1521619769960" duration="6241000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9343000" />
+    <option name="totallyTimeSpent" value="9514000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
