@@ -1,20 +1,33 @@
 @font-face {
-    font-family: 'HelveticaNeueW23';
-    src:    url('../fonts/HelveticaNeueW23-Reg.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/HelveticaNeueW23-Reg.ttf#HelveticaNeueW23') format('truetype'),
-    url('../fonts/HelveticaNeueW23-Reg.woff#HelveticaNeueW23') format('woff');
-
+    font-family: 'university-system';
+    src:    url('../fonts/university-system.eot?wgn2nh');
+    src:    url('../fonts/university-system.eot?wgn2nh#iefix') format('embedded-opentype'),
+    url('../fonts/university-system.ttf?wgn2nh') format('truetype'),
+    url('../fonts/university-system.woff?wgn2nh') format('woff'),
+    url('../fonts/university-system.svg?wgn2nh#university-system') format('svg');
     font-weight: normal;
     font-style: normal;
 }
-fonts/Segoe_ui_historic.ttf
 
 @font-face {
-    font-family: 'Segoe UI Historic';
+    font-family: 'HelveticaNeueW23';
+    src:    url('../fonts/HelveticaNeueW23-Bd.eot');
+    src:    url('../fonts/HelveticaNeueW23-Reg.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/HelveticaNeueW23-Bd.ttf') format('truetype'),
+    url('../fonts/HelveticaNeueW23-Bd.woff') format('woff'),
+    url('../fonts/HelveticaNeueW23-Reg.ttf#HelveticaNeueW23') format('truetype'),
+    url('../fonts/HelveticaNeueW23-Reg.woff#HelveticaNeueW23') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Segoe_ui_historic';
     url('../fonts/Segoe_ui_historic.ttf') format('truetype'),
     font-weight: normal;
     font-style: normal;
 }
+
 [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'university-system' !important;
@@ -258,3 +271,4 @@ fonts/Segoe_ui_historic.ttf
 .icon-warning:before {
     content: "\e94b";
 }
+

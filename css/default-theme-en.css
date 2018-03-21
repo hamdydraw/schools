@@ -4,7 +4,7 @@
 body {
     margin-top: 100px;
     background-color: #f9f9f9;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     color: #656f7d;
     overflow-x: hidden;
 }
@@ -32,7 +32,7 @@ h6 {
     color: #656f7d
 }
 h1 {
-    font-size: 14px;
+    font-size: 16px;
 }
 a {
     transition: all .2s ease-in-out;
@@ -86,7 +86,7 @@ a:hover {
     background: #fc4349;
 }
 .btn-default{
-background: #f1f1f1;
+    background: #f1f1f1;
 }
 .btn-gray {
     background-color: #d8dcd9;
@@ -187,7 +187,7 @@ aside hr {
     margin: 0 0 10px;
 }
 .btn-lg.button {
-    font-size: 14px;
+    font-size: 16px;
 }
 #wrapper {
     padding-left: 0;
@@ -203,7 +203,7 @@ aside hr {
 }
 .badge-alert {
     background: #44a1ef;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 300;
     font-size: 10px
 }
@@ -271,15 +271,15 @@ aside hr {
         padding: 0 10px;
     }
     body:before {
-	background-color: #353f4d;
-	content: "";
-	height: 100%;
-	left: 0;
-	position: fixed;
-	top: 0;
-	width: 120px;
-    box-shadow: 5px 0px 20px 0px rgba(68, 161, 239, 0.05);
-}
+        background-color: #353f4d;
+        content: "";
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 120px;
+        box-shadow: 5px 0px 20px 0px rgba(68, 161, 239, 0.05);
+    }
 }
 .navbar-custom {
     background: #FFF;
@@ -289,11 +289,11 @@ aside hr {
     box-shadow: 0px 4px 11px rgba(53, 63, 77, 0.04);
 }
 .top-nav {} .top-nav>li {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    padding: 0 25px;
-}
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                padding: 0 25px;
+            }
 .top-nav>li>a {
     /*padding-top: 15px;
     padding-bottom: 15px;*/
@@ -443,7 +443,7 @@ ul.alert-dropdown {
     .side-nav>li>a {
         display: block;
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
         padding-top: 20px;
         padding-bottom: 20px;
         border-top: 1px solid #2f3845;
@@ -514,7 +514,7 @@ ul.alert-dropdown {
     .navbar-nav > li > .sidemenu-dropdown > li a {
         border-right: 0px solid #44a1ef;
         color: #fff;
-        font-size: 14px;
+        font-size: 16px;
         background: #44a1ef;
     }
     .navbar-nav > li > .sidemenu-dropdown > li:hover a {
@@ -557,7 +557,7 @@ ul.alert-dropdown {
 .side-nav>li>ul>li>a>i {
     vertical-align: top;
     float: left;
-    font-size: 16px;
+    font-size: 18px;
     margin: 3px 15px 0 0;
 }
 .side-nav>li>ul>li:hover>a {
@@ -565,19 +565,19 @@ ul.alert-dropdown {
     position: relative;
 }
 .sidemenu-dropdown li{
-	position: relative;
+    position: relative;
 }
 .sidemenu-dropdown li + li:before{
-    	position: absolute;
-    	right: 0;
-    	top: 0;
-    	content: '';
-    	background: #fff;
-    	height: 1px;
-    	width: calc(100% - 54px);
-    	z-index: 998;
-    	opacity: .2
-    	    }
+    position: absolute;
+    right: 0;
+    top: 0;
+    content: '';
+    background: #fff;
+    height: 1px;
+    width: calc(100% - 54px);
+    z-index: 998;
+    opacity: .2
+}
 .flot-chart {
     display: block;
     height: 400px;
@@ -666,7 +666,7 @@ label {
     min-height: 50px;
     min-width: 50px;
     background: #d8dcd9;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 700;
     font-size: 46px;
     color: #fff;
@@ -791,7 +791,7 @@ select.form-control {
 }
 .selected-questions-details span {
     padding: 10px 0;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
 }
 .remove-all-questions {
@@ -1107,7 +1107,7 @@ ul.legends li span {
 }
 .subject-title {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 30px;
     padding: 0 15px
 }
@@ -1151,7 +1151,7 @@ span.numbers-count {
     border: 2px solid #e1e8f8;
     text-align: center;
     line-height: 40px;
-    font-size: 14px;
+    font-size: 16px;
     color: #FFF;
 }
 .match-questions ul {
@@ -1312,21 +1312,21 @@ ul.filling-blank li .option-hints {
 }
 .packages-box .price {
     color: #656f7d;
-    font: 700 50px / 50px 'Roboto', sans-serif;
+    font: 700 50px / 50px 'Segoe_ui_historic', sans-serif;
     margin: 20px 0 0px;
     display: inline-block;
 }
 .packages-box .price sub {
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
 }
 .packages-box hr {
     margin: 30px 0;
     border-color: #d8dcd9;
 }
 .packages-box p {
-    font-size: 14px;
+    font-size: 16px;
 }
 .packages-box .btn {
     height: 40px;
@@ -1359,7 +1359,7 @@ ul.filling-blank li .option-hints {
     padding: 50px 0 0 0
 }
 .information-payment h3 {
-    font-size: 14px;
+    font-size: 16px;
     color: #656f7d;
 }
 .payment-form .btn-lg {
@@ -1373,7 +1373,7 @@ ul.filling-blank li .option-hints {
 .offer-list li {
     padding-left: 30px;
     position: relative;
-    font-size: 14px;
+    font-size: 16px;
     margin: 15px 0;
 }
 .offer-list li + li {
@@ -1381,7 +1381,7 @@ ul.filling-blank li .option-hints {
 }
 .offer-list li .mdi {
     color: #44a1ef;
-    font-size: 14px;
+    font-size: 16px;
     position: absolute;
     left: 0;
     top: 2px
@@ -1425,7 +1425,7 @@ table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
-    font-size: 14px;
+    font-size: 16px;
     color: #656f7d;
     font-weight: normal
 }
@@ -1604,7 +1604,7 @@ hr.margin-mid {
 }
 .history-item-box h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
 }
 .history-item-box .dropdown.more {
     position: absolute;
@@ -1760,7 +1760,7 @@ a.library-item:hover img {
     top: 27px
 }
 .latest-offers-list .item h3 {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
 }
 .latest-offers-list .item.item-button-right {
@@ -1785,7 +1785,7 @@ a.library-item:hover img {
     margin: 5px 0 0 0;
 }
 .latest-offers-list .item p span {
-    font-size: 14px;
+    font-size: 16px;
     color: #7f858e;
     text-decoration: line-through
 }
@@ -1823,7 +1823,7 @@ a.library-item:hover img {
     font-size: 14px;
 }
 .video-sidebar ul li a .mdi {
-    font-size: 14px;
+    font-size: 16px;
 }
 .video-sidebar ul li a:hover {
     color: #656f7d;
@@ -1862,7 +1862,7 @@ a.library-item:hover img {
 }
 .discussion-body .user-details h4 {
     color: #656f7d;
-    font-size: 14px;
+    font-size: 16px;
     color: #656f7d;
     margin: 0;
 }
@@ -1879,7 +1879,7 @@ a.library-item:hover img {
 }
 .discussion-body p {
     color: #7f858e;
-    ;
+;
 }
 #calendar {
     max-width: 100%;
@@ -1902,11 +1902,11 @@ a.library-item:hover img {
     color: #656f7d
 }
 .fc-prev-button {} .fc-today-button,
-.fc-state-active {
-    background-color: #44a1ef;
-    color: #fff;
-    text-shadow: none
-}
+                   .fc-state-active {
+                       background-color: #44a1ef;
+                       color: #fff;
+                       text-shadow: none
+                   }
 button[disabled],
 html input[disabled] {
     background-color: #eee;
@@ -1927,7 +1927,7 @@ html input[disabled] {
 }
 .fc th {
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: 16px;
 }
 .fc td,
 .fc th {
@@ -1935,7 +1935,7 @@ html input[disabled] {
 }
 .fc-ltr .fc-basic-view .fc-day-number {
     padding: 0 30px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .fc-event {
     line-height: 34px;
@@ -1955,7 +1955,7 @@ a.fc-more:hover {
     color: #44a1ef
 }
 .text-italic {
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-style: italic;
     text-transform: none
 }
@@ -1975,7 +1975,7 @@ a.fc-more:hover {
 }
 .instruction ol li {
     margin: 0 0 30px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .instruction .guide {
     margin: 50px 0 0 0;
@@ -1983,7 +1983,7 @@ a.fc-more:hover {
     list-style: none;
 }
 .instruction .guide li {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 40px;
 }
 .instruction .guide li span {
@@ -2031,7 +2031,7 @@ a.fc-more:hover {
     font-weight: normal
 }
 .list-group-item h3 {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
     color: #656f7d;
 }
@@ -2104,7 +2104,7 @@ a.fc-more:hover {
 }
 .resource-box > h2 {
     color: #7f858e;
-    ;
+;
     font-size: 20px;
     margin: 0 0 30px;
 }
@@ -2123,7 +2123,7 @@ a.fc-more:hover {
 }
 .resource-box .file-list li h3 {
     margin: 0 0 5px;
-    font-size: 14px;
+    font-size: 16px;
     color: #656f7d;
 }
 .resource-box .file-list li .icon {
@@ -2167,7 +2167,7 @@ a.fc-more:hover {
     font-size: 24px;
 }
 .resource-box .file-list li p {
-    font-size: 14px;
+    font-size: 16px;
     color: #7f858e;
 }
 .resource-box .file-list li p span.type {
@@ -2210,7 +2210,7 @@ a.fc-more:hover {
 }
 .order-user-details ul li h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
 }
 .order-user-details ul li p {
@@ -2255,7 +2255,7 @@ a.fc-more:hover {
 }
 .ordered-item .box h3 {
     margin: 0 0 5px;
-    font-size: 14px;
+    font-size: 16px;
     color: #656f7d;
 }
 .ordered-item .box p {
@@ -2283,7 +2283,7 @@ a.fc-more:hover {
     color: #76878c;
 }
 .checkout-button .button {
-    font-size: 16px;
+    font-size: 18px;
     margin-top: 40px;
 }
 .labrary .book-box {
@@ -2309,7 +2309,7 @@ a.fc-more:hover {
 }
 .labrary .book-box .availability span {
     color: #656f7d;
-    font-size: 14px;
+    font-size: 16px;
 }
 .labrary .book-box .availability span + span {
     margin-left: 30px;
@@ -2357,10 +2357,10 @@ body.login-screen {
     -ms-flex-pack: center;
     justify-content: center;
     position: absolute;
-   width: 100%;
-   min-height: 100%;
-   left: 0;
-   top: 0;
+    width: 100%;
+    min-height: 100%;
+    left: 0;
+    top: 0;
 }
 body.login-screen:before {
     display: none
@@ -2378,7 +2378,7 @@ body.login-screen .login-content {
     padding: 50px;
 }
 .login-content p {
-    font-size: 14px;
+    font-size: 16px;
 }
 .login-content .menus {
     background-color: #f2f7f8;
@@ -2574,17 +2574,17 @@ select.form-control.input-sm {
     text-align: right;
 }
 .custom-navigation {} .custom-navigation > a {
-    background-color: #7f858e;
-    border-radius: 0;
-    color: #fff;
-    font-size: 24px;
-    height: 38px;
-    line-height: 38px;
-    margin: 0 10px;
-    padding: 0;
-    text-align: center;
-    width: 38px;
-}
+                          background-color: #7f858e;
+                          border-radius: 0;
+                          color: #fff;
+                          font-size: 24px;
+                          height: 38px;
+                          line-height: 38px;
+                          margin: 0 10px;
+                          padding: 0;
+                          text-align: center;
+                          width: 38px;
+                      }
 .dropdown-menu-notif {
     width: 290px;
     padding: 0;
@@ -2712,7 +2712,7 @@ select.form-control.input-sm {
 }
 .video-author .author-name h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
 }
 .video-author .author-contact-details p {
     margin: 0;
@@ -2745,7 +2745,7 @@ select.form-control.input-sm {
 }
 .card-title {
     font-size: 30px;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 500;
     color: #fff;
     margin: 10px 0 0;
@@ -2754,7 +2754,7 @@ select.form-control.input-sm {
     font-size: 20px;
 }
 .card-text {
-    font-size: 16px;
+    font-size: 18px;
     color: #fff;
     margin: 0;
 }
@@ -2846,13 +2846,13 @@ select.form-control.input-sm {
 .panel-heading a.view-all {
     float: right;
     text-transform: uppercase;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
     font-size: 14px;
 }
 .panel-heading span.view-all {
     float: right;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
     font-size: 14px;
     color: #7f858e;
@@ -2892,7 +2892,7 @@ select.form-control.input-sm {
 }
 .list-sidebar li a h4 {
     margin: 0 0 5px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .list-sidebar li a h4 .time {
     float: right;
@@ -2950,7 +2950,7 @@ select.form-control.input-sm {
 }
 .modal-author-details .author-pic-bio h2 span {
     font-size: 14px;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
     color: #7f858e;
 }
@@ -2983,7 +2983,7 @@ select.form-control.input-sm {
 .table-book-details.table > tbody > tr > td {
     line-height: 24px;
     padding: 15.6px 30px;
-    font-size: 14px;
+    font-size: 16px;
     color: #7f858e;
 }
 .table-book-details.table > tbody > tr > td + td {
@@ -3103,7 +3103,7 @@ h3.total-dues-amount strong {
     padding: 0;
 }
 .questions-explanation .card-title {
-    font-size: 14px;
+    font-size: 16px;
     padding: 10px 20px;
     color: #808691;
     background-color: #f8fafb;
@@ -3119,7 +3119,7 @@ h3.total-dues-amount strong {
     padding: 0px 15px;
 }
 .questions-explanation .collaps-button a {
-    font-size: 16px;
+    font-size: 18px;
     color: #44a1ef;
 }
 .modal-body .form-group {
@@ -3211,7 +3211,7 @@ h3.total-dues-amount strong {
 }
 .model-gallery .gallery-content .dropdown-menu li a i {
     line-height: 30px;
-    font-size: 14px;
+    font-size: 16px;
 }
 .model-gallery .gallery-content .dropdown-menu li a.facebook {
     background-color: #476ab3
@@ -3258,7 +3258,7 @@ h3.total-dues-amount strong {
     border-radius: 100%;
 }
 .model-gallery .comment-box li .sent-by {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0px 0 5px;
     line-height: 20px;
 }
@@ -3266,7 +3266,7 @@ h3.total-dues-amount strong {
     float: right;
     font-size: 11px;
     color: #d8dcd9;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
     line-height: 20px;
 }
@@ -3397,7 +3397,7 @@ h3.total-dues-amount strong {
 }
 .room-mates .box-roommates div h5 {
     margin: 10px 0 0 0;
-    font-size: 14px;
+    font-size: 16px;
 }
 .room-mates .box-roommates div p {
     color: #7f858e;
@@ -3526,10 +3526,10 @@ h3.total-dues-amount strong {
     text-align: center;
     line-height: 20px;
     margin-top: -10px;
-    font-size: 16px;
+    font-size: 18px;
 }
 .inbox-massge-nav li a {
-    font-size: 16px;
+    font-size: 18px;
     color: #656f7d;
     padding: 10px;
     display: block;
@@ -3540,13 +3540,13 @@ h3.total-dues-amount strong {
     text-decoration: none;
 }
 .message-category-title {
-    font-size: 16px;
+    font-size: 18px;
 }
 .message-category-title span {
     float: right;
     color: #7f858e;
     font-size: 13px;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
 }
 .inbox-message-list {
@@ -3617,14 +3617,14 @@ h3.total-dues-amount strong {
 }
 .inbox-message-list li .message-suject h3 {
     margin: 0 0 5px;
-    font-size: 14px;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-size: 16px;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 400;
 }
 .inbox-message-list li.unread-message .message-suject h3 {} .inbox-message-list li .message-suject p {
-    margin: 0;
-    color: #7f858e
-}
+                                                                margin: 0;
+                                                                color: #7f858e
+                                                            }
 .inbox-message-list li .message-suject:hover {
     text-decoration: none;
     cursor: pointer;
@@ -3976,7 +3976,7 @@ notification-content ul {
     background: #69b4f2;
     border: 0 none;
     border-radius: 0;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     padding: 14px;
 }
@@ -4045,7 +4045,7 @@ table.dataTable.no-footer {
     padding: 0 15px;
 }
 .t {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     padding: 10px 40px;
     text-transform: uppercase;
@@ -4107,7 +4107,7 @@ table.dataTable.no-footer {
     margin: 20px 0
 }
 .series-details li {
-    font-size: 14px;
+    font-size: 16px;
     padding: 5px 0
 }
 .lesson-list {
@@ -4130,7 +4130,7 @@ table.dataTable.no-footer {
     display: block;
     -ms-flex: 1;
     flex: 1;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
     max-width: 80%;
     padding: 5px 0;
@@ -4276,7 +4276,7 @@ li.list-item.active {
 }
 .item.item-avtar-left h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
 }
 .item.item-avtar-left p {
     margin: 0;
@@ -4296,7 +4296,7 @@ li.list-item.active {
 }
 .subject-topper-profile h3 {
     margin: 10px 0 0;
-    font-size: 16px;
+    font-size: 18px;
 }
 .inbox-messages-replay {
     max-height: 500px;
@@ -4375,7 +4375,7 @@ li.list-item.active {
     position: relative;
 }
 .containerVertical .items-sub {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     padding: 5px 0;
     padding-right: 100px;
@@ -4431,7 +4431,7 @@ li.list-item.active {
 }
 .selected-item-title {
     margin: 30px 0 10px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
 }
 .selected-subjects {
@@ -4482,7 +4482,7 @@ li.list-item.active {
 .list-sidebar li a .hover-fab-list li.heading {
     color: #44a1ef;
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     background: #f1f1f1;
 }
 .list-sidebar li a .hover-fab-list .fa {
@@ -4672,7 +4672,7 @@ li.list-item.active {
         width: 50%
     }
     .statistic .ststistic-box p {
-        font-size: 14px;
+        font-size: 16px;
     }
     .resource-box .file-list li {
         padding: 10px 72px 0 80px;
@@ -4687,7 +4687,7 @@ li.list-item.active {
     }
     .resource-box .file-list li a i {
         line-height: 28px;
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 .payment-col {
@@ -4786,10 +4786,10 @@ h4.title {
 }
 .custom-checkbox label .item-checkbox .fa {
     line-height: 28px;
-    font-size: 14px;
+    font-size: 16px;
     color: #aaa;
     text-align: center;
-    ;
+;
 }
 .custom-checkbox label .item-checkbox .fa.checked {
     display: block;
@@ -4836,7 +4836,7 @@ td[valign="middle"] {
     margin-left: 30px;
 }
 .result-info-table thead tr th strong {
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 700;
 }
 .idcard-item {
@@ -5016,7 +5016,7 @@ td[valign="middle"] {
 .calender-staff h4 {
     font-size: 14px;
     color: #656f7d;
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 700;
 }
 .calender-staff p {
@@ -5031,12 +5031,12 @@ td[valign="middle"] {
 .calender-staff .actions span {
     display: inline-block;
     margin: 0 4px;
-    font-size: 14px;
+    font-size: 16px;
     color: #b1afaf;
 
 }
 .slot-booking-information th {
-    font-family: 'Segoe UI Historic', sans-serif;
+    font-family: 'Segoe_ui_historic', sans-serif;
     font-weight: 700;
     color: #4f5c61;
 }
@@ -5166,7 +5166,7 @@ p.break-block {
     margin: 20px 0 0;
 }
 .card.book-box .book-content p {
-    font-size: 14px;
+    font-size: 16px;
     color: #fff;
     margin: 0;
     font-weight: bold;
@@ -5250,7 +5250,7 @@ table.table .dropdown-menu {
     ul.nav.navbar-right.top-nav {
         float: right;
         position: absolute;
-        ;
+    ;
         right: 60px;
         top: 0px;
     }
@@ -5375,7 +5375,7 @@ table.dataTable tbody td {
     text-align: center;
     line-height: 44px;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     box-shadow: 5px 0px 20px 0px rgba(68, 161, 239, 0.05);
 }
@@ -5775,37 +5775,37 @@ a.text-white:hover{
 }
 
 .lesson-plane-dashboard strong, .lesson-plane-dashboard .chart-title{width: 100%;
-white-space: nowrap;
-text-overflow: ellipsis;
-overflow: hidden;
-float: left;
-margin-bottom: -20px;
-width:100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: left;
+    margin-bottom: -20px;
+    width:100%;
 }
 .lesson-plane-dashboard .chart-title{
     margin-bottom: -30px;
 }
 .lesson-plane-dashboard .chart-title h4{
-margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .men-caption{
-   text-align: center;
-   color: #f9b458;
-   margin-top: -20px;
-   margin-bottom: 15px;
-   padding-left: 25px;
+    text-align: center;
+    color: #f9b458;
+    margin-top: -20px;
+    margin-bottom: 15px;
+    padding-left: 25px;
 }
 .men-caption P{font-size: 19px;}
 
 .unread-message.alert-info h3 {
-   color: #232323;
+    color: #232323;
 }
 .unread-message.alert-info .receive-time{
-   color:#00BCD4;
+    color:#00BCD4;
 }
 .unread-message.alert-info{
-   background:#cfd8dc !important;
+    background:#cfd8dc !important;
 }
 /* id address */
 .ma-address{
