@@ -7,6 +7,9 @@
  color: #656f7d;
  overflow-x: hidden;
  }
+ th{
+   font-weight: bold!important;
+ }
  @media(min-width:768px) {
  body {
  margin-top: 98px;
@@ -18,7 +21,7 @@
  .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
  color: #656f7d }
  h1 {
- font-size: 16px;
+ font-size: 14px;
  }
  a {
  transition: all .2s ease-in-out;
@@ -166,7 +169,7 @@
  margin: 0 0 10px;
  }
  .btn-lg.button {
- font-size: 16px;
+ font-size: 14px;
  }
  #wrapper {
  padding-right: 0;
@@ -408,7 +411,7 @@ text-align: right;
  .side-nav>li>a {
  display: block;
  text-align: center;
- font-size: 18px;
+ font-size: 16px;
  padding-top: 20px;
  padding-bottom: 20px;
  border-top: 1px solid #2f3845;
@@ -471,7 +474,7 @@ text-align: right;
  .navbar-nav > li > .sidemenu-dropdown > li a {
  border-right: 0px solid #44a1ef;
  color: #fff;
- font-size: 16px;
+ font-size: 14px;
  background: #44a1ef;
  }
  .navbar-nav > li > .sidemenu-dropdown > li:hover a {
@@ -510,7 +513,7 @@ text-align: right;
  .side-nav>li>ul>li>a>i {
  vertical-align: top;
  float:right;
- font-size: 18px;
+ font-size: 16px;
  margin: 3px 0 0 15px;
  }
  .side-nav>li>ul>li:hover>a {
@@ -741,7 +744,7 @@ text-align: right;
  }
  .selected-questions-details span {
  padding: 10px 0;
- font-size: 16px;
+ font-size: 14px;
  font-weight: 600;
  }
  .remove-all-questions {
@@ -1047,7 +1050,7 @@ text-align: right;
  }
  .subject-title {
  margin: 0;
- font-size: 18px;
+ font-size: 16px;
  line-height: 30px;
  padding: 0 15px }
  .subject-title i {
@@ -1090,7 +1093,7 @@ text-align: right;
  border: 2px solid #e1e8f8;
  text-align: center;
  line-height: 40px;
- font-size: 16px;
+ font-size: 14px;
  color: #fff;
  }
  .match-questions ul {
@@ -1251,14 +1254,14 @@ text-align: right;
  .packages-box .price sub {
  font-family: 'roboto', sans-serif;
  font-weight: 400;
- font-size: 16px;
+ font-size: 14px;
  }
  .packages-box hr {
  margin: 30px 0;
  border-color: #d8dcd9;
  }
  .packages-box p {
- font-size: 16px;
+ font-size: 14px;
  }
  .packages-box .btn {
  height: 40px;
@@ -1287,7 +1290,7 @@ text-align: right;
  .payment-form {
  padding: 50px 0 0 0 }
  .information-payment h3 {
- font-size: 16px;
+ font-size: 14px;
  color: #656f7d;
  }
  .payment-form .btn-lg {
@@ -1300,7 +1303,7 @@ text-align: right;
  .offer-list li {
  padding-right: 30px;
  position: relative;
- font-size: 16px;
+ font-size: 14px;
  margin: 15px 0;
  }
  .offer-list li + li {
@@ -1308,7 +1311,7 @@ text-align: right;
  }
  .offer-list li .mdi {
  color: #44a1ef;
- font-size: 16px;
+ font-size: 14px;
  position: absolute;
  right: 0;
  top: 2px }
@@ -1337,7 +1340,7 @@ text-align: right;
  .table-striped>tbody>tr:nth-of-type(odd) {
  background: #fbfcfd }
  table.datatable thead .sorting, table.datatable thead .sorting_asc, table.datatable thead .sorting_desc, table.datatable thead .sorting_asc_disabled, table.datatable thead .sorting_desc_disabled {
- font-size: 16px;
+ font-size: 14px;
  color: #656f7d;
  font-weight: normal }
  table.datatable thead .sorting:after, table.datatable thead .sorting_asc:after, table.datatable thead .sorting_desc:after, table.datatable thead .sorting_asc_disabled:after, table.datatable thead .sorting_desc_disabled:after {
@@ -1484,7 +1487,7 @@ text-align: right;
  }
  .history-item-box h3 {
  margin: 0;
- font-size: 16px;
+ font-size: 14px;
  }
  .history-item-box .dropdown.more {
  position: absolute;
@@ -1629,7 +1632,7 @@ text-align: right;
  right: 0px;
  top: 27px }
  .latest-offers-list .item h3 {
- font-size: 16px;
+ font-size: 14px;
  margin: 0;
  }
  .latest-offers-list .item.item-button-right {
@@ -1652,7 +1655,7 @@ text-align: right;
  margin: 5px 0 0 0;
  }
  .latest-offers-list .item p span {
- font-size: 16px;
+ font-size: 14px;
  color: #7f858e;
  text-decoration: line-through }
  .latest-offers-list .item p span + span {
@@ -1686,7 +1689,7 @@ text-align: right;
  font-size: 14px;
  }
  .video-sidebar ul li a .mdi {
- font-size: 16px;
+ font-size: 14px;
  }
  .video-sidebar ul li a:hover {
  color: #656f7d;
@@ -1724,7 +1727,7 @@ text-align: right;
  }
  .discussion-body .user-details h4 {
  color: #656f7d;
- font-size: 16px;
+ font-size: 14px;
  color: #656f7d;
  margin: 0;
  }
@@ -1780,14 +1783,14 @@ text-align: right;
  }
  .fc th {
  text-transform: uppercase;
- font-size: 16px;
+ font-size: 14px;
  }
  .fc td, .fc th {
  line-height: 3em;
  }
  .fc-ltr .fc-basic-view .fc-day-number {
  padding: 0 30px;
- font-size: 16px;
+ font-size: 14px;
  }
  .fc-event {
  line-height: 34px;
@@ -1824,7 +1827,7 @@ text-align: right;
  }
  .instruction ol li {
  margin: 0 0 30px;
- font-size: 16px;
+ font-size: 14px;
  }
  .instruction .guide {
  margin: 50px 0 0 0;
@@ -1832,7 +1835,7 @@ text-align: right;
  list-style: none;
  }
  .instruction .guide li {
- font-size: 16px;
+ font-size: 14px;
  line-height: 40px;
  }
  .instruction .guide li span {
@@ -1877,7 +1880,7 @@ text-align: right;
  font-size: 20px;
  font-weight: normal }
  .list-group-item h3 {
- font-size: 16px;
+ font-size: 14px;
  font-weight: normal;
  color: #656f7d;
  }
@@ -1962,7 +1965,7 @@ text-align: right;
  }
  .resource-box .file-list li h3 {
  margin: 0 0 5px;
- font-size: 16px;
+ font-size: 14px;
  color: #656f7d;
  }
  .resource-box .file-list li .icon {
@@ -2004,7 +2007,7 @@ text-align: right;
  font-size: 24px;
  }
  .resource-box .file-list li p {
- font-size: 16px;
+ font-size: 14px;
  color: #7f858e;
  }
  .resource-box .file-list li p span.type {
@@ -2039,7 +2042,7 @@ text-align: right;
  }
  .order-user-details ul li h3 {
  margin: 0;
- font-size: 16px;
+ font-size: 14px;
  line-height: 24px;
  }
  .order-user-details ul li p {
@@ -2084,7 +2087,7 @@ text-align: right;
  }
  .ordered-item .box h3 {
  margin: 0 0 5px;
- font-size: 16px;
+ font-size: 14px;
  color: #656f7d;
  }
  .ordered-item .box p {
@@ -2112,7 +2115,7 @@ text-align: right;
  color: #76878c;
  }
  .checkout-button .button {
- font-size: 18px;
+ font-size: 16px;
  margin-top: 40px;
  }
  .labrary .book-box {
@@ -2138,7 +2141,7 @@ text-align: right;
  }
  .labrary .book-box .availability span {
  color: #656f7d;
- font-size: 16px;
+ font-size: 14px;
  }
  .labrary .book-box .availability span + span {
  margin-right: 30px;
@@ -2204,7 +2207,7 @@ text-align: right;
  padding: 50px;
  }
  .login-content p {
- font-size: 16px;
+ font-size: 14px;
  }
  .login-content .menus {
  background-color: #f2f7f8;
@@ -2534,7 +2537,7 @@ text-align: right;
  }
  .video-author .author-name h3 {
  margin: 0;
- font-size: 16px;
+ font-size: 14px;
  }
  .video-author .author-contact-details p {
  margin: 0;
@@ -2576,7 +2579,7 @@ text-align: right;
  font-size: 20px;
  }
  .card-text {
- font-size: 16px;
+ font-size: 14px;
  color: #fff;
  margin: 0;
  }
@@ -2707,7 +2710,7 @@ text-align: right;
  }
  .list-sidebar li a h4 {
  margin: 0 0 5px;
- font-size: 16px;
+ font-size: 14px;
  }
  .list-sidebar li a h4 .time {
  float:left;
@@ -2793,7 +2796,7 @@ text-align: right;
  .table-book-details.table > tbody > tr > td {
  line-height: 24px;
  padding: 15.6px 30px;
- font-size: 16px;
+ font-size: 14px;
  color: #7f858e;
  }
  .table-book-details.table > tbody > tr > td + td {
@@ -2875,7 +2878,7 @@ text-align: right;
  color: #44a1ef;
  }
  .table > thead > tr > th {
- font-weight: normal;
+ font-weight: bold;
  }
  .tabel-dues-details.table > thead > tr > th, .tabel-dues-details.table > tbody > tr > td > .mdi {
  color: #7f858e }
@@ -2909,7 +2912,7 @@ text-align: right;
  padding: 0;
  }
  .questions-explanation .card-title {
- font-size: 16px;
+ font-size: 14px;
  padding: 10px 20px;
  color: #808691;
  background-color: #f8fafb;
@@ -2925,7 +2928,7 @@ text-align: right;
  padding: 0px 15px;
  }
  .questions-explanation .collaps-button a {
- font-size: 18px;
+ font-size: 16px;
  color: #44a1ef;
  }
  .modal-body .form-group {
@@ -3011,7 +3014,7 @@ text-align: right;
  }
  .model-gallery .gallery-content .dropdown-menu li a i {
  line-height: 30px;
- font-size: 16px;
+ font-size: 14px;
  }
  .model-gallery .gallery-content .dropdown-menu li a.facebook {
  background-color: #476ab3 }
@@ -3053,7 +3056,7 @@ text-align: right;
  border-radius: 100%;
  }
  .model-gallery .comment-box li .sent-by {
- font-size: 16px;
+ font-size: 14px;
  margin: 0px 0 5px;
  line-height: 20px;
  }
@@ -3182,7 +3185,7 @@ text-align: right;
  }
  .room-mates .box-roommates div h5 {
  margin: 10px 0 0 0;
- font-size: 16px;
+ font-size: 14px;
  }
  .room-mates .box-roommates div p {
  color: #7f858e;
@@ -3305,10 +3308,10 @@ text-align: right;
  text-align: center;
  line-height: 20px;
  margin-top: -10px;
- font-size: 18px;
+ font-size: 16px;
  }
  .inbox-massge-nav li a {
- font-size: 18px;
+ font-size: 16px;
  color: #656f7d;
  padding: 10px;
  display: block;
@@ -3318,7 +3321,7 @@ text-align: right;
  text-decoration: none;
  }
  .message-category-title {
- font-size: 18px;
+ font-size: 16px;
  }
  .message-category-title span {
  float:left;
@@ -3395,7 +3398,7 @@ text-align: right;
  }
  .inbox-message-list li .message-suject h3 {
  margin: 0 0 5px;
- font-size: 16px;
+ font-size: 14px;
  font-family: 'HelveticaNeueW23', sans-serif;
  font-weight: 400;
  }
@@ -3733,7 +3736,7 @@ text-align: right;
  background: #69b4f2;
  border: 0 none;
  border-radius: 0;
- font-size: 18px;
+ font-size: 16px;
  font-weight: bold;
  padding: 14px;
  }
@@ -3802,7 +3805,7 @@ text-align: right;
  padding: 0 15px;
  }
  .t {
- font-size: 18px;
+ font-size: 16px;
  font-weight: bold;
  padding: 10px 40px;
  text-transform: uppercase;
@@ -3861,7 +3864,7 @@ text-align: right;
  .series-details ul {
  margin: 20px 0 }
  .series-details li {
- font-size: 16px;
+ font-size: 14px;
  padding: 5px 0 }
  .lesson-list {
  counter-reset: badass-counter;
@@ -3883,7 +3886,7 @@ text-align: right;
  display: block;
  -ms-flex: 1;
  flex: 1;
- font-size: 16px;
+ font-size: 14px;
  line-height: 24px;
  max-width: 80%;
  padding: 5px 0;
@@ -4021,7 +4024,7 @@ text-align: right;
  }
  .item.item-avtar-left h3 {
      margin: 0;
-     font-size: 18px;
+     font-size: 16px;
  }
  .item.item-avtar-left p {
      margin: 0;
@@ -4041,7 +4044,7 @@ text-align: right;
  }
  .subject-topper-profile h3 {
      margin: 10px 0 0;
-     font-size: 18px;
+     font-size: 16px;
  }
  .inbox-messages-replay {
      max-height: 500px;
@@ -4120,7 +4123,7 @@ text-align: right;
      position: relative;
  }
  .containerVertical .items-sub {
-     font-size: 16px;
+     font-size: 14px;
      font-weight: 600;
      padding: 5px 0;
      padding-left: 100px;
@@ -4176,7 +4179,7 @@ text-align: right;
  }
  .selected-item-title {
      margin: 30px 0 10px;
-     font-size: 18px;
+     font-size: 16px;
      font-weight: 600;
  }
  .selected-subjects {
@@ -4227,7 +4230,7 @@ text-align: right;
  .list-sidebar li a .hover-fab-list li.heading {
      color: #44a1ef;
      display: block;
-     font-size: 18px;
+     font-size: 16px;
      background: #f1f1f1;
  }
  .list-sidebar li a .hover-fab-list .fa {
@@ -4409,7 +4412,7 @@ text-align: right;
  .library-book-status [class*="col-"] {
  width: 50% }
  .statistic .ststistic-box p {
- font-size: 16px;
+ font-size: 14px;
  }
  .resource-box .file-list li {
  padding: 10px 72px 0 80px;
@@ -4424,7 +4427,7 @@ text-align: right;
  }
  .resource-box .file-list li a i {
  line-height: 28px;
- font-size: 16px;
+ font-size: 14px;
  }
  }
  .payment-col {
@@ -4521,7 +4524,7 @@ text-align: right;
  }
  .custom-checkbox label .item-checkbox .fa {
  line-height: 28px;
- font-size: 16px;
+ font-size: 14px;
  color: #aaa;
  text-align: center;
  ;
@@ -4758,12 +4761,12 @@ text-align: right;
  .calender-staff .actions span {
  display: inline-block;
  margin: 0 4px;
- font-size: 16px;
+ font-size: 14px;
  color: #b1afaf;
  }
  .slot-booking-information th {
  font-family: 'roboto', sans-serif;
- font-weight: 700;
+ font-weight: bold;
  color: #4f5c61;
  }
  .slot-booking-information span {
@@ -4810,7 +4813,7 @@ text-align: right;
  width: 0;
  text-align:right;
  border-right: 1px solid #ccc;
- font-weight: 700;
+ font-weight: bold;
  text-align: center;
  padding: 6px 0;
  background: #f1f1f1;
@@ -4885,7 +4888,7 @@ text-align: right;
  margin: 20px 0 0;
  }
  .card.book-box .book-content p {
- font-size: 16px;
+ font-size: 14px;
  color: #fff;
  margin: 0;
  font-weight: bold;
@@ -5091,7 +5094,7 @@ text-align: right;
  text-align: center;
  line-height: 44px;
  color: #fff;
- font-size: 18px;
+ font-size: 16px;
  cursor: pointer;
  box-shadow: 5px 0px 20px 0px rgba(68, 161, 239, 0.05);
  }
