@@ -1,18 +1,20 @@
 @font-face {
     font-family: 'HelveticaNeueW23';
-    src:    url('../fonts/HelveticaNeueW23-Bd.eot');
     src:    url('../fonts/HelveticaNeueW23-Reg.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/HelveticaNeueW23-Bd.ttf') format('truetype'),
-    url('../fonts/HelveticaNeueW23-Bd.woff') format('woff'),
     url('../fonts/HelveticaNeueW23-Reg.ttf#HelveticaNeueW23') format('truetype'),
     url('../fonts/HelveticaNeueW23-Reg.woff#HelveticaNeueW23') format('woff');
 
     font-weight: normal;
     font-style: normal;
 }
+fonts/Segoe_ui_historic.ttf
 
-
-
+@font-face {
+    font-family: 'Segoe UI Historic';
+    url('../fonts/Segoe_ui_historic.ttf') format('truetype'),
+    font-weight: normal;
+    font-style: normal;
+}
 [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'university-system' !important;
@@ -256,4 +258,3 @@
 .icon-warning:before {
     content: "\e94b";
 }
-

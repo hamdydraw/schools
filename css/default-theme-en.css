@@ -32,7 +32,7 @@ h6 {
     color: #656f7d
 }
 h1 {
-    font-size: 16px;
+    font-size: 14px;
 }
 a {
     transition: all .2s ease-in-out;
@@ -187,7 +187,7 @@ aside hr {
     margin: 0 0 10px;
 }
 .btn-lg.button {
-    font-size: 16px;
+    font-size: 14px;
 }
 #wrapper {
     padding-left: 0;
@@ -443,7 +443,7 @@ ul.alert-dropdown {
     .side-nav>li>a {
         display: block;
         text-align: center;
-        font-size: 18px;
+        font-size: 16px;
         padding-top: 20px;
         padding-bottom: 20px;
         border-top: 1px solid #2f3845;
@@ -514,7 +514,7 @@ ul.alert-dropdown {
     .navbar-nav > li > .sidemenu-dropdown > li a {
         border-right: 0px solid #44a1ef;
         color: #fff;
-        font-size: 16px;
+        font-size: 14px;
         background: #44a1ef;
     }
     .navbar-nav > li > .sidemenu-dropdown > li:hover a {
@@ -557,7 +557,7 @@ ul.alert-dropdown {
 .side-nav>li>ul>li>a>i {
     vertical-align: top;
     float: left;
-    font-size: 18px;
+    font-size: 16px;
     margin: 3px 15px 0 0;
 }
 .side-nav>li>ul>li:hover>a {
@@ -791,7 +791,7 @@ select.form-control {
 }
 .selected-questions-details span {
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 .remove-all-questions {
@@ -1107,7 +1107,7 @@ ul.legends li span {
 }
 .subject-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 30px;
     padding: 0 15px
 }
@@ -1151,7 +1151,7 @@ span.numbers-count {
     border: 2px solid #e1e8f8;
     text-align: center;
     line-height: 40px;
-    font-size: 16px;
+    font-size: 14px;
     color: #FFF;
 }
 .match-questions ul {
@@ -1319,14 +1319,14 @@ ul.filling-blank li .option-hints {
 .packages-box .price sub {
     font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
 }
 .packages-box hr {
     margin: 30px 0;
     border-color: #d8dcd9;
 }
 .packages-box p {
-    font-size: 16px;
+    font-size: 14px;
 }
 .packages-box .btn {
     height: 40px;
@@ -1359,7 +1359,7 @@ ul.filling-blank li .option-hints {
     padding: 50px 0 0 0
 }
 .information-payment h3 {
-    font-size: 16px;
+    font-size: 14px;
     color: #656f7d;
 }
 .payment-form .btn-lg {
@@ -1373,7 +1373,7 @@ ul.filling-blank li .option-hints {
 .offer-list li {
     padding-left: 30px;
     position: relative;
-    font-size: 16px;
+    font-size: 14px;
     margin: 15px 0;
 }
 .offer-list li + li {
@@ -1381,7 +1381,7 @@ ul.filling-blank li .option-hints {
 }
 .offer-list li .mdi {
     color: #44a1ef;
-    font-size: 16px;
+    font-size: 14px;
     position: absolute;
     left: 0;
     top: 2px
@@ -1425,7 +1425,7 @@ table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
-    font-size: 16px;
+    font-size: 14px;
     color: #656f7d;
     font-weight: normal
 }
@@ -1604,7 +1604,7 @@ hr.margin-mid {
 }
 .history-item-box h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 .history-item-box .dropdown.more {
     position: absolute;
@@ -1760,7 +1760,7 @@ a.library-item:hover img {
     top: 27px
 }
 .latest-offers-list .item h3 {
-    font-size: 16px;
+    font-size: 14px;
     margin: 0;
 }
 .latest-offers-list .item.item-button-right {
@@ -1785,7 +1785,7 @@ a.library-item:hover img {
     margin: 5px 0 0 0;
 }
 .latest-offers-list .item p span {
-    font-size: 16px;
+    font-size: 14px;
     color: #7f858e;
     text-decoration: line-through
 }
@@ -1823,7 +1823,7 @@ a.library-item:hover img {
     font-size: 14px;
 }
 .video-sidebar ul li a .mdi {
-    font-size: 16px;
+    font-size: 14px;
 }
 .video-sidebar ul li a:hover {
     color: #656f7d;
@@ -1862,7 +1862,7 @@ a.library-item:hover img {
 }
 .discussion-body .user-details h4 {
     color: #656f7d;
-    font-size: 16px;
+    font-size: 14px;
     color: #656f7d;
     margin: 0;
 }
@@ -1927,7 +1927,7 @@ html input[disabled] {
 }
 .fc th {
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 14px;
 }
 .fc td,
 .fc th {
@@ -1935,7 +1935,7 @@ html input[disabled] {
 }
 .fc-ltr .fc-basic-view .fc-day-number {
     padding: 0 30px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .fc-event {
     line-height: 34px;
@@ -1975,7 +1975,7 @@ a.fc-more:hover {
 }
 .instruction ol li {
     margin: 0 0 30px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .instruction .guide {
     margin: 50px 0 0 0;
@@ -1983,7 +1983,7 @@ a.fc-more:hover {
     list-style: none;
 }
 .instruction .guide li {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 40px;
 }
 .instruction .guide li span {
@@ -2031,7 +2031,7 @@ a.fc-more:hover {
     font-weight: normal
 }
 .list-group-item h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: normal;
     color: #656f7d;
 }
@@ -2123,7 +2123,7 @@ a.fc-more:hover {
 }
 .resource-box .file-list li h3 {
     margin: 0 0 5px;
-    font-size: 16px;
+    font-size: 14px;
     color: #656f7d;
 }
 .resource-box .file-list li .icon {
@@ -2167,7 +2167,7 @@ a.fc-more:hover {
     font-size: 24px;
 }
 .resource-box .file-list li p {
-    font-size: 16px;
+    font-size: 14px;
     color: #7f858e;
 }
 .resource-box .file-list li p span.type {
@@ -2210,7 +2210,7 @@ a.fc-more:hover {
 }
 .order-user-details ul li h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
 }
 .order-user-details ul li p {
@@ -2255,7 +2255,7 @@ a.fc-more:hover {
 }
 .ordered-item .box h3 {
     margin: 0 0 5px;
-    font-size: 16px;
+    font-size: 14px;
     color: #656f7d;
 }
 .ordered-item .box p {
@@ -2283,7 +2283,7 @@ a.fc-more:hover {
     color: #76878c;
 }
 .checkout-button .button {
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 40px;
 }
 .labrary .book-box {
@@ -2309,7 +2309,7 @@ a.fc-more:hover {
 }
 .labrary .book-box .availability span {
     color: #656f7d;
-    font-size: 16px;
+    font-size: 14px;
 }
 .labrary .book-box .availability span + span {
     margin-left: 30px;
@@ -2378,7 +2378,7 @@ body.login-screen .login-content {
     padding: 50px;
 }
 .login-content p {
-    font-size: 16px;
+    font-size: 14px;
 }
 .login-content .menus {
     background-color: #f2f7f8;
@@ -2712,7 +2712,7 @@ select.form-control.input-sm {
 }
 .video-author .author-name h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 .video-author .author-contact-details p {
     margin: 0;
@@ -2754,7 +2754,7 @@ select.form-control.input-sm {
     font-size: 20px;
 }
 .card-text {
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
     margin: 0;
 }
@@ -2892,7 +2892,7 @@ select.form-control.input-sm {
 }
 .list-sidebar li a h4 {
     margin: 0 0 5px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .list-sidebar li a h4 .time {
     float: right;
@@ -2983,7 +2983,7 @@ select.form-control.input-sm {
 .table-book-details.table > tbody > tr > td {
     line-height: 24px;
     padding: 15.6px 30px;
-    font-size: 16px;
+    font-size: 14px;
     color: #7f858e;
 }
 .table-book-details.table > tbody > tr > td + td {
@@ -3103,7 +3103,7 @@ h3.total-dues-amount strong {
     padding: 0;
 }
 .questions-explanation .card-title {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px 20px;
     color: #808691;
     background-color: #f8fafb;
@@ -3119,7 +3119,7 @@ h3.total-dues-amount strong {
     padding: 0px 15px;
 }
 .questions-explanation .collaps-button a {
-    font-size: 18px;
+    font-size: 16px;
     color: #44a1ef;
 }
 .modal-body .form-group {
@@ -3211,7 +3211,7 @@ h3.total-dues-amount strong {
 }
 .model-gallery .gallery-content .dropdown-menu li a i {
     line-height: 30px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .model-gallery .gallery-content .dropdown-menu li a.facebook {
     background-color: #476ab3
@@ -3258,7 +3258,7 @@ h3.total-dues-amount strong {
     border-radius: 100%;
 }
 .model-gallery .comment-box li .sent-by {
-    font-size: 16px;
+    font-size: 14px;
     margin: 0px 0 5px;
     line-height: 20px;
 }
@@ -3397,7 +3397,7 @@ h3.total-dues-amount strong {
 }
 .room-mates .box-roommates div h5 {
     margin: 10px 0 0 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 .room-mates .box-roommates div p {
     color: #7f858e;
@@ -3526,10 +3526,10 @@ h3.total-dues-amount strong {
     text-align: center;
     line-height: 20px;
     margin-top: -10px;
-    font-size: 18px;
+    font-size: 16px;
 }
 .inbox-massge-nav li a {
-    font-size: 18px;
+    font-size: 16px;
     color: #656f7d;
     padding: 10px;
     display: block;
@@ -3540,7 +3540,7 @@ h3.total-dues-amount strong {
     text-decoration: none;
 }
 .message-category-title {
-    font-size: 18px;
+    font-size: 16px;
 }
 .message-category-title span {
     float: right;
@@ -3617,7 +3617,7 @@ h3.total-dues-amount strong {
 }
 .inbox-message-list li .message-suject h3 {
     margin: 0 0 5px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
 }
@@ -3976,7 +3976,7 @@ notification-content ul {
     background: #69b4f2;
     border: 0 none;
     border-radius: 0;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     padding: 14px;
 }
@@ -4045,7 +4045,7 @@ table.dataTable.no-footer {
     padding: 0 15px;
 }
 .t {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     padding: 10px 40px;
     text-transform: uppercase;
@@ -4107,7 +4107,7 @@ table.dataTable.no-footer {
     margin: 20px 0
 }
 .series-details li {
-    font-size: 16px;
+    font-size: 14px;
     padding: 5px 0
 }
 .lesson-list {
@@ -4130,7 +4130,7 @@ table.dataTable.no-footer {
     display: block;
     -ms-flex: 1;
     flex: 1;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     max-width: 80%;
     padding: 5px 0;
@@ -4276,7 +4276,7 @@ li.list-item.active {
 }
 .item.item-avtar-left h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 .item.item-avtar-left p {
     margin: 0;
@@ -4296,7 +4296,7 @@ li.list-item.active {
 }
 .subject-topper-profile h3 {
     margin: 10px 0 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 .inbox-messages-replay {
     max-height: 500px;
@@ -4375,7 +4375,7 @@ li.list-item.active {
     position: relative;
 }
 .containerVertical .items-sub {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     padding: 5px 0;
     padding-right: 100px;
@@ -4431,7 +4431,7 @@ li.list-item.active {
 }
 .selected-item-title {
     margin: 30px 0 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
 }
 .selected-subjects {
@@ -4482,7 +4482,7 @@ li.list-item.active {
 .list-sidebar li a .hover-fab-list li.heading {
     color: #44a1ef;
     display: block;
-    font-size: 18px;
+    font-size: 16px;
     background: #f1f1f1;
 }
 .list-sidebar li a .hover-fab-list .fa {
@@ -4672,7 +4672,7 @@ li.list-item.active {
         width: 50%
     }
     .statistic .ststistic-box p {
-        font-size: 16px;
+        font-size: 14px;
     }
     .resource-box .file-list li {
         padding: 10px 72px 0 80px;
@@ -4687,7 +4687,7 @@ li.list-item.active {
     }
     .resource-box .file-list li a i {
         line-height: 28px;
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 .payment-col {
@@ -4786,7 +4786,7 @@ h4.title {
 }
 .custom-checkbox label .item-checkbox .fa {
     line-height: 28px;
-    font-size: 16px;
+    font-size: 14px;
     color: #aaa;
     text-align: center;
     ;
@@ -5031,7 +5031,7 @@ td[valign="middle"] {
 .calender-staff .actions span {
     display: inline-block;
     margin: 0 4px;
-    font-size: 16px;
+    font-size: 14px;
     color: #b1afaf;
 
 }
@@ -5166,7 +5166,7 @@ p.break-block {
     margin: 20px 0 0;
 }
 .card.book-box .book-content p {
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
     margin: 0;
     font-weight: bold;
@@ -5375,7 +5375,7 @@ table.dataTable tbody td {
     text-align: center;
     line-height: 44px;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
     box-shadow: 5px 0px 20px 0px rgba(68, 161, 239, 0.05);
 }
