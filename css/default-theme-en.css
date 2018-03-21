@@ -4,7 +4,7 @@
 body {
     margin-top: 100px;
     background-color: #f9f9f9;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     color: #656f7d;
     overflow-x: hidden;
 }
@@ -203,7 +203,7 @@ aside hr {
 }
 .badge-alert {
     background: #44a1ef;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 300;
     font-size: 10px
 }
@@ -666,7 +666,7 @@ label {
     min-height: 50px;
     min-width: 50px;
     background: #d8dcd9;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 700;
     font-size: 46px;
     color: #fff;
@@ -1317,7 +1317,7 @@ ul.filling-blank li .option-hints {
     display: inline-block;
 }
 .packages-box .price sub {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
     font-size: 16px;
 }
@@ -1955,7 +1955,7 @@ a.fc-more:hover {
     color: #44a1ef
 }
 .text-italic {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-style: italic;
     text-transform: none
 }
@@ -2745,7 +2745,7 @@ select.form-control.input-sm {
 }
 .card-title {
     font-size: 30px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 500;
     color: #fff;
     margin: 10px 0 0;
@@ -2846,13 +2846,13 @@ select.form-control.input-sm {
 .panel-heading a.view-all {
     float: right;
     text-transform: uppercase;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
     font-size: 14px;
 }
 .panel-heading span.view-all {
     float: right;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
     font-size: 14px;
     color: #7f858e;
@@ -2950,7 +2950,7 @@ select.form-control.input-sm {
 }
 .modal-author-details .author-pic-bio h2 span {
     font-size: 14px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
     color: #7f858e;
 }
@@ -3266,7 +3266,7 @@ h3.total-dues-amount strong {
     float: right;
     font-size: 11px;
     color: #d8dcd9;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
     line-height: 20px;
 }
@@ -3546,7 +3546,7 @@ h3.total-dues-amount strong {
     float: right;
     color: #7f858e;
     font-size: 13px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
 }
 .inbox-message-list {
@@ -3618,7 +3618,7 @@ h3.total-dues-amount strong {
 .inbox-message-list li .message-suject h3 {
     margin: 0 0 5px;
     font-size: 16px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 400;
 }
 .inbox-message-list li.unread-message .message-suject h3 {} .inbox-message-list li .message-suject p {
@@ -4836,7 +4836,7 @@ td[valign="middle"] {
     margin-left: 30px;
 }
 .result-info-table thead tr th strong {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 700;
 }
 .idcard-item {
@@ -5016,7 +5016,7 @@ td[valign="middle"] {
 .calender-staff h4 {
     font-size: 14px;
     color: #656f7d;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 700;
 }
 .calender-staff p {
@@ -5036,7 +5036,7 @@ td[valign="middle"] {
 
 }
 .slot-booking-information th {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Segoe UI Historic', sans-serif;
     font-weight: 700;
     color: #4f5c61;
 }

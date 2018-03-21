@@ -1,10 +1,12 @@
 @font-face {
-    font-family: 'university-system';
-    src:    url('../fonts/university-system.eot?wgn2nh');
-    src:    url('../fonts/university-system.eot?wgn2nh#iefix') format('embedded-opentype'),
-        url('../fonts/university-system.ttf?wgn2nh') format('truetype'),
-        url('../fonts/university-system.woff?wgn2nh') format('woff'),
-        url('../fonts/university-system.svg?wgn2nh#university-system') format('svg');
+    font-family: 'HelveticaNeueW23';
+    src:    url('../fonts/HelveticaNeueW23-Bd.eot');
+    src:    url('../fonts/HelveticaNeueW23-Reg.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/HelveticaNeueW23-Bd.ttf') format('truetype'),
+    url('../fonts/HelveticaNeueW23-Bd.woff') format('woff'),
+    url('../fonts/HelveticaNeueW23-Reg.ttf#HelveticaNeueW23') format('truetype'),
+    url('../fonts/HelveticaNeueW23-Reg.woff#HelveticaNeueW23') format('woff');
+
     font-weight: normal;
     font-style: normal;
 }
