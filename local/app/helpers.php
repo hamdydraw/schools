@@ -1116,6 +1116,14 @@ function get_main_tables(){
     $main_tables = array();
 
     foreach ($tables as $table){
+        if(    $table->Tables_in_sasbit_school == 'certificatetemplates'
+            || $table->Tables_in_sasbit_school == 'parenttimingsetmap'
+            || $table->Tables_in_sasbit_school == 'timetable'
+            || $table->Tables_in_sasbit_school == 'timingset'
+            || $table->Tables_in_sasbit_school == 'users')
+        {
+            continue;
+        }
         $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
         if(in_array('slug',$columns)) {
             array_push($main_tables,$table->Tables_in_sasbit_school);
