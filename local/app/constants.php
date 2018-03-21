@@ -355,7 +355,10 @@ define('URL_MODULEHELPERS_GETLIST', PREFIX.'mastersettings/module-helpers/getLis
 define('URL_MODULEHELPERS_ADD_STEPS', PREFIX.'mastersettings/module-helpers/add-steps/');
 
 
+//trashes Routes
 
+define('URL_TRASH_LIST', PREFIX.'trashes/list');
+define('URL_TRASH_DATABLE', PREFIX.'trashes/getList');
 
 //CONSTANST FOR USERS MODULE
 define('URL_USERS', PREFIX.'users/');

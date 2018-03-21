@@ -1140,6 +1140,13 @@ Route::post('html/print-data', 'PrinterController@printHtml');
 Route::get('updates/patch1', 'UpdatesController@patch1');
 
 
+//recycle bin routes
+
+Route::get('trashes/list', 'trashesController@index');
+Route::get('trashes/getList', 'trashesController@getDatatable');
+
+
+
 //test Route
 
 Route::get('/test_it', function () {
