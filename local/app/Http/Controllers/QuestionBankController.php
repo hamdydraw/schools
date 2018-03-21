@@ -146,10 +146,6 @@ class QuestionBankController extends Controller
             return back();
         }
 
-        if(!teacher_subject($slug)){
-            prepareBlockUserMessage();
-            return back();
-        }
 
         $subject = Subject::getRecordWithSlug($slug);
 
@@ -187,10 +183,6 @@ class QuestionBankController extends Controller
             return back();
         }
 
-        if(!teacher_subject($slug)){
-            prepareBlockUserMessage();
-            return back();
-        }
 
         $subject = Subject::getRecordWithSlug($slug);
 
@@ -282,10 +274,6 @@ class QuestionBankController extends Controller
             return back();
         }
 
-        if(!teacher_subject($slug)){
-            prepareBlockUserMessage();
-            return back();
-        }
 
         $subject = Subject::getRecordWithSlug($slug);
 

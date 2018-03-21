@@ -1108,3 +1108,18 @@ function teacher_subject($slug){
     }
     return false;
 }
+
+//get the main tables in database
+function get_main_tables(){
+
+    $tables = DB::select('SHOW TABLES');
+    $main_tables = array();
+
+    foreach ($tables as $table){
+        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        if(in_array('slug',$columns)) {
+            array_push($main_tables,$table->Tables_in_sasbit_school);
+        }
+    }
+    return $main_tables;
+}

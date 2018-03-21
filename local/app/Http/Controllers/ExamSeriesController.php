@@ -65,25 +65,48 @@ class ExamSeriesController extends Controller
 
         $records = array();
 
-
-        $records = ExamSeries::select([
-            'title',
-            'image',
-            'is_paid',
-            'cost',
-            'validity',
-            'total_exams',
-            'total_questions',
-            'slug',
-            'id',
-            'created_by_user',
-            'updated_by_user',
-            'created_by_ip',
-            'updated_by_ip',
-            'created_at',
-            'updated_at'
-        ])
-            ->orderBy('updated_at', 'desc');
+        if(is_teacher()){
+         //created_by_user
+            $records = ExamSeries::select([
+                'title',
+                'image',
+                'is_paid',
+                'cost',
+                'validity',
+                'total_exams',
+                'total_questions',
+                'slug',
+                'id',
+                'created_by_user',
+                'updated_by_user',
+                'created_by_ip',
+                'updated_by_ip',
+                'created_at',
+                'updated_at'
+            ])
+                ->where('created_by_user','=',Auth::user()->id)
+                ->orderBy('updated_at', 'desc');
+        }
+        else {
+            $records = ExamSeries::select([
+                'title',
+                'image',
+                'is_paid',
+                'cost',
+                'validity',
+                'total_exams',
+                'total_questions',
+                'slug',
+                'id',
+                'created_by_user',
+                'updated_by_user',
+                'created_by_ip',
+                'updated_by_ip',
+                'created_at',
+                'updated_at'
+            ])
+                ->orderBy('updated_at', 'desc');
+        }
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {

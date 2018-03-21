@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 <link href="{{CSS}}bootstrap-datepicker.css" rel="stylesheet">
 @section('content')
 <div id="page-wrapper">
