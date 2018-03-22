@@ -1142,9 +1142,9 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //recycle bin routes
 
-Route::get('trashes/list', 'trashesController@index');
-Route::get('trashes/getList', 'trashesController@getDatatable');
-Route::get('trashes/retrieve/{slug}/{table}','trashesController@retrieve');
+Route::get('trashes/list', 'TrashesController@index');
+Route::get('trashes/getList', 'TrashesController@getDatatable');
+Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 
 
 

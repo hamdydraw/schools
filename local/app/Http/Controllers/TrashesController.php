@@ -11,7 +11,7 @@ use Yajra\Datatables\Datatables;
 use App\Scopes\DeleteScope;
 use Illuminate\Support\Facades\DB;
 
-class trashesController extends Controller
+class TrashesController extends Controller
 {
     public function index()
     {
