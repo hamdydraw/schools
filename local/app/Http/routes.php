@@ -1144,6 +1144,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 Route::get('trashes/list', 'trashesController@index');
 Route::get('trashes/getList', 'trashesController@getDatatable');
+Route::get('trashes/retrieve/{slug}/{table}','trashesController@retrieve');
 
 
 

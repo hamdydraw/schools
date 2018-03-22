@@ -2,10 +2,12 @@
 
 @section('header_scripts')
     <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
+    <link href="{{CSS}}sweet-alert.css" rel="stylesheet">
 @stop
 @section('content')
 
-    <div id="page-wrapper" ng-controller="student_papers">
+
+    <div id="page-wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -42,6 +44,7 @@
     </div>
 
 @endsection
+@include('trashes.script')
 @section('footer_scripts')
     @include('common.datatables', array('route'=>URL_TRASH_DATABLE, 'route_as_url' => TRUE))
 @stop

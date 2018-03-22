@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class Topic extends Model
 {
@@ -11,7 +12,12 @@ class Topic extends Model
     	return $this->belongsTo('App\Subject');
     }
 
- 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
     /**
      * Get the list of topics from selected topic

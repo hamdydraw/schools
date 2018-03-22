@@ -5,11 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Mockery\Exception;
+use App\Scopes\DeleteScope;
 
 class Settings extends Model
 {
     protected $table = "settings";
-    
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
     public static function getRecordWithSlug($slug)
     {

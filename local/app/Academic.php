@@ -16,6 +16,12 @@ class Academic extends Model
     	return $this->belongsToMany('App\Course');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
+
     public function academicCourses()
     {
          return $this->hasMany('App\AcademicCourse', 'academic_id');

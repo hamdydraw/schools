@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class CourseSubject extends Model
 {
@@ -23,5 +24,11 @@ class CourseSubject extends Model
     public static function isStaffAllocatedToCourse($staff_id)
     {
         return CourseSubject::where('staff_id','=',$staff_id)->count();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 }

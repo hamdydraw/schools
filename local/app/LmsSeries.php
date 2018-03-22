@@ -4,10 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Scopes\DeleteScope;
 class LmsSeries extends Model
 {
    protected $table = 'lmsseries';
 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
     public static function getRecordWithSlug($slug)
     {

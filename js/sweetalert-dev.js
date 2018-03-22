@@ -878,7 +878,6 @@ var openModal = function openModal(callback) {
 var resetInput = function resetInput() {
   var $modal = getModal();
   var $input = getInput();
-
   _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($modal, 'show-input');
   $input.value = _defaultParams2['default'].inputValue;
   $input.setAttribute('type', _defaultParams2['default'].inputType);

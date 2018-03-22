@@ -4,11 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon;
+use App\Scopes\DeleteScope;
 class Notification extends Model
 {
      protected $table= "notifications";
 
-    
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
+
 
     public static function getRecordWithSlug($slug)
     {

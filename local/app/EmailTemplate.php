@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
-
+use App\Scopes\DeleteScope;
 class EmailTemplate extends Model
 {
     protected $table = 'emailtemplates';
@@ -13,6 +13,12 @@ class EmailTemplate extends Model
     public static function getRecordWithSlug($slug)
     {
         return EmailTemplate::where('slug', '=', $slug)->first();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 
     /**
