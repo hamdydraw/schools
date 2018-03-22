@@ -1151,7 +1151,7 @@ Route::get('trashes/retrieve/{slug}/{table}','trashesController@retrieve');
 //test Route
 
 Route::get('/test_it', function () {
-    return get_main_tables();
+    return getStudentInfo('yamn');
 });
 
 

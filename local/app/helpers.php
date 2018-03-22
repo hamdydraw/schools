@@ -1082,10 +1082,13 @@ function getStudentInfo($slug){
     $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
     $data['current_grade']         = \App\Course::where('id',$student->course_parent_id)->pluck('course_title')->first();
     $data['current_class']         = \App\Course::where('id',$student->course_id)->pluck('course_title')->first();
-    if($currentSemester->sem_num == 1){
-        $data['current_semester']      = "the_first";
-    }else{
-        $data['current_semester']      = "the_second";
+    $data['current_semester'] = "";
+    if($currentSemester != null){
+        if($currentSemester->sem_num == 1){
+            $data['current_semester']      = "the_first";
+        }else{
+            $data['current_semester']      = "the_second";
+        }
     }
     //return the data
     return $data;
