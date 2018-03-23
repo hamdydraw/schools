@@ -14,6 +14,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use App\Scopes\DeleteScope;
 
 Route::get('/', function () {
 
@@ -1142,17 +1143,30 @@ Route::post('html/print-data', 'PrinterController@printHtml');
 Route::get('updates/patch1', 'UpdatesController@patch1');
 
 
+//recycle bin routes
+
+Route::get('trashes/list', 'TrashesController@index');
+Route::get('trashes/getList', 'TrashesController@getDatatable');
+Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
+
+
+
 //test Route
 
 Route::get('/test_it', function () {
-
-
-    return \App\User::where('slug','teacher5')->delete();
+    return getStudentInfo('yamn');
 });
-Route::get('/record_status/{db}', function ($db) {
-    $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
-    foreach ($tables as $table) {
-        DB::select("ALTER TABLE $table->TABLE_NAME ADD `record_status` TINYINT NOT NULL DEFAULT '1'");
+
+
+
+Route::get('/record_status', function () {
+    $tables = DB::select('SHOW TABLES');
+    foreach ($tables as $table){
+        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        if(in_array('slug',$columns)) {
+         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `table_name` VARCHAR(110) NOT NULL DEFAULT '$table->Tables_in_sasbit_school' AFTER `record_status`");
+        }
+
     }
     return "Done";
 });

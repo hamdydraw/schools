@@ -13,7 +13,7 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="/"><i class="mdi mdi-home"></i></a> </li>
-							<li><a href="/lms/content/categories">LMS</a></li>
+							<li><a href="/lms/content/categories">{{getPhrase('lms')}}</a></li>
 							<li><a href="/lms/content/{{$content_type}}?category={{$category->slug}}">{{$content_type}}</a> </li>
 							<li class="active"> {{ $title }} </li>
 						</ol>
@@ -25,25 +25,25 @@
 						<h1>{{$title}}</h1>
 					</div>
 					 <div class="panel-body">
-						 
+
 
 						<div class="row">
 						<div class="col-md-8">
-							<h3>{{$record->title}}</h3> 
+							<h3>{{$record->title}}</h3>
 						</div>
 
 						 <div class="col-md-4">
 						 @if($record->image)
 						 <img height="100" width="100" src="/{{$settings->contentImagepath.'/'.$record->image}}" alt=""/>
 						 @endif
-						</div> 
+						</div>
 						</div>
 						@if($record->content_type=='vc')
 						<div class="row">
 							  <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" width="640" height="264"
 							  poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
 							    <source src="/{{$settings->contentImagepath.'/'.$record->resource_link}}" type='video/mp4'>
-							    
+
 							    <p class="vjs-no-js">
 							      To view this video please enable JavaScript, and consider upgrading to a web browser that
 							      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -51,7 +51,7 @@
 							</video>
 						</div>
 						@endif
-						 
+
 						<div class="row">
 							{{$record->description}}
 							 @if($record->resource_link)
@@ -61,7 +61,7 @@
 							</p>
 							@endif
 						</div>
-							
+
 						@if($record->is_series)
 						<div class="row">
 							<div class="col-md-12">
@@ -81,7 +81,7 @@
 
 				</div>
 			</div>
-			
+
 </div>
 		<!-- /#page-wrapper -->
 
@@ -89,5 +89,5 @@
 
 @section('footer_scripts')
  <script src="http://vjs.zencdn.net/5.10.4/video.js"></script>
- 
+
 @stop

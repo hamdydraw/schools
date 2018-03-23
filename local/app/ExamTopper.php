@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\QuizResult;
 use App\Quiz;
 use DB;
+use App\Scopes\DeleteScope;
 class ExamTopper extends Model
 {
     protected $table = 'examtoppers';
@@ -17,6 +18,12 @@ class ExamTopper extends Model
         $count = ExamTopper::whereRaw("slug LIKE '^{$slug}(-[0-9]+)?$'")->count();
 
         return $count ? "{$slug}-{$count}" : $slug;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 
     public static function getRecordWithSlug($slug)

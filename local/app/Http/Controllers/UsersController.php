@@ -844,8 +844,8 @@ class UsersController extends Controller
                 DB::table('role_user')
                     ->where('user_id', '=', $record->id)
                     ->where('role_id', '=', $previous_role_id)
-                    ->delete();
-                $record->roles()->attach($request->role_id);
+                    ->update(['role_id' => $request->role_id]);
+                //$record->roles()->attach($request->role_id);
             }
         }
 
@@ -1096,7 +1096,6 @@ class UsersController extends Controller
 
         $data['record'] = $record;
 
-
         $user = $record;
         //Overall performance Report
         $resultObject = new App\QuizResult();
@@ -1113,7 +1112,6 @@ class UsersController extends Controller
             $correct_answers += $record->correct_answers;
             $wrong_answers += $record->wrong_answers;
             $not_answered += $record->not_answered;
-
         }
 
         $labels = [getPhrase('correct'), getPhrase('wrong'), getPhrase('not_answered')];
@@ -1174,6 +1172,7 @@ class UsersController extends Controller
         $data['title'] = $name . ' ' . getPhrase('details');
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
+        $data['student_info'] = getStudentInfo($slug);
         if (checkRole(['parent'])) {
             $data['active_class'] = 'children';
         }

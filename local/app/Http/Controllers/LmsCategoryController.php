@@ -40,14 +40,14 @@ class LmsCategoryController extends Controller
      public function lmsdashboard()
     {
 
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
       }
 
       $data['active_class']       = 'lms';
-      $data['title']              = 'LMS'.' '.getPhrase('dashboard');
+      $data['title']              = getPhrase('lms').' - '.getPhrase('dashboard');
       $data['layout']             = getLayout();
       $data['module_helper']      = getModuleHelper('lms-dashboard');
 
@@ -61,13 +61,13 @@ class LmsCategoryController extends Controller
      */
     public function index()
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('categories');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('categories');
         $data['module_helper']      = getModuleHelper('lms-categories-list');
     	return view('lms.lmscategories.list', $data);
 
@@ -79,11 +79,11 @@ class LmsCategoryController extends Controller
      */
     public function getDatatable()
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
 
          $records = LmsCategory::select([
          	'category', 'image', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
@@ -103,7 +103,7 @@ class LmsCategoryController extends Controller
                             <li><a href="'.URL_LMS_CATEGORIES_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
                             '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
-                            
+
                         </ul>
                     </div>';
             })
@@ -133,11 +133,11 @@ class LmsCategoryController extends Controller
      */
     public function create()
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'lms';
     	$data['title']              = getPhrase('create_category');
@@ -152,11 +152,11 @@ class LmsCategoryController extends Controller
      */
     public function edit($slug)
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
     	$record = LmsCategory::getRecordWithSlug($slug);
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
@@ -175,11 +175,11 @@ class LmsCategoryController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
     	$record = LmsCategory::getRecordWithSlug($slug);
 
 
@@ -224,11 +224,11 @@ class LmsCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
 
 	    $rules = [
          'category'          	   => 'bail|required|max:60' ,
@@ -269,11 +269,11 @@ class LmsCategoryController extends Controller
      */
     public function delete($slug)
     {
-        if(!checkRole(getUserGrade(2)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
         $record = LmsCategory::where('slug', $slug)->first();
 
         try{

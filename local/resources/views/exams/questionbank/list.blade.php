@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 @section('header_scripts')
 <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
@@ -23,10 +23,10 @@
 					<div class="panel-heading">
 						
 						<div class="pull-right messages-buttons">
-							 
+							 @if($is_staff)
 							<a href="{{URL_QUESTIONBAMK_IMPORT}}" class="btn  btn-primary button helper_step2" >{{ getPhrase('import_questions')}}</a>
 							<a href="{{URL_SUBJECTS_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('add_subject')}}</a>
-							 
+							 @endif
 						</div>
 						<h1>{{ $title }}</h1>
 					</div>

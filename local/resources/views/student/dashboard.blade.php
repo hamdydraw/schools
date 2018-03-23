@@ -7,10 +7,14 @@
 <div class="col-lg-12">
 <ol class="breadcrumb">
 
+	<?php
+		$student_info = getStudentInfo(Auth::user()->slug);
+	?>
 <li>{{ $title}}</li>
 </ol>
 </div>
 </div>
+
 <div class="row">
 	@if(Module_state('exams'))
 <div class="col-md-4">
@@ -122,7 +126,7 @@
 				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('title')}}
 				    				</strong></th>
-				    				<th><strong>{{getPhrase('number')}}</th>
+									<th><strong>{{getPhrase('number')}}</strong></th>
 				    				<th><strong>{{getPhrase('issued')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('status')}}
@@ -175,7 +179,7 @@
 				    				<strong>{{getPhrase('sn')}}</strong></th>
 				    				<th><strong>{{getPhrase('subject')}}
 				    				</strong></th>
-				    				<th><strong>{{getPhrase('class')}}</th>
+									<th><strong>{{getPhrase('class')}}</strong></th>
 				    				<th><strong>{{getPhrase('from')}}
 				    				</strong></th>
 				    				<th><strong>{{getPhrase('to')}}

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
+use App\Scopes\DeleteScope;
 // use Spatie\Activitylog\LogsActivityInterface;
 // use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -18,7 +19,11 @@ class QuizResult extends Model
     }
 
 
-	
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
 	/**
 	 * Returns the history of exam attempts based on the current logged in user

@@ -7,6 +7,7 @@
  * @return void
  */
 
+use Illuminate\Support\Facades\Auth;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1063,4 +1064,73 @@ function getDefaultAcademicId()
 function getDefaultParentCourseId()
 {
     return getSetting('default_parent_course_id', 'site_settings');
+}
+
+/**
+ * This method will return student info
+ * @return [type] [description]
+ */
+
+function getStudentInfo($slug){
+    $student_id = \App\User::where('slug',$slug)->pluck('id')->first();
+    $student    = \App\Student::where('user_id',$student_id)->first();
+    $academic_id = new App\Academic();
+    $academic_id = $academic_id->getCurrentAcademic()['id'];
+    $academicSemester = new App\AcademicSemester();
+    $currentSemester  = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
+    //get the needed info
+    $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
+    $data['current_grade']         = \App\Course::where('id',$student->course_parent_id)->pluck('course_title')->first();
+    $data['current_class']         = \App\Course::where('id',$student->course_id)->pluck('course_title')->first();
+    $data['current_semester'] = "";
+    if($currentSemester != null){
+        if($currentSemester->sem_num == 1){
+            $data['current_semester']      = "the_first";
+        }else{
+            $data['current_semester']      = "the_second";
+        }
+    }
+    //return the data
+    return $data;
+}
+
+//check if the user is a teacher
+function is_teacher(){
+    if(Auth::user()->role_id == 3){
+        return true;
+    }
+    return false;
+}
+
+//check if this subject is for the teacher
+function teacher_subject($slug){
+    $subject_id  = \App\Subject::where('slug',$slug)->pluck('id')->first();
+    $his_subject = \App\SubjectPreference::where('subject_id',$subject_id)->where('user_id',Auth::user()->id)->first();
+    if($his_subject){
+        return true;
+    }
+    return false;
+}
+
+//get the main tables in database
+function get_main_tables(){
+
+    $tables = DB::select('SHOW TABLES');
+    $main_tables = array();
+
+    foreach ($tables as $table){
+        if(    $table->Tables_in_sasbit_school == 'certificatetemplates'
+            || $table->Tables_in_sasbit_school == 'parenttimingsetmap'
+            || $table->Tables_in_sasbit_school == 'timetable'
+            || $table->Tables_in_sasbit_school == 'timingset'
+            || $table->Tables_in_sasbit_school == 'users')
+        {
+            continue;
+        }
+        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        if(in_array('slug',$columns)) {
+            array_push($main_tables,$table->Tables_in_sasbit_school);
+        }
+    }
+    return $main_tables;
 }

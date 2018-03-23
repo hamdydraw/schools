@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 @section('header_scripts')
 <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
@@ -12,7 +12,7 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a> </li>
-							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('LMS')}} {{ getPhrase('dashboard')}}</a></li>
+							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('lms')}} {{ getPhrase('dashboard')}}</a></li>
 							<li>{{ $title }}</li>
 						</ol>
 					</div>

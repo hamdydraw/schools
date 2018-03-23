@@ -41,7 +41,7 @@ class QuizCategoryController extends Controller
      */
     public function index()
     {
-        if(!checkRole(getUserGrade(2)))
+        if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -60,7 +60,7 @@ class QuizCategoryController extends Controller
     public function getDatatable()
     {
 
-        if(!checkRole(getUserGrade(2)))
+        if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -119,7 +119,7 @@ class QuizCategoryController extends Controller
      */
     public function create()
     {
-        if(!checkRole(getUserGrade(2)))
+        if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -139,7 +139,7 @@ class QuizCategoryController extends Controller
      */
     public function edit($slug)
     {
-         if(!checkRole(getUserGrade(2)))
+         if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -163,7 +163,7 @@ class QuizCategoryController extends Controller
      */
     public function update(Request $request, $slug)
     {
-         if(!checkRole(getUserGrade(2)))
+         if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -212,7 +212,7 @@ class QuizCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if(!checkRole(getUserGrade(2)))
+        if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
@@ -258,7 +258,7 @@ class QuizCategoryController extends Controller
      */
     public function delete($slug)
     {
-         if(!checkRole(getUserGrade(2)))
+         if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();

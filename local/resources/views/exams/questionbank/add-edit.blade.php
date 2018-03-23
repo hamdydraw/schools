@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 @section('content')
     <script type="text/css" src="{{CSS}}angular-toastr.css"></script>
     <div id="page-wrapper">

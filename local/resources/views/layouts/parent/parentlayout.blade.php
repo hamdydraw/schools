@@ -13,7 +13,7 @@
 
 	<meta name="keywords" content="{{getSetting('meta_keywords', 'seo_settings')}}">
 
-	 
+
 
 	<link rel="icon" href="{{IMAGE_PATH_SETTINGS.getSetting('site_favicon', 'site_settings')}}" type="image/x-icon" />
 
@@ -51,7 +51,7 @@
 
 </head>
 
-<?php 
+<?php
 
  $class = '';
 
@@ -178,7 +178,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 								</a>
 						</li>
 						@endif
-						
+
 						 <li>
 
 							<a href="{{URL_USERS_SETTINGS.Auth::user()->slug}}">
@@ -235,95 +235,95 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
 				<ul class="nav navbar-nav side-nav">
 
-					<li {{ isActive($active_class, 'dashboard') }}> 
+					<li {{ isActive($active_class, 'dashboard') }}>
 
 						<a href="{{PREFIX}}">
 
-							<i class="fa fa-home"></i> {{ getPhrase('dashboard') }} 
+							<i class="fa fa-home"></i> {{ getPhrase('dashboard') }}
 
-						</a> 
-
-					</li>
-
-
-
-					<li {{ isActive($active_class, 'children') }} > 
-
-
-
-					<a data-toggle="collapse" data-target="#children" href="{{URL_PARENT_CHILDREN}}"><i class=" fa fa-users" ></i> 
-
-					{{ getPhrase('children') }} </a> 
+						</a>
 
 					</li>
 
-					<li {{ isActive($active_class, 'analysis') }} > 
 
-					<a href="{{URL_PARENT_ANALYSIS_FOR_STUDENTS}}"> 
+
+					<li {{ isActive($active_class, 'children') }} >
+
+
+
+					<a data-toggle="collapse" data-target="#children" href="{{URL_PARENT_CHILDREN}}"><i class=" fa fa-users" ></i>
+
+					{{ getPhrase('children') }} </a>
+
+					</li>
+
+					<li {{ isActive($active_class, 'analysis') }} >
+
+					<a href="{{URL_PARENT_ANALYSIS_FOR_STUDENTS}}">
 					<i class="fa fa-bar-chart" aria-hidden="true"></i>
 
-					{{ getPhrase('analysis') }} </a> 
+					{{ getPhrase('analysis') }} </a>
 
 					</li>
 					@if(Module_state('exams'))
-					<li {{ isActive($active_class, 'exams') }} > 
+					<li {{ isActive($active_class, 'exams') }} >
 
-					<a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o" ></i> 
+					<a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o" ></i>
 
-					{{ getPhrase('exams') }} </a> 
+					{{ getPhrase('exams') }} </a>
 
 
 					<ul id="exams" class="collapse sidemenu-dropdown">
 
-						<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
+						<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('exam_categories') }}</a></li>
 
 						<li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"> <i class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
 					</ul>
 					</li>
 					@endif
 					@if(Module_state('management_of_educational_content'))
-					<li {{ isActive($active_class, 'lms') }} > 
-        <a data-toggle="collapse" data-target="#lms"><i class="fa fa-leanpub" ></i> 
+					<li {{ isActive($active_class, 'lms') }} >
+						<a  href="{{ URL_STUDENT_LMS_CATEGORIES }}"><i class="fa fa-leanpub" aria-hidden="true"></i>
 
-					LMS</a> 
+								{{ getPhrase('lms') }}</a>
 
-					
 
-					<ul id="lms" class="collapse sidemenu-dropdown">
+
+					<!-- <ul id="lms" class="collapse sidemenu-dropdown">
 
 							<li><a href="{{ URL_STUDENT_LMS_CATEGORIES }}"> <i class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
 
 							<li><a href="{{ URL_STUDENT_LMS_SERIES }}"> <i class="fa fa-list-ol"></i>{{ getPhrase('series') }}</a></li>
 
-					</ul>
+					</ul> -->
 
 					</li>
 					@endif
-				
 
-					<li {{ isActive($active_class, 'subscriptions') }} > 
-					<a  href="{{URL_PAYMENTS_LIST.Auth::user()->slug}}"><i class="fa fa-credit-card" ></i> 
-					{{ getPhrase('subscriptions') }} </a> 
+
+					<li {{ isActive($active_class, 'subscriptions') }} >
+					<a  href="{{URL_PAYMENTS_LIST.Auth::user()->slug}}"><i class="fa fa-credit-card" ></i>
+					{{ getPhrase('subscriptions') }} </a>
 					</li>
 
 
-					@if($messages_module)					
-					<li {{ isActive($active_class, 'messages') }} > 
+					@if($messages_module)
+					<li {{ isActive($active_class, 'messages') }} >
 
 					<a  href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x" aria-hidden="true"><h5 class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
 					{{ getPhrase('messages')}} </a>
-						
-					
+
+
 					@endif
 
 
-					<li {{ isActive($active_class, 'notifications') }} > 
+					<li {{ isActive($active_class, 'notifications') }} >
 
-						<a href="{{URL_NOTIFICATIONS}}" ><i class="fa fa-bell-o" aria-hidden="true"></i> 
+						<a href="{{URL_NOTIFICATIONS}}" ><i class="fa fa-bell-o" aria-hidden="true"></i>
 
-					{{ getPhrase('notifications') }} </a> 
+					{{ getPhrase('notifications') }} </a>
 
-					
+
 
 					</li>
 
@@ -335,7 +335,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
 		@if(isset($right_bar))
 
-			
+
 
 		<aside class="right-sidebar" id="rightSidebar">
 

@@ -149,6 +149,11 @@ class DashboardController extends Controller
                     $wrong_answers = 0;
                     $not_answered = 0;
 
+                    $data['right_bar']            = TRUE;
+
+                    $data['right_bar_path']       = 'search.student.dashboard-right-bar';
+                    $data['right_bar_data']       = array('chart_data' =>'' );
+
                     foreach ($records as $record) {
                         $record = (object)$record;
                         $correct_answers += $record->correct_answers;

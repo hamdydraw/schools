@@ -39,7 +39,7 @@ class ExamSeriesController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -58,32 +58,55 @@ class ExamSeriesController extends Controller
     public function getDatatable()
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
 
         $records = array();
 
-
-        $records = ExamSeries::select([
-            'title',
-            'image',
-            'is_paid',
-            'cost',
-            'validity',
-            'total_exams',
-            'total_questions',
-            'slug',
-            'id',
-            'created_by_user',
-            'updated_by_user',
-            'created_by_ip',
-            'updated_by_ip',
-            'created_at',
-            'updated_at'
-        ])
-            ->orderBy('updated_at', 'desc');
+        if(is_teacher()){
+         //created_by_user
+            $records = ExamSeries::select([
+                'title',
+                'image',
+                'is_paid',
+                'cost',
+                'validity',
+                'total_exams',
+                'total_questions',
+                'slug',
+                'id',
+                'created_by_user',
+                'updated_by_user',
+                'created_by_ip',
+                'updated_by_ip',
+                'created_at',
+                'updated_at'
+            ])
+                ->where('created_by_user','=',Auth::user()->id)
+                ->orderBy('updated_at', 'desc');
+        }
+        else {
+            $records = ExamSeries::select([
+                'title',
+                'image',
+                'is_paid',
+                'cost',
+                'validity',
+                'total_exams',
+                'total_questions',
+                'slug',
+                'id',
+                'created_by_user',
+                'updated_by_user',
+                'created_by_ip',
+                'updated_by_ip',
+                'created_at',
+                'updated_at'
+            ])
+                ->orderBy('updated_at', 'desc');
+        }
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -148,7 +171,7 @@ class ExamSeriesController extends Controller
      */
     public function create()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -166,7 +189,7 @@ class ExamSeriesController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -193,7 +216,7 @@ class ExamSeriesController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -257,7 +280,7 @@ class ExamSeriesController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -357,7 +380,7 @@ class ExamSeriesController extends Controller
      */
     public function delete($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -412,9 +435,17 @@ class ExamSeriesController extends Controller
     {
 
         $category_id = $request->category_id;
-        $exams = Quiz::where('category_id', '=', $category_id)
-            ->where('total_marks', '!=', '0')
-            ->get();
+        if(is_teacher()){
+            $exams = Quiz::where('quizzes.category_id', '=', $category_id)
+                ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                ->where('quizzes.total_marks', '!=', '0')
+                ->get();
+        }else {
+            $exams = Quiz::where('category_id', '=', $category_id)
+                ->where('total_marks', '!=', '0')
+                ->get();
+        }
         return json_encode(array('exams' => $exams));
     }
 
@@ -426,7 +457,7 @@ class ExamSeriesController extends Controller
     public function updateSeries($slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -479,7 +510,7 @@ class ExamSeriesController extends Controller
     public function storeSeries(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

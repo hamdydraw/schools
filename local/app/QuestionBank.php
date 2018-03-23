@@ -8,6 +8,7 @@ use App\Bookmark;
 use Auth;
 Use App\Subject;
 use App\Topic;
+use App\Scopes\DeleteScope;
 class QuestionBank extends Model
 {
     protected $table = 'questionbank';
@@ -16,7 +17,12 @@ class QuestionBank extends Model
     public $excelRecords   = [];
     public $questionType   = '';
     public $columns_list   = [];
- 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
 	public function subject()
 	{

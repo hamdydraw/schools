@@ -3,12 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class LmsContent extends Model
 {
     protected $table = 'lmscontents';
 
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
      
 
     public static function getRecordWithSlug($slug)

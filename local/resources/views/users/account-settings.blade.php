@@ -70,7 +70,7 @@
 
 				 </div>
 
-				 	<h1>LMS {{getPhrase('lms_categories')}}</h1>
+				 	<h1> {{getPhrase('lms_categories')}}</h1>
 
 					<div class="row">
 					@foreach($lms_category as $category)

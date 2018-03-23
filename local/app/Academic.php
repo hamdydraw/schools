@@ -3,12 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use DB;
+use App\Scopes\DeleteScope;
+
+
 class Academic extends Model
 {
+
     public function courses()
     {
     	return $this->belongsToMany('App\Course');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 
     public function academicCourses()

@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 {{-- <link href="{{CSS}}animate.css" rel="stylesheet"> --}}
 
 <link href="{{CSS}}plugins/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">

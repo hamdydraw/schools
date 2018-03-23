@@ -37,7 +37,7 @@ class StudentLmsController extends Controller
         return back();
       }
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('categories');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('categories');
         $data['layout']              = getLayout();
         $data['categories']         = [];
 
@@ -69,7 +69,7 @@ class StudentLmsController extends Controller
 
          $data['active_class']       = 'lms';
          $data['user']               = Auth::user();
-        $data['title']              = 'LMS'.' '.getPhrase('series');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('series');
         $data['layout']             = getLayout();
         $data['series']             = LmsSeries::where('lms_category_id','=',$record->id)
                                         ->where('start_date','<=',date('Y-m-d'))
@@ -91,7 +91,7 @@ class StudentLmsController extends Controller
       }
 
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('series');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('series');
         $data['layout']             = getLayout();
         $data['series']             = [];
 

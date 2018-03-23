@@ -16,6 +16,7 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Processors\Processor;
+use Carbon\Carbon;
 
 class Builder
 {
@@ -2197,7 +2198,8 @@ class Builder
         if (! is_null($id)) {
             $this->where('id', '=', $id);
         }
-        //return $this->update(['record_status' => 3]);
+        $current_time = Carbon::now()->toDateTimeString();
+        return $this->update(['record_status' => 3,'updated_at' => $current_time]);
         $sql = $this->grammar->compileDelete($this);
 
         return $this->connection->delete($sql, $this->getBindings());

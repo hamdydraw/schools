@@ -55,10 +55,10 @@
 						<div class="card card-red text-xs-center helper_step3">
 							<div class="card-block">
 							<h4 class="card-title">
-                       {{ App\Student::where('academic_id','!=','')
-                       	->where('course_parent_id','!=','')
-					  ->where('course_id','!=','')
-					  ->get()->count()}}
+                       {{ \App\User::join('roles', 'users.role_id', '=', 'roles.id')
+                ->join('students', 'students.user_id', '=', 'users.id')
+                ->join('courses', 'courses.id', '=', 'students.course_id')
+                ->where('roles.id', '=', 5)->get()->count()}}
 
 							</h4>
 								<p class="card-text">{{ getPhrase('students')}}</p>

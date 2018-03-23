@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends(getLayout())
 @section('header_scripts')
 <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop

@@ -5,12 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\QuestionBank;
 use DB;
+use App\Scopes\DeleteScope;
 
 class Quiz extends Model
 {
     protected $table= "quizzes";
 
-      
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
     public static function getRecordWithSlug($slug)
     {

@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Http\Request;
-
+use App\Scopes\DeleteScope;
 
 abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable
 {
@@ -3594,7 +3594,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
 
     public function update_stamp(Request $request)
     {
-        //$this->record_status   = 2;
+        $this->record_status   = 2;
         $this->updated_by_ip   = $request->ip();
         $this->updated_by_user = Auth::user()->id;
     }

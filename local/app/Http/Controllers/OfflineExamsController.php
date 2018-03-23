@@ -28,7 +28,7 @@ class OfflineExamsController extends Controller
 
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -42,33 +42,60 @@ class OfflineExamsController extends Controller
 
     public function getDatatable($slug = '')
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
         $academic_id = getDefaultAcademicId();
         $records = array();
-        $records = Quiz::join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
-            ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->join('academics', 'academics.id', '=', 'quizapplicability.academic_id')
-            ->join('courses', 'courses.id', '=', 'quizapplicability.course_id')
-            ->join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
-            ->select([
-                'quizzes.title',
-                'quizofflinecategories.title as quiz_offline_category',
-                'subjects.subject_title',
-                'quizzes.total_marks',
-                'quizzes.pass_percentage',
-                'quizzes.type',
-                'quizzes.id',
-                'quizzes.slug',
-                'start_date',
-                'end_date',
-                'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
-            ])
-            ->where('quizzes.type', '!=', 'online')
-            ->where('quizapplicability.academic_id', '=', $academic_id)
-            ->groupBy('quizzes.id');
+        if(is_teacher()){
+            $records = Quiz::join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+                ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+                ->join('academics', 'academics.id', '=', 'quizapplicability.academic_id')
+                ->join('courses', 'courses.id', '=', 'quizapplicability.course_id')
+                ->join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
+                ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                ->select([
+                    'quizzes.title',
+                    'quizofflinecategories.title as quiz_offline_category',
+                    'subjects.subject_title',
+                    'quizzes.total_marks',
+                    'quizzes.pass_percentage',
+                    'quizzes.type',
+                    'quizzes.id',
+                    'quizzes.slug',
+                    'start_date',
+                    'end_date',
+                    'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
+                ])
+                ->where('quizzes.type', '!=', 'online')
+                ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                ->where('quizapplicability.academic_id', '=', $academic_id)
+                ->groupBy('quizzes.id');
+        }
+        else {
+            $records = Quiz::join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+                ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+                ->join('academics', 'academics.id', '=', 'quizapplicability.academic_id')
+                ->join('courses', 'courses.id', '=', 'quizapplicability.course_id')
+                ->join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
+                ->select([
+                    'quizzes.title',
+                    'quizofflinecategories.title as quiz_offline_category',
+                    'subjects.subject_title',
+                    'quizzes.total_marks',
+                    'quizzes.pass_percentage',
+                    'quizzes.type',
+                    'quizzes.id',
+                    'quizzes.slug',
+                    'start_date',
+                    'end_date',
+                    'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
+                ])
+                ->where('quizzes.type', '!=', 'online')
+                ->where('quizapplicability.academic_id', '=', $academic_id)
+                ->groupBy('quizzes.id');
+        }
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -112,12 +139,12 @@ class OfflineExamsController extends Controller
 
     public function selectionview($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -180,7 +207,7 @@ class OfflineExamsController extends Controller
 
     public function entermarks(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -289,7 +316,7 @@ class OfflineExamsController extends Controller
 
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -391,7 +418,7 @@ class OfflineExamsController extends Controller
     public function import()
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -415,7 +442,7 @@ class OfflineExamsController extends Controller
 
         $this->validate($request, $columns);
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

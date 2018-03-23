@@ -2,16 +2,24 @@
 
 namespace App;
 
+
 use Illuminate\Database\Eloquent\Model;
 use App\Topic;
+use App\Scopes\DeleteScope;
+
 class Subject extends Model
 {
-    
+
     public function topics()
     {
     	return $this->hasMany('App\Topic');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
 
     public function questions()
