@@ -38,6 +38,7 @@ class TrashesController extends Controller
         foreach ($tables as $table){
             if($table == 'users'){continue;}
             $title = get_title_column($table);
+            if($title == false){continue;}
             $looper = DB::table($table)->select('id',$title,'slug','updated_at','table_name')->where('record_status','=','3')->orderBy('updated_at','desc');
             $records->union($looper);
         }

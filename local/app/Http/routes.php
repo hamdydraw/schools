@@ -824,8 +824,7 @@ Route::get('payments/paypal/status-cancel', 'PaymentsController@paypal_cancel');
 
 Route::post('payments/payu/status-success', 'PaymentsController@payu_success');
 Route::post('payments/payu/status-cancel', 'PaymentsController@payu_cancel');
-Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offline_payment'],
-    'PaymentsController@updateOfflinePayment');
+Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'PaymentsController@updateOfflinePayment']);
 
 
 ////////////////////////////
