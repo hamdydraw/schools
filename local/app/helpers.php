@@ -1117,13 +1117,10 @@ function get_main_tables(){
 
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
-
+    //course_subject
+    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','course_subject','examtoppers','languages','libraryassettypes','questionbank','quizresults','subjectpreferences'];
     foreach ($tables as $table){
-        if(    $table->Tables_in_sasbit_school == 'certificatetemplates'
-            || $table->Tables_in_sasbit_school == 'parenttimingsetmap'
-            || $table->Tables_in_sasbit_school == 'timetable'
-            || $table->Tables_in_sasbit_school == 'timingset'
-            || $table->Tables_in_sasbit_school == 'users')
+        if(in_array($table->Tables_in_sasbit_school,$ignored))
         {
             continue;
         }
@@ -1133,4 +1130,17 @@ function get_main_tables(){
         }
     }
     return $main_tables;
+}
+
+function get_title_column($table){
+
+    $columns = Schema::getColumnListing($table);
+    foreach ($columns as $column){
+        if (strpos($column, 'title') !== false || strpos($column, 'name') !== false || strpos($column, 'category') !== false) {
+            return $column;
+            break;
+        }
+    }
+    return false;
+
 }

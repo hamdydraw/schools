@@ -27,8 +27,8 @@
                             <thead>
                             <tr>
                                 <th>{{ getPhrase('id')}}</th>
+                                <th>{{ getPhrase('title')}}</th>
                                 <th>{{ getPhrase('slug')}}</th>
-                                <th>{{ getPhrase('category')}}</th>
                                 <th>{{ getPhrase('Deleted_at')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>

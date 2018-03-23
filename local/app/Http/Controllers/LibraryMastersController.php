@@ -144,8 +144,8 @@ class LibraryMastersController extends Controller
       }
         $data['record']             = FALSE;
         $data['asset_types']        = array_pluck(LibraryAssetType::all(), 'asset_type', 'id');
-        $data['authors']            = array_pluck(App\Author::all(), 'author', 'id');
-        $data['publishers']         = array_pluck(App\Publisher::all(), 'publisher', 'id');
+        $data['authors']            = array_pluck(App\Author::all(), 'name', 'id');
+        $data['publishers']         = array_pluck(App\Publisher::all(), 'name', 'id');
 
         $data['active_class']       = 'library';
         $data['layout']             = getLayout();
@@ -224,7 +224,7 @@ class LibraryMastersController extends Controller
     	$data['record']       		= $record;
 
     	 $data['asset_types']        = array_pluck(LibraryAssetType::all(), 'asset_type', 'id');
-        $data['authors']            = array_pluck(App\Author::all(), 'author', 'id');
+        $data['authors']            = array_pluck(App\Author::all(), 'name', 'id');
         $data['publishers']         = array_pluck(App\Publisher::all(), 'publisher', 'id');
         $data['active_class']       = 'library';
     	$data['title']              = getPhrase('edit_master_asset');

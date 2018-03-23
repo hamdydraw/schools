@@ -1151,7 +1151,7 @@ Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 //test Route
 
 Route::get('/test_it', function () {
-    return getStudentInfo('yamn');
+    return get_title_column('users');
 });
 
 

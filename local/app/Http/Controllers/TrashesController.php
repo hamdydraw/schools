@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use function Symfony\Component\HttpKernel\Tests\controller_func;
 use Yajra\Datatables\Datatables;
 use App\Scopes\DeleteScope;
 use Illuminate\Support\Facades\DB;
@@ -32,10 +33,12 @@ class TrashesController extends Controller
         }
 
         $tables = get_main_tables();
-        $records  = DB::table('users')->select('id','slug','table_name','updated_at')->where('record_status','=','3')->orderBy('updated_at','desc');
+        $records  = DB::table('users')->select('id','name','slug','updated_at','table_name')->where('record_status','=','3')->orderBy('updated_at','desc');
 //        $records2 = DB::table('timingset')->select('id','slug','table_name','updated_at')->where('record_status','=','3')->union($records);
         foreach ($tables as $table){
-            $looper = DB::table($table)->select('id','slug','table_name','updated_at')->where('record_status','=','3')->orderBy('updated_at','desc');
+            if($table == 'users'){continue;}
+            $title = get_title_column($table);
+            $looper = DB::table($table)->select('id',$title,'slug','updated_at','table_name')->where('record_status','=','3')->orderBy('updated_at','desc');
             $records->union($looper);
         }
 
@@ -43,9 +46,7 @@ class TrashesController extends Controller
             ->addColumn('action', function ($records) {
                 return "<a class='btn btn-primary' href='".PREFIX."trashes/retrieve/$records->slug/$records->table_name'>".getPhrase('retrieve')."</a>";
             })
-            ->editColumn('table_name',function ($records){
-                return getPhrase($records->table_name);
-            })
+            ->removeColumn('table_name')
             ->make();
 
     }
