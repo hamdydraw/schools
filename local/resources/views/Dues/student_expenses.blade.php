@@ -12,6 +12,7 @@
                     <ol class="breadcrumb">
                         <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a> </li>
                         <li>{{ $title }}</li>
+                        <li>{{ getPhrase('expenses_of').$user->name }}</li>
                     </ol>
                 </div>
             </div>
@@ -28,11 +29,12 @@
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>{{ getPhrase('name')}}</th>
-                                <th>{{ getPhrase('image')}}</th>
                                 <th>{{ getPhrase('total')}}</th>
                                 <th>{{ getPhrase('payed')}}</th>
                                 <th>{{ getPhrase('remained')}}</th>
+                                <th>{{ getPhrase('expenses')}}</th>
+                                <th>{{ getPhrase('created_at')}}</th>
+                                <th>{{ getPhrase('updated_at')}}</th>
                             </tr>
                             </thead>
 

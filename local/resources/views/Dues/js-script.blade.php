@@ -11,5 +11,8 @@
                 $('#total').text(total)
             }
         })
+        $('button').on('click',function () {
+           $('#gateway').val($(this).attr('id'))
+        })
     })
 </script>
