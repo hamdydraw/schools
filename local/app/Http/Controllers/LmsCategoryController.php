@@ -47,7 +47,7 @@ class LmsCategoryController extends Controller
       }
 
       $data['active_class']       = 'lms';
-      $data['title']              = 'LMS'.' '.getPhrase('dashboard');
+      $data['title']              = getPhrase('lms').' - '.getPhrase('dashboard');
       $data['layout']             = getLayout();
       $data['module_helper']      = getModuleHelper('lms-dashboard');
 
@@ -67,7 +67,7 @@ class LmsCategoryController extends Controller
             return back();
         }
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('categories');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('categories');
         $data['module_helper']      = getModuleHelper('lms-categories-list');
     	return view('lms.lmscategories.list', $data);
 
@@ -103,7 +103,7 @@ class LmsCategoryController extends Controller
                             <li><a href="'.URL_LMS_CATEGORIES_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>
                             '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>
-                            
+
                         </ul>
                     </div>';
             })

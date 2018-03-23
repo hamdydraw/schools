@@ -48,7 +48,7 @@ class LmsContentController extends Controller
         return back();
       }
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('content');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('content');
         $data['layout']              = getLayout();
         $data['module_helper']      = getModuleHelper('lms-content-list');
     	return view('lms.lmscontents.list', $data);

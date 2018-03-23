@@ -288,13 +288,13 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                     <ul id="exams" class="collapse sidemenu-dropdown">
 
                         <li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"><i
-                                        class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
+                                        class="fa fa-random"></i>{{ getPhrase('exam_categories') }}</a></li>
 
                         <li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"><i
                                         class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
 
-                        <li><a href="{{URL_QUIZ_GET_SCHEDULED_EXAMS.Auth::user()->slug}}"><i
-                                        class="fa fa-clock-o"></i>{{ getPhrase('scheduled_exams') }}</a></li>
+                        <!-- <li><a href="{{URL_QUIZ_GET_SCHEDULED_EXAMS.Auth::user()->slug}}"><i
+                                        class="fa fa-clock-o"></i>{{ getPhrase('scheduled_exams') }}</a></li> -->
 
                     </ul>
 
@@ -342,22 +342,21 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                 @if(Module_state('management_of_educational_content'))
                 <li {{ isActive($active_class, 'lms') }} >
 
+                    <a  href="{{ URL_STUDENT_LMS_CATEGORIES }}"><i class="fa fa-leanpub" aria-hidden="true"></i>
 
-                    <a data-toggle="collapse" data-target="#lms"><i class="fa fa-leanpub" aria-hidden="true"></i>
-
-                        LMS</a>
+                        {{ getPhrase('lms') }}</a>
 
 
-                    <ul id="lms" class="collapse sidemenu-dropdown">
+                    <!-- <ul id="lms" class="collapse sidemenu-dropdown">
 
                         <li><a href="{{ URL_STUDENT_LMS_CATEGORIES }}"> <i
-                                        class="fa fa-random"></i>{{ getPhrase('categories') }}</a></li>
+                                        class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
 
 
                         <li><a href="{{ URL_STUDENT_LMS_SERIES }}"> <i
-                                        class="fa fa-list-ol"></i>{{ getPhrase('series') }}</a></li>
+                                        class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}</a></li>
 
-                    </ul>
+                    </ul> -->
 
                 </li>
                 @endif

@@ -37,7 +37,7 @@ class LmsSeriesController extends Controller
 
         $data['layout'] = getLayout();
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('series');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('series');
         $data['module_helper']      = getModuleHelper('lms-series-list');
     	return view('lms.lmsseries.list', $data);
     }
