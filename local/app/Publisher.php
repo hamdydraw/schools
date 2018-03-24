@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class Publisher extends Model
 {
@@ -11,5 +12,11 @@ class Publisher extends Model
     public static function getRecordWithSlug($slug)
     {
         return Publisher::where('slug', '=', $slug)->first();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 }

@@ -317,7 +317,6 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     protected static function boot()
     {
         static::bootTraits();
-        static::addGlobalScope(new DeleteScope);
     }
 
     /**

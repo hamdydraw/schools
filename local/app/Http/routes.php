@@ -240,6 +240,8 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
     Route::get('parent/children', 'ParentsController@index');
     Route::get('parent/children/list', 'ParentsController@index');
     Route::get('parent/children/getList/{slug}', 'ParentsController@getDatatable');
+    Route::get('purchase-expenses/getlist/{slug}', 'ParentsController@getDatatableExpenses');
+    Route::get('parent/purchase-expenses/all/{slug}', 'ParentsController@getUserExpenses');
     Route::get('children/analysis', 'ParentsController@childrenAnalysis');
 });
 /////////////////////
@@ -266,6 +268,7 @@ Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
 Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
+Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
 Route::get('mastersettings/dues/getList', [
     'as' => 'dues.dataTable',
     'uses' => 'DuesController@getDatatable'
@@ -1142,34 +1145,28 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 
 //recycle bin routes
 
-Route::get('trashes/list', 'trashesController@index');
-Route::get('trashes/getList', 'trashesController@getDatatable');
+Route::get('trashes/list', 'TrashesController@index');
+Route::get('trashes/getList', 'TrashesController@getDatatable');
+Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 
 
 
 //test Route
 
 Route::get('/test_it', function () {
-    $tables = DB::select('SHOW TABLES');
-    $main_tables = array();
+    return getStudentInfo('yamn');
+});
 
+
+
+Route::get('/record_status', function () {
+    $tables = DB::select('SHOW TABLES');
     foreach ($tables as $table){
         $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
         if(in_array('slug',$columns)) {
-            array_push($main_tables,$table->Tables_in_sasbit_school);
-            echo json_encode($columns);
+         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `table_name` VARCHAR(110) NOT NULL DEFAULT '$table->Tables_in_sasbit_school' AFTER `record_status`");
         }
 
-    }
-    return $main_tables;
-
-
-});
-
-Route::get('/record_status/{db}', function ($db) {
-    $tables = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='$db'");
-    foreach ($tables as $table) {
-        DB::statement("ALTER TABLE $table->TABLE_NAME ADD `record_status` TINYINT NOT NULL DEFAULT '1'");
     }
     return "Done";
 });

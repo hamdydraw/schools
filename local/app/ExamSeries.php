@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Scopes\DeleteScope;
 
 class ExamSeries extends Model
 {
@@ -12,6 +13,12 @@ class ExamSeries extends Model
     public static function getRecordWithSlug($slug)
     {
         return ExamSeries::where('slug', '=', $slug)->first();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 
     /**

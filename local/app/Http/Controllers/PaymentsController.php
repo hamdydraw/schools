@@ -1310,7 +1310,7 @@ class PaymentsController extends Controller
             })
             ->editColumn('plan_type', function ($records) {
                 if ($records->plan_type == 'lms') {
-                    return 'LMS';
+                    return getPhrase('lms');
                 }
                 return ucfirst($records->plan_type);
             })

@@ -5,9 +5,17 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Auth;
+use App\Scopes\DeleteScope;
+
 class Language extends Model
 {
 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
 
     /**

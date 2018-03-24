@@ -201,17 +201,18 @@ $role = getRoleData($user->role_id);
                                         class="fa fa-leanpub"
                                         aria-hidden="true"></i>
                                 </i>
-                                {{ getPhrase('LMS') }} </a>
+                                {{ getPhrase('lms') }}</a>
 
                             <ul id="lms" class="collapse sidemenu-dropdown">
                                 <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
                                                 class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
-                                <li><a href="{{ URL_LMS_CONTENT }}"> <i
-                                                class="icon-books"></i>{{ getPhrase('lms_contents') }}
-                                    </a></li>
+
                                 <li><a href="{{ URL_LMS_SERIES }}"> <i
                                                 class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
                                     </a></li>
+                                    <li><a href="{{ URL_LMS_CONTENT }}"> <i
+                                                    class="icon-books"></i>{{ getPhrase('lms_contents') }}
+                                        </a></li>
                             </ul>
                         </li>
                     @endif

@@ -6,10 +6,18 @@ use Auth;
 use DB;
 use \App;
 use Carbon;
+use App\Scopes\DeleteScope;
+
 class Payment extends Model
 {
 	protected $table = 'payments';
-   
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
     public static function getRecordWithSlug($slug)
     {

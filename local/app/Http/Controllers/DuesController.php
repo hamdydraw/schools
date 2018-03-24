@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Academic;
 use App\AcademicDues;
 use App\AcademicDuesPivot;
+use App\DuesPurchase;
+use App\Payment;
+use App\Paypal;
 use App\Settings;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Softon\Indipay\Facades\Indipay;
 use Yajra\Datatables\Datatables;
 
 class DuesController extends Controller
@@ -126,12 +131,19 @@ class DuesController extends Controller
         $data['active_class'] = 'children';
         $data['title'] = getPhrase('parent_purchase');
         $data['record'] = User::where('slug', $slug)->first();
+        $data['dues_purchase'] = DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
+            Auth::user()->id)->first();
         $currentAcademicYear = new Academic();
         $currentAcademicYear = $currentAcademicYear->getCurrentAcademic()->id;
         $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=',
             'academics_dues_pivot.due_id')
             ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
-            ->select(['academics_dues_pivot.id','academics_dues_pivot.due_value', 'academics_dues_pivot.due_type', 'academics_dues.title'])
+            ->select([
+                'academics_dues_pivot.id',
+                'academics_dues_pivot.due_value',
+                'academics_dues_pivot.due_type',
+                'academics_dues.title'
+            ])
             ->get();
         $data['total']=0;
         $data['schoolExpenses']=$schoolExp;
@@ -142,8 +154,175 @@ class DuesController extends Controller
                 }
             }
         }
-        $data['settingsModule']=Settings::where('key','module')->first(['settings_data']);
-        $data['settingsModule']= json_decode($data['settingsModule']->settings_data);
+        $data['slug'] = $slug;
+        $data['settingsModule'] = Settings::where('key', 'module')->first(['settings_data']);
+        $data['settingsModule'] = json_decode($data['settingsModule']->settings_data);
         return view('Dues.parent_purchase', $data);
+    }
+
+    public function payGateway(Request $request, $slug)
+    {
+        $user = User::where('slug', $slug)->first();
+        $gateway = trim($request->gateway);
+        $items = ' ';
+        if ($request->expenses == null){
+            flash(getPhrase('Ooops'), getPhrase('you_must_select_one_item_at_least'), 'error');
+            return back();
+        }
+        foreach ($request->expenses as $expense) {
+            $items .= '-'.explode('/', $expense)[1].'<br>';
+        }
+        if ($gateway == 'payu') {
+            if (!getSetting('payu', 'module')) {
+                flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
+                return back();
+            }
+
+            $token = $this->storePurchase($request, $slug);
+            $config = config();
+            $payumoney = $config['indipay']['payumoney'];
+
+            $payumoney['successUrl'] = URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token;
+            $payumoney['failureUrl'] = URL_PAYU_PAYMENT_CANCEL . '?token=' . $token;
+
+            $user = Auth::user();
+            $parameters = [
+                'tid' => $token,
+                'order_id' => '',
+                'firstname' => $user->name,
+                'email' => $user->email,
+                'phone' => ($user->phone) ? $user->phone : '45612345678',
+                'productinfo' => 'academic_expenses',
+                'amount' => $request->your_money,
+                'surl' => URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token,
+                'furl' => URL_PAYU_PAYMENT_CANCEL . '?token=' . $token,
+            ];
+            $payment = new Payment();
+            $payment->slug = $payment->makeSlug(getHashCode());
+            $payment->item_name = $items;
+            $payment->user_id=$user->id;
+            $payment->plan_type='academic_expenses';
+            $payment->payment_gateway='payu';
+            $payment->paid_by_parent=1;
+            $payment->payment_status = PAYMENT_STATUS_PENDING;
+            $payment->save();
+            return Indipay::purchase($parameters);
+
+            // URL_PAYU_PAYMENT_SUCCESS
+            // URL_PAYU_PAYMENT_CANCEL
+        } elseif ($gateway == 'paypal') {
+            if (!getSetting('paypal', 'module')) {
+                flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
+                return back();
+            }
+            $token = $this->storePurchase($request, $slug);
+            $payment = new Payment();
+            $payment->slug = $payment->makeSlug(getHashCode());
+            $payment->item_name = $items;
+            $payment->user_id=$user->id;
+            $payment->plan_type='academic_expenses';
+            $payment->payment_gateway='paypal';
+            $payment->paid_by_parent=1;
+            $payment->payment_status = PAYMENT_STATUS_PENDING;
+            $payment->save();
+
+            $paypal = new Paypal();
+            $paypal->config['return'] = URL_PAYPAL_PAYMENT_SUCCESS . '?token=' . $token;
+            $paypal->config['cancel_return'] = URL_PAYPAL_PAYMENT_CANCEL . '?token=' . $token;
+            $paypal->invoice = $token;
+            $paypal->add('academic_expenses', $request->your_money); //ADD  item
+            $paypal->pay(); //Proccess the payment
+        }
+        if ($gateway == 'offline') {
+
+            if (!getSetting('offline_payment', 'module')) {
+                flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
+                return back();
+            }
+
+            $payment_data = [];
+            foreach (Input::all() as $key => $value) {
+                if ($key == '_token') {
+                    continue;
+                }
+                $payment_data[$key] = $value;
+            }
+
+            $data['active_class'] = 'feedback';
+            $data['payment_data'] = json_encode($payment_data);
+            $data['layout'] = getLayout();
+            $data['title'] = getPhrase('offline_payment');
+            return view('payments.offline-payment', $data);
+
+        }
+    }
+
+    public function storePurchase(Request $request, $slug)
+    {
+        $parent_id = Auth::user()->id;
+        $student_id = User::where('slug', $slug)->first(['id'])->id;
+        $checkExistence = DuesPurchase::where('student_id', $student_id)->where('parent_id', $parent_id)->first();
+        if ($checkExistence != null) {
+            $specifications = json_decode($checkExistence->specifications, true);
+            $total = 0;
+            foreach ($request->expenses as $expense) {
+                $specifications['total'] += explode('/', $expense)[0];
+                $total += explode('/', $expense)[0];
+                $specifications['dues_title'][] = explode('/', $expense)[1];
+            }
+            $your_money = $request->your_money;
+            $specifications['your_money'] += $your_money;
+            $coupon = $request->coupon;
+            $specifications['coupon'] += $coupon;
+            $remain_purchase = ($total - $your_money) - $coupon;
+            if ($remain_purchase < 0) {
+                flash(getPhrase('error'), getPhrase("be_sure_of_input"), 'error');
+                return redirect()->back();
+            }
+            $specifications['remain_purchase'] += $remain_purchase;
+            $db_object = array(
+                'total' => $specifications['total'],
+                'coupon' => $specifications['coupon'],
+                'remain_purchase' => $specifications['remain_purchase'],
+                'dues_title' => $specifications['dues_title'],
+                'your_money' => $specifications['your_money']
+            );
+            $db_object = json_encode($db_object);
+            $checkExistence->specifications = $db_object;
+            if ($checkExistence->update()) {
+                flash(getPhrase('success'), getPhrase("payed_successfully"), 'success');
+                return $checkExistence->makeSlug(getHashCode());
+            }
+        }
+        $total = 0;
+        $dues_titles = array();
+        foreach ($request->expenses as $expense) {
+            $total += explode('/', $expense)[0];
+            $dues_titles[] = explode('/', $expense)[1];
+        }
+        $your_money = $request->your_money;
+        $coupon = $request->coupon;
+        $remain_purchase = ($total - $your_money) - $coupon;
+        if ($remain_purchase < 0) {
+            flash(getPhrase('error'), getPhrase("be_sure_of_input"), 'error');
+            return redirect()->back();
+        }
+        $db_object = array(
+            'total' => $total,
+            'coupon' => $coupon,
+            'remain_purchase' => $remain_purchase,
+            'dues_title' => $dues_titles,
+            'your_money' => $your_money
+        );
+        $db_object = json_encode($db_object);
+        $dues_purchase_instance = new DuesPurchase();
+        $dues_purchase_instance->parent_id = $parent_id;
+        $dues_purchase_instance->student_id = $student_id;
+        $dues_purchase_instance->slug = $dues_purchase_instance->makeSlug(getHashCode());
+        $dues_purchase_instance->specifications = $db_object;
+        if ($dues_purchase_instance->save()) {
+            flash(getPhrase('success'), getPhrase("payed_successfully"), 'success');
+            return $dues_purchase_instance->makeSlug(getHashCode());
+        }
     }
 }

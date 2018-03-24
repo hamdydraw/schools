@@ -21,7 +21,7 @@
  .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
  color: #656f7d }
  h1 {
- font-size: 14px;
+ font-size: 16px;
  }
  a {
  transition: all .2s ease-in-out;
@@ -621,7 +621,7 @@ text-align: right;
  min-height: 50px;
  min-width: 50px;
  background: #d8dcd9;
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 700;
  font-size: 46px;
  color: #fff;
@@ -1247,12 +1247,12 @@ text-align: right;
  }
  .packages-box .price {
  color: #656f7d;
- font: 700 50px / 50px 'roboto', sans-serif;
+ font: 700 50px / 50px HelveticaNeueW23, sans-serif;
  margin: 20px 0 0px;
  display: inline-block;
  }
  .packages-box .price sub {
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 400;
  font-size: 14px;
  }
@@ -1808,7 +1808,7 @@ text-align: right;
  .fc-event:hover, a.fc-more:hover {
  color: #44a1ef }
  .text-italic {
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-style: italic;
  text-transform: none }
  .instruction h2 {
@@ -2570,7 +2570,7 @@ text-align: right;
  }
  .card-title {
  font-size: 30px;
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 500;
  color: #fff;
  margin: 10px 0 0;
@@ -2579,7 +2579,7 @@ text-align: right;
  font-size: 20px;
  }
  .card-text {
- font-size: 14px;
+ font-size: 16px;
  color: #fff;
  margin: 0;
  }
@@ -2665,13 +2665,13 @@ text-align: right;
  .panel-heading a.view-all {
  float:left;
  text-transform: uppercase;
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 400;
  font-size: 14px;
  }
  .panel-heading span.view-all {
  float:left;
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 400;
  font-size: 14px;
  color: #7f858e;
@@ -2766,7 +2766,7 @@ text-align: right;
  }
  .modal-author-details .author-pic-bio h2 span {
  font-size: 14px;
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: 400;
  color: #7f858e;
  }
@@ -4408,7 +4408,7 @@ text-align: right;
  margin: 40px 0;
  }
  .card-text {
- font-size: 16px }
+ font-size: 18px }
  .library-book-status [class*="col-"] {
  width: 50% }
  .statistic .ststistic-box p {
@@ -4765,7 +4765,7 @@ text-align: right;
  color: #b1afaf;
  }
  .slot-booking-information th {
- font-family: 'roboto', sans-serif;
+ font-family: HelveticaNeueW23, sans-serif;
  font-weight: bold;
  color: #4f5c61;
  }

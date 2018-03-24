@@ -208,7 +208,7 @@ class QuizController extends Controller
         where('status', '=', 1)->get(), 'title', 'id');
         $data['instructions'] = array_pluck(App\Instruction::all(), 'title', 'id');
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['academic_years'] = addSelectToList(getAcademicYears());
@@ -249,7 +249,7 @@ class QuizController extends Controller
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
         $data['title'] = getPhrase('edit_quiz');
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
@@ -642,7 +642,7 @@ class QuizController extends Controller
 
 
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
 

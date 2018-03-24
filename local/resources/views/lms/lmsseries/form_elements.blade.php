@@ -41,7 +41,7 @@
 
 					<fieldset class="form-group col-md-6" >
 
-						{{ Form::label('lms_category_id', 'LMS Category') }}
+						{{ Form::label('lms_category_id', getPhrase('lms_categories')) }}
 
 						<span class="text-red">*</span>
 

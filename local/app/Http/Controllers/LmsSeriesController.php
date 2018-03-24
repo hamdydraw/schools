@@ -37,7 +37,7 @@ class LmsSeriesController extends Controller
 
         $data['layout'] = getLayout();
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('series');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('series');
         $data['module_helper']      = getModuleHelper('lms-series-list');
     	return view('lms.lmsseries.list', $data);
     }
@@ -438,7 +438,7 @@ class LmsSeriesController extends Controller
         $data['right_bar_path']     = 'lms.lmsseries.right-bar-update-lmslist';
 
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['categories']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['categories']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
 

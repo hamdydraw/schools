@@ -1082,10 +1082,13 @@ function getStudentInfo($slug){
     $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
     $data['current_grade']         = \App\Course::where('id',$student->course_parent_id)->pluck('course_title')->first();
     $data['current_class']         = \App\Course::where('id',$student->course_id)->pluck('course_title')->first();
-    if($currentSemester->sem_num == 1){
-        $data['current_semester']      = "the_first";
-    }else{
-        $data['current_semester']      = "the_second";
+    $data['current_semester'] = "";
+    if($currentSemester != null){
+        if($currentSemester->sem_num == 1){
+            $data['current_semester']      = "the_first";
+        }else{
+            $data['current_semester']      = "the_second";
+        }
     }
     //return the data
     return $data;
@@ -1116,6 +1119,14 @@ function get_main_tables(){
     $main_tables = array();
 
     foreach ($tables as $table){
+        if(    $table->Tables_in_sasbit_school == 'certificatetemplates'
+            || $table->Tables_in_sasbit_school == 'parenttimingsetmap'
+            || $table->Tables_in_sasbit_school == 'timetable'
+            || $table->Tables_in_sasbit_school == 'timingset'
+            || $table->Tables_in_sasbit_school == 'users')
+        {
+            continue;
+        }
         $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
         if(in_array('slug',$columns)) {
             array_push($main_tables,$table->Tables_in_sasbit_school);

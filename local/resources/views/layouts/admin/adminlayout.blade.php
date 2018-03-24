@@ -295,7 +295,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                             <li><a href="{{URL_QUIZ_QUESTIONBANK}}"> <i
                                             class="fa fa-question"></i>{{ getPhrase('question_bank') }}</a></li>
                             <li><a href="{{URL_QUIZ_CATEGORIES}}"> <i
-                                            class="fa fa-random"></i>{{ getPhrase('categories') }}
+                                            class="fa fa-random"></i>{{ getPhrase('exam_categories') }}
                                 </a></li>
                             <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
                             </li>
@@ -325,17 +325,17 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                     class="fa fa-leanpub"
                                     aria-hidden="true"></i>
                             </i>
-                            {{ getPhrase('LMS') }} </a>
+                            {{ getPhrase('lms') }} </a>
 
                         <ul id="lms" class="collapse sidemenu-dropdown">
                             <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
                                             class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
-                            <li><a href="{{ URL_LMS_CONTENT }}"> <i
-                                            class="icon-books"></i>{{ getPhrase('lms_contents') }}
-                                </a></li>
                             <li><a href="{{ URL_LMS_SERIES }}"> <i
                                             class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
                                 </a></li>
+                                <li><a href="{{ URL_LMS_CONTENT }}"> <i
+                                                class="icon-books"></i>{{ getPhrase('lms_contents') }}
+                                    </a></li>
                         </ul>
                     </li>
                 @endif

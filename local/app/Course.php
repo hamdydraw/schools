@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Semister;
 use DB;
+use App\Scopes\DeleteScope;
 
 class Course extends Model
 {
@@ -18,6 +19,11 @@ class Course extends Model
     	return $this->hasMany('App\CourseSemister');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
     
     public function allotedFeeCategories($academicCourseId)
     {

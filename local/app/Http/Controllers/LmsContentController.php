@@ -48,7 +48,7 @@ class LmsContentController extends Controller
         return back();
       }
         $data['active_class']       = 'lms';
-        $data['title']              = 'LMS'.' '.getPhrase('content');
+        $data['title']              = getPhrase('lms').' - '.getPhrase('content');
         $data['layout']              = getLayout();
         $data['module_helper']      = getModuleHelper('lms-content-list');
     	return view('lms.lmscontents.list', $data);
@@ -138,7 +138,7 @@ class LmsContentController extends Controller
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'lms';
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
         $data['title']              = getPhrase('add_content');
@@ -167,7 +167,7 @@ class LmsContentController extends Controller
     	$data['title']       		= getPhrase('edit').' '.$record->title;
     	$data['active_class']       = 'lms';
         if(Auth::user()->role_id == 3){
-            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->where('user_id','=',Auth::user()->id)->get();
+            $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
         }else{    	$data['subjects']       	= array_pluck(App\Subject::all(), 'subject_title', 'id');  }
     	$data['settings']           = json_encode($record);
@@ -346,31 +346,31 @@ class LmsContentController extends Controller
 
         $this->validate($request, $rules);
      DB::beginTransaction();
-       try{
+    try {
         $record = new LmsContent();
-      	$name  						=  $request->title;
-		$record->title 				= $name;
-       	$record->slug 				= $record->makeSlug($name, TRUE);
-        $record->subject_id         = $request->subject_id;
-        $record->code               = $request->code;
-       	$record->content_type 		= $request->content_type;
+        $name = $request->title;
+        $record->title = $name;
+        $record->slug = $record->makeSlug($name, TRUE);
+        $record->subject_id = $request->subject_id;
+        $record->code = $request->code;
+        $record->content_type = $request->content_type;
 
-       	$record->file_path 		   = $file_path;
-        $record->description		= $request->description;
-        $record->record_updated_by 	= Auth::user()->id;
-        if(isset($request->image)){
-            $record->image      = $request->image;
+
+        $record->file_path = $file_path;
+        $record->description = $request->description;
+        $record->record_updated_by = Auth::user()->id;
+        if (isset($request->image)) {
+            $record->image = $request->image;
         }
-        if(isset($request->lms_file)){
-            $record->file_path      = $request->lms_file;
+        if (isset($request->lms_file)) {
+            $record->file_path = $request->lms_file;
         }
 
         $record->user_stamp($request);
         $record->save();
 
-
-         DB::commit();
-        flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
+        DB::commit();
+        flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
 
     }
      catch( Exception $e)

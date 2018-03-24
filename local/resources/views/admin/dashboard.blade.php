@@ -66,7 +66,7 @@
 								<h4 class="card-title">
 									<i class="fa fa-leanpub" aria-hidden="true"></i>
 								</h4>
-								<p class="card-text">{{ getPhrase('LMS')}}</p>
+								<p class="card-text">{{ getPhrase('lms')}}</p>
 							</div>
 							<a class="card-footer text-muted" href="{{URL_LMS_DASHBOARD}}">
 								{{ getPhrase('view_all')}}

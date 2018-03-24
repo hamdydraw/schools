@@ -8,8 +8,8 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="/"><i class="mdi mdi-home"></i></a> </li>
-							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('LMS')}} {{ getPhrase('dashboard')}}</a></li>
-							<li><a href="{{URL_LMS_CATEGORIES}}">{{getPhrase('LMS')}} {{ getPhrase('categories')}}</a> </li>
+							<li><a  href="{{URL_LMS_DASHBOARD}}">{{getPhrase('lms')}} {{ getPhrase('dashboard')}}</a></li>
+							<li><a href="{{URL_LMS_CATEGORIES}}">{{getPhrase('lms')}} {{ getPhrase('categories')}}</a> </li>
 							<li class="active">{{isset($title) ? $title : ''}}</li>
 						</ol>
 					</div>

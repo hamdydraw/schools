@@ -2,8 +2,11 @@
 
 namespace App;
 
+
 use Illuminate\Database\Eloquent\Model;
 use App\Topic;
+use App\Scopes\DeleteScope;
+
 class Subject extends Model
 {
 
@@ -12,6 +15,11 @@ class Subject extends Model
     	return Topic::all();
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
 
 
     public function questions()

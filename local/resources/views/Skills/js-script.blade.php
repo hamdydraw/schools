@@ -28,7 +28,7 @@
         $('#course_selection').on('change', function () {
             getSubjects();
         })
-        $(document).on('click', '.btn-primary', function (e) {
+        $(document).on('click', '.new', function (e) {
             e.preventDefault();
             $('.texts').append('<div class="row">' +
                 '                <fieldset class="form-group col-md-3">' +

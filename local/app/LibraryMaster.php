@@ -3,11 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class LibraryMaster extends Model
 {
    	protected $table = 'librarymasters';
 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
+    }
   
     public static function getRecordWithSlug($slug)
     {

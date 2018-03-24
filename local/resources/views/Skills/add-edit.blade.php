@@ -15,7 +15,7 @@
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons">
                         <a href="{{url('mastersettings/skills')}}"
-                           class="btn  btn-primary button">{{ getPhrase('all')}}</a>
+                           class="btn btn-primary button">{{ getPhrase('all')}}</a>
                     </div>
                     <h1>{{ $title }}  </h1>
                 </div>
@@ -53,7 +53,7 @@
                             </fieldset>
                             @if($title == 'add_skills')
                                 <fieldset class="form-group col-md-3" style="margin-top: 35px;">
-                                    <button class="btn btn-primary">{{getPhrase('new')}}</button>
+                                    <button class="btn btn-primary new">{{getPhrase('new')}}</button>
                                 </fieldset>
                             @endif
                         </div>

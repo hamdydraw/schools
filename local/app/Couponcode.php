@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\DeleteScope;
 
 class Couponcode extends Model
 {
@@ -11,6 +12,12 @@ class Couponcode extends Model
     public static function getRecordWithSlug($slug)
     {
         return Couponcode::where('slug', '=', $slug)->first();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new DeleteScope);
     }
 
     /**
