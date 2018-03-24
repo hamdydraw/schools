@@ -833,6 +833,7 @@ class StudentQuizController extends Controller
                     'quizzes.cost'
                 ])
                 ->where('quizzes.category_id', '=', $category->id)
+                ->where('quizzes.type','!=','offline')
                 ->where('start_date','<=',date('Y-m-d H:i:s'))
                 ->where('end_date','>=',date('Y-m-d H:i:s'))
                 ->where('total_questions','>','0')

@@ -69,6 +69,37 @@
 					@endforeach
 
 				 </div>
+						 @if(count($offline_category) != 0)
+						 <h1> {{getPhrase('offline_exam_categories')}}</h1>
+						 @endif
+
+						 <div class="row">
+							 @foreach($offline_category as $category)
+                                 <?php
+
+                                 $checked = '';
+                                 if($user_options) {
+                                     if(count($user_options->offline_categories))
+                                     {
+                                         if(in_array($category->id,$user_options->offline_categories))
+                                             $checked='checked';
+                                     }
+                                 }
+                                 ?>
+								 <div class="col-md-3">
+									 <label class="checkbox-inline">
+										 <input 	type="checkbox"
+												   data-toggle="toggle"
+												   data-onstyle="primary"
+												   data-offstyle="default"
+												   name="offline_categories[{{$category->id}}]"
+												 {{$checked}}
+										 > {{$category->title}}
+									 </label>
+								 </div>
+							 @endforeach
+
+						 </div>
 
 				 	<h1> {{getPhrase('lms_categories')}}</h1>
 

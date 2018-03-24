@@ -33,6 +33,7 @@
 							<thead>
 								<tr>
 									<th>{{ getPhrase('category_name')}}</th>
+									<th>{{ getPhrase('course_name') }}</th>
 									 
 									<th id="helper_step2">{{ getPhrase('action')}}</th>
 								  

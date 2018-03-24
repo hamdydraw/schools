@@ -34,7 +34,7 @@
 						{!! Form::open(array('url' => URL_OFFLINEEXMAS_QUIZ_CATEGORIES_ADD, 'method' => 'POST','name'=>'formOfflineQuizCategory ', 'novalidate'=>'')) !!}
 					@endif
 
-					 @include('offlineexams.quizcategories.form_elements', array('button_name'=> $button_name),
+					 @include('offlineexams.quizcategories.form_elements', array('button_name'=> $button_name,'classes' => $classes,'default_class' => $default_class),
 					 array())
 					 
 					{!! Form::close() !!}

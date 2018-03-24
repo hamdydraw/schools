@@ -8,6 +8,8 @@
  */
 
 use Illuminate\Support\Facades\Auth;
+use App\Student;
+use App\User;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1143,4 +1145,26 @@ function get_title_column($table){
     }
     return false;
 
+}
+
+function get_courses(){
+    $courses = [];
+
+    if(Auth::user()->role_id == 5){
+        $student_course = Student::where('user_id',Auth::user()->id)->pluck('course_parent_id')->first();
+        array_push($courses,$student_course);
+    }
+    else if(Auth::user()->role_id == 6){
+        $students = User::join('students','users.id','=','students.user_id')
+            ->select('students.course_parent_id')
+            ->where('users.parent_id','=',Auth::user()->id)
+            ->get();
+        foreach ($students as $student){
+            array_push($courses,$student->course_parent_id);
+        }
+    }
+    else{
+        return false;
+    }
+    return $courses;
 }
