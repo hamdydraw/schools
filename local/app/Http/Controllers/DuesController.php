@@ -162,7 +162,7 @@ class DuesController extends Controller
 
     public function payGateway(Request $request, $slug)
     {
-        $user = User::where('slug', $slug)->first();
+        $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
         $items = ' ';
         if ($request->expenses == null){
@@ -200,7 +200,7 @@ class DuesController extends Controller
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
-            $payment->user_id=$user->id;
+            $payment->user_id=$userRecord->id;
             $payment->plan_type='academic_expenses';
             $payment->payment_gateway='payu';
             $payment->paid_by_parent=1;
@@ -219,7 +219,7 @@ class DuesController extends Controller
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
-            $payment->user_id=$user->id;
+            $payment->user_id=$userRecord->id;
             $payment->plan_type='academic_expenses';
             $payment->payment_gateway='paypal';
             $payment->paid_by_parent=1;
@@ -259,6 +259,8 @@ class DuesController extends Controller
 
     public function storePurchase(Request $request, $slug)
     {
+        $current_academic_id=new Academic();
+        $current_academic_id=$current_academic_id->getCurrentAcademic()->id;
         $parent_id = Auth::user()->id;
         $student_id = User::where('slug', $slug)->first(['id'])->id;
         $checkExistence = DuesPurchase::where('student_id', $student_id)->where('parent_id', $parent_id)->first();
@@ -314,10 +316,12 @@ class DuesController extends Controller
             'dues_title' => $dues_titles,
             'your_money' => $your_money
         );
+
         $db_object = json_encode($db_object);
         $dues_purchase_instance = new DuesPurchase();
-        $dues_purchase_instance->parent_id = $parent_id;
         $dues_purchase_instance->student_id = $student_id;
+        $dues_purchase_instance->parent_id = $parent_id;
+        $dues_purchase_instance->academic_id = $current_academic_id;
         $dues_purchase_instance->slug = $dues_purchase_instance->makeSlug(getHashCode());
         $dues_purchase_instance->specifications = $db_object;
         if ($dues_purchase_instance->save()) {

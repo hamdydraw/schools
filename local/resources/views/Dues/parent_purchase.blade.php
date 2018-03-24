@@ -1,7 +1,7 @@
 @extends($layout)
 @section('content')
     <?php $due_types = array('select', 'mandatory', 'optional'); ?>
-    <div id="page-wrapper">
+    <div id="page-wrapper" ng-controller="couponsController">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -51,7 +51,10 @@
                     <fieldset class="form-group col-md-3">
                         {{ Form::label('coupon', getphrase('coupon')) }}
                         <span class="text-red">*</span>
-                        {{ Form::number('coupon', $value = null , $attributes = array('class'=>'form-control','placeholder' => getPhrase('coupon'),'id'=>'coupon')) }}
+                        <button class="btn btn-success button apply-input-button"
+                                ng-click="validateCoupon('{{$item->slug}}','{{$item_type}}', {{$item->cost}}, {{$selected_child_id}})"
+                                type="button"
+                                ng-disabled="isApplied">{{getPhrase('apply')}}</button>
                     </fieldset>
                 </div>
             @endif
