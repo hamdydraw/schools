@@ -281,7 +281,10 @@ class QuestionBankController extends Controller
             return redirect($isValid);
         }
 
-        $topics = $subject->topics()->where('parent_id', '=', '0')->get();
+        $topics = $subject->topics();
+
+
+
         $courseOfSubject = App\CourseSubject::where('subject_id', $subject->id)->first(['course_parent_id']);
         $courseOfSubjectId = $courseOfSubject != null ? $courseOfSubject->course_parent_id : '';
         if ($courseOfSubjectId < 23) {
@@ -330,7 +333,9 @@ class QuestionBankController extends Controller
 
         $subject = $record->subject()->first();
 
-        $topics = $subject->topics()->where('parent_id', '=', '0')->get();
+        $topics = $subject->topics();
+
+
 
         $courseOfSubject = App\CourseSubject::where('subject_id', $subject->id)->first(['course_parent_id']);
         $courseOfSubjectId = $courseOfSubject != null ? $courseOfSubject->course_parent_id : '';
