@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function () {
-        var total= parseInt("{{$total}}");
+        var total= 0;
         $('.expenses').on('change', function () {
             if ($(this).prop('checked') == true) {
                 total = total + parseInt($(this).val());

@@ -232,7 +232,27 @@ class DuesController extends Controller
             $paypal->invoice = $token;
             $paypal->add('academic_expenses', $request->your_money); //ADD  item
             $paypal->pay(); //Proccess the payment
+        }
+        if ($gateway == 'offline') {
 
+            if (!getSetting('offline_payment', 'module')) {
+                flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
+                return back();
+            }
+
+            $payment_data = [];
+            foreach (Input::all() as $key => $value) {
+                if ($key == '_token') {
+                    continue;
+                }
+                $payment_data[$key] = $value;
+            }
+
+            $data['active_class'] = 'feedback';
+            $data['payment_data'] = json_encode($payment_data);
+            $data['layout'] = getLayout();
+            $data['title'] = getPhrase('offline_payment');
+            return view('payments.offline-payment', $data);
 
         }
     }
