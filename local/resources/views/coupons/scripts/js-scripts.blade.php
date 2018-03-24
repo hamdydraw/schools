@@ -13,7 +13,7 @@ app.controller('couponsController', function( $scope, $http) {
 
         $scope.ngdiscount = 0;
 
-        $scope.ngtotal = {{$item->cost}};
+        $scope.ngtotal = '{{$item->cost}}';
 
          $scope.isApplied = false;
 

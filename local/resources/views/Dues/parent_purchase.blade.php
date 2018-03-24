@@ -1,7 +1,7 @@
 @extends($layout)
 @section('content')
     <?php $due_types = array('select', 'mandatory', 'optional'); ?>
-    <div id="page-wrapper">
+    <div id="page-wrapper" ng-controller="couponsController">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
@@ -13,41 +13,75 @@
             </div>
         </div>
         <div class="container-fluid" style="margin-top: 50px; margin-right: 200px;">
+            <?php
+            if (isset($dues_purchase)) {
+                $specifications = json_decode($dues_purchase->specifications, true);
+            }
+            ?>
+            {{ Form::open(array('url' => 'parent/purchase-expenses/pay/'.$slug, 'method'=>'post')) }}
+            {{csrf_field()}}
             @if(isset($schoolExpenses) and count($schoolExpenses) > 0)
-                @foreach($schoolExpenses as $expens)
-                    <input type="checkbox" id="{{$expens->id}}" class="expenses"
-                           @if($expens->due_type == 'mandatory') checked="" disabled
-                           @endif value="{{$expens->due_value}}">
-                    <label for="{{$expens->id}}">
+                @foreach($schoolExpenses as $expense)
+                    <input type="checkbox" id="{{$expense->id}}" class="expenses" name="expenses[]"
+                           @if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) checked=""
+                           disabled
+                           @endif value="{{$expense->due_value.'/'.$expense->title}}">
+                    <label for="{{$expense->id}}">
                         <span class="fa-stack checkbox-button"> <i class="mdi mdi-check active"></i> </span> <b
-                                style="color: red;">{{$expens->title}}</b> {{'  '.getPhrase('and_his_value_is').'   '}}
-                        <b style="color: red;">{{$expens->due_value}}</b>
+                                style="color: red;">{{$expense->title}}</b> {{'  '.getPhrase('and_his_value_is').'   '}}
+                        <b style="color: red;">{{$expense->due_value}}</b>
                     </label>
-                    <br><span class="text-danger">{{ getPhrase('this_must_be_paid')}}</span><br><br>
+                    <br><span
+                            class="text-danger">@if($expense->due_type == 'mandatory'){{ getPhrase('mandatory')}}@endif</span>
+                    <br><span
+                            class="text-danger">@if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) {{ getPhrase('payed_before')}}@endif</span>
+                    <br><br>
                 @endforeach
             @endif
-            <h3>{{getPhrase('must_paid')}}: <span id="must-paid">{{$total}}</span></h3>
-            <h3>{{getPhrase('total')}}: <span id="total">{{$total}}</span></h3>
+            <h3>{{getPhrase('total')}}: <span id="total">0</span></h3>
+            <div class="row">
+                <fieldset class="form-group col-md-3">
+                    {{ Form::label('your_money', getphrase('your_money')) }}
+                    <span class="text-red">*</span>
+                    {{ Form::number('your_money', $value = null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => getPhrase('your_money'),'id'=>'your_money')) }}
+                </fieldset>
+            </div>
+            @if(Module_state('coupons'))
+                <div class="row">
+                    <fieldset class="form-group col-md-3">
+                        {{ Form::label('coupon', getphrase('coupon')) }}
+                        <span class="text-red">*</span>
+                        <button class="btn btn-success button apply-input-button"
+                                ng-click="validateCoupon('{{$item->slug}}','{{$item_type}}', {{$item->cost}}, {{$selected_child_id}})"
+                                type="button"
+                                ng-disabled="isApplied">{{getPhrase('apply')}}</button>
+                    </fieldset>
+                </div>
+            @endif
+            <input type="hidden" value="" id="gateway" name="gateway">
             <div style="margin-right: 300px;">
-                @if($settingsModule->payu->value == 1)
+                @if(!isset($dues_purchase) or (isset($dues_purchase) and isset($schoolExpenses) and count($specifications['dues_title']) != count($schoolExpenses)))
+                    @if($settingsModule->payu->value == 1)
 
-                    <button type="submit"
-                            class="btn-lg btn button btn-card"><i
-                                class=" icon-credit-card"></i> {{getPhrase('payu')}}</button>
-                @endif
+                        <button type="submit"
+                                class="btn-lg btn button btn-card" id="payu"><i
+                                    class=" icon-credit-card"></i> {{getPhrase('payu')}}</button>
+                    @endif
 
-                @if($settingsModule->paypal->value == 1)
-                    <button type="submit" class="btn-lg btn button btn-paypal"><i
-                                class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
-                @endif
-                @if($settingsModule->offline_payment->value == 1)
-                    <button type="submit" class="btn-lg btn button btn-info"
-                            title="{{ getPhrase('click_here_to_update_payment_details') }}"><i
-                                class="fa fa-money"></i> {{getPhrase('offline_payment')}}
-                    </button>
+                    @if($settingsModule->paypal->value == 1)
+                        <button type="submit" class="btn-lg btn button btn-paypal" id="paypal"><i
+                                    class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
+                    @endif
+                    @if($settingsModule->offline_payment->value == 1)
+                        <button type="submit" class="btn-lg btn button btn-info"
+                                title="{{ getPhrase('click_here_to_update_payment_details') }}"><i
+                                    class="fa fa-money"></i> {{getPhrase('offline_payment')}}
+                        </button>
 
+                    @endif
                 @endif
             </div>
+            {{ Form::close() }}
         </div>
     </div>
 @stop

@@ -12,7 +12,7 @@ class Subject extends Model
 
     public function topics()
     {
-    	return $this->hasMany('App\Topic');
+    	return Topic::all();
     }
 
     protected static function boot()

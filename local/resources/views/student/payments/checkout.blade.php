@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div id="page-wrapper" ng-init="intilizeData({{$item}})" ng-controller="couponsController">
+    <div id="page-wrapper" ng-init="intilizeData('{{$item}}')" ng-controller="couponsController">
 
         {!! Form::open(array('url' => URL_PAYNOW.$item->slug, 'method' => 'POST', 'id'=>'payform')) !!}
 
@@ -185,7 +185,7 @@
                                             <span class="input-group-btn">
 
               								<button class="btn btn-success button apply-input-button"
-                                                    ng-click="validateCoupon('{{$item->slug}}','{{$item_type}}', {{$item->cost}}, {{$selected_child_id}})"
+                                                    ng-click="validateCoupon('{{$item->slug}}','{{$item_type}}', '{{$item->cost}}', '{{$selected_child_id}}')"
                                                     type="button"
                                                     ng-disabled="isApplied">{{getPhrase('apply')}}</button>
 
