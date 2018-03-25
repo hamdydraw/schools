@@ -571,6 +571,7 @@ class ExamSeriesController extends Controller
                     ->whereIn('category_id', (array)$interested_categories->quiz_categories)
                     ->paginate(getRecordsPerPage());
             }
+            return $interested_categories;
         }
         $data['layout'] = getLayout();
         $data['user'] = $user;
