@@ -12,7 +12,7 @@ class Subject extends Model
 
     public function topics()
     {
-    	return Topic::all();
+    	return Topic::where('parent_id' , '=' , '0')->get();
     }
 
     protected static function boot()

@@ -8,6 +8,7 @@
  */
 
 use Illuminate\Support\Facades\Auth;
+use App\Topic;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1133,4 +1134,10 @@ function get_main_tables(){
         }
     }
     return $main_tables;
+}
+
+
+function subTopics($id)
+{
+    return Topic::where('parent_id', '=', $id)->get();
 }
