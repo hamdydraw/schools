@@ -66,8 +66,8 @@ class QuizCategoryController extends Controller
           return back();
         }
 
-         $records = QuizCategory::select([
-         	'category', 'image', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
+         $records = QuizCategory::join('courses','quizcategories.course_id','=','courses.id')->select([
+         	'quizcategories.category','courses.course_title', 'quizcategories.image', 'quizcategories.description', 'quizcategories.id','quizcategories.slug','quizcategories.created_by_user','quizcategories.updated_by_user','quizcategories.created_by_ip','quizcategories.updated_by_ip','quizcategories.created_at','quizcategories.updated_at'])
          ->orderBy('updated_at', 'desc');
         $this->setExamSettings();
         return Datatables::of($records)
@@ -129,6 +129,8 @@ class QuizCategoryController extends Controller
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('create_category');
         $data['module_helper']      = getModuleHelper('create-quiz-category');
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = null;
     	return view('exams.quizcategories.add-edit', $data);
     }
 
@@ -150,6 +152,8 @@ class QuizCategoryController extends Controller
     		return redirect($isValid);
 
     	$data['record']       		= $record;
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = $record->course_id;
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('edit_category');
     	return view('exams.quizcategories.add-edit', $data);
@@ -172,7 +176,8 @@ class QuizCategoryController extends Controller
     	$record = QuizCategory::getRecordWithSlug($slug);
 		$rules = [
          'category'          => 'bail|required|max:60',
-          'catimage'         => 'bail|mimes:png,jpg,jpeg|max:2048'
+          'catimage'         => 'bail|mimes:png,jpg,jpeg|max:2048',
+            'course_name' => 'required'
           ];
          /**
         * Check if the title of the record is changed,
@@ -187,6 +192,7 @@ class QuizCategoryController extends Controller
     	$record->category 			= $name;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->course_id          = $request->course_name;
         $record->update_stamp($request);
         $record->save();
  		 $file_name = 'catimage';
@@ -220,7 +226,8 @@ class QuizCategoryController extends Controller
 // catimage
 	    $rules = [
          'category'          	   => 'bail|required|max:60' ,
-         'catimage'                => 'bail|mimes:png,jpg,jpeg|max:2048'
+         'catimage'                => 'bail|mimes:png,jpg,jpeg|max:2048',
+            'course_name'    => 'required'
             ];
         $this->validate($request, $rules);
         $record = new QuizCategory();
@@ -229,6 +236,7 @@ class QuizCategoryController extends Controller
        	$record->slug 				= $record->makeSlug($name);
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
+        $record->course_id          = $request->course_name;
         $record->user_stamp($request);
         $record->save();
  		 $file_name = 'catimage';

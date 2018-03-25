@@ -85,8 +85,8 @@ class LmsCategoryController extends Controller
             return back();
         }
 
-         $records = LmsCategory::select([
-         	'category', 'image', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+         $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')->select([
+         	'lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at']);
         $this->setSettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -142,6 +142,8 @@ class LmsCategoryController extends Controller
     	$data['active_class']       = 'lms';
     	$data['title']              = getPhrase('create_category');
         $data['module_helper']      = getModuleHelper('lms-categories-create');
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = null;
     	return view('lms.lmscategories.add-edit', $data);
     }
 
@@ -162,6 +164,8 @@ class LmsCategoryController extends Controller
     		return redirect($isValid);
 
     	$data['record']       		= $record;
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = $record->course_id;
     	$data['active_class']       = 'lms';
     	$data['title']              = getPhrase('edit_category');
     	return view('lms.lmscategories.add-edit', $data);
@@ -198,6 +202,7 @@ class LmsCategoryController extends Controller
        $this->validate($request, $rules);
     	$record->category 			= $name;
         $record->description		= $request->description;
+        $record->course_id          = $request->course_name;
         $record->record_updated_by 	= Auth::user()->id;
         $record->update_stamp($request);
         $record->save();
@@ -239,6 +244,7 @@ class LmsCategoryController extends Controller
 		$record->category 			= $name;
        	$record->slug 				= $record->makeSlug($name,TRUE);
         $record->description		= $request->description;
+        $record->course_id          = $request->course_name;
         $record->record_updated_by 	= Auth::user()->id;
         $record->user_stamp($request);
         $record->save();

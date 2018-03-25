@@ -45,9 +45,9 @@
 						{{ Form::model($record,
 						array('url' => URL_USERS_SETTINGS.$record->slug,
 						'method'=>'patch','novalidate'=>'','name'=>'formUsers ', 'files'=>'true' )) }}
-
-					<h1>{{getPhrase('quiz_and_exam_series')}}</h1>
-
+						 @if(count($quiz_categories) != 0)
+					<h1>{{getPhrase('exam_categories')}}</h1>
+						 @endif
 					<div class="row">
 					@foreach($quiz_categories as $category)
  				<?php
@@ -100,9 +100,9 @@
 							 @endforeach
 
 						 </div>
-
+						 @if(count($lms_category) != 0)
 				 	<h1> {{getPhrase('lms_categories')}}</h1>
-
+					@endif
 					<div class="row">
 					@foreach($lms_category as $category)
  					<?php
