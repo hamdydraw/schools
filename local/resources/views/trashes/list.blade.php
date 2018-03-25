@@ -28,6 +28,7 @@
                             <tr>
                                 <th>{{ getPhrase('id')}}</th>
                                 <th>{{ getPhrase('title')}}</th>
+                                <th>{{ getPhrase('table_name')}}</th>
                                 <th>{{ getPhrase('slug')}}</th>
                                 <th>{{ getPhrase('Deleted_at')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
