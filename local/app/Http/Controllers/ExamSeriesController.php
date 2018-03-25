@@ -571,7 +571,6 @@ class ExamSeriesController extends Controller
                     ->whereIn('category_id', (array)$interested_categories->quiz_categories)
                     ->paginate(getRecordsPerPage());
             }
-            return \GuzzleHttp\json_encode($interested_categories);
         }
         $data['layout'] = getLayout();
         $data['user'] = $user;
