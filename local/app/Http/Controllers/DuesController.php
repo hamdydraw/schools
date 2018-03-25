@@ -179,6 +179,16 @@ class DuesController extends Controller
             }
 
             $token = $this->storePurchase($request, $slug);
+            $payment = new Payment();
+            $payment->slug = $payment->makeSlug(getHashCode());
+            $payment->item_name = $items;
+            $payment->user_id=$userRecord->id;
+            $payment->plan_type='academic_expenses';
+            $payment->payment_gateway='payu';
+            $payment->paid_by_parent=1;
+            $payment->payment_status = PAYMENT_STATUS_PENDING;
+            $token=$payment->slug;
+            $payment->save();
             $config = config();
             $payumoney = $config['indipay']['payumoney'];
 
@@ -197,15 +207,7 @@ class DuesController extends Controller
                 'surl' => URL_PAYU_PAYMENT_SUCCESS . '?token=' . $token,
                 'furl' => URL_PAYU_PAYMENT_CANCEL . '?token=' . $token,
             ];
-            $payment = new Payment();
-            $payment->slug = $payment->makeSlug(getHashCode());
-            $payment->item_name = $items;
-            $payment->user_id=$userRecord->id;
-            $payment->plan_type='academic_expenses';
-            $payment->payment_gateway='payu';
-            $payment->paid_by_parent=1;
-            $payment->payment_status = PAYMENT_STATUS_PENDING;
-            $payment->save();
+
             return Indipay::purchase($parameters);
 
             // URL_PAYU_PAYMENT_SUCCESS
@@ -224,6 +226,7 @@ class DuesController extends Controller
             $payment->payment_gateway='paypal';
             $payment->paid_by_parent=1;
             $payment->payment_status = PAYMENT_STATUS_PENDING;
+            $token=$payment->slug;
             $payment->save();
 
             $paypal = new Paypal();
