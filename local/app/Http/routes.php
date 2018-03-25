@@ -716,9 +716,7 @@ Route::group(['middleware' => 'stopOrOn:offline_payment'], function () {
 Route::post('payments-report/export', 'PaymentsController@doExportPayments');
 
 Route::post('payments-report/getRecord', 'PaymentsController@getPaymentRecord');
-Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:OfflinePayment'],
-    'PaymentsController@approveOfflinePayment');
-
+Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:offline_payment','uses' => 'PaymentsController@approveOfflinePayment']);
 //////////////////
 // INSTRUCTIONS  //
 //////////////////
