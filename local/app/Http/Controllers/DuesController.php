@@ -27,7 +27,7 @@ class DuesController extends Controller
     {
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['title'] = getPhrase('academic_dues');
+        $data['title'] = getPhrase('academic_dues_of_academic');
         return view('Dues.all_dues', $data);
     }
 
@@ -331,5 +331,66 @@ class DuesController extends Controller
             flash(getPhrase('success'), getPhrase("payed_successfully"), 'success');
             return $dues_purchase_instance->makeSlug(getHashCode());
         }
+    }
+    public function createRapidExpenses()
+    {
+        $data['layout'] = getLayout();
+        $data['active_class'] = 'academic';
+        $data['title'] = getPhrase('add_rapid_expenses');
+        return view('Dues.rapid_add', $data);
+    }
+    public function storeRapidExpenses(Request $request)
+    {
+        $instance = new AcademicDues();
+        $instance->title = $request->title;
+        $instance->user_stamp($request);
+        $instance->save();
+        flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
+        return redirect()->back();
+    }
+    public function getAllRapidExpenses()
+    {
+        $data['layout'] = getLayout();
+        $data['active_class'] = 'academic';
+        $data['title'] = getPhrase('academic_dues');
+        return view('Dues.all-rapid-expenses', $data);
+    }
+    public function getAllRapidExpensesDatatable()
+    {
+        $records = AcademicDues::select(['id','title'])->get();
+        return Datatables::of($records)
+            ->editColumn('title', function ($record) {
+                return getPhrase($record->title);
+            })->addColumn('action', function ($records) {
+                return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li><a href="rapid_edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
+                           
+                            <li><a href="dues/delete/' . $records->id . '"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
+                            
+                        </ul>
+                    </div>';
+            })
+            ->removeColumn('id')
+            ->make();
+    }
+    public function editRapidExpenses($id)
+    {
+        $data['record']=AcademicDues::find($id);
+        $data['layout'] = getLayout();
+        $data['active_class'] = 'academic';
+        $data['title'] = getPhrase('edit_rapid_expenses');
+        return view('Dues.rapid_add', $data);
+    }
+    public function UpdateRapidExpenses(Request $request,$id)
+    {
+        $instance = AcademicDues::find($id);
+        $instance->title=$request->title;
+        $instance->update();
+        flash(getPhrase('success'), getPhrase("updated_successfully"), 'success');
+        return redirect()->back();
     }
 }

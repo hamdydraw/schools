@@ -86,5 +86,5 @@
     </div>
 @stop
 @section('footer_scripts')
-    @include('Dues.js-script',array('total'=>$total))
+    @include('Dues.js-script')
 @stop
