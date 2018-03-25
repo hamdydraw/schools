@@ -611,10 +611,13 @@ Route::get('exams/categories/getList', [
 // Quiz Student Categories
 Route::get('exams/student/categories', 'StudentQuizController@index');
 Route::get('exams/student/exams/{slug?}', 'StudentQuizController@exams');
+Route::get('offline-exams/student/exams/{slug?}', 'StudentQuizController@offline_exams');
 Route::get('exams/student/quiz/getList/{slug?}', 'StudentQuizController@getDatatable');
+Route::get('exams/student/offline-quiz/getList/{slug?}', 'StudentQuizController@getofflineDatatable');
 Route::get('exams/student/quiz/take-exam/{slug?}', 'StudentQuizController@instructions');
 Route::post('exams/student/start-exam/{slug}', 'StudentQuizController@startExam');
 Route::get('exams/student/start-exam/{slug}', 'StudentQuizController@index');
+Route::get('exams/student/offline-quiz-category', 'OfflineQuizCategoriesController@student_index');
 
 Route::get('exams/student/get-scheduled-exams/{slug}', 'StudentQuizController@getScheduledExams');
 Route::get('exams/student/load-scheduled-exams/{slug}', 'StudentQuizController@loadScheduledExams');

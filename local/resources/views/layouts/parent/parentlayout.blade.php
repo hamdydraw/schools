@@ -278,7 +278,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 						<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('exam_categories') }}</a></li>
 
 						<li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"> <i class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
-						<li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
+						<li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
 							</a></li>
 					</ul>
 					</li>

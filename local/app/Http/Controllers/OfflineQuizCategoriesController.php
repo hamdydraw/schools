@@ -12,6 +12,10 @@ use DB;
 use App\OfflineQuizCategories;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+
+
 class OfflineQuizCategoriesController extends Controller
 {
 
@@ -32,6 +36,11 @@ class OfflineQuizCategoriesController extends Controller
      */
     public function index()
     {
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
         $data['active_class']       = 'exams';
         $data['title']              = getPhrase('offline_quiz_categories');
         $data['layout']             = getLayout();
@@ -40,6 +49,29 @@ class OfflineQuizCategoriesController extends Controller
     	return view('offlineexams.quizcategories.list', $data);
     }
 
+
+    public function student_index(){
+
+        if (!checkRole(getUserGrade(13))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['active_class'] = 'exams';
+        $data['title'] = getPhrase('offline_exam_categories');
+        $data['layout'] = getLayout();
+        $data['categories'] = [];
+        $record = User::where('id', Auth::user()->id)->first();
+        if ($record->settings) {
+            $options = json_decode($record->settings)->user_preferences;
+
+        }
+        $ids = $options->offline_categories;
+        $data['categories'] = App\OfflineQuizCategories::whereIn('id',$ids)->get();
+
+        return view('student.exams.offline-categories', $data);
+
+    }
     /**
      * This method returns the datatables data to view
      * @return [type] [description]
@@ -95,6 +127,11 @@ class OfflineQuizCategoriesController extends Controller
      */
     public function create()
     {
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('add_Category');
