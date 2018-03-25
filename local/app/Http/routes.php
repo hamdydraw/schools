@@ -263,15 +263,27 @@ Route::get('mastersettings/skills/getList', [
 //academic_dues
 Route::get('mastersettings/dues','DuesController@index');
 Route::get('mastersettings/dues/create','DuesController@create');
+
 Route::post('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
 Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
+
 Route::get('mastersettings/dues/getList', [
     'as' => 'dues.dataTable',
     'uses' => 'DuesController@getDatatable'
+]);
+
+Route::get('mastersettings/dues/rapid_add','DuesController@createRapidExpenses');
+Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpenses');
+Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
+Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
+Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::get('mastersettings/dues-expenses-rapid/getList', [
+    'as' => 'duesExpensesRapid.dataTable',
+    'uses' => 'DuesController@getAllRapidExpensesDatatable'
 ]);
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');

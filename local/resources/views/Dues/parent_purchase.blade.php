@@ -48,14 +48,14 @@
             </div>
             @if(Module_state('coupons'))
                 <div class="row">
-                    <fieldset class="form-group col-md-3">
+                    {{--<fieldset class="form-group col-md-3">
                         {{ Form::label('coupon', getphrase('coupon')) }}
                         <span class="text-red">*</span>
                         <button class="btn btn-success button apply-input-button"
-                                ng-click="validateCoupon('{{$item->slug}}','{{$item_type}}', {{$item->cost}}, {{$selected_child_id}})"
+                                ng-click=""
                                 type="button"
                                 ng-disabled="isApplied">{{getPhrase('apply')}}</button>
-                    </fieldset>
+                    </fieldset>--}}
                 </div>
             @endif
             <input type="hidden" value="" id="gateway" name="gateway">
@@ -86,5 +86,5 @@
     </div>
 @stop
 @section('footer_scripts')
-    @include('Dues.js-script',array('total'=>$total))
+    @include('Dues.js-script')
 @stop
