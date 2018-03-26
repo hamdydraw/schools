@@ -652,6 +652,11 @@ text-align: right;
  appearance: none;
  background: url(../images/select-arrow.png) no-repeat left top;
  min-width: 80px;
+
+ }
+ #opt
+ {
+  font-weight: bold;
  }
  .form-control:focus {
  border-color: #66afe9;
