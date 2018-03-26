@@ -10,6 +10,7 @@
 use Illuminate\Support\Facades\Auth;
 use App\Student;
 use App\User;
+use App\Topic;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1167,4 +1168,9 @@ function get_courses(){
         return false;
     }
     return $courses;
+}
+
+function subTopics($id)
+{
+    return Topic::where('parent_id', '=', $id)->get();
 }
