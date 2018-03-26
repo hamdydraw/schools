@@ -1160,6 +1160,7 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 Route::get('trashes/list', 'TrashesController@index');
 Route::get('trashes/getList', 'TrashesController@getDatatable');
 Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
+Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
 
 
 
