@@ -70,6 +70,8 @@
 
 									<th>{{ getPhrase('duration')}}</th>
 
+									<th>{{ getPhrase('academic_year') }}</th>
+
 									<th>{{ getPhrase('category')}}</th>
 
 									<th>{{ getPhrase('is_paid')}}</th>

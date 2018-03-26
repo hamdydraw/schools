@@ -89,11 +89,14 @@ class QuizController extends Controller
             if(is_teacher()){
                 $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
                     ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                    ->join('courses','quizcategories.course_id','=','courses.id')
                     ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                    ->where('quizzes.type','=','online')
                     ->select([
                         'type',
                         'title',
                         'dueration',
+                        'courses.course_title',
                         'quizcategories.category',
                         'is_paid',
                         'total_marks',
@@ -107,10 +110,13 @@ class QuizController extends Controller
 
             }else {
                 $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                    ->join('courses','quizcategories.course_id','=','courses.id')
+                    ->where('quizzes.type','=','online')
                     ->select([
                         'type',
                         'title',
                         'dueration',
+                        'courses.course_title',
                         'quizcategories.category',
                         'is_paid',
                         'total_marks',
@@ -127,10 +133,13 @@ class QuizController extends Controller
         } else {
             $category = QuizCategory::getRecordWithSlug($slug);
             $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                ->join('courses','quizcategories.course_id','=','courses.id')
+                ->where('quizzes.type','=','online')
                 ->select([
                     'type',
                     'title',
                     'dueration',
+                    'courses.course_title',
                     'quizcategories.category',
                     'is_paid',
                     'total_marks',

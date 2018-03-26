@@ -32,10 +32,11 @@
 							<thead>
 								<tr>
 									<th id="helper_step2">{{ getPhrase('title')}}</th>
+									<th>{{ getPhrase('category') }}</th>
+									<th>{{ getPhrase('academic_year') }}</th>
 									<th>{{ getPhrase('image')}}</th>
 									<th>{{ getPhrase('is_paid')}}</th>
 									<th>{{ getPhrase('cost')}}</th>
-									<th>{{ getPhrase('validity')}}</th>
 									<th>{{ getPhrase('total_exams')}}</th>
 									<th>{{ getPhrase('total_questions')}}</th>
 
