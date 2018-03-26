@@ -303,7 +303,7 @@ class QuestionBankController extends Controller
         }
 
 
-        $data['topics'] = array_pluck($topics, 'topic_name', 'id');
+        $data['topics'] = $topics;
         $data['record'] = false;
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('upload_question');
@@ -362,7 +362,7 @@ class QuestionBankController extends Controller
         $settings['answers'] = json_decode($record->answers);
 
         // dd($settings);
-        $data['topics'] = array_pluck($topics, 'topic_name', 'id');
+        $data['topics'] = $topics;
         $data['record'] = $record;
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('edit_question');
