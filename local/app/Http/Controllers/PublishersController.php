@@ -47,7 +47,7 @@ class PublishersController extends Controller
 
 
          $records = Publisher::select([
-         	'publisher', 'country', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+         	'name', 'country', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -162,7 +162,7 @@ class PublishersController extends Controller
 
        //Validate the overall request
        $this->validate($request, $rules);
-        $record->publisher 			= $name;
+        $record->name 			= $name;
         $record->country			= $request->country;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
@@ -191,7 +191,7 @@ class PublishersController extends Controller
 
         $record = new Publisher();
       	$name  						=  $request->publisher;
-	      $record->publisher 			= $name;
+	      $record->name 			= $name;
        	$record->slug 				= $record->makeSlug($name);
         $record->country				= $request->country;
         $record->description		= $request->description;

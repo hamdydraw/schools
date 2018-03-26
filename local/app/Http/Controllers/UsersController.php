@@ -1614,10 +1614,11 @@ class UsersController extends Controller
                 }
             }
         }
-
+        $courses = get_courses();
         $data['record'] = $record;
-        $data['quiz_categories'] = App\QuizCategory::get();
-        $data['lms_category'] = App\LmsCategory::get();
+        $data['quiz_categories'] = App\QuizCategory::whereIn('course_id',$courses)->get();
+        $data['lms_category'] = App\LmsCategory::whereIn('course_id',$courses)->get();
+        $data['offline_category'] = App\OfflineQuizCategories::whereIn('course_id',$courses)->get();
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
         $data['heading'] = getPhrase('account_settings');
@@ -1680,6 +1681,8 @@ class UsersController extends Controller
 
         $options['quiz_categories'] = [];
         $options['lms_categories'] = [];
+        $options['offline_categories'] = [];
+        //offline_categories
         if ($request->has('quiz_categories')) {
             foreach ($request->quiz_categories as $key => $value) {
                 $options['quiz_categories'][] = $key;
@@ -1688,6 +1691,11 @@ class UsersController extends Controller
         if ($request->has('lms_categories')) {
             foreach ($request->lms_categories as $key => $value) {
                 $options['lms_categories'][] = $key;
+            }
+        }
+        if ($request->has('offline_categories')) {
+            foreach ($request->offline_categories as $key => $value) {
+                $options['offline_categories'][] = $key;
             }
         }
 

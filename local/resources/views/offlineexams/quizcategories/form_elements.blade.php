@@ -29,6 +29,13 @@
 	    					{!! getValidationMessage('maxlength')!!}
            
 						</div>
+
+
+						{{ Form::label('course_name', getphrase('academic_year')) }}
+
+						{{Form::select('course_name',$classes , $default_class, [
+						'class'=>'form-control'
+						 ])}}
  					 
 						<div class="buttons text-center">
 

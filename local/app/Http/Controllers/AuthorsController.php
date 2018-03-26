@@ -43,7 +43,7 @@ class AuthorsController extends Controller
     {
 
          $records = Author::select([
-         	'author', 'gender', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+         	'name', 'gender', 'description', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -145,7 +145,7 @@ class AuthorsController extends Controller
 
        //Validate the overall request
        $this->validate($request, $rules);
-        $record->author 			= $name;
+        $record->name 			    = $name;
         $record->gender				= $request->gender;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;
@@ -168,7 +168,7 @@ class AuthorsController extends Controller
             ];
         $record = new Author();
       	$name  						=  $request->author;
-		$record->author 			= $name;
+		$record->name   			= $name;
        	$record->slug 				= $record->makeSlug($name);
         $record->gender				= $request->gender;
         $record->description		= $request->description;

@@ -417,6 +417,7 @@ define('URL_STUDENT_ANALYSIS_SUBJECT', PREFIX.'student/analysis/subject/');
 define('URL_STUDENT_ANALYSIS_BY_EXAM', PREFIX.'student/analysis/by-exam/');
 define('URL_STUDENT_SUBSCRIPTIONS_PLANS', PREFIX.'subscription/plans');
 define('URL_STUDENT_LIST_INVOICES', PREFIX.'subscription/list-invoices/');
+define('URL_STUDENT_EXAM_OFFLINE_EXAMS', PREFIX.'exams/student/offline-quiz-category');
 
 
 define('URL_STUDENT_PROFILE', PREFIX.'student/profile/');
@@ -435,7 +436,9 @@ define('URL_STUDENT_COURSE_SEMISTER', PREFIX.'student/course-semister/');
 ///////////////////
 define('URL_STUDENT_EXAM_ALL', PREFIX.'exams/student/exams/all');
 define('URL_STUDENT_EXAMS', PREFIX.'exams/student/exams/');
+define('URL_STUDENT_OFFLINE_EXAMS', PREFIX.'offline-exams/student/exams/');
 define('URL_STUDENT_QUIZ_GETLIST', PREFIX.'exams/student/quiz/getList/');
+define('URL_STUDENT_OFFLINE_QUIZ_GETLIST', PREFIX.'exams/student/offline-quiz/getList/');
 define('URL_STUDENT_QUIZ_GETLIST_ALL', PREFIX.'exams/student/quiz/getList/all');
 define('URL_STUDENT_TAKE_EXAM', PREFIX.'exams/student/quiz/take-exam/');
 define('URL_STUDENT_EXAM_GETATTEMPTS', PREFIX.'exams/student/get-exam-attempts/');

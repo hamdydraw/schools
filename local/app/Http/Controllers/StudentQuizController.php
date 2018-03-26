@@ -102,6 +102,111 @@ class StudentQuizController extends Controller
         return view('student.exams.list', $data);
     }
 
+    public function offline_exams($slug = ''){
+
+        $category = false;
+        if ($slug) {
+            $category = App\OfflineQuizCategories::where('slug',$slug)->first();
+        }
+
+        $data['category'] = $category;
+        $data['active_class'] = 'exams';
+        $data['user'] = false;
+        $data['title'] = getphrase('all_exams');
+
+        if ($category) {
+            $data['title'] = $category->title;
+        }
+        $data['layout'] = getLayout();
+
+
+        return view('student.offline-exams.list', $data);
+    }
+
+    public function getofflineDatatable($slug){
+        if ($slug) {
+            $category = App\OfflineQuizCategories::where('slug',$slug)->first();
+        }
+        $records = Quiz::join('quizofflinecategories', 'quizzes.category_id', '=', 'quizofflinecategories.id')
+            ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+            ->select([
+                'quizzes.title',
+                'dueration',
+                'quizofflinecategories.title as category',
+                'is_paid',
+                'total_marks',
+                'quizzes.slug',
+                'quizzes.validity',
+                'quizzes.cost'
+            ])
+            ->where('quizzes.category_id', '=', $category->id)
+            ->where('quizzes.type','=','offline')
+            ->where('start_date','<=',date('Y-m-d H:i:s'))
+            ->where('end_date','>=',date('Y-m-d H:i:s'))
+            ->where('total_questions','>','0')
+            ->where('applicable_to_specific', '=', 1);
+
+        return Datatables::of($records)
+            ->addColumn('action', function ($records) {
+
+                if (!checkRole(['student'])) {
+                    if ($records->is_paid) {
+                        return '<a href="' . URL_PAYMENTS_CHECKOUT . 'exam/' . $records->slug . '">' . getPhrase('buy_now') . '</a>';
+                    } else {
+                        return '-';
+                    }
+                }
+                return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li><a onClick="showInstructions(\'' . URL_STUDENT_TAKE_EXAM . $records->slug . '\')" href="javascript:void(0);"><i class="fa fa-pencil"></i>' . getPhrase("take_exam") . '</a></li>
+
+                        </ul>
+                    </div>';
+
+            })
+            ->editColumn('is_paid', function ($records) {
+                $status = ($records->is_paid) ? '<span class="label label-primary">' . getPhrase('paid') . '</span>' : '<span class="label label-success">' . getPhrase('free') . '</span>';
+
+                if ($records->is_paid) {
+                    $extra = '<ul class="list-unstyled payment-col clearfix"><li>' . $status . '</li>';
+                    $extra .= '<li><p>Cost: ' . getCurrencyCode() . ' ' . $records->cost . '</p><p>Validity: ' . $records->validity . ' ' . getPhrase("days") . '</p></li></ul>';
+                    return $extra;
+                }
+                return $status;
+
+            })
+            ->editColumn('dueration', function ($records) {
+                return $records->dueration . ' ' . getPhrase('mins');
+            })
+            ->editColumn('title', function ($records) {
+                if (!checkRole(['student'])) {
+                    if ($records->is_paid) {
+                        return '<a href="' . URL_PAYMENTS_CHECKOUT . 'exam/' . $records->slug . '">' . $records->title . '</a>';
+                    }
+                    return $records->title;
+                }
+
+                $paid_type = false;
+                if ($records->is_paid && !isItemPurchased($records->id, 'exam')) {
+                    $paid_type = true;
+                }
+
+
+                return '<a onClick="showInstructions(\'' . URL_STUDENT_TAKE_EXAM . $records->slug . '\')" href="javascript:void(0);">' . $records->title . '</a>';
+
+            })
+            ->removeColumn('tags')
+            ->removeColumn('id')
+            ->removeColumn('slug')
+            ->removeColumn('validity')
+            ->removeColumn('cost')
+            ->make();
+
+    }
+
     /**
      * Displays the instructions before start of the exam
      * @param  [type] $slug [description]
@@ -833,6 +938,7 @@ class StudentQuizController extends Controller
                     'quizzes.cost'
                 ])
                 ->where('quizzes.category_id', '=', $category->id)
+                ->where('quizzes.type','!=','offline')
                 ->where('start_date','<=',date('Y-m-d H:i:s'))
                 ->where('end_date','>=',date('Y-m-d H:i:s'))
                 ->where('total_questions','>','0')

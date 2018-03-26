@@ -12,6 +12,10 @@ use DB;
 use App\OfflineQuizCategories;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+
+
 class OfflineQuizCategoriesController extends Controller
 {
 
@@ -32,6 +36,11 @@ class OfflineQuizCategoriesController extends Controller
      */
     public function index()
     {
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
         $data['active_class']       = 'exams';
         $data['title']              = getPhrase('offline_quiz_categories');
         $data['layout']             = getLayout();
@@ -40,6 +49,29 @@ class OfflineQuizCategoriesController extends Controller
     	return view('offlineexams.quizcategories.list', $data);
     }
 
+
+    public function student_index(){
+
+        if (!checkRole(getUserGrade(13))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['active_class'] = 'exams';
+        $data['title'] = getPhrase('offline_exam_categories');
+        $data['layout'] = getLayout();
+        $data['categories'] = [];
+        $record = User::where('id', Auth::user()->id)->first();
+        if ($record->settings) {
+            $options = json_decode($record->settings)->user_preferences;
+
+        }
+        $ids = $options->offline_categories;
+        $data['categories'] = App\OfflineQuizCategories::whereIn('id',$ids)->get();
+
+        return view('student.exams.offline-categories', $data);
+
+    }
     /**
      * This method returns the datatables data to view
      * @return [type] [description]
@@ -47,7 +79,17 @@ class OfflineQuizCategoriesController extends Controller
     public function getDatatable()
     {
 
-         $records = OfflineQuizCategories::select(['id','title','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+         $records = OfflineQuizCategories::join('courses','quizofflinecategories.course_id','=','courses.id')
+                                        ->select(['quizofflinecategories.id',
+                                                  'quizofflinecategories.title',
+                                                  'courses.course_title',
+                                                  'quizofflinecategories.slug',
+                                                  'quizofflinecategories.created_by_user',
+                                                  'quizofflinecategories.updated_by_user',
+                                                  'quizofflinecategories.created_by_ip',
+                                                  'quizofflinecategories.updated_by_ip',
+                                                  'quizofflinecategories.created_at',
+                                                  'quizofflinecategories.updated_at']);
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {
@@ -85,11 +127,18 @@ class OfflineQuizCategoriesController extends Controller
      */
     public function create()
     {
+        if(!checkRole(getUserGrade(3)))
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
     	$data['record']         	= FALSE;
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('add_Category');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('create-category');
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = null;
     	return view('offlineexams.quizcategories.add-edit', $data);
     }
 
@@ -106,6 +155,8 @@ class OfflineQuizCategoriesController extends Controller
         $data['title']              = getPhrase('edit_Category');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('create-category');
+        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $data['default_class']      = $record->course_id;
     	return view('offlineexams.quizcategories.add-edit', $data);
     }
 
@@ -121,10 +172,12 @@ class OfflineQuizCategoriesController extends Controller
         $record                 = OfflineQuizCategories::where('slug', $slug)->get()->first();
 
           $this->validate($request, [
-            'title'          => 'bail|required|max:40|unique:quizofflinecategories,title,'.$record->id.''
+            'title'          => 'bail|required|max:40|unique:quizofflinecategories,title,'.$record->id.'',
+              'course_name' => 'required'
             ]);
 
         	$name                       = $request->title;
+            $record->course_id              = $request->course_name;
 
        /**
         * Check if the title of the record is changed,
@@ -148,12 +201,14 @@ class OfflineQuizCategoriesController extends Controller
     public function store(Request $request)
     {
        $this->validate($request, [
-         'title'          => 'bail|required|max:40|unique:quizofflinecategories,title'
+         'title'          => 'bail|required|max:40|unique:quizofflinecategories,title',
+         'course_name'    => 'required'
             ]);
     	$record  =   new OfflineQuizCategories();
         $name 					        = $request->title;
         $record->title 			        = $name;
         $record->slug 			        = $record->makeSlug($name);
+        $record->course_id              = $request->course_name;
         $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');

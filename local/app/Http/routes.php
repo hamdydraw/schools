@@ -263,15 +263,27 @@ Route::get('mastersettings/skills/getList', [
 //academic_dues
 Route::get('mastersettings/dues','DuesController@index');
 Route::get('mastersettings/dues/create','DuesController@create');
+
 Route::post('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
 Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
+
 Route::get('mastersettings/dues/getList', [
     'as' => 'dues.dataTable',
     'uses' => 'DuesController@getDatatable'
+]);
+
+Route::get('mastersettings/dues/rapid_add','DuesController@createRapidExpenses');
+Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpenses');
+Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
+Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
+Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::get('mastersettings/dues-expenses-rapid/getList', [
+    'as' => 'duesExpensesRapid.dataTable',
+    'uses' => 'DuesController@getAllRapidExpensesDatatable'
 ]);
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');
@@ -611,10 +623,13 @@ Route::get('exams/categories/getList', [
 // Quiz Student Categories
 Route::get('exams/student/categories', 'StudentQuizController@index');
 Route::get('exams/student/exams/{slug?}', 'StudentQuizController@exams');
+Route::get('offline-exams/student/exams/{slug?}', 'StudentQuizController@offline_exams');
 Route::get('exams/student/quiz/getList/{slug?}', 'StudentQuizController@getDatatable');
+Route::get('exams/student/offline-quiz/getList/{slug?}', 'StudentQuizController@getofflineDatatable');
 Route::get('exams/student/quiz/take-exam/{slug?}', 'StudentQuizController@instructions');
 Route::post('exams/student/start-exam/{slug}', 'StudentQuizController@startExam');
 Route::get('exams/student/start-exam/{slug}', 'StudentQuizController@index');
+Route::get('exams/student/offline-quiz-category', 'OfflineQuizCategoriesController@student_index');
 
 Route::get('exams/student/get-scheduled-exams/{slug}', 'StudentQuizController@getScheduledExams');
 Route::get('exams/student/load-scheduled-exams/{slug}', 'StudentQuizController@loadScheduledExams');
@@ -701,9 +716,7 @@ Route::group(['middleware' => 'stopOrOn:offline_payment'], function () {
 Route::post('payments-report/export', 'PaymentsController@doExportPayments');
 
 Route::post('payments-report/getRecord', 'PaymentsController@getPaymentRecord');
-Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:OfflinePayment'],
-    'PaymentsController@approveOfflinePayment');
-
+Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:offline_payment','uses' => 'PaymentsController@approveOfflinePayment']);
 //////////////////
 // INSTRUCTIONS  //
 //////////////////
@@ -827,8 +840,7 @@ Route::get('payments/paypal/status-cancel', 'PaymentsController@paypal_cancel');
 
 Route::post('payments/payu/status-success', 'PaymentsController@payu_success');
 Route::post('payments/payu/status-cancel', 'PaymentsController@payu_cancel');
-Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offline_payment'],
-    'PaymentsController@updateOfflinePayment');
+Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'PaymentsController@updateOfflinePayment']);
 
 
 ////////////////////////////
@@ -1154,7 +1166,7 @@ Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 //test Route
 
 Route::get('/test_it', function () {
-    return getStudentInfo('yamn');
+    return get_title_column('users');
 });
 
 

@@ -35,6 +35,7 @@
 								<tr>
 									 
 									<th>{{ getPhrase('category')}}</th>
+									<th>{{ getPhrase('academic_year') }}</th>
 									<th>{{ getPhrase('image')}}</th>
 									<th>{{ getPhrase('description')}}</th>
 									<th id="helper_step2">{{ getPhrase('action')}}</th>
