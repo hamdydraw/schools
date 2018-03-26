@@ -21,12 +21,12 @@
     {{--{{Form::select('topic_id', $topics, null, ['class'=>'form-control', "id"=>"topic_id"])}}--}}
     <select class="form-control input-sm">
         @foreach($topics as $top)
-            <optgroup label="{{$top->topic_name}}">
-                @foreach(subTopics($top->id) as $sub)
+            <option value="{{$top->id}}" id="opt">{{$top->topic_name}}
+            @foreach(subTopics($top->id) as $sub)
                 <option value="{{$sub->id}}">{{$sub->topic_name}}</option>
-                    @endforeach
-            </optgroup>
-        @endforeach
+                @endforeach
+                </option>
+            @endforeach
     </select>
 </fieldset>
 
