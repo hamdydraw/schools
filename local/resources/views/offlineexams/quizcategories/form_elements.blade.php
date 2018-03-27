@@ -31,7 +31,7 @@
 						</div>
 
 
-						{{ Form::label('course_name', getphrase('academic_year')) }}
+						{{ Form::label('course_name', getphrase('branch')) }}
 
 						{{Form::select('course_name',$classes , $default_class, [
 						'class'=>'form-control'

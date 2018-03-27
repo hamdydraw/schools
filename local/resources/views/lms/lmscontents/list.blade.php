@@ -53,7 +53,7 @@
 
 @section('footer_scripts')
 
- @include('common.datatables', array('route'=>'lmscontent.dataTable'))
+ @include('common.datatables',array('route'=>URL_LMS_CONTENT_GETLIST.'/'.$slug, 'route_as_url' => TRUE))
  @include('common.deletescript', array('route'=>URL_LMS_CONTENT_DELETE))
 
 @stop

@@ -780,15 +780,20 @@ Route::get('lms/categories/getList', [
 ]);
 
 //LMS Contents
-Route::get('lms/content', 'LmsContentController@index');
+Route::get('lms/content', 'LmsContentController@main');
+Route::get('lms/content/view/{slug}', 'LmsContentController@index');
 Route::get('lms/content/add', 'LmsContentController@create');
 Route::post('lms/content/add', 'LmsContentController@store');
 Route::get('lms/content/edit/{slug}', 'LmsContentController@edit');
 Route::patch('lms/content/edit/{slug}', 'LmsContentController@update');
 Route::delete('lms/content/delete/{slug}', 'LmsContentController@delete');
-Route::get('lms/content/getList', [
+Route::get('lms/content/getList/{slug}', [
     'as' => 'lmscontent.dataTable',
     'uses' => 'LmsContentController@getDatatable'
+]);
+Route::get('lms/content/getMainList', [
+    'as' => 'lmscontent.mainDataTable',
+    'uses' => 'LmsContentController@getMainDatable'
 ]);
 
 Route::post('lms/content/upload_image', 'LmsContentController@upload_image');

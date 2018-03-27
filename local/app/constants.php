@@ -539,6 +539,7 @@ define('URL_LMS_CONTENT_ADD', PREFIX.'lms/content/add');
 define('URL_LMS_CONTENT_EDIT', PREFIX.'lms/content/edit/');
 define('URL_LMS_CONTENT_DELETE', PREFIX.'lms/content/delete/');
 define('URL_LMS_CONTENT_GETLIST', PREFIX.'lms/content/getList');
+define('URL_LMS_CONTENT_GETMAINLIST', PREFIX.'lms/content/getMainList');
 
 
 //LMS SERIES
