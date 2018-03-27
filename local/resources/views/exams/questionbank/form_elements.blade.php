@@ -21,9 +21,9 @@
     {{--{{Form::select('topic_id', $topics, null, ['class'=>'form-control', "id"=>"topic_id"])}}--}}
     <select class="form-control input-sm">
         @foreach($topics as $top)
-            <option value="{{$top->id}}" id="opt">{{$top->topic_name}}
+            <option value="{{$top->id}}" class="opt">{{$top->topic_name}}
             @foreach(subTopics($top->id) as $sub)
-                <option value="{{$sub->id}}">{{$sub->topic_name}}</option>
+                <option value="{{$sub->id}}">&nbsp;&nbsp;&nbsp;&nbsp;{{$sub->topic_name}}</option>
                 @endforeach
                 </option>
             @endforeach

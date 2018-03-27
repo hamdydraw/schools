@@ -654,9 +654,9 @@ text-align: right;
  min-width: 80px;
 
  }
- #opt
+ .opt
  {
-  font-weight: bold;
+   background-color: #000; 
  }
  .form-control:focus {
  border-color: #66afe9;
