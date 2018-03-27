@@ -1121,7 +1121,7 @@ function get_main_tables(){
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
     //course_subject
-    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','course_subject','examtoppers','libraryassettypes','quizresults','subjectpreferences'];
+    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','course_subject','examtoppers','quizresults','subjectpreferences'];
     foreach ($tables as $table){
         if(in_array($table->Tables_in_sasbit_school,$ignored))
         {
@@ -1139,6 +1139,9 @@ function get_title_column($table){
 
     if($table == 'languages'){
         return 'language';
+    }
+    if($table == 'libraryassettypes'){
+        return 'asset_type';
     }
 
     $columns = Schema::getColumnListing($table);
