@@ -48,4 +48,5 @@
 @include('trashes.script')
 @section('footer_scripts')
     @include('common.datatables', array('route'=>URL_TRASH_DATABLE, 'route_as_url' => TRUE))
+    @include('trashes.delete_script')
 @stop

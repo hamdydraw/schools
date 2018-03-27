@@ -70,7 +70,7 @@
 
 									<th>{{ getPhrase('duration')}}</th>
 
-									<th>{{ getPhrase('academic_year') }}</th>
+									<th>{{ getPhrase('branch') }}</th>
 
 									<th>{{ getPhrase('category')}}</th>
 
