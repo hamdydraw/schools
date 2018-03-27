@@ -52,9 +52,9 @@ class TrashesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">';
 
-                $link_data.= "<li><a href='".PREFIX."trashes/retrieve/$records->slug/$records->table_name'><i class='fa fa-recycle'></i>".getPhrase('retrieve')."</a></li>";
+                $link_data.= '<li><a href="javascript:void(0)" onclick="restore(\''.$records->slug.'\',\''.$records->table_name.'\');"><i class="fa fa-recycle"></i>'.getPhrase('retrieve').'</a></li>';
                 if(Auth::user()->role_id == 1){
-                    $link_data.= "<li><a href='".PREFIX."trashes/destroy/$records->slug/$records->table_name'><i class='fa fa-trash'></i>".getPhrase('Delete')."</a></li>";
+                    $link_data.= '<li><a href="javascript:void(0)" onclick="destroy(\''.$records->slug.'\',\''.$records->table_name.'\');"><i class="fa fa-trash"></i>'.getPhrase('Delete').'</a></li>';
                 }
                 $link_data.= "</ul></div>";
                 return $link_data;
@@ -79,8 +79,9 @@ class TrashesController extends Controller
         }
         DB::table($table)->where('slug',$slug)->update(['record_status' => 2]);
 
-        flash(getPhrase('success'), getPhrase('record_retrieved_successfully'), 'success');
-        return back();
+        $response['status'] = 1;
+        $response['message'] = getPhrase('retrieved_successfully');
+        return json_encode($response);
     }
 
     public function Destroy($slug,$table){
@@ -98,8 +99,9 @@ class TrashesController extends Controller
             return back();
         }
         DB::statement("DELETE FROM $table WHERE slug = '$slug'");
-        flash(getPhrase('success'), getPhrase('record_deleted_successfully'), 'success');
-        return back();
+        $response['status'] = 1;
+        $response['message'] = getPhrase('record_deleted_successfully');
+        return json_encode($response);
     }
 
 }
