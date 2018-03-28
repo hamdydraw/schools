@@ -5,9 +5,7 @@
 
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('series_title'),
-							'ng-model'=>'title',
-							'ng-pattern'=>getRegexPattern('name'),
+						{{ Form::text('title', $value = $recored_title , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('series_title'),
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
 							'ng-minlength' => '2',
@@ -34,7 +32,7 @@
 
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>
-						{{Form::select('is_paid', $options, null, ['class'=>'form-control','ng-model'=>'is_paid'])}}
+						{{Form::select('is_paid', $options, $is_paid, ['class'=>'form-control'])}}
 
 
 					 </fieldset>

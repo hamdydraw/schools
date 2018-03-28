@@ -38,7 +38,7 @@
 
 					 @include('exams.examseries.form_elements', 
 					 array('button_name'=> $button_name),
-					 array('record'=>$record, 'categories' => $categories,'branches' => $branches))
+					 array('record'=>$record, 'categories' => $categories,'branches' => $branches,'is_paid' => $is_paid , 'recored_title' => $recored_title))
 					 		
 					{!! Form::close() !!}
 					</div>

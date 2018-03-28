@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class QuizApplicability extends Model
 {
@@ -12,7 +13,8 @@ class QuizApplicability extends Model
     public function updateApplicability($quiz_id, $applicable_list = array())
     {
          if(!env('DEMO_MODE')) {
-             $query = QuizApplicability::where('quiz_id', '=', $quiz_id)->delete();
+
+             DB::statement("DELETE FROM quizapplicability WHERE quiz_id = '$quiz_id'");
 
              if ($applicable_list != null) {
                  foreach ($applicable_list as $list) {
