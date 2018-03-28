@@ -85,7 +85,8 @@
 					 		'academic_years' 	=> $academic_years,
 					 		'offline_categories' => $offline_categories,
 					 		'record'			=> $record,
-					 		'edit_or_add'       => $edit_or_add
+					 		'edit_or_add'       => $edit_or_add,
+					 		'branches'			=> $branches,
 					 		))
 
 

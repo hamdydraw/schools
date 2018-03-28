@@ -9,7 +9,36 @@ app.controller('prepareQuestions', function( $scope, $http) {
    $scope.savedItems = [];
     $scope.savedSeries =  [];
     $scope.total_items = 0;
-    
+    $scope.lastPart = window.location.href.split("/").pop();
+
+    if($scope.lastPart != 'add'){
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'/get_default_selectors2/'+$scope.lastPart+'/lmsseries',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.branch = response.data.course_id.toString();
+                $scope.getCategories($scope.branch);
+                $scope.categorii = response.data.id;
+                console.log($scope.categorii);
+            })
+    }
+
+    $scope.getCategories = function (id) {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'/get_categories/'+id+'/lmscategories',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.categories = response.data;
+                $scope.categorii   = $scope.categorii;
+                console.log($scope.categorii,$scope.categories);
+            })
+    }
    
     $scope.initAngData = function(data) {
         

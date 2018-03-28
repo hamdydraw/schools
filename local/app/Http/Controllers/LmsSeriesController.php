@@ -181,6 +181,7 @@ class LmsSeriesController extends Controller
 
       	$data['title']              = getPhrase('add_series');
         $data['module_helper']      = getModuleHelper('lms-series-create');
+        $data['branches']           = array_pluck(getCourses(), 'course_title', 'id');
     	return view('lms.lmsseries.add-edit', $data);
     }
 
@@ -206,6 +207,7 @@ class LmsSeriesController extends Controller
     	$data['settings']         = FALSE;
     	$data['categories']       = array_pluck(App\LmsCategory::all(),'category', 'id');
     	$data['title']            = getPhrase('edit_series');
+        $data['branches']         = array_pluck(getCourses(), 'course_title', 'id');
     	return view('lms.lmsseries.add-edit', $data);
     }
 

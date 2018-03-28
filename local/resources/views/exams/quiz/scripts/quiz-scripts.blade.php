@@ -25,6 +25,36 @@
         $scope.course_parent_id = '';
         $scope.course_id = '';
         $scope.showCourses = false;
+        $scope.lastPart = window.location.href.split("/").pop();
+
+        if($scope.lastPart != 'add'){
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'/get_default_selectors/'+$scope.lastPart+'/quizzes',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.branch = response.data.course_id.toString();
+                    $scope.getCategories($scope.branch);
+                    $scope.category = response.data.id;
+                })
+        }
+
+
+        $scope.getCategories = function (id) {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'/get_categories/'+id+'/quizcategories',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.categories = response.data;
+                    $scope.category   = $scope.category.toString();
+                    console.log($scope.category,$scope.categories);
+                })
+        }
 
         $scope.initAngData = function (data) {
 

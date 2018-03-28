@@ -17,7 +17,7 @@
 					@include('errors.errors')
 				<!-- /.row -->
 				
-				<div class="panel panel-custom col-lg-8  col-lg-offset-2" >
+				<div class="panel panel-custom col-lg-8  col-lg-offset-2" ng-controller="prepareQuestions" >
 					<div class="panel-heading">
 						<div class="pull-right messages-buttons">
 							<a href="{{URL_EXAM_SERIES}}" class="btn  btn-primary button" >{{ getPhrase('list')}}</a>
@@ -38,7 +38,7 @@
 
 					 @include('exams.examseries.form_elements', 
 					 array('button_name'=> $button_name),
-					 array('record'=>$record, 'categories' => $categories))
+					 array('record'=>$record, 'categories' => $categories,'branches' => $branches))
 					 		
 					{!! Form::close() !!}
 					</div>
@@ -54,6 +54,7 @@
  @include('common.validations');
  @include('common.editor');
  @include('common.alertify')
+ @include('exams.examseries.scripts.js-scripts')
 
  <script src="{{JS}}datepicker.min.js"></script>
     <script>

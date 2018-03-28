@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Scopes\DeleteScope;
+use App\QuizCategory;
 
 Route::get('/', function () {
 
@@ -1167,12 +1168,28 @@ Route::get('trashes/getList', 'TrashesController@getDatatable');
 Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
 
+Route::get('get_categories/{id}/{table}',function ($id,$table){
+   return getCategory($id,$table);
+});
 
+//get_default_selectors
+
+Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
+       $quiz             = DB::table($table)->where('slug',$slug)->first();
+       $current_category = QuizCategory::where('id',$quiz->category_id)->first();
+       return $current_category;
+});
+
+Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
+    $quiz             = DB::table($table)->where('slug',$slug)->first();
+    $current_category = \App\LmsCategory::where('id',$quiz->lms_category_id)->first();
+    return $current_category;
+});
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_title_column('users');
+    return getCategory(17,'quizcategories');
 });
 
 

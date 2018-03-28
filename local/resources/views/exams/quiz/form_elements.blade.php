@@ -42,7 +42,7 @@
 					</div>
      				<div class="row">
 
-					<fieldset class="form-group col-md-6">
+					<fieldset class="form-group col-md-4">
 
 
                         <?php
@@ -66,20 +66,32 @@
 						</div>
 					</fieldset>
 
-					<fieldset class="form-group col-md-6" ng-show="quiz_type=='offline'">
+						<fieldset class="form-group col-md-4">
+
+							{{ Form::label('Branch', getphrase('Branch')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
+
+						</fieldset>
+
+					<fieldset class="form-group col-md-4" ng-show="quiz_type=='offline'">
 
 						{{ Form::label('offline_quiz_category_id', getphrase('offline_category')) }}
 						<span class="text-red">*</span>
-						{{Form::select('offline_quiz_category_id', $offline_categories, null, ['class'=>'form-control'])}}
+						<select class="form-control" name="category_id"  ng-model="category">
+							<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+						</select>
 
 					</fieldset>
 
 
-					<fieldset class="form-group col-md-6" ng-if="quiz_type!='offline'">
+					<fieldset class="form-group col-md-4" ng-if="quiz_type!='offline'">
 
 						{{ Form::label('category_id', getphrase('category')) }}
 						<span class="text-red">*</span>
-						{{Form::select('category_id', $categories, null, ['class'=>'form-control'])}}
+						<select class="form-control" name="category_id" ng-model="category">
+							<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+						</select>
 
 					</fieldset>
 

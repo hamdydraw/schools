@@ -19,7 +19,7 @@
 
  <div class="panel panel-custom col-lg-8 col-lg-offset-2">
  <div class="panel-heading"> <div class="pull-right messages-buttons"> <a href="{{URL_LMS_SERIES}}" class="btn btn-primary button">{{ getPhrase('list')}}</a> </div><h1>{{ $title }}  </h1></div>
- <div class="panel-body">
+ <div class="panel-body" ng-controller="prepareQuestions">
 					<?php $button_name = getPhrase('create'); ?>
 					@if ($record)
 					 <?php $button_name = getPhrase('update'); ?>
@@ -34,7 +34,7 @@
 					 @include('lms.lmsseries.form_elements',
 					 array('button_name'=> $button_name),
 					 array('record'=>$record,
-					 'categories' => $categories))
+					 'categories' => $categories,'branches' => $branches))
 
 					{!! Form::close() !!}
 					</div>
@@ -50,6 +50,7 @@
  @include('common.validations')
  @include('common.editor')
  @include('common.alertify')
+ @include('lms.lmsseries.scripts.js-scripts')
   <script src="{{JS}}datepicker.min.js"></script>
     <script>
  	var file = document.getElementById('image_input');

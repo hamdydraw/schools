@@ -1121,7 +1121,7 @@ function get_main_tables(){
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
     //course_subject
-    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','course_subject','examtoppers','quizresults','subjectpreferences'];
+    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','examtoppers','quizresults','subjectpreferences'];
     foreach ($tables as $table){
         if(in_array($table->Tables_in_sasbit_school,$ignored))
         {
@@ -1180,4 +1180,12 @@ function get_courses(){
 function subTopics($id)
 {
     return Topic::where('parent_id', '=', $id)->get();
+}
+
+function getCourses(){
+    return \App\Course::where('parent_id',0)->get();
+}
+
+function getCategory($id,$table){
+    return   DB::table($table)->where('course_id',$id)->get();
 }

@@ -188,6 +188,7 @@ class ExamSeriesController extends Controller
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('add_exam_series');
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
         return view('exams.examseries.add-edit', $data);
     }
 
@@ -212,6 +213,7 @@ class ExamSeriesController extends Controller
         $data['active_class'] = 'exams';
         $data['settings'] = false;
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
 
         $data['title'] = getPhrase('edit_series');
         return view('exams.examseries.add-edit', $data);

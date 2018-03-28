@@ -1,6 +1,6 @@
  					<div class="row">
 
- 					 <fieldset class="form-group col-md-6">
+ 					 <fieldset class="form-group col-md-4">
 
 
 
@@ -39,22 +39,23 @@
 
 					</fieldset>
 
-					<fieldset class="form-group col-md-6" >
+						<fieldset class="form-group col-md-4">
+
+							{{ Form::label('Branch', getphrase('Branch')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
+
+						</fieldset>
+
+					<fieldset class="form-group col-md-4" >
 
 						{{ Form::label('lms_category_id', getPhrase('lms_categories')) }}
 
 						<span class="text-red">*</span>
 
-						{{Form::select('lms_category_id', $categories, null, ['placeholder' => getPhrase('select'),'class'=>'form-control',
-
-						       'ng-model'=>'lms_category_id',
-
-						       'id'=>'lms_category_id' ,
-
-							   'required'=> 'true',
-
-							   'ng-class'=>'{"has-error": formLms.lms_category_id.$touched && formLms.lms_category_id.$invalid}',
-                           ]) }}
+						<select class="form-control" name="lms_category_id"  ng-model="categorii">
+							<option  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+						</select>
 
 						<div class="validation-error" ng-messages="formLms.lms_category_id.$error" >
 

@@ -1,7 +1,7 @@
 
 
 					<div class="row">
- 					 <fieldset class="form-group col-md-6">
+ 					 <fieldset class="form-group col-md-3">
 
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
@@ -22,9 +22,18 @@
 					</fieldset>
 						<fieldset class="form-group col-md-3">
 
+							{{ Form::label('Branch', getphrase('Branch')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
+
+						</fieldset>
+						<fieldset class="form-group col-md-3">
+
 						{{ Form::label('category_id', getphrase('category')) }}
 						<span class="text-red">*</span>
-						{{Form::select('category_id', $categories, null, ['class'=>'form-control'])}}
+							<select class="form-control" name="category_id"  ng-model="category">
+								<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+							</select>
 
 					</fieldset>
 
