@@ -1182,10 +1182,36 @@ function subTopics($id)
     return Topic::where('parent_id', '=', $id)->get();
 }
 
-function getCourses(){
-    return \App\Course::where('parent_id',0)->get();
-}
+
 
 function getCategory($id,$table){
     return   DB::table($table)->where('course_id',$id)->get();
 }
+
+function getCourses(){
+    return \App\Course::where('parent_id',0)->get();
+}
+
+function getSemesters($id){
+    return \App\AcademicSemester::where('academic_id',$id)->select(['sem_num'])->get();
+}
+
+function SemesterName($number){
+    if($number == 1){
+        return "first";
+    }
+    if($number == 2){
+        return "second";
+    }
+    return "none";
+}
+
+function getSubjects($year,$semester,$course){
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
+                             ->where('academic_id',$year)
+                             ->where('semister',$semester)
+                             ->where('course_id',$course)
+                             ->select(['course_subject.id','course_subject.slug','subjects.subject_title'])
+                             ->get();
+}
+

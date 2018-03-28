@@ -1189,7 +1189,7 @@ Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
 //test Route
 
 Route::get('/test_it', function () {
-    return getCategory(17,'quizcategories');
+    return getSubjects(1,2,17);
 });
 
 

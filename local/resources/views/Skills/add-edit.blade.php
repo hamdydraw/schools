@@ -19,7 +19,7 @@
                     </div>
                     <h1>{{ $title }}  </h1>
                 </div>
-                <div class="panel-body packages">
+                <div class="panel-body packages" ng-controller="subjects_course">
                     @if($title == 'add_skills')
                         {{ Form::open(array('url' => 'mastersettings/skills/store', 'method'=>'post')) }}
                     @else
@@ -37,6 +37,7 @@
                             @endforeach
                         </select>
                     </fieldset>
+                        {{--@include('subject_scripts.elements')--}}
                     <fieldset class="form-group">
                         {{ Form::label('subject', getphrase('subject')) }}
                         <span class="text-red">*</span>
@@ -71,6 +72,8 @@
         </div>
     </div>
 @stop
+<script src="{{JS}}angular.js"></script>
 @section('footer_scripts')
     @include('Skills.js-script',array('record'=>isset($record)?$record:null))
+    @include('subject_scripts.main',array('id'=>12))
 @stop

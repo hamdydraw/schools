@@ -1,7 +1,7 @@
 
 
 					<div class="row">
- 					 <fieldset class="form-group col-md-3">
+ 					 <fieldset class="form-group col-md-6">
 
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
@@ -19,23 +19,7 @@
 	    					{!! getValidationMessage('minlength')!!}
 	    					{!! getValidationMessage('maxlength')!!}
 						</div>
-					</fieldset>
-						<fieldset class="form-group col-md-3">
-
-							{{ Form::label('Branch', getphrase('Branch')) }}
-							<span class="text-red">*</span>
-							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
-
-						</fieldset>
-						<fieldset class="form-group col-md-3">
-
-						{{ Form::label('category_id', getphrase('category')) }}
-						<span class="text-red">*</span>
-							<select class="form-control" name="category_id"  ng-model="category">
-								<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
-							</select>
-
-					</fieldset>
+					 </fieldset>
 
 
 					<?php
@@ -46,15 +30,34 @@
 						?>
 
 
-				    <fieldset class="form-group col-md-3">
+				    <fieldset class="form-group col-md-6">
 
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>
 						{{Form::select('is_paid', $options, null, ['class'=>'form-control','ng-model'=>'is_paid'])}}
 
-					</fieldset>
 
+					 </fieldset>
 				    </div>
+					<div class="row">
+						</fieldset>
+						<fieldset class="form-group col-md-6">
+
+							{{ Form::label('Branch', getphrase('Branch')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
+
+						</fieldset>
+						<fieldset class="form-group col-md-6">
+
+							{{ Form::label('category_id', getphrase('category')) }}
+							<span class="text-red">*</span>
+							<select class="form-control" name="category_id"  ng-model="category">
+								<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+							</select>
+
+						</fieldset>
+					</div>
 
 
 
