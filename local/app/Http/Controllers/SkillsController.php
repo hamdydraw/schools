@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Skill;
 use App\Subject;
+use App\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
@@ -36,7 +37,9 @@ class SkillsController extends Controller
 
     public function getDatatable()
     {
-        $records = Skill::select(['id','skill_title', 'course_id', 'subject_id'])->get();
+        $records = Skill::select(['id','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+
+
         return Datatables::of($records)
             ->editColumn('course_id', function ($record) {
                 return Course::find($record->course_id)->course_title;
@@ -45,6 +48,10 @@ class SkillsController extends Controller
                 return Subject::find($record->subject_id)->subject_title;
             })
             ->addColumn('action', function ($records) {
+                $records->created_by_user_name = User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -52,11 +59,18 @@ class SkillsController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="skills/edit/'.$records->id.'"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
                            
-                            <li><a href="skills/delete/'.$records->id.'"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
+                            <li><a href="skills/delete/'.$records->id.'"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
                             
                         </ul>
                     </div>';
             })
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
+
             ->removeColumn('id')
             ->make();
     }
@@ -99,12 +113,14 @@ class SkillsController extends Controller
             return redirect()->back();
         }
         foreach ($skills_title as $skill) {
+            $record = new Skill;
             if ($skill != '') {
-                Skill::create([
-                    'skill_title' => $skill,
-                    'course_id' => $request->courses,
-                    'subject_id' => $request->subjects
-                ]);
+                $record->skill_title = $skill;
+                $record->course_id   = $request->courses;
+                $record->subject_id  = $request->subjects;
+                $record->slug        = $record->makeSlug($skill);
+                $record->user_stamp($request);
+                $record->save();
             }
         }
         flash(getPhrase('saved'), getPhrase('skills_saved_successfully'), 'success');
@@ -123,6 +139,7 @@ class SkillsController extends Controller
                 $skill_record->skill_title=$skill;
                 $skill_record->course_id=$request->courses;
                 $skill_record->subject_id=$request->subjects;
+                $skill_record->update_stamp($request);
                 $skill_record->update();
             }
         }
