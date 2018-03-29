@@ -27,55 +27,47 @@
                 </div>
 
                 <div class="panel-body packages">
-                    @if(isset($record))
-                        {{ Form::open(array('url' => 'mastersettings/dues/update/'.$record->id, 'method'=>'post')) }}
-                    @else
-                        {{ Form::open(array('url' => 'mastersettings/dues/store', 'method'=>'post')) }}
-                    @endif
+                    {{ Form::open(array('url' => 'mastersettings/dues/store', 'method'=>'post')) }}
+
                     {{csrf_field()}}
-                    <fieldset class="form-group">
+                    <fieldset class="form-group col-md-4">
                         {{ Form::label('academic_year', getphrase('academic_year')) }}
                         <span class="text-red">*</span>
-                        <select name="academic_year" class="form-control" id="course_selection" required="required">
-                            <option value=select>{{getPhrase('select')}}</option>
+                        <select name="academic_year" class="form-control" id="academic_year" required="required">
+                            <option value="select">{{getPhrase('select')}}</option>
                             @foreach($academics_years as $value)
                                 <option value="{{$value->id}}"
                                         @if(isset($record) and $record->academic_id == $value->id) selected @endif>{{$value->academic_year_title}}</option>
                             @endforeach
                         </select>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <div class="col-md-4">
-                            {{ Form::label('academic_dues', getphrase('academic_dues')) }}
-                            <select class="form-control" name="academic_dues" required>
-                                <option value=select>{{getPhrase('select')}}</option>
-                                @foreach($allDues as $due)
-                                    <option value="{{$due->id}}"
-                                            @if(isset($record) and $record->due_id == $due->id) selected @endif>{{$due->title}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            {{ Form::label('due_value', getphrase('due_value')) }}
-                            <input type="number" class="form-control" name="due_value"
-                                   @if(isset($record)) value="{{$record->due_value}}" @endif required>
-                        </div>
-                        <div class="col-md-4">
-                            {{ Form::label('due_type', getphrase('due_type')) }}
-                            <select class="form-control" name="due_type" required>
-                                @foreach($due_types as $due_type)
-                                    <option value="{{$due_type}}"
-                                            @if(isset($record) and $record->due_type == $due_type) selected @endif>{{getPhrase($due_type)}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <fieldset class="form-group col-md-4 course" style="visibility: hidden;">
+                        {{ Form::label('course_parent', getphrase('course_parent')) }}
+                        <span class="text-red">*</span>
+                        <select name="course_parent" class="form-control" id="course_parent" required="required">
+                            <option value="select">{{getPhrase('select')}}</option>
+                        </select>
                     </fieldset>
+                    <fieldset class="form-group col-md-4 semister" style="visibility: hidden;">
+                        {{ Form::label('semisters', getphrase('semisters')) }}
+                        <span class="text-red">*</span>
+                        <select name="semisters" class="form-control" id="semisters" required="required">
+                            <option value="select">{{getPhrase('select')}}</option>
+                        </select>
+                    </fieldset>
+                    <div class="row">
+                        <a class="btn btn-primary" onclick="appendExpenses()" id="add_new_expenses"
+                           style="visibility: hidden;">{{getPhrase('add_new_expenses')}}</a>
+                    </div>
+                    <br>
+                    <div class="row" id="expenses_body">
+
+                    </div>
+                    <br>
                     <div class="row">
                         <fieldset class="form-group col-md-3">
                             <input type="submit" class="btn btn-success"
-                                   style="margin-right: 600px; height: 70px; width: 70px;"
-                                   @if(isset($record)) value="{{getPhrase('update')}}"
-                                   @else value="{{getPhrase('save')}}" @endif>
+                                   style="margin-right: 600px; height: 70px; width: 70px;" value="{{getPhrase('save')}}">
                         </fieldset>
                     </div>
                     {{ Form::close() }}
@@ -86,5 +78,5 @@
     </div>
 @stop
 @section('footer_scripts')
-
+    @include('Dues.add-edit-js')
 @stop

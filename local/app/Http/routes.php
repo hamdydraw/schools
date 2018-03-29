@@ -281,6 +281,8 @@ Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpens
 Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
 Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
 Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::get('mastersettings/dues/get-all-expensesRelated','DuesController@getAllexpensesRelated');
+Route::get('mastersettings/dues/get-element-expenses','DuesController@getElementExpenses');
 Route::get('mastersettings/dues-expenses-rapid/getList', [
     'as' => 'duesExpensesRapid.dataTable',
     'uses' => 'DuesController@getAllRapidExpensesDatatable'
@@ -323,6 +325,7 @@ Route::get('mastersettings/academics/getList', [
     'uses' => 'AcademicsController@getDatatable'
 ]);
 Route::get('mastersettings/academics/get-academics', 'AcademicsController@getAcademics');
+Route::get('mastersettings/academics/get-semisters', 'AcademicsController@getSemisters');
 
 
 //Academic Courses
@@ -334,6 +337,7 @@ Route::post('mastersettings/academic-courses/{slug}', 'AcademicCoursesController
 
 
 Route::post('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
+Route::get('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
 Route::post('academic-courses/get-child-courses', 'AcademicCoursesController@getChildCourses');
 
 
@@ -925,6 +929,7 @@ Route::group(['middleware' => 'stopOrOn:coupons'], function () {
 
 
     Route::post('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
+    Route::get('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
 });
 
 //Feedback Module

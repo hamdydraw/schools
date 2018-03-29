@@ -48,17 +48,22 @@
             </div>
             @if(Module_state('coupons'))
                 <div class="row">
-                    {{--<fieldset class="form-group col-md-3">
-                        {{ Form::label('coupon', getphrase('coupon')) }}
-                        <span class="text-red">*</span>
-                        <button class="btn btn-success button apply-input-button"
-                                ng-click=""
-                                type="button"
-                                ng-disabled="isApplied">{{getPhrase('apply')}}</button>
-                    </fieldset>--}}
+                    <fieldset class="form-group col-md-3">
+                        <input type="text" id="coupon_text"
+                               class="form-control apply-input-lg"
+                               placeholder="{{getPhrase('enter_coupon_code')}}">
+
+                        <span class="input-group-btn">
+
+              								<button class="btn btn-success button apply-input-button"
+                                                    onclick="validateCoupon()"
+                                                    type="button">{{getPhrase('apply')}}</button>
+                        </span>
+                    </fieldset>
                 </div>
             @endif
             <input type="hidden" value="" id="gateway" name="gateway">
+                <input type="hidden" name="coupon" id="coupon" value="0">
             <div style="margin-right: 300px;">
                 @if(!isset($dues_purchase) or (isset($dues_purchase) and isset($schoolExpenses) and count($specifications['dues_title']) != count($schoolExpenses)))
                     @if($settingsModule->payu->value == 1)
@@ -86,5 +91,6 @@
     </div>
 @stop
 @section('footer_scripts')
-    @include('Dues.js-script')
+    @include('common.alertify')
+    @include('Dues.js-script',array('student_id'=>$record->id))
 @stop

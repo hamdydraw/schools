@@ -341,6 +341,8 @@ class CouponcodesController extends Controller
         }
         else if($item_type=='lms'){
             $item = App\LmsSeries::where('slug', '=', $request->item_name)->first();
+        }else if ($item_type == 'expenses'){
+            $item='expenses';
         }
 
     	if(!$item)

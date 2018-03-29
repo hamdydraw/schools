@@ -174,7 +174,7 @@
                                 <div class="apply-coupon">
 
 
-                                        @if(Module_state('coupons'))
+                                    @if(Module_state('coupons'))
                                         <div class="input-group">
 
                                             <input type="text" ng-model="coupon_code"
