@@ -44,24 +44,25 @@ class DuesController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
         $toBeDeleted=DB::select('Delete from academics_dues_pivot where academic_id = ?', [$request->academic_year]);
-        $toBeDeleted=DB::select('Delete from academics_dues where title = ?', [$request->academic_year]);
         if ($request->academic_year == "select" or $request->academic_dues == "select" or $request->due_value == "select" or $request->due_type == "select") {
             flash(getPhrase('error'), getPhrase("you_should_fill_all_fields"), 'error');
             return redirect()->back();
         }
-        $relation = new AcademicDuesPivot();
-        $relation->academic_id = $request->academic_year;
-        $relation->due_id = $request->academic_dues;
-        $relation->due_value = $request->due_value;
-        $relation->due_type = $request->due_type;
-        $relation->user_stamp($request);
-        $relation->save();
-        $instance = new AcademicDues();
-        $instance->title = $request->title;
-        $instance->user_stamp($request);
-        $instance->save();
+        if ($request->has('academic_dues')) {
+            foreach ($request->academic_dues as $due) {
+                $relation = new AcademicDuesPivot();
+                $relation->academic_id = $request->academic_year;
+                $relation->course_parent = $request->course_parent;
+                $relation->semister = $request->semisters;
+                $relation->due_title = $due;
+                $relation->due_value = $request->due_value;
+                $relation->due_type = $request->due_type;
+                $relation->user_stamp($request);
+                $relation->save();
+            }
+        }
+
         flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
         return redirect()->back();
     }
@@ -400,11 +401,10 @@ class DuesController extends Controller
 
     public function getAllexpensesRelated(Request $request)
     {
-        $results = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
-            ->where('academic_id', $request->academic_id)
+        $results = AcademicDuesPivot::where('academic_id', $request->academic_id)
             ->where('semister', $request->semister)
             ->where('course_parent', $request->course_parent)
-            ->get(['title','due_type','due_value']);
+            ->get(['due_type','due_value','due_title']);
         return $this->getElementExpenses(null, $results);
 
     }
