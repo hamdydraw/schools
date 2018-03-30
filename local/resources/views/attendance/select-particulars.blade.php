@@ -117,14 +117,11 @@
 
 
                                 <?php
-                                $number_of_class = [];
-                                $maximum_classes = 8;
-
-                                for ($class_number = 1; $class_number <= $maximum_classes; $class_number++)
-                                    $number_of_class[$class_number] = $class_number; ?>
+                                    $number_of_class = getPeriod();
+                                ?>
 
                                 <fieldset class="form-group col-md-12">
-                                    {{ Form::label('class', getphrase('total_class')) }}
+                                    {{ Form::label('class', getphrase('period_number')) }}
                                     <span class="text-red">*</span>
                                     {{Form::select('total_class',$number_of_class,  null,
                                                         ['class'=>'form-control'])}}

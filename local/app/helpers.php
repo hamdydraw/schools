@@ -1258,3 +1258,13 @@ function getCourseName($id){
     return \App\Course::where('id',$id)->pluck('course_title')->first();
 }
 
+function getPeriod(){
+    $data = \App\TimingsetDetails::where('is_break',0)->get();
+    $result = [];
+    $i = 1;
+    foreach ($data as $item){
+        $result[$i] = $item->period_name;
+        $i++;
+    }
+    return $result;
+}

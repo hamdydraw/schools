@@ -1254,7 +1254,7 @@ Route::get('get_lms_content/{slug}',function ($slug){
 //test Route
 
 Route::get('/test_it', function () {
-    return getSubjectDetails(1);
+    return getPeriod();
 });
 
 

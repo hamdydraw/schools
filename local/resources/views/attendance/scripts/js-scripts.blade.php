@@ -15,7 +15,7 @@
          $scope.getCourses = function () {
              $http({
                  method:"GET",
-                 url:'{{PREFIX}}'+'get_teacher_courses',
+                 url:'{{PREFIX}}'+'get_courses',
                  dataType:"json",
                  headers:{'Content-Type': 'application/x-www-form-urlencoded'}
              })
@@ -47,7 +47,7 @@
              }
              $http({
                  method:"GET",
-                 url:'{{PREFIX}}'+'get_teacher_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                 url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
                  dataType:"json",
                  headers:{'Content-Type': 'application/x-www-form-urlencoded'}
              })
