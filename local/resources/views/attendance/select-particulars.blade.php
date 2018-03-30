@@ -121,7 +121,7 @@
                                 ?>
 
                                 <fieldset class="form-group col-md-12">
-                                    {{ Form::label('class', getphrase('period_number')) }}
+                                    {{ Form::label('class', getphrase('Session_number')) }}
                                     <span class="text-red">*</span>
                                     {{Form::select('total_class',$number_of_class,  null,
                                                         ['class'=>'form-control'])}}
