@@ -31,6 +31,7 @@ class SkillsController extends Controller
             $data['course_title'][] = $course->course_title;
             $data['course_id'][] = $course->id;
         }
+        $data['sid'] = 0;
         $data['courses'] = array_combine($data['course_id'], $data['course_title']);
         return view('Skills.add-edit', $data);
     }
@@ -41,12 +42,19 @@ class SkillsController extends Controller
 
 
         return Datatables::of($records)
-            ->editColumn('course_id', function ($record) {
-                return Course::find($record->course_id)->course_title;
+            ->addColumn('academic_year', function ($record) {
+                return getSubjectDetails($record->subject_id)['year']->academic_year_title;
             })
-            ->editColumn('subject_id', function ($record) {
-                return Subject::find($record->subject_id)->subject_title;
+            ->addColumn('semester', function ($record) {
+                return getPhrase(SemesterName(getSubjectDetails($record->subject_id)['sem']));
             })
+            ->addColumn('branch', function ($record) {
+                return getSubjectDetails($record->subject_id)['course']->course_title;
+            })
+            ->addColumn('subject', function ($record) {
+                return getSubjectDetails($record->subject_id)['subject']->subject_title;
+            })
+
             ->addColumn('action', function ($records) {
                 $records->created_by_user_name = User::get_user_name($records->created_by_user);
                 $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
@@ -71,6 +79,10 @@ class SkillsController extends Controller
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
 
+            ->removeColumn('course_id')
+            ->removeColumn('subject_id')
+
+
             ->removeColumn('id')
             ->make();
     }
@@ -88,6 +100,7 @@ class SkillsController extends Controller
             $data['course_id'][] = $course->id;
         }
         $data['courses'] = array_combine($data['course_id'], $data['course_title']);
+        $data['sid'] = $data['record']->subject_id;
         return view('Skills.add-edit', $data);
 
     }
@@ -108,7 +121,7 @@ class SkillsController extends Controller
     public function store(Request $request)
     {
         $skills_title = $request->skills;
-        if ($request->subjects == 0 or $request->courses == 0) {
+        if ($request->subject_id == 0 or $request->course_id == 0) {
             flash(getPhrase('error'), getPhrase('select_all_fields_please'), 'error');
             return redirect()->back();
         }
@@ -116,8 +129,8 @@ class SkillsController extends Controller
             $record = new Skill;
             if ($skill != '') {
                 $record->skill_title = $skill;
-                $record->course_id   = $request->courses;
-                $record->subject_id  = $request->subjects;
+                $record->course_id   = $request->course_id;
+                $record->subject_id  = $request->subject_id;
                 $record->slug        = $record->makeSlug($skill);
                 $record->user_stamp($request);
                 $record->save();
@@ -130,15 +143,15 @@ class SkillsController extends Controller
     {
         $skills_title = $request->skills;
         $skill_record=Skill::find($id);
-        if ($request->subjects == 0 or $request->courses == 0) {
+        if ($request->course_id == 0 or $request->subject_id == 0) {
             flash(getPhrase('error'), getPhrase('select_all_fields_please'), 'error');
             return redirect()->back();
         }
         foreach ($skills_title as $skill) {
             if ($skill != '') {
                 $skill_record->skill_title=$skill;
-                $skill_record->course_id=$request->courses;
-                $skill_record->subject_id=$request->subjects;
+                $skill_record->course_id=$request->course_id;
+                $skill_record->subject_id=$request->subject_id;
                 $skill_record->update_stamp($request);
                 $skill_record->update();
             }

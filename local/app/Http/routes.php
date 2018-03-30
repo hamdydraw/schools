@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Scopes\DeleteScope;
 use App\QuizCategory;
+use App\Academic;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
 
@@ -1172,6 +1174,8 @@ Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
 });
 
+
+
 //get_default_selectors
 
 Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
@@ -1186,10 +1190,71 @@ Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
     return $current_category;
 });
 
+
+//subject and course routes
+Route::get('get_years',function (){
+    return \App\Academic::all();
+});
+
+Route::get('get_courses',function (){
+    if(Auth::user()->role_id == 3){
+        return getTeacherCourses();
+    }
+    return getCourses();
+});
+
+Route::get('get_teacher_courses',function (){
+    return getTeacherCourses();
+});
+
+//getTeacherCourses
+
+Route::get('get_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
+    if(Auth::user()->role_id == 3){
+        return getTeacherSubjects($year,$sem,$course);
+    }
+    return getSubjects($year,$sem,$course);
+});
+
+Route::get('get_teacher_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
+    return getTeacherSubjects($year,$sem,$course);
+});
+
+Route::get('get_subject_edit/{id}',function ($id){
+    return getSubjectDetails($id);
+});
+
+Route::get('current_year_sem',function (){
+
+    $current_academic_id = new Academic();
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $semister = new App\AcademicSemester();
+    $data['semister'] = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+    return $data;
+
+});
+
+
+Route::get('get_all_courses',function (){
+    if(Auth::user()->role_id == 3){
+       return  \App\SubjectPreference::join('subjects','subjectpreferences.subject_id','=','subjects.id')
+                                     ->where('subjectpreferences.user_id',Auth::user()->id)
+                                     ->select(['subjects.subject_title','subjects.id'])
+                                     ->get();
+    }
+    return \App\Subject::select(['subjects.subject_title','subjects.id'])->get();
+});
+
+Route::get('get_lms_content/{slug}',function ($slug){
+    return \App\LmsContent::where('slug',$slug)->first();
+});
+
+
+
 //test Route
 
 Route::get('/test_it', function () {
-    return getSubjects(1,2,17);
+    return getSubjectDetails(1);
 });
 
 

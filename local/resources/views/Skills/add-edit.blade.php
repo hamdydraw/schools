@@ -26,25 +26,7 @@
                         {{ Form::open(array('url' => 'mastersettings/skills/update/'.$record->id, 'method'=>'post')) }}
                     @endif
                     {{csrf_field()}}
-                    <fieldset class="form-group">
-                        {{ Form::label('branch', getphrase('branch')) }}
-                        <span class="text-red">*</span>
-                        <select name="courses" class="form-control" id="course_selection" required="required">
-                            <option>{{getPhrase('select')}}</option>
-                            @foreach($courses as $key=>$value)
-                                <option value="{{$key}}"
-                                        @if(isset($record) and $record->course_id == $key) selected @endif>{{$value}}</option>
-                            @endforeach
-                        </select>
-                    </fieldset>
-                        {{--@include('subject_scripts.elements')--}}
-                    <fieldset class="form-group">
-                        {{ Form::label('subject', getphrase('subject')) }}
-                        <span class="text-red">*</span>
-                        <select name="subjects" class="form-control" id="subjects" required="required">
-                            <option>{{getPhrase('select')}}</option>
-                        </select>
-                    </fieldset>
+                    @include('subject_scripts.elements')
                     <div class="texts">
                         <div class="row">
                             <fieldset class="form-group col-md-3">
@@ -75,5 +57,5 @@
 <script src="{{JS}}angular.js"></script>
 @section('footer_scripts')
     @include('Skills.js-script',array('record'=>isset($record)?$record:null))
-    @include('subject_scripts.main',array('id'=>12))
+    @include('subject_scripts.main',array('id'=>$sid))
 @stop

@@ -139,13 +139,13 @@ class LmsContentController extends Controller
       if(Auth::user()->role_id == 3){
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
               ->join('subjectpreferences','lmscontents.subject_id','=','subjectpreferences.subject_id')
-              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjectpreferences.user_id','=',Auth::user()->id)
               ->where('subjects.id','=',$subject_id);
       }
       else{
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
-              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjects.id','=',$subject_id)
               ->orderBy('updated_at','desc');
       }
@@ -169,6 +169,9 @@ class LmsContentController extends Controller
                         }
                         $extra .= $temp.'</ul></div>';
                     return $extra;
+            })
+            ->editColumn('course_id',function ($records){
+                return getCourseName($records->course_id);
             })
         ->removeColumn('id')
             ->removeColumn('created_by_user')
@@ -264,6 +267,7 @@ class LmsContentController extends Controller
     	$record = LmsContent::getRecordWithSlug($slug);
 		  $rules = [
          'subject_id'                   => 'bail|required|integer' ,
+         'course_id'                   => 'bail|required|integer' ,
          'title'                        => 'bail|required|max:60' ,
          'content_type'                 => 'bail|required',
          'code'                         => 'bail|required|unique:lmscontents,code,'.$record->id,
@@ -304,6 +308,7 @@ class LmsContentController extends Controller
         $record->title              = $name;
 
         $record->subject_id         = $request->subject_id;
+        $record->course_id          = $request->course_id;
         $record->code               = $request->code;
         $record->content_type       = $request->content_type;
 
@@ -382,6 +387,7 @@ class LmsContentController extends Controller
 
 	    $rules = [
          'subject_id'          	        => 'bail|required|integer' ,
+         'course_id'                   => 'bail|required|integer' ,
          'title'          	   			=> 'bail|required|max:60' ,
          'content_type'                 => 'bail|required',
          'code'                         => 'bail|required|unique:lmscontents',
@@ -424,8 +430,10 @@ class LmsContentController extends Controller
         $record->title = $name;
         $record->slug = $record->makeSlug($name, TRUE);
         $record->subject_id = $request->subject_id;
+        $record->course_id          = $request->course_id;
         $record->code = $request->code;
         $record->content_type = $request->content_type;
+
 
 
         $record->file_path = $file_path;

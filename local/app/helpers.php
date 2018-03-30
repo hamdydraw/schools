@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Student;
 use App\User;
 use App\Topic;
+use App\Academic;
 
 function flash($title = null, $text = null, $type = 'info')
 {
@@ -1192,16 +1193,31 @@ function getCourses(){
     return \App\Course::where('parent_id',0)->get();
 }
 
+function getTeacherCourses(){
+
+    $current_academic_id = new Academic();
+    $semister = new App\AcademicSemester();
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+
+    return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
+                      ->select(['courses.id','courses.course_title'])
+                      ->where('courses.parent_id',0)
+                      ->where('course_subject.semister',$current_semster)
+                      ->where('course_subject.staff_id',Auth::user()->id)
+                      ->get();
+}
+
 function getSemesters($id){
     return \App\AcademicSemester::where('academic_id',$id)->select(['sem_num'])->get();
 }
 
 function SemesterName($number){
     if($number == 1){
-        return "first";
+        return "first_term";
     }
     if($number == 2){
-        return "second";
+        return "second_term";
     }
     return "none";
 }
@@ -1211,7 +1227,34 @@ function getSubjects($year,$semester,$course){
                              ->where('academic_id',$year)
                              ->where('semister',$semester)
                              ->where('course_id',$course)
-                             ->select(['course_subject.id','course_subject.slug','subjects.subject_title'])
+                             ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
                              ->get();
+}
+
+function getTeacherSubjects($year,$semester,$course){
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
+        ->where('academic_id',$year)
+        ->where('semister',$semester)
+        ->where('course_id',$course)
+        ->where('staff_id',Auth::user()->id)
+        ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+        ->get();
+}
+
+function getSubjectDetails($id){
+    $subject = \App\CourseSubject::where('id',$id)->first();
+    if($subject){
+        $data['year']    = \App\Academic::where('id',$subject->academic_id)->select(['id','academic_year_title'])->first();
+        $data['sem']     = $subject->semister;
+        $data['course']  = \App\Course::where('id',$subject->course_parent_id)->select(['id','course_title'])->first();
+        $data['subject'] = \App\Subject::where('id',$subject->subject_id)->select(['id','subject_title'])->first();
+        return $data;
+    }
+    return "failed";
+
+}
+
+function getCourseName($id){
+    return \App\Course::where('id',$id)->pluck('course_title')->first();
 }
 

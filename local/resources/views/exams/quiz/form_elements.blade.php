@@ -20,59 +20,35 @@
 						</div>
 					</fieldset>
 
-					<fieldset class="form-group col-md-6">
+						<fieldset class="form-group col-md-6">
 
 
+                            <?php
+                            if(Module_state('experimental_tests_only')){
+                                $quiz_types = array('online'=> getPhrase('online'), 'offline'=> getPhrase('offline'));
+                            }else{$quiz_types = array('online'=> getPhrase('online'));}
+                            ?>
 
-						{{ Form::label('subject_id', getphrase('subject')) }}
-						<span class="text-red">*</span>
-						{{ Form::select('subject_id',$subjects ,null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('select_subject'),
-							/*'ng-model'=>'subject',*/
+							{{ Form::label('type', getphrase('quiz_type')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('type',$quiz_types ,null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('select_type'),
+                                /*'ng-model'=>'quiz_type',*/
 
-							'required'=> 'true',
-							'ng-class'=>'{"has-error": formQuiz.subject_id.$touched && formQuiz.subject_id.$invalid}',
+                                'required'=> 'true',
+                                'ng-class'=>'{"has-error": formQuiz.type.$touched && formQuiz.type.$invalid}',
 
-							)) }}
-						<div class="validation-error" ng-messages="formQuiz.title.$error" >
-	    					{!! getValidationMessage()!!}
+                                )) }}
+							<div class="validation-error" ng-messages="formQuiz.title.$error" >
+								{!! getValidationMessage()!!}
+
+							</div>
+						</fieldset>
 
 
-						</div>
-					</fieldset>
 					</div>
+					@include('subject_scripts.elements')
      				<div class="row">
 
-					<fieldset class="form-group col-md-4">
-
-
-                        <?php
-                        if(Module_state('experimental_tests_only')){
-                            $quiz_types = array('online'=> getPhrase('online'), 'offline'=> getPhrase('offline'));
-                        }else{$quiz_types = array('online'=> getPhrase('online'));}
-                        ?>
-
-						{{ Form::label('type', getphrase('quiz_type')) }}
-						<span class="text-red">*</span>
-						{{ Form::select('type',$quiz_types ,null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('select_type'),
-							/*'ng-model'=>'quiz_type',*/
-
-							'required'=> 'true',
-							'ng-class'=>'{"has-error": formQuiz.type.$touched && formQuiz.type.$invalid}',
-
-							)) }}
-						<div class="validation-error" ng-messages="formQuiz.title.$error" >
-	    					{!! getValidationMessage()!!}
-
-						</div>
-					</fieldset>
-
-						<fieldset class="form-group col-md-4">
-
-							{{ Form::label('Branch', getphrase('Branch')) }}
-							<span class="text-red">*</span>
-							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
-
-						</fieldset>
 
 					<fieldset class="form-group col-md-4" ng-show="quiz_type=='offline'">
 

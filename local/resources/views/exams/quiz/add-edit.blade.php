@@ -110,7 +110,8 @@
 @stop
 
 @section('footer_scripts')
-@include('exams.quiz.scripts.quiz-scripts', array('quiz_record'=>$record))
+@include('exams.quiz.scripts.quiz-scripts', array('quiz_record'=>$record,'id' => $sid))
+{{--@include('subject_scripts.main',array('id'=>'1'))--}}
 {{-- @include('common.validations', array('isLoaded'=>FALSE))--}}
 @include('common.alertify')
  <script src="{{JS}}moment.min.js"></script>

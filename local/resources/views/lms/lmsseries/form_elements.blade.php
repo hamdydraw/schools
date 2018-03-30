@@ -1,6 +1,6 @@
  					<div class="row">
 
- 					 <fieldset class="form-group col-md-4">
+ 					 <fieldset class="form-group col-md-3">
 
 
 
@@ -39,134 +39,139 @@
 
 					</fieldset>
 
-						<fieldset class="form-group col-md-4">
 
-							{{ Form::label('Branch', getphrase('Branch')) }}
+                        <?php
+                        if(Module_state('paid_educational_content_only')){
+                            $payment_options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
+                        }else{$payment_options = array('0'=> getPhrase('free'));}
+                        ?>
+
+						<fieldset class="form-group col-md-3" >
+
+							{{ Form::label('is_paid', getphrase('is_paid')) }}
+
 							<span class="text-red">*</span>
-							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
 
+							{{Form::select('is_paid', $payment_options, null, ['class'=>'form-control',
+
+                                'ng-model'=>'is_paid',
+
+                                'id'=>'is_paid' ,
+
+                                'required'=> 'true',
+
+                                 'ng-class'=>'{"has-error": formLms.is_paid.$touched && formLms.is_paid.$invalid}',
+                                ]) }}
+
+							<div class="validation-error" ng-messages="formLms.is_paid.$error" >
+
+								{!! getValidationMessage()!!}
+
+							</div>
 						</fieldset>
+						<div ng-if="is_paid==1">
 
-					<fieldset class="form-group col-md-4" >
+							<fieldset class="form-group col-md-3">
 
-						{{ Form::label('lms_category_id', getPhrase('lms_categories')) }}
 
-						<span class="text-red">*</span>
 
-						<select class="form-control" name="lms_category_id"  ng-model="categorii">
-							<option  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
-						</select>
+								{{ Form::label('validity', getphrase('validity')) }}
 
-						<div class="validation-error" ng-messages="formLms.lms_category_id.$error" >
+								<span class="text-red">*</span>
 
-	    					{!! getValidationMessage()!!}
+								{{ Form::text('validity', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('validity_in_days'),
 
-						</div>
-                     </fieldset>
+                                'ng-model'=>'validity',
+
+                                'min'     =>'-1',
+                                'required'=> 'true',
+                                'id'=>'validity' ,
+
+                                'ng-class'=>'{"has-error": formLms.validity.$touched && formLms.validity.$invalid}',
+
+
+
+                                )) }}
+
+								<div class="validation-error" ng-messages="formLms.validity.$error" >
+
+									{!! getValidationMessage()!!}
+
+									{!! getValidationMessage('number')!!}
+
+								</div>
+
+							</fieldset>
+
+							<fieldset class="form-group col-md-3">
+
+
+
+								{{ Form::label('cost', getphrase('cost')) }}
+
+								<span class="text-red">*</span>
+
+								{{ Form::text('cost', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '40',
+
+                                    'min'=>'0',
+
+                                'ng-model'=>'cost',
+
+                                'id'=>'cost' ,
+
+                                'required'=> 'true',
+
+                                'ng-class'=>'{"has-error": formLms.cost.$touched && formLms.cost.$invalid}',
+
+
+
+                                    )) }}
+
+								<div class="validation-error" ng-messages="formLms.cost.$error" >
+
+									{!! getValidationMessage()!!}
+
+									{!! getValidationMessage('number')!!}
+
+								</div>
+
+							</fieldset>
+
+
                    </div>
+					</div>
 
              <div  class="row">
 
-                 <?php
-                 if(Module_state('paid_educational_content_only')){
-                     $payment_options = array('0'=> getPhrase('free'), '1'=> getPhrase('paid'));
-                 }else{$payment_options = array('0'=> getPhrase('free'));}
-                 ?>
+				 <fieldset class="form-group col-md-6">
 
-					 <fieldset class="form-group col-md-6" >
+					 {{ Form::label('Branch', getphrase('Branch')) }}
+					 <span class="text-red">*</span>
+					 {{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
 
-						{{ Form::label('is_paid', getphrase('is_paid')) }}
+				 </fieldset>
 
-						<span class="text-red">*</span>
+				 <fieldset class="form-group col-md-6" >
 
-						{{Form::select('is_paid', $payment_options, null, ['class'=>'form-control',
+					 {{ Form::label('lms_category_id', getPhrase('lms_categories')) }}
 
-						    'ng-model'=>'is_paid',
+					 <span class="text-red">*</span>
 
-                            'id'=>'is_paid' ,
+					 <select class="form-control" name="lms_category_id"  ng-model="categorii">
+						 <option  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+					 </select>
 
-							'required'=> 'true',
+					 <div class="validation-error" ng-messages="formLms.lms_category_id.$error" >
 
-							 'ng-class'=>'{"has-error": formLms.is_paid.$touched && formLms.is_paid.$invalid}',
-                            ]) }}
+						 {!! getValidationMessage()!!}
 
-						<div class="validation-error" ng-messages="formLms.is_paid.$error" >
+					 </div>
+				 </fieldset>
 
-	    					{!! getValidationMessage()!!}
-
-						</div>
-                  </fieldset>
-                   <div ng-if="is_paid==1">
-
-	  				 <fieldset class="form-group col-md-3">
-
-
-
-							{{ Form::label('validity', getphrase('validity')) }}
-
-							<span class="text-red">*</span>
-
-							{{ Form::text('validity', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('validity_in_days'),
-
-							'ng-model'=>'validity',
-
-							'min'     =>'-1',
-                            'required'=> 'true',
-                            'id'=>'validity' ,
-
-							'ng-class'=>'{"has-error": formLms.validity.$touched && formLms.validity.$invalid}',
-
-
-
-							)) }}
-
-						<div class="validation-error" ng-messages="formLms.validity.$error" >
-
-	    					{!! getValidationMessage()!!}
-
-	    					{!! getValidationMessage('number')!!}
-
-						</div>
-
-					</fieldset>
-
-	  				 <fieldset class="form-group col-md-3">
-
-
-
-						{{ Form::label('cost', getphrase('cost')) }}
-
-						<span class="text-red">*</span>
-
-						{{ Form::text('cost', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '40',
-
-							'min'=>'0',
-
-						'ng-model'=>'cost',
-
-						'id'=>'cost' ,
-
-						'required'=> 'true',
-
-						'ng-class'=>'{"has-error": formLms.cost.$touched && formLms.cost.$invalid}',
-
-
-
-							)) }}
-
-						<div class="validation-error" ng-messages="formLms.cost.$error" >
-
-	    					{!! getValidationMessage()!!}
-
-	    					{!! getValidationMessage('number')!!}
-
-						</div>
-
-				</fieldset>
 
 				</div>
 
-				</div>
+
 
 				<div class="row">
 

@@ -471,8 +471,6 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
 <script src="{{JS}}main.js"></script>
 
 <script src="{{JS}}sweetalert-dev.js"></script>
-<script src="{{JS}}Barcode.min.js"></script>
-
 @include('common.alertify')
 
 

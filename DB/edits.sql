@@ -1,1 +1,1 @@
-ALTER TABLE `quizofflinecategories` ADD `course_id` INT NOT NULL AFTER `status`;
+ALTER TABLE `lmscontents` ADD `course_id` INT NOT NULL DEFAULT '17' AFTER `subject_id`;
