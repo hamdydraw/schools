@@ -1207,6 +1207,35 @@ Route::get('get_teacher_courses',function (){
     return getTeacherCourses();
 });
 
+Route::get('supervisor/teacher-courses/{slug}',function($slug){
+
+    $current_academic_id = new Academic();
+    $semister = new App\AcademicSemester();
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+
+    return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
+        ->select(['courses.id','courses.course_title'])
+        ->where('courses.parent_id',0)
+        ->where('course_subject.semister',$current_semster)
+        ->where('course_subject.staff_id',get_user_id_from_slug($slug))
+        ->get();
+
+});
+
+Route::get('supervisor/teacher-subjects/{year}/{sem}/{course}/{slug}',function($year,$sem,$course,$slug){
+
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
+        ->where('academic_id',$year)
+        ->where('semister',$sem)
+        ->where('course_id',$course)
+        ->where('staff_id',get_user_id_from_slug($slug))
+        ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+        ->get();
+
+});
+
+
 //getTeacherCourses
 
 Route::get('get_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
@@ -1254,7 +1283,7 @@ Route::get('get_lms_content/{slug}',function ($slug){
 //test Route
 
 Route::get('/test_it', function () {
-    return getPeriod();
+    return get_user_id_from_slug('ahmd-yosf');
 });
 
 

@@ -1,4 +1,6 @@
-
+<?php
+    use Illuminate\Support\Facades\Auth;
+?>
 @include('common.angular-factory')
 <script>
 
@@ -11,18 +13,36 @@
          $scope.current_subject_sc   = null;
          $scope.academic_courses_sc  = [];
          $scope.academic_subjects_sc = [];
+         $scope.role_sc        = {{Auth::user()->role_id}};
 
+
+         $scope.lastPart = window.location.href.split("/").pop();
          $scope.getCourses = function () {
-             $http({
-                 method:"GET",
-                 url:'{{PREFIX}}'+'get_courses',
-                 dataType:"json",
-                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-             })
-                 .then(function (response) {
-                     $scope.academic_courses_sc = response.data;
-                     $scope.setCurrents();
+             if($scope.role_sc == 9){
+                 //supervisor/teacher-courses/{slug}
+                 $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'supervisor/teacher-courses/'+$scope.lastPart,
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })
+                     .then(function (response) {
+                         console.log(response.data);
+                         $scope.academic_courses_sc = response.data;
+                         $scope.setCurrents();
+                     })
+             }else{
+                 $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'get_courses',
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                 })
+                     .then(function (response) {
+                         $scope.academic_courses_sc = response.data;
+                         $scope.setCurrents();
+                     })
+             }
          }
 
          $scope.getCourses();
@@ -45,15 +65,29 @@
              if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
                  return false;
              }
-             $http({
-                 method:"GET",
-                 url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
-                 dataType:"json",
-                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-             })
-                 .then(function (response) {
-                     $scope.academic_subjects_sc = response.data;
+
+             if($scope.role_sc == 9){
+                 $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'supervisor/teacher-subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+$scope.lastPart,
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })
+                     .then(function (response) {
+                         $scope.academic_subjects_sc = response.data;
+                     })
+             }else{
+                 $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                 })
+                     .then(function (response) {
+                         $scope.academic_subjects_sc = response.data;
+                     })
+             }
+
          }
 
  

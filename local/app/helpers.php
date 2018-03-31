@@ -1268,3 +1268,7 @@ function getPeriod(){
     }
     return $result;
 }
+
+function get_user_id_from_slug($slug){
+    return User::where('slug',$slug)->pluck('id')->first();
+}
