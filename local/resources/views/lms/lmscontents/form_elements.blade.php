@@ -78,11 +78,26 @@
 </div>
 
 <div class="row">
+
     <fieldset class="form-group col-md-6">
-        {{ Form::label('subject_id', getphrase('subject')) }}
+        <label for="">{{getPhrase('branch')}}</label>
         <span class="text-red">*</span>
-        {{Form::select('subject_id', $subjects, null, [ 'class'=>'form-control','id'=>'subject_id'])}}
+        <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+            <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+        </select>
     </fieldset>
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('subject')}}</label>
+        <span class="text-red">*</span>
+        <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+            <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
+        </select>
+    </fieldset>
+
+</div>
+
+<div class="row">
+
 
     <fieldset class="form-group  col-md-6"   >
         {{ Form::label('image', getphrase('image')) }}

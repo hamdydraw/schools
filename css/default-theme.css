@@ -652,6 +652,11 @@ text-align: right;
  appearance: none;
  background: url(../images/select-arrow.png) no-repeat left top;
  min-width: 80px;
+
+ }
+ .opt
+ {
+   background-color: #000;
  }
  .form-control:focus {
  border-color: #66afe9;
@@ -2566,7 +2571,7 @@ text-align: right;
  width: 100%;
  }
  .card-block {
- padding: 20px 20px 15px;
+ padding: 20px 15px 15px;
  }
  .card-title {
  font-size: 30px;

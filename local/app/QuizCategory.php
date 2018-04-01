@@ -31,6 +31,7 @@ class QuizCategory extends Model
         ->where('end_date','>=',date('Y-m-d H:i:s'))
         ->where('total_questions','>','0')
         ->where('applicable_to_specific', '=', 1)
+        ->where('type','=','online')
         ->get();
 
 

@@ -59,12 +59,45 @@ class LmsSeriesController extends Controller
         $records = array();
 
         if(is_teacher()){
-            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity', 'total_items', 'slug', 'id', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])
-                ->where('created_by_user','=',Auth::user()->id)
+            $records = LmsSeries::join('lmscategories','lmsseries.lms_category_id','=','lmscategories.id')
+                                          ->join('courses','lmscategories.course_id','=','courses.id')
+                                          ->select(['lmsseries.title',
+                                          'lmscategories.category',
+                                          'courses.course_title',
+                                          'lmsseries.image',
+                                          'lmsseries.is_paid',
+                                          'lmsseries.cost',
+                                          'lmsseries.validity',
+                                          'lmsseries.total_items',
+                                          'lmsseries.slug',
+                                          'lmsseries.id',
+                                          'lmsseries.created_by_user',
+                                          'lmsseries.updated_by_user',
+                                          'lmsseries.created_by_ip',
+                                          'lmsseries.updated_by_ip',
+                                          'lmsseries.created_at',
+                                          'lmsseries.updated_at'])
+                ->where('lmsseries.created_by_user','=',Auth::user()->id)
                 ->orderBy('updated_at', 'desc');
         }else {
-            $records = LmsSeries::select(['title', 'image', 'is_paid', 'cost', 'validity', 'total_items', 'slug', 'id', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])
-                ->orderBy('updated_at', 'desc');
+            $records = LmsSeries::join('lmscategories','lmsseries.lms_category_id','=','lmscategories.id')
+                ->join('courses','lmscategories.course_id','=','courses.id')
+                ->select(['lmsseries.title',
+                'lmscategories.category',
+                'courses.course_title',
+                'lmsseries.image',
+                'lmsseries.is_paid',
+                'lmsseries.cost',
+                'lmsseries.validity',
+                'lmsseries.total_items',
+                'lmsseries.slug',
+                'lmsseries.id',
+                'lmsseries.created_by_user',
+                'lmsseries.updated_by_user',
+                'lmsseries.created_by_ip',
+                'lmsseries.updated_by_ip',
+                'lmsseries.created_at',
+                'lmsseries.updated_at']);
         }
 
         return Datatables::of($records)
@@ -120,6 +153,7 @@ class LmsSeriesController extends Controller
 
         ->removeColumn('id')
         ->removeColumn('slug')
+        ->removeColumn('validity')
         ->removeColumn('updated_at')
             ->removeColumn('created_by_user')
             ->removeColumn('updated_by_user')
@@ -147,6 +181,7 @@ class LmsSeriesController extends Controller
 
       	$data['title']              = getPhrase('add_series');
         $data['module_helper']      = getModuleHelper('lms-series-create');
+        $data['branches']           = array_pluck(getCourses(), 'course_title', 'id');
     	return view('lms.lmsseries.add-edit', $data);
     }
 
@@ -172,6 +207,7 @@ class LmsSeriesController extends Controller
     	$data['settings']         = FALSE;
     	$data['categories']       = array_pluck(App\LmsCategory::all(),'category', 'id');
     	$data['title']            = getPhrase('edit_series');
+        $data['branches']         = array_pluck(getCourses(), 'course_title', 'id');
     	return view('lms.lmsseries.add-edit', $data);
     }
 

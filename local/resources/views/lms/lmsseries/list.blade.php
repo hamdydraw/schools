@@ -33,10 +33,11 @@
 							<thead>
 								<tr>
 									<th id="helper_step3">{{ getPhrase('title')}}</th>
+									<th>{{ getPhrase('category') }}</th>
+									<th>{{ getPhrase('branch') }}</th>
 									<th>{{ getPhrase('image')}}</th>
 									<th>{{ getPhrase('is_paid')}}</th>
 									<th>{{ getPhrase('cost')}}</th>
-									<th>{{ getPhrase('validity')}} ({{getPhrase('days')}})</th>
 									<th>{{ getPhrase('total_items')}}</th>
 									<th id="helper_step2">{{ getPhrase('action')}}</th>
 

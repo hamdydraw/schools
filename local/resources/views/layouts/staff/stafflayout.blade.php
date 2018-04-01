@@ -337,7 +337,6 @@ $role = getRoleData($user->role_id);
 <!--JS Control-->
 <script src="{{JS}}main.js"></script>
 <script src="{{JS}}sweetalert-dev.js"></script>
-<script src="{{JS}}Barcode.min.js"></script>
 
 
 @yield('footer_scripts')

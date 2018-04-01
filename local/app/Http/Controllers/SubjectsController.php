@@ -51,7 +51,7 @@ class SubjectsController extends Controller
 
 
          $records = Subject::select([
-          'id','subject_title', 'subject_code','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
+          'id','subject_title', 'subject_code','slug','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
          ->orderBy('updated_at','desc');
 
         return Datatables::of($records)

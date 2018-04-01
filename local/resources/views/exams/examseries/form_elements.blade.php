@@ -5,9 +5,7 @@
 
 						{{ Form::label('title', getphrase('title')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('series_title'),
-							'ng-model'=>'title',
-							'ng-pattern'=>getRegexPattern('name'),
+						{{ Form::text('title', $value = $recored_title , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('series_title'),
 							'required'=> 'true',
 							'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
 							'ng-minlength' => '2',
@@ -19,14 +17,7 @@
 	    					{!! getValidationMessage('minlength')!!}
 	    					{!! getValidationMessage('maxlength')!!}
 						</div>
-					</fieldset>
-						<fieldset class="form-group col-md-3">
-
-						{{ Form::label('category_id', getphrase('category')) }}
-						<span class="text-red">*</span>
-						{{Form::select('category_id', $categories, null, ['class'=>'form-control'])}}
-
-					</fieldset>
+					 </fieldset>
 
 
 					<?php
@@ -37,15 +28,34 @@
 						?>
 
 
-				    <fieldset class="form-group col-md-3">
+				    <fieldset class="form-group col-md-6">
 
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>
-						{{Form::select('is_paid', $options, null, ['class'=>'form-control','ng-model'=>'is_paid'])}}
+						{{Form::select('is_paid', $options, $is_paid, ['class'=>'form-control'])}}
 
-					</fieldset>
 
+					 </fieldset>
 				    </div>
+					<div class="row">
+						</fieldset>
+						<fieldset class="form-group col-md-6">
+
+							{{ Form::label('Branch', getphrase('Branch')) }}
+							<span class="text-red">*</span>
+							{{ Form::select('Branch',$branches, null, ['class'=>'form-control','ng-model' => 'branch','ng-change' => 'getCategories(branch)']) }}
+
+						</fieldset>
+						<fieldset class="form-group col-md-6">
+
+							{{ Form::label('category_id', getphrase('category')) }}
+							<span class="text-red">*</span>
+							<select class="form-control" name="category_id"  ng-model="category">
+								<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+							</select>
+
+						</fieldset>
+					</div>
 
 
 

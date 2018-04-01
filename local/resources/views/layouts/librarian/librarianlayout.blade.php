@@ -203,7 +203,6 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
 <!-- Bootstrap Core JavaScript -->
 <script src="{{JS}}bootstrap.min.js"></script>
-<script src="{{JS}}Barcode.min.js"></script>
 
 
 <!--JS Control-->

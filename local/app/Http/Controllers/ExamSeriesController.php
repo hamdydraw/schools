@@ -67,43 +67,51 @@ class ExamSeriesController extends Controller
 
         if(is_teacher()){
          //created_by_user
-            $records = ExamSeries::select([
-                'title',
-                'image',
-                'is_paid',
-                'cost',
-                'validity',
-                'total_exams',
-                'total_questions',
-                'slug',
-                'id',
-                'created_by_user',
-                'updated_by_user',
-                'created_by_ip',
-                'updated_by_ip',
-                'created_at',
-                'updated_at'
+            $records = ExamSeries::join('quizcategories','examseries.category_id','=','quizcategories.id')
+                ->join('courses','quizcategories.course_id','=','courses.id')
+                ->select([
+                'examseries.title',
+                'quizcategories.category',
+                'courses.course_title',
+                'examseries.image',
+                'examseries.is_paid',
+                'examseries.cost',
+                'examseries.validity',
+                'examseries.total_exams',
+                'examseries.total_questions',
+                'examseries.slug',
+                'examseries.id',
+                'examseries.created_by_user',
+                'examseries.updated_by_user',
+                'examseries.created_by_ip',
+                'examseries.updated_by_ip',
+                'examseries.created_at',
+                'examseries.updated_at'
             ])
-                ->where('created_by_user','=',Auth::user()->id)
+                ->where('examseries.created_by_user','=',Auth::user()->id)
                 ->orderBy('updated_at', 'desc');
         }
         else {
-            $records = ExamSeries::select([
-                'title',
-                'image',
-                'is_paid',
-                'cost',
-                'validity',
-                'total_exams',
-                'total_questions',
-                'slug',
-                'id',
-                'created_by_user',
-                'updated_by_user',
-                'created_by_ip',
-                'updated_by_ip',
-                'created_at',
-                'updated_at'
+            $records = ExamSeries::join('quizcategories','examseries.category_id','=','quizcategories.id')
+                ->join('courses','quizcategories.course_id','=','courses.id')
+                ->select([
+                'examseries.title',
+                'quizcategories.category',
+                'courses.course_title',
+                'examseries.image',
+                'examseries.is_paid',
+                'examseries.cost',
+                'examseries.validity',
+                'examseries.total_exams',
+                'examseries.total_questions',
+                'examseries.slug',
+                'examseries.id',
+                'examseries.created_by_user',
+                'examseries.updated_by_user',
+                'examseries.created_by_ip',
+                'examseries.updated_by_ip',
+                'examseries.created_at',
+                'examseries.updated_at'
             ])
                 ->orderBy('updated_at', 'desc');
         }
@@ -160,6 +168,7 @@ class ExamSeriesController extends Controller
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
             ->removeColumn('id')
+            ->removeColumn('validity')
             ->removeColumn('slug')
             ->removeColumn('updated_at')
             ->make();
@@ -179,6 +188,9 @@ class ExamSeriesController extends Controller
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('add_exam_series');
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+        $data['is_paid'] = null;
+        $data['recored_title']   = null;
         return view('exams.examseries.add-edit', $data);
     }
 
@@ -203,6 +215,10 @@ class ExamSeriesController extends Controller
         $data['active_class'] = 'exams';
         $data['settings'] = false;
         $data['categories'] = array_pluck(QuizCategory::all(), 'category', 'id');
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+
+        $data['is_paid'] = $record->is_paid;
+        $data['recored_title']   = $record->title;
 
         $data['title'] = getPhrase('edit_series');
         return view('exams.examseries.add-edit', $data);

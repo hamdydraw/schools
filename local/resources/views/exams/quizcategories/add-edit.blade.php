@@ -36,7 +36,7 @@
 
 					 @include('exams.quizcategories.form_elements', 
 					 array('button_name'=> $button_name),
-					 array('record' => $record))
+					 array('record' => $record,'classes' => $classes,'default_class' => $default_class))
 					{!! Form::close() !!}
 					</div>
 

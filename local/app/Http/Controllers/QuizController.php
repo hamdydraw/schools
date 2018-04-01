@@ -89,14 +89,18 @@ class QuizController extends Controller
             if(is_teacher()){
                 $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
                     ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                    ->join('courses','quizcategories.course_id','=','courses.id')
                     ->where('subjectpreferences.user_id','=',Auth::user()->id)
+                    ->where('quizzes.type','=','online')
                     ->select([
                         'type',
                         'title',
                         'dueration',
+                        'courses.course_title',
                         'quizcategories.category',
                         'is_paid',
                         'total_marks',
+                        'quizzes.subject_id',
                         'tags',
                         'quizzes.slug',
                         'quizzes.id as quiz_id',
@@ -107,11 +111,15 @@ class QuizController extends Controller
 
             }else {
                 $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                    ->join('courses','quizcategories.course_id','=','courses.id')
+                    ->where('quizzes.type','=','online')
                     ->select([
                         'type',
                         'title',
                         'dueration',
+                        'courses.course_title',
                         'quizcategories.category',
+                        'quizzes.subject_id',
                         'is_paid',
                         'total_marks',
                         'tags',
@@ -127,13 +135,17 @@ class QuizController extends Controller
         } else {
             $category = QuizCategory::getRecordWithSlug($slug);
             $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                ->join('courses','quizcategories.course_id','=','courses.id')
+                ->where('quizzes.type','=','online')
                 ->select([
                     'type',
                     'title',
                     'dueration',
+                    'courses.course_title',
                     'quizcategories.category',
                     'is_paid',
                     'total_marks',
+                    'quizzes.subject_id',
                     'tags',
                     'quizzes.slug',
                     'quizzes.id as quiz_id',
@@ -145,6 +157,20 @@ class QuizController extends Controller
 
 
         return Datatables::of($records)
+
+            ->addColumn('academic_year', function ($record) {
+                return getSubjectDetails($record->subject_id)['year']->academic_year_title;
+            })
+            ->addColumn('semester', function ($record) {
+                return getPhrase(SemesterName(getSubjectDetails($record->subject_id)['sem']));
+            })
+            ->addColumn('branch', function ($record) {
+                return getSubjectDetails($record->subject_id)['course']->course_title;
+            })
+            ->addColumn('subject', function ($record) {
+                return getSubjectDetails($record->subject_id)['subject']->subject_title;
+            })
+
             ->addColumn('action', function ($records) {
 
                 $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
@@ -181,7 +207,9 @@ class QuizController extends Controller
             })
             ->removeColumn('quiz_id')
             ->removeColumn('slug')
+            ->removeColumn('course_title')
             ->removeColumn('tags')
+            ->removeColumn('subject_id')
             ->removeColumn('created_by_user')
             ->removeColumn('updated_by_user')
             ->removeColumn('created_by_ip')
@@ -219,6 +247,8 @@ class QuizController extends Controller
         $data['title'] = getPhrase('create_quiz');
         $data['module_helper'] = getModuleHelper('create-quiz');
         $data['edit_or_add'] = 'add';
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+        $data['sid'] = 0;
         return view('exams.quiz.add-edit', $data);
     }
 
@@ -240,6 +270,7 @@ class QuizController extends Controller
         }
 
         $data['record'] = $record;
+        $data['sid'] = $data['record']->subject_id;
         $data['active_class'] = 'exams';
         $data['settings'] = false;
         $data['offline_categories'] = array_pluck(App\OfflineQuizCategories::
@@ -278,7 +309,8 @@ class QuizController extends Controller
         );
         $data['module_helper'] = getModuleHelper('create-quiz');
         $data['edit_or_add'] = 'edit';
-
+        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+        $data['current_category'] = QuizCategory::where('id',$record->category_id)->first();
         return view('exams.quiz.add-edit', $data);
     }
 

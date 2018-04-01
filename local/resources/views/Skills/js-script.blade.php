@@ -1,30 +1,7 @@
 <script>
-    function getSubjects() {
-        $('#subjects').empty();
-        $('#subjects').append("<option>{{getPhrase('select')}}</option>");
-        $.ajax(
-            {
-                url: '{{url('mastersettings/skills/getRelatedSubjects')}}',
-                type: 'GET',
-                data: {course_parent_id: $('#course_selection').val()},
-                success: function (data) {
-                    try {
-                        data.forEach(function (i) {
-                            if (i.subjects_id == '<?php echo isset($record) ? $record->subject_id : null ?>') {
-                                $('#subjects').append("<option selected value='" + i.subjects_id + "'>" + i.subjects_title + "</option>");
-                            }else {
-                                $('#subjects').append("<option value='" + i.subjects_id + "'>" + i.subjects_title + "</option>");
-                            }
-                        })
-                    } catch (data) {
-                    }
-                }
-            }
-        )
-    }
+
 
     $(document).ready(function () {
-        getSubjects();
         $('#course_selection').on('change', function () {
             getSubjects();
         })

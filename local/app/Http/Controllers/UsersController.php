@@ -1616,8 +1616,8 @@ class UsersController extends Controller
         }
         $courses = get_courses();
         $data['record'] = $record;
-        $data['quiz_categories'] = App\QuizCategory::get();
-        $data['lms_category'] = App\LmsCategory::get();
+        $data['quiz_categories'] = App\QuizCategory::whereIn('course_id',$courses)->get();
+        $data['lms_category'] = App\LmsCategory::whereIn('course_id',$courses)->get();
         $data['offline_category'] = App\OfflineQuizCategories::whereIn('course_id',$courses)->get();
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';

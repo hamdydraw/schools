@@ -39,70 +39,11 @@ class StudentAttendanceController extends Controller
             }
         }
 
-        $current_academic_id = new Academic();
-        $current_academic_id=$current_academic_id->getCurrentAcademic()->id;
 
-        /**
-         * 1) Get the list of records from course_subjects table with
-         *     combination of current academic ID and current logged in staf/user id
-         * 2)
-         */
-
-        $records = App\CourseSubject::join('courses', 'courses.id',
-            '=',
-            'course_subject.course_id')
-            ->join('subjects', 'subjects.id', '=',
-                'course_subject.subject_id')
-            ->where('academic_id', '=', $current_academic_id)
-            ->where('staff_id', '=', $userData->id)
-            ->select([
-                'course_subject.id as id',
-                'course_subject.slug',
-                'course_subject.year',
-                'course_subject.semister',
-                'course_subject.subject_id',
-                'courses.course_code',
-                'courses.course_title',
-                'subjects.subject_title',
-                'courses.course_dueration'
-            ])
-            ->get();
-
-        $select_options = [];
-        $select_options[''] = getPhrase('Select');
-
-        //current_semester_of_year
-        $semister = new App\AcademicSemester();
-        $currentSemeterOfYear = $semister->getCurrentSemeterOfAcademicYear($current_academic_id);
-        if ($currentSemeterOfYear) {
-            $currentSemeterOfYear = $currentSemeterOfYear->sem_num;
-        } else {
-            $currentSemeterOfYear = 0;
-        }
-        //end
 
         //Prepare the select list in the below format
         // Parent Course Code - Year-Sem - Subject-title
-        foreach ($records as $record) {
-            if ($record->semister == $currentSemeterOfYear) {
-                $year_semister = 0;
-                if ($record->course_dueration > 1) {
-                    $year_semister = 'Year ' . $record->year;
-                    if ($record->semister) {
-                        $year_semister .= ' Sem ' . $record->semister;
-                    }
-                }
-                $final_title = $record->course_code;
 
-                if ($year_semister) {
-                    $final_title .= ' - ' . $year_semister;
-                }
-
-                $final_title .= ' - ' . $record->subject_title;
-
-                $select_options[$record->id] = $final_title;
-            }
-        }
         if (getRoleData(Auth::user()->role_id) == 'educational_supervisor')
         {
             $data['active_class'] = 'teacher-student-attendance';
@@ -111,7 +52,7 @@ class StudentAttendanceController extends Controller
         }
         $data['title'] = getPhrase('attendance');
 
-        $data['subjects'] = $select_options;
+
         $list = App\Course::getCourses(0);
 
         $data['role_name'] = getRoleData($user->role_id);

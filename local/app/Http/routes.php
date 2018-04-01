@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Scopes\DeleteScope;
+use App\QuizCategory;
+use App\Academic;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
 
@@ -629,10 +632,13 @@ Route::get('exams/categories/getList', [
 // Quiz Student Categories
 Route::get('exams/student/categories', 'StudentQuizController@index');
 Route::get('exams/student/exams/{slug?}', 'StudentQuizController@exams');
+Route::get('offline-exams/student/exams/{slug?}', 'StudentQuizController@offline_exams');
 Route::get('exams/student/quiz/getList/{slug?}', 'StudentQuizController@getDatatable');
+Route::get('exams/student/offline-quiz/getList/{slug?}', 'StudentQuizController@getofflineDatatable');
 Route::get('exams/student/quiz/take-exam/{slug?}', 'StudentQuizController@instructions');
 Route::post('exams/student/start-exam/{slug}', 'StudentQuizController@startExam');
 Route::get('exams/student/start-exam/{slug}', 'StudentQuizController@index');
+Route::get('exams/student/offline-quiz-category', 'OfflineQuizCategoriesController@student_index');
 
 Route::get('exams/student/get-scheduled-exams/{slug}', 'StudentQuizController@getScheduledExams');
 Route::get('exams/student/load-scheduled-exams/{slug}', 'StudentQuizController@loadScheduledExams');
@@ -719,9 +725,7 @@ Route::group(['middleware' => 'stopOrOn:offline_payment'], function () {
 Route::post('payments-report/export', 'PaymentsController@doExportPayments');
 
 Route::post('payments-report/getRecord', 'PaymentsController@getPaymentRecord');
-Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:OfflinePayment'],
-    'PaymentsController@approveOfflinePayment');
-
+Route::post('payments/approve-reject-offline-request', ['middleware' => 'stopOrOn:offline_payment','uses' => 'PaymentsController@approveOfflinePayment']);
 //////////////////
 // INSTRUCTIONS  //
 //////////////////
@@ -785,15 +789,20 @@ Route::get('lms/categories/getList', [
 ]);
 
 //LMS Contents
-Route::get('lms/content', 'LmsContentController@index');
+Route::get('lms/content', 'LmsContentController@main');
+Route::get('lms/content/view/{slug}', 'LmsContentController@index');
 Route::get('lms/content/add', 'LmsContentController@create');
 Route::post('lms/content/add', 'LmsContentController@store');
 Route::get('lms/content/edit/{slug}', 'LmsContentController@edit');
 Route::patch('lms/content/edit/{slug}', 'LmsContentController@update');
 Route::delete('lms/content/delete/{slug}', 'LmsContentController@delete');
-Route::get('lms/content/getList', [
+Route::get('lms/content/getList/{slug}', [
     'as' => 'lmscontent.dataTable',
     'uses' => 'LmsContentController@getDatatable'
+]);
+Route::get('lms/content/getMainList', [
+    'as' => 'lmscontent.mainDataTable',
+    'uses' => 'LmsContentController@getMainDatable'
 ]);
 
 Route::post('lms/content/upload_image', 'LmsContentController@upload_image');
@@ -1166,13 +1175,122 @@ Route::get('updates/patch1', 'UpdatesController@patch1');
 Route::get('trashes/list', 'TrashesController@index');
 Route::get('trashes/getList', 'TrashesController@getDatatable');
 Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
+Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
+
+Route::get('get_categories/{id}/{table}',function ($id,$table){
+   return getCategory($id,$table);
+});
+
+
+
+//get_default_selectors
+
+Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
+       $quiz             = DB::table($table)->where('slug',$slug)->first();
+       $current_category = QuizCategory::where('id',$quiz->category_id)->first();
+       return $current_category;
+});
+
+Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
+    $quiz             = DB::table($table)->where('slug',$slug)->first();
+    $current_category = \App\LmsCategory::where('id',$quiz->lms_category_id)->first();
+    return $current_category;
+});
+
+
+//subject and course routes
+Route::get('get_years',function (){
+    return \App\Academic::all();
+});
+
+Route::get('get_courses',function (){
+    if(Auth::user()->role_id == 3){
+        return getTeacherCourses();
+    }
+    return getCourses();
+});
+
+Route::get('get_teacher_courses',function (){
+    return getTeacherCourses();
+});
+
+Route::get('supervisor/teacher-courses/{slug}',function($slug){
+
+    $current_academic_id = new Academic();
+    $semister = new App\AcademicSemester();
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+
+    return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
+        ->select(['courses.id','courses.course_title'])
+        ->where('courses.parent_id',0)
+        ->where('course_subject.semister',$current_semster)
+        ->where('course_subject.staff_id',get_user_id_from_slug($slug))
+        ->get();
+
+});
+
+Route::get('supervisor/teacher-subjects/{year}/{sem}/{course}/{slug}',function($year,$sem,$course,$slug){
+
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
+        ->where('academic_id',$year)
+        ->where('semister',$sem)
+        ->where('course_id',$course)
+        ->where('staff_id',get_user_id_from_slug($slug))
+        ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+        ->get();
+
+});
+
+
+//getTeacherCourses
+
+Route::get('get_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
+    if(Auth::user()->role_id == 3){
+        return getTeacherSubjects($year,$sem,$course);
+    }
+    return getSubjects($year,$sem,$course);
+});
+
+Route::get('get_teacher_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
+    return getTeacherSubjects($year,$sem,$course);
+});
+
+Route::get('get_subject_edit/{id}',function ($id){
+    return getSubjectDetails($id);
+});
+
+Route::get('current_year_sem',function (){
+
+    $current_academic_id = new Academic();
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $semister = new App\AcademicSemester();
+    $data['semister'] = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+    return $data;
+
+});
+
+
+Route::get('get_all_courses',function (){
+    if(Auth::user()->role_id == 3){
+       return  \App\SubjectPreference::join('subjects','subjectpreferences.subject_id','=','subjects.id')
+                                     ->where('subjectpreferences.user_id',Auth::user()->id)
+                                     ->select(['subjects.subject_title','subjects.id'])
+                                     ->get();
+    }
+    return \App\Subject::select(['subjects.subject_title','subjects.id'])->get();
+});
+
+Route::get('get_lms_content/{slug}',function ($slug){
+    return \App\LmsContent::where('slug',$slug)->first();
+});
 
 
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_title_column('users');
+    return get_user_id_from_slug('ahmd-yosf');
 });
 
 

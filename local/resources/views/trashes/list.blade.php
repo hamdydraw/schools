@@ -28,6 +28,7 @@
                             <tr>
                                 <th>{{ getPhrase('id')}}</th>
                                 <th>{{ getPhrase('title')}}</th>
+                                <th>{{ getPhrase('table_name')}}</th>
                                 <th>{{ getPhrase('slug')}}</th>
                                 <th>{{ getPhrase('Deleted_at')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
@@ -47,4 +48,5 @@
 @include('trashes.script')
 @section('footer_scripts')
     @include('common.datatables', array('route'=>URL_TRASH_DATABLE, 'route_as_url' => TRUE))
+    @include('trashes.delete_script')
 @stop

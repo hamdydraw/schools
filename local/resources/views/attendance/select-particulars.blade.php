@@ -95,30 +95,33 @@
                         @else
 
                             <div class="col-md-6">
-
-                                <fieldset class="form-group col-md-12">
-                                    {{ Form::label('select_subject', getphrase('select_subject')) }}
-
+                                <fieldset class="form-group col-md-6">
+                                    <label for="">{{getPhrase('branch')}}</label>
                                     <span class="text-red">*</span>
-
-                                    {{Form::select('course_subject_id',$subjects,  null,
-                                    [   'class'     => 'form-control',
-
-                                        'id'        =>'select_academic_year'
-
-                                    ])}}
+                                    <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+                                        <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+                                    </select>
                                 </fieldset>
+                                <fieldset class="form-group col-md-6">
+                                    <label for="">{{getPhrase('subject')}}</label>
+                                    <span class="text-red">*</span>
+                                    <select name="course_subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+                                        <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-md-6">
+
+
 
 
                                 <?php
-                                $number_of_class = [];
-                                $maximum_classes = 8;
-
-                                for ($class_number = 1; $class_number <= $maximum_classes; $class_number++)
-                                    $number_of_class[$class_number] = $class_number; ?>
+                                    $number_of_class = getPeriod();
+                                ?>
 
                                 <fieldset class="form-group col-md-12">
-                                    {{ Form::label('class', getphrase('total_class')) }}
+                                    {{ Form::label('class', getphrase('Session_number')) }}
                                     <span class="text-red">*</span>
                                     {{Form::select('total_class',$number_of_class,  null,
                                                         ['class'=>'form-control'])}}

@@ -30,6 +30,7 @@
 						<div class="pull-right messages-buttons helper_step1">
 							@if(!is_teacher())
 							<a href="{{URL_OFFLINE_EXAMS_IMPORT_MARKS}}" class="btn  btn-primary button" >{{ getPhrase('import_excel')}}</a>
+							<a href="{{PREFIX}}exams/quiz/add" class="btn  btn-primary button helper_step1" >{{ getPhrase('add')}}</a>
 							@endif
 						</div>
 					 

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Skill;
 use App\Subject;
+use App\User;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 
@@ -30,21 +31,35 @@ class SkillsController extends Controller
             $data['course_title'][] = $course->course_title;
             $data['course_id'][] = $course->id;
         }
+        $data['sid'] = 0;
         $data['courses'] = array_combine($data['course_id'], $data['course_title']);
         return view('Skills.add-edit', $data);
     }
 
     public function getDatatable()
     {
-        $records = Skill::select(['id','skill_title', 'course_id', 'subject_id'])->get();
+        $records = Skill::select(['id','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+
+
         return Datatables::of($records)
-            ->editColumn('course_id', function ($record) {
-                return Course::find($record->course_id)->course_title;
+            ->addColumn('academic_year', function ($record) {
+                return getSubjectDetails($record->subject_id)['year']->academic_year_title;
             })
-            ->editColumn('subject_id', function ($record) {
-                return Subject::find($record->subject_id)->subject_title;
+            ->addColumn('semester', function ($record) {
+                return getPhrase(SemesterName(getSubjectDetails($record->subject_id)['sem']));
             })
+            ->addColumn('branch', function ($record) {
+                return getSubjectDetails($record->subject_id)['course']->course_title;
+            })
+            ->addColumn('subject', function ($record) {
+                return getSubjectDetails($record->subject_id)['subject']->subject_title;
+            })
+
             ->addColumn('action', function ($records) {
+                $records->created_by_user_name = User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -52,11 +67,22 @@ class SkillsController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="skills/edit/'.$records->id.'"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
                            
-                            <li><a href="skills/delete/'.$records->id.'"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
+                            <li><a href="skills/delete/'.$records->id.'"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
                             
                         </ul>
                     </div>';
             })
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
+
+            ->removeColumn('course_id')
+            ->removeColumn('subject_id')
+
+
             ->removeColumn('id')
             ->make();
     }
@@ -74,6 +100,7 @@ class SkillsController extends Controller
             $data['course_id'][] = $course->id;
         }
         $data['courses'] = array_combine($data['course_id'], $data['course_title']);
+        $data['sid'] = $data['record']->subject_id;
         return view('Skills.add-edit', $data);
 
     }
@@ -94,17 +121,19 @@ class SkillsController extends Controller
     public function store(Request $request)
     {
         $skills_title = $request->skills;
-        if ($request->subjects == 0 or $request->courses == 0) {
+        if ($request->subject_id == 0 or $request->course_id == 0) {
             flash(getPhrase('error'), getPhrase('select_all_fields_please'), 'error');
             return redirect()->back();
         }
         foreach ($skills_title as $skill) {
+            $record = new Skill;
             if ($skill != '') {
-                Skill::create([
-                    'skill_title' => $skill,
-                    'course_id' => $request->courses,
-                    'subject_id' => $request->subjects
-                ]);
+                $record->skill_title = $skill;
+                $record->course_id   = $request->course_id;
+                $record->subject_id  = $request->subject_id;
+                $record->slug        = $record->makeSlug($skill);
+                $record->user_stamp($request);
+                $record->save();
             }
         }
         flash(getPhrase('saved'), getPhrase('skills_saved_successfully'), 'success');
@@ -114,15 +143,16 @@ class SkillsController extends Controller
     {
         $skills_title = $request->skills;
         $skill_record=Skill::find($id);
-        if ($request->subjects == 0 or $request->courses == 0) {
+        if ($request->course_id == 0 or $request->subject_id == 0) {
             flash(getPhrase('error'), getPhrase('select_all_fields_please'), 'error');
             return redirect()->back();
         }
         foreach ($skills_title as $skill) {
             if ($skill != '') {
                 $skill_record->skill_title=$skill;
-                $skill_record->course_id=$request->courses;
-                $skill_record->subject_id=$request->subjects;
+                $skill_record->course_id=$request->course_id;
+                $skill_record->subject_id=$request->subject_id;
+                $skill_record->update_stamp($request);
                 $skill_record->update();
             }
         }

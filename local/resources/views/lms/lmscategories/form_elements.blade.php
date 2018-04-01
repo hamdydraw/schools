@@ -21,6 +21,13 @@
 	    					{!! getValidationMessage('pattern')!!}
 						</div>
 					</fieldset>
+					 <fieldset class="form-group">
+						 {{ Form::label('course_name', getphrase('branch')) }}
+						 <span class="text-red">*</span>
+						 {{Form::select('course_name',$classes , $default_class, [
+                         'class'=>'form-control'
+                          ])}}
+					 </fieldset>
  					  
  					  <fieldset class="form-group" >
 				   {{ Form::label('category', getphrase('image')) }}

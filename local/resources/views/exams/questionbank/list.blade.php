@@ -39,7 +39,7 @@
 									<th>{{ getPhrase('id')}}</th>
 									<th id="helper_step3">{{ getPhrase('subject')}}</th>
 									<th>{{ getPhrase('code')}}</th>
-									 <th id="helper_step4">{{ getPhrase('action')}}</th>
+									<th id="helper_step4">{{ getPhrase('action')}}</th>
 								  
 								</tr>
 							</thead>

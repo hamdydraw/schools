@@ -8,6 +8,53 @@
     var app = angular.module('academia', ['ngMessages','satellizer','ngFileUpload','toastr']);
 app.controller('angLmsController', function($scope, $http,Upload) {
 
+    $scope.current_course_sc    = null;
+    $scope.current_subject_sc   = null;
+    $scope.academic_courses_sc  = [];
+    $scope.academic_subjects_sc = [];
+
+    $scope.lastPart = window.location.href.split("/").pop();
+
+    if($scope.lastPart != 'add'){
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'/get_lms_content/'+$scope.lastPart,
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                $scope.current_course_sc  = response.data.course_id.toString();
+                $scope.current_subject_sc = response.data.subject_id.toString();
+            })
+    }
+
+
+    $scope.getCourses = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_courses',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_courses_sc = response.data;
+            })
+    }
+    $scope.getCourses();
+    $scope.getSubjects = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_all_courses',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_subjects_sc = response.data;
+            })
+    }
+    $scope.getSubjects();
+
 
     {{--console.log({{URL::current()}});--}}
 
