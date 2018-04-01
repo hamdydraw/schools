@@ -1,4 +1,4 @@
- 
+
 @extends('layouts.site')
 
 @section('content')
@@ -23,7 +23,7 @@
 		</ul>
 	</div>
 
-		
+
 
 			<div class="input-group">
 
@@ -63,7 +63,7 @@
 
 			'ng-model'=>'registration.password',
 
-			'required'=> 'true', 
+			'required'=> 'true',
 
 			'ng-class'=>'{"has-error": loginForm.password.$touched && loginForm.password.$invalid}',
 
