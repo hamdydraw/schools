@@ -360,6 +360,11 @@ define('URL_MODULEHELPERS_ADD_STEPS', PREFIX.'mastersettings/module-helpers/add-
 define('URL_TRASH_LIST', PREFIX.'trashes/list');
 define('URL_TRASH_DATABLE', PREFIX.'trashes/getList');
 
+//logged users Routes
+
+define('URL_LOGGED_LIST', PREFIX.'userslogged/list');
+define('URL_LOGGED_DATABLE', PREFIX.'userslogged/getList');
+
 //CONSTANST FOR USERS MODULE
 define('URL_USERS', PREFIX.'users/');
 define('URL_USER_DETAILS', PREFIX.'users/details/');

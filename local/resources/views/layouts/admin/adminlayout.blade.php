@@ -199,6 +199,12 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 {{ getPhrase('Recycle_Bin') }}</sapn>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{URL_LOGGED_LIST}}">
+                            <sapn><i class="fa fa-users" aria-hidden="true"></i>
+                                {{ getPhrase('Logged_Users') }}</sapn>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">

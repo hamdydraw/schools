@@ -37,7 +37,7 @@
 
 			'required'=> 'true',
 
-			'placeholder' => getPhrase('username').'/'.getPhrase('email'),
+			'placeholder' => getPhrase('username').'/'.getPhrase('email').'/'.getPhrase('ID_number'),
 
 			'ng-class'=>'{"has-error": loginForm.email.$touched && loginForm.email.$invalid}',
 

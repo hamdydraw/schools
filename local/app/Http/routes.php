@@ -1174,6 +1174,10 @@ Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
 });
 
+// get logged users
+Route::get('userslogged/list','UsersLoginController@index');
+Route::get('userslogged/getList', 'UsersLoginController@getDatatable');
+Route::get('userslogged/destroy','UsersLoginController@deleteRecords');
 
 
 //get_default_selectors
