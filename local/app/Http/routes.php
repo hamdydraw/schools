@@ -270,6 +270,8 @@ Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
 Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
+Route::post('parent/payments/offline-payment/update/{slug}', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'DuesController@updateOfflinePayment']);
+
 
 Route::get('mastersettings/dues/getList', [
     'as' => 'dues.dataTable',

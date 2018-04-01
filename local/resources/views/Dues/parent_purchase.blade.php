@@ -78,7 +78,7 @@
                                     class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
                     @endif
                     @if($settingsModule->offline_payment->value == 1)
-                        <button type="submit" class="btn-lg btn button btn-info"
+                        <button type="submit" class="btn-lg btn button btn-info" id="ofline"
                                 title="{{ getPhrase('click_here_to_update_payment_details') }}"><i
                                     class="fa fa-money"></i> {{getPhrase('offline_payment')}}
                         </button>

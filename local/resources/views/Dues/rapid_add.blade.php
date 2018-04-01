@@ -51,5 +51,4 @@
     </div>
 @stop
 @section('footer_scripts')
-    @include('Dues.js-script')
 @stop

@@ -492,6 +492,7 @@ define('URL_PAYPAL_PAYMENTS_AJAXLIST', PREFIX.'payments/getList/');
 define('URL_PAYU_PAYMENT_SUCCESS', PREFIX.'payments/payu/status-success');
 define('URL_PAYU_PAYMENT_CANCEL', PREFIX.'payments/payu/status-cancel');
 define('URL_UPDATE_OFFLINE_PAYMENT', PREFIX.'payments/offline-payment/update');
+define('URL_UPDATE_OFFLINE_PAYMENT_PARENT', PREFIX.'parent/payments/offline-payment/update');
 
 //COUPONS MODULE
 define('URL_COUPONS', PREFIX.'coupons/list');

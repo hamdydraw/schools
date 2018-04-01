@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    <div id="page-wrapper" ng-controller="MarksController" ng-init="getStudentMarks112()">
+    <div id="page-wrapper" ng-controller="MarksController">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -23,7 +23,7 @@
                         </li>
 
                         <li>
-                            {{$slug->name.getPhrase('students_marks')}}
+                            {{$slug->name}}
                         </li>
                     </ol>
                 </div>
@@ -34,32 +34,35 @@
                 <div class="panel-heading">
                     <div class="pull-right">
                         <a class="btn btn-primary"
-                           href="{{url('supervisor/staff/students-marks')}}">{{getPhrase('all')}}</a> &nbsp;
+                           href="{{url('supervisor/staff/students-marks')}}">{{getPhrase('teachers')}}</a> &nbsp;
                     </div>
                     <h1>{{getPhrase('student_marks')}}</h1>
                 </div>
-                <div class="panel-body instruction">
-
-                    <?php
-                    $user = Auth::user();
-
-                    $role_name = getRoleData($user->role_id);
-
-                    $param = array('class'=>'custom-row-6');
-                    if($role_name=='student') {
-
-                        $param = array('user_slug'=>$user->slug,
-                            'class'=>'custom-row-6');
-                    }
-                    ?>
-
+                <div class="panel-body instruction" style="margin-top: -120px;">
                     <hr>
-
+                    <div class="row">
+                        <fieldset class="form-group col-md-4">
+                            {{ Form::label('classes', getphrase('classes')) }}
+                            <span class="text-red">*</span>
+                            <select name="classes" class="form-control" id="classes" required="required"
+                                    ng-model='default' ng-change="getStudentMarks112()">
+                                <option value="select">{{getPhrase('select')}}</option>
+                                @foreach($classes as $class)
+                                    <?php
+                                    $parent_title=new \App\Course();
+                                    $parent_title=$parent_title->getParentCourseTitle($class->id);
+                                    ?>
+                                    <option value="{{$class->id}}">{{$class->course_title.'-'.$parent_title}}</option>
+                                @endforeach
+                            </select>
+                        </fieldset>
+                    </div>
                     <div ng-show="result_data.length>0" class="row">
 
                         <div class="col-sm-4 col-sm-offset-8">
                             <div class="input-group">
-                                <input type="text" ng-model="search" class="form-control input-lg" placeholder="{{getPhrase('search')}}" name="search" />
+                                <input type="text" ng-model="search" class="form-control input-lg"
+                                       placeholder="{{getPhrase('search')}}" name="search"/>
                                 <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button">
                             <i class="glyphicon glyphicon-search"></i>
@@ -71,52 +74,63 @@
                     <br>
 
                     <div class="row vertical-scroll">
-                        <h4 ng-if="result_data.students.length>0" >@{{course_title}}</h4>
-                        <table ng-if="result_data.students.length>0" class="table table-bordered" style="border-collapse: collapse;">
+                        <h4 ng-if="result_data.students.length>0">@{{course_title}}</h4>
+                        <table ng-if="result_data.students.length>0" class="table table-bordered"
+                               style="border-collapse: collapse;">
                             <thead>
                             <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
 
                             <th style="border:1px solid #000;">{{getPhrase('roll_no')}}</th>
-                            <th style="border:1px solid #000;" ng-repeat="subject in subjects">@{{subject.subject_code}} (@{{subject.total_marks}})</th>
+                            <th style="border:1px solid #000;" ng-repeat="subject in subjects">@{{subject.subject_code}}
+                                (@{{subject.total_marks}})
+                            </th>
                             <th style="border:1px solid #000;">AVG. %</th>
                             <th style="border:1px solid #000;">{{getPhrase('excellence_level')}}</th>
 
                             </thead>
                             <tbody>
                             <tr ng-repeat="student in students | filter:search track by $index">
-                                <td style="border:1px solid #000;"><a href="{{URL_USER_DETAILS}}@{{student.slug}}">@{{student.name}}</a></td>
+                                <td style="border:1px solid #000;"><a href="{{URL_USER_DETAILS}}@{{student.slug}}">@{{student.name}}</a>
+                                </td>
 
                                 <td style="border:1px solid #000;">@{{student.roll_no}}</td>
 
-                                <td style="border:1px solid #000; text-align: center;" ng-repeat="marks_record in student.marks">@{{marks_record.score.marks_obtained}}</td>
+                                <td style="border:1px solid #000; text-align: center;"
+                                    ng-repeat="marks_record in student.marks">@{{marks_record.score.marks_obtained}}
+                                </td>
                                 <td style="border:1px solid #000;">
-
-                                    <div class="progress">
-                                        <div  ng-class="{'progress-bar progress-bar-success':student.average>=75, 'progress-bar progress-bar-warning':student.average<75 && student.average>=50, 'progress-bar progress-bar-danger':student.average<50 && student.average>=0}" role="progressbar" aria-valuenow="@{{student.average}}"
-                                              aria-valuemin="0" aria-valuemax="100" style='width:@{{student.average}}%'>
+                                    <div ng-if="!student.marks">
+                                        {{getPhrase('this_student_did_not_take_exams')}}
+                                    </div>
+                                    <div ng-if="student.marks" class="progress">
+                                        <div ng-class="{'progress-bar progress-bar-success':student.average>=75, 'progress-bar progress-bar-warning':student.average<75 && student.average>=50, 'progress-bar progress-bar-danger':student.average<50 && student.average>=0}"
+                                             role="progressbar" aria-valuenow="@{{student.average}}"
+                                             aria-valuemin="0" aria-valuemax="100" style='width:@{{student.average}}%'>
                                             @{{student.average}}%
                                         </div>
                                     </div>
 
                                 </td>
-                                <td style="border:1px solid #000;" ng-if="student.average >= 70">{{getPhrase('excellent_level')}}</td>
-                                <td style="border:1px solid #000;" ng-if="student.average < 70">{{getPhrase('ordinary_level')}}</td>
+                                <td style="border:1px solid #000;"
+                                     ng-if="student.marks && student.average >= 70">{{getPhrase('excellent_level')}}</td>
+                                <td style="border:1px solid #000;"
+                                    ng-if="student.marks && student.average < 70">{{getPhrase('ordinary_level')}}</td>
+                                <td style="border:1px solid #000;"
+                                    ng-if="!student.marks">{{getPhrase('not_exist')}}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div ng-if="result_data.students.length<=0"  class="text-center" >{{getPhrase('no_data_available')}}</div>
+                    <div ng-if="result_data.students.length<=0"
+                         class="text-center">{{getPhrase('no_data_available')}}</div>
                     <br>
-                    <a ng-if="result_data.students.length>0"  class="btn btn-primary" ng-click="printIt()">Print</a>
+                    <a ng-if="result_data.students.length>0" class="btn btn-primary" ng-click="printIt()">Print</a>
                 </div>
             </div>
             </hr>
         </div>
     </div>
-    </div>
-    </div>
-
     {!! Form::close() !!}
 
 @stop

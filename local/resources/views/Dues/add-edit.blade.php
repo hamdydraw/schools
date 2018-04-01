@@ -15,13 +15,8 @@
             <div class="panel panel-custom">
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons helper_step1">
-
                         <a href="{{url('/mastersettings/dues/rapid_add')}}"
                            class="btn  btn-primary button">{{ getPhrase('create_rapid_expense')}}</a>
-                        <a href="{{url('/mastersettings/dues')}}"
-                           class="btn  btn-primary button">{{ getPhrase('all')}}</a>
-
-
                     </div>
                     <h1>{{ $title }}</h1>
                 </div>
@@ -48,16 +43,9 @@
                             <option value="select">{{getPhrase('select')}}</option>
                         </select>
                     </fieldset>
-                    <fieldset class="form-group col-md-4 semister" style="visibility: hidden;">
-                        {{ Form::label('semisters', getphrase('semisters')) }}
-                        <span class="text-red">*</span>
-                        <select name="semisters" class="form-control" id="semisters" required="required">
-                            <option value="select">{{getPhrase('select')}}</option>
-                        </select>
-                    </fieldset>
                     <div class="row">
                         <a class="btn btn-primary" onclick="appendExpenses()" id="add_new_expenses"
-                           style="visibility: hidden;">{{getPhrase('add_new_expenses')}}</a>
+                           style="visibility: hidden; margin-top: 33px;">{{getPhrase('add_new_expenses')}}</a>
                     </div>
                     <br>
                     <div class="row" id="expenses_body">

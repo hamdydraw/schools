@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
-							<li><a href={{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
+							<li><a href={{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
 						 
 							<li class="active">{{getPhrase('offline_payment_form')}}</li>
 						</ol>
@@ -30,8 +30,11 @@
 					  <?php $instructions = $paypal = getSetting('offline_payment_information', 'payment_gateways'); ?>
 					  {!!$instructions!!}
 					</div>
-					{!! Form::open(array('url' => URL_UPDATE_OFFLINE_PAYMENT, 'method' => 'POST', 'name'=>'formQuiz ',  )) !!}
-					 
+						@if(isset($parent))
+							{!! Form::open(array('url' => URL_UPDATE_OFFLINE_PAYMENT_PARENT.'/'.$slug, 'method' => 'POST', 'name'=>'formQuiz ',  )) !!}
+						@else
+							{!! Form::open(array('url' => URL_UPDATE_OFFLINE_PAYMENT, 'method' => 'POST', 'name'=>'formQuiz ',  )) !!}
+						@endif
 					<input type="hidden" name="payment_data" value="{{$payment_data}}">
 					<div class="row">
 					 <fieldset class="form-group col-md-12">

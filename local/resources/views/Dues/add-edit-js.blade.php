@@ -17,22 +17,9 @@
 
                 }
             })
-            $.ajax({
-                type: 'get',
-                url: '{{url('mastersettings/academics/get-semisters')}}',
-                data: {academic_id: $(this).val()},
-                success: function (result) {
-                    $('#semisters').empty();
-                    $('#semisters').append("<option value='select'>{{getPhrase('select')}}</option>");
-                    result.forEach(function (n) {
-                        var dataAppend = "<option value=" + n.sem_num + ">" + n.sem_num + "</option>"
-                        $('#semisters').append(dataAppend)
-                    })
-                }
-            })
         })
-        $(document).on('change', '#semisters', function () {
-            if ($('#semesters').val() !== 'select' && $('#academic_year').val() !== 'select' && $('#course_parent').val() !== 'select') {
+        $(document).on('change', '#course_parent', function () {
+            if ($('#academic_year').val() !== 'select' && $('#course_parent').val() !== 'select') {
                 $('#add_new_expenses').css('visibility', 'visible')
             }
             $.ajax({
@@ -40,17 +27,13 @@
                 url: '{{url('mastersettings/dues/get-all-expensesRelated')}}',
                 data: {
                     'academic_id': $('#academic_year').val(),
-                    'course_parent': $('#course_parent').val(),
-                    'semister': $(this).val()
+                    'course_parent': $(this).val()
                 },
                 success: function (result) {
                     $('#expenses_body').empty()
                     $('#expenses_body').append(result)
                 }
             })
-        })
-        $(document).on('change', '#course_parent', function () {
-            $('.semister').css('visibility','visible')
         })
         $(document).on('click','.deleteExpenses',function () {
             $(this).parent().parent().parent().remove();
