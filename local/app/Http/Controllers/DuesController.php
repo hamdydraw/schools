@@ -9,9 +9,12 @@ use App\DuesPurchase;
 use App\Payment;
 use App\Paypal;
 use App\Settings;
+use App\Student;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Softon\Indipay\Facades\Indipay;
 use Yajra\Datatables\Datatables;
 
@@ -37,23 +40,30 @@ class DuesController extends Controller
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('add_academic_dues');
         $data['academics_years'] = Academic::select(['id', 'academic_year_title'])->get();
-        $data['allDues'] = AcademicDues::select(['id', 'title'])->get();
         return view('Dues.add-edit', $data);
     }
 
     public function store(Request $request)
     {
+        $toBeDeleted = DB::select('Delete from academics_dues_pivot where academic_id = ?', [$request->academic_year]);
         if ($request->academic_year == "select" or $request->academic_dues == "select" or $request->due_value == "select" or $request->due_type == "select") {
             flash(getPhrase('error'), getPhrase("you_should_fill_all_fields"), 'error');
             return redirect()->back();
         }
-        $relation = new AcademicDuesPivot();
-        $relation->academic_id = $request->academic_year;
-        $relation->due_id = $request->academic_dues;
-        $relation->due_value = $request->due_value;
-        $relation->due_type = $request->due_type;
-        $relation->user_stamp($request);
-        $relation->save();
+        if ($request->has('due_title')) {
+            for ($i = 0; $i < count($request->due_title); $i++) {
+                $relation = new AcademicDuesPivot();
+                $relation->academic_id = $request->academic_year;
+                $relation->course_parent = $request->course_parent;
+                $relation->semister = $request->semisters;
+                $relation->due_id = $request->due_title[$i];
+                $relation->due_value = $request->due_value[$i];
+                $relation->due_type = $request->due_type[$i];
+                $relation->user_stamp($request);
+                $relation->save();
+            }
+        }
+
         flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
         return redirect()->back();
     }
@@ -85,17 +95,6 @@ class DuesController extends Controller
             })
             ->removeColumn('id')
             ->make();
-    }
-
-    public function edit($id)
-    {
-        $data['layout'] = getLayout();
-        $data['active_class'] = 'academic';
-        $data['title'] = getPhrase('edit_academic_dues');
-        $data['academics_years'] = Academic::select(['id', 'academic_year_title'])->get();
-        $data['allDues'] = AcademicDues::select(['id', 'title'])->get();
-        $data['record'] = AcademicDuesPivot::find($id);
-        return view('Dues.add-edit', $data);
     }
 
     public function update(Request $request, $id)
@@ -131,22 +130,18 @@ class DuesController extends Controller
         $data['active_class'] = 'children';
         $data['title'] = getPhrase('parent_purchase');
         $data['record'] = User::where('slug', $slug)->first();
+        $course_id=Student::where('user_id',$data['record']->id)->first(['course_parent_id'])->course_parent_id;
         $data['dues_purchase'] = DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
             Auth::user()->id)->first();
         $currentAcademicYear = new Academic();
         $currentAcademicYear = $currentAcademicYear->getCurrentAcademic()->id;
-        $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=',
-            'academics_dues_pivot.due_id')
+        $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
             ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
-            ->select([
-                'academics_dues_pivot.id',
-                'academics_dues_pivot.due_value',
-                'academics_dues_pivot.due_type',
-                'academics_dues.title'
-            ])
+            ->where('academics_dues_pivot.course_parent', $course_id)
+            ->select(['academics_dues_pivot.id','academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title'])
             ->get();
-        $data['total']=0;
-        $data['schoolExpenses']=$schoolExp;
+        $data['total'] = 0;
+        $data['schoolExpenses'] = $schoolExp;
         if ($data['schoolExpenses'] != null) {
             foreach ($data['schoolExpenses'] as $value) {
                 if ($value->due_type == 'mandatory') {
@@ -165,12 +160,12 @@ class DuesController extends Controller
         $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
         $items = ' ';
-        if ($request->expenses == null){
+        if ($request->expenses == null) {
             flash(getPhrase('Ooops'), getPhrase('you_must_select_one_item_at_least'), 'error');
             return back();
         }
         foreach ($request->expenses as $expense) {
-            $items .= '-'.explode('/', $expense)[1].'<br>';
+            $items .= '-' . explode('/', $expense)[1] . '<br>';
         }
         if ($gateway == 'payu') {
             if (!getSetting('payu', 'module')) {
@@ -182,12 +177,12 @@ class DuesController extends Controller
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
-            $payment->user_id=$userRecord->id;
-            $payment->plan_type='academic_expenses';
-            $payment->payment_gateway='payu';
-            $payment->paid_by_parent=1;
+            $payment->user_id = $userRecord->id;
+            $payment->plan_type = 'academic_expenses';
+            $payment->payment_gateway = 'payu';
+            $payment->paid_by_parent = 1;
             $payment->payment_status = PAYMENT_STATUS_PENDING;
-            $token=$payment->slug;
+            $token = $payment->slug;
             $payment->save();
             $config = config();
             $payumoney = $config['indipay']['payumoney'];
@@ -221,12 +216,12 @@ class DuesController extends Controller
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
-            $payment->user_id=$userRecord->id;
-            $payment->plan_type='academic_expenses';
-            $payment->payment_gateway='paypal';
-            $payment->paid_by_parent=1;
+            $payment->user_id = $userRecord->id;
+            $payment->plan_type = 'academic_expenses';
+            $payment->payment_gateway = 'paypal';
+            $payment->paid_by_parent = 1;
             $payment->payment_status = PAYMENT_STATUS_PENDING;
-            $token=$payment->slug;
+            $token = $payment->slug;
             $payment->save();
 
             $paypal = new Paypal();
@@ -237,33 +232,25 @@ class DuesController extends Controller
             $paypal->pay(); //Proccess the payment
         }
         if ($gateway == 'offline') {
-
             if (!getSetting('offline_payment', 'module')) {
                 flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
                 return back();
             }
-
-            $payment_data = [];
-            foreach (Input::all() as $key => $value) {
-                if ($key == '_token') {
-                    continue;
-                }
-                $payment_data[$key] = $value;
-            }
-
             $data['active_class'] = 'feedback';
-            $data['payment_data'] = json_encode($payment_data);
+            $data['payment_data'] = json_encode(Input::all());
             $data['layout'] = getLayout();
             $data['title'] = getPhrase('offline_payment');
+            $data['parent'] = 'done';
+            $data['slug'] = $slug;
             return view('payments.offline-payment', $data);
 
         }
     }
 
-    public function storePurchase(Request $request, $slug)
+    public function storePurchase($request, $slug)
     {
-        $current_academic_id=new Academic();
-        $current_academic_id=$current_academic_id->getCurrentAcademic()->id;
+        $current_academic_id = new Academic();
+        $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
         $parent_id = Auth::user()->id;
         $student_id = User::where('slug', $slug)->first(['id'])->id;
         $checkExistence = DuesPurchase::where('student_id', $student_id)->where('parent_id', $parent_id)->first();
@@ -288,9 +275,9 @@ class DuesController extends Controller
             $db_object = array(
                 'total' => $specifications['total'],
                 'coupon' => $specifications['coupon'],
+                'your_money' => $specifications['your_money'],
                 'remain_purchase' => $specifications['remain_purchase'],
-                'dues_title' => $specifications['dues_title'],
-                'your_money' => $specifications['your_money']
+                'dues_title' => $specifications['dues_title']
             );
             $db_object = json_encode($db_object);
             $checkExistence->specifications = $db_object;
@@ -315,9 +302,9 @@ class DuesController extends Controller
         $db_object = array(
             'total' => $total,
             'coupon' => $coupon,
+            'your_money' => $your_money,
             'remain_purchase' => $remain_purchase,
-            'dues_title' => $dues_titles,
-            'your_money' => $your_money
+            'dues_title' => $dues_titles
         );
 
         $db_object = json_encode($db_object);
@@ -332,6 +319,7 @@ class DuesController extends Controller
             return $dues_purchase_instance->makeSlug(getHashCode());
         }
     }
+
     public function createRapidExpenses()
     {
         $data['layout'] = getLayout();
@@ -339,6 +327,7 @@ class DuesController extends Controller
         $data['title'] = getPhrase('add_rapid_expenses');
         return view('Dues.rapid_add', $data);
     }
+
     public function storeRapidExpenses(Request $request)
     {
         $instance = new AcademicDues();
@@ -348,6 +337,7 @@ class DuesController extends Controller
         flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
         return redirect()->back();
     }
+
     public function getAllRapidExpenses()
     {
         $data['layout'] = getLayout();
@@ -355,9 +345,10 @@ class DuesController extends Controller
         $data['title'] = getPhrase('academic_dues');
         return view('Dues.all-rapid-expenses', $data);
     }
+
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id','title'])->get();
+        $records = AcademicDues::select(['id', 'title'])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($record) {
                 return getPhrase($record->title);
@@ -377,20 +368,69 @@ class DuesController extends Controller
             ->removeColumn('id')
             ->make();
     }
+
     public function editRapidExpenses($id)
     {
-        $data['record']=AcademicDues::find($id);
+        $data['record'] = AcademicDues::find($id);
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('edit_rapid_expenses');
         return view('Dues.rapid_add', $data);
     }
-    public function UpdateRapidExpenses(Request $request,$id)
+
+    public function UpdateRapidExpenses(Request $request, $id)
     {
         $instance = AcademicDues::find($id);
-        $instance->title=$request->title;
+        $instance->title = $request->title;
         $instance->update();
         flash(getPhrase('success'), getPhrase("updated_successfully"), 'success');
         return redirect()->back();
+    }
+
+    public function getAllexpensesRelated(Request $request)
+    {
+        $results = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
+            ->where('academics_dues_pivot.academic_id', $request->academic_id)
+            ->where('academics_dues_pivot.course_parent', $request->course_parent)
+            ->get(['academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title']);
+        return $this->getElementExpenses(null, $results);
+
+    }
+
+    public function getElementExpenses(Request $request = null, $fillables = null)
+    {
+        $due_types = array('mandatory', 'optional');
+        $data['due_types'] = $due_types;
+        $data['allDues'] = AcademicDues::select(['id', 'title'])->get();
+        if ($request != null and $request->kind == 'emptyFields') {
+            return view('Dues.expenses_element', $data);
+        }
+        if ($fillables != null) {
+            $data['fillables'] = $fillables;
+            return view('Dues.expenses_element', $data);
+        }
+    }
+
+    public function updateOfflinePayment(Request $request, $slug)
+    {
+        $userRecord = User::where('slug', $slug)->first();
+        $payment_data = json_decode($request->payment_data);
+        $items = '';
+        foreach ($payment_data->expenses as $expense) {
+            $items .= '-' . explode('/', $expense)[1] . '<br>';
+        }
+        $this->storePurchase(json_decode($request->payment_data), $slug);
+        $payment = new Payment();
+        $payment->slug = $payment->makeSlug(getHashCode());
+        $payment->item_name = $items;
+        $payment->user_id = $userRecord->id;
+        $payment->plan_type = 'academic_expenses';
+        $payment->payment_gateway = 'offline';
+        $payment->paid_by_parent = 1;
+        $payment->notes = $request->payment_details;
+        $payment->payment_status = PAYMENT_STATUS_SUCCESS;
+        $payment->save();
+        flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
+        return redirect(URL_PAYMENTS_LIST . Auth::user()->slug);
     }
 }

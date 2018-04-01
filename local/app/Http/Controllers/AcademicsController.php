@@ -272,4 +272,9 @@ class AcademicsController extends Controller
     {
         return array_pluck(Academic::all(), 'academic_year_title', 'id');
     }
+    public function getSemisters(Request $request)
+    {
+        $instance=App\AcademicSemester::where('academic_id',$request->academic_id)->get(['sem_num']);
+        return $instance;
+    }
 }

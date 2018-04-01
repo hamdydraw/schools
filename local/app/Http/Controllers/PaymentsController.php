@@ -385,6 +385,8 @@ class PaymentsController extends Controller
             case 'exam':
                 return Quiz::where('slug', '=', $slug)->first();
                 break;
+            case 'expenses':
+            break;
         }
 
         return null;

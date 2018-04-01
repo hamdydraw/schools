@@ -7,6 +7,7 @@ use App\Academic;
 use App\AcademicSemester;
 use App\Quiz;
 use App\QuizApplicability;
+use App\Staff;
 use App\Student;
 use App\SupervisorStaff;
 use App\User;
@@ -45,27 +46,27 @@ class SupervisorController extends Controller
             ]);
         $currentSlug = explode('/', $_SERVER['HTTP_REFERER']);
         $currentSlug = $currentSlug[count($currentSlug) - 1];
-        $link='';
-        $titleOfAction='';
+        $link = '';
+        $titleOfAction = '';
         if ($currentSlug == 'teachers-subjects') {
-            $link='assign-subject/';
-            $titleOfAction='assign_subject_to_teacher';
+            $link = 'assign-subject/';
+            $titleOfAction = 'assign_subject_to_teacher';
         } elseif ($currentSlug == 'staff-topic-plan') {
-            $link='lesson-plans/';
-            $titleOfAction='lesson_plans_of_teacher';
+            $link = 'lesson-plans/';
+            $titleOfAction = 'lesson_plans_of_teacher';
         } elseif ($currentSlug == 'teacher-student-attendance') {
-            $link='students-attendance/';
-            $titleOfAction='teacher_students_attendance';
+            $link = 'students-attendance/';
+            $titleOfAction = 'teacher_students_attendance';
         } elseif ($currentSlug == 'teachers-timetable') {
-            $link='teacher-timetable/';
-            $titleOfAction='teacher_timetable';
+            $link = 'teacher-timetable/';
+            $titleOfAction = 'teacher_timetable';
         } elseif ($currentSlug == 'students-marks') {
-            $link='students-marks/';
-            $titleOfAction='students_marks';
+            $link = 'students-marks/';
+            $titleOfAction = 'students_marks';
         }
 
         return Datatables::of($records)
-            ->addColumn('action', function ($records) use ($link,$titleOfAction) {
+            ->addColumn('action', function ($records) use ($link, $titleOfAction) {
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -73,7 +74,7 @@ class SupervisorController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                         <li>
                        
-                            <a href="'.$link.$records->slug.'"><i class="fa fa-pencil"></i>' . getPhrase("$titleOfAction") . '</a></li>
+                            <a href="' . $link . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("$titleOfAction") . '</a></li>
                             
                             </ul>
                     </div>';
@@ -107,7 +108,12 @@ class SupervisorController extends Controller
 
     public function getStudentsView($slug)
     {
-        $user = User::where('slug', $slug)->first(['name','slug']);
+        $user = User::where('slug', $slug)->first(['id', 'name', 'slug']);
+        $classes = Staff::join('courses', 'courses.id', '=', 'staff.course_id')
+            ->where('staff.user_id', $user->id)
+            ->select(['courses.course_title', 'courses.id'])
+            ->get();
+        $data['classes'] = $classes;
         $data['title'] = getPhrase('students-marks-of-teacher');
         $data['layout'] = getLayout();
         $data['active_class'] = 'students-marks';
@@ -124,14 +130,12 @@ class SupervisorController extends Controller
         $currentSemester = $currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
         $quiz_details = Quiz::get();
         $subjects = QuizApplicability::
-
-
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-            /* ->where('course_subject.staff_id',$user->id)*/
+            ->where('course_subject.staff_id',$user->id)
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
-            ->where('quizapplicability.semister', '=', $currentSemester)
+            ->where('quizapplicability.semister', '=', 1)
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -148,7 +152,7 @@ class SupervisorController extends Controller
                 ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', $currentSemester)
+                ->where('quizresults.semister', '=', 1)
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -223,19 +227,19 @@ class SupervisorController extends Controller
         $data['layout'] = getLayout();
         if ($slug == 'teachers-subjects') {
             $data['active_class'] = 'teachers-subjects';
-            $data['title']=getPhrase('assign_subjects_to_teachers');
+            $data['title'] = getPhrase('assign_subjects_to_teachers');
         } elseif ($slug == 'staff-topic-plan') {
             $data['active_class'] = 'staff-topic-plan';
-            $data['title']=getPhrase('staff_topic_plan');
+            $data['title'] = getPhrase('staff_topic_plan');
         } elseif ($slug == 'teacher-student-attendance') {
             $data['active_class'] = 'teacher-student-attendance';
-            $data['title']=getPhrase('students_attendance_of_teacher');
+            $data['title'] = getPhrase('students_attendance_of_teacher');
         } elseif ($slug == 'teachers-timetable') {
             $data['active_class'] = 'teachers-timetable';
-            $data['title']=getPhrase('teacher_timetable');
+            $data['title'] = getPhrase('teacher_timetable');
         } elseif ($slug == 'students-marks') {
             $data['active_class'] = 'students-marks';
-            $data['title']=getPhrase('students_marks');
+            $data['title'] = getPhrase('students_marks');
         }
         return view('educational_supervisor.teachers', $data);
     }
@@ -295,16 +299,15 @@ class SupervisorController extends Controller
         }
         DB::beginTransaction();
         try {
-            $teacherNames='';
-            $exist='';
+            $teacherNames = '';
+            $exist = '';
             if (count($request->selected_list)) {
                 $previousRecord = SupervisorStaff::where('supervisor_id', $record->id)->delete();
                 foreach (array_unique($request->selected_list) as $key => $value) {
-                    if (SupervisorStaff::where('staff_id',$value)->first() != null)
-                    {
-                        $teacherName=User::where('id',$value)->first(['name']);
-                        $exist=1;
-                        $teacherNames .='('.$teacherName->name .')';
+                    if (SupervisorStaff::where('staff_id', $value)->first() != null) {
+                        $teacherName = User::where('id', $value)->first(['name']);
+                        $exist = 1;
+                        $teacherNames .= '(' . $teacherName->name . ')';
                         continue;
                     }
                     $newRecord = new SupervisorStaff();
@@ -315,9 +318,9 @@ class SupervisorController extends Controller
 
             }
             DB::commit();
-            if ($exist == 1){
-                flash(getPhrase('Ooops'), $teacherNames . ' '.getPhrase('Assigned_to_another_supervisor'), 'error');
-            }else {
+            if ($exist == 1) {
+                flash(getPhrase('Ooops'), $teacherNames . ' ' . getPhrase('Assigned_to_another_supervisor'), 'error');
+            } else {
                 flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
             }
         } catch (Exception $ex) {

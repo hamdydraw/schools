@@ -253,7 +253,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                             <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
                                             class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
                         @endif
-                        <li><a href="{{url('mastersettings/dues')}}"> <i
+                        <li><a href="{{url('mastersettings/dues/create')}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('academic_dues')}}</a></li>
                         @if(getSetting("transfer_students", 'module'))
                             <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i
