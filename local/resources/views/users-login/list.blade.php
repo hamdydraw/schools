@@ -28,6 +28,7 @@
                             <thead>
                             <tr>
                                 {{--`users_id`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `record_status`, `table_name`--}}
+                                <th>{{ getPhrase('id')}}</th>
                                 <th>{{ getPhrase('username')}}</th>
                                 <th>{{ getPhrase('user_number')}}</th>
                                 <th>{{ getPhrase('created_at')}}</th>
