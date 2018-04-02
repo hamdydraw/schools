@@ -142,7 +142,6 @@ class SupervisorController extends Controller
                 'quizzes.subject_id',
                 'subject_title',
                 'subject_code',
-                'course_subject.id as dd',
                 'quizzes.offline_quiz_category_id',
                 'total_marks'
             ])
@@ -371,7 +370,6 @@ class SupervisorController extends Controller
                 'quizzes.subject_id',
                 'subject_title',
                 'subject_code',
-                'course_subject.id as dd',
                 'quizzes.offline_quiz_category_id',
                 'total_marks'
             ])
