@@ -154,7 +154,7 @@ class SupervisorController extends Controller
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('students.course_id', '=', $request->course_id)
                 ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', 1)
+                ->where('quizresults.semister', '=', $currentSemester)
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -383,7 +383,7 @@ class SupervisorController extends Controller
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
                 ->where('students.course_id', '=', $request->classNumber)
                 ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', 1)
+                ->where('quizresults.semister', '=', $currentSemester)
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
