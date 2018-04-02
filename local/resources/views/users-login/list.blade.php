@@ -20,7 +20,7 @@
             <div class="panel panel-custom">
                 <div class="panel-heading">
                     <h1>{{$title}}</h1>
-                    <a  class=" btn btn-primary" href="../userslogged/destroy">{{ getPhrase('delete')}}</a>
+                    <a  class=" btn btn-primary pull-right" href="../userslogged/destroy">{{ getPhrase('delete_all_records')}}</a>
                 </div>
                 <div class="panel-body packages">
                     <div>
@@ -28,11 +28,11 @@
                             <thead>
                             <tr>
                                 {{--`users_id`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `record_status`, `table_name`--}}
-                                <th>{{ getPhrase('id')}}</th>
                                 <th>{{ getPhrase('username')}}</th>
+                                <th>{{ getPhrase('user_number')}}</th>
                                 <th>{{ getPhrase('created_at')}}</th>
                                 <th>{{ getPhrase('user_ip')}}</th>
-
+                                <th>{{ getPhrase('user_type')}}</th>
                             </tr>
                             </thead>
 

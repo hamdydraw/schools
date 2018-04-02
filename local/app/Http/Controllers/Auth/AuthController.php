@@ -148,11 +148,12 @@ class AuthController extends Controller
                 // return redirect(PREFIX);
                 if ($user === true) {
                     $login_status = true;
-                    $logged =  User::where('username','=',$request->email)->pluck('id')->first();
+                    $logged =  User::where('email','=',$request->email)->pluck('id')->first();
                     $loggedUser = new App\UsersLogin();
                     $loggedUser->users_id = $logged;
                     $loggedUser->user_stamp($request);
                     $loggedUser->save();
+
 
                 }
                 elseif ($user === 'detained')

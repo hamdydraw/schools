@@ -27,9 +27,13 @@ class UsersLoginController extends Controller
     public function getDatatable()
     {
         $records = UsersLogin::join('users','users_login.users_id','=','users.id')->select([
-            'users_login.id','users.name','users_login.created_at','users_login.created_by_ip'
+            'users.name','users.id','users_login.created_at','users_login.created_by_ip'
         ]);
         return Datatables::of($records)
+        ->addColumn('user_type',function ($records)
+        {
+            return getPhrase(getRole($records->users_id));
+        })
             ->make();
 
     }

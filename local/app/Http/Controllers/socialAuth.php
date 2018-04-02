@@ -55,6 +55,10 @@ class socialAuth extends Controller
             return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
         }
         $this->postLogin($user->id);
+        $loggedUser = new App\UsersLogin();
+        $loggedUser->users_id = $user->id;
+        $loggedUser->user_stamp($request);
+        $loggedUser->save();
 
         return json_encode(['state' => 'success' ,'message' => getPhrase('login_success')]);
     }
@@ -88,6 +92,10 @@ class socialAuth extends Controller
             return json_encode(['state' => 'failed' ,'message' => getPhrase('invalid_social_login')]);
         }
         $this->postLogin($user->id);
+        $loggedUser = new App\UsersLogin();
+        $loggedUser->users_id = $user->id;
+        $loggedUser->user_stamp($request);
+        $loggedUser->save();
 
         return json_encode(['state' => 'success' ,'message' => getPhrase('login_success')]);
     }
