@@ -133,7 +133,7 @@ class SupervisorController extends Controller
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-            ->where('course_subject.staff_id',$user->id)
+            ->where('course_subject.staff_id', $user->id)
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
             ->where('quizapplicability.semister', '=', 1)
             ->select([
@@ -142,6 +142,7 @@ class SupervisorController extends Controller
                 'quizzes.subject_id',
                 'subject_title',
                 'subject_code',
+                'course_subject.id as dd',
                 'quizzes.offline_quiz_category_id',
                 'total_marks'
             ])
@@ -151,6 +152,7 @@ class SupervisorController extends Controller
             $students = Student::join('users', 'users.id', '=', 'students.user_id')
                 ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+                ->where('students.course_id', '=', $request->course_id)
                 ->where('quizresults.academic_id', '=', $currentAcademic)
                 ->where('quizresults.semister', '=', 1)
                 ->groupBy('roll_no')
@@ -350,27 +352,26 @@ class SupervisorController extends Controller
 
     public function printClassMarks(Request $request, $slug)
     {
-        $user = User::where('slug', $slug)->first(['id', 'name']);
+        $user = User::where('slug', $slug)->first(['id']);
         $currentAcademic = new Academic();
         $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
         $currentSemester = new AcademicSemester();
         $currentSemester = $currentSemester->getCurrentSemeterOfAcademicYear($currentAcademic)->sem_num;
         $quiz_details = Quiz::get();
         $subjects = QuizApplicability::
-
-
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-            /* ->where('course_subject.staff_id',$user->id)*/
+            ->where('course_subject.staff_id', $user->id)
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
-            ->where('quizapplicability.semister', '=', $currentSemester)
+            ->where('quizapplicability.semister', '=', 1)
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
                 'quizzes.subject_id',
                 'subject_title',
                 'subject_code',
+                'course_subject.id as dd',
                 'quizzes.offline_quiz_category_id',
                 'total_marks'
             ])
@@ -380,8 +381,9 @@ class SupervisorController extends Controller
             $students = Student::join('users', 'users.id', '=', 'students.user_id')
                 ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
                 ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+                ->where('students.course_id', '=', $request->classNumber)
                 ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', $currentSemester)
+                ->where('quizresults.semister', '=', 1)
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -395,37 +397,37 @@ class SupervisorController extends Controller
         }
         $students_list = [];
         $final_list = [];
+        if (isset($students)) {
+            foreach ($students as $student) {
+                $temp = [];
+                $temp['user_id'] = $student->user_id;
+                $temp['name'] = $student->name;
+                $temp['roll_no'] = $student->roll_no;
+                $temp['image'] = $student->image;
+                $temp['slug'] = $student->user_slug;
+                $subject_marks = [];
+                $average = 0;
+                foreach ($subjects as $subject) {
+                    $marks_records = $this->getSubjectMarks($student->user_id,
+                        $subject->subject_id);
+                    $subject_marks['subject_id'] = $subject->subject_id;
+                    $subject_marks['subject_title'] = $subject->subject_title;
+                    $subject_marks['subject_code'] = $subject->subject_code;
+                    $subject_marks ['score'] = isset($marks_records) ? $marks_records : null;
+                    $subject_marks ['percentage'] = isset($marks_records->percentage) ? $marks_records->percentage : 0;
+                    $average = $average + $subject_marks ['percentage'];
+                    $temp['marks'][] = $subject_marks;
+                }
+                $temp['average'] = 0;
+                $total_subjects = count($subjects);
 
-        foreach ($students as $student) {
-            $temp = [];
-            $temp['user_id'] = $student->user_id;
-            $temp['name'] = $student->name;
-            $temp['roll_no'] = $student->roll_no;
-            $temp['image'] = $student->image;
-            $temp['slug'] = $student->user_slug;
-            $subject_marks = [];
-            $average = 0;
-            foreach ($subjects as $subject) {
-                $marks_records = $this->getSubjectMarks($student->user_id,
-                    $subject->subject_id);
+                if ($total_subjects) {
+                    $temp['average'] = round($average / count($subjects));
+                }
 
-                $subject_marks['subject_id'] = $subject->subject_id;
-                $subject_marks['subject_title'] = $subject->subject_title;
-                $subject_marks['subject_code'] = $subject->subject_code;
-                $subject_marks ['score'] = isset($marks_records) ? $marks_records : null;
-                $subject_marks ['percentage'] = isset($marks_records->percentage) ? $marks_records->percentage : 0;
-                $average = $average + $subject_marks ['percentage'];
-                $temp['marks'][] = $subject_marks;
+                $students_list[] = $temp;
+
             }
-            $temp['average'] = 0;
-            $total_subjects = count($subjects);
-
-            if ($total_subjects) {
-                $temp['average'] = round($average / count($subjects));
-            }
-
-            $students_list[] = $temp;
-
         }
         $final_list['students'] = $students_list;
         $final_list['subjects'] = $subjects;

@@ -18,15 +18,16 @@
         $scope.default = '';
 
         $scope.getStudentMarks112 = function () {
-
+            $('#classNumber').val($('#classes').val())
             route = '{{url("supervisor/staff/students-marks/".$slug->slug)}}';
             data = {
                 _method: 'post',
                 '_token': httpPreConfig.getToken(),
+                'course_id':$('#classes').val()
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-                console.log(result);
+                console.log(result.data)
                 result = result.data;
                 $scope.result_data = result;
                 $scope.subjects = result.subjects;

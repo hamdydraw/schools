@@ -125,6 +125,7 @@
                     <div ng-if="result_data.students.length<=0"
                          class="text-center">{{getPhrase('no_data_available')}}</div>
                     <br>
+                    <input type="hidden" name="classNumber" value="" id="classNumber">
                     <a ng-if="result_data.students.length>0" class="btn btn-primary" ng-click="printIt()">Print</a>
                 </div>
             </div>
