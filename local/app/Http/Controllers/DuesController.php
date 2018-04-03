@@ -114,7 +114,7 @@ class DuesController extends Controller
         return redirect()->back();
     }
 
-    public function delete($id)
+    /*public function delete($id)
     {
         if (AcademicDuesPivot::find($id)->delete()) {
             flash(getPhrase('deleted'), getPhrase('deleted_successfully'), 'success');
@@ -122,7 +122,7 @@ class DuesController extends Controller
             flash(getPhrase('error'), getPhrase('error_happened'), 'error');
         }
         return redirect()->back();
-    }
+    }*/
 
     public function viewParentPurchase($slug)
     {
@@ -332,6 +332,7 @@ class DuesController extends Controller
     {
         $instance = new AcademicDues();
         $instance->title = $request->title;
+        $instance->slug = $instance->makeSlug(getHashCode());
         $instance->user_stamp($request);
         $instance->save();
         flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
@@ -348,7 +349,7 @@ class DuesController extends Controller
 
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id', 'title'])->get();
+        $records = AcademicDues::select(['id', 'title','slug'])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($record) {
                 return $record->title;
@@ -360,15 +361,33 @@ class DuesController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="rapid_edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
                            
-                            <li><a href="dues/delete/' . $records->id . '"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
+                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
                             
                         </ul>
                     </div>';
             })
             ->removeColumn('id')
+            ->removeColumn('slug')
             ->make();
     }
-
+    public function deleteRapidExpenses($slug)
+    {
+        try {
+            if (!env('DEMO_MODE')) {
+                AcademicDues::where('slug', $slug)->delete();
+            }
+            $response['status'] = 1;
+            $response['message'] = getPhrase('record_deleted_successfully');
+        } catch (Exception $e) {
+            $response['status'] = 0;
+            if (getSetting('show_foreign_key_constraint', 'module')) {
+                $response['message'] = $e->getMessage();
+            } else {
+                $response['message'] = getPhrase('this_record_is_in_use_in_other_modules');
+            }
+        }
+        return json_encode($response);
+    }
     public function editRapidExpenses($id)
     {
         $data['record'] = AcademicDues::find($id);

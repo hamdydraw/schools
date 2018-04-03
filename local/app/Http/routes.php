@@ -270,7 +270,7 @@ Route::get('mastersettings/dues/create','DuesController@create');
 Route::post('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
-Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
+/*Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');*/
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
 Route::post('parent/payments/offline-payment/update/{slug}', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'DuesController@updateOfflinePayment']);
@@ -286,6 +286,7 @@ Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpens
 Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
 Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
 Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::delete('mastersettings/dues/delete/{slug}','DuesController@deleteRapidExpenses');
 Route::get('mastersettings/dues/get-all-expensesRelated','DuesController@getAllexpensesRelated');
 Route::get('mastersettings/dues/get-element-expenses','DuesController@getElementExpenses');
 Route::get('mastersettings/dues-expenses-rapid/getList', [

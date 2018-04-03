@@ -16,7 +16,7 @@
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons helper_step1">
                         <a href="{{url('/mastersettings/dues/rapid_add')}}"
-                           class="btn  btn-primary button">{{ getPhrase('create_rapid_expense')}}</a>
+                           class="btn  btn-primary button">{{ getPhrase('create_expenses_items')}}</a>
                     </div>
                     <h1>{{ $title }}</h1>
                 </div>
