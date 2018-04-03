@@ -463,6 +463,8 @@ define('URL_PARENT_CHILDREN_GETLIST_EXPENSES', PREFIX.'purchase-expenses/getlist
 define('URL_MASTERSETTINGS_EXPENSES_DELETE', PREFIX.'mastersettings/dues/delete/');
 define('URL_SUBSCRIBE', PREFIX.'subscription/subscribe/');
 define('URL_PARENT_ANALYSIS_FOR_STUDENTS', PREFIX.'children/analysis');
+//skills
+define('URL_MASTERSETTINGS_SKILLS_DELETE', PREFIX.'mastersettings/skills/delete/');
 
 //STUDENT BOOKMARKS
 define('URL_BOOKMARKS', PREFIX.'student/bookmarks/');

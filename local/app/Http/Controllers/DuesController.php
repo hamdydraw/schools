@@ -354,6 +354,7 @@ class DuesController extends Controller
             ->editColumn('title', function ($record) {
                 return $record->title;
             })->addColumn('action', function ($records) {
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -361,8 +362,8 @@ class DuesController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="rapid_edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
                            
-                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
-                            
+                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
+               
                         </ul>
                     </div>';
             })

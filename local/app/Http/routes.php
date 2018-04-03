@@ -256,7 +256,7 @@ Route::get('mastersettings/skills', 'SkillsController@index');
 Route::get('mastersettings/skills/create', 'SkillsController@create');
 Route::get('mastersettings/skills/edit/{id}', 'SkillsController@edit');
 Route::post('mastersettings/skills/update/{id}', 'SkillsController@update');
-Route::get('mastersettings/skills/delete/{id}', 'SkillsController@delete');
+Route::delete('mastersettings/skills/delete/{slug}', 'SkillsController@delete');
 Route::get('mastersettings/skills/getRelatedSubjects', 'SkillsController@getRelatedSubjects');
 Route::post('mastersettings/skills/store', 'SkillsController@store');
 Route::get('mastersettings/skills/getList', [

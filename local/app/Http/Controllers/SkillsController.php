@@ -38,7 +38,7 @@ class SkillsController extends Controller
 
     public function getDatatable()
     {
-        $records = Skill::select(['id','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+        $records = Skill::select(['id','slug','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
 
 
         return Datatables::of($records)
@@ -67,7 +67,7 @@ class SkillsController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="skills/edit/'.$records->id.'"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
                            
-                            <li><a href="skills/delete/'.$records->id.'"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
+                             <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
                             
                         </ul>
                     </div>';
@@ -81,6 +81,7 @@ class SkillsController extends Controller
 
             ->removeColumn('course_id')
             ->removeColumn('subject_id')
+            ->removeColumn('slug')
 
 
             ->removeColumn('id')
@@ -159,14 +160,22 @@ class SkillsController extends Controller
         flash(getPhrase('updated'), getPhrase('skills_updated_successfully'), 'success');
         return redirect()->back();
     }
-    public function delete($id)
+    public function delete($slug)
     {
-        if (Skill::find($id)->delete())
-        {
-            flash(getPhrase('deleted'), getPhrase('skill_deleted_successfully'), 'success');
-        }else{
-            flash(getPhrase('error'), getPhrase('error_happened'), 'error');
+        try {
+            if (!env('DEMO_MODE')) {
+                Skill::where('slug', $slug)->delete();
+            }
+            $response['status'] = 1;
+            $response['message'] = getPhrase('record_deleted_successfully');
+        } catch (Exception $e) {
+            $response['status'] = 0;
+            if (getSetting('show_foreign_key_constraint', 'module')) {
+                $response['message'] = $e->getMessage();
+            } else {
+                $response['message'] = getPhrase('this_record_is_in_use_in_other_modules');
+            }
         }
-        return redirect()->back();
+        return json_encode($response);
     }
 }

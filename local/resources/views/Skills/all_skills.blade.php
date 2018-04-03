@@ -53,4 +53,5 @@
 
 @section('footer_scripts')
     @include('common.datatables', array('route'=>'skills.dataTable'))
+    @include('Skills.deletescript', array('route'=>URL_MASTERSETTINGS_SKILLS_DELETE))
 @stop
