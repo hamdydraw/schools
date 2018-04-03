@@ -10,7 +10,42 @@ app.controller('questionsController', function($scope, $http,Upload,toastr) {
 
 
 
+    $scope.current_course_sc  = {{$course_id}};
+    $scope.topic_id_sc        = {{$topic_id}};
+    $scope.current_subject_sc = {{$subject->id}};
+    $scope.current_course_sc  = $scope.current_course_sc.toString();
+    $scope.topic_id_sc        = $scope.topic_id_sc.toString();
+    $scope.topics_sc = [];
 
+    console.log($scope.current_subject_sc);
+
+    $scope.getCourses = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_courses',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_courses_sc = response.data;
+            })
+    }
+    $scope.getCourses();
+
+    $scope.get_topics = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc,
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                console.log(response.data);
+                $scope.topics_sc = response.data;
+            })
+    }
+
+    $scope.get_topics();
 
     $scope.file_name = null;
 

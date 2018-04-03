@@ -85,7 +85,6 @@
 
 							<div id="academic_details" class="tab-pane fade in active">
 
-						
 
 						<div class="table-responsive"> 
 
@@ -181,7 +180,7 @@
 
 
 
-								<div class="table-responsive"> 
+								<div class="table-responsive">
 
 						<table class="table table-striped table-bordered  " cellspacing="0" width="100%">
 

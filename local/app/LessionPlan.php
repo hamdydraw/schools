@@ -32,8 +32,8 @@ class LessionPlan extends Model
         $subjects = [];
         $subjects = CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->join('courses', 'courses.id', '=', 'course_subject.course_id')
-            ->where('staff_id', '=', $user_id)
-            ->where('academic_id', '=', $current_academic_id)
+            ->where('course_subject.staff_id', '=', $user_id)
+            ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
                 'course_subject.id as id',
                 'course_subject.slug as slug',

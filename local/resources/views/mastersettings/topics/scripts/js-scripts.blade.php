@@ -3,11 +3,27 @@
 <script src="{{JS}}select2.js"></script>
 <script>
 
-    var app = angular.module('academia', ['ngMessages']);
+    var app = angular.module('academia', ['ngMessages','satellizer']);
 
 
     app.controller('angTopicsController', function ($scope, $http) {
 
+        $scope.academic_courses_sc  = [];
+        $scope.current_course_sc    = {{$record_course_id}};
+        $scope.current_course_sc    = $scope.current_course_sc.toString();
+
+        $scope.getCourses = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_courses',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_courses_sc = response.data;
+                })
+        }
+        $scope.getCourses();
         /**
          * Gets the no. of years based on the dueration for that course
          * @return {[type]} [description]

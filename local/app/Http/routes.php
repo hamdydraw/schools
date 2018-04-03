@@ -1290,12 +1290,17 @@ Route::get('get_lms_content/{slug}',function ($slug){
     return \App\LmsContent::where('slug',$slug)->first();
 });
 
+Route::get('get_topics/{subject}/{course}', function ($subject,$course) {
+    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->get();
+});
+
+
 
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_user_id_from_slug('ahmd-yosf');
+    return get_sesmters();
 });
 
 

@@ -51,6 +51,7 @@ class TopicsController extends Controller
             ->select([
                 'subjects.subject_title',
                 'semester_num',
+                'course_id',
                 'parent_id',
                 'topic_name',
                 'description',
@@ -91,6 +92,9 @@ class TopicsController extends Controller
                 return ($records->parent_id == 0) ? '<i class="fa fa-check text-success"></i>' :
                     Topic::getParentRecord($records->parent_id)->topic_name;
             })
+            ->editColumn('course_id', function ($records) {
+                return getCourseName($records->course_id);
+            })
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('updated_at')
@@ -113,10 +117,8 @@ class TopicsController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-        $academic = new App\Academic;
-        $total_semesters = App\AcademicSemester::where('academic_id', $academic->getCurrentAcademic()['id'])->count();
-
         $data['record'] = false;
+        $data['record_course_id'] = "17";
         $data['active_class'] = 'master_settings';
         $data['parent_topics'] = array();
         $list = App\Subject::all();
@@ -125,7 +127,7 @@ class TopicsController extends Controller
         $data['parent_topics'][0] = getPhrase('select');
         $data['title'] = getPhrase('add_topic');
         $data['module_helper'] = getModuleHelper('create-topics');
-        $data['total_semesters'] = $total_semesters;
+        $data['total_semesters'] = get_sesmters();
         return view('mastersettings.topics.add-edit', $data);
     }
 
@@ -144,10 +146,9 @@ class TopicsController extends Controller
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
         }
-        $academic = new App\Academic;
-        $total_semesters = App\AcademicSemester::where('academic_id', $academic->getCurrentAcademic()['id'])->count();
 
         $data['record'] = $record;
+        $data['record_course_id'] = $record->course_id;
         $list = App\Subject::all();
         $data['subjects'] = array_pluck($list, 'subject_title', 'id');
         $data['parent_topics'] = array_pluck(Topic::getTopics($record->subject_id, 0), 'topic_name', 'id');
@@ -155,7 +156,7 @@ class TopicsController extends Controller
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('edit_topic');
         $data['module_helper'] = getModuleHelper('create-topics');
-        $data['total_semesters'] = $total_semesters;
+        $data['total_semesters'] = get_sesmters();
         return view('mastersettings.topics.add-edit', $data);
     }
 
@@ -210,6 +211,7 @@ class TopicsController extends Controller
         $record->parent_id = $request->parent_id;
         $record->semester_num = $request->semesters;
         $record->subject_id = $request->subject_id;
+        $record->course_id = $request->course_id;
         $record->description = '';
         if (isset($request->description)) {
             $record->description = $request->description;
@@ -239,13 +241,15 @@ class TopicsController extends Controller
             'topic_name' => 'bail|required',
 
         ]);
+
         $record = new Topic();
         $name = $request->topic_name;
         $record->topic_name = $name;
         $record->slug = $record->makeSlug($name, true);
         $record->subject_id = $request->subject_id;
+        $record->course_id = $request->course_id;
         $record->parent_id = $request->parent_id;
-        $record->semester_num = $request->semester_num;
+        $record->semester_num = $request->semesters;
         $record->description = $request->description;
         $record->user_stamp($request);
         $record->save();
