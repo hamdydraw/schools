@@ -351,7 +351,7 @@ class DuesController extends Controller
         $records = AcademicDues::select(['id', 'title'])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($record) {
-                return getPhrase($record->title);
+                return $record->title;
             })->addColumn('action', function ($records) {
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

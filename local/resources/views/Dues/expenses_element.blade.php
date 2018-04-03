@@ -6,7 +6,7 @@
             <select class="form-control" name="due_title[]" required>
                 @if(isset($allDues))
                     @foreach($allDues as $due_type)
-                        <option value="{{$due_type->id}}" required>{{getPhrase($due_type->title)}}</option>
+                        <option value="{{$due_type->id}}" required>{{$due_type->title}}</option>
                     @endforeach
                 @endif
             </select>
