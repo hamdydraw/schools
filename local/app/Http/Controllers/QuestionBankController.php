@@ -96,6 +96,7 @@ class QuestionBankController extends Controller
                 ->orderBy('updated_at', 'desc');
         }
 
+
         $table = Datatables::of($records)
             ->addColumn('action', function ($records) {
 
@@ -120,6 +121,9 @@ class QuestionBankController extends Controller
             ->editColumn('subject_title', function ($records) {
                 return '<a href="' . URL_QUESTIONBANK_VIEW . $records->slug . '">' . $records->subject_title . '</a>';
             })
+//            ->editColumn('id', function ($records) {
+//                return abs($records->id-100);
+//            })
             // ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('is_lab')
@@ -283,6 +287,9 @@ class QuestionBankController extends Controller
 
         $topics = $subject->topics();
 
+        $data['course_id'] = 17;
+        $data['topic_id']  = 0;
+
 
 
         $courseOfSubject = App\CourseSubject::where('subject_id', $subject->id)->first(['course_parent_id']);
@@ -334,6 +341,9 @@ class QuestionBankController extends Controller
         $subject = $record->subject()->first();
 
         $topics = $subject->topics();
+
+        $data['course_id'] = $record->course_id;
+        $data['topic_id']  = $record->topic_id;
 
 
 
@@ -442,6 +452,7 @@ class QuestionBankController extends Controller
             $record->question = $request->question;
             $record->difficulty_level = $request->difficulty_level;
             $record->hint = $request->hint;
+            $record->course_id = $request->course_id;
             $record->explanation = $request->explanation;
             $record->marks = $request->marks;
             if ($request->has('skills') and $request->skills != 0) {
@@ -940,6 +951,7 @@ class QuestionBankController extends Controller
             $record->question = $request->question;
             $record->difficulty_level = $request->difficulty_level;
             $record->hint = $request->hint;
+            $record->course_id = $request->course_id;
             $record->explanation = $request->explanation;
             $record->marks = $request->marks;
             $record->question_type = $request->question_type;

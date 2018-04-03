@@ -14,13 +14,21 @@
     {{ Form::label('semesters', getphrase('semester')) }}
     <span class="text-red">*</span>
     <select class="form-control" id="semesters" name="semesters" onchange="getSubjectParents(this.value)">
-        @for($i=1;$i<=$total_semesters;$i++)
-            <option value="{{$i}}" @if(isset($record->semester_num) and $record->semester_num == $i) selected @endif>{{$i}}</option>
+        @for($i=1;$i<=count($total_semesters);$i++)
+            <option value="{{$i}}" @if(isset($record->semester_num) and $record->semester_num == $i) selected @endif>{{getPhrase($total_semesters[$i])}}</option>
         @endfor
     </select>
     <div class="validation-error" ng-messages="formTopics.subject_id.$error">
         {!! getValidationMessage()!!}
     </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label for="">{{getPhrase('branch')}}</label>
+    <span class="text-red">*</span>
+    <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+        <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+    </select>
 </fieldset>
 
 <fieldset class="form-group">

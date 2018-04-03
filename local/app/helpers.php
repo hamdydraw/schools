@@ -1272,3 +1272,16 @@ function getPeriod(){
 function get_user_id_from_slug($slug){
     return User::where('slug',$slug)->pluck('id')->first();
 }
+
+function get_sesmters(){
+    $current_academic_id = new Academic();
+    $year = $current_academic_id->getCurrentAcademic()->id;
+    $data = \App\AcademicSemester::where('academic_id',$year)->get();
+    $new = [];
+    foreach ($data as $item){
+        $new[$item->sem_num] = numberToWord($item->sem_num);
+    }
+    return $new;
+}
+
+
