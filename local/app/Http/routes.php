@@ -256,7 +256,7 @@ Route::get('mastersettings/skills', 'SkillsController@index');
 Route::get('mastersettings/skills/create', 'SkillsController@create');
 Route::get('mastersettings/skills/edit/{id}', 'SkillsController@edit');
 Route::post('mastersettings/skills/update/{id}', 'SkillsController@update');
-Route::get('mastersettings/skills/delete/{id}', 'SkillsController@delete');
+Route::delete('mastersettings/skills/delete/{slug}', 'SkillsController@delete');
 Route::get('mastersettings/skills/getRelatedSubjects', 'SkillsController@getRelatedSubjects');
 Route::post('mastersettings/skills/store', 'SkillsController@store');
 Route::get('mastersettings/skills/getList', [
@@ -270,9 +270,11 @@ Route::get('mastersettings/dues/create','DuesController@create');
 Route::post('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
-Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
+/*Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');*/
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
+Route::post('parent/payments/offline-payment/update/{slug}', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'DuesController@updateOfflinePayment']);
+
 
 Route::get('mastersettings/dues/getList', [
     'as' => 'dues.dataTable',
@@ -284,6 +286,9 @@ Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpens
 Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
 Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
 Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::delete('mastersettings/dues/delete/{slug}','DuesController@deleteRapidExpenses');
+Route::get('mastersettings/dues/get-all-expensesRelated','DuesController@getAllexpensesRelated');
+Route::get('mastersettings/dues/get-element-expenses','DuesController@getElementExpenses');
 Route::get('mastersettings/dues-expenses-rapid/getList', [
     'as' => 'duesExpensesRapid.dataTable',
     'uses' => 'DuesController@getAllRapidExpensesDatatable'
@@ -326,6 +331,7 @@ Route::get('mastersettings/academics/getList', [
     'uses' => 'AcademicsController@getDatatable'
 ]);
 Route::get('mastersettings/academics/get-academics', 'AcademicsController@getAcademics');
+Route::get('mastersettings/academics/get-semisters', 'AcademicsController@getSemisters');
 
 
 //Academic Courses
@@ -337,6 +343,7 @@ Route::post('mastersettings/academic-courses/{slug}', 'AcademicCoursesController
 
 
 Route::post('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
+Route::get('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
 Route::post('academic-courses/get-child-courses', 'AcademicCoursesController@getChildCourses');
 
 
@@ -934,6 +941,7 @@ Route::group(['middleware' => 'stopOrOn:coupons'], function () {
 
 
     Route::post('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
+    Route::get('coupons/validate-coupon', 'CouponcodesController@validateCoupon');
 });
 
 //Feedback Module
@@ -1174,6 +1182,10 @@ Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
 });
 
+// get logged users
+Route::get('userslogged/list','UsersLoginController@index');
+Route::get('userslogged/getList', 'UsersLoginController@getDatatable');
+Route::get('userslogged/destroy','UsersLoginController@deleteRecords');
 
 
 //get_default_selectors

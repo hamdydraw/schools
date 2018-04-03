@@ -15,13 +15,15 @@
         $scope.subjects = [];
         $scope.students = [];
         $scope.course_title = '';
+        $scope.default = '';
 
         $scope.getStudentMarks112 = function () {
-
-            route = '{{url("supervisor/staff/students-marks/".$slug)}}';
+            $('#classNumber').val($('#classes').val())
+            route = '{{url("supervisor/staff/students-marks/".$slug->slug)}}';
             data = {
                 _method: 'post',
                 '_token': httpPreConfig.getToken(),
+                'course_id':$('#classes').val()
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
@@ -29,7 +31,6 @@
                 $scope.result_data = result;
                 $scope.subjects = result.subjects;
                 $scope.students = result.students;
-
                 $scope.course_title = result.course_title;
             });
         }

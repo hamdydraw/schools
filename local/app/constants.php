@@ -360,6 +360,11 @@ define('URL_MODULEHELPERS_ADD_STEPS', PREFIX.'mastersettings/module-helpers/add-
 define('URL_TRASH_LIST', PREFIX.'trashes/list');
 define('URL_TRASH_DATABLE', PREFIX.'trashes/getList');
 
+//logged users Routes
+
+define('URL_LOGGED_LIST', PREFIX.'userslogged/list');
+define('URL_LOGGED_DATABLE', PREFIX.'userslogged/getList');
+
 //CONSTANST FOR USERS MODULE
 define('URL_USERS', PREFIX.'users/');
 define('URL_USER_DETAILS', PREFIX.'users/details/');
@@ -455,8 +460,11 @@ define('URL_PARENT_CHILDREN', PREFIX.'parent/children');
 define('URL_PARENT_CHILDREN_LIST', PREFIX.'parent/children_list');
 define('URL_PARENT_CHILDREN_GETLIST', PREFIX.'parent/children/getList/');
 define('URL_PARENT_CHILDREN_GETLIST_EXPENSES', PREFIX.'purchase-expenses/getlist/');
+define('URL_MASTERSETTINGS_EXPENSES_DELETE', PREFIX.'mastersettings/dues/delete/');
 define('URL_SUBSCRIBE', PREFIX.'subscription/subscribe/');
 define('URL_PARENT_ANALYSIS_FOR_STUDENTS', PREFIX.'children/analysis');
+//skills
+define('URL_MASTERSETTINGS_SKILLS_DELETE', PREFIX.'mastersettings/skills/delete/');
 
 //STUDENT BOOKMARKS
 define('URL_BOOKMARKS', PREFIX.'student/bookmarks/');
@@ -495,6 +503,7 @@ define('URL_PAYPAL_PAYMENTS_AJAXLIST', PREFIX.'payments/getList/');
 define('URL_PAYU_PAYMENT_SUCCESS', PREFIX.'payments/payu/status-success');
 define('URL_PAYU_PAYMENT_CANCEL', PREFIX.'payments/payu/status-cancel');
 define('URL_UPDATE_OFFLINE_PAYMENT', PREFIX.'payments/offline-payment/update');
+define('URL_UPDATE_OFFLINE_PAYMENT_PARENT', PREFIX.'parent/payments/offline-payment/update');
 
 //COUPONS MODULE
 define('URL_COUPONS', PREFIX.'coupons/list');

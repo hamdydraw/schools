@@ -49,4 +49,5 @@
 
 @section('footer_scripts')
     @include('common.datatables', array('route'=>'duesExpensesRapid.dataTable'))
+    @include('Dues.deletescript', array('route'=>URL_MASTERSETTINGS_EXPENSES_DELETE))
 @stop

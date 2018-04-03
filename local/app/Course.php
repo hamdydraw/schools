@@ -51,5 +51,9 @@ class Course extends Model
     {
         return Course::where('id','=', $courseId)->get()->first();
     }
+    public function getParentCourseTitle($id)
+    {
+        return $this->where('id',$this->find($id)->parent_id)->first(['course_title'])->course_title;
+    }
 
 }

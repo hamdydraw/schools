@@ -199,6 +199,12 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 {{ getPhrase('Recycle_Bin') }}</sapn>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{URL_LOGGED_LIST}}">
+                            <sapn><i class="fa fa-users" aria-hidden="true"></i>
+                                {{ getPhrase('Logged_Users') }}</sapn>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">
@@ -247,7 +253,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                             <li><a href="{{URL_CERTIFICATES_DASHBOARD}}"> <i
                                             class="fa fa-certificate"></i> {{ getPhrase('certificates')}}</a></li>
                         @endif
-                        <li><a href="{{url('mastersettings/dues')}}"> <i
+                        <li><a href="{{url('mastersettings/dues/create')}}"> <i
                                         class="fa fa-exchange"></i> {{ getPhrase('academic_dues')}}</a></li>
                         @if(getSetting("transfer_students", 'module'))
                             <li><a href="{{URL_STUDENT_TRANSFERS}}"> <i

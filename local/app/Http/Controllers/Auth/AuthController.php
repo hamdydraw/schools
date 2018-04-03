@@ -148,6 +148,12 @@ class AuthController extends Controller
                 // return redirect(PREFIX);
                 if ($user === true) {
                     $login_status = true;
+                    $logged =  User::where('username','=',$request->email)->pluck('id')->first();
+                    $loggedUser = new App\UsersLogin();
+                    $loggedUser->users_id = $logged;
+                    $loggedUser->user_stamp($request);
+                    $loggedUser->save();
+
                 }
                 elseif ($user === 'detained')
                 {
@@ -161,6 +167,30 @@ class AuthController extends Controller
         elseif ($user=Auth::attempt(['email'=> $request->email, 'password' => $request->password,'status'=>1])) {
             if ($user === true) {
                 $login_status = true;
+                $logged =  User::where('email','=',$request->email)->pluck('id')->first();
+                $loggedUser = new App\UsersLogin();
+                $loggedUser->users_id = $logged;
+                $loggedUser->user_stamp($request);
+                $loggedUser->save();
+
+            }
+            elseif ($user === 'detained')
+            {
+                return redirect()->back()
+                    ->withErrors([
+                        getPhrase('this_user_is_detained')
+                    ]);
+            }
+        }
+
+        elseif ($user=Auth::attempt(['id_number'=> $request->email, 'password' => $request->password,'status'=>1])) {
+            if ($user === true) {
+                $login_status = true;
+                $logged =  User::where('id_number','=',$request->email)->pluck('id')->first();
+                $loggedUser = new App\UsersLogin();
+                $loggedUser->users_id = $logged;
+                $loggedUser->user_stamp($request);
+                $loggedUser->save();
             }
             elseif ($user === 'detained')
             {
