@@ -45,7 +45,7 @@ class DuesController extends Controller
 
     public function store(Request $request)
     {
-        $toBeDeleted = DB::select('Delete from academics_dues_pivot where academic_id = ?', [$request->academic_year]);
+        $toBeDeleted = DB::delete('Delete from academics_dues_pivot where academic_id = ?', [$request->academic_year]);
         if ($request->academic_year == "select" or $request->academic_dues == "select" or $request->due_value == "select" or $request->due_type == "select") {
             flash(getPhrase('error'), getPhrase("you_should_fill_all_fields"), 'error');
             return redirect()->back();
