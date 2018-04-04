@@ -55,7 +55,6 @@ class DuesController extends Controller
                 $relation = new AcademicDuesPivot();
                 $relation->academic_id = $request->academic_year;
                 $relation->course_parent = $request->course_parent;
-                $relation->semister = $request->semisters;
                 $relation->due_id = $request->due_title[$i];
                 $relation->due_value = $request->due_value[$i];
                 $relation->due_type = $request->due_type[$i];
