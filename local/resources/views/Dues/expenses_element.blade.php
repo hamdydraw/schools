@@ -55,7 +55,8 @@
                     @if(isset($due_types))
                         @foreach($due_types as $due_type)
                             <option value="{{$due_type}}"
-                                    @if($fillable->due_type == $due_type) selected @endif>{{getPhrase($due_type)}}</option>
+                                    @if($fillable->due_type == $due_type) selected @endif>{{getPhrase($due_type)}}
+                            </option>
                         @endforeach
                     @endif
                 </select>
