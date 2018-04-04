@@ -1227,7 +1227,7 @@ function getSubjects($year,$semester,$course){
                              ->where('academic_id',$year)
                              ->where('semister',$semester)
                              ->where('course_id',$course)
-                             ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+                             ->select(['subjects.id','subjects.subject_title'])
                              ->get();
 }
 
