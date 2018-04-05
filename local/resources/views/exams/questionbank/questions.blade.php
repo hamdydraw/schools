@@ -26,7 +26,7 @@
 						
 						<div class="pull-right messages-buttons">
 							 
-							<a href="{{URL_QUESTIONBANK_ADD_QUESTION.$subject->slug}}" class="btn  btn-primary button" >{{ getPhrase('create')}}</a>
+							<a href="{{URL_QUESTIONBANK_ADD_QUESTION}}" class="btn  btn-primary button" >{{ getPhrase('create')}}</a>
 							 
 						</div>
 						<h1>{{ $title }}</h1>
@@ -38,6 +38,7 @@
 								<tr>
 								 
 									<th>{{ getPhrase('subject')}}</th>
+									<th>{{ getPhrase('branch')}}</th>
 									<th>{{ getPhrase('topic')}}</th>
 									<th>{{ getPhrase('type')}}</th>
 									<th>{{ getPhrase('question')}}</th>
@@ -61,7 +62,7 @@
  
 @section('footer_scripts')
   
- @include('common.datatables', array('route'=>URL_QUESTIONBANK_GETQUESTION_LIST.$subject->slug, 'route_as_url' => 'TRUE'))
+ @include('common.datatables', array('route'=>URL_QUESTIONBANK_GETQUESTION_LIST.$subject->slug.'/'.$course->slug, 'route_as_url' => 'TRUE'))
  @include('common.deletescript', array('route'=>URL_QUESTIONBANK_DELETE))
 
 @stop

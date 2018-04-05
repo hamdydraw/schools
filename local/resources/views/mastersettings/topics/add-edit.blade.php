@@ -55,7 +55,7 @@
 		<!-- /#page-wrapper -->
 @stop
 @section('footer_scripts')
-	@include('mastersettings.topics.scripts.js-scripts',array('topic_name'=>isset($record->topic_name) ? $record->topic_name : null,'record_course_id'=> $record_course_id));
+	@include('mastersettings.topics.scripts.js-scripts',array('topic_name'=>isset($record->topic_name) ? $record->topic_name : null,'recored_subject'=>$recored_subject,'recored_parent'=>$recored_parent,'recored_sem' => $recored_sem,'record_course_id'=> $record_course_id));
 	@include('common.validations', array('isLoaded'=>TRUE));
 @stop
  

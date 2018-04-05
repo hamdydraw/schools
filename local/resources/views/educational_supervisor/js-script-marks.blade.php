@@ -15,7 +15,7 @@
         $scope.subjects = [];
         $scope.students = [];
         $scope.course_title = '';
-        $scope.default = '';
+        $scope.default='select';
 
         $scope.getStudentMarks112 = function () {
             $('#classNumber').val($('#classes').val())
@@ -27,7 +27,6 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
-                console.log(result.data)
                 result = result.data;
                 $scope.result_data = result;
                 $scope.subjects = result.subjects;

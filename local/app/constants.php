@@ -276,7 +276,7 @@ define('URL_QUIZ_CATEGORY_DELETE', PREFIX.'exams/categories/delete/');
 
 //QUESTIONSBANK MODULE
 define('URL_QUESTIONBANK_VIEW', PREFIX.'exams/questionbank/view/');
-define('URL_QUESTIONBANK_ADD_QUESTION', PREFIX.'exams/questionbank/add-question/');
+define('URL_QUESTIONBANK_ADD_QUESTION', PREFIX.'exams/questionbank/add-question');
 define('URL_QUESTIONBANK_EDIT_QUESTION', PREFIX.'exams/questionbank/edit-question/');
 define('URL_QUESTIONBANK_EDIT', PREFIX.'exams/questionbank/edit');
 define('URL_QUESTIONBANK_ADD', PREFIX.'exams/questionbank/add');

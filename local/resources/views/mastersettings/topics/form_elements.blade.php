@@ -1,26 +1,17 @@
 <fieldset class="form-group">
-    {{ Form::label('subject_id', getphrase('subject')) }}
+    <label for="">{{getPhrase('academic_year')}}</label>
     <span class="text-red">*</span>
-    {{Form::select('subject_id', $subjects, null, ['class'=>'form-control','onChange'=>'getSubjectsParentsFromTopic()', 'id'=>'subject',
-        'ng-model'=>'subject_id',
-        'required'=> 'true',
-        'ng-class'=>'{"has-error": formTopics.subject_id.$touched && formTopics.subject_id.$invalid}'
-    ])}}
-    <div class="validation-error" ng-messages="formTopics.subject_id.$error">
-        {!! getValidationMessage()!!}
-    </div>
-</fieldset>
-<fieldset class="form-group">
-    {{ Form::label('semesters', getphrase('semester')) }}
-    <span class="text-red">*</span>
-    <select class="form-control" id="semesters" name="semesters" onchange="getSubjectParents(this.value)">
-        @for($i=1;$i<=count($total_semesters);$i++)
-            <option value="{{$i}}" @if(isset($record->semester_num) and $record->semester_num == $i) selected @endif>{{getPhrase($total_semesters[$i])}}</option>
-        @endfor
+    <select name="year123" class="form-control"  required="required" ng-model="current_year_sc">
+        <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
     </select>
-    <div class="validation-error" ng-messages="formTopics.subject_id.$error">
-        {!! getValidationMessage()!!}
-    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label for="">{{getPhrase('Semester')}}</label>
+    <span class="text-red">*</span>
+    <select name="semesters" class="form-control" required="required" ng-model="current_sem_sc">
+        <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+    </select>
 </fieldset>
 
 <fieldset class="form-group">
@@ -32,14 +23,20 @@
 </fieldset>
 
 <fieldset class="form-group">
-    {{ Form::label('parent_id', getphrase('select_parent')) }}
+    <label for="">{{getPhrase('subject')}}</label>
     <span class="text-red">*</span>
-    <select class="form-control" id="parent" name="parent_id">
-        <option value=""></option>
+    <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc" ng-change="getTopics()">
+        <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
     </select>
-    <div class="validation-error" ng-messages="formTopics.subject_id.$error">
-        {!! getValidationMessage()!!}
-    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <label for="">{{getPhrase('select_parent')}}</label>
+    <span class="text-red">*</span>
+    <select name="parent_id" class="form-control" required="required" ng-model="current_topic_sc">
+        <option value="0">{{getPhrase('top_level')}}</option>
+        <option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+    </select>
 </fieldset>
 
 

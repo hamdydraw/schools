@@ -143,7 +143,7 @@ class QuestionBankController extends Controller
      * Questions listing method
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function show($slug)
+    public function show($subjecti,$course)
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
@@ -151,15 +151,17 @@ class QuestionBankController extends Controller
         }
 
 
-        $subject = Subject::getRecordWithSlug($slug);
+        $subject = Subject::getRecordWithSlug($subjecti);
+        $coursee  = App\Course::where('slug',$course)->first();
 
         if ($isValid = $this->isValidRecord($subject)) {
             return redirect($isValid);
         }
 
         $data['active_class'] = 'exams';
-        $data['title'] = $subject->subject_title . ' ' . getPhrase('questions');
+        $data['title'] = $subject->subject_title . ' - ' . $coursee->course_title . ' ' . getPhrase('questions');
         $data['subject'] = $subject;
+        $data['course']  = $coursee;
         $data['module_helper'] = getModuleHelper('view-questions');
 
         return view('exams.questionbank.questions', $data);
@@ -180,7 +182,7 @@ class QuestionBankController extends Controller
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    public function getQuestions($slug)
+    public function getQuestions($subjecti,$coursee)
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
@@ -188,7 +190,8 @@ class QuestionBankController extends Controller
         }
 
 
-        $subject = Subject::getRecordWithSlug($slug);
+        $subject = Subject::getRecordWithSlug($subjecti);
+        $course = App\Course::where('slug',$coursee)->first();
 
         $isValid = $this->isValidRecord($subject);
         if ($isValid) {
@@ -202,6 +205,7 @@ class QuestionBankController extends Controller
             )
             ->select([
                 'subjects.subject_title',
+                'questionbank.course_id as branch',
                 'topics.topic_name',
                 'questionbank.question_type',
                 'questionbank.question',
@@ -218,6 +222,7 @@ class QuestionBankController extends Controller
                 'questionbank.updated_by_ip'
             ])
             ->where('questionbank.subject_id', '=', $subject->id)
+            ->where('questionbank.course_id','=',$course->id)
             ->orderBy('updated_at', 'desc');
 
         $table = Datatables::of($records)->removeColumn('slug')
@@ -240,6 +245,9 @@ class QuestionBankController extends Controller
                         </ul>
                     </div>';
             })
+            ->editColumn('branch',function ($records){
+                return getCourseName($records->branch);
+            })
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('updated_at')
@@ -261,7 +269,10 @@ class QuestionBankController extends Controller
             ->editColumn('skill_id', function ($results) {
                 if ($results->skill_id != null or $results->skill_id != 0)
                 {
-                    return  App\Skill::find($results->skill_id)->skill_title;
+                    $skill =   App\Skill::find($results->skill_id);
+                    if($skill){
+                        return $skill->skill_title;
+                    }
                 }
             });
         return $table->make();
@@ -271,7 +282,7 @@ class QuestionBankController extends Controller
      * This method loads the create view
      * @return void
      */
-    public function create($slug)
+    public function create()
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
@@ -279,42 +290,13 @@ class QuestionBankController extends Controller
         }
 
 
-        $subject = Subject::getRecordWithSlug($slug);
-
-        if ($isValid = $this->isValidRecord($subject)) {
-            return redirect($isValid);
-        }
-
-        $topics = $subject->topics();
+        $data['record'] = null;
 
         $data['course_id'] = 17;
         $data['topic_id']  = 0;
-
-
-
-        $courseOfSubject = App\CourseSubject::where('subject_id', $subject->id)->first(['course_parent_id']);
-        $courseOfSubjectId = $courseOfSubject != null ? $courseOfSubject->course_parent_id : '';
-        if ($courseOfSubjectId < 23) {
-            $data['skills'] = App\Skill::where('subject_id', $subject->id)->where('course_id',
-                $courseOfSubjectId)->get(['id', 'skill_title']);
-        }
-        if (!$topics->count()) {
-            /**
-             * If no topics available in selected subject,
-             * redirect back with message to update topics
-             */
-            $message =
-                $subject->subject_title . '  have no topics, please add topics to upload questions';
-            flash(getPhrase('Ooops'), $message, 'overlay');
-            return back();
-        }
-
-
-        $data['topics'] = $topics;
         $data['record'] = false;
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('upload_question');
-        $data['subject'] = $subject;
         $data['module_helper'] = getModuleHelper('add-question');
         return view('exams.questionbank.add-edit', $data);
     }

@@ -127,7 +127,10 @@ class TopicsController extends Controller
         $data['parent_topics'][0] = getPhrase('select');
         $data['title'] = getPhrase('add_topic');
         $data['module_helper'] = getModuleHelper('create-topics');
+        $data['recored_sem']   = 1;
         $data['total_semesters'] = get_sesmters();
+        $data['recored_subject']  = 0;
+        $data['recored_parent']   = 0;
         return view('mastersettings.topics.add-edit', $data);
     }
 
@@ -149,6 +152,10 @@ class TopicsController extends Controller
 
         $data['record'] = $record;
         $data['record_course_id'] = $record->course_id;
+        $data['recored_sem']      = $record->semester_num;
+        $data['recored_subject']  = $record->subject_id;
+        $data['recored_parent']   = $record->parent_id;
+//        return $data;
         $list = App\Subject::all();
         $data['subjects'] = array_pluck($list, 'subject_title', 'id');
         $data['parent_topics'] = array_pluck(Topic::getTopics($record->subject_id, 0), 'topic_name', 'id');

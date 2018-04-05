@@ -35,7 +35,6 @@ class TrashesController extends Controller
 
         $tables = get_main_tables();
         $records  = DB::table('users')->select('id','name','table_name','slug','updated_at')->where('record_status','=','3')->orderBy('updated_at','desc');
-//        $records2 = DB::table('timingset')->select('id','slug','table_name','updated_at')->where('record_status','=','3')->union($records);
         foreach ($tables as $table){
             if($table == 'users'){continue;}
             $title = get_title_column($table);

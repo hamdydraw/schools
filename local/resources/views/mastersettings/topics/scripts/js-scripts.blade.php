@@ -11,6 +11,42 @@
         $scope.academic_courses_sc  = [];
         $scope.current_course_sc    = {{$record_course_id}};
         $scope.current_course_sc    = $scope.current_course_sc.toString();
+        $scope.current_year_sc      = "1";
+        $scope.current_sem_sc       = {{$recored_sem}};
+        $scope.current_sem_sc       = $scope.current_sem_sc.toString();
+        $scope.academic_years_sc    = [];
+        $scope.current_subject_sc   = null;
+        $scope.academic_subjects_sc = [];
+        $scope.academic_topics_sc   = [];
+        $scope.current_topic_sc     = null;
+
+        $scope.academic_sems_sc  = [
+            {
+                value : 1,
+                title : 'الاول'
+            },
+            {
+                value : 2,
+                title : 'الثانى'
+            }
+        ];
+
+
+
+
+        $scope.getYears = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_years',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_years_sc = response.data;
+                    $scope.getCourses();
+                })
+        }
+        $scope.getYears();
 
         $scope.getCourses = function () {
             $http({
@@ -21,9 +57,49 @@
             })
                 .then(function (response) {
                     $scope.academic_courses_sc = response.data;
+                    $scope.getSubjects();
                 })
         }
-        $scope.getCourses();
+        
+        $scope.getSubjects = function () {
+            if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
+                return false;
+            }
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_subjects_sc = response.data;
+                    $scope.current_subject_sc   = {{$recored_subject}};
+                    $scope.current_subject_sc   = $scope.current_subject_sc.toString();
+                    $scope.getTopics();
+                })
+        }
+
+
+        $scope.getTopics = function () {
+            if($scope.current_course_sc == null || $scope.current_subject_sc == null || $scope.current_sem_sc == null){
+                return false;
+            }
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_subject_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_sem_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_topics_sc = response.data;
+                    $scope.current_topic_sc   = {{$recored_parent}};
+                    $scope.current_topic_sc   = $scope.current_topic_sc.toString();
+
+                })
+        }
+
+
+
         /**
          * Gets the no. of years based on the dueration for that course
          * @return {[type]} [description]
