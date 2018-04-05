@@ -1015,6 +1015,7 @@ Route::post('student/class-marks/offline-exams/print', 'StudentMarksReportContro
 
 Route::get('student/list', 'StudentListController@index');
 Route::post('student/list/classwise/print', 'StudentListController@printStudentList');
+Route::post('student/list/classwise/download', 'StudentListController@downloadStudentList');
 Route::get('student/completed/list', 'StudentListController@courseCompltedStudentsList');
 Route::post('student/completed/list/print', 'StudentListController@printCourseCompltedStudentsList');
 Route::get('student/detained/list', 'StudentListController@courseDetainedStudentsList');

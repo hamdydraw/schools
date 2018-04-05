@@ -74,6 +74,16 @@
         $scope.printIt = function(){
             dta = $('#printable_data').html();
             $('#html_data').val(dta);
+            $('#wes').empty();
+            $('#wes').append("<input type='hidden' name='select_option' value='print' />");
+            $('#htmlform').submit();
+        }
+
+        $scope.downlaodIt = function(){
+            dta = $('#printable_data').html();
+            $('#html_data').val(dta);
+            $('#wes').empty();
+            $('#wes').append("<input type='hidden' name='select_option' value='download' />");
             $('#htmlform').submit();
         }
     });
