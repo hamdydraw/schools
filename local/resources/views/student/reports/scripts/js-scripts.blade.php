@@ -5,8 +5,8 @@
  app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
   {
      @include('common.js-script-year-selection',array('user_slug'=>$user->slug))
- 
-      
+
+
       $scope.exam_categories = []; 
       $scope.exam_list       = []; 
       $scope.show_div = false;

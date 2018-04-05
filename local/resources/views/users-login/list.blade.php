@@ -15,12 +15,13 @@
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
                         <li class="active">{{isset($title) ? $title : ''}}</li>
                     </ol>
+
                 </div>
             </div>
             <div class="panel panel-custom">
                 <div class="panel-heading">
+                    <a href="javascript:void(0)" onclick="destroy()" class=" btn btn-primary pull-right">{{ getPhrase('delete_all_records')}}</a>
                     <h1>{{$title}}</h1>
-                    <a  class=" btn btn-primary pull-right" href="../userslogged/destroy">{{ getPhrase('delete_all_records')}}</a>
                 </div>
                 <div class="panel-body packages">
                     <div>
@@ -47,8 +48,8 @@
     </div>
 
 @endsection
-@include('trashes.script')
+@include('users-login.script')
 @section('footer_scripts')
     @include('common.datatables', array('route'=>URL_LOGGED_DATABLE, 'route_as_url' => TRUE))
-    @include('trashes.delete_script')
+    @include('users-login.delete_script')
 @stop

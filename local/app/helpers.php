@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Student;
 use App\User;
 use App\Topic;
+use Illuminate\Support\Facades\DB;
 use App\Academic;
 
 function flash($title = null, $text = null, $type = 'info')
@@ -1271,4 +1272,12 @@ function getPeriod(){
 
 function get_user_id_from_slug($slug){
     return User::where('slug',$slug)->pluck('id')->first();
+}
+
+
+function getMaxID($table_name)
+{
+    $recored =  DB::table($table_name)->orderBy('id', 'desc')->first();
+    $id = $recored->id + 1;
+    return $id;
 }

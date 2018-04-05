@@ -1297,6 +1297,11 @@ Route::get('/test_it', function () {
     return get_user_id_from_slug('ahmd-yosf');
 });
 
+Route::get('/test_2', function () {
+    return \GuzzleHttp\json_encode(getMaxID())  ;
+});
+
+//return getMaxID();
 
 
 Route::get('/record_status', function () {
