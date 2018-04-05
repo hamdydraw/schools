@@ -149,11 +149,11 @@ class SupervisorController extends Controller
             ->get();
         foreach ($quiz_details as $quiz_datail) {
             $students = Student::join('users', 'users.id', '=', 'students.user_id')
-                ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
-                ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+               /* ->join('quizresults', 'quizresults.user_id', '=', 'users.id')*/
+                /*->where('quizresults.quiz_id', '=', $quiz_datail->id)*/
                 ->where('students.course_id', '=', $request->course_id)
-                ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', $currentSemester)
+               /* ->where('quizresults.academic_id', '=', $currentAcademic)
+                ->where('quizresults.semister', '=', $currentSemester)*/
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',

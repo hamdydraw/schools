@@ -73,7 +73,7 @@
                     </div>
                     <br>
 
-                    <div class="row vertical-scroll">
+                    <div class="row vertical-scroll" ng-if="result_data.subjects.length>0">
                         <h4 ng-if="result_data.students.length>0">@{{course_title}}</h4>
                         <table ng-if="result_data.students.length>0" class="table table-bordered"
                                style="border-collapse: collapse;">
@@ -96,7 +96,10 @@
                                 <td style="border:1px solid #000;">@{{student.roll_no}}</td>
 
                                 <td style="border:1px solid #000; text-align: center;"
-                                    ng-repeat="marks_record in student.marks">@{{marks_record.score.marks_obtained}}
+                                    ng-repeat="marks_record in student.marks" ng-if="marks_record && marks_record.score != null">@{{marks_record.score.marks_obtained}}
+                                </td>
+                                <td style="border:1px solid #000; text-align: center;"
+                                    ng-repeat="marks_record in student.marks" ng-if="marks_record && marks_record.score == null">{{getPhrase('this_student_did_not_take_this_exam')}}
                                 </td>
                                 <td style="border:1px solid #000;">
                                     <div ng-if="!student.marks">
@@ -114,7 +117,9 @@
                                 <td style="border:1px solid #000;"
                                      ng-if="student.marks && student.average >= 70">{{getPhrase('excellent_level')}}</td>
                                 <td style="border:1px solid #000;"
-                                    ng-if="student.marks && student.average < 70">{{getPhrase('ordinary_level')}}</td>
+                                    ng-if="student.marks && student.average < 70 && student.average > 0">{{getPhrase('ordinary_level')}}</td>
+                                <td style="border:1px solid #000;"
+                                    ng-if="student.marks && student.average <= 0">{{getPhrase('failed')}}</td>
                                 <td style="border:1px solid #000;"
                                     ng-if="!student.marks">{{getPhrase('not_exist')}}</td>
                             </tr>
@@ -124,9 +129,11 @@
 
                     <div ng-if="result_data.students.length<=0"
                          class="text-center">{{getPhrase('no_data_available')}}</div>
+                    <div ng-if="result_data.subjects.length<=0"
+                         class="text-center">{{getPhrase('no_subject_available_for_this_teacher')}}</div>
                     <br>
                     <input type="hidden" name="classNumber" value="" id="classNumber">
-                    <a ng-if="result_data.students.length>0" class="btn btn-primary" ng-click="printIt()">Print</a>
+                    <a ng-if="result_data.students.length>0 && result_data.subjects.length>0" class="btn btn-primary" ng-click="printIt()">Print</a>
                 </div>
             </div>
             </hr>

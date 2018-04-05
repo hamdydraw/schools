@@ -6,7 +6,7 @@
             <select class="form-control" name="due_title[]" required>
                 @if(isset($allDues))
                     @foreach($allDues as $due_type)
-                        <option value="{{$due_type->id}}" required>{{getPhrase($due_type->title)}}</option>
+                        <option value="{{$due_type->id}}" required>{{$due_type->title}}</option>
                     @endforeach
                 @endif
             </select>
@@ -40,7 +40,7 @@
                 <select class="form-control" name="due_title[]" required>
                     @if(isset($allDues))
                         @foreach($allDues as $due_type)
-                            <option value="{{$due_type->id}}" @if($fillable->title == $due_type->title) selected @endif required>{{getPhrase($due_type->title)}}</option>
+                            <option value="{{$due_type->id}}" @if($fillable->title == $due_type->title) selected @endif required>{{$due_type->title}}</option>
                         @endforeach
                     @endif
                 </select>
@@ -55,7 +55,8 @@
                     @if(isset($due_types))
                         @foreach($due_types as $due_type)
                             <option value="{{$due_type}}"
-                                    @if($fillable->due_type == $due_type) selected @endif>{{getPhrase($due_type)}}</option>
+                                    @if($fillable->due_type == $due_type) selected @endif>{{getPhrase($due_type)}}
+                            </option>
                         @endforeach
                     @endif
                 </select>

@@ -16,7 +16,7 @@
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons helper_step1">
                         <a href="{{url('/mastersettings/dues/all_expenses')}}"
-                           class="btn  btn-primary button">{{ getPhrase('all')}}</a>
+                           class="btn  btn-primary button">{{ getPhrase('all_expenses_items')}}</a>
 
                     </div>
                     <h1>{{ $title }}</h1>

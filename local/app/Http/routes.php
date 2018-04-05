@@ -256,7 +256,7 @@ Route::get('mastersettings/skills', 'SkillsController@index');
 Route::get('mastersettings/skills/create', 'SkillsController@create');
 Route::get('mastersettings/skills/edit/{id}', 'SkillsController@edit');
 Route::post('mastersettings/skills/update/{id}', 'SkillsController@update');
-Route::get('mastersettings/skills/delete/{id}', 'SkillsController@delete');
+Route::delete('mastersettings/skills/delete/{slug}', 'SkillsController@delete');
 Route::get('mastersettings/skills/getRelatedSubjects', 'SkillsController@getRelatedSubjects');
 Route::post('mastersettings/skills/store', 'SkillsController@store');
 Route::get('mastersettings/skills/getList', [
@@ -270,7 +270,7 @@ Route::get('mastersettings/dues/create','DuesController@create');
 Route::post('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
-Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');
+/*Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');*/
 Route::get('parent/purchase-expenses/{slug}', 'DuesController@viewParentPurchase');
 Route::post('parent/purchase-expenses/pay/{slug}', 'DuesController@payGateway');
 Route::post('parent/payments/offline-payment/update/{slug}', ['middleware' => 'stopOrOn:offline_payment','as'=>'payoffline', 'uses'=>'DuesController@updateOfflinePayment']);
@@ -286,6 +286,7 @@ Route::get('mastersettings/dues/rapid_edit/{id}','DuesController@editRapidExpens
 Route::post('mastersettings/dues/rapid_edit/{id}','DuesController@UpdateRapidExpenses');
 Route::post('mastersettings/dues/rapid_add','DuesController@storeRapidExpenses');
 Route::get('mastersettings/dues/all_expenses','DuesController@getAllRapidExpenses');
+Route::delete('mastersettings/dues/delete/{slug}','DuesController@deleteRapidExpenses');
 Route::get('mastersettings/dues/get-all-expensesRelated','DuesController@getAllexpensesRelated');
 Route::get('mastersettings/dues/get-element-expenses','DuesController@getElementExpenses');
 Route::get('mastersettings/dues-expenses-rapid/getList', [
@@ -1289,12 +1290,17 @@ Route::get('get_lms_content/{slug}',function ($slug){
     return \App\LmsContent::where('slug',$slug)->first();
 });
 
+Route::get('get_topics/{subject}/{course}', function ($subject,$course) {
+    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->get();
+});
+
+
 
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_user_id_from_slug('ahmd-yosf');
+    return get_sesmters();
 });
 
 Route::get('/test_2', function () {

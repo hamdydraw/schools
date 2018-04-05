@@ -14,7 +14,6 @@
                 '                    {{ Form::text('skills[]', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Skill Name','id'=>'skill')) }}' +
                 '                </fieldset>' +
                 '                <fieldset class="form-group col-md-3" style="margin-top: 35px;">' +
-                '                    <button class="btn btn-primary">{{getPhrase('new')}}</button>' +
                 '                    <button class="btn btn-danger">{{getPhrase('delete')}}</button>' +
                 '                </fieldset>' +
                 '            </div>');

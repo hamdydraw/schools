@@ -1228,7 +1228,7 @@ function getSubjects($year,$semester,$course){
                              ->where('academic_id',$year)
                              ->where('semister',$semester)
                              ->where('course_id',$course)
-                             ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+                             ->select(['subjects.id','subjects.subject_title'])
                              ->get();
 }
 
@@ -1274,6 +1274,7 @@ function get_user_id_from_slug($slug){
     return User::where('slug',$slug)->pluck('id')->first();
 }
 
+<<<<<<< HEAD
 
 function getMaxID($table_name)
 {
@@ -1281,3 +1282,17 @@ function getMaxID($table_name)
     $id = $recored->id + 1;
     return $id;
 }
+=======
+function get_sesmters(){
+    $current_academic_id = new Academic();
+    $year = $current_academic_id->getCurrentAcademic()->id;
+    $data = \App\AcademicSemester::where('academic_id',$year)->get();
+    $new = [];
+    foreach ($data as $item){
+        $new[$item->sem_num] = numberToWord($item->sem_num);
+    }
+    return $new;
+}
+
+
+>>>>>>> 755e121a23d129a3ea9b2a1b858e160d9dbb3256
