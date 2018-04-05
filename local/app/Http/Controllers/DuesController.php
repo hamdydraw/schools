@@ -348,11 +348,13 @@ class DuesController extends Controller
 
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id', 'title','slug'])->get();
+        $records = AcademicDues::select(['id', 'title','slug','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
         return Datatables::of($records)
-            ->editColumn('title', function ($record) {
-                return $record->title;
+            ->editColumn('title', function ($records) {
+                return $records->title;
             })->addColumn('action', function ($records) {
+                $records->created_by_user_name = User::get_user_name($records->created_by_user);
+                $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
                 $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -368,6 +370,12 @@ class DuesController extends Controller
             })
             ->removeColumn('id')
             ->removeColumn('slug')
+            ->removeColumn('created_by_user')
+            ->removeColumn('updated_by_user')
+            ->removeColumn('created_by_ip')
+            ->removeColumn('updated_by_ip')
+            ->removeColumn('created_at')
+            ->removeColumn('updated_at')
             ->make();
     }
     public function deleteRapidExpenses($slug)
