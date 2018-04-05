@@ -96,60 +96,10 @@ class StudentListController extends Controller
                 $excel->sheet('mySheet', function ($sheet) use ($records) {
                     $sheet->fromArray($records);
                 });
-            })->download('csv');
+            })->export('xlsx');
             return back();
         }
         return false;
-    }
-    public function downloadStudentList(Request $request)
-    {
-
-        $academic_id = $request->academic_id;
-        $course_parent_id = $request->course_parent_id;
-        $course_id = $request->course_id;
-        $year = 1;
-        if ($request->year) {
-            $year = $request->year;
-        }
-        $semister = 0;
-        if ($request->semister) {
-            $semister = $request->semister;
-        }
-        $academic_details = App\Academic::where('id', $request->academic_id)->first();
-        $course_details = App\Course::where('id', $request->course_id)->first();
-        $records = User::join('students', 'users.id', '=', 'students.user_id')
-            ->join('academics', 'academics.id', '=', 'students.academic_id')
-            ->join('courses', 'courses.id', '=', 'students.course_id')
-            ->where('academic_id', '=', $academic_id)
-            // ->where('course_parent_id','=',$course_parent_id)
-            ->where('course_id', '=', $course_id)
-            ->where('current_year', '=', $year)
-            ->where('current_semister', '=', $semister)
-            ->select(['students.user_id as id', 'users.name', 'roll_no', 'admission_no', 'course_title', 'blood_group', 'mobile', 'home_phone', 'image', 'academic_year_title', 'email', 'current_year', 'current_semister', 'course_dueration', 'students.academic_id as academic_id', 'students.course_id as course_id', 'students.user_id as user_id', 'users.slug'])
-            ->get();
-        if ($course_details->course_dueration > 1 && $course_details->is_having_semister == 1) {
-            $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . $semister . ' ' . 'semester ' . ' ' . getPhrase('list');
-        } elseif ($course_details->course_dueration > 1 && $course_details->is_having_semister == 0) {
-            $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . getPhrase('list');
-        } else {
-            $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . getPhrase('list');
-        }
-        $data['records'] = $records;
-        $data['extracols'] = $request->extracols;
-
-        $view = \View::make('student.class-list-print-file', $data);
-        $contents = $view->render();
-       // $contents = $view->render();
-
-//        return $contents;
-        return Excel::create('itsolutionstuff_example', function ($excel) use ($records) {
-            $excel->sheet('mySheet', function ($sheet) use ($records) {
-                $sheet->fromArray($records);
-            });
-        })->download('xls');
-        return back();
-
-
     }
     /**
      * This Method show the course completed list according to the

@@ -133,7 +133,7 @@
                         <a ng-if="result_data.length!=0" class="btn btn-primary"
                            ng-click="printIt()">{{getPhrase('print')}}</a>
                         <a ng-if="result_data.length!=0" class="btn btn-primary"
-                           ng-click="downlaodIt()">{{getPhrase('download_as_excel')}}</a>
+                           ng-click="downlaodIt()">{{getPhrase('export')}} Excel</a>
                     </div>
                 </div>
 
