@@ -108,14 +108,15 @@ class SubjectPreferencesController extends Controller
                 //Previous records exists
                 $model->delete();
             }
-
-            foreach ($request->selected_list as $key => $value) {
-                $newRecord = new SubjectPreference();
-                $newRecord->user_id = $record->id;
-                $newRecord->staff_id = $staff_record->id;
-                $newRecord->subject_id = $value;
-                $newRecord->user_stamp($request);
-                $newRecord->save();
+            if ($request->selected_list != null) {
+                foreach ($request->selected_list as $key => $value) {
+                    $newRecord = new SubjectPreference();
+                    $newRecord->user_id = $record->id;
+                    $newRecord->staff_id = $staff_record->id;
+                    $newRecord->subject_id = $value;
+                    $newRecord->user_stamp($request);
+                    $newRecord->save();
+                }
             }
             DB::commit();
             flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');

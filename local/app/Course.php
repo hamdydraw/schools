@@ -46,7 +46,10 @@ class Course extends Model
     {
         return Course::where('id','=',$course_id)->select('course_dueration')->get();
     }
-
+    public function getParentForChild()
+    {
+        return Course::where('id','=', $this->parent_id)->get(['course_title']);
+    }
     public static function getCourseRecord($courseId )
     {
         return Course::where('id','=', $courseId)->get()->first();

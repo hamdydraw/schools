@@ -48,11 +48,13 @@
                                     ng-model='default' ng-change="getStudentMarks112()">
                                 <option value="select">{{getPhrase('select')}}</option>
                                 @foreach($classes as $class)
-                                    <?php
-                                    $parent_title=new \App\Course();
-                                    $parent_title=$parent_title->getParentCourseTitle($class->id);
-                                    ?>
-                                    <option value="{{$class->id}}">{{$class->course_title.'-'.$parent_title}}</option>
+                                    @if($class != null)
+                                        <?php
+                                        $parent_title = new \App\Course();
+                                        $parent_title = $parent_title->getParentCourseTitle($class->id);
+                                        ?>
+                                        <option value="{{$class->id}}">{{$class->course_title.'-'.$parent_title}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </fieldset>
@@ -81,10 +83,10 @@
                             <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
 
                             <th style="border:1px solid #000;">{{getPhrase('roll_no')}}</th>
-                            <th style="border:1px solid #000;" ng-repeat="subject in subjects">@{{subject.subject_code}}
+                            <th style="border:1px solid #000;" ng-repeat="subject in subjects">@{{subject.title}}
                                 (@{{subject.total_marks}})
                             </th>
-                            <th style="border:1px solid #000;">AVG. %</th>
+                            <th style="border:1px solid #000;">{{getPhrase('excellence_ratio')}} %</th>
                             <th style="border:1px solid #000;">{{getPhrase('excellence_level')}}</th>
 
                             </thead>
@@ -96,10 +98,13 @@
                                 <td style="border:1px solid #000;">@{{student.roll_no}}</td>
 
                                 <td style="border:1px solid #000; text-align: center;"
-                                    ng-repeat="marks_record in student.marks" ng-if="marks_record && marks_record.score != null">@{{marks_record.score.marks_obtained}}
+                                    ng-repeat="marks_record in student.marks"
+                                    ng-if="marks_record && marks_record.score != null">
+                                    @{{marks_record.score.marks_obtained}}
                                 </td>
                                 <td style="border:1px solid #000; text-align: center;"
-                                    ng-repeat="marks_record in student.marks" ng-if="marks_record && marks_record.score == null">{{getPhrase('this_student_did_not_take_this_exam')}}
+                                    ng-repeat="marks_record in student.marks"
+                                    ng-if="marks_record && marks_record.score == null">{{getPhrase('this_student_did_not_take_this_exam')}}
                                 </td>
                                 <td style="border:1px solid #000;">
                                     <div ng-if="!student.marks">
@@ -115,7 +120,7 @@
 
                                 </td>
                                 <td style="border:1px solid #000;"
-                                     ng-if="student.marks && student.average >= 70">{{getPhrase('excellent_level')}}</td>
+                                    ng-if="student.marks && student.average >= 70">{{getPhrase('excellent_level')}}</td>
                                 <td style="border:1px solid #000;"
                                     ng-if="student.marks && student.average < 70 && student.average > 0">{{getPhrase('ordinary_level')}}</td>
                                 <td style="border:1px solid #000;"
@@ -133,7 +138,8 @@
                          class="text-center">{{getPhrase('no_subject_available_for_this_teacher')}}</div>
                     <br>
                     <input type="hidden" name="classNumber" value="" id="classNumber">
-                    <a ng-if="result_data.students.length>0 && result_data.subjects.length>0" class="btn btn-primary" ng-click="printIt()">Print</a>
+                    <a ng-if="result_data.students.length>0 && result_data.subjects.length>0" class="btn btn-primary"
+                       ng-click="printIt()">{{getPhrase('print')}}</a>
                 </div>
             </div>
             </hr>

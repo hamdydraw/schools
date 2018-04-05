@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Academic;
 use App\AcademicSemester;
+use App\Course;
+use App\Language;
 use App\Quiz;
 use App\QuizApplicability;
 use App\Staff;
@@ -14,6 +16,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Yajra\Datatables\Datatables;
 
 class SupervisorController extends Controller
@@ -123,6 +126,9 @@ class SupervisorController extends Controller
 
     public function getClassMarks(Request $request, $slug)
     {
+        if ($request->course_id == 'select') {
+            return array('students' => array());
+        }
         $user = User::where('slug', $slug)->first(['id']);
         $currentAcademic = new Academic();
         $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
@@ -132,10 +138,12 @@ class SupervisorController extends Controller
         $subjects = QuizApplicability::
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-            ->where('course_subject.staff_id', $user->id)
+            ->join('subjectpreferences', 'subjectpreferences.subject_id', '=', 'subjects.id')
+            ->where('subjectpreferences.user_id', $user->id)
+            ->where('subjectpreferences.record_status','!=',3)
+            ->where('quizzes.record_status','!=',3)
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
-            ->where('quizapplicability.semister', '=', 1)
+            ->where('quizapplicability.semister', '=', $currentSemester)
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -149,11 +157,11 @@ class SupervisorController extends Controller
             ->get();
         foreach ($quiz_details as $quiz_datail) {
             $students = Student::join('users', 'users.id', '=', 'students.user_id')
-               /* ->join('quizresults', 'quizresults.user_id', '=', 'users.id')*/
+                /* ->join('quizresults', 'quizresults.user_id', '=', 'users.id')*/
                 /*->where('quizresults.quiz_id', '=', $quiz_datail->id)*/
                 ->where('students.course_id', '=', $request->course_id)
-               /* ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', $currentSemester)*/
+                /* ->where('quizresults.academic_id', '=', $currentAcademic)
+                 ->where('quizresults.semister', '=', $currentSemester)*/
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -351,6 +359,9 @@ class SupervisorController extends Controller
 
     public function printClassMarks(Request $request, $slug)
     {
+        if ($request->course_id == 'select') {
+            return array('students' => array());
+        }
         $user = User::where('slug', $slug)->first(['id']);
         $currentAcademic = new Academic();
         $currentAcademic = $currentAcademic->getCurrentAcademic()->id;
@@ -360,10 +371,12 @@ class SupervisorController extends Controller
         $subjects = QuizApplicability::
         join('quizzes', 'quizapplicability.quiz_id', '=', 'quizzes.id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->join('course_subject', 'subjects.id', '=', 'course_subject.subject_id')
-            ->where('course_subject.staff_id', $user->id)
+            ->join('subjectpreferences', 'subjectpreferences.subject_id', '=', 'subjects.id')
+            ->where('subjectpreferences.user_id', $user->id)
+            ->where('subjectpreferences.record_status','!=',3)
+            ->where('quizzes.record_status','!=',3)
             ->where('quizapplicability.academic_id', '=', $currentAcademic)
-            ->where('quizapplicability.semister', '=', 1)
+            ->where('quizapplicability.semister', '=', $currentSemester)
             ->select([
                 'quizzes.id as quiz_id',
                 'quizzes.title',
@@ -377,11 +390,11 @@ class SupervisorController extends Controller
             ->get();
         foreach ($quiz_details as $quiz_datail) {
             $students = Student::join('users', 'users.id', '=', 'students.user_id')
-                ->join('quizresults', 'quizresults.user_id', '=', 'users.id')
-                ->where('quizresults.quiz_id', '=', $quiz_datail->id)
+                /* ->join('quizresults', 'quizresults.user_id', '=', 'users.id')*/
+                /*->where('quizresults.quiz_id', '=', $quiz_datail->id)*/
                 ->where('students.course_id', '=', $request->classNumber)
-                ->where('quizresults.academic_id', '=', $currentAcademic)
-                ->where('quizresults.semister', '=', $currentSemester)
+                /* ->where('quizresults.academic_id', '=', $currentAcademic)
+                 ->where('quizresults.semister', '=', $currentSemester)*/
                 ->groupBy('roll_no')
                 ->select([
                     'users.id as user_id',
@@ -430,7 +443,14 @@ class SupervisorController extends Controller
         $final_list['students'] = $students_list;
         $final_list['subjects'] = $subjects;
         $data ['final_list'] = $final_list;
-        $data['title'] = getPhrase('students_marks_of_teacher') . $user->name;
+        $data ['classNameConcat'] = DB::table('courses as t1')->
+                              select(['t1.course_title as child','t2.course_title as parent'])->
+                              join('courses AS t2', 't2.id', '=', 't1.parent_id')->
+                              where('t1.id', $request->classNumber)
+                              ->get();
+        $classTitle=' '.getPhrase('for').' '.$data['classNameConcat'][0]->child.' '.$data['classNameConcat'][0]->parent;
+        $data['lang']=Language::getDefaultLanguageRecord()->is_rtl;
+        $data['title'] = getPhrase('outstanding_students_report') . $classTitle;
         return view('educational_supervisor.print_marks', $data);
 
     }
