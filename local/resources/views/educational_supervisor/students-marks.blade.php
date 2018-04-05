@@ -36,7 +36,7 @@
                         <a class="btn btn-primary"
                            href="{{url('supervisor/staff/students-marks')}}">{{getPhrase('teachers')}}</a> &nbsp;
                     </div>
-                    <h1>{{getPhrase('student_marks')}}</h1>
+                    <h1>{{getPhrase('outstanding_students_report')}}</h1>
                 </div>
                 <div class="panel-body instruction" style="margin-top: -120px;">
                     <hr>
@@ -92,7 +92,7 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="student in students | filter:search track by $index">
-                                <td style="border:1px solid #000;"><a href="{{URL_USER_DETAILS}}@{{student.slug}}">@{{student.name}}</a>
+                                <td style="border:1px solid #000;"><a>@{{student.name}}</a>
                                 </td>
 
                                 <td style="border:1px solid #000;">@{{student.roll_no}}</td>
