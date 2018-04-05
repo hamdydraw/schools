@@ -160,6 +160,7 @@ return [
         SimpleSoftwareIO\SMS\SMSServiceProvider::class,
        Laravel\Socialite\SocialiteServiceProvider::class,
        ConsoleTVs\Charts\ChartsServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
        
        
 

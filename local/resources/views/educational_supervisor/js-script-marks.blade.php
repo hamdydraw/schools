@@ -15,7 +15,7 @@
         $scope.subjects = [];
         $scope.students = [];
         $scope.course_title = '';
-        $scope.default = '';
+        $scope.default='select';
 
         $scope.getStudentMarks112 = function () {
             $('#classNumber').val($('#classes').val())

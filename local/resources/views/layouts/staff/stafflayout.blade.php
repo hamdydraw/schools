@@ -303,7 +303,7 @@ $role = getRoleData($user->role_id);
                     </li>
                     <li {{ isActive($active_class, 'students-marks') }} >
                         <a href="{{url('supervisor/staff/students-marks')}}">
-                            <i class="fa fa-users"></i>{{ getPhrase('teacher_students_marks') }}</a></li>
+                            <i class="fa fa-users"></i>{{ getPhrase('outstanding_students_report') }}</a></li>
 
                     </li>
                 @endif

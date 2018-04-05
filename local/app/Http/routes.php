@@ -1321,6 +1321,11 @@ Route::get('/test_it', function () {
     return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')->select(['subjects.id','subjects.subject_title'])->where('course_parent_id',17)->groupBy('course_subject.subject_id')->get();
 });
 
+Route::get('/test_2', function () {
+    return \GuzzleHttp\json_encode(getMaxID())  ;
+});
+
+//return getMaxID();
 
 
 //Route::get('/record_status', function () {
