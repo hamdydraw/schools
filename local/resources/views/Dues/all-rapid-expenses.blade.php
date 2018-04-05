@@ -12,9 +12,9 @@
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
 
                         <li>
-                            <a href="{{url('/academicoperations/dashboard')}}">{{ getPhrase('academics_operations')}}</a>
+                            <a href="{{url('/academicoperations/dashboard')}}">{{ getPhrase('academic_operations')}}</a>
                         </li>
-                        <li><a href="">{{ getPhrase('all_academic_dues')}}</a></li>
+                        <li><a href="">{{ getPhrase('all_expenses_items')}}</a></li>
                     </ol>
                 </div>
             </div>

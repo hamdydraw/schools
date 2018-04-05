@@ -86,9 +86,9 @@ class DuesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="dues/edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
-                           
+
                             <li><a href="dues/delete/' . $records->id . '"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
-                            
+
                         </ul>
                     </div>';
             })
@@ -342,7 +342,7 @@ class DuesController extends Controller
     {
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['title'] = getPhrase('academic_dues');
+        $data['title'] = getPhrase('expenses_items');
         return view('Dues.all-rapid-expenses', $data);
     }
 
@@ -360,9 +360,9 @@ class DuesController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="rapid_edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
-                           
+
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
-               
+
                         </ul>
                     </div>';
             })
