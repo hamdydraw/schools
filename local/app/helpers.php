@@ -1274,7 +1274,6 @@ function get_user_id_from_slug($slug){
     return User::where('slug',$slug)->pluck('id')->first();
 }
 
-<<<<<<< HEAD
 
 function getMaxID($table_name)
 {
@@ -1282,7 +1281,7 @@ function getMaxID($table_name)
     $id = $recored->id + 1;
     return $id;
 }
-=======
+
 function get_sesmters(){
     $current_academic_id = new Academic();
     $year = $current_academic_id->getCurrentAcademic()->id;
@@ -1295,4 +1294,3 @@ function get_sesmters(){
 }
 
 
->>>>>>> 755e121a23d129a3ea9b2a1b858e160d9dbb3256
