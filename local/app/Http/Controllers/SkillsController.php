@@ -25,7 +25,7 @@ class SkillsController extends Controller
     {
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['title'] = 'add_skills';
+        $data['title'] = getPhrase('add_skills');
         $courses = Course::where('id', '<', '23')->select(['id', 'course_title'])->get();
         foreach ($courses as $course) {
             $data['course_title'][] = $course->course_title;
@@ -66,9 +66,9 @@ class SkillsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="skills/edit/'.$records->id.'"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
-                           
+
                              <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
-                            
+
                         </ul>
                     </div>';
             })
@@ -91,7 +91,7 @@ class SkillsController extends Controller
     {
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['title'] ='edit_skills';
+        $data['title'] =getPhrase('edit_skills');
         $data['record']=Skill::find($id);
 
        /* $data['subject']=Subject::find($data['record']->subject_id)->subject_title;*/
