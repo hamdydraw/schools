@@ -1201,10 +1201,11 @@ function getTeacherCourses(){
     $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
 
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
-                      ->select(['courses.id','courses.course_title'])
+                      ->select(['courses.id','courses.slug','courses.course_title'])
                       ->where('courses.parent_id',0)
                       ->where('course_subject.semister',$current_semster)
                       ->where('course_subject.staff_id',Auth::user()->id)
+                      ->groupBy('course_subject.course_parent_id')
                       ->get();
 }
 
@@ -1284,4 +1285,11 @@ function get_sesmters(){
     return $new;
 }
 
+function get_subject_topics($subject,$course,$sem){
+    return Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->where('semester_num',$sem)->get();
+}
+
+function get_subject_main_topics($subject,$course){
+    return Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->get();
+}
 

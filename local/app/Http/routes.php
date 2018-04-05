@@ -599,8 +599,8 @@ Route::post('library/returns/return-asset/staff', 'LibraryIssuesController@retur
 
 //Question bank
 Route::get('exams/questionbank', 'QuestionBankController@index');
-Route::get('exams/questionbank/add-question/{slug}', 'QuestionBankController@create');
-Route::get('exams/questionbank/view/{slug}', 'QuestionBankController@show');
+Route::get('exams/questionbank/add-question', 'QuestionBankController@create');
+Route::get('exams/questionbank/view/{subjecti}/{course}', 'QuestionBankController@show');
 
 Route::post('exams/questionbank/add', 'QuestionBankController@store');
 Route::get('exams/questionbank/edit-question/{slug}', 'QuestionBankController@edit');
@@ -608,7 +608,7 @@ Route::patch('exams/questionbank/edit/{slug}', 'QuestionBankController@update');
 Route::delete('exams/questionbank/delete/{id}', 'QuestionBankController@delete');
 Route::get('exams/questionbank/getList', 'QuestionBankController@getDatatable');
 
-Route::get('exams/questionbank/getquestionslist/{slug}',
+Route::get('exams/questionbank/getquestionslist/{subject}/{course}',
     'QuestionBankController@getQuestions');
 Route::get('exams/questionbank/import', 'QuestionBankController@import');
 Route::post('exams/questionbank/import', 'QuestionBankController@readExcel');
@@ -1291,31 +1291,49 @@ Route::get('get_lms_content/{slug}',function ($slug){
 });
 
 Route::get('get_topics/{subject}/{course}', function ($subject,$course) {
-    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->get();
+    return \App\Topic::where('parent_id',0)->where('subject_id',$subject)->where('course_id',$course)->get();
+});
+
+Route::get('get_sub_topic/{id}',function ($id){
+    $data = \App\Topic::where('parent_id',$id);
+    $main = \App\Topic::where('id',$id)->union($data)->get();
+    return $main;
 });
 
 
+Route::get('get_subject_topics/{subject}/{course}/{sem}', function ($subject,$course,$sem) {
+    return get_subject_topics($subject,$course,$sem);
+});
+
+Route::get('get_subjects_by_course/{course}',function ($course){
+    if(Auth::user()->role_id == 3){
+        return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')->select(['subjects.id','subjects.slug','subjects.subject_title'])
+            ->where('course_parent_id',$course)->where('staff_id',Auth::user()->id)->groupBy('course_subject.subject_id')->get();
+    }
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')->select(['subjects.id','subjects.slug','subjects.subject_title'])
+                             ->where('course_parent_id',$course)->groupBy('course_subject.subject_id')->get();
+});
 
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_sesmters();
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')->select(['subjects.id','subjects.subject_title'])->where('course_parent_id',17)->groupBy('course_subject.subject_id')->get();
 });
 
 
 
-Route::get('/record_status', function () {
-    $tables = DB::select('SHOW TABLES');
-    foreach ($tables as $table){
-        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
-        if(in_array('slug',$columns)) {
-         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `table_name` VARCHAR(110) NOT NULL DEFAULT '$table->Tables_in_sasbit_school' AFTER `record_status`");
-        }
-
-    }
-    return "Done";
-});
+//Route::get('/record_status', function () {
+//    $tables = DB::select('SHOW TABLES');
+//    foreach ($tables as $table){
+//        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+//        if(in_array('slug',$columns)) {
+//         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `table_name` VARCHAR(110) NOT NULL DEFAULT '$table->Tables_in_sasbit_school' AFTER `record_status`");
+//        }
+//
+//    }
+//    return "Done";
+//});
 
 
 

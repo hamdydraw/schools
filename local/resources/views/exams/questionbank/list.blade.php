@@ -19,7 +19,7 @@
 				</div>
 								
 				<!-- /.row -->
-				<div class="panel panel-custom">
+				<div class="panel panel-custom" ng-controller="mainList">
 					<div class="panel-heading">
 						
 						<div class="pull-right messages-buttons">
@@ -31,20 +31,28 @@
 						<h1>{{ $title }}</h1>
 					</div>
 					<div class="panel-body packages">
-						<div > 
-						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-								 
-									<th>{{ getPhrase('id')}}</th>
-									<th id="helper_step3">{{ getPhrase('subject')}}</th>
-									<th>{{ getPhrase('code')}}</th>
-									<th id="helper_step4">{{ getPhrase('action')}}</th>
-								  
-								</tr>
-							</thead>
-							 
-						</table>
+						<div>
+							<div class="row">
+								<fieldset class="form-group col-md-6">
+									<label for="">{{getPhrase('branch')}}</label>
+									<span class="text-red">*</span>
+									<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+										<option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+									</select>
+								</fieldset>
+								<fieldset class="form-group col-md-6">
+									<label for="">{{getPhrase('subject')}}</label>
+									<span class="text-red">*</span>
+									<select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+										<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
+									</select>
+								</fieldset>
+							</div>
+							<div class="row">
+								<center>
+									<a class="btn btn-primary" ng-click="toTable()" ng-disabled="current_subject_sc == null">{{getPhrase('get_details')}}</a>
+								</center>
+							</div>
 						</div>
 
 					</div>
@@ -59,5 +67,6 @@
   
  @include('common.datatables', array('route'=> URL_QUESTIONBANK_GETLIST, 'route_as_url' => 'TRUE'))
  @include('common.deletescript', array('route'=> URL_QUESTIONBANK_DELETE))
+ @include('exams.questionbank.scripts.list-script')
 
 @stop

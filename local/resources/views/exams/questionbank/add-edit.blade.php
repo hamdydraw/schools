@@ -9,7 +9,6 @@
                     <ol class="breadcrumb">
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
                         <li><a href="{{URL_QUIZ_QUESTIONBANK}}">{{ getPhrase('question_subjects') }}</a></li>
-                        <li><a href="{{URL_QUESTIONBANK_VIEW.$subject->slug}}">{{ $subject->subject_title }}</a></li>
                         <li>{{ $title }}</li>
                     </ol>
                 </div>
@@ -38,7 +37,7 @@
 
                     @include('exams.questionbank.form_elements',
                     array('button_name'=> $button_name),
-                    array('topics' => $topics,'skills'=>isset($skills)?$skills:null,'records'=>isset($records)?$records:null, 'subject' => $subject, 'record'=>$record))
+                    array('skills'=>isset($skills)?$skills:null,'records'=>isset($records)?$records:null, 'record'=>$record))
 
                     {!! Form::close() !!}
 
@@ -84,7 +83,7 @@
 @stop
 
 @section('footer_scripts')
-    @include('exams.questionbank.scripts.js-scripts',array('subject' => $subject,'course_id' => $course_id,'topic_id' => $topic_id))
+    @include('exams.questionbank.scripts.js-scripts',array('course_id' => $course_id,'topic_id' => $topic_id,'record' => $record))
     @include('common.validations', array('isLoaded'=>true))
     @include('common.editor')
     @if($record)

@@ -17,29 +17,34 @@
 <fieldset class="form-group">
     <label for="">{{getPhrase('branch')}}</label>
     <span class="text-red">*</span>
-    <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="get_topics()">
+    <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
         <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
     </select>
 </fieldset>
+<fieldset class="form-group">
+    <label for="">{{getPhrase('subject')}}</label>
+    <span class="text-red">*</span>
+    <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
+        <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
+    </select>
+</fieldset>
 
-<input type="hidden" name="subject_id" value="{{ $subject->id }}">
 <fieldset class="form-group ">
-    {{ Form::label('topic_id', getphrase('topic')) }} <span class="text-red">*</span>
+    {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
 
-    <select name="topic_id" class="form-control" required="required" ng-model="topic_id_sc">
-        <option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'opt' : ''" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+    <select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc" ng-change="get_sub_topics()">
+        <option ng-repeat="topic in topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
     </select>
 
-    {{--{{Form::select('topic_id', $topics, null, ['class'=>'form-control', "id"=>"topic_id"])}}--}}
-    {{--<select class="form-control input-sm">--}}
-        {{--@foreach($topics as $top)--}}
-            {{--<option value="{{$top->id}}" class="opt">{{$top->topic_name}}--}}
-            {{--@foreach(subTopics($top->id) as $sub)--}}
-                {{--<option value="{{$sub->id}}">{{$sub->topic_name}}</option>--}}
-                {{--@endforeach--}}
-                {{--</option>--}}
-            {{--@endforeach--}}
-    {{--</select>--}}
+</fieldset>
+
+<fieldset class="form-group ">
+    {{ Form::label('topic_id', getphrase('sub_topic')) }} <span class="text-red">*</span>
+
+    <select name="topic_id" class="form-control" required="required" ng-model="sub_topic_id_sc">
+        <option ng-repeat="sub_topic in sub_topics_sc" value="@{{ sub_topic.id }}">@{{ sub_topic.topic_name }}</option>
+    </select>
+
 </fieldset>
 
 <fieldset class="form-group">
