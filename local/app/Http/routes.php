@@ -243,8 +243,8 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
     Route::get('parent/children', 'ParentsController@index');
     Route::get('parent/children/list', 'ParentsController@index');
     Route::get('parent/children/getList/{slug}', 'ParentsController@getDatatable');
-    Route::get('purchase-expenses/getlist/{slug}', 'ParentsController@getDatatableExpenses');
-    Route::get('parent/purchase-expenses/all/{slug}', 'ParentsController@getUserExpenses');
+    Route::get('parent/purchase-expenses/all', 'ParentsController@getUserExpenses');
+    Route::get('purchase-expenses/getlist', 'ParentsController@getDatatableExpenses');
     Route::get('children/analysis', 'ParentsController@childrenAnalysis');
 });
 /////////////////////
@@ -265,6 +265,7 @@ Route::get('mastersettings/skills/getList', [
 ]);
 //academic_dues
 Route::get('mastersettings/dues','DuesController@index');
+Route::get('dues','DuesController@getSelection');
 Route::get('mastersettings/dues/create','DuesController@create');
 
 Route::post('mastersettings/dues/store','DuesController@store');

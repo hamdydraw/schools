@@ -3,7 +3,7 @@
         <div class="col-md-3">
             {{ Form::label('academic_dues', getphrase('academic_dues')) }}
             <span class="text-red">*</span>
-            <select class="form-control" name="due_title[]" required>
+            <select class="form-control dueName" name="due_title[]" required>
                 @if(isset($allDues))
                     @foreach($allDues as $due_type)
                         <option value="{{$due_type->id}}" required>{{$due_type->title}}</option>
@@ -37,10 +37,11 @@
             <div class="col-md-3">
                 {{ Form::label('academic_dues', getphrase('academic_dues')) }}
                 <span class="text-red">*</span>
-                <select class="form-control" name="due_title[]" required>
+                <select class="form-control dueName" name="due_title[]" required>
                     @if(isset($allDues))
                         @foreach($allDues as $due_type)
-                            <option value="{{$due_type->id}}" @if($fillable->title == $due_type->title) selected @endif required>{{$due_type->title}}</option>
+                            <option value="{{$due_type->id}}" @if($fillable->title == $due_type->title)  selected
+                                    @endif required>{{$due_type->title}}</option>
                         @endforeach
                     @endif
                 </select>
@@ -69,3 +70,13 @@
         </div>
     @endforeach
 @endif
+<script>
+    $(document).ready(function () {
+        var selected = [];
+        $(document).on('change', '.dueName', function () {
+            if (selected.indexOf($(this).val() != -1)) {
+                selected.push($(this).val())
+            }
+        })
+    })
+</script>

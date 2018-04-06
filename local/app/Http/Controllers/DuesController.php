@@ -26,11 +26,18 @@ class DuesController extends Controller
         $this->middleware('auth');
     }
 
+    public function getSelection()
+    {
+        $data['layout'] = getLayout();
+        $data['active_class'] = 'academic';
+        $data['title'] = getPhrase('academic_expenses');
+        return view('Dues.dashboard', $data);
+    }
     public function index()
     {
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
-        $data['title'] = getPhrase('academic_dues_of_academic');
+        $data['title'] = getPhrase('academic_expenses');
         return view('Dues.all_dues', $data);
     }
 

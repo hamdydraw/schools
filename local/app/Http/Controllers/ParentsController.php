@@ -74,9 +74,6 @@ class ParentsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
-                           <li><a href="purchase-expenses/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("school_expenses") . '</a></li>
-                           <li><a href="purchase-expenses/all/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("all_expenses") . '</a></li>
-
                         </ul>
                     </div>';
                 }
@@ -118,34 +115,32 @@ class ParentsController extends Controller
         return view('parent.list-users', $data);
     }
 
-    public function getUserExpenses($slug)
+    public function getUserExpenses()
     {
-        $user = getUserWithSlug();
 
         if (!checkRole(getUserGrade(7))) {
             prepareBlockUserMessage();
             return back();
         }
 
-        if (!isEligible($user->slug)) {
-            return back();
-        }
-
         $data['records'] = false;
-        $data['user'] = $user;
-        $data['title'] = getPhrase('children');
-        $data['active_class'] = 'children';
+        $data['title'] = getPhrase('academic_expenses');
+        $data['active_class'] = 'academic_expenses';
         $data['layout'] = getLayout();
-        $data['slug'] = $slug;
         return view('Dues.student_expenses', $data);
     }
 
-    public function getDatatableExpenses($slug)
+    public function getDatatableExpenses()
     {
         $records = App\DuesPurchase::join('users', 'users.id', '=', 'dues_purchase.student_id')
-            ->where('users.slug', $slug)
-            ->select(['dues_purchase.specifications', 'dues_purchase.created_at', 'dues_purchase.updated_at'])->get();
+            ->select(['users.name','users.slug','dues_purchase.academic_id','dues_purchase.specifications', 'dues_purchase.created_at', 'dues_purchase.updated_at'])->get();
         return Datatables::of($records)
+            ->editColumn('name', function ($records) {
+                return $records->name;
+            })
+            ->editColumn('academic_id', function ($records) {
+                return App\Academic::find($records->academic_id)->academic_year_title;
+            })
             ->addColumn('total', function ($records) {
                 return json_decode($records->specifications, true)['total'];
             })
@@ -164,9 +159,21 @@ class ParentsController extends Controller
             ->addColumn('updated', function ($records) {
                 return $records->updated_at;
             })
+            ->addColumn('action', function ($records) {
+                return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li><a href="' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("pay") . '</a></li>
+                        </ul>
+                    </div>';
+            })
             ->removeColumn('specifications')
+            ->removeColumn('slug')
             ->removeColumn('created_at')
             ->removeColumn('updated_at')
             ->make();
     }
+
 }

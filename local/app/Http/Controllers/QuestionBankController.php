@@ -288,10 +288,7 @@ class QuestionBankController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
-
         $data['record'] = null;
-
         $data['course_id'] = 17;
         $data['topic_id']  = 0;
         $data['record'] = false;
