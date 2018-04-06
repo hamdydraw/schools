@@ -291,9 +291,6 @@ class QuestionBankController extends Controller
 
 
         $data['record'] = null;
-
-        $data['course_id'] = 17;
-        $data['topic_id']  = 0;
         $data['record'] = false;
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('upload_question');

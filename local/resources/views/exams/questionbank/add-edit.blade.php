@@ -83,7 +83,7 @@
 @stop
 
 @section('footer_scripts')
-    @include('exams.questionbank.scripts.js-scripts',array('course_id' => $course_id,'topic_id' => $topic_id,'record' => $record))
+    @include('exams.questionbank.scripts.js-scripts',array('record' => $record))
     @include('common.validations', array('isLoaded'=>true))
     @include('common.editor')
     @if($record)
