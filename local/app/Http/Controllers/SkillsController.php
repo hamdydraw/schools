@@ -26,6 +26,7 @@ class SkillsController extends Controller
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('add_skills');
+        $data['manpulation_kind']='add';
         $courses = Course::where('id', '<', '23')->select(['id', 'course_title'])->get();
         foreach ($courses as $course) {
             $data['course_title'][] = $course->course_title;
@@ -93,7 +94,7 @@ class SkillsController extends Controller
         $data['active_class'] = 'academic';
         $data['title'] =getPhrase('edit_skills');
         $data['record']=Skill::find($id);
-
+        $data['manpulation_kind']='edit';
        /* $data['subject']=Subject::find($data['record']->subject_id)->subject_title;*/
         $courses = Course::where('id', '<', '23')->select(['id', 'course_title'])->get();
         foreach ($courses as $course) {

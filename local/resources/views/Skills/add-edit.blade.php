@@ -20,7 +20,7 @@
                     <h1>{{ $title }}  </h1>
                 </div>
                 <div class="panel-body packages" ng-controller="subjects_course">
-                    @if($title == 'add_skills')
+                    @if($manpulation_kind == 'add')
                         {{ Form::open(array('url' => 'mastersettings/skills/store', 'method'=>'post')) }}
                     @else
                         {{ Form::open(array('url' => 'mastersettings/skills/update/'.$record->id, 'method'=>'post')) }}
