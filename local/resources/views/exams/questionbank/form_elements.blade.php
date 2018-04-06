@@ -14,7 +14,7 @@
     }
 </style>
 
-<fieldset class="form-group">
+<fieldset class="form-group col-md-6">
     <label for="">{{getPhrase('branch')}}</label>
     <span class="text-red">*</span>
     <select name="course_id" class="form-control course" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
@@ -29,7 +29,7 @@
     </select>
 </fieldset>
 
-<fieldset class="form-group ">
+<fieldset class="form-group col-md-6">
     {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
 
     <select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc" ng-change="get_sub_topics()">
@@ -45,6 +45,11 @@
         <option ng-repeat="sub_topic in sub_topics_sc" value="@{{ sub_topic.id }}">@{{ sub_topic.topic_name }}</option>
     </select>
 
+</fieldset>
+<fieldset class="form-group" id="skillsArea" style="display: none;">
+    {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
+    <select name="skills" class="form-control" id="skills">
+    </select>
 </fieldset>
 
 <fieldset class="form-group">
