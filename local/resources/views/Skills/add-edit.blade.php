@@ -34,7 +34,7 @@
                                 <span class="text-red">*</span>
                                 {{ Form::text('skills[]', $value = isset($record->skill_title)? $record->skill_title : null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => getPhrase('skill_name'),'id'=>'skill')) }}
                             </fieldset>
-                            @if($title == 'add_skills')
+                            @if($manpulation_kind == 'add')
                                 <fieldset class="form-group col-md-3" style="margin-top: 35px;">
                                     <button class="btn btn-primary new">{{getPhrase('new')}}</button>
                                 </fieldset>
