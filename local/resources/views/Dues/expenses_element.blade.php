@@ -70,13 +70,3 @@
         </div>
     @endforeach
 @endif
-<script>
-    $(document).ready(function () {
-        var selected = [];
-        $(document).on('change', '.dueName', function () {
-            if (selected.indexOf($(this).val() != -1)) {
-                selected.push($(this).val())
-            }
-        })
-    })
-</script>

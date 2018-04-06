@@ -57,12 +57,14 @@ class DuesController extends Controller
             flash(getPhrase('error'), getPhrase("you_should_fill_all_fields"), 'error');
             return redirect()->back();
         }
+
         if ($request->has('due_title')) {
-            for ($i = 0; $i < count($request->due_title); $i++) {
+            $due_titles=array_unique($request->due_title);
+            for ($i = 0; $i < count($due_titles); $i++) {
                 $relation = new AcademicDuesPivot();
                 $relation->academic_id = $request->academic_year;
                 $relation->course_parent = $request->course_parent;
-                $relation->due_id = $request->due_title[$i];
+                $relation->due_id = $due_titles[$i];
                 $relation->due_value = $request->due_value[$i];
                 $relation->due_type = $request->due_type[$i];
                 $relation->user_stamp($request);
