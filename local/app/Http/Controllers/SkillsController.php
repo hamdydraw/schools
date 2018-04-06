@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Course;
+use App\CourseSubject;
 use App\Skill;
 use App\Subject;
 use App\User;
@@ -179,8 +180,12 @@ class SkillsController extends Controller
         }
         return json_encode($response);
     }
-    public function getSkills()
+    public function getSkills(Request $request)
     {
-        return 'ddd';
+        if ($request->course_id < 23) {
+            $skills = Skill::where('subject_id', $request->subject_id)->where('course_id',
+                $request->course_id)->get(['id', 'skill_title']);
+        }
+        return $skills;
     }
 }

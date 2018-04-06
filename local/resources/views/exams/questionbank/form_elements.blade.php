@@ -211,7 +211,6 @@ if ($record) {
 <fieldset class="form-group" id="skillsArea" style="display: none;">
    {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
    <select name="skills" class="form-control" id="skills">
-
    </select>
 </fieldset>
 <!-- Load the files end as independent -->

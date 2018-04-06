@@ -186,24 +186,40 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $(document).on('change','.subject',function () {
+    function showHide() {
+        if (parseInt($('.course').val()) < 23 )
+        {
+            $('#skillsArea').css('display','block')
+            getSkills()
+
+        }else {
+            $('#skillsArea').css('display','none')
+        }
+
+    }
+    function getSkills() {
+            $('#skills').empty();
             $.ajax({
                 url:"{{url('getSkills')}}",
                 type: 'get',
-                data:{'course_id':$('.course').val() , 'subject_id':$(this).val()},
+                data:{'course_id':$('.course').val() , 'subject_id':$('.subject').val()},
                 success:function (result) {
                     console.log(result)
+                    for(i=0; i<result.length; i++)
+                        $('#skills').append('<option value="'+result[i].id+'">'+result[i].skill_title+'</option>');
                 }
             })
-        })
+    }
+    $(window).on('load', function(){
+        showHide()
+        alert($('.subject').val())
+    })
+    $(document).ready(function () {
         $(document).on('change','.course',function () {
-            if (parseInt($(this).val()) < 23 )
-            {
-                $('#skillsArea').css('display','block')
-            }else {
-                $('#skillsArea').css('display','none')
-            }
+            showHide()
+        })
+        $(document).on('change','.subject',function () {
+           getSkills()
         })
     })
 </script>
