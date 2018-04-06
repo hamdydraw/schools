@@ -179,4 +179,8 @@ class SkillsController extends Controller
         }
         return json_encode($response);
     }
+    public function getSkills()
+    {
+        return 'ddd';
+    }
 }

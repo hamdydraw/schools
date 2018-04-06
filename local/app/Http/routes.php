@@ -253,6 +253,7 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 
 //skills
 Route::get('mastersettings/skills', 'SkillsController@index');
+Route::get('getSkills', 'SkillsController@getSkills');
 Route::get('mastersettings/skills/create', 'SkillsController@create');
 Route::get('mastersettings/skills/edit/{id}', 'SkillsController@edit');
 Route::post('mastersettings/skills/update/{id}', 'SkillsController@update');

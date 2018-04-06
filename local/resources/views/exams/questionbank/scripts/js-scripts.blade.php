@@ -185,3 +185,25 @@
 
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $(document).on('change','.subject',function () {
+            $.ajax({
+                url:"{{url('getSkills')}}",
+                type: 'get',
+                data:{'course_id':$('.course').val() , 'subject_id':$(this).val()},
+                success:function (result) {
+                    console.log(result)
+                }
+            })
+        })
+        $(document).on('change','.course',function () {
+            if (parseInt($(this).val()) < 23 )
+            {
+                $('#skillsArea').css('display','block')
+            }else {
+                $('#skillsArea').css('display','none')
+            }
+        })
+    })
+</script>
