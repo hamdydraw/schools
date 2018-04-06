@@ -184,7 +184,7 @@ class SkillsController extends Controller
     {
         if ($request->course_id < 23) {
             $skills = Skill::where('subject_id', $request->subject_id)->where('course_id',
-                $request->course_id)->get(['id', 'skill_title']);
+                $request->course_id)->groupBy('skill_title')->get(['id', 'skill_title']);
         }
         return $skills;
     }

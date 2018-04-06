@@ -49,6 +49,7 @@
 <fieldset class="form-group" id="skillsArea" style="display: none;">
     {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
     <select name="skills" class="form-control" id="skills">
+        <option value="0">{{getPhrase('select')}}</option>
     </select>
 </fieldset>
 
@@ -213,11 +214,6 @@ if ($record) {
 @if($show)
     @include('exams.questionbank.form_elements_para', array('record'=>$record))
 @endif
-<fieldset class="form-group" id="skillsArea" style="display: none;">
-   {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
-   <select name="skills" class="form-control" id="skills">
-   </select>
-</fieldset>
 <!-- Load the files end as independent -->
 
 <div class="buttons text-center">

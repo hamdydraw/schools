@@ -44,7 +44,7 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-                    if (response.data.length === 0){
+                    if (response.data.length === 0) {
                         showHide('undef')
                     }
                     $scope.academic_subjects_sc = response.data;
@@ -69,7 +69,7 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-                    if (response.data.length === 0){
+                    if (response.data.length === 0) {
                         showHide('undef')
                     }
                     $scope.topics_sc = response.data;
@@ -209,7 +209,7 @@
     }
 
     function getSkills(subject) {
-        if (subject == 'undef'){
+        if (subject == 'undef') {
             $('#skills').empty();
             return
         }
@@ -220,8 +220,15 @@
             data: {'course_id': $('.course').val(), 'subject_id': subject},
             success: function (result) {
                 console.log(result)
-                for (i = 0; i < result.length; i++)
-                    $('#skills').append('<option value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+                $('#skills').append('<option value="0">{{getPhrase("select")}}</option>');
+                for (i = 0; i < result.length; i++) {
+                    var id = "{{$record!=false ? $record->skill_id:''}}";
+                    if (id == result[i].id) {
+                        $('#skills').append('<option selected value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+                    }else {
+                        $('#skills').append('<option  value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+                    }
+                }
             }
         })
     }
