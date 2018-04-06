@@ -12,7 +12,6 @@
                     <ol class="breadcrumb">
                         <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a> </li>
                         <li>{{ $title }}</li>
-                        <li>{{ getPhrase('expenses_of').$user->name }}</li>
                     </ol>
                 </div>
             </div>
@@ -20,8 +19,6 @@
             <!-- /.row -->
             <div class="panel panel-custom">
                 <div class="panel-heading">
-
-
                     <h1>{{ $title }}</h1>
                 </div>
                 <div class="panel-body packages">
@@ -29,12 +26,15 @@
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
+                                <th>{{ getPhrase('name')}}</th>
+                                <th>{{ getPhrase('academic_year')}}</th>
                                 <th>{{ getPhrase('total')}}</th>
                                 <th>{{ getPhrase('payed')}}</th>
                                 <th>{{ getPhrase('remained')}}</th>
                                 <th>{{ getPhrase('expenses')}}</th>
                                 <th>{{ getPhrase('created_at')}}</th>
                                 <th>{{ getPhrase('updated_at')}}</th>
+                                <th>{{ getPhrase('action')}}</th>
                             </tr>
                             </thead>
 
@@ -50,7 +50,7 @@
     </div>
 @endsection
 
-<?php $url = URL_PARENT_CHILDREN_GETLIST_EXPENSES.$slug;
+<?php $url = URL_PARENT_CHILDREN_GETLIST_EXPENSES;
 
 ?>
 @section('footer_scripts')

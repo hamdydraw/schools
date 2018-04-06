@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a></li>
-                        <li><a href="{{url('/mastersettings/skills')}}">{{getPhrase('all_academic_dues')}}</a></li>
+                        <li><a href="{{url('/mastersettings/dues/all_expenses')}}">{{getPhrase('expenses_items')}}</a></li>
                         <li>{{$title}}</li>
                     </ol>
                 </div>
@@ -31,8 +31,8 @@
                     {{csrf_field()}}
                     <fieldset class="form-group">
                         <div class="col-md-4">
-                            {{ Form::label('academic_dues', getphrase('academic_dues')) }}
-                            {{ Form::text('title', $value = isset($record) ? $record->title : '' , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => isset($record) ? getPhrase('edit_expenses'):getPhrase('add_expenses'))) }}
+                            {{ Form::label('academic_dues', getphrase('expense_item')) }}
+                            {{ Form::text('title', $value = isset($record) ? $record->title : '' , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => isset($record) ? getPhrase('edit_expense_item'):getPhrase('expense_item'))) }}
                         </div>
                     </fieldset>
                     <div class="row">

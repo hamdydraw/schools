@@ -14,22 +14,22 @@
     }
 </style>
 
-<fieldset class="form-group">
+<fieldset class="form-group col-md-6">
     <label for="">{{getPhrase('branch')}}</label>
     <span class="text-red">*</span>
-    <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+    <select name="course_id" class="form-control course" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
         <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
     </select>
 </fieldset>
 <fieldset class="form-group">
     <label for="">{{getPhrase('subject')}}</label>
     <span class="text-red">*</span>
-    <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
+    <select name="subject_id" class="form-control subject" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
         <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
     </select>
 </fieldset>
 
-<fieldset class="form-group ">
+<fieldset class="form-group col-md-6">
     {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
 
     <select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc" ng-change="get_sub_topics()">
@@ -45,6 +45,12 @@
         <option ng-repeat="sub_topic in sub_topics_sc" value="@{{ sub_topic.id }}">@{{ sub_topic.topic_name }}</option>
     </select>
 
+</fieldset>
+<fieldset class="form-group" id="skillsArea" style="display: none;">
+    {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
+    <select name="skills" class="form-control" id="skills">
+        <option value="0">{{getPhrase('select')}}</option>
+    </select>
 </fieldset>
 
 <fieldset class="form-group">
@@ -207,19 +213,6 @@ if ($record) {
 ?>
 @if($show)
     @include('exams.questionbank.form_elements_para', array('record'=>$record))
-@endif
-@if($skills != null)
-<fieldset class="form-group">
-   {{ Form::label('skills', getphrase('skills')) }} <span class="text-red">*</span>
-   <select name="skills" class="form-control" id="skills">
-       <option value="0">{{getPhrase('select')}}</option>
-       @if(count($skills) > 0)
-           @foreach($skills as $skill)
-               <option value="{{$skill->id}}" @if($record != null and $record->skill_id==$skill->id) selected @endif>{{$skill->skill_title}}</option>
-           @endforeach
-       @endif
-   </select>
-</fieldset>
 @endif
 <!-- Load the files end as independent -->
 

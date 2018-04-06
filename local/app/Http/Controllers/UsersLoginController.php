@@ -39,6 +39,7 @@ class UsersLoginController extends Controller
             return abs($records->id-$id);
 
             })
+            ->removeColumn('table_name')
             ->make();
 
     }

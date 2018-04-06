@@ -288,8 +288,6 @@ class QuestionBankController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
-
         $data['record'] = null;
         $data['record'] = false;
         $data['active_class'] = 'exams';
@@ -325,13 +323,6 @@ class QuestionBankController extends Controller
         $data['topic_id']  = $record->topic_id;
 
 
-
-        $courseOfSubject = App\CourseSubject::where('subject_id', $subject->id)->first(['course_parent_id']);
-        $courseOfSubjectId = $courseOfSubject != null ? $courseOfSubject->course_parent_id : '';
-        if ($courseOfSubjectId < 23) {
-            $data['skills'] = App\Skill::where('subject_id', $subject->id)->where('course_id',
-                $courseOfSubjectId)->get(['id', 'skill_title']);
-        }
         if (!$topics->count()) {
             /**
              * If no topics available in selected subject,

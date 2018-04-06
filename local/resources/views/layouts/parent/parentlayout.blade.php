@@ -302,13 +302,15 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 					</li>
 					@endif
 
+					<li {{ isActive($active_class, 'academic_expenses') }}>
+						<a  href="{{url('parent/purchase-expenses/all/')}}"><i class="fa fa-credit-card" ></i>
+							{{ getPhrase('academic_expenses') }} </a>
+					</li>
 
 					<li {{ isActive($active_class, 'subscriptions') }} >
 					<a  href="{{URL_PAYMENTS_LIST.Auth::user()->slug}}"><i class="fa fa-credit-card" ></i>
 					{{ getPhrase('subscriptions') }} </a>
 					</li>
-
-
 					@if($messages_module)
 					<li {{ isActive($active_class, 'messages') }} >
 

@@ -20,7 +20,7 @@
                     <h1>{{ $title }}  </h1>
                 </div>
                 <div class="panel-body packages" ng-controller="subjects_course">
-                    @if($title == 'add_skills')
+                    @if($manpulation_kind == 'add')
                         {{ Form::open(array('url' => 'mastersettings/skills/store', 'method'=>'post')) }}
                     @else
                         {{ Form::open(array('url' => 'mastersettings/skills/update/'.$record->id, 'method'=>'post')) }}
@@ -34,7 +34,7 @@
                                 <span class="text-red">*</span>
                                 {{ Form::text('skills[]', $value = isset($record->skill_title)? $record->skill_title : null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => getPhrase('skill_name'),'id'=>'skill')) }}
                             </fieldset>
-                            @if($title == 'add_skills')
+                            @if($manpulation_kind == 'add')
                                 <fieldset class="form-group col-md-3" style="margin-top: 35px;">
                                     <button class="btn btn-primary new">{{getPhrase('new')}}</button>
                                 </fieldset>

@@ -44,18 +44,24 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    if (response.data.length === 0) {
+                        showHide('undef')
+                    }
                     $scope.academic_subjects_sc = response.data;
                     $scope.current_subject_sc = $scope.academic_subjects_sc[0].id.toString();
                     @if($record != null)
-                    $scope.current_subject_sc = {{$record->subject_id}};
+                        $scope.current_subject_sc = {{$record->subject_id}};
                     $scope.current_subject_sc = $scope.current_subject_sc.toString();
                     @endif
                     $scope.get_topics();
-                })
+                }).then(function () {
+                showHide($scope.current_subject_sc)
+            })
         }
 
 
         $scope.get_topics = function () {
+
             $http({
                 method: "GET",
                 url: '{{PREFIX}}' + 'get_topics/' + $scope.current_subject_sc + '/' + $scope.current_course_sc,
@@ -63,10 +69,15 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    if (response.data.length === 0) {
+                        showHide('undef')
+                    }
                     $scope.topics_sc = response.data;
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
                     $scope.get_sub_topics();
-                })
+                }).then(function () {
+                showHide($scope.current_subject_sc)
+            })
         }
 
         $scope.get_sub_topics = function () {
@@ -80,7 +91,7 @@
                     $scope.sub_topics_sc = response.data;
                     $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
                     @if($record != null)
-                    $scope.sub_topic_id_sc = {{$record->topic_id}};
+                        $scope.sub_topic_id_sc = {{$record->topic_id}};
                     $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
                     @endif
                 })
@@ -184,4 +195,54 @@
         }
 
     });
+</script>
+<script>
+    function showHide(subject) {
+        if (parseInt($('.course').val()) < 23) {
+            $('#skillsArea').css('display', 'block')
+            getSkills(subject)
+
+        } else {
+            $('#skillsArea').css('display', 'none')
+        }
+
+    }
+
+    function getSkills(subject) {
+        if (subject == 'undef') {
+            $('#skills').empty();
+            return
+        }
+        $('#skills').empty();
+        $.ajax({
+            url: "{{url('getSkills')}}",
+            type: 'get',
+            data: {'course_id': $('.course').val(), 'subject_id': subject},
+            success: function (result) {
+                console.log(result)
+                $('#skills').append('<option value="0">{{getPhrase("select")}}</option>');
+                for (i = 0; i < result.length; i++) {
+                    var id = "{{$record!=false ? $record->skill_id:''}}";
+                    if (id == result[i].id) {
+                        $('#skills').append('<option selected value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+                    }else {
+                        $('#skills').append('<option  value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+                    }
+                }
+            }
+        })
+    }
+
+    /*$(window).on('load', function(){
+        showHide()
+        alert($('.course').val())
+    })
+    $(document).ready(function () {
+        $(document).on('change','.course',function () {
+            showHide()
+        })
+        $(document).on('change','.subject',function () {
+           getSkills()
+        })
+    })*/
 </script>
