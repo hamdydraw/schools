@@ -44,6 +44,9 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    if (response.data.length === 0){
+                        showHide('undef')
+                    }
                     $scope.academic_subjects_sc = response.data;
                     $scope.current_subject_sc = $scope.academic_subjects_sc[0].id.toString();
                     @if($record != null)
@@ -58,6 +61,7 @@
 
 
         $scope.get_topics = function () {
+
             $http({
                 method: "GET",
                 url: '{{PREFIX}}' + 'get_topics/' + $scope.current_subject_sc + '/' + $scope.current_course_sc,
@@ -65,6 +69,9 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    if (response.data.length === 0){
+                        showHide('undef')
+                    }
                     $scope.topics_sc = response.data;
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
                     $scope.get_sub_topics();
@@ -191,7 +198,6 @@
 </script>
 <script>
     function showHide(subject) {
-        alert(subject)
         if (parseInt($('.course').val()) < 23) {
             $('#skillsArea').css('display', 'block')
             getSkills(subject)
@@ -203,6 +209,10 @@
     }
 
     function getSkills(subject) {
+        if (subject == 'undef'){
+            $('#skills').empty();
+            return
+        }
         $('#skills').empty();
         $.ajax({
             url: "{{url('getSkills')}}",
