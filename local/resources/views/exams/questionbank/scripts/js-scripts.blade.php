@@ -47,11 +47,13 @@
                     $scope.academic_subjects_sc = response.data;
                     $scope.current_subject_sc = $scope.academic_subjects_sc[0].id.toString();
                     @if($record != null)
-                    $scope.current_subject_sc = {{$record->subject_id}};
+                        $scope.current_subject_sc = {{$record->subject_id}};
                     $scope.current_subject_sc = $scope.current_subject_sc.toString();
                     @endif
                     $scope.get_topics();
-                })
+                }).then(function () {
+                showHide($scope.current_subject_sc)
+            })
         }
 
 
@@ -66,7 +68,9 @@
                     $scope.topics_sc = response.data;
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
                     $scope.get_sub_topics();
-                })
+                }).then(function () {
+                showHide($scope.current_subject_sc)
+            })
         }
 
         $scope.get_sub_topics = function () {
@@ -80,7 +84,7 @@
                     $scope.sub_topics_sc = response.data;
                     $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
                     @if($record != null)
-                    $scope.sub_topic_id_sc = {{$record->topic_id}};
+                        $scope.sub_topic_id_sc = {{$record->topic_id}};
                     $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
                     @endif
                 })
@@ -186,33 +190,35 @@
     });
 </script>
 <script>
-    function showHide() {
-        if (parseInt($('.course').val()) < 23 )
-        {
-            $('#skillsArea').css('display','block')
-            getSkills()
+    function showHide(subject) {
+        alert(subject)
+        if (parseInt($('.course').val()) < 23) {
+            $('#skillsArea').css('display', 'block')
+            getSkills(subject)
 
-        }else {
-            $('#skillsArea').css('display','none')
+        } else {
+            $('#skillsArea').css('display', 'none')
         }
 
     }
-    function getSkills() {
-            $('#skills').empty();
-            $.ajax({
-                url:"{{url('getSkills')}}",
-                type: 'get',
-                data:{'course_id':$('.course').val() , 'subject_id':$('.subject').val()},
-                success:function (result) {
-                    console.log(result)
-                    for(i=0; i<result.length; i++)
-                        $('#skills').append('<option value="'+result[i].id+'">'+result[i].skill_title+'</option>');
-                }
-            })
+
+    function getSkills(subject) {
+        $('#skills').empty();
+        $.ajax({
+            url: "{{url('getSkills')}}",
+            type: 'get',
+            data: {'course_id': $('.course').val(), 'subject_id': subject},
+            success: function (result) {
+                console.log(result)
+                for (i = 0; i < result.length; i++)
+                    $('#skills').append('<option value="' + result[i].id + '">' + result[i].skill_title + '</option>');
+            }
+        })
     }
-    $(window).on('load', function(){
+
+    /*$(window).on('load', function(){
         showHide()
-        alert($('.subject').val())
+        alert($('.course').val())
     })
     $(document).ready(function () {
         $(document).on('change','.course',function () {
@@ -221,5 +227,5 @@
         $(document).on('change','.subject',function () {
            getSkills()
         })
-    })
+    })*/
 </script>
