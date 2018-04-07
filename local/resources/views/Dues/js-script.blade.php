@@ -1,14 +1,17 @@
 <script>
     $(document).ready(function () {
-        var total = 0;
+        var total = parseInt($('#total').text());
+        $('#your_money').val(total)
         $('.expenses').on('change', function () {
             if ($(this).prop('checked') == true) {
                 total = total + parseInt($(this).val());
                 $('#total').text(total)
+                $('#your_money').val(total)
             }
             if ($(this).prop('checked') == false) {
                 total = total - parseInt($(this).val());
                 $('#total').text(total)
+                $('#your_money').val(total)
             }
         })
         $('button').on('click', function () {
@@ -16,20 +19,21 @@
         })
 
     })
+
     function validateCoupon() {
         $.ajax({
             url: "{{url('coupons/validate-coupon')}}",
             type: "get",
             data: {
-                'item_name':'',
-                'item_type':'expenses',
-                'cost':$('#total').text(),
-                'coupon_code':$('#coupon_text').val(),
-                'student_id':"{{$student_id}}"
+                'item_name': '',
+                'item_type': 'expenses',
+                'cost': $('#total').text(),
+                'coupon_code': $('#coupon_text').val(),
+                'student_id': "{{$student_id}}"
             },
             success: function (result) {
                 console.log(result)
-                var resultParsed=JSON.parse(result)
+                var resultParsed = JSON.parse(result)
                 if (resultParsed.status == 0) {
                     alertify.error(resultParsed.message);
                     return;

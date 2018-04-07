@@ -1,6 +1,6 @@
 @extends($layout)
 @section('header_scripts')
-<link href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
 @section('content')
 

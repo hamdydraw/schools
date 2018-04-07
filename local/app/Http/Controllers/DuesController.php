@@ -165,14 +165,16 @@ class DuesController extends Controller
 
     public function payGateway(Request $request, $slug)
     {
+        $expenses=$request->expenses;
+        $expenses_merged=array_merge($expenses,$request->mand);
         $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
         $items = ' ';
-        if ($request->expenses == null) {
+        if ($expenses_merged == null) {
             flash(getPhrase('Ooops'), getPhrase('you_must_select_one_item_at_least'), 'error');
             return back();
         }
-        foreach ($request->expenses as $expense) {
+        foreach ($expenses_merged as $expense) {
             $items .= '-' . explode('/', $expense)[1] . '<br>';
         }
         if ($gateway == 'payu') {
@@ -244,7 +246,7 @@ class DuesController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
                 return back();
             }
-            $data['active_class'] = 'feedback';
+            $data['active_class'] = 'academic_expenses';
             $data['payment_data'] = json_encode(Input::all());
             $data['layout'] = getLayout();
             $data['title'] = getPhrase('offline_payment');
@@ -257,6 +259,8 @@ class DuesController extends Controller
 
     public function storePurchase($request, $slug)
     {
+        $expenses=$request->expenses;
+        $expenses_merged=array_merge($expenses,$request->mand);
         $current_academic_id = new Academic();
         $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
         $parent_id = Auth::user()->id;
@@ -265,7 +269,7 @@ class DuesController extends Controller
         if ($checkExistence != null) {
             $specifications = json_decode($checkExistence->specifications, true);
             $total = 0;
-            foreach ($request->expenses as $expense) {
+            foreach ($expenses_merged as $expense) {
                 $specifications['total'] += explode('/', $expense)[0];
                 $total += explode('/', $expense)[0];
                 $specifications['dues_title'][] = explode('/', $expense)[1];
@@ -296,7 +300,7 @@ class DuesController extends Controller
         }
         $total = 0;
         $dues_titles = array();
-        foreach ($request->expenses as $expense) {
+        foreach ($expenses_merged as $expense) {
             $total += explode('/', $expense)[0];
             $dues_titles[] = explode('/', $expense)[1];
         }

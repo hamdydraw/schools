@@ -1,6 +1,6 @@
 @extends($layout)
 @section('header_scripts')
-    <link href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
 @section('content')
 
@@ -27,7 +27,7 @@
                             <thead>
                             <tr>
                                 <th>{{ getPhrase('name')}}</th>
-                                <th>{{ getPhrase('deserved amount')}}</th>
+                                <th>{{ getPhrase('deserved_amount')}}</th>
                                 <th>{{ getPhrase('the_amount_paid')}}</th>
                                 <th>{{ getPhrase('remaining_amount')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
