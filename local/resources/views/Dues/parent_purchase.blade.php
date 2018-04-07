@@ -76,8 +76,13 @@
 
                     @endif
 
-                    <h3>{{getPhrase('total')}}: <span
-                                id="total">{{$total+isset($specifications)?$specifications['remain_purchase'] : 0}}</span>
+                    <h3>{{getPhrase('total')}}: <span id="total">
+                            @if(isset($specifications))
+                                {{$total+$specifications['remain_purchase']}}
+                            @else
+                                {{$total+0}}
+                            @endif
+                        </span>
                     </h3>
                     <div class="row">
                         <fieldset class="form-group col-md-3">
