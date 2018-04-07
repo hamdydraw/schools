@@ -277,8 +277,8 @@ class DuesController extends Controller
         if ($checkExistence != null) {
             $specifications = json_decode($checkExistence->specifications, true);
             $total = 0;
+            $remain=$specifications['remain_purchase'];
             if ($request->expenses != null) {
-                $remain=$specifications['remain_purchase'];
                 foreach ($expenses_merged as $expense) {
                     if (in_array(explode('/', $expense)[1],($specifications['dues_title']))){
                          continue;
