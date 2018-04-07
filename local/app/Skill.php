@@ -4,17 +4,13 @@
 namespace App;
 
 
-use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
-
-
-
-     protected $table='skills';
-     protected $fillable=['skill_title','course_id','subject_id'];
-     public $timestamps=false;
+    protected $table = 'skills';
+    protected $fillable = ['skill_title', 'course_id', 'subject_id'];
 
     protected static function boot()
     {
