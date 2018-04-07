@@ -13,7 +13,7 @@
         </div>
         <div class="col-md-3">
             {{ Form::label('due_value', getphrase('due_value')) }}
-            <input type="number" class="form-control" name="due_value[]" required id="due_value">
+            <input type="number" class="form-control due_value" name="due_value[]" required id="due_value">
         </div>
         <div class="col-md-3">
             {{ Form::label('due_type', getphrase('due_type')) }}
@@ -48,7 +48,7 @@
             </div>
             <div class="col-md-3">
                 {{ Form::label('due_value', getphrase('due_value')) }}
-                <input type="number" class="form-control" name="due_value[]" value="{{$fillable->due_value}}" required id="due_value">
+                <input type="number" class="form-control due_value" name="due_value[]" value="{{$fillable->due_value}}" required id="due_value">
             </div>
             <div class="col-md-3">
                 {{ Form::label('due_type', getphrase('due_type')) }}

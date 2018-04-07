@@ -42,6 +42,11 @@
                 }
                 if (resultParsed.status == 1) {
                     $('#coupon').val(resultParsed.discount);
+                    var total=parseInt($('#total').text().trim())-parseInt(resultParsed.discount)
+                    $('#total').text(total.toString())
+                    $('#your_money').val(total.toString())
+                    $('#your_money').attr('max',total)
+                    $('#to_be_copoun').text("{{getPhrase('discount_is')}}"+resultParsed.discount)
                     alertify.success(resultParsed.message);
                     return;
                 }

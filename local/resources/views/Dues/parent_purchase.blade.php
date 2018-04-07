@@ -30,8 +30,7 @@
                     <h1><b>-{{ getPhrase('mandatory_items') }}</b></h1>
                     @foreach($schoolExpenses as $expense)
                         @if($expense->due_type == 'mandatory')
-                            <input type="hidden" name="mand[]" id="coupon"
-                                   value="{{$expense->due_value.'/'.$expense->title}}">
+                            <input type="hidden" name="mand[]" value="{{$expense->due_value.'/'.$expense->title}}">
                             <?php
                             if (isset($specifications) and !in_array($expense->title, $specifications['dues_title'])) {
                                 $total += $expense->due_value;
@@ -78,13 +77,13 @@
                             @if(isset($specifications))
                                 {{$total+$specifications['remain_purchase']}}
                                 <?php
-                                    $total=$total+$specifications['remain_purchase'];
+                                $total = $total + $specifications['remain_purchase'];
                                 ?>
 
                             @else
                                 {{$total+0}}
                                 <?php
-                                $total=$total+0;
+                                $total = $total + 0;
                                 ?>
 
                             @endif
@@ -105,11 +104,13 @@
                                        placeholder="{{getPhrase('enter_coupon_code')}}">
 
                                 <span class="input-group-btn">
-
               								<button class="btn btn-success button apply-input-button"
                                                     onclick="validateCoupon()"
                                                     type="button">{{getPhrase('apply')}}</button>
-                        </span>
+
+                                     </span>
+                                <span id="to_be_copoun">
+                                     </span>
                             </fieldset>
                         </div>
                     @endif
@@ -121,24 +122,24 @@
                     <input type="hidden" value="" id="gateway" name="gateway">
                     <input type="hidden" name="coupon" id="coupon" value="0">
                     <div style="margin-right: 300px;">
-                            @if($settingsModule->payu->value == 1)
+                        @if($settingsModule->payu->value == 1)
 
-                                <button type="submit"
-                                        class="btn-lg btn button btn-card" id="payu"><i
-                                            class=" icon-credit-card"></i> {{getPhrase('payu')}}</button>
-                            @endif
+                            <button type="submit"
+                                    class="btn-lg btn button btn-card" id="payu"><i
+                                        class=" icon-credit-card"></i> {{getPhrase('payu')}}</button>
+                        @endif
 
-                            @if($settingsModule->paypal->value == 1)
-                                <button type="submit" class="btn-lg btn button btn-paypal" id="paypal"><i
-                                            class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
-                            @endif
-                            @if($settingsModule->offline_payment->value == 1)
-                                <button type="submit" class="btn-lg btn button btn-info" id="offline"
-                                        title="{{ getPhrase('click_here_to_update_payment_details') }}"><i
-                                            class="fa fa-money"></i> {{getPhrase('offline_payment')}}
-                                </button>
+                        @if($settingsModule->paypal->value == 1)
+                            <button type="submit" class="btn-lg btn button btn-paypal" id="paypal"><i
+                                        class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
+                        @endif
+                        @if($settingsModule->offline_payment->value == 1)
+                            <button type="submit" class="btn-lg btn button btn-info" id="offline"
+                                    title="{{ getPhrase('click_here_to_update_payment_details') }}"><i
+                                        class="fa fa-money"></i> {{getPhrase('offline_payment')}}
+                            </button>
 
-                            @endif
+                        @endif
                     </div>
                     {{ Form::close() }}
                 </div>

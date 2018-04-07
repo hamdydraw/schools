@@ -46,7 +46,7 @@
                     'academic_id': $('#academic_year').val(),
                     'course_parent': $('#course_parent').val(),
                     'due_title': $('#due_title').val(),
-                    'due_value': $('input:text#due_value').val(),
+                    'due_value': $('input:text.due_value').val(),
                     'due_type': $('#due_type').val(),
 
                 },
