@@ -291,7 +291,7 @@ class DuesController extends Controller
             $your_money = $request->your_money;
             $specifications['your_money'] += $your_money;
             $coupon = $request->coupon;
-            $specifications['coupon'] += $coupon;
+            /*$specifications['coupon'] += $coupon;*/
             $remain_purchase = ($remain - $your_money) - $coupon;
             $specifications['remain_purchase'] = $remain_purchase;
             $db_object = array(

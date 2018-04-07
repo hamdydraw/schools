@@ -115,9 +115,9 @@
                         </div>
                     @endif
                     <h3>{{getPhrase('the_amount_paid')}}: <span
-                                style="color: red;">{{ isset($dues_purchase) ? $specifications['your_money'] : ''}}</span><br>
+                                style="color: red;">{{ isset($dues_purchase) ? $specifications['your_money'] : '-'}}</span><br>
                         at time: <span
-                                style="color: red;">{{isset($dues_purchase) ? $dues_purchase->updated_at : ''}}</span>
+                                style="color: red;">{{isset($dues_purchase) ? $dues_purchase->updated_at : '-'}}</span>
                     </h3>
                     <input type="hidden" value="" id="gateway" name="gateway">
                     <input type="hidden" name="coupon" id="coupon" value="0">
