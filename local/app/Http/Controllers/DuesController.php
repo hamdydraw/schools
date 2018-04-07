@@ -166,7 +166,7 @@ class DuesController extends Controller
 
     public function payGateway(Request $request, $slug)
     {
-        $expenses = $request->expenses != null ?$request->expenses:array();
+        $expenses = $request->expenses != null ? $request->expenses : array();
         $expenses_merged = array_merge($expenses, $request->mand);
         $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
@@ -258,11 +258,17 @@ class DuesController extends Controller
         }
     }
 
-    public function storePurchase($request, $slug)
+    public function storePurchase($request, $slug, $off = null)
     {
+        if ($off != null and count($request) == 6) {
+            $expenses_merged = array_merge($request->expenses, $request->mand);
+        } else if ($off != null) {
+            $expenses_merged = $request->mand;
+        } else {
+            $expenses = $request->expenses != null ? $request->expenses : array();
 
-        $expenses = $request->expenses != null ?$request->expenses:array();
-        $expenses_merged = array_merge($expenses, $request->mand);
+            $expenses_merged = array_merge($expenses, $request->mand);
+        }
         $current_academic_id = new Academic();
         $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
         $parent_id = Auth::user()->id;
@@ -462,12 +468,15 @@ class DuesController extends Controller
         $userRecord = User::where('slug', $slug)->first();
         $payment_data = json_decode($request->payment_data);
         $items = '';
-        if ($payment_data->expenses !=null) {
-            foreach ($payment_data->expenses as $expense) {
-                $items .= '-' . explode('/', $expense)[1] . '<br>';
-            }
+        if (count($payment_data) == 6) {
+            $expenses_merged = array_merge($payment_data->expenses, $payment_data->mand);
+        } else {
+            $expenses_merged = $payment_data->mand;
         }
-        $this->storePurchase(json_decode($request->payment_data), $slug);
+        foreach ($expenses_merged as $expense) {
+            $items .= '-' . explode('/', $expense)[1] . '<br>';
+        }
+        $this->storePurchase(json_decode($request->payment_data), $slug, 'off');
         $payment = new Payment();
         $payment->slug = $payment->makeSlug(getHashCode());
         $payment->item_name = $items;
