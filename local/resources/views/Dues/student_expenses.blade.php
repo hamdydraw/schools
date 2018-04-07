@@ -27,10 +27,9 @@
                             <thead>
                             <tr>
                                 <th>{{ getPhrase('name')}}</th>
-                                <th>{{ getPhrase('academic_year')}}</th>
-                                <th>{{ getPhrase('total')}}</th>
-                                <th>{{ getPhrase('payed')}}</th>
-                                <th>{{ getPhrase('remained')}}</th>
+                                <th>{{ getPhrase('deserved amount')}}</th>
+                                <th>{{ getPhrase('the_amount_paid')}}</th>
+                                <th>{{ getPhrase('remaining_amount')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>
                             </thead>

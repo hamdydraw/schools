@@ -7,8 +7,7 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a></li>
-                        <li><a href="{{url('parent/children')}}">{{getPhrase('children')}}</a></li>
-                        <li>{{$title}}</li>
+                        <li><a href="{{url('parent/purchase-expenses/all')}}">{{getPhrase('academic_expenses')}}</a></li>
                         <li>{{$record->name}}</li>
                     </ol>
                 </div>

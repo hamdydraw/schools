@@ -125,16 +125,17 @@ class ParentsController extends Controller
 
     public function getDatatableExpenses()
     {
+        $currentAcademic=new App\Academic();
+        $currentAcademic=$currentAcademic->getCurrentAcademic()->id;
         $records = App\DuesPurchase::rightJoin('users', 'users.id', '=', 'dues_purchase.student_id', 'right join')
-            ->select(['users.name', 'users.slug', 'dues_purchase.academic_id', 'dues_purchase.specifications'])
             ->where('users.parent_id', Auth::user()->id)
+            ->where('dues_purchase.academic_id', $currentAcademic)
+            ->select(['users.name', 'users.slug','dues_purchase.specifications'])
             ->get();
+
         return Datatables::of($records)
             ->editColumn('name', function ($records) {
                 return $records->name;
-            })
-            ->editColumn('academic_id', function ($records) {
-                return isset($records->academic_id) ? App\Academic::find($records->academic_id)->academic_year_title:'-';
             })
             ->addColumn('total', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['total']:'-';

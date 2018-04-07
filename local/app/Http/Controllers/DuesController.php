@@ -135,7 +135,7 @@ class DuesController extends Controller
     public function viewParentPurchase($slug)
     {
         $data['layout'] = getLayout();
-        $data['active_class'] = 'children';
+        $data['active_class'] = 'academic_expenses';
         $data['title'] = getPhrase('parent_purchase');
         $data['record'] = User::where('slug', $slug)->first();
         $course_id=Student::where('user_id',$data['record']->id)->first(['course_parent_id'])->course_parent_id;
@@ -357,7 +357,7 @@ class DuesController extends Controller
 
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id', 'title','slug','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+        $records = AcademicDues::select(['id', 'title','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($records) {
                 return $records->title;
