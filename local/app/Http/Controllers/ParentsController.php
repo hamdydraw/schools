@@ -149,6 +149,29 @@ class ParentsController extends Controller
             ->addColumn('remained', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
             })
+            ->addColumn('must_paid', function ($records) {
+                $data['record'] = User::where('slug', $records->slug)->first();
+                $course_id = App\Student::where('user_id', $data['record']->id)->first(['course_parent_id'])->course_parent_id;
+                $data['dues_purchase'] = App\DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
+                    Auth::user()->id)->first();
+                $currentAcademicYear = new App\Academic();
+                $currentAcademicYear = $currentAcademicYear->getCurrentAcademic()->id;
+                $schoolExp = App\AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
+                    ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
+                    ->where('academics_dues_pivot.course_parent', $course_id)
+                    ->select(['academics_dues_pivot.id', 'academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title'])
+                    ->get();
+                $data['total'] = 0;
+                $data['schoolExpenses'] = $schoolExp;
+                if ($data['schoolExpenses'] != null) {
+                    foreach ($data['schoolExpenses'] as $value) {
+                        if ($value->due_type == 'mandatory') {
+                            $data['total'] += $value->due_value;
+                        }
+                    }
+                }
+                return $data['total'];
+            })
             ->addColumn('action', function ($records) {
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

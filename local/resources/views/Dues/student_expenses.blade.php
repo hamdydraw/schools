@@ -30,6 +30,7 @@
                                 <th>{{ getPhrase('deserved_amount')}}</th>
                                 <th>{{ getPhrase('the_amount_paid')}}</th>
                                 <th>{{ getPhrase('remaining_amount')}}</th>
+                                <th>{{ getPhrase('must_paid')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>
                             </thead>

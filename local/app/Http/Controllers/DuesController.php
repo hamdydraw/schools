@@ -462,8 +462,10 @@ class DuesController extends Controller
         $userRecord = User::where('slug', $slug)->first();
         $payment_data = json_decode($request->payment_data);
         $items = '';
-        foreach ($payment_data->expenses as $expense) {
-            $items .= '-' . explode('/', $expense)[1] . '<br>';
+        if ($payment_data->expenses !=null) {
+            foreach ($payment_data->expenses as $expense) {
+                $items .= '-' . explode('/', $expense)[1] . '<br>';
+            }
         }
         $this->storePurchase(json_decode($request->payment_data), $slug);
         $payment = new Payment();
@@ -474,7 +476,7 @@ class DuesController extends Controller
         $payment->payment_gateway = 'offline';
         $payment->paid_by_parent = 1;
         $payment->notes = $request->payment_details;
-        $payment->payment_status = PAYMENT_STATUS_SUCCESS;
+        $payment->payment_status = PAYMENT_STATUS_PENDING;
         $payment->save();
         flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
         return redirect(URL_PAYMENTS_LIST . Auth::user()->slug);
