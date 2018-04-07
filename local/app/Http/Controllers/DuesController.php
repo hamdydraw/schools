@@ -260,7 +260,7 @@ class DuesController extends Controller
 
     public function storePurchase($request, $slug, $off = null)
     {
-        if ($off != null and count($request) == 6) {
+        if ($off != null and isset($request->expenses)) {
             $expenses_merged = array_merge($request->expenses, $request->mand);
         } else if ($off != null) {
             $expenses_merged = $request->mand;
@@ -277,11 +277,11 @@ class DuesController extends Controller
         if ($checkExistence != null) {
             $specifications = json_decode($checkExistence->specifications, true);
             $total = 0;
-            $remain=$specifications['remain_purchase'];
-            if ($request->expenses != null) {
+            $remain = $specifications['remain_purchase'];
+            if (isset($request->expenses)) {
                 foreach ($expenses_merged as $expense) {
-                    if (in_array(explode('/', $expense)[1],($specifications['dues_title']))){
-                         continue;
+                    if (in_array(explode('/', $expense)[1], ($specifications['dues_title']))) {
+                        continue;
                     }
                     $specifications['total'] += explode('/', $expense)[0];
                     $total = $specifications['total'];

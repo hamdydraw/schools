@@ -123,7 +123,6 @@
                     <input type="hidden" value="" id="gateway" name="gateway">
                     <input type="hidden" name="coupon" id="coupon" value="0">
                     <div style="margin-right: 300px;">
-                        @if(!isset($dues_purchase) or (isset($dues_purchase) and isset($schoolExpenses) and count($specifications['dues_title']) != count($schoolExpenses)))
                             @if($settingsModule->payu->value == 1)
 
                                 <button type="submit"
@@ -142,7 +141,6 @@
                                 </button>
 
                             @endif
-                        @endif
                     </div>
                     {{ Form::close() }}
                 </div>
