@@ -46,9 +46,8 @@
                                 <b style="color: red;">{{$expense->due_value}}</b>
                             </label>
                             <br>
-                            <span
-                                    class="text-danger"
-                                    style="font-size: 2px;">@if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) {{ getPhrase('payed_before')}}@endif</span>
+                            <small
+                                    class="text-danger">@if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) {{ getPhrase('payed_before')}}@endif</small>
                             <br><br>
                         @endif
                     @endforeach
@@ -68,8 +67,7 @@
                                     <b style="color: red;">{{$expense->due_value}}</b>
                                 </label>
                                 <br>
-                                <span style="font-size: 2px;"
-                                      class="text-danger">@if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) {{ getPhrase('payed_before')}}@endif</span>
+                                <small class="text-danger">@if(isset($dues_purchase) and in_array($expense->title,$specifications['dues_title'])) {{ getPhrase('payed_before')}}@endif</small>
                                 <br><br>
                             @endif
                         @endforeach
