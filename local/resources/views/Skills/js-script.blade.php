@@ -8,12 +8,12 @@
         $(document).on('click', '.new', function (e) {
             e.preventDefault();
             $('.texts').append('<div class="row">' +
-                '                <fieldset class="form-group col-md-3">' +
+                '                <fieldset class="form-group col-md-11">' +
                 '                    {{ Form::label('skill', getphrase('skill')) }}' +
                 '                    <span class="text-red">*</span>' +
                 '                    {{ Form::text('skills[]', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Skill Name','id'=>'skill')) }}' +
                 '                </fieldset>' +
-                '                <fieldset class="form-group col-md-3" style="margin-top: 35px;">' +
+                '                <fieldset class="form-group col-md-1" style="margin-top: 35px;">' +
                 '                    <button class="btn btn-danger">{{getPhrase('delete')}}</button>' +
                 '                </fieldset>' +
                 '            </div>');

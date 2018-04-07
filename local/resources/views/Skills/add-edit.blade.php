@@ -15,7 +15,7 @@
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons">
                         <a href="{{url('mastersettings/skills')}}"
-                           class="btn btn-primary button">{{ getPhrase('all')}}</a>
+                           class="btn btn-primary button">{{ getPhrase('skills_menu')}}</a>
                     </div>
                     <h1>{{ $title }}  </h1>
                 </div>
@@ -29,13 +29,13 @@
                     @include('subject_scripts.elements')
                     <div class="texts">
                         <div class="row">
-                            <fieldset class="form-group col-md-3">
+                            <fieldset class="form-group col-md-11">
                                 {{ Form::label('skill', getphrase('skill')) }}
                                 <span class="text-red">*</span>
                                 {{ Form::text('skills[]', $value = isset($record->skill_title)? $record->skill_title : null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => getPhrase('skill_name'),'id'=>'skill')) }}
                             </fieldset>
                             @if($manpulation_kind == 'add')
-                                <fieldset class="form-group col-md-3" style="margin-top: 35px;">
+                                <fieldset class="form-group col-md-1" style="margin-top: 35px;">
                                     <button class="btn btn-primary new">{{getPhrase('new')}}</button>
                                 </fieldset>
                             @endif
