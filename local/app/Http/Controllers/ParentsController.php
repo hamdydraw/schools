@@ -137,19 +137,7 @@ class ParentsController extends Controller
             ->editColumn('name', function ($records) {
                 return $records->name;
             })
-            ->editColumn('academic_id', function ($records) {
-                return isset($records->academic_id) ? App\Academic::find($records->academic_id)->academic_year_title:'-';
-            })
             ->addColumn('total', function ($records) {
-                return isset($records->specifications) ? json_decode($records->specifications, true)['total']:'-';
-            })
-            ->addColumn('payed', function ($records) {
-                return isset($records->specifications) ? json_decode($records->specifications, true)['your_money']: '-';
-            })
-            ->addColumn('remained', function ($records) {
-                return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
-            })
-            ->addColumn('must_paid', function ($records) {
                 $data['record'] = User::where('slug', $records->slug)->first();
                 $course_id = App\Student::where('user_id', $data['record']->id)->first(['course_parent_id'])->course_parent_id;
                 $data['dues_purchase'] = App\DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
@@ -171,6 +159,12 @@ class ParentsController extends Controller
                     }
                 }
                 return $data['total'];
+            })
+            ->addColumn('payed', function ($records) {
+                return isset($records->specifications) ? json_decode($records->specifications, true)['your_money']: '-';
+            })
+            ->addColumn('remained', function ($records) {
+                return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
             })
             ->addColumn('action', function ($records) {
                 return '<div class="dropdown more">
