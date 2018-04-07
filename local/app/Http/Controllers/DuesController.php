@@ -279,8 +279,11 @@ class DuesController extends Controller
             $total = 0;
             if ($request->expenses != null) {
                 foreach ($expenses_merged as $expense) {
+                    if (in_array(explode('/', $expense)[1],($specifications['dues_title']))){
+                         continue;
+                    }
                     $specifications['total'] += explode('/', $expense)[0];
-                    $total += explode('/', $expense)[0];
+                    $total = $specifications['total'];
                     $specifications['dues_title'][] = explode('/', $expense)[1];
                 }
             }
