@@ -119,7 +119,7 @@ class CouponcodesController extends Controller
     	$data['record']         	 = FALSE;
     	$data['active_class']        = 'coupons';
 
-        $data['categories']          = array('exam'=>getPhrase('Quizzes'), 'combo'=>getPhrase('Examseries'), ' LMS'=>'LMS');
+        $data['categories']          = array('exam'=>getPhrase('Quizzes'), 'combo'=>getPhrase('Examseries'), ' LMS'=>'LMS','academic_expenses'=>getPhrase('academic_expenses'));
         $data['title']               = getPhrase('create_coupon');
         $data['module_helper']       = getModuleHelper('create-coupan');
     	return view('coupons.add-edit', $data);
@@ -145,7 +145,7 @@ class CouponcodesController extends Controller
     	$data['record']       		= $record;
     	$data['active_class']     = 'coupons';
     	$data['settings']       	= FALSE;
-       $data['categories']           =array('exam'=>getPhrase('Quizzes'), 'combo'=>getPhrase('Examseries'), 'LMS'=> 'LMS');
+       $data['categories']           =array('exam'=>getPhrase('Quizzes'), 'combo'=>getPhrase('Examseries'), 'LMS'=> 'LMS','academic_expenses'=>getPhrase('academic_expenses'));
       	$data['title']            = getPhrase('edit_coupon');
     	return view('coupons.add-edit', $data);
     }

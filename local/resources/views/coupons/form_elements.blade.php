@@ -281,7 +281,7 @@
 				</div>
 
 
-					<h1>Applicable Categories</h1>
+					<h1>{{getPhrase('applicable_categories')}}</h1>
 
 				<?php 
 
