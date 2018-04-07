@@ -329,9 +329,9 @@ class CouponcodesController extends Controller
     	$coupon_code 		= $request->coupon_code;
         $user = getUserRecord($request->student_id);
     	$item_type 			= $request->item_type;
-    	$purchased_amount 	= $request->cost;
-
+    	$purchased_amount 	= trim($request->cost);
     	$item 				= null;
+
     	if($item_type=='combo')
     	{
     		$item = App\ExamSeries::where('slug', '=', $request->item_name)->first();
@@ -341,8 +341,8 @@ class CouponcodesController extends Controller
         }
         else if($item_type=='lms'){
             $item = App\LmsSeries::where('slug', '=', $request->item_name)->first();
-        }else if ($item_type == 'expenses'){
-            $item='expenses';
+        }else if ($item_type == 'academic_expenses'){
+            $item='academic_expenses';
         }
 
     	if(!$item)
@@ -356,7 +356,6 @@ class CouponcodesController extends Controller
     	$message 			= 'invalid';
     	$amount_to_pay 		= $purchased_amount;
     	$coupon_id			= 0;
-
     	if($couponRecord)
     	{
           	if($this->checkCouponUsage($couponRecord, $item, $item_type, $user))

@@ -28,7 +28,7 @@
             type: "get",
             data: {
                 'item_name': '',
-                'item_type': 'expenses',
+                'item_type': 'academic_expenses',
                 'cost': $('#total').text(),
                 'coupon_code': $('#coupon_text').val(),
                 'student_id': "{{$student_id}}"

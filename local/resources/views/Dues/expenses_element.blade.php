@@ -3,7 +3,7 @@
         <div class="col-md-3">
             {{ Form::label('academic_dues', getphrase('academic_dues')) }}
             <span class="text-red">*</span>
-            <select class="form-control dueName" name="due_title[]" required>
+            <select class="form-control dueName" name="due_title[]" required id="due_title">
                 @if(isset($allDues))
                     @foreach($allDues as $due_type)
                         <option value="{{$due_type->id}}" required>{{$due_type->title}}</option>
@@ -13,11 +13,11 @@
         </div>
         <div class="col-md-3">
             {{ Form::label('due_value', getphrase('due_value')) }}
-            <input type="number" class="form-control" name="due_value[]" required>
+            <input type="number" class="form-control" name="due_value[]" required id="due_value">
         </div>
         <div class="col-md-3">
             {{ Form::label('due_type', getphrase('due_type')) }}
-            <select class="form-control" name="due_type[]" required>
+            <select class="form-control" name="due_type[]" required id="due_type">
                 @if(isset($due_types))
                     @foreach($due_types as $due_type)
                         <option value="{{$due_type}}" required>{{getPhrase($due_type)}}</option>
@@ -37,7 +37,7 @@
             <div class="col-md-3">
                 {{ Form::label('academic_dues', getphrase('academic_dues')) }}
                 <span class="text-red">*</span>
-                <select class="form-control dueName" name="due_title[]" required>
+                <select class="form-control dueName" name="due_title[]" required id="due_title">
                     @if(isset($allDues))
                         @foreach($allDues as $due_type)
                             <option value="{{$due_type->id}}" @if($fillable->title == $due_type->title)  selected
@@ -48,11 +48,11 @@
             </div>
             <div class="col-md-3">
                 {{ Form::label('due_value', getphrase('due_value')) }}
-                <input type="number" class="form-control" name="due_value[]" value="{{$fillable->due_value}}" required>
+                <input type="number" class="form-control" name="due_value[]" value="{{$fillable->due_value}}" required id="due_value">
             </div>
             <div class="col-md-3">
                 {{ Form::label('due_type', getphrase('due_type')) }}
-                <select class="form-control" name="due_type[]" required>
+                <select class="form-control" name="due_type[]" required id="due_type">
                     @if(isset($due_types))
                         @foreach($due_types as $due_type)
                             <option value="{{$due_type}}"

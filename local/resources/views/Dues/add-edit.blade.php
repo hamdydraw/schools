@@ -54,7 +54,7 @@
                     <br>
                     <div class="row">
                         <fieldset class="form-group col-md-3">
-                            <input type="submit" class="btn btn-success"
+                            <input type="button" class="btn btn-success save"
                                    style="margin-right: 600px; height: 70px; width: 70px;" value="{{getPhrase('save')}}">
                         </fieldset>
                     </div>

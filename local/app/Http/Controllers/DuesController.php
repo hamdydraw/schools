@@ -58,7 +58,7 @@ class DuesController extends Controller
             flash(getPhrase('error'), getPhrase("you_should_fill_all_fields"), 'error');
             return redirect()->back();
         }
-
+        return $request->due_value;
         if ($request->has('due_title')) {
             $due_titles = array_unique($request->due_title);
             for ($i = 0; $i < count($due_titles); $i++) {
@@ -74,7 +74,7 @@ class DuesController extends Controller
         }
 
         flash(getPhrase('success'), getPhrase("saved_successfully"), 'success');
-        return redirect()->back();
+        //return redirect()->back();
     }
 
     public function getDatatable()

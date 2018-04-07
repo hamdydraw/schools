@@ -269,7 +269,7 @@ Route::get('mastersettings/dues','DuesController@index');
 Route::get('dues','DuesController@getSelection');
 Route::get('mastersettings/dues/create','DuesController@create');
 
-Route::post('mastersettings/dues/store','DuesController@store');
+Route::get('mastersettings/dues/store','DuesController@store');
 Route::get('mastersettings/dues/edit/{id}', 'DuesController@edit');
 Route::post('mastersettings/dues/update/{id}', 'DuesController@update');
 /*Route::get('mastersettings/dues/delete/{id}', 'DuesController@delete');*/
