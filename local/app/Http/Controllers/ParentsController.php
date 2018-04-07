@@ -138,6 +138,10 @@ class ParentsController extends Controller
                 return $records->name;
             })
             ->addColumn('total', function ($records) {
+                if(isset($records->specifications))
+                {
+                    return json_decode($records->specifications, true)['total'];
+                }
                 $data['record'] = User::where('slug', $records->slug)->first();
                 $course_id = App\Student::where('user_id', $data['record']->id)->first(['course_parent_id'])->course_parent_id;
                 $data['dues_purchase'] = App\DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
