@@ -31,9 +31,6 @@
                                 <th>{{ getPhrase('total')}}</th>
                                 <th>{{ getPhrase('payed')}}</th>
                                 <th>{{ getPhrase('remained')}}</th>
-                                <th>{{ getPhrase('expenses')}}</th>
-                                <th>{{ getPhrase('created_at')}}</th>
-                                <th>{{ getPhrase('updated_at')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>
                             </thead>

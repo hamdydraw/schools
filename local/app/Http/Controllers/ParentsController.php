@@ -1,42 +1,39 @@
 <?php
 
 namespace App\Http\Controllers;
-use \App;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use App;
 use App\User;
-use Yajra\Datatables\Datatables;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
+use Yajra\Datatables\Datatables;
 
 class ParentsController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
-         $currentUser = \Auth::user();
-      
-      
-      $this->middleware('auth');
-    
-    }
-    
-    /**
-    * Display a listing of the resource.
-    *
-    * @return Response
-    */
-     public function index()
-     {
-       
-       $user = getUserWithSlug();
+        $currentUser = \Auth::user();
 
-      if(!checkRole(getUserGrade(7)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+
+        $this->middleware('auth');
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+
+        $user = getUserWithSlug();
+
+        if (!checkRole(getUserGrade(7))) {
+            prepareBlockUserMessage();
+            return back();
+        }
 
         if (!isEligible($user->slug)) {
             return back();
@@ -50,11 +47,11 @@ class ParentsController extends Controller
         return view('parent.list-users', $data);
     }
 
-     /**
+    /**
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    
+
     public function getDatatable($slug)
     {
         $records = array();
@@ -78,30 +75,26 @@ class ParentsController extends Controller
                     </div>';
                 }
             })
-            
-         ->editColumn('name', function($records)
-         {
-          return '<a href="'.URL_USER_DETAILS.$records->slug.'" title="'.$records->name.'">'.ucfirst($records->name).'</a>';
-         })       
-         ->editColumn('image', function($records){
-            return '<img src="'.getProfilePath($records->image).'"  />';
-        })
-         ->removeColumn('slug')
-         ->removeColumn('id')
-
-        ->make();
+            ->editColumn('name', function ($records) {
+                return '<a href="' . URL_USER_DETAILS . $records->slug . '" title="' . $records->name . '">' . ucfirst($records->name) . '</a>';
+            })
+            ->editColumn('image', function ($records) {
+                return '<img src="' . getProfilePath($records->image) . '"  />';
+            })
+            ->removeColumn('slug')
+            ->removeColumn('id')
+            ->make();
     }
 
     public function childrenAnalysis()
     {
-       
-       $user = getUserWithSlug();
 
-      if(!checkRole(getUserGrade(7)))
-      {
-        prepareBlockUserMessage();
-        return back();
-      }
+        $user = getUserWithSlug();
+
+        if (!checkRole(getUserGrade(7))) {
+            prepareBlockUserMessage();
+            return back();
+        }
 
         if (!isEligible($user->slug)) {
             return back();
@@ -132,32 +125,25 @@ class ParentsController extends Controller
 
     public function getDatatableExpenses()
     {
-        $records = App\DuesPurchase::join('users', 'users.id', '=', 'dues_purchase.student_id')
-            ->select(['users.name','users.slug','dues_purchase.academic_id','dues_purchase.specifications', 'dues_purchase.created_at', 'dues_purchase.updated_at'])->get();
+        $records = App\DuesPurchase::rightJoin('users', 'users.id', '=', 'dues_purchase.student_id', 'right join')
+            ->select(['users.name', 'users.slug', 'dues_purchase.academic_id', 'dues_purchase.specifications'])
+            ->where('users.parent_id', Auth::user()->id)
+            ->get();
         return Datatables::of($records)
             ->editColumn('name', function ($records) {
                 return $records->name;
             })
             ->editColumn('academic_id', function ($records) {
-                return App\Academic::find($records->academic_id)->academic_year_title;
+                return isset($records->academic_id) ? App\Academic::find($records->academic_id)->academic_year_title:'-';
             })
             ->addColumn('total', function ($records) {
-                return json_decode($records->specifications, true)['total'];
+                return isset($records->specifications) ? json_decode($records->specifications, true)['total']:'-';
             })
             ->addColumn('payed', function ($records) {
-                return json_decode($records->specifications, true)['your_money'];
+                return isset($records->specifications) ? json_decode($records->specifications, true)['your_money']: '-';
             })
             ->addColumn('remained', function ($records) {
-                return json_decode($records->specifications, true)['remain_purchase'];
-            })
-            ->addColumn('expenses', function ($records) {
-                return json_decode($records->specifications, true)['dues_title'];
-            })
-            ->addColumn('created', function ($records) {
-                return $records->created_at;
-            })
-            ->addColumn('updated', function ($records) {
-                return $records->updated_at;
+                return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
             })
             ->addColumn('action', function ($records) {
                 return '<div class="dropdown more">
@@ -171,8 +157,6 @@ class ParentsController extends Controller
             })
             ->removeColumn('specifications')
             ->removeColumn('slug')
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
             ->make();
     }
 

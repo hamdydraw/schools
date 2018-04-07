@@ -418,6 +418,7 @@ class DuesController extends Controller
     {
         $instance = AcademicDues::find($id);
         $instance->title = $request->title;
+        $instance->update_stamp($request);
         $instance->update();
         flash(getPhrase('success'), getPhrase("updated_successfully"), 'success');
         return redirect()->back();
