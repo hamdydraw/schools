@@ -79,8 +79,16 @@
                     <h3>{{getPhrase('total')}}: <span id="total">
                             @if(isset($specifications))
                                 {{$total+$specifications['remain_purchase']}}
+                                <?php
+                                    $total=$total+$specifications['remain_purchase'];
+                                ?>
+
                             @else
                                 {{$total+0}}
+                                <?php
+                                $total=$total+0;
+                                ?>
+
                             @endif
                         </span>
                     </h3>
@@ -88,7 +96,7 @@
                         <fieldset class="form-group col-md-3">
                             {{ Form::label('your_money', getphrase('your_money')) }}
                             <span class="text-red">*</span>
-                            {{ Form::number('your_money', $value = null , $attributes = array('class'=>'form-control','required'=>'required','placeholder' => getPhrase('your_money'),'id'=>'your_money')) }}
+                            {{ Form::number('your_money', $value = null , $attributes = array('class'=>'form-control','required'=>'required','max'=>$total,'placeholder' => getPhrase('your_money'),'id'=>'your_money')) }}
                         </fieldset>
                     </div>
                     @if(Module_state('coupons'))

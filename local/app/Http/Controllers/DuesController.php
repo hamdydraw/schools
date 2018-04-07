@@ -33,6 +33,7 @@ class DuesController extends Controller
         $data['title'] = getPhrase('academic_expenses');
         return view('Dues.dashboard', $data);
     }
+
     public function index()
     {
         $data['layout'] = getLayout();
@@ -59,7 +60,7 @@ class DuesController extends Controller
         }
 
         if ($request->has('due_title')) {
-            $due_titles=array_unique($request->due_title);
+            $due_titles = array_unique($request->due_title);
             for ($i = 0; $i < count($due_titles); $i++) {
                 $relation = new AcademicDuesPivot();
                 $relation->academic_id = $request->academic_year;
@@ -138,7 +139,7 @@ class DuesController extends Controller
         $data['active_class'] = 'academic_expenses';
         $data['title'] = getPhrase('parent_purchase');
         $data['record'] = User::where('slug', $slug)->first();
-        $course_id=Student::where('user_id',$data['record']->id)->first(['course_parent_id'])->course_parent_id;
+        $course_id = Student::where('user_id', $data['record']->id)->first(['course_parent_id'])->course_parent_id;
         $data['dues_purchase'] = DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
             Auth::user()->id)->first();
         $currentAcademicYear = new Academic();
@@ -146,7 +147,7 @@ class DuesController extends Controller
         $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
             ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
             ->where('academics_dues_pivot.course_parent', $course_id)
-            ->select(['academics_dues_pivot.id','academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title'])
+            ->select(['academics_dues_pivot.id', 'academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title'])
             ->get();
         $data['total'] = 0;
         $data['schoolExpenses'] = $schoolExp;
@@ -165,8 +166,8 @@ class DuesController extends Controller
 
     public function payGateway(Request $request, $slug)
     {
-        $expenses=$request->expenses;
-        $expenses_merged=array_merge($expenses,$request->mand);
+        $expenses = $request->expenses != null ?$request->expenses:array();
+        $expenses_merged = array_merge($expenses, $request->mand);
         $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
         $items = ' ';
@@ -259,8 +260,9 @@ class DuesController extends Controller
 
     public function storePurchase($request, $slug)
     {
-        $expenses=$request->expenses;
-        $expenses_merged=array_merge($expenses,$request->mand);
+
+        $expenses = $request->expenses != null ?$request->expenses:array();
+        $expenses_merged = array_merge($expenses, $request->mand);
         $current_academic_id = new Academic();
         $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
         $parent_id = Auth::user()->id;
@@ -269,20 +271,20 @@ class DuesController extends Controller
         if ($checkExistence != null) {
             $specifications = json_decode($checkExistence->specifications, true);
             $total = 0;
-            foreach ($expenses_merged as $expense) {
-                $specifications['total'] += explode('/', $expense)[0];
-                $total += explode('/', $expense)[0];
-                $specifications['dues_title'][] = explode('/', $expense)[1];
+            if ($request->expenses != null) {
+                foreach ($expenses_merged as $expense) {
+                    $specifications['total'] += explode('/', $expense)[0];
+                    $total += explode('/', $expense)[0];
+                    $specifications['dues_title'][] = explode('/', $expense)[1];
+                }
             }
             $your_money = $request->your_money;
             $specifications['your_money'] += $your_money;
             $coupon = $request->coupon;
             $specifications['coupon'] += $coupon;
             $remain_purchase = ($total - $your_money) - $coupon;
-            if ($remain_purchase < 0) {
-                flash(getPhrase('error'), getPhrase("be_sure_of_input"), 'error');
-                return redirect()->back();
-            }
+
+
             $specifications['remain_purchase'] += $remain_purchase;
             $db_object = array(
                 'total' => $specifications['total'],
@@ -311,6 +313,7 @@ class DuesController extends Controller
             flash(getPhrase('error'), getPhrase("be_sure_of_input"), 'error');
             return redirect()->back();
         }
+
         $db_object = array(
             'total' => $total,
             'coupon' => $coupon,
@@ -361,14 +364,14 @@ class DuesController extends Controller
 
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id', 'title','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+        $records = AcademicDues::select(['id', 'title', 'slug', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($records) {
                 return $records->title;
             })->addColumn('action', function ($records) {
                 $records->created_by_user_name = User::get_user_name($records->created_by_user);
                 $records->updated_by_user_name = User::get_user_name($records->updated_by_user);
-                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
+                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>" . getPhrase('view_record_history') . "</a></li>";
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>
@@ -376,7 +379,7 @@ class DuesController extends Controller
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="rapid_edit/' . $records->id . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
 
-                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>'.$view.'
+                            <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>' . $view . '
 
                         </ul>
                     </div>';
@@ -391,6 +394,7 @@ class DuesController extends Controller
             ->removeColumn('updated_at')
             ->make();
     }
+
     public function deleteRapidExpenses($slug)
     {
         try {
@@ -409,6 +413,7 @@ class DuesController extends Controller
         }
         return json_encode($response);
     }
+
     public function editRapidExpenses($id)
     {
         $data['record'] = AcademicDues::find($id);

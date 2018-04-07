@@ -7,11 +7,13 @@
                 total = total + parseInt($(this).val());
                 $('#total').text(total)
                 $('#your_money').val(total)
+                $('#your_money').attr('max',total)
             }
             if ($(this).prop('checked') == false) {
                 total = total - parseInt($(this).val());
                 $('#total').text(total)
                 $('#your_money').val(total)
+                $('#your_money').attr('max',total)
             }
         })
         $('button').on('click', function () {
