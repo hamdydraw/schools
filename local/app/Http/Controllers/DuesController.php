@@ -278,12 +278,14 @@ class DuesController extends Controller
             $specifications = json_decode($checkExistence->specifications, true);
             $total = 0;
             if ($request->expenses != null) {
+                $remain=$specifications['remain_purchase'];
                 foreach ($expenses_merged as $expense) {
                     if (in_array(explode('/', $expense)[1],($specifications['dues_title']))){
                          continue;
                     }
                     $specifications['total'] += explode('/', $expense)[0];
                     $total = $specifications['total'];
+                    $remain += explode('/', $expense)[0];
                     $specifications['dues_title'][] = explode('/', $expense)[1];
                 }
             }
@@ -291,10 +293,8 @@ class DuesController extends Controller
             $specifications['your_money'] += $your_money;
             $coupon = $request->coupon;
             $specifications['coupon'] += $coupon;
-            $remain_purchase = ($total - $your_money) - $coupon;
-
-
-            $specifications['remain_purchase'] += $remain_purchase;
+            $remain_purchase = ($remain - $your_money) - $coupon;
+            $specifications['remain_purchase'] = $remain_purchase;
             $db_object = array(
                 'total' => $specifications['total'],
                 'coupon' => $specifications['coupon'],
