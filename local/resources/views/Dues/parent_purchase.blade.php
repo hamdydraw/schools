@@ -76,7 +76,9 @@
 
                     @endif
 
-                    <h3>{{getPhrase('total')}}: <span id="total">{{$total}}</span></h3>
+                    <h3>{{getPhrase('total')}}: <span
+                                id="total">{{$total+isset($specifications)?$specifications['remain_purchase'] : 0}}</span>
+                    </h3>
                     <div class="row">
                         <fieldset class="form-group col-md-3">
                             {{ Form::label('your_money', getphrase('your_money')) }}
