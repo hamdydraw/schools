@@ -296,7 +296,7 @@ class DuesController extends Controller
             $specifications['remain_purchase'] = $remain_purchase;
             $db_object = array(
                 'total' => $specifications['total'],
-                'coupon' => $specifications['coupon'],
+                /*'coupon' => $specifications['coupon'],*/
                 'your_money' => $specifications['your_money'],
                 'remain_purchase' => $specifications['remain_purchase'],
                 'dues_title' => $specifications['dues_title']
@@ -324,7 +324,7 @@ class DuesController extends Controller
 
         $db_object = array(
             'total' => $total,
-            'coupon' => $coupon,
+            /*'coupon' => $coupon,*/
             'your_money' => $your_money,
             'remain_purchase' => $remain_purchase,
             'dues_title' => $dues_titles

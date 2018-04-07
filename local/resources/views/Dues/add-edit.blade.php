@@ -20,7 +20,6 @@
                     </div>
                     <h1>{{ $title }}</h1>
                 </div>
-
                 <div class="panel-body packages">
                     {{ Form::open(array('url' => 'mastersettings/dues/store', 'method'=>'post')) }}
                     {{csrf_field()}}

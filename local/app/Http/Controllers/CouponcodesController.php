@@ -395,7 +395,8 @@ class CouponcodesController extends Controller
     				'message'		=> getPhrase($message),
     				'amount_to_pay'	=> $amount_to_pay,
     				'discount' 		=> $discount_availed,
-    				'coupon_id'		=> $coupon_id
+    				'coupon_id'		=> $coupon_id,
+                    'type'          =>$couponRecord->discount_type
     				));
     }
 

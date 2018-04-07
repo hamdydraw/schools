@@ -34,19 +34,31 @@
                 'student_id': "{{$student_id}}"
             },
             success: function (result) {
-                console.log(result)
                 var resultParsed = JSON.parse(result)
                 if (resultParsed.status == 0) {
                     alertify.error(resultParsed.message);
                     return;
                 }
                 if (resultParsed.status == 1) {
-                    $('#coupon').val(resultParsed.discount);
-                    var total=parseInt($('#total').text().trim())-parseInt(resultParsed.discount)
-                    $('#total').text(total.toString())
-                    $('#your_money').val(total.toString())
-                    $('#your_money').attr('max',total)
-                    $('#to_be_copoun').text("{{getPhrase('discount_is')}}"+resultParsed.discount)
+                    if (resultParsed.type == "value") {
+                        var total = parseInt($('#total').text().trim()) - parseInt(resultParsed.discount)
+                        $('#total').text(total.toString())
+                        $('#your_money').val(total.toString())
+                        $('#your_money').attr('max', total)
+                        $('#to_be_copoun').text("{{getPhrase('discount_is')}}" + resultParsed.discount)
+                        $('#coupon').val(resultParsed.discount);
+                    }else
+                    {
+                        var total = parseInt($('#total').text().trim())
+                        var discount= parseInt(resultParsed.discount)
+                        var totalAfterDiscount=total - ((total * discount) / 100)
+                        var difference=total-totalAfterDiscount;
+                        $('#total').text(totalAfterDiscount.toString())
+                        $('#your_money').val(totalAfterDiscount.toString())
+                        $('#your_money').attr('max', totalAfterDiscount)
+                        $('#to_be_copoun').text("{{getPhrase('discount_is')}}" + resultParsed.discount +' % ' + "{{getPhrase('and_it_value')}}"+ ' '+difference)
+                        $('#coupon').val(difference);
+                    }
                     alertify.success(resultParsed.message);
                     return;
                 }
