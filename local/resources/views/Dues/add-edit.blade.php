@@ -23,7 +23,6 @@
 
                 <div class="panel-body packages">
                     {{ Form::open(array('url' => 'mastersettings/dues/store', 'method'=>'post')) }}
-
                     {{csrf_field()}}
                     <fieldset class="form-group col-md-4">
                         {{ Form::label('academic_year', getphrase('academic_year')) }}
@@ -54,7 +53,7 @@
                     <br>
                     <div class="row">
                         <fieldset class="form-group col-md-3">
-                            <input type="button" class="btn btn-success save"
+                            <input type="submit" class="btn btn-success"
                                    style="margin-right: 600px; height: 70px; width: 70px;" value="{{getPhrase('save')}}">
                         </fieldset>
                     </div>

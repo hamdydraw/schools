@@ -35,26 +35,6 @@
                 }
             })
         })
-        $(document).on('click', '.save', function () {
-            if ($('#academic_year').val() !== 'select' && $('#course_parent').val() !== 'select') {
-                $('#add_new_expenses').css('visibility', 'visible')
-            }
-            $.ajax({
-                type: 'get',
-                url: '{{url('mastersettings/dues/store')}}',
-                data: {
-                    'academic_id': $('#academic_year').val(),
-                    'course_parent': $('#course_parent').val(),
-                    'due_title': $('#due_title').val(),
-                    'due_value': $('input:text.due_value').val(),
-                    'due_type': $('#due_type').val(),
-
-                },
-                success: function (result) {
-                   console.log(result)
-                }
-            })
-        })
         $(document).on('click','.deleteExpenses',function () {
             $(this).parent().parent().parent().remove();
         })
