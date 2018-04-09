@@ -26,7 +26,7 @@ class BranchController extends Controller
             return back();
         }
         $data['title'] = getPhrase('branches_list');
-        $data['active_class'] = 'branches';
+        $data['active_class'] = 'master_settings';
         return view('branch.list',$data);
 
     }
@@ -78,7 +78,7 @@ class BranchController extends Controller
             return back();
         }
         $data['record']         	= FALSE;
-        $data['active_class']       = 'branches';
+        $data['active_class']       = 'master_settings';
         $data['layout']             = getLayout();
         $data['title']              = getPhrase('create_branch');
         $data['button_name']        = getPhrase('create');
@@ -97,7 +97,7 @@ class BranchController extends Controller
             return back();
         }
         $data['record']         	= $record;
-        $data['active_class']       = 'branches';
+        $data['active_class']       = 'master_settings';
         $data['layout']             = getLayout();
         $data['title']              = getPhrase('update_branch');
         $data['button_name']        = getPhrase('update');
