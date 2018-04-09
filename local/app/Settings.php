@@ -17,7 +17,6 @@ class Settings extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
-        static::addGlobalScope(new BranchScope);
     }
 
     public static function getRecordWithSlug($slug)

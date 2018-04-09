@@ -28,7 +28,6 @@ class User extends Authenticatable
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
-        static::addGlobalScope(new BranchScope);
     }
     /**
      * The attributes that should be hidden for arrays.

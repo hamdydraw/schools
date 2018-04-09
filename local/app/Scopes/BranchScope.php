@@ -17,6 +17,9 @@ class BranchScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        return $builder->where($model->getTable().".branch_id", '=', Auth::user()->branch_id);
+        if(Auth::user()){
+            return $builder->where($model->getTable().".branch_id", '=', Auth::user()->branch_id);
+        }
+        return $builder->where($model->getTable().".branch_id", '=', 1);
     }
 }
