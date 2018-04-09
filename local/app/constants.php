@@ -809,6 +809,14 @@ define('URL_TIMETABLE_STAFF', PREFIX.'timetable/user/');
 define('URL_TIMETABLE_PRINT', PREFIX.'timetable/print');
 define('URL_TIMETABLE_STAFF_STUDENT_PRINT', PREFIX.'timetable/print/');
 
+//branches routes
+define('URL_BRANCHES_LIST', PREFIX.'branches/index');
+define('URL_BRANCHES_CREATE', PREFIX.'branches/add');
+define('URL_BRANCHES_EDIT', PREFIX.'branches/edit/');
+define('URL_BRANCHES_DATABLE', PREFIX.'branches/datable');
+define('URL_BRANCHES_ADD', PREFIX.'branches/store');
+define('URL_BRANCHES_UPDATE', PREFIX.'branches/update/');
+define('URL_BRANCHES_DELETE', PREFIX.'branches/delete/');
 
 //Dashboards -academic operations
 define('URL_ACADEMICOPERATIONS_DASHBOARD', PREFIX.'academicoperations/dashboard');

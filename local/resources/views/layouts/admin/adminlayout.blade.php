@@ -239,6 +239,11 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                     </a></li>
 
 
+                <li {{ isActive($active_class, 'branches') }}><a href="{{URL_BRANCHES_LIST}}"><i class="fa fa-building"
+                                                                                                aria-hidden="true"></i> {{ getPhrase('branches') }}
+                    </a></li>
+
+
                 <li {{ isActive($active_class, 'academic') }} >
 
                     <a data-toggle="collapse" data-target="#academic" href="{{URL_ACADEMICOPERATIONS_DASHBOARD}}">

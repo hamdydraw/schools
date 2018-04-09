@@ -1123,7 +1123,7 @@ function get_main_tables(){
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
     //course_subject
-    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','examtoppers','quizresults','subjectpreferences'];
+    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset'];
     foreach ($tables as $table){
         if(in_array($table->Tables_in_sasbit_school,$ignored))
         {

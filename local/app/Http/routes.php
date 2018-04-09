@@ -295,6 +295,18 @@ Route::get('mastersettings/dues-expenses-rapid/getList', [
     'as' => 'duesExpensesRapid.dataTable',
     'uses' => 'DuesController@getAllRapidExpensesDatatable'
 ]);
+
+//branches
+Route::get('branches/index', 'BranchController@index');
+Route::get('branches/add', 'BranchController@create');
+Route::get('branches/edit/{slug}', 'BranchController@edit');
+Route::post('branches/store', 'BranchController@store');
+Route::patch('branches/update/{slug}', 'BranchController@update');
+Route::delete('branches/delete/{slug}', 'BranchController@destroy');
+
+
+Route::get('branches/datable', 'BranchController@getDatatable');
+
 //Religions
 Route::get('mastersettings/religions', 'ReligionsController@index');
 Route::get('mastersettings/religions/add', 'ReligionsController@create');
@@ -1321,7 +1333,7 @@ Route::get('get_subjects_by_course/{course}',function ($course){
 //test Route
 
 Route::get('/test_it', function () {
-    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')->select(['subjects.id','subjects.subject_title'])->where('course_parent_id',17)->groupBy('course_subject.subject_id')->get();
+    return Auth::user()->branch_id;
 });
 
 Route::get('/test_2', function () {
@@ -1331,17 +1343,22 @@ Route::get('/test_2', function () {
 //return getMaxID();
 
 
-//Route::get('/record_status', function () {
-//    $tables = DB::select('SHOW TABLES');
-//    foreach ($tables as $table){
-//        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
-//        if(in_array('slug',$columns)) {
-//         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `table_name` VARCHAR(110) NOT NULL DEFAULT '$table->Tables_in_sasbit_school' AFTER `record_status`");
-//        }
-//
-//    }
-//    return "Done";
-//});
+Route::get('/record_branch', function () {
+    $tables = DB::select('SHOW TABLES');
+    foreach ($tables as $table){
+          if($table->Tables_in_sasbit_school == 'branch' || $table->Tables_in_sasbit_school == 'dues_purchase'){
+              continue;
+          }
+        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        if(!in_array('branch_id',$columns)) {
+
+//            DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP `branch_id`");
+         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `branch_id` SMALLINT NOT NULL DEFAULT '1'");
+        }
+
+    }
+    return "Done";
+});
 
 
 
