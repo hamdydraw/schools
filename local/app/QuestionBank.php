@@ -9,6 +9,8 @@ use Auth;
 Use App\Subject;
 use App\Topic;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
+
 class QuestionBank extends Model
 {
     protected $table = 'questionbank';
@@ -22,6 +24,7 @@ class QuestionBank extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 	public function subject()

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Exception;
 use Auth;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Language extends Model
 {
@@ -15,6 +16,7 @@ class Language extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 

@@ -7,6 +7,8 @@ use App\QuizResult;
 use App\Quiz;
 use DB;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
+
 class ExamTopper extends Model
 {
     protected $table = 'examtoppers';
@@ -24,6 +26,7 @@ class ExamTopper extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public static function getRecordWithSlug($slug)

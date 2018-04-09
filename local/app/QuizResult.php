@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use DB;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 // use Spatie\Activitylog\LogsActivityInterface;
 // use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -23,6 +24,7 @@ class QuizResult extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 	/**

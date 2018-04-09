@@ -6,6 +6,7 @@ use DB;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Religion extends Model
 {
@@ -19,6 +20,7 @@ class Religion extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 }

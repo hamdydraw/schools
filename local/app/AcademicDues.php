@@ -4,6 +4,7 @@ namespace App;
 
 use App\Scopes\DeleteScope;
 use Illuminate\Database\Eloquent\Model;
+use App\Scopes\BranchScope;
 
 class AcademicDues extends Model
 {
@@ -12,5 +13,6 @@ class AcademicDues extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope());
+        static::addGlobalScope(new BranchScope);
     }
 }

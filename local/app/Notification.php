@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 class Notification extends Model
 {
      protected $table= "notifications";
@@ -14,6 +15,7 @@ class Notification extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 

@@ -6,6 +6,7 @@ use DB;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class OfflineQuizCategories extends Model
 {
@@ -15,6 +16,7 @@ class OfflineQuizCategories extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public function quizzes()

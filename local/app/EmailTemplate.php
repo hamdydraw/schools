@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
+
 class EmailTemplate extends Model
 {
     protected $table = 'emailtemplates';
@@ -19,6 +21,7 @@ class EmailTemplate extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     /**

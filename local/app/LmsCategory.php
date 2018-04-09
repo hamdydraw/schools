@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class LmsCategory extends Model
 {
@@ -13,6 +14,7 @@ class LmsCategory extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public static function getRecordWithSlug($slug)

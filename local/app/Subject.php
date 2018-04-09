@@ -6,6 +6,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Topic;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Subject extends Model
 {
@@ -19,6 +20,7 @@ class Subject extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
 

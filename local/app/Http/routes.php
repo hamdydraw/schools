@@ -1333,7 +1333,7 @@ Route::get('get_subjects_by_course/{course}',function ($course){
 //test Route
 
 Route::get('/test_it', function () {
-    return Auth::user()->branch_id;
+    return get_main_tables();
 });
 
 Route::get('/test_2', function () {

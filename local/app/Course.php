@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Semister;
 use DB;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Course extends Model
 {
@@ -23,6 +24,7 @@ class Course extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
     
     public function allotedFeeCategories($academicCourseId)

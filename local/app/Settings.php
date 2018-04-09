@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Mockery\Exception;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Settings extends Model
 {
@@ -16,6 +17,7 @@ class Settings extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public static function getRecordWithSlug($slug)

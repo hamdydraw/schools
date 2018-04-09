@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class ModuleHelper extends Model
 {
@@ -13,6 +14,7 @@ class ModuleHelper extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
     
     public static function getRecord($key)

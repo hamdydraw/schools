@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class LmsContent extends Model
 {

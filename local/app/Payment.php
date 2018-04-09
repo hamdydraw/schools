@@ -7,6 +7,7 @@ use DB;
 use \App;
 use Carbon;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 class Payment extends Model
 {
@@ -17,6 +18,7 @@ class Payment extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public static function getRecordWithSlug($slug)

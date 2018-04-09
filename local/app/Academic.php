@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
 use App\Scopes\DeleteScope;
+use App\Scopes\BranchScope;
 
 
 class Academic extends Model
@@ -20,6 +21,7 @@ class Academic extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
 
     public function academicCourses()
