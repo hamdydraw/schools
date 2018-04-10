@@ -161,6 +161,7 @@ class AcademicsController extends Controller
 
         $academicToDelete=App\AcademicSemester::where('academic_id',$record->id)->delete();
         if (count($start_end) > 0) {
+            $toBeDeleted = DB::delete('Delete from academics_semesters where academic_id = ?', [$record->id]);
             $start_end = array_combine($request->semester_start_date, $request->semester_end_date);
             $i = 1;
             foreach ($start_end as $start => $end) {
