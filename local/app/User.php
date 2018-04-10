@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Laravel\Cashier\Billable;
 use Cmgmyr\Messenger\Traits\Messagable;
@@ -24,10 +25,13 @@ class User extends Authenticatable
         'name', 'email', 'password',
     ];
 
+
+
     protected static function boot()
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new BranchScope);
     }
     /**
      * The attributes that should be hidden for arrays.

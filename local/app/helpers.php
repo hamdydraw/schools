@@ -1302,3 +1302,14 @@ function get_subject_main_topics($subject,$course){
     return Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->get();
 }
 
+function icon($TorF){
+    if($TorF == true){
+        return "<i class=\"fa fa-check text-success\"></i>";
+    }
+    return "<i class=\"fa fa-close text-danger\"></i>";
+}
+
+function get_my_bid()
+{
+    return Auth::user()->branch_id;
+}

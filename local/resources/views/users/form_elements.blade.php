@@ -178,6 +178,20 @@ if ($record) {
     @endif
 
 </fieldset>
+@if(checkRole(getUserGrade(2)))
+<fieldset class="form-group">
+    {{ Form::label('school_branch', getphrase('school_branch')) }}
+
+    <span class="text-red">*</span>
+
+    {{Form::select('branch', $branches, $default_branch, ['placeholder' => getPhrase('select_branch'),'class'=>'form-control',
+
+
+    'required'=> 'true',
+
+ ])}}
+</fieldset>
+@endif
 
 @if(Module_state('language_settings'))
 <fieldset class="form-group">
@@ -193,8 +207,8 @@ if ($record) {
     'required'=> 'true',
 
  ])}}
-
 </fieldset>
+
 @endif
 @if(!checkRole(['parent']))
 

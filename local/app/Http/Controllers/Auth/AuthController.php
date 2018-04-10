@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use \Auth;
 use Socialite;
 use Exception;
+
 class AuthController extends Controller
 {
     /*
@@ -229,6 +230,7 @@ class AuthController extends Controller
          */
             if($login_status)
             {
+                session()->put('branch_id', Auth::user()->branch_id);
                 session()->put('is_student', '0');
                 if(checkRole(getUserGrade(5)))
                 {

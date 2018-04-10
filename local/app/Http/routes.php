@@ -72,7 +72,7 @@ Route::get('logout', function () {
     if (Auth::check()) {
         flash(getPhrase('success'), getPhrase('logged_out_successfully'), 'success');
     }
-
+    session()->forget('branch_id');
     Auth::logout();
     \App\Language::resetLanguage();
     return redirect(URL_USERS_LOGIN);
@@ -1333,7 +1333,7 @@ Route::get('get_subjects_by_course/{course}',function ($course){
 //test Route
 
 Route::get('/test_it', function () {
-    return get_main_tables();
+    return get_my_bid();
 });
 
 Route::get('/test_2', function () {
@@ -1341,6 +1341,10 @@ Route::get('/test_2', function () {
 });
 
 //return getMaxID();
+
+Route::get('tables/list', 'TablesController@index');
+Route::get('tables/fix', 'TablesController@fix');
+
 
 
 Route::get('/record_branch', function () {
@@ -1359,6 +1363,7 @@ Route::get('/record_branch', function () {
     }
     return "Done";
 });
+
 
 
 

@@ -11,15 +11,23 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BranchScope implements Scope
 {
 
+
     public function apply(Builder $builder, Model $model)
     {
-        if(Auth::user()){
-            return $builder->where($model->getTable().".branch_id", '=', Auth::user()->branch_id);
+        if($model->getTable() != 'users'){
+            if(Auth::user()){
+                $id = Auth::user()->branch_id;
+                return $builder->where($model->getTable().".branch_id", '=', $id);
+            }
         }
-        return $builder->where($model->getTable().".branch_id", '=', 1);
+        if(Session::has('branch_id')){
+            return $builder->where($model->getTable().".branch_id", '=', session()->get('branch_id'));
+        }
+
     }
 }

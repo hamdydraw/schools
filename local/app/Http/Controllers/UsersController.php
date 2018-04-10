@@ -439,6 +439,8 @@ class UsersController extends Controller
             $data['languages'][$key] = $data['langs'][$i]->language;
         }
         $data['default_lang'] = App\Language::where('is_default',1)->pluck('code')->first();
+        $data['branches']       = array_pluck(App\Branch::all(),'name','id');
+        $data['default_branch'] = false;
         //;
 
         return view('users.add-edit-user', $data);
@@ -528,6 +530,10 @@ class UsersController extends Controller
             $user->slug = $slug;
             $user->phone = $request->phone;
             $user->address = $request->address;
+
+            if(isset($request->branch) && checkRole(getUserGrade(2))){
+                $user->branch_id = $request->branch;
+            }
             $user->user_stamp($request);
             $user->save();
 
@@ -745,7 +751,9 @@ class UsersController extends Controller
             $key        = $data['langs'][$i]->code;
             $data['languages'][$key] = $data['langs'][$i]->language;
         }
-        $data['default_lang'] = App\Language::where('id',$record->default_lang)->pluck('code')->first();
+        $data['default_lang']   = App\Language::where('id',$record->default_lang)->pluck('code')->first();
+        $data['branches']       = array_pluck(App\Branch::all(),'name','id');
+        $data['default_branch'] = $record->branch_id;
         //;
         return view('users.add-edit-user', $data);
     }
@@ -826,6 +834,12 @@ class UsersController extends Controller
         if(isset($request->role_id)){
             $record->role_id = $request->role_id;
         }
+        if(isset($request->branch) && checkRole(getUserGrade(2))){
+            $record->branch_id = $request->branch;
+            if($record->id == Auth::user()->id){
+                session()->put('branch_id',$request->branch);
+            }
+        }
         $record->phone = $request->phone;
         $record->address = $request->address;
         if ($request->has('password')) {
@@ -853,7 +867,7 @@ class UsersController extends Controller
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         App\Language::resetLanguage();
 
-        return redirect(URL_USERS_EDIT . $record->slug);
+        return redirect(URL_USERS . "users");
     }
 
 
