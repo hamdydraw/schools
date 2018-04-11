@@ -310,6 +310,7 @@ class QuestionBankController extends Controller
 
 
         $record = QuestionBank::getRecordWithSlug($slug);
+        $record->parent_topic = App\Topic::where('id',$record->topic_id)->pluck('parent_id')->first();
 
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
@@ -321,6 +322,7 @@ class QuestionBankController extends Controller
 
         $data['course_id'] = $record->course_id;
         $data['topic_id']  = $record->topic_id;
+
 
 
         if (!$topics->count()) {

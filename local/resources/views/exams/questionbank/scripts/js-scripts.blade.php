@@ -74,6 +74,10 @@
                     }
                     $scope.topics_sc = response.data;
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
+                    @if($record != null)
+                    $scope.topic_id_sc = {{$record->parent_topic}};
+                    $scope.topic_id_sc = $scope.topic_id_sc.toString();
+                    @endif
                     $scope.get_sub_topics();
                 }).then(function () {
                 showHide($scope.current_subject_sc)
@@ -91,7 +95,7 @@
                     $scope.sub_topics_sc = response.data;
                     $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
                     @if($record != null)
-                        $scope.sub_topic_id_sc = {{$record->topic_id}};
+                    $scope.sub_topic_id_sc = {{$record->topic_id}};
                     $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
                     @endif
                 })
