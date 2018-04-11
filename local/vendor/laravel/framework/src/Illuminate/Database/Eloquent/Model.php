@@ -3590,6 +3590,7 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         $this->created_by_ip   = $request->ip();
         $this->created_by_user = Auth::user()->id;
+        $this->branch_id       = Auth::user()->branch_id;
     }
 
     public function update_stamp(Request $request)

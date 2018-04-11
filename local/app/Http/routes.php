@@ -1220,7 +1220,7 @@ Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
 
 //subject and course routes
 Route::get('get_years',function (){
-    return \App\Academic::all();
+    return \App\Academic::where('show_in_list',1)->get();
 });
 
 Route::get('get_courses',function (){

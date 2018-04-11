@@ -25,6 +25,10 @@ class BranchController extends Controller
             prepareBlockUserMessage();
             return back();
         }
+        if(!Module_state('branches')){
+            pageNotFound();
+            return back();
+        }
         $data['title'] = getPhrase('branches_list');
         $data['active_class'] = 'master_settings';
         return view('branch.list',$data);
@@ -77,6 +81,10 @@ class BranchController extends Controller
             prepareBlockUserMessage();
             return back();
         }
+        if(!Module_state('branches')){
+            pageNotFound();
+            return back();
+        }
         $data['record']         	= FALSE;
         $data['active_class']       = 'master_settings';
         $data['layout']             = getLayout();
@@ -89,6 +97,10 @@ class BranchController extends Controller
     {
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
+            return back();
+        }
+        if(!Module_state('branches')){
+            pageNotFound();
             return back();
         }
         $record   = Branch::where('slug',$slug)->first();
@@ -112,7 +124,8 @@ class BranchController extends Controller
         ]);
         $record = new Branch;
         $record->name = $request->name;
-        $record->user_stamp($request);
+        $record->created_by_ip   = $request->ip();
+        $record->created_by_user = Auth::user()->id;
         $record->slug = $record->makeSlug($record->name, true);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');

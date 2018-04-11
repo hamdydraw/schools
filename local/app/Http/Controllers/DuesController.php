@@ -47,7 +47,7 @@ class DuesController extends Controller
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('add_academic_dues');
-        $data['academics_years'] = Academic::select(['id', 'academic_year_title'])->get();
+        $data['academics_years'] = Academic::where('show_in_list', '=', '1')->select(['id', 'academic_year_title'])->get();
         return view('Dues.add-edit', $data);
     }
 

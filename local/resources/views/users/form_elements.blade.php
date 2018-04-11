@@ -178,7 +178,7 @@ if ($record) {
     @endif
 
 </fieldset>
-@if(checkRole(getUserGrade(2)))
+@if(checkRole(getUserGrade(2)) && Module_state('branches'))
 <fieldset class="form-group">
     {{ Form::label('school_branch', getphrase('school_branch')) }}
 

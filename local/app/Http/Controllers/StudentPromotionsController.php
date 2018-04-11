@@ -27,11 +27,13 @@ class StudentPromotionsController extends Controller
             pageNotFound();
             return back();
         }
-        $data['active_class'] = 'academic';
+        $data['active_class']   = 'academic';
         $data['academic_years'] = addSelectToList(getAcademicYears());
-        $data['title'] = getPhrase('student_promotions');
-        $data['layout'] = getLayout();
-        $data['module_helper'] = getModuleHelper('student-transfers');
+        $data['title']          = getPhrase('student_promotions');
+        $data['layout']         = getLayout();
+        $data['module_helper']  = getModuleHelper('student-transfers');
+        $data['branches']       = array_pluck(App\Branch::all(),'name','id');
+        $data['default_branch'] = Auth::user()->branch_id;
         return view('student-promotions.selection-view', $data);
     }
 
@@ -160,7 +162,12 @@ class StudentPromotionsController extends Controller
                     $promotionObject->remarks = $remarks[$key];
                     $promotionObject->description = '';
                     $promotionObject->record_updated_by = $record_updated_by;
-                    $promotionObject->user_stamp($request);
+                    $promotionObject->created_by_ip   = $request->ip();
+                    $promotionObject->created_by_user = Auth::user()->id;
+                    if(isset($request->branch)){
+                        $promotionObject->branch_id = $request->branch;
+                        App\User::where('id',$key)->update(['branch_id' =>$request->branch]);
+                    }
                     $promotionObject->save();
                     $studentObject->academic_id = $to_academic_id;
                     if (isset($request->to_course_parent_id)) {

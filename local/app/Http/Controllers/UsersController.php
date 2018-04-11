@@ -534,7 +534,8 @@ class UsersController extends Controller
             if(isset($request->branch) && checkRole(getUserGrade(2))){
                 $user->branch_id = $request->branch;
             }
-            $user->user_stamp($request);
+            $user->created_by_ip   = $request->ip();
+            $user->created_by_user = Auth::user()->id;
             $user->save();
 
             $user->roles()->attach($user->role_id);
@@ -547,7 +548,11 @@ class UsersController extends Controller
                 $staff->staff_id = $staff->prepareStaffID($user->id);
                 $staff->first_name = $user->name;
                 $staff->user_id = $user->id;
-                $staff->user_stamp($request);
+                if(isset($request->branch) && checkRole(getUserGrade(2))){
+                    $staff->branch_id = $request->branch;
+                }
+                $staff->created_by_ip   = $request->ip();
+                $staff->created_by_user = Auth::user()->id;
                 $staff->save();
 
                 DB::commit();
@@ -561,7 +566,11 @@ class UsersController extends Controller
                 $student->admission_no = $student->preparestudentID($user->id);
                 $student->first_name = $user->name;
                 $student->user_id = $user->id;
-                $student->user_stamp($request);
+                if(isset($request->branch) && checkRole(getUserGrade(2))){
+                    $student->branch_id = $request->branch;
+                }
+                $student->created_by_ip   = $request->ip();
+                $student->created_by_user = Auth::user()->id;
                 $student->save();
             }
             DB::commit();

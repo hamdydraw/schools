@@ -21,9 +21,9 @@
 				<!-- /.row -->
 				<div class="panel panel-custom">
 					<div class="panel-heading">
-						
+
 						<div class="pull-right messages-buttons">
-						
+							<a class="btn btn-primary" href="{{PREFIX}}tables/list">{{getPhrase('fix_database_tables')}}</a>
 						</div>
 						<h1>{{ $title }}</h1>
 					</div>

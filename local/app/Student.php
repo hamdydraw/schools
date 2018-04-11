@@ -6,6 +6,8 @@ use App\Staff;
 use App\GeneralSettings;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Scopes\BranchScope;
+
 class Student extends Model
 {
 
@@ -16,6 +18,12 @@ class Student extends Model
     public function user()
     {
     	return $this->belongsTo('App\User', 'user_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope);
     }
 
     /**

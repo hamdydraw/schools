@@ -145,7 +145,6 @@
             <div class="col-md-6">
 
               @include('common.year-selection-view')
-
             </div>
 
             <div class="col-md-6">
@@ -169,6 +168,17 @@
                 </fieldset>
               </div>
               <div ng-show="is_completed==0">
+                @if(Module_state('branches'))
+                <fieldset class="form-group">
+                  {{ Form::label('school_branch', getphrase('school_branch')) }}
+
+                  <span class="text-red">*</span>
+                  {{Form::select('branch', $branches, $default_branch, ['placeholder' => getPhrase('select_branch'),'class'=>'form-control',
+                  'required'=> 'true',
+                  ])
+                  }}
+                </fieldset>
+                @endif
                 <fieldset class="form-group">
                   {{ Form::label ('to_academic_year', getphrase('academic_year')) }}
                   {{ Form::select('to_academic_id', $academic_years, null,

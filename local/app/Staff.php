@@ -6,11 +6,19 @@ use App\Staff;
 use App\GeneralSettings as Settings;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Scopes\BranchScope;
+
 class Staff extends Model
 {
     public function user()
     {
     	return $this->belongsTo('App\User');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope);
     }
 
     public function department()
