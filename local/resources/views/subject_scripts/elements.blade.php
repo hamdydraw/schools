@@ -2,14 +2,14 @@
     <fieldset class="form-group col-md-6">
         <label for="">{{getPhrase('academic_year')}}</label>
         <span class="text-red">*</span>
-        <select name="year123" class="form-control"  required="required" ng-model="current_year_sc">
+        <select name="year123" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
             <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
         </select>
     </fieldset>
     <fieldset class="form-group col-md-6">
         <label for="">{{getPhrase('Semester')}}</label>
         <span class="text-red">*</span>
-        <select name="sem123" class="form-control" required="required" ng-model="current_sem_sc">
+        <select name="sem123" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
             <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
         </select>
     </fieldset>
