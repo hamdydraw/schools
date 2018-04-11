@@ -1291,6 +1291,8 @@ Route::get('current_year_sem',function (){
 });
 
 
+
+
 Route::get('get_all_courses',function (){
     if(Auth::user()->role_id == 3){
        return  \App\SubjectPreference::join('subjects','subjectpreferences.subject_id','=','subjects.id')
@@ -1333,7 +1335,7 @@ Route::get('get_subjects_by_course/{course}',function ($course){
 //test Route
 
 Route::get('/test_it', function () {
-    return get_my_bid();
+    return default_year();
 });
 
 Route::get('/test_2', function () {

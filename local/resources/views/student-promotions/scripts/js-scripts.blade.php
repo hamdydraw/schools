@@ -17,6 +17,8 @@
         $scope.to_total_semisters = 0;
         $scope.current_user = {};
         $scope.current_user_remarks = '';
+        $scope.to_academic_year = {{default_year()}};
+        $scope.to_academic_year = $scope.to_academic_year.toString();
 
         $scope.doCall = function () {
             $scope.year_selected = true;
@@ -81,7 +83,6 @@
         }
 
         $scope.prepareToCourses = function (to_parent) {
-
             academic_id = $scope.to_academic_year;
             parent_course_id = to_parent;
 

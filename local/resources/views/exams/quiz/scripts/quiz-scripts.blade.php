@@ -25,7 +25,8 @@
         $scope.course_parent_id = '';
         $scope.course_id = '';
         $scope.showCourses = false;
-        $scope.current_year_sc      = null;
+        $scope.current_year_sc = {{default_year()}};
+        $scope.current_year_sc = $scope.current_year_sc.toString();
         $scope.current_sem_sc       = null;
         $scope.current_course_sc    = null;
         $scope.current_subject_sc   = null;

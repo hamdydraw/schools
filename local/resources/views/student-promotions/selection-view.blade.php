@@ -181,7 +181,7 @@
                 @endif
                 <fieldset class="form-group">
                   {{ Form::label ('to_academic_year', getphrase('academic_year')) }}
-                  {{ Form::select('to_academic_id', $academic_years, null,
+                  {{ Form::select('to_academic_id', $academic_years, default_year(),
                   [   'class'     => 'form-control',
                   "id"        => "to_select_academic_year",
                   "ng-model"  => "to_academic_year",

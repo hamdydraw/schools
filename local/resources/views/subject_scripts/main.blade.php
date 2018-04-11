@@ -1,7 +1,8 @@
 
 <script>
     angular.module('academia', []).controller('subjects_course', function ($scope, $http, $timeout, $location) {
-        $scope.current_year_sc      = null;
+        $scope.current_year_sc = {{default_year()}};
+        $scope.current_year_sc = $scope.current_year_sc.toString();
         $scope.current_sem_sc       = null;
         $scope.current_course_sc    = null;
         $scope.current_subject_sc   = null;

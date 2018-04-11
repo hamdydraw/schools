@@ -11,7 +11,8 @@
         $scope.academic_courses_sc  = [];
         $scope.current_course_sc    = {{$record_course_id}};
         $scope.current_course_sc    = $scope.current_course_sc.toString();
-        $scope.current_year_sc      = "1";
+        $scope.current_year_sc = {{default_year()}};
+        $scope.current_year_sc = $scope.current_year_sc.toString();
         $scope.current_sem_sc       = {{$recored_sem}};
         $scope.current_sem_sc       = $scope.current_sem_sc.toString();
         $scope.academic_years_sc    = [];

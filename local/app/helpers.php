@@ -1313,3 +1313,9 @@ function get_my_bid()
 {
     return Auth::user()->branch_id;
 }
+
+function default_year()
+{
+    $current_academic_id = new Academic();
+    return $current_academic_id->getCurrentAcademic()->id;
+}
