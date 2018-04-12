@@ -62,7 +62,7 @@
  
 @section('footer_scripts')
   
- @include('common.datatables', array('route'=>URL_QUESTIONBANK_GETQUESTION_LIST.$subject->slug.'/'.$course->slug, 'route_as_url' => 'TRUE'))
+ @include('common.datatables', array('route'=>URL_QUESTIONBANK_GETQUESTION_LIST.$year.'/'.$sem.'/'.$course->slug.'/'.$subject->slug, 'route_as_url' => 'TRUE'))
  @include('common.deletescript', array('route'=>URL_QUESTIONBANK_DELETE))
 
 @stop

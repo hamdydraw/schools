@@ -14,20 +14,41 @@
     }
 </style>
 
-<fieldset class="form-group col-md-6">
-    <label for="">{{getPhrase('branch')}}</label>
-    <span class="text-red">*</span>
-    <select name="course_id" class="form-control course" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
-        <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
-    </select>
-</fieldset>
-<fieldset class="form-group">
-    <label for="">{{getPhrase('subject')}}</label>
-    <span class="text-red">*</span>
-    <select name="subject_id" class="form-control subject" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
-        <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
-    </select>
-</fieldset>
+<div class="row">
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('academic_year')}}</label>
+        <span class="text-red">*</span>
+        <select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+            <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('Semester')}}</label>
+        <span class="text-red">*</span>
+        <select name="sem_id" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+            <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+        </select>
+    </fieldset>
+</div>
+
+<div class="row">
+
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('branch')}}</label>
+        <span class="text-red">*</span>
+        <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+            <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('subject')}}</label>
+        <span class="text-red">*</span>
+        <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
+            <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+        </select>
+    </fieldset>
+
+</div>
 
 <fieldset class="form-group col-md-6">
     {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
@@ -76,6 +97,58 @@ $exam_max_options = $settingsObj->getExamMaxOptions();
 $exam_difficulty_levels = $settingsObj->getDifficultyLevels();
 
 ?>
+
+
+<fieldset class="form-group ">
+    {{ Form::label('difficulty_level', getphrase('difficulty_level')) }}
+    <span class="text-red">*</span>
+
+    {{Form::select('difficulty_level',$exam_difficulty_levels , null, ['class'=>'form-control', "id"=>"difficulty_level" ])}}
+</fieldset>
+<fieldset class="form-group">
+    {{ Form::label('hint', getphrase('hint')) }}
+    {{ Form::text('hint', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Hint for the question')) }}
+</fieldset>
+
+<fieldset class="form-group">
+   {{ Form::label('explanation', getphrase('explanation')) }}
+    {{--<input type="checkbox" checked style="display: inline-block" ng-model="explanation">--}}
+    {{ Form::textarea('explanation', $value = null , $attributes = array('class'=>'form-control ckeditor', 'placeholder' => 'Your explanation', 'rows' => '5','id'=>'explanation')) }}
+</fieldset>
+
+<fieldset class="form-group">
+    {{ Form::label('marks', getphrase('marks')) }}
+    <span class="text-red">*</span>
+    {{ Form::number('marks', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '1',
+        'min'=>'1',
+        'string-to-number'=>'marks',
+    'ng-model'=>'marks',
+    'required'=> 'true',
+    'ng-class'=>'{"has-error": formQuestionBank.marks.$touched && formQuestionBank.marks.$invalid}',
+    )) }}
+    <div class="validation-error" ng-messages="formQuestionBank.marks.$error">
+        {!! getValidationMessage()!!}
+
+    </div>
+</fieldset>
+
+
+<fieldset class="form-group">
+    {{ Form::label('time_to_spend', getphrase('time_to_spend')) }}
+    <span class="text-red">*</span>
+    {{ Form::number('time_to_spend', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('in_seconds'),
+        'min'=>'1',
+        'string-to-number'=>'time_to_spend',
+    'ng-model'=>'time_to_spend',
+    'required'=> 'true',
+    'ng-class'=>'{"has-error": formQuestionBank.time_to_spend.$touched && formQuestionBank.time_to_spend.$invalid}',
+    )) }}
+    <div class="validation-error" ng-messages="formQuestionBank.time_to_spend.$error">
+        {!! getValidationMessage()!!}
+
+    </div>
+</fieldset>
+
 <fieldset class="form-group ">
     {{ Form::label('question_type', getphrase('question_type')) }}
     <span class="text-red">*</span>
@@ -145,55 +218,6 @@ $exam_difficulty_levels = $settingsObj->getDifficultyLevels();
         @endif
     </div>
 </div>
-
-<fieldset class="form-group ">
-    {{ Form::label('difficulty_level', getphrase('difficulty_level')) }}
-    <span class="text-red">*</span>
-
-    {{Form::select('difficulty_level',$exam_difficulty_levels , null, ['class'=>'form-control', "id"=>"difficulty_level" ])}}
-</fieldset>
-<fieldset class="form-group">
-    {{ Form::label('hint', getphrase('hint')) }}
-    {{ Form::text('hint', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Hint for the question')) }}
-</fieldset>
-
-<fieldset class="form-group">
-    {{ Form::label('explanation', getphrase('explanation')) }}
-    {{ Form::textarea('explanation', $value = null , $attributes = array('class'=>'form-control ckeditor', 'placeholder' => 'Your explanation', 'rows' => '5','id'=>'explanation')) }}
-</fieldset>
-
-<fieldset class="form-group">
-    {{ Form::label('marks', getphrase('marks')) }}
-    <span class="text-red">*</span>
-    {{ Form::number('marks', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '1',
-        'min'=>'1',
-        'string-to-number'=>'marks',
-    'ng-model'=>'marks',
-    'required'=> 'true',
-    'ng-class'=>'{"has-error": formQuestionBank.marks.$touched && formQuestionBank.marks.$invalid}',
-    )) }}
-    <div class="validation-error" ng-messages="formQuestionBank.marks.$error">
-        {!! getValidationMessage()!!}
-
-    </div>
-</fieldset>
-
-
-<fieldset class="form-group">
-    {{ Form::label('time_to_spend', getphrase('time_to_spend')) }}
-    <span class="text-red">*</span>
-    {{ Form::number('time_to_spend', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('in_seconds'),
-        'min'=>'1',
-        'string-to-number'=>'time_to_spend',
-    'ng-model'=>'time_to_spend',
-    'required'=> 'true',
-    'ng-class'=>'{"has-error": formQuestionBank.time_to_spend.$touched && formQuestionBank.time_to_spend.$invalid}',
-    )) }}
-    <div class="validation-error" ng-messages="formQuestionBank.time_to_spend.$error">
-        {!! getValidationMessage()!!}
-
-    </div>
-</fieldset>
 
 
 <!-- Load the files start as independent -->

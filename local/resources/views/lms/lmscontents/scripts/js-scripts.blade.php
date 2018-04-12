@@ -14,16 +14,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
     $scope.academic_courses_sc  = [];
     $scope.academic_subjects_sc = [];
 
-    $scope.academic_sems_sc  = [
-        {
-            value : 1,
-            title : 'الاول'
-        },
-        {
-            value : 2,
-            title : 'الثانى'
-        }
-    ];
+
     $scope.first_time = true;
 
     $scope.current_year_sc = {{default_year()}};
@@ -70,6 +61,16 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         })
             .then(function (response) {
                 $scope.academic_years_sc = response.data;
+                $scope.academic_sems_sc  = [
+                    {
+                        value : 1,
+                        title : 'الاول'
+                    },
+                    {
+                        value : 2,
+                        title : 'الثانى'
+                    }
+                ];
                 $scope.current_sem_sc  = "1";
                 $scope.getCourses();
             })

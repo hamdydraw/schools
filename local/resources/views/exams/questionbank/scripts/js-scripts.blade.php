@@ -12,54 +12,101 @@
         $scope.topics_sc = [];
         $scope.sub_topic_sc = [];
 
-        $scope.current_course_sc = null;
-        $scope.current_subject_sc = null;
-        $scope.academic_courses_sc = [];
+        $scope.current_course_sc    = null;
+        $scope.current_subject_sc   = null;
+        $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
-        $scope.first_run  = 1;
-        $scope.first_run2 = 1;
 
+
+        $scope.first_time = true;
+
+        $scope.current_year_sc = {{default_year()}};
+        $scope.current_year_sc = $scope.current_year_sc.toString();
+
+
+
+        $scope.lastPart = window.location.href.split("/").pop();
+
+        $scope.ifEdit = function () {
+            if($scope.lastPart != 'add-question'){
+                $http({
+                    method:"GET",
+                    url:'{{PREFIX}}'+'/get_question_data/'+$scope.lastPart,
+                    dataType:"json",
+                    headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                    .then(function (response) {
+                        console.log(response.data);
+                        $scope.current_year_sc    = response.data.academic_id.toString();
+                        $scope.current_sem_sc     = response.data.sem_id.toString();
+                        $scope.current_course_sc  = response.data.course_id.toString();
+                        $scope.current_subject_sc = response.data.subject_id.toString();
+                        $scope.getSubjects();
+                        $scope.topic_id_sc        = response.data.parent_topic.toString();
+                        $scope.sub_topic_id_sc    = response.data.topic_id.toString();
+                    })
+            }
+        }
+
+
+        $scope.getYears = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_years',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_years_sc = response.data;
+                    $scope.academic_sems_sc  = [
+                        {
+                            value : 1,
+                            title : 'الاول'
+                        },
+                        {
+                            value : 2,
+                            title : 'الثانى'
+                        }
+                    ];
+                    $scope.current_sem_sc  = "1";
+                    $scope.getCourses();
+                })
+        }
+        $scope.getYears();
 
         $scope.getCourses = function () {
             $http({
-                method: "GET",
-                url: '{{PREFIX}}' + 'get_courses',
-                dataType: "json",
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                method:"GET",
+                url:'{{PREFIX}}'+'get_courses',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
                     $scope.academic_courses_sc = response.data;
-                    $scope.current_course_sc = $scope.academic_courses_sc[0].id.toString();
-                    @if($record != null)
-                        $scope.current_course_sc = {{$record->course_id}};
-                    $scope.current_course_sc = $scope.current_course_sc.toString();
-                    @endif
-                    $scope.getSubjects();
+                    if(response.data.length != 0){
+                        $scope.current_course_sc   = response.data[0].id.toString();
+                        $scope.getSubjects();
+                    }
                 })
         }
-        $scope.getCourses();
 
         $scope.getSubjects = function () {
+            if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
+                return false;
+            }
             $http({
-                method: "GET",
-                url: '{{PREFIX}}' + 'get_subjects_by_course/' + $scope.current_course_sc,
-                dataType: "json",
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                method:"GET",
+                url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-                    if (response.data.length === 0) {
-                        showHide('undef')
-                    }
                     $scope.academic_subjects_sc = response.data;
-                    $scope.current_subject_sc = $scope.academic_subjects_sc[0].id.toString();
-                    @if($record != null)
-                        $scope.current_subject_sc = {{$record->subject_id}};
-                    $scope.current_subject_sc = $scope.current_subject_sc.toString();
-                    @endif
+                    if(response.data.length != 0 && $scope.first_time) {
+                        $scope.current_subject_sc = response.data[0].subject_id.toString();
+                    }
                     $scope.get_topics();
-                }).then(function () {
-                showHide($scope.current_subject_sc)
-            })
+                })
         }
 
 
@@ -75,17 +122,10 @@
 //                        showHide('undef')
 //                    }
                     $scope.topics_sc = response.data;
-                    if($scope.topics_sc.length != 0 )
+                    if($scope.topics_sc.length != 0 && $scope.first_time)
                     {
                         $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
-                    }else{ $scope.topic_id_sc = null;}
-                    @if($record != null)
-                    if($scope.first_run1 == 1){
-                        $scope.topic_id_sc = {{$record->parent_topic}};
-                        $scope.topic_id_sc = $scope.topic_id_sc.toString();
-                        $scope.first_run1 = 2;
                     }
-                    @endif
                     $scope.get_sub_topics();
                 }).then(function () {
                 showHide($scope.current_subject_sc)
@@ -105,18 +145,14 @@
             })
                 .then(function (response) {
                     $scope.sub_topics_sc = response.data;
-                    if($scope.sub_topics_sc.length != 0)
+                    if($scope.sub_topics_sc.length != 0 && $scope.first_time)
                     {
                         $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
-                        console.log($scope.sub_topic_id_sc);
                     }
-                    @if($record != null)
-                    if($scope.first_run2 == 1) {
-                        $scope.sub_topic_id_sc = {{$record->topic_id}};
-                        $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
-                        $scope.first_run2 = 2;
+                    if($scope.first_time){
+                        $scope.ifEdit();
+                        $scope.first_time = false;
                     }
-                    @endif
                 })
         }
 

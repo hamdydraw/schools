@@ -612,7 +612,7 @@ Route::post('library/returns/return-asset/staff', 'LibraryIssuesController@retur
 //Question bank
 Route::get('exams/questionbank', 'QuestionBankController@index');
 Route::get('exams/questionbank/add-question', 'QuestionBankController@create');
-Route::get('exams/questionbank/view/{subjecti}/{course}', 'QuestionBankController@show');
+Route::get('exams/questionbank/view/{year}/{sem}/{course}/{subject}', 'QuestionBankController@show');
 
 Route::post('exams/questionbank/add', 'QuestionBankController@store');
 Route::get('exams/questionbank/edit-question/{slug}', 'QuestionBankController@edit');
@@ -620,7 +620,7 @@ Route::patch('exams/questionbank/edit/{slug}', 'QuestionBankController@update');
 Route::delete('exams/questionbank/delete/{id}', 'QuestionBankController@delete');
 Route::get('exams/questionbank/getList', 'QuestionBankController@getDatatable');
 
-Route::get('exams/questionbank/getquestionslist/{subject}/{course}',
+Route::get('exams/questionbank/getquestionslist/{year}/{sem}/{course}/{subject}',
     'QuestionBankController@getQuestions');
 Route::get('exams/questionbank/import', 'QuestionBankController@import');
 Route::post('exams/questionbank/import', 'QuestionBankController@readExcel');
@@ -1189,6 +1189,13 @@ Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
 
 Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
+});
+//get_question_data
+
+Route::get('get_question_data/{slug}',function ($slug){
+    $data =  \App\QuestionBank::where('slug',$slug)->first();
+    $data->parent_topic = \App\Topic::where('id',$data->topic_id)->pluck('parent_id')->first();
+    return $data;
 });
 
 // get logged users

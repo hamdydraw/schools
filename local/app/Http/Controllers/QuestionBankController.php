@@ -143,13 +143,12 @@ class QuestionBankController extends Controller
      * Questions listing method
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function show($subjecti,$course)
+    public function show($year,$sem,$course,$subjecti)
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
-
 
         $subject = Subject::getRecordWithSlug($subjecti);
         $coursee  = App\Course::where('slug',$course)->first();
@@ -158,6 +157,8 @@ class QuestionBankController extends Controller
             return redirect($isValid);
         }
 
+        $data['year'] = $year;
+        $data['sem']  = $sem;
         $data['active_class'] = 'exams';
         $data['title'] = $subject->subject_title . ' - ' . $coursee->course_title . ' ' . getPhrase('questions');
         $data['subject'] = $subject;
@@ -182,7 +183,7 @@ class QuestionBankController extends Controller
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    public function getQuestions($subjecti,$coursee)
+    public function getQuestions($year,$sem,$course,$subject)
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
@@ -190,8 +191,9 @@ class QuestionBankController extends Controller
         }
 
 
-        $subject = Subject::getRecordWithSlug($subjecti);
-        $course = App\Course::where('slug',$coursee)->first();
+        $subject_id = App\Subject::where('slug',$subject)->pluck('id')->first();
+        $year_id    = App\Academic::where('slug',$year)->pluck('id')->first();
+        $course_id  = App\Course::where('slug',$course)->pluck('id')->first();
 
         $isValid = $this->isValidRecord($subject);
         if ($isValid) {
@@ -221,8 +223,10 @@ class QuestionBankController extends Controller
                 'questionbank.created_by_ip',
                 'questionbank.updated_by_ip'
             ])
-            ->where('questionbank.subject_id', '=', $subject->id)
-            ->where('questionbank.course_id','=',$course->id)
+            ->where('questionbank.subject_id', '=', $subject_id)
+            ->where('questionbank.course_id','=',$course_id)
+            ->where('questionbank.academic_id','=',$year_id)
+            ->where('questionbank.sem_id','=',$sem)
             ->orderBy('updated_at', 'desc');
 
         $table = Datatables::of($records)->removeColumn('slug')
@@ -424,6 +428,8 @@ class QuestionBankController extends Controller
             $record->question = $request->question;
             $record->difficulty_level = $request->difficulty_level;
             $record->hint = $request->hint;
+            $record->sem_id = $request->sem_id;
+            $record->academic_id = $request->year_id;
             $record->course_id = $request->course_id;
             $record->explanation = $request->explanation;
             $record->marks = $request->marks;
@@ -924,6 +930,8 @@ class QuestionBankController extends Controller
             $record->difficulty_level = $request->difficulty_level;
             $record->hint = $request->hint;
             $record->course_id = $request->course_id;
+            $record->sem_id = $request->sem_id;
+            $record->academic_id = $request->year_id;
             $record->explanation = $request->explanation;
             $record->marks = $request->marks;
             $record->question_type = $request->question_type;
