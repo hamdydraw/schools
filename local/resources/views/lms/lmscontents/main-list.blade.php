@@ -28,18 +28,47 @@
                     <h1>{{ $title }}</h1>
                 </div>
                 <div class="panel-body packages">
-                    <div >
-                        <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
-                            <thead>
-                            <tr>
-                                <th> {{getPhrase('id')}}</th>
-                                <th>{{ getPhrase('subject')}}</th>
-                                <th>{{ getPhrase('code')}}</th>
-                                <th>{{ getPhrase('action')}}</th>
-                            </tr>
-                            </thead>
+                    <div ng-controller="angLmsController">
+                        <div class="row">
+                            <fieldset class="form-group col-md-6">
+                                <label for="">{{getPhrase('academic_year')}}</label>
+                                <span class="text-red">*</span>
+                                <select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+                                    <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset class="form-group col-md-6">
+                                <label for="">{{getPhrase('Semester')}}</label>
+                                <span class="text-red">*</span>
+                                <select name="sem_id" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+                                    <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+                                </select>
+                            </fieldset>
+                        </div>
 
-                        </table>
+                        <div class="row">
+
+                            <fieldset class="form-group col-md-6">
+                                <label for="">{{getPhrase('branch')}}</label>
+                                <span class="text-red">*</span>
+                                <select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+                                    <option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset class="form-group col-md-6">
+                                <label for="">{{getPhrase('subject')}}</label>
+                                <span class="text-red">*</span>
+                                <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+                                    <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+                                </select>
+                            </fieldset>
+
+                        </div>
+                        <div class="row">
+                            <center>
+                                <a class="btn btn-primary" ng-click="toTable()" ng-disabled="current_subject_sc == null">{{getPhrase('get_details')}}</a>
+                            </center>
+                        </div>
                     </div>
 
                 </div>
@@ -51,7 +80,6 @@
 
 
 @section('footer_scripts')
-
-    @include('common.datatables',array('route'=>URL_LMS_CONTENT_GETMAINLIST, 'route_as_url' => TRUE))
+    @include('lms.lmscontents.scripts.js-scripts')
 
 @stop

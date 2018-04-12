@@ -57,7 +57,7 @@
 
         {{ Form::label('code', getphrase('code')) }}
         <span class="text-red">*</span>
-        {{ Form::text('code', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'CNT100',
+        {{ Form::text('code', $value = $code , $attributes = array('class'=>'form-control', 'placeholder' => 'CNT100',
             'ng-model'=>'code',
             'required'=> 'true',
             'id'=>'code',
@@ -78,6 +78,23 @@
 </div>
 
 <div class="row">
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('academic_year')}}</label>
+        <span class="text-red">*</span>
+        <select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+            <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group col-md-6">
+        <label for="">{{getPhrase('Semester')}}</label>
+        <span class="text-red">*</span>
+        <select name="sem_id" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+            <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+        </select>
+    </fieldset>
+</div>
+
+<div class="row">
 
     <fieldset class="form-group col-md-6">
         <label for="">{{getPhrase('branch')}}</label>
@@ -90,7 +107,7 @@
         <label for="">{{getPhrase('subject')}}</label>
         <span class="text-red">*</span>
         <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
-            <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.id }}">@{{ subject.subject_title }}</option>
+            <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
         </select>
     </fieldset>
 

@@ -1,5 +1,5 @@
 @extends(getLayout())
-
+<script src="{{JS}}angular.js"></script>
  @section('custom_div')
 
  <div ng-controller="prepareQuestions">
@@ -55,6 +55,30 @@
 
 					<?php $button_name = getPhrase('create'); ?>
 
+						<div class="row">
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('academic_year')}}</label>
+								<span class="text-red">*</span>
+								<select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+									<option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('Semester')}}</label>
+								<span class="text-red">*</span>
+								<select name="sem_id" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+									<option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('branch')}}</label>
+								<span class="text-red">*</span>
+								<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+									<option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+								</select>
+							</fieldset>
+						</div>
+
 					 		<div class="row">
 
 							<fieldset class="form-group col-md-6">
@@ -62,10 +86,13 @@
 								{{ Form::label('lms_categories', getphrase('select_subject')) }}
 
 
+								<select name="lms_categories" class="form-control" required="required" ng-model="current_subject_sc" ng-change="categoryChanged(current_subject_sc)">
+									<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+								</select>
 
-								{{Form::select('lms_categories', $categories, null, ['class'=>'form-control', 'ng-model' => 'category_id',
+								{{--{{Form::select('lms_categories', $categories, null, ['class'=>'form-control', 'ng-model' => 'category_id',--}}
 
-								'placeholder' => 'Select', 'ng-change'=>'categoryChanged(category_id)' ])}}
+								{{--'placeholder' => 'Select', 'ng-change'=>'categoryChanged(category_id)' ])}}--}}
 
 							</fieldset>
 

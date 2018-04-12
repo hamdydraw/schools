@@ -50,7 +50,7 @@
  @include('common.validations')
  @include('common.editor')
  @include('common.alertify')
- @include('lms.lmsseries.scripts.js-scripts')
+ @include('lms.lmsseries.scripts.js-scripts',array('record'=>$record))
   <script src="{{JS}}datepicker.min.js"></script>
     <script>
  	var file = document.getElementById('image_input');

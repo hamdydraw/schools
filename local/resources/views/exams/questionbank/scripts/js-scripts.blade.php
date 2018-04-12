@@ -10,11 +10,14 @@
 
 
         $scope.topics_sc = [];
+        $scope.sub_topic_sc = [];
 
         $scope.current_course_sc = null;
         $scope.current_subject_sc = null;
         $scope.academic_courses_sc = [];
         $scope.academic_subjects_sc = [];
+        $scope.first_run  = 1;
+        $scope.first_run2 = 1;
 
 
         $scope.getCourses = function () {
@@ -61,7 +64,6 @@
 
 
         $scope.get_topics = function () {
-
             $http({
                 method: "GET",
                 url: '{{PREFIX}}' + 'get_topics/' + $scope.current_subject_sc + '/' + $scope.current_course_sc,
@@ -69,14 +71,20 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-                    if (response.data.length === 0) {
-                        showHide('undef')
-                    }
+//                    if (response.data.length === 0) {
+//                        showHide('undef')
+//                    }
                     $scope.topics_sc = response.data;
-                    $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
+                    if($scope.topics_sc.length != 0 )
+                    {
+                        $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
+                    }else{ $scope.topic_id_sc = null;}
                     @if($record != null)
-                    $scope.topic_id_sc = {{$record->parent_topic}};
-                    $scope.topic_id_sc = $scope.topic_id_sc.toString();
+                    if($scope.first_run1 == 1){
+                        $scope.topic_id_sc = {{$record->parent_topic}};
+                        $scope.topic_id_sc = $scope.topic_id_sc.toString();
+                        $scope.first_run1 = 2;
+                    }
                     @endif
                     $scope.get_sub_topics();
                 }).then(function () {
@@ -85,6 +93,10 @@
         }
 
         $scope.get_sub_topics = function () {
+            if($scope.topic_id_sc == null || $scope.topic_id_sc == undefined){
+                $scope.sub_topics_sc = [];
+                return false;
+            }
             $http({
                 method: "GET",
                 url: '{{PREFIX}}' + 'get_sub_topic/' + $scope.topic_id_sc,
@@ -93,10 +105,17 @@
             })
                 .then(function (response) {
                     $scope.sub_topics_sc = response.data;
-                    $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
+                    if($scope.sub_topics_sc.length != 0)
+                    {
+                        $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
+                        console.log($scope.sub_topic_id_sc);
+                    }
                     @if($record != null)
-                    $scope.sub_topic_id_sc = {{$record->topic_id}};
-                    $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
+                    if($scope.first_run2 == 1) {
+                        $scope.sub_topic_id_sc = {{$record->topic_id}};
+                        $scope.sub_topic_id_sc = $scope.sub_topic_id_sc.toString();
+                        $scope.first_run2 = 2;
+                    }
                     @endif
                 })
         }
@@ -119,7 +138,6 @@
                 var progress = (e.loaded / e.total) * 100;
                 $("#progressbar_2").css('width', progress + '%');
             }).then(function (response, status, headers, config) {
-                console.log(response.data);
                 if (response.data.state == "failed") {
                     toastr.error(response.data.desc, 'Error');
                 }
@@ -223,7 +241,6 @@
             type: 'get',
             data: {'course_id': $('.course').val(), 'subject_id': subject},
             success: function (result) {
-                console.log(result)
                 $('#skills').append('<option value="0">{{getPhrase("select")}}</option>');
                 for (i = 0; i < result.length; i++) {
                     var id = "{{$record!=false ? $record->skill_id:''}}";

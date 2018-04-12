@@ -10,7 +10,7 @@
 
 						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('series_title'),
 
-							'ng-model'=>'title',
+
 							'id'=>'title' ,
 
 							'ng-pattern'=>getRegexPattern('name'),
@@ -81,7 +81,6 @@
 
 								{{ Form::text('validity', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('validity_in_days'),
 
-                                'ng-model'=>'validity',
 
                                 'min'     =>'-1',
                                 'required'=> 'true',
@@ -115,7 +114,6 @@
 
                                     'min'=>'0',
 
-                                'ng-model'=>'cost',
 
                                 'id'=>'cost' ,
 

@@ -112,7 +112,7 @@ class LmsSeriesController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                           <li><a href="'.URL_LMS_SERIES_UPDATE_SERIES.$records->slug.'"><i class="fa fa-spinner" aria-hidden="true"></i>'.getPhrase("update").' '.'LMS'.'</a></li>
+                           <li><a href="'.URL_LMS_SERIES_UPDATE_SERIES.$records->slug.'"><i class="fa fa-spinner" aria-hidden="true"></i>'.getPhrase("assign_lms_items").'</a></li>
                             <li><a href="'.URL_LMS_SERIES_EDIT.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>'.$view;
 
                            $temp = '';

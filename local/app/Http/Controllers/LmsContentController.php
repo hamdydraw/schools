@@ -52,62 +52,18 @@ class LmsContentController extends Controller
         return view('lms.lmscontents.main-list', $data);
     }
 
-    public function getMainDatable()
-    {
-        if(!checkRole(getUserGrade(3)))
-        {
-            prepareBlockUserMessage();
-            return back();
-        }
-        if(Auth::user()->role_id == 3){
-            $records = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')
-                                 ->select(['subjects.id','subjects.slug','subjects.subject_title','subjects.subject_code','subjects.created_at','subjects.updated_at','subjects.updated_by_ip','subjects.created_by_ip','subjects.created_by_user','subjects.updated_by_user'])
-                                 ->where('subjectpreferences.user_id','=',Auth::user()->id);
-        }
-        else{
-            $records = App\Subject::select(['id','slug','subject_title','subject_code','created_at','updated_at','updated_by_ip','created_by_ip','created_by_user','updated_by_user']);
-        }
-        return Datatables::of($records)
-            ->addColumn('action', function ($records) {
-                $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
-                $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
-                $view = "<li><a onclick='pop_it($records)'><i class=\"fa fa-eye\"></i>".getPhrase('view_record_history')."</a></li>";
-
-                $extra = '<div class="dropdown more">
-                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="mdi mdi-dots-vertical"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">'.$view;
-                $temp = "";
-                $extra .= $temp.'</ul></div>';
-                return $extra;
-            })
-
-            ->editColumn('subject_title',function($records){
-                return "<a href='".PREFIX."lms/content/view/$records->slug'>$records->subject_title</a>";
-            })
-
-            ->removeColumn('created_by_user')
-            ->removeColumn('updated_by_user')
-            ->removeColumn('created_by_ip')
-            ->removeColumn('updated_by_ip')
-            ->removeColumn('created_at')
-            ->removeColumn('updated_at')
-            ->removeColumn('slug')
-            ->make();
-    }
     /**
      * Course listing method
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function index($slug)
+    public function index($year,$sem,$course,$subject)
     {
        if(!checkRole(getUserGrade(3)))
       {
         prepareBlockUserMessage();
         return back();
       }
-        $subject_id = App\Subject::where('slug',$slug)->pluck('id')->first();
+        $subject_id = App\Subject::where('slug',$subject)->pluck('id')->first();
 
         if(!$subject_id)
         {
@@ -118,7 +74,11 @@ class LmsContentController extends Controller
         $data['title']              = getPhrase('lms').' - '.getPhrase('content');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('lms-content-list');
-        $data['slug']               = $slug;
+        $data['year']               = $year;
+        $data['sem']                = $sem;
+        $data['course']             = $course;
+        $data['subject']            = $subject;
+
     	return view('lms.lmscontents.list', $data);
     }
 
@@ -126,7 +86,7 @@ class LmsContentController extends Controller
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    public function getDatatable($slug)
+    public function getDatatable($year,$sem,$course,$subject)
     {
       if(!checkRole(getUserGrade(3)))
       {
@@ -134,19 +94,27 @@ class LmsContentController extends Controller
         return back();
       }
 
-        $subject_id = App\Subject::where('slug',$slug)->pluck('id')->first();
+      $subject_id = App\Subject::where('slug',$subject)->pluck('id')->first();
+      $year_id    = App\Academic::where('slug',$year)->pluck('id')->first();
+      $course_id  = App\Course::where('slug',$course)->pluck('id')->first();
 
       if(Auth::user()->role_id == 3){
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
               ->join('subjectpreferences','lmscontents.subject_id','=','subjectpreferences.subject_id')
               ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjectpreferences.user_id','=',Auth::user()->id)
-              ->where('subjects.id','=',$subject_id);
+              ->where('subjects.id','=',$subject_id)
+              ->where('lmscontents.academic_id','=',$year_id)
+              ->where('lmscontents.sem_id','=',$sem)
+              ->where('lmscontents.course_id','=',$course_id);
       }
       else{
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
               ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjects.id','=',$subject_id)
+              ->where('lmscontents.academic_id','=',$year_id)
+              ->where('lmscontents.sem_id','=',$sem)
+              ->where('lmscontents.course_id','=',$course_id)
               ->orderBy('updated_at','desc');
       }
 
@@ -210,8 +178,9 @@ class LmsContentController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-    	$data['record']         	= FALSE;
-    	$data['active_class']       = 'lms';
+        $data['code']         = rand(1000,9999);
+    	$data['record']       = FALSE;
+    	$data['active_class'] = 'lms';
         if(Auth::user()->role_id == 3){
             $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
@@ -241,6 +210,7 @@ class LmsContentController extends Controller
     	$data['record']         	= $record;
     	$data['title']       		= getPhrase('edit').' '.$record->title;
     	$data['active_class']       = 'lms';
+        $data['code']         = $record->code;
         if(Auth::user()->role_id == 3){
             $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
@@ -266,11 +236,13 @@ class LmsContentController extends Controller
 
     	$record = LmsContent::getRecordWithSlug($slug);
 		  $rules = [
-         'subject_id'                   => 'bail|required|integer' ,
-         'course_id'                   => 'bail|required|integer' ,
-         'title'                        => 'bail|required|max:60' ,
-         'content_type'                 => 'bail|required',
-         'code'                         => 'bail|required|unique:lmscontents,code,'.$record->id,
+             'year_id'          	        => 'bail|required|integer' ,
+             'sem_id'                       => 'bail|required|integer' ,
+             'subject_id'                   => 'bail|required|integer' ,
+             'course_id'                    => 'bail|required|integer' ,
+             'title'                        => 'bail|required|max:60' ,
+             'content_type'                 => 'bail|required',
+             'code'                         => 'bail|required|unique:lmscontents,code,'.$record->id,
         ];
         $file_path = $record->file_path;
         switch ($request->content_type) {
@@ -309,6 +281,8 @@ class LmsContentController extends Controller
 
         $record->subject_id         = $request->subject_id;
         $record->course_id          = $request->course_id;
+        $record->academic_id        = $request->year_id;
+        $record->sem_id             = $request->sem_id;
         $record->code               = $request->code;
         $record->content_type       = $request->content_type;
 
@@ -386,11 +360,14 @@ class LmsContentController extends Controller
       }
 
 	    $rules = [
-         'subject_id'          	        => 'bail|required|integer' ,
-         'course_id'                   => 'bail|required|integer' ,
-         'title'          	   			=> 'bail|required|max:60' ,
-         'content_type'                 => 'bail|required',
-         'code'                         => 'bail|required|unique:lmscontents',
+             'year_id'          	        => 'bail|required|integer' ,
+             'sem_id'                       => 'bail|required|integer' ,
+             'subject_id'          	        => 'bail|required|integer' ,
+             'course_id'                    => 'bail|required|integer' ,
+             'title'          	   			=> 'bail|required|max:60' ,
+             'content_type'                 => 'bail|required',
+             'code'                         => 'bail|required|unique:lmscontents',
+
 
         ];
         $file_path = '';
@@ -429,9 +406,11 @@ class LmsContentController extends Controller
         $name = $request->title;
         $record->title = $name;
         $record->slug = $record->makeSlug($name, TRUE);
-        $record->subject_id = $request->subject_id;
-        $record->course_id          = $request->course_id;
-        $record->code = $request->code;
+        $record->subject_id   = $request->subject_id;
+        $record->course_id    = $request->course_id;
+        $record->academic_id  = $request->year_id;
+        $record->sem_id       = $request->sem_id;
+        $record->code         = $request->code;
         $record->content_type = $request->content_type;
 
 

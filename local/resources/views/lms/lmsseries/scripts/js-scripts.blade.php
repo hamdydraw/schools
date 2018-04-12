@@ -1,4 +1,3 @@
-<script src="{{JS}}angular.js"></script>
  <script src="{{JS}}ngStorage.js"></script>
 <script src="{{JS}}angular-messages.js"></script>
 
@@ -9,7 +8,29 @@ app.controller('prepareQuestions', function( $scope, $http) {
    $scope.savedItems = [];
     $scope.savedSeries =  [];
     $scope.total_items = 0;
+    $scope.is_paid     = '0';
+    @if(isset($record->is_paid))
+        $scope.is_paid     = {{$record->is_paid}};
+        $scope.is_paid     = $scope.is_paid.toString();
+    @endif
     $scope.lastPart = window.location.href.split("/").pop();
+
+    $scope.academic_sems_sc  = [
+        {
+            value : 1,
+            title : 'الاول'
+        },
+        {
+            value : 2,
+            title : 'الثانى'
+        }
+    ];
+    $scope.current_course_sc    = null;
+    $scope.current_subject_sc   = null;
+    $scope.academic_courses_sc  = [];
+    $scope.academic_subjects_sc = [];
+    $scope.current_year_sc = {{default_year()}};
+    $scope.current_year_sc = $scope.current_year_sc.toString();
 
     if($scope.lastPart != 'add'){
         $http({
@@ -21,7 +42,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
             .then(function (response) {
                 $scope.branch = response.data.course_id.toString();
                 $scope.getCategories($scope.branch);
-                $scope.categorii = response.data.id;
+                $scope.categorii = response.data.id.toString();
                 console.log($scope.categorii);
             })
     }
@@ -59,6 +80,55 @@ app.controller('prepareQuestions', function( $scope, $http) {
         $scope.setItem('total_items', $scope.total_items);
         
  
+    }
+
+    $scope.getYears = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_years',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_years_sc = response.data;
+                $scope.current_sem_sc  = "1";
+                $scope.getCourses();
+            })
+    }
+    $scope.getYears();
+
+    $scope.getCourses = function () {
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_courses',
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_courses_sc = response.data;
+                if(response.data.length != 0){
+                    $scope.current_course_sc   = response.data[0].id.toString();
+                    $scope.getSubjects();
+                }
+            })
+    }
+
+    $scope.getSubjects = function () {
+        if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
+            return false;
+        }
+        $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                $scope.academic_subjects_sc = response.data;
+                if(response.data.length != 0) {
+                    $scope.current_subject_sc = response.data[0].subject_id.toString();
+                }
+            })
     }
     
      $scope.categoryChanged = function(selected_number) {

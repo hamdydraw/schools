@@ -3,6 +3,7 @@
 <script src="{{JS}}ng-file-upload.js"></script>
 <script src="{{JS}}angular-toastr.min.js"></script>
 <script src="{{JS}}angular-toastr.tpls.min.js"></script>
+<script src="{{JS}}satellizer.min.js"></script>
 
 <script>
     var app = angular.module('academia', ['ngMessages','satellizer','ngFileUpload','toastr']);
@@ -13,22 +14,67 @@ app.controller('angLmsController', function($scope, $http,Upload) {
     $scope.academic_courses_sc  = [];
     $scope.academic_subjects_sc = [];
 
+    $scope.academic_sems_sc  = [
+        {
+            value : 1,
+            title : 'الاول'
+        },
+        {
+            value : 2,
+            title : 'الثانى'
+        }
+    ];
+    $scope.first_time = true;
+
+    $scope.current_year_sc = {{default_year()}};
+    $scope.current_year_sc = $scope.current_year_sc.toString();
+
+
+
     $scope.lastPart = window.location.href.split("/").pop();
 
-    if($scope.lastPart != 'add'){
+    $scope.ifEdit = function () {
+        if($scope.lastPart != 'add' && $scope.lastPart != 'content'){
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'/get_lms_content/'+$scope.lastPart,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    $scope.current_year_sc    = response.data.academic_id.toString();
+                    $scope.current_sem_sc     = response.data.sem_id.toString();
+                    $scope.current_course_sc  = response.data.course_id.toString();
+                    $scope.current_subject_sc = response.data.subject_id.toString();
+                    $http({
+                        method:"GET",
+                        url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                        dataType:"json",
+                        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                    })
+                        .then(function (response) {
+                            $scope.academic_subjects_sc = response.data;
+                        });
+                })
+        }
+    }
+
+
+    $scope.getYears = function () {
         $http({
             method:"GET",
-            url:'{{PREFIX}}'+'/get_lms_content/'+$scope.lastPart,
+            url:'{{PREFIX}}'+'get_years',
             dataType:"json",
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })
             .then(function (response) {
-                console.log(response.data);
-                $scope.current_course_sc  = response.data.course_id.toString();
-                $scope.current_subject_sc = response.data.subject_id.toString();
+                $scope.academic_years_sc = response.data;
+                $scope.current_sem_sc  = "1";
+                $scope.getCourses();
             })
     }
-
+    $scope.getYears();
 
     $scope.getCourses = function () {
         $http({
@@ -39,21 +85,34 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         })
             .then(function (response) {
                 $scope.academic_courses_sc = response.data;
+                if(response.data.length != 0){
+                    $scope.current_course_sc   = response.data[0].id.toString();
+                    $scope.getSubjects();
+                }
             })
     }
-    $scope.getCourses();
+
     $scope.getSubjects = function () {
+        if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
+            return false;
+        }
         $http({
             method:"GET",
-            url:'{{PREFIX}}'+'get_all_courses',
+            url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
             dataType:"json",
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })
             .then(function (response) {
                 $scope.academic_subjects_sc = response.data;
+                if(response.data.length != 0) {
+                    $scope.current_subject_sc = response.data[0].subject_id.toString();
+                }
+                if($scope.first_time){
+                    $scope.ifEdit();
+                    $scope.first_time = false;
+                }
             })
     }
-    $scope.getSubjects();
 
 
     {{--console.log({{URL::current()}});--}}
@@ -114,6 +173,37 @@ app.controller('angLmsController', function($scope, $http,Upload) {
          data = JSON.parse(data);
          $scope.content_type    = data.content_type;
     }
+
+    $scope.toTable = function () {
+
+        angular.forEach($scope.academic_years_sc,function (item) {
+            if(item.id == $scope.current_year_sc){
+                $scope.year_slug =  item.slug;
+            }
+        })
+
+        angular.forEach($scope.academic_sems_sc,function (item) {
+            if(item.value == $scope.current_sem_sc){
+                $scope.sem_slug =  item.value;
+            }
+        })
+
+        angular.forEach($scope.academic_courses_sc,function (item) {
+            if(item.id == $scope.current_course_sc){
+                $scope.course_slug =  item.slug;
+            }
+        })
+
+        angular.forEach($scope.academic_subjects_sc,function (item) {
+            if(item.subject_id == $scope.current_subject_sc){
+                $scope.subject_slug =  item.slug;
+            }
+        })
+        window.location.href = "{{PREFIX}}lms/content/view/"+$scope.year_slug+"/"+$scope.sem_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
+    }
+
 });
+
+
  
 </script>

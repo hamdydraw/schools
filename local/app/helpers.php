@@ -1229,7 +1229,7 @@ function getSubjects($year,$semester,$course){
                              ->where('academic_id',$year)
                              ->where('semister',$semester)
                              ->where('course_id',$course)
-                             ->select(['course_subject.id as id','subjects.id as subject_id','subjects.subject_title'])
+                             ->select(['course_subject.id as id','subjects.id as subject_id','subjects.slug','subjects.subject_title'])
                              ->get();
 }
 
@@ -1239,7 +1239,7 @@ function getTeacherSubjects($year,$semester,$course){
         ->where('semister',$semester)
         ->where('course_id',$course)
         ->where('staff_id',Auth::user()->id)
-        ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.subject_title'])
+        ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.slug','subjects.subject_title'])
         ->get();
 }
 

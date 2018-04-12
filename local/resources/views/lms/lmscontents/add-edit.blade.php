@@ -43,7 +43,7 @@
                     @endif
                     @include('lms.lmscontents.form_elements',
                     array('button_name'=> $button_name),
-                    array('subjects'=>$subjects, 'record'=>$record))
+                    array('subjects'=>$subjects, 'record'=>$record,'code' => $code))
 
                     {!! Form::close() !!}
                 </div>
