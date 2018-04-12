@@ -25,7 +25,7 @@
 						<div class="pull-right messages-buttons">
 							 @if($is_staff)
 							<a href="{{URL_QUESTIONBAMK_IMPORT}}" class="btn  btn-primary button helper_step2" >{{ getPhrase('import_questions')}}</a>
-							<a href="{{URL_SUBJECTS_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('add_subject')}}</a>
+								<a href="{{URL_QUESTIONBANK_ADD_QUESTION}}" class="btn  btn-primary button" >{{ getPhrase('create_question')}}</a>
 							 @endif
 						</div>
 						<h1>{{ $title }}</h1>

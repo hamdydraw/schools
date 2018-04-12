@@ -118,6 +118,7 @@ define('URL_MASTERSETTINGS_SETTINGS', PREFIX.'mastersettings/settings');
 define('URL_MASTERSETTINGS_CERTIFICATES_SETTINGS', PREFIX.'mastersettings/settings/certificates');
 define('URL_MASTERSETTINGS_EMAIL_TEMPLATES', PREFIX.'email/templates');
 define('URL_MASTERSETTINGS_TOPICS', PREFIX.'mastersettings/topics');
+define('URL_TOPICS_GETLIST', PREFIX.'mastersettings/topics/getList/');
 define('URL_MASTERSETTINGS_SUBJECTS', PREFIX.'mastersettings/subjects');
 
 //MASTER SETTINGS RELIGIONS

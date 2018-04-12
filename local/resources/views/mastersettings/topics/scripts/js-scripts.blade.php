@@ -1,6 +1,7 @@
 <script src="{{JS}}angular.js"></script>
 <script src="{{JS}}angular-messages.js"></script>
 <script src="{{JS}}select2.js"></script>
+<script src="{{JS}}satellizer.min.js"></script>
 <script>
 
     var app = angular.module('academia', ['ngMessages','satellizer']);
@@ -9,28 +10,23 @@
     app.controller('angTopicsController', function ($scope, $http) {
 
         $scope.academic_courses_sc  = [];
+        @if(isset($record_course_id))
         $scope.current_course_sc    = {{$record_course_id}};
         $scope.current_course_sc    = $scope.current_course_sc.toString();
+        @endif
         $scope.current_year_sc = {{default_year()}};
         $scope.current_year_sc = $scope.current_year_sc.toString();
+        @if(isset($recored_sem))
         $scope.current_sem_sc       = {{$recored_sem}};
         $scope.current_sem_sc       = $scope.current_sem_sc.toString();
+        @endif
         $scope.academic_years_sc    = [];
         $scope.current_subject_sc   = null;
         $scope.academic_subjects_sc = [];
         $scope.academic_topics_sc   = [];
         $scope.current_topic_sc     = null;
 
-        $scope.academic_sems_sc  = [
-            {
-                value : 1,
-                title : 'الاول'
-            },
-            {
-                value : 2,
-                title : 'الثانى'
-            }
-        ];
+
 
 
 
@@ -44,6 +40,17 @@
             })
                 .then(function (response) {
                     $scope.academic_years_sc = response.data;
+                    $scope.academic_sems_sc  = [
+                        {
+                            value : 1,
+                            title : 'الاول'
+                        },
+                        {
+                            value : 2,
+                            title : 'الثانى'
+                        }
+                    ];
+                    $scope.current_sem_sc = '1';
                     $scope.getCourses();
                 })
         }
@@ -58,6 +65,9 @@
             })
                 .then(function (response) {
                     $scope.academic_courses_sc = response.data;
+                    if($scope.academic_courses_sc.length != 0){
+                        $scope.current_course_sc = $scope.academic_courses_sc[0].id.toString();
+                    }
                     $scope.getSubjects();
                 })
         }
@@ -74,8 +84,10 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
+                    @if(isset($recored_subject))
                     $scope.current_subject_sc   = {{$recored_subject}};
                     $scope.current_subject_sc   = $scope.current_subject_sc.toString();
+                    @endif
                     $scope.getTopics();
                 })
         }
@@ -93,12 +105,41 @@
             })
                 .then(function (response) {
                     $scope.academic_topics_sc = response.data;
+                    @if(isset($recored_parent))
                     $scope.current_topic_sc   = {{$recored_parent}};
+                    @endif
                     $scope.current_topic_sc   = $scope.current_topic_sc.toString();
 
                 })
         }
 
+        $scope.toTable = function () {
+
+            angular.forEach($scope.academic_years_sc,function (item) {
+                if(item.id == $scope.current_year_sc){
+                    $scope.year_slug =  item.slug;
+                }
+            })
+
+            angular.forEach($scope.academic_sems_sc,function (item) {
+                if(item.value == $scope.current_sem_sc){
+                    $scope.sem_slug =  item.value;
+                }
+            })
+
+            angular.forEach($scope.academic_courses_sc,function (item) {
+                if(item.id == $scope.current_course_sc){
+                    $scope.course_slug =  item.slug;
+                }
+            })
+
+            angular.forEach($scope.academic_subjects_sc,function (item) {
+                if(item.subject_id == $scope.current_subject_sc){
+                    $scope.subject_slug =  item.slug;
+                }
+            })
+            window.location.href = "{{PREFIX}}mastersettings/topics/view/"+$scope.year_slug+"/"+$scope.sem_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
+        }
 
 
         /**
@@ -189,7 +230,9 @@
 <script>
     $(document).ready(function () {
         if ($('#subject').val() != '') {
+            @if(isset($topic_name))
             getSubjectsParentsFromTopic('<?php echo $topic_name?>');
+            @endif
         }
 
     })

@@ -62,7 +62,7 @@
 
 @section('footer_scripts')
 
- @include('common.datatables', array('route'=>'topics.dataTable'))
+ @include('common.datatables', array('route'=>URL_TOPICS_GETLIST.$year.'/'.$sem.'/'.$course.'/'.$subject,'route_as_url' => TRUE))
  @include('common.deletescript', array('route'=>URL_TOPICS_DELETE))
 
 @stop

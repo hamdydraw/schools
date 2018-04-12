@@ -45,7 +45,7 @@ class QuestionBankController extends Controller
         }
 
         $data['active_class'] = 'exams';
-        $data['title'] = getPhrase('question_subjects');
+        $data['title'] = getPhrase('question_bank');
         $data['module_helper'] = getModuleHelper('question_subjects');
         return view('exams.questionbank.list', $data);
     }

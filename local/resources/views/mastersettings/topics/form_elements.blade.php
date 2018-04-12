@@ -1,7 +1,7 @@
 <fieldset class="form-group">
     <label for="">{{getPhrase('academic_year')}}</label>
     <span class="text-red">*</span>
-    <select name="year123" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+    <select name="year" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
         <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
     </select>
 </fieldset>

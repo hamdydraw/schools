@@ -34,6 +34,23 @@ class TopicsController extends Controller
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('topics_list');
         $data['module_helper'] = getModuleHelper('topics-list');
+        return view('mastersettings.topics.main_list', $data);
+    }
+
+    public function indexList($year,$sem,$course,$subject)
+    {
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('topics_list');
+        $data['module_helper'] = getModuleHelper('topics-list');
+        $data['year'] = $year;
+        $data['sem'] = $sem;
+        $data['course'] = $course;
+        $data['subject'] = $subject;
         return view('mastersettings.topics.list', $data);
     }
 
@@ -41,12 +58,17 @@ class TopicsController extends Controller
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    public function getDatatable()
+    public function getDatatable($year,$sem,$course,$subject)
     {
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
         }
+
+        $subject_id = App\Subject::where('slug',$subject)->pluck('id')->first();
+        $year_id    = App\Academic::where('slug',$year)->pluck('id')->first();
+        $course_id  = App\Course::where('slug',$course)->pluck('id')->first();
+
         $records = Topic::join('subjects', 'topics.subject_id', '=', 'subjects.id')
             ->select([
                 'subjects.subject_title',
@@ -59,6 +81,10 @@ class TopicsController extends Controller
                 'topics.id',
                 'topics.created_by_user','topics.updated_by_user','topics.created_by_ip','topics.updated_by_ip','topics.created_at','topics.updated_at'
             ])
+            ->where('academic_id',$year_id)
+            ->where('semester_num',$sem)
+            ->where('course_id',$course_id)
+            ->where('subject_id',$subject_id)
             ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
@@ -217,6 +243,7 @@ class TopicsController extends Controller
         $record->topic_name = $name;
         $record->parent_id = $request->parent_id;
         $record->semester_num = $request->semesters;
+        $record->academic_id  = $request->year;
         $record->subject_id = $request->subject_id;
         $record->course_id = $request->course_id;
         $record->description = '';
@@ -255,6 +282,7 @@ class TopicsController extends Controller
         $record->slug = $record->makeSlug($name, true);
         $record->subject_id = $request->subject_id;
         $record->course_id = $request->course_id;
+        $record->academic_id  = $request->year;
         $record->parent_id = $request->parent_id;
         $record->semester_num = $request->semesters;
         $record->description = $request->description;
@@ -377,6 +405,7 @@ class TopicsController extends Controller
 
                     }
 
+
                     /**
                      * 1) Validate the excel data by verifing the subject id validity and filter only valid recods
                      * 2) First Insert the parent topic records and capture the id of the parent
@@ -389,10 +418,13 @@ class TopicsController extends Controller
                      */
                     $processed_records = (object)$this->getParentAndChilds($all_records);
 
+
                     $parent_records = $processed_records->parent_records;
                     $child_records = $processed_records->child_records;
                     $failed_list = $processed_records->failed_records;
                     $success_list = $processed_records->success_records;
+
+
 
                     foreach ($child_records as $record) {
                         $record = $record;
@@ -508,7 +540,9 @@ class TopicsController extends Controller
         $topic = new Topic();
         $name = $request->topic_name;
         $topic->topic_name = $name;
-        $topic->semester_num = $request->semester;
+        $topic->semester_num = $request->semester_num;
+        $topic->course_id    = $request->course_id;
+        $topic->academic_id  = $request->academic_id;
         $topic->parent_id = $request->parent_id;
         $topic->slug = $topic->makeSlug(getHashCode());
         $topic->subject_id = $request->subject_id;

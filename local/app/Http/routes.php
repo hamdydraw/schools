@@ -478,15 +478,13 @@ Route::post('mastersettings/subjects/import', 'SubjectsController@readExcel');
 
 //Topics
 Route::get('mastersettings/topics', 'TopicsController@index');
+Route::get('mastersettings/topics/view/{year}/{sem}/{course}/{subject}', 'TopicsController@indexList');
 Route::get('mastersettings/topics/add', 'TopicsController@create');
 Route::post('mastersettings/topics/add', 'TopicsController@store');
 Route::get('mastersettings/topics/edit/{slug}', 'TopicsController@edit');
 Route::patch('mastersettings/topics/edit/{slug}', 'TopicsController@update');
 Route::delete('mastersettings/topics/delete/{id}', 'TopicsController@delete');
-Route::get('mastersettings/topics/getList', [
-    'as' => 'topics.dataTable',
-    'uses' => 'TopicsController@getDatatable'
-]);
+Route::get('mastersettings/topics/getList/{year}/{sem}/{course}/{subject}','TopicsController@getDatatable');
 
 Route::get('mastersettings/topics/get-parents-topics/{subject_id}', 'TopicsController@getParentTopics');
 
