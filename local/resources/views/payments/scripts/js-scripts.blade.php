@@ -30,9 +30,10 @@
                     }
                     if ($scope.payment_record.plan_type == 'academic_expenses') {
                         $scope.payment_record.plan_type = '{{getPhrase('academic_expenses')}}';
+                        $scope.payment_record.plan_type_En = 'academic_expenses';
                     }
                     if ($scope.payment_record.item_name.indexOf('<br>')) {
-                        $scope.payment_record.item_name = $scope.payment_record.item_name.replace(/<br>/g,') ').replace(/-/gi, "(")                 }
+                        $scope.payment_record.item_name = $scope.payment_record.item_name.replace(/<br>/g,')').replace(/-/gi, "(")                 }
                     $scope.other_details = $.parseJSON(result.record.other_details);
 
                     $scope.coupon_applied = "{{getPhrase('no')}}";

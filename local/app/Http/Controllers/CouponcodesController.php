@@ -356,40 +356,49 @@ class CouponcodesController extends Controller
     	$message 			= 'invalid';
     	$amount_to_pay 		= $purchased_amount;
     	$coupon_id			= 0;
-    	if($couponRecord)
-    	{
-          	if($this->checkCouponUsage($couponRecord, $item, $item_type, $user))
-    		{
-    			//Coupon is valid
-    			//Limit is not reached so do the follwoing operations
-    			// 1) Check the minimum amount critria
-    			// 2) Calculate discount eligiblity
-    			// 3) Return the status message to user
-    			if($purchased_amount>=$couponRecord->minimum_bill){
-    				$discount_amount = $this->calculateDiscount($couponRecord, $purchased_amount);
-    				$amount_to_pay = $purchased_amount - $discount_amount;
-    				$discount_availed = $discount_amount;
-    				if($amount_to_pay<0)
-    					$amount_to_pay = 0;
-    				$message 	= 'hey_you_are_eligible_for_discount';
-    				$status 	= 1;
-    				$coupon_id	= $couponRecord->id;
-    			}
-    			else {
-    				$message = 'minimum_bill_not_reached. this_is_valid_for_minimum_purchase_of'.' '.getCurrencyCode().$couponRecord->minimum_bill;
-    			}
+    	if($couponRecord) {
+            if ($couponRecord->usage_limit > 0) {
+                if (auth()->user()->coupon_available == 1) {
+                    if ($this->checkCouponUsage($couponRecord, $item, $item_type, $user)) {
+                        //Coupon is valid
+                        //Limit is not reached so do the follwoing operations
+                        // 1) Check the minimum amount critria
+                        // 2) Calculate discount eligiblity
+                        // 3) Return the status message to user
+                        if ($purchased_amount >= $couponRecord->minimum_bill) {
+                            $discount_amount = $this->calculateDiscount($couponRecord, $purchased_amount);
+                            $amount_to_pay = $purchased_amount - $discount_amount;
+                            $discount_availed = $discount_amount;
+                            if ($amount_to_pay < 0) {
+                                $amount_to_pay = 0;
+                            }
+                            $message = 'hey_you_are_eligible_for_discount';
+                            $status = 1;
+                            $coupon_id = $couponRecord->id;
+                        } else {
+                            $message = 'minimum_bill_not_reached. this_is_valid_for_minimum_purchase_of' . ' ' . getCurrencyCode() . $couponRecord->minimum_bill;
+                        }
 
-    		}
-    		else {
-    			$message = 'limit_reached';
-    		}
+                    } else {
+                        $message = 'limit_reached';
+                    }
 
-    	}
+                }else{
+                    $message = 'you_can_not_use_coupons';
+                }
+            }else{
+                $message = 'this_coupon_expired';
+            }
+        }
     	else
     	{
     		$message = 'invalid_coupon';
     	}
-
+        $couponRecord->usage_limit = $couponRecord->usage_limit - 1;
+    	$couponRecord->update();
+    	$user=App\User::find(auth()->user()->id);
+    	$user->coupon_available = 0;
+    	$user->update();
     	return json_encode(array(
     				'status'		=> $status,
     				'message'		=> getPhrase($message),
