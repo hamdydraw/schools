@@ -144,10 +144,6 @@
         }
 
         $scope.get_sub_topics = function () {
-            if($scope.topic_id_sc == null || $scope.topic_id_sc == undefined){
-                $scope.sub_topics_sc = [];
-                return false;
-            }
             $http({
                 method: "GET",
                 url: '{{PREFIX}}' + 'get_sub_topic/' + $scope.topic_id_sc,
