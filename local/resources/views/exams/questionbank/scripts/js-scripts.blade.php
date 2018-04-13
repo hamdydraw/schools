@@ -9,6 +9,7 @@
     app.controller('questionsController', function ($scope, $http, Upload, toastr) {
 
 
+        $scope.explanation = false;
         $scope.topics_sc = [];
         $scope.sub_topic_sc = [];
 
@@ -24,6 +25,15 @@
         $scope.current_year_sc = $scope.current_year_sc.toString();
 
 
+
+        $scope.show_hide = function () {
+            if($scope.explanation == true){
+                $("#explain").show();
+            }
+            else{
+                $("#explain").hide();
+            }
+        }
 
         $scope.lastPart = window.location.href.split("/").pop();
 

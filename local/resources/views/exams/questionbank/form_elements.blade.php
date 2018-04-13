@@ -112,8 +112,10 @@ $exam_difficulty_levels = $settingsObj->getDifficultyLevels();
 
 <fieldset class="form-group">
    {{ Form::label('explanation', getphrase('explanation')) }}
-    {{--<input type="checkbox" checked style="display: inline-block" ng-model="explanation">--}}
+    <input type="checkbox" style="display: inline-block" ng-model="explanation" ng-change="show_hide()">
+    <div id="explain" style="display: none;">
     {{ Form::textarea('explanation', $value = null , $attributes = array('class'=>'form-control ckeditor', 'placeholder' => 'Your explanation', 'rows' => '5','id'=>'explanation')) }}
+    </div>
 </fieldset>
 
 <fieldset class="form-group">
