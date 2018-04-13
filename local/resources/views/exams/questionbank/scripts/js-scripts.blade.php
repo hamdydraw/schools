@@ -38,10 +38,11 @@
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
+            console.log('edit working');
             if($scope.lastPart != 'add-question'){
                 $http({
                     method:"GET",
-                    url:'{{PREFIX}}'+'/get_question_data/'+$scope.lastPart,
+                    url:'{{PREFIX}}'+'get_question_data/'+$scope.lastPart,
                     dataType:"json",
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                 })
