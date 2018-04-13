@@ -1288,6 +1288,12 @@ Route::get('current_year_sem',function (){
 });
 
 
+Route::get('get_series/{year}/{sem}/{course}/{subject}',function ($year,$sem,$course,$subject){
+    $items 			= App\LmsContent::where('academic_id','=',$year)->where('sem_id','=',$sem)->where('course_id','=',$course)->where('subject_id','=',$subject)->get();
+    return json_encode(array('items'=>$items));
+});
+
+
 
 
 Route::get('get_all_courses',function (){

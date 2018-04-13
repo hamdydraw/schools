@@ -1323,3 +1323,20 @@ function default_year()
 function get_topic_name($id){
     return Topic::where('id',$id)->pluck('topic_name')->first();
 }
+function make_title($year,$sem,$course,$subject)
+{
+    $ytitle = Academic::where('slug',$year)->pluck('academic_year_title')->first();
+    $ctitle = \App\Course::where('slug',$course)->pluck('course_title')->first();
+    $stitle = \App\Subject::where('slug',$subject)->pluck('subject_title')->first();
+    if($sem == 1){
+        $semtitle = getPhrase('First_semester');
+    }
+    else if($sem == 2){
+        $semtitle = getPhrase('Second_semester');
+    }
+    else{
+        $semtitle = getPhrase('');
+    }
+    return $ytitle.'-'.$ctitle.'-'.$semtitle.'-'.$stitle;
+
+}

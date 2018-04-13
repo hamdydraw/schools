@@ -78,6 +78,7 @@ class LmsContentController extends Controller
         $data['sem']                = $sem;
         $data['course']             = $course;
         $data['subject']            = $subject;
+        $data['second_title']       = make_title($year,$sem,$course,$subject);
 
     	return view('lms.lmscontents.list', $data);
     }
