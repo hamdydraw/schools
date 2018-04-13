@@ -54,7 +54,11 @@
                         $scope.current_subject_sc = response.data.subject_id.toString();
                         $scope.getSubjects();
                         $scope.topic_id_sc        = response.data.parent_topic.toString();
+
                         $scope.sub_topic_id_sc    = response.data.topic_id.toString();
+                        if($scope.topic_id_sc == '0'){
+                            $scope.topic_id_sc    = $scope.sub_topic_id_sc;
+                        }
                     })
             }
         }
