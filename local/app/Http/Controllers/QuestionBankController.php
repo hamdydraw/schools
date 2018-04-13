@@ -297,6 +297,8 @@ class QuestionBankController extends Controller
         $data['active_class'] = 'exams';
         $data['title'] = getPhrase('upload_question');
         $data['module_helper'] = getModuleHelper('add-question');
+        $data['time_to_spend'] = 120;
+        $data['marks']          = 1;
         return view('exams.questionbank.add-edit', $data);
     }
 
@@ -326,6 +328,8 @@ class QuestionBankController extends Controller
 
         $data['course_id'] = $record->course_id;
         $data['topic_id']  = $record->topic_id;
+        $data['time_to_spend'] = $record->time_to_spend;
+        $data['marks']         = $record->marks;
 
 
 
@@ -1033,7 +1037,7 @@ class QuestionBankController extends Controller
             }
         }
 
-        return redirect(URL_QUIZ_QUESTIONBANK);
+        return redirect(URL_QUESTIONBANK_ADD_QUESTION);
     }
 
     /**

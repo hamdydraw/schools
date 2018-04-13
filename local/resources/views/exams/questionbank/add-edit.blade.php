@@ -37,7 +37,7 @@
 
                     @include('exams.questionbank.form_elements',
                     array('button_name'=> $button_name),
-                    array('records'=>isset($records)?$records:null, 'record'=>$record))
+                    array('records'=>isset($records)?$records:null, 'record'=>$record,'time_to_spend' => $time_to_spend,'marks'=>$marks))
 
                     {!! Form::close() !!}
 

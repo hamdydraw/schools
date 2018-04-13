@@ -19,7 +19,7 @@
         $scope.academic_subjects_sc = [];
 
 
-        $scope.first_time = true;
+        $scope.first_time = 0;
 
         $scope.current_year_sc = {{default_year()}};
         $scope.current_year_sc = $scope.current_year_sc.toString();
@@ -112,7 +112,7 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
-                    if(response.data.length != 0 && $scope.first_time) {
+                    if(response.data.length != 0 && $scope.first_time != 1) {
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
                     }
                     $scope.get_topics();
@@ -132,7 +132,7 @@
 //                        showHide('undef')
 //                    }
                     $scope.topics_sc = response.data;
-                    if($scope.topics_sc.length != 0 && $scope.first_time)
+                    if($scope.topics_sc.length != 0 && $scope.first_time != 1)
                     {
                         $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
                     }
@@ -155,14 +155,19 @@
             })
                 .then(function (response) {
                     $scope.sub_topics_sc = response.data;
-                    if($scope.sub_topics_sc.length != 0 && $scope.first_time)
+                    if($scope.sub_topics_sc.length != 0 && $scope.first_time != 1)
                     {
                         $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
                     }
-                    if($scope.first_time){
-                        $scope.ifEdit();
-                        $scope.first_time = false;
+                    if($scope.topics_sc.length == 0){$scope.sub_topics_sc = [];}
+                    if($scope.first_time >= 1){
+                        $scope.first_time ++;
                     }
+                    if($scope.first_time == 0){
+                        $scope.ifEdit();
+                        $scope.first_time ++;
+                    }
+
                 })
         }
 

@@ -121,7 +121,7 @@ $exam_difficulty_levels = $settingsObj->getDifficultyLevels();
 <fieldset class="form-group">
     {{ Form::label('marks', getphrase('marks')) }}
     <span class="text-red">*</span>
-    {{ Form::number('marks', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '1',
+    {{ Form::number('marks', $value = $marks , $attributes = array('class'=>'form-control', 'placeholder' => '1',
         'min'=>'1',
         'string-to-number'=>'marks',
     'ng-model'=>'marks',
@@ -138,7 +138,7 @@ $exam_difficulty_levels = $settingsObj->getDifficultyLevels();
 <fieldset class="form-group">
     {{ Form::label('time_to_spend', getphrase('time_to_spend')) }}
     <span class="text-red">*</span>
-    {{ Form::number('time_to_spend', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('in_seconds'),
+    {{ Form::number('time_to_spend', $value = $time_to_spend , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('in_seconds'),
         'min'=>'1',
         'string-to-number'=>'time_to_spend',
     'ng-model'=>'time_to_spend',
