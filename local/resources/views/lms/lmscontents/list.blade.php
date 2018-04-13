@@ -37,6 +37,7 @@
                                 									<th>{{ getPhrase('type')}}</th>
                                                                     <th>{{ getPhrase('branch')}}</th>
                                 									<th>{{ getPhrase('subject')}}</th>
+																	<th>{{ getPhrase('Topic')}}</th>
                                 									<th id="helper_step2">{{ getPhrase('action')}}</th>
                                 								</tr>
                             							</thead>

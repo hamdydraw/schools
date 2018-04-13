@@ -31,7 +31,7 @@
 </style>
 
 <div class="row">
-    <fieldset class="form-group col-md-6">
+    <fieldset class="form-group col-md-12">
 
         {{ Form::label('title', getphrase('title')) }}
         <span class="text-red">*</span>
@@ -46,28 +46,6 @@
 
         )) }}
         <div class="validation-error" ng-messages="formLms.title.$error" >
-            {!! getValidationMessage()!!}
-            {!! getValidationMessage('minlength')!!}
-            {!! getValidationMessage('maxlength')!!}
-            {!! getValidationMessage('pattern')!!}
-        </div>
-    </fieldset>
-
-    <fieldset class="form-group col-md-6">
-
-        {{ Form::label('code', getphrase('code')) }}
-        <span class="text-red">*</span>
-        {{ Form::text('code', $value = $code , $attributes = array('class'=>'form-control', 'placeholder' => 'CNT100',
-            'ng-model'=>'code',
-            'required'=> 'true',
-            'id'=>'code',
-            'ng-pattern' => getRegexPattern("name"),
-            'ng-minlength' => '2',
-            'ng-maxlength' => '20',
-            'ng-class'=>'{"has-error": formLms.code.$touched && formLms.code.$invalid}',
-
-        )) }}
-        <div class="validation-error" ng-messages="formLms.code.$error" >
             {!! getValidationMessage()!!}
             {!! getValidationMessage('minlength')!!}
             {!! getValidationMessage('maxlength')!!}
@@ -106,12 +84,30 @@
     <fieldset class="form-group col-md-6">
         <label for="">{{getPhrase('subject')}}</label>
         <span class="text-red">*</span>
-        <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+        <select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
             <option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
         </select>
     </fieldset>
 
 </div>
+
+<fieldset class="form-group col-md-6">
+    {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
+
+    <select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc" ng-change="get_sub_topics()">
+        <option ng-repeat="topic in topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+    </select>
+
+</fieldset>
+
+<fieldset class="form-group ">
+    {{ Form::label('topic_id', getphrase('sub_topic')) }} <span class="text-red">*</span>
+
+    <select name="topic_id" class="form-control" required="required" ng-model="sub_topic_id_sc">
+        <option ng-repeat="sub_topic in sub_topics_sc" value="@{{ sub_topic.id }}">@{{ sub_topic.topic_name }}</option>
+    </select>
+
+</fieldset>
 
 <div class="row">
 

@@ -101,7 +101,7 @@ class LmsContentController extends Controller
       if(Auth::user()->role_id == 3){
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
               ->join('subjectpreferences','lmscontents.subject_id','=','subjectpreferences.subject_id')
-              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.topic_id','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjectpreferences.user_id','=',Auth::user()->id)
               ->where('subjects.id','=',$subject_id)
               ->where('lmscontents.academic_id','=',$year_id)
@@ -110,7 +110,7 @@ class LmsContentController extends Controller
       }
       else{
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
-              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
+              ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.topic_id','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
               ->where('subjects.id','=',$subject_id)
               ->where('lmscontents.academic_id','=',$year_id)
               ->where('lmscontents.sem_id','=',$sem)
@@ -137,6 +137,9 @@ class LmsContentController extends Controller
                         }
                         $extra .= $temp.'</ul></div>';
                     return $extra;
+            })
+            ->editColumn('topic_id',function ($records){
+                return get_topic_name($records->topic_id);
             })
             ->editColumn('course_id',function ($records){
                 return getCourseName($records->course_id);
@@ -178,7 +181,6 @@ class LmsContentController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-        $data['code']         = rand(1000,9999);
     	$data['record']       = FALSE;
     	$data['active_class'] = 'lms';
         if(Auth::user()->role_id == 3){
@@ -210,7 +212,6 @@ class LmsContentController extends Controller
     	$data['record']         	= $record;
     	$data['title']       		= getPhrase('edit').' '.$record->title;
     	$data['active_class']       = 'lms';
-        $data['code']         = $record->code;
         if(Auth::user()->role_id == 3){
             $subjects = App\Subject::join('subjectpreferences','subjects.id','=','subjectpreferences.subject_id')->select('subjects.id','subjects.subject_title')->where('user_id','=',Auth::user()->id)->get();
             $data['subjects']       	= array_pluck($subjects, 'subject_title', 'id');
@@ -242,7 +243,7 @@ class LmsContentController extends Controller
              'course_id'                    => 'bail|required|integer' ,
              'title'                        => 'bail|required|max:60' ,
              'content_type'                 => 'bail|required',
-             'code'                         => 'bail|required|unique:lmscontents,code,'.$record->id,
+              'topic_id'                    => 'required|integer'
         ];
         $file_path = $record->file_path;
         switch ($request->content_type) {
@@ -283,8 +284,8 @@ class LmsContentController extends Controller
         $record->course_id          = $request->course_id;
         $record->academic_id        = $request->year_id;
         $record->sem_id             = $request->sem_id;
-        $record->code               = $request->code;
         $record->content_type       = $request->content_type;
+        $record->topic_id           = $request->topic_id;
 
         $record->file_path          = $file_path;
         $record->description        = $request->description;
@@ -366,7 +367,7 @@ class LmsContentController extends Controller
              'course_id'                    => 'bail|required|integer' ,
              'title'          	   			=> 'bail|required|max:60' ,
              'content_type'                 => 'bail|required',
-             'code'                         => 'bail|required|unique:lmscontents',
+            'topic_id'                    => 'required|integer'
 
 
         ];
@@ -410,8 +411,8 @@ class LmsContentController extends Controller
         $record->course_id    = $request->course_id;
         $record->academic_id  = $request->year_id;
         $record->sem_id       = $request->sem_id;
-        $record->code         = $request->code;
         $record->content_type = $request->content_type;
+        $record->topic_id     = $request->topic_id;
 
 
 
@@ -445,7 +446,7 @@ class LmsContentController extends Controller
        }
      }
 
-    	return redirect(URL_LMS_CONTENT);
+    	return redirect(URL_LMS_CONTENT_ADD);
     }
 
     /**

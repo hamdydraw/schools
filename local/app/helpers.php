@@ -1319,3 +1319,7 @@ function default_year()
     $current_academic_id = new Academic();
     return $current_academic_id->getCurrentAcademic()->id;
 }
+
+function get_topic_name($id){
+    return Topic::where('id',$id)->pluck('topic_name')->first();
+}
