@@ -49,6 +49,7 @@
                         $('#to_be_copoun').text("{{getPhrase('discount_is')}}" + resultParsed.discount)
                         $('#coupon').val(resultParsed.discount);
                     }else{
+                        console.log(resultParsed)
                         var total = parseInt($('#total').text().trim())
                         var discount= parseInt(resultParsed.discount)
                         var totalAfterDiscount=total - ((total * discount) / 100)

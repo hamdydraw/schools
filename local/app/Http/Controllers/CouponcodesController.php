@@ -246,8 +246,8 @@ class CouponcodesController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->discount_type == 'percent' and $request->discount_value > 80){
-            flash(getPhrase('error'), getPhrase('percent_can_not_exceed').' 80%', 'error');
+        if ($request->discount_type == 'percent' and $request->discount_value > 80) {
+            flash(getPhrase('error'), getPhrase('percent_can_not_exceed') . ' 80%', 'error');
             return redirect()->back();
         }
         if (!checkRole(getUserGrade(2))) {
@@ -392,7 +392,7 @@ class CouponcodesController extends Controller
                         if ($purchased_amount >= $couponRecord->minimum_bill) {
                             $discount_amount = $this->calculateDiscount($couponRecord, $purchased_amount);
                             $amount_to_pay = $purchased_amount - $discount_amount;
-                            $discount_availed = $discount_amount;
+                            $discount_availed = $item == 'academic_expenses' ? $couponRecord->discount_value : $discount_amount;
                             if ($amount_to_pay < 0) {
                                 $amount_to_pay = 0;
                             }
