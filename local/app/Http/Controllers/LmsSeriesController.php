@@ -522,7 +522,6 @@ class LmsSeriesController extends Controller
 
         $lmsseries_id  = $lms_series->id;
         $contents  	= json_decode($request->saved_series);
-
         $contents_to_update = array();
         foreach ($contents as $record) {
             $temp = array();
@@ -533,9 +532,10 @@ class LmsSeriesController extends Controller
         }
         $lms_series->total_items = count($contents);
 
+
         //Clear all previous questions
         if(!env('DEMO_MODE')) {
-          DB::table('lmsseries_data')->where('lmsseries_id', '=', $lmsseries_id)->delete();
+            DB::statement("delete from lmsseries_data where lmsseries_id = '$lmsseries_id'");
         }
         //Insert New Questions
         DB::table('lmsseries_data')->insert($contents_to_update);

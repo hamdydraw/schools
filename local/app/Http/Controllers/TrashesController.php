@@ -37,6 +37,7 @@ class TrashesController extends Controller
         $records  = DB::table('users')->select('id','name','table_name','slug','updated_at')->where('record_status','=','3')->orderBy('updated_at','desc');
         foreach ($tables as $table){
             if($table == 'users'){continue;}
+//            if($table == 'examtoppers'){break;}
             $title = get_title_column($table);
             if($title == false){continue;}
             $looper = DB::table($table)->select('id',$title,'table_name','slug','updated_at')->where('record_status','=','3')->orderBy('updated_at','desc');
