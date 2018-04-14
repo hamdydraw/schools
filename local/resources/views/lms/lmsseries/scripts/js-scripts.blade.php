@@ -128,27 +128,31 @@ app.controller('prepareQuestions', function( $scope, $http) {
                 if(response.data.length != 0) {
                     $scope.current_subject_sc = response.data[0].subject_id.toString();
                 }
+                $scope.categoryChanged($scope.current_subject_sc);
             })
     }
     
      $scope.categoryChanged = function(selected_number) {
-       
-        
+
         if(selected_number=='')
             selected_number = $scope.category_id;
         category_id = selected_number;
         if(category_id === undefined)
             return;
-        route = '{{URL_LMS_SERIES_GET_SERIES}}';  
-        data= {_method: 'post', '_token':$scope.getToken(), 'category_id': category_id};
-       
-        $http.post(route, data).success(function(result, status) {
-       console.log(result);
-        $scope.categoryItems = [];
-        $scope.categoryItems = result.items;
-        $scope.removeDuplicates();
-        
-        });
+         $http({
+             method:"GET",
+             url:'{{PREFIX}}'+'get_series/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+category_id,
+             dataType:"json",
+             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+         })
+             .then(function (response) {
+                 console.log(response.data);
+                 $scope.categoryItems = [];
+                 $scope.categoryItems = response.data.items;
+                 $scope.removeDuplicates();
+
+             })
+
         }
 
         $scope.removeDuplicates = function(){

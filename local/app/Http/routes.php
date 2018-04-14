@@ -1192,11 +1192,7 @@ Route::get('get_categories/{id}/{table}',function ($id,$table){
 });
 //get_question_data
 
-Route::get('get_question_data/{slug}',function ($slug){
-    $data =  \App\QuestionBank::where('slug',$slug)->first();
-    $data->parent_topic = \App\Topic::where('id',$data->topic_id)->pluck('parent_id')->first();
-    return $data;
-});
+
 
 // get logged users
 Route::get('userslogged/list','UsersLoginController@index');
@@ -1292,6 +1288,12 @@ Route::get('current_year_sem',function (){
 });
 
 
+Route::get('get_series/{year}/{sem}/{course}/{subject}',function ($year,$sem,$course,$subject){
+    $items 			= App\LmsContent::where('academic_id','=',$year)->where('sem_id','=',$sem)->where('course_id','=',$course)->where('subject_id','=',$subject)->get();
+    return json_encode(array('items'=>$items));
+});
+
+
 
 
 Route::get('get_all_courses',function (){
@@ -1305,7 +1307,15 @@ Route::get('get_all_courses',function (){
 });
 
 Route::get('get_lms_content/{slug}',function ($slug){
-    return \App\LmsContent::where('slug',$slug)->first();
+    $data =  \App\LmsContent::where('slug',$slug)->first();
+    $data->parent_topic = \App\Topic::where('id',$data->topic_id)->pluck('parent_id')->first();
+    return $data;
+});
+
+Route::get('get_question_data/{slug}',function ($slug){
+    $data =  \App\QuestionBank::where('slug',$slug)->first();
+    $data->parent_topic = \App\Topic::where('id',$data->topic_id)->pluck('parent_id')->first();
+    return $data;
 });
 
 Route::get('get_topics/{subject}/{course}', function ($subject,$course) {

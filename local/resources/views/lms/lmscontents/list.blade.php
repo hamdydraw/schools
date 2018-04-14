@@ -23,9 +23,10 @@
                 					<div class="panel-heading">
 
                     						<div class="pull-right messages-buttons">
+												<a href="{{URL_LMS_CONTENT}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('back')}}</a>
                         							<a href="{{URL_LMS_CONTENT_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('create')}}</a>
                         						</div>
-                    						<h1>{{ $title }}</h1>
+                    						<h1>{{ $title }}  ( {{ $second_title }} )</h1>
                     					</div>
                 					<div class="panel-body packages">
                     						<div >
@@ -37,6 +38,7 @@
                                 									<th>{{ getPhrase('type')}}</th>
                                                                     <th>{{ getPhrase('branch')}}</th>
                                 									<th>{{ getPhrase('subject')}}</th>
+																	<th>{{ getPhrase('Topic')}}</th>
                                 									<th id="helper_step2">{{ getPhrase('action')}}</th>
                                 								</tr>
                             							</thead>

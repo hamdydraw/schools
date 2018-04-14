@@ -21,7 +21,7 @@
             $settings = ($record) ? $settings : '';
             ?>
 
-            <div class="panel panel-custom col-lg-6 col-lg-offset-3" ng-init="initAngData('{{ $settings }}');"
+            <div class="panel panel-custom col-lg-6 col-lg-offset-3" style="width: 100%;" ng-init="initAngData('{{ $settings }}');"
                  ng-controller="angLmsController">
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons">
@@ -43,7 +43,7 @@
                     @endif
                     @include('lms.lmscontents.form_elements',
                     array('button_name'=> $button_name),
-                    array('subjects'=>$subjects, 'record'=>$record,'code' => $code))
+                    array('subjects'=>$subjects, 'record'=>$record))
 
                     {!! Form::close() !!}
                 </div>
