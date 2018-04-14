@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
-                        <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a> </li>
+                        <li><a href="{{url('/')}}"><i class="mdi mdi-home"></i></a></li>
                         <li>{{ $title }}</li>
                     </ol>
                 </div>
@@ -22,13 +22,14 @@
                     <h1>{{ $title }}</h1>
                 </div>
                 <div class="panel-body packages">
-                    <div >
+                    <div>
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>{{ getPhrase('name')}}</th>
                                 <th>{{ getPhrase('deserved_amount')}}</th>
                                 <th>{{ getPhrase('the_amount_paid')}}</th>
+                                <th>{{ getPhrase('coupon')}}</th>
                                 <th>{{ getPhrase('remaining_amount')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>

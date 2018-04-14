@@ -1,358 +1,353 @@
- 				
-					<div class="row">
+<div class="row">
 
- 					 <fieldset class="form-group col-md-6">
+    <fieldset class="form-group col-md-6">
 
-						{{ Form::label('title', getphrase('title')) }}
+        {{ Form::label('title', getphrase('title')) }}
 
-						<span class="text-red">*</span>
+        <span class="text-red">*</span>
 
-						{{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('title'),
+        {{ Form::text('title', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('title'),
 
-							'ng-model'=>'title', 
+            'ng-model'=>'title',
 
-							'ng-pattern'=>getRegexPattern('name'), 
+            'ng-pattern'=>getRegexPattern('name'),
 
-							'required'=> 'true', 
+            'required'=> 'true',
 
-							'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
+            'ng-class'=>'{"has-error": formQuiz.title.$touched && formQuiz.title.$invalid}',
 
-							'ng-minlength' => '4',
+            'ng-minlength' => '4',
 
-							'ng-maxlength' => '60',
+            'ng-maxlength' => '60',
 
-							)) }}
+            )) }}
 
-						<div class="validation-error" ng-messages="formQuiz.title.$error" >
+        <div class="validation-error" ng-messages="formQuiz.title.$error">
 
-	    					{!! getValidationMessage()!!}
+            {!! getValidationMessage()!!}
 
-	    					{!! getValidationMessage('pattern')!!}
+            {!! getValidationMessage('pattern')!!}
 
-	    					{!! getValidationMessage('minlength')!!}
+            {!! getValidationMessage('minlength')!!}
 
-	    					{!! getValidationMessage('maxlength')!!}
+            {!! getValidationMessage('maxlength')!!}
 
-						</div>
+        </div>
 
-					</fieldset>					
+    </fieldset>
 
-					<fieldset class="form-group col-md-6">
-						
+    <fieldset class="form-group col-md-6">
 
-						{{ Form::label('coupon_code', getphrase('coupon_code')) }}
 
-						<span class="text-red">*</span>
+        {{ Form::label('coupon_code', getphrase('coupon_code')) }}
 
-						{{ Form::text('coupon_code', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('coupon_code'),
+        <span class="text-red">*</span>
 
-							'ng-model'=>'coupon_code', 
+        {{ Form::text('coupon_code', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('coupon_code'),
 
-							'required'=> 'true', 
+            'ng-model'=>'coupon_code',
 
-							'ng-class'=>'{"has-error": formQuiz.coupon_code.$touched && formQuiz.coupon_code.$invalid}',
+            'required'=> 'true',
 
-							'ng-minlength' => '2',
+            'ng-class'=>'{"has-error": formQuiz.coupon_code.$touched && formQuiz.coupon_code.$invalid}',
 
-							'ng-maxlength' => '10',
+            'ng-minlength' => '2',
 
-							)) }}
+            'ng-maxlength' => '10',
 
-						<div class="validation-error" ng-messages="formQuiz.coupon_code.$error" >
+            )) }}
 
-	    					{!! getValidationMessage()!!}
+        <div class="validation-error" ng-messages="formQuiz.coupon_code.$error">
 
-	    					{!! getValidationMessage('pattern')!!}
+            {!! getValidationMessage()!!}
 
-	    					{!! getValidationMessage('minlength')!!}
+            {!! getValidationMessage('pattern')!!}
 
-	    					{!! getValidationMessage('maxlength')!!}
+            {!! getValidationMessage('minlength')!!}
 
-						</div>
+            {!! getValidationMessage('maxlength')!!}
 
-					</fieldset>
+        </div>
 
-				 </div>
+    </fieldset>
 
-				 <div class="row">
+</div>
 
-					<fieldset class="form-group col-md-6">
+<div class="row">
 
-						<?php $discount_types = array('value' => getPhrase('value'), 'percent' => getPhrase('percent'), );?>
+    <fieldset class="form-group col-md-6" @if ($record) disabled @endif>
 
-						{{ Form::label('discount_type', getphrase('discount_type')) }}
+        <?php $discount_types = array('value' => getPhrase('value'), 'percent' => getPhrase('percent'));?>
 
-						<span class="text-red">*</span>
+        {{ Form::label('discount_type', getphrase('discount_type')) }}
 
-						{{Form::select('discount_type', $discount_types, null, ['class'=>'form-control'])}}
-						
+        <span class="text-red">*</span>
 
-					</fieldset> 
+        {{Form::select('discount_type', $discount_types, null, ['class'=>'form-control','id'=>'discount_types'])}}
 
-					 <fieldset class="form-group col-md-6">
-							
 
-							{{ Form::label('discount_value', getphrase('discount_value')) }}
+    </fieldset>
 
-							<span class="text-red">*</span>
+    <fieldset class="form-group col-md-6" @if ($record) disabled @endif>
 
-							{{ Form::number('discount_value', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_value'),
 
-							'ng-model'=>'discount_value', 
-                            'min'=>'1',
-			                 'string-to-number'=>'discount_value',
-							'required'=> 'true', 
+        {{ Form::label('discount_value', getphrase('discount_value')) }}
 
-							'ng-class'=>'{"has-error": formQuiz.discount_value.$touched && formQuiz.discount_value.$invalid}',
-							 
+        <span class="text-red">*</span>
 
-							)) }}
+        {{ Form::number('discount_value', $value = null , $attributes = array('class'=>'form-control','id'=>'discount_value', 'placeholder' => getPhrase('enter_value'),
 
-						<div class="validation-error" ng-messages="formQuiz.discount_value.$error" >
+        'ng-model'=>'discount_value',
+        'min'=>'1',
+         'string-to-number'=>'discount_value',
+        'required'=> 'true',
 
-	    					{!! getValidationMessage()!!}
+        'ng-class'=>'{"has-error": formQuiz.discount_value.$touched && formQuiz.discount_value.$invalid}',
 
-	    					{!! getValidationMessage('number')!!}
 
-						</div>
+        )) }}
 
-					</fieldset>
+        <div class="validation-error" ng-messages="formQuiz.discount_value.$error">
 
-					</div>
+            {!! getValidationMessage()!!}
 
-					<div class="row">
+            {!! getValidationMessage('number')!!}
 
-					 <fieldset class="form-group col-md-6">
-							
+        </div>
 
-							{{ Form::label('minimum_bill', getphrase('minimum_bill')) }}
+    </fieldset>
 
-							<span class="text-red">*</span>
+</div>
 
-							{{ Form::number('minimum_bill', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_minimum_bill'),
+<div class="row">
 
-							'ng-model'=>'minimum_bill', 
-							 'min'=>'1',
-			                 'string-to-number'=>'minimum_bill',
+    <fieldset class="form-group col-md-6">
 
-							'required'=> 'true', 
 
-							'ng-class'=>'{"has-error": formQuiz.minimum_bill.$touched && formQuiz.minimum_bill.$invalid}',
-							 
+        {{ Form::label('minimum_bill', getphrase('minimum_bill')) }}
 
-							)) }}
+        <span class="text-red">*</span>
 
-						<div class="validation-error" ng-messages="formQuiz.minimum_bill.$error" >
+        {{ Form::number('minimum_bill', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_minimum_bill'),
 
-	    					{!! getValidationMessage()!!}
+        'ng-model'=>'minimum_bill',
+         'min'=>'1',
+         'string-to-number'=>'minimum_bill',
 
-	    					{!! getValidationMessage('number')!!}
+        'required'=> 'true',
 
-						</div>
+        'ng-class'=>'{"has-error": formQuiz.minimum_bill.$touched && formQuiz.minimum_bill.$invalid}',
 
-					</fieldset>
 
+        )) }}
 
-					 <fieldset class="form-group col-md-6">
-							
+        <div class="validation-error" ng-messages="formQuiz.minimum_bill.$error">
 
-							{{ Form::label('discount_maximum_amount', getphrase('discount_maximum_amount')) }}
+            {!! getValidationMessage()!!}
 
-							<span class="text-red">*</span>
+            {!! getValidationMessage('number')!!}
 
-							{{ Form::number('discount_maximum_amount', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_maximum_amount'),
+        </div>
 
-							'ng-model'=>'discount_maximum_amount',
-							'min'=>'1',
-			                 'string-to-number'=>'discount_maximum_amount', 
+    </fieldset>
 
-							'required'=> 'true', 
 
-							'ng-class'=>'{"has-error": formQuiz.discount_maximum_amount.$touched && formQuiz.discount_maximum_amount.$invalid}',
-							 
+    <fieldset class="form-group col-md-6">
 
-							)) }}
 
-						<div class="validation-error" ng-messages="formQuiz.discount_maximum_amount.$error" >
+        {{ Form::label('discount_maximum_amount', getphrase('discount_maximum_amount')) }}
 
-	    					{!! getValidationMessage()!!}
+        <span class="text-red">*</span>
 
-	    					{!! getValidationMessage('number')!!}
+        {{ Form::number('discount_maximum_amount', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_maximum_amount'),
 
-						</div>
+        'ng-model'=>'discount_maximum_amount',
+        'min'=>'1',
+         'string-to-number'=>'discount_maximum_amount',
 
-					</fieldset>
+        'required'=> 'true',
 
-					</div>			
+        'ng-class'=>'{"has-error": formQuiz.discount_maximum_amount.$touched && formQuiz.discount_maximum_amount.$invalid}',
 
- 			 <div class="row input-daterange" id="dp">
 
-		 	<?php 
+        )) }}
 
-		 	$date_from = date('Y/m/d');
+        <div class="validation-error" ng-messages="formQuiz.discount_maximum_amount.$error">
 
-		 	$date_to = date('Y/m/d');
+            {!! getValidationMessage()!!}
 
-		 	if($record)
+            {!! getValidationMessage('number')!!}
 
-		 	{
+        </div>
 
-		 		$date_from = $record->valid_from;
+    </fieldset>
 
-		 		$date_to = $record->valid_to;
+</div>
 
-		 	}
+<div class="row input-daterange" id="dp">
 
-		 	 ?>
+    <?php
 
-  				 <fieldset class="form-group col-md-6">
-                                    
+    $date_from = date('Y/m/d');
 
-                        {{ Form::label('valid_from', getphrase('valid_from')) }}
+    $date_to = date('Y/m/d');
 
-                     
+    if ($record) {
 
-                        {{ Form::text('valid_from', $value = $date_from , $attributes = array('class'=>'input-sm form-control', 'placeholder' => '2015/7/17')) }}
-                      
+        $date_from = $record->valid_from;
 
-                        </fieldset>
+        $date_to = $record->valid_to;
 
+    }
 
-  				 <fieldset class="form-group col-md-6">
-                                     
+    ?>
 
-                        {{ Form::label('valid_to', getphrase('valid_to')) }}
-                       
+    <fieldset class="form-group col-md-6">
 
-                        {{ Form::text('valid_to', $value = $date_to , $attributes = array('class'=>'input-sm form-control', 'placeholder' => '2015/7/17')) }}
-                     
 
-                        </fieldset>
+        {{ Form::label('valid_from', getphrase('valid_from')) }}
 
-				</div>
 
 
-				<div class="row">
+        {{ Form::text('valid_from', $value = $date_from , $attributes = array('class'=>'input-sm form-control', 'placeholder' => '2015/7/17')) }}
 
-					 <fieldset class="form-group col-md-6">
-							
 
-							{{ Form::label('usage_limit', getphrase('usage_limit')) }}
+    </fieldset>
 
-							<span class="text-red">*</span>
 
-							{{ Form::number('usage_limit', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_usage_limit_per_user'),
+    <fieldset class="form-group col-md-6">
 
-							'ng-model'=>'usage_limit',
-							'min'=>'1',
-			                 'string-to-number'=>'usage_limit', 
 
-							'required'=> 'true', 
+        {{ Form::label('valid_to', getphrase('valid_to')) }}
 
-							'ng-class'=>'{"has-error": formQuiz.usage_limit.$touched && formQuiz.usage_limit.$invalid}',
-							 
 
-							)) }}
+        {{ Form::text('valid_to', $value = $date_to , $attributes = array('class'=>'input-sm form-control', 'placeholder' => '2015/7/17')) }}
 
-						<div class="validation-error" ng-messages="formQuiz.usage_limit.$error" >
 
-	    					{!! getValidationMessage()!!}
+    </fieldset>
 
-	    					{!! getValidationMessage('number')!!}
+</div>
 
-						</div>
 
-					</fieldset>
+<div class="row">
 
+    <fieldset class="form-group col-md-6">
 
-				<fieldset class="form-group col-md-6">
 
-						<?php $status = array('Active' =>'Active', 'Inactive' => 'Inactive', );?>
+        {{ Form::label('usage_limit', getphrase('usage_limit')) }}
 
-						{{ Form::label('status', getphrase('status')) }}
+        <span class="text-red">*</span>
 
-						<span class="text-red">*</span>
+        {{ Form::number('usage_limit', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('enter_usage_limit_per_user'),
 
-						{{Form::select('status', $status, null, ['class'=>'form-control'])}}
-						
+        'ng-model'=>'usage_limit',
+        'min'=>'1',
+         'string-to-number'=>'usage_limit',
 
-					</fieldset> 
+        'required'=> 'true',
 
-				</div>
+        'ng-class'=>'{"has-error": formQuiz.usage_limit.$touched && formQuiz.usage_limit.$invalid}',
 
 
-					<h1>{{getPhrase('applicable_categories')}}</h1>
+        )) }}
 
-				<?php 
+        <div class="validation-error" ng-messages="formQuiz.usage_limit.$error">
 
-				$user_options = null;
+            {!! getValidationMessage()!!}
 
-				if($record)
+            {!! getValidationMessage('number')!!}
 
-				if($record->coupon_code_applicability)
+        </div>
 
-					$user_options = json_decode($record->coupon_code_applicability)->categories;
+    </fieldset>
 
-				?>
 
-					<div class="row">
+    <fieldset class="form-group col-md-6">
 
-						@foreach($categories as $key=>$value)
+        <?php $status = array('Active' => 'Active', 'Inactive' => 'Inactive',);?>
 
- 					<?php 
+        {{ Form::label('status', getphrase('status')) }}
 
+        <span class="text-red">*</span>
 
-	 					$checked = '';
+        {{Form::select('status', $status, null, ['class'=>'form-control'])}}
 
-	 					if($user_options) {
 
-	 						if(count($user_options))
+    </fieldset>
 
-	 						{
+</div>
 
-	 							if(in_array($key,$user_options))
 
-	 								$checked='checked';
+<h1>{{getPhrase('applicable_categories')}}</h1>
 
-	 						}
+<?php
 
-	 					}
+$user_options = null;
 
- 					?>
+if ($record)
 
-					<div class="col-lg-3 ">
+    if ($record->coupon_code_applicability)
 
-						<label class="checkbox-inline helper_step1">
+        $user_options = json_decode($record->coupon_code_applicability)->categories;
 
-							<input 	type="checkbox" 
+?>
 
-									data-toggle="toggle" 
+<div class="row">
 
-									data-onstyle="primary" 
+    @foreach($categories as $key=>$value)
 
-									data-offstyle="default"
+        <?php
 
-									name="applicability[{{$key}}]" 
 
-									{{$checked}}
+        $checked = '';
 
-									> {{$value}}
+        if ($user_options) {
 
-						</label>
+            if (count($user_options)) {
 
-					</div>
+                if (in_array($key, $user_options))
 
-					@endforeach
+                    $checked = 'checked';
 
-					</div>
+            }
 
+        }
 
-						<div class="buttons text-center">
+        ?>
 
-							<button class="btn btn-lg btn-primary button"
+        <div class="col-lg-3 ">
 
-							ng-disabled='!formQuiz.$valid'>{{ $button_name }}</button>
+            <label class="checkbox-inline helper_step1">
 
-						</div>
+                <input type="checkbox"
+
+                       data-toggle="toggle"
+
+                       data-onstyle="primary"
+
+                       data-offstyle="default"
+
+                       name="applicability[{{$key}}]"
+
+                        {{$checked}}
+
+                > {{$value}}
+
+            </label>
+
+        </div>
+
+    @endforeach
+
+</div>
+
+
+<div class="buttons text-center">
+
+    <button class="btn btn-lg btn-primary button"
+
+            ng-disabled='!formQuiz.$valid'>{{ $button_name }}</button>
+
+</div>
 
 		 

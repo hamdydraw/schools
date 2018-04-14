@@ -166,11 +166,12 @@ class ParentsController extends Controller
             })
             ->addColumn('payed', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['your_money']: '-';
-            })
-            ->addColumn('remained', function ($records) {
+            })->addColumn('coupon', function ($records) {
+                $couponValue=isset($records->specifications) ? json_decode($records->specifications, true)['coupon'] : '-';
+                return '<div style="color: red;">'.$couponValue.'</div>';
+            })->addColumn('remained', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
-            })
-            ->addColumn('action', function ($records) {
+            })->addColumn('action', function ($records) {
                 return '<div class="dropdown more">
                         <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="mdi mdi-dots-vertical"></i>

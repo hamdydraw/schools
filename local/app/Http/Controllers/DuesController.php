@@ -47,7 +47,10 @@ class DuesController extends Controller
         $data['layout'] = getLayout();
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('add_academic_dues');
-        $data['academics_years'] = Academic::where('show_in_list', '=', '1')->select(['id', 'academic_year_title'])->get();
+        $data['academics_years'] = Academic::where('show_in_list', '=', '1')->select([
+            'id',
+            'academic_year_title'
+        ])->get();
         return view('Dues.add-edit', $data);
     }
 
@@ -146,7 +149,12 @@ class DuesController extends Controller
         $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
             ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
             ->where('academics_dues_pivot.course_parent', $course_id)
-            ->select(['academics_dues_pivot.id', 'academics_dues_pivot.due_type', 'academics_dues_pivot.due_value', 'academics_dues.title'])
+            ->select([
+                'academics_dues_pivot.id',
+                'academics_dues_pivot.due_type',
+                'academics_dues_pivot.due_value',
+                'academics_dues.title'
+            ])
             ->get();
         $data['total'] = 0;
         $data['schoolExpenses'] = $schoolExp;
@@ -165,6 +173,7 @@ class DuesController extends Controller
 
     public function payGateway(Request $request, $slug)
     {
+
         $expenses = $request->expenses != null ? $request->expenses : array();
         $expenses_merged = array_merge($expenses, $request->mand);
         $userRecord = User::where('slug', $slug)->first();
@@ -183,7 +192,8 @@ class DuesController extends Controller
                 return back();
             }
 
-            $token = $this->storePurchase($request, $slug);
+            $storeInstance = $this->storePurchase($request, $slug);
+            $specifications = json_decode($storeInstance->specifications, true);
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
@@ -191,6 +201,12 @@ class DuesController extends Controller
             $payment->plan_type = 'academic_expenses';
             $payment->payment_gateway = 'payu';
             $payment->paid_by_parent = 1;
+            $payment->cost = $request->your_money;
+            if ($specifications['coupon'] != 0) {
+                $payment->coupon_applied = 1;
+                $payment->discount_amount = $specifications['coupon'];
+                $payment->after_discount = $request->your_money - $specifications['coupon'];
+            }
             $payment->payment_status = PAYMENT_STATUS_PENDING;
             $token = $payment->slug;
             $payment->save();
@@ -222,7 +238,8 @@ class DuesController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('this_payment_gateway_is_not_available'), 'error');
                 return back();
             }
-            $token = $this->storePurchase($request, $slug);
+            $storeInstance = $this->storePurchase($request, $slug);
+            $specifications = json_decode($storeInstance->specifications, true);
             $payment = new Payment();
             $payment->slug = $payment->makeSlug(getHashCode());
             $payment->item_name = $items;
@@ -232,6 +249,12 @@ class DuesController extends Controller
             $payment->paid_by_parent = 1;
             $payment->payment_status = PAYMENT_STATUS_PENDING;
             $token = $payment->slug;
+            $payment->cost = $request->your_money;
+            if ($specifications['coupon'] != 0) {
+                $payment->coupon_applied = 1;
+                $payment->discount_amount = $specifications['coupon'];
+                $payment->after_discount = $request->your_money - $specifications['coupon'];
+            }
             $payment->save();
 
             $paypal = new Paypal();
@@ -261,12 +284,14 @@ class DuesController extends Controller
     {
         if ($off != null and isset($request->expenses)) {
             $expenses_merged = array_merge($request->expenses, $request->mand);
-        } else if ($off != null) {
-            $expenses_merged = $request->mand;
         } else {
-            $expenses = $request->expenses != null ? $request->expenses : array();
+            if ($off != null) {
+                $expenses_merged = $request->mand;
+            } else {
+                $expenses = $request->expenses != null ? $request->expenses : array();
 
-            $expenses_merged = array_merge($expenses, $request->mand);
+                $expenses_merged = array_merge($expenses, $request->mand);
+            }
         }
         $current_academic_id = new Academic();
         $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
@@ -296,7 +321,7 @@ class DuesController extends Controller
             $specifications['remain_purchase'] = $remain_purchase;
             $db_object = array(
                 'total' => $specifications['total'],
-                /*'coupon' => $specifications['coupon'],*/
+                'coupon' => $coupon,
                 'your_money' => $specifications['your_money'],
                 'remain_purchase' => $specifications['remain_purchase'],
                 'dues_title' => $specifications['dues_title']
@@ -305,7 +330,7 @@ class DuesController extends Controller
             $checkExistence->specifications = $db_object;
             if ($checkExistence->update()) {
                 flash(getPhrase('success'), getPhrase("payed_successfully"), 'success');
-                return $checkExistence->makeSlug(getHashCode());
+                return $checkExistence;
             }
         }
         $total = 0;
@@ -324,7 +349,7 @@ class DuesController extends Controller
 
         $db_object = array(
             'total' => $total,
-            /*'coupon' => $coupon,*/
+            'coupon' => $coupon,
             'your_money' => $your_money,
             'remain_purchase' => $remain_purchase,
             'dues_title' => $dues_titles
@@ -339,7 +364,7 @@ class DuesController extends Controller
         $dues_purchase_instance->specifications = $db_object;
         if ($dues_purchase_instance->save()) {
             flash(getPhrase('success'), getPhrase("payed_successfully"), 'success');
-            return $dues_purchase_instance->makeSlug(getHashCode());
+            return $dues_purchase_instance;
         }
     }
 
@@ -372,7 +397,17 @@ class DuesController extends Controller
 
     public function getAllRapidExpensesDatatable()
     {
-        $records = AcademicDues::select(['id', 'title', 'slug', 'created_by_user', 'updated_by_user', 'created_by_ip', 'updated_by_ip', 'created_at', 'updated_at'])->get();
+        $records = AcademicDues::select([
+            'id',
+            'title',
+            'slug',
+            'created_by_user',
+            'updated_by_user',
+            'created_by_ip',
+            'updated_by_ip',
+            'created_at',
+            'updated_at'
+        ])->get();
         return Datatables::of($records)
             ->editColumn('title', function ($records) {
                 return $records->title;
@@ -478,7 +513,8 @@ class DuesController extends Controller
         foreach ($expenses_merged as $expense) {
             $items .= '-' . explode('/', $expense)[1] . '<br>';
         }
-        $this->storePurchase(json_decode($request->payment_data), $slug, 'off');
+        $storeInstance=$this->storePurchase(json_decode($request->payment_data), $slug, 'off');
+        $specifications = json_decode($storeInstance->specifications, true);
         $payment = new Payment();
         $payment->slug = $payment->makeSlug(getHashCode());
         $payment->item_name = $items;
@@ -488,6 +524,12 @@ class DuesController extends Controller
         $payment->paid_by_parent = 1;
         $payment->notes = $request->payment_details;
         $payment->payment_status = PAYMENT_STATUS_PENDING;
+        $payment->cost = json_decode($request->payment_data)->your_money + $specifications['coupon'];
+        if ($specifications['coupon'] != 0) {
+            $payment->coupon_applied = 1;
+            $payment->discount_amount = $specifications['coupon'];
+            $payment->after_discount = json_decode($request->payment_data)->your_money;
+        }
         $payment->save();
         flash(getPhrase('success'), getPhrase('your_request_was_submitted_to_admin'), 'overlay');
         return redirect(URL_PAYMENTS_LIST . Auth::user()->slug);

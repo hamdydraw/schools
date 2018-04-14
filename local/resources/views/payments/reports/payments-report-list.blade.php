@@ -66,24 +66,41 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <p><strong>{{getPhrase('name')}}</strong> : @{{payment_record.item_name}}</p>
-                                <p><strong>{{getPhrase('cost')}}</strong> : {{getCurrencyCode().' '}}
-                                    @{{payment_record.cost}}</p>
-                                <p><strong>{{getPhrase('coupon_applied')}}</strong> : @{{coupon_applied}}</p>
-                                <p><strong> @{{payment_record.other_details.coupon_applied}}</strong></p>
-                                <div ng-if="other_details.is_coupon_applied==1">
-                                    <p><strong>{{getPhrase('discount')}}</strong> : {{getCurrencyCode().' '}}
-                                        @{{other_details.discount_availed}}</p>
-                                    <p><strong>{{getPhrase('after_discount')}}</strong> : {{getCurrencyCode().' '}}
-                                        @{{other_details.after_discount}}</p>
+                                <div ng-if="payment_record.plan_type_En!='academic_expenses'">
+                                    <p><strong>{{getPhrase('cost')}}</strong> : {{getCurrencyCode().' '}}
+                                        @{{payment_record.cost}}</p>
+                                    <p><strong>{{getPhrase('coupon_applied')}}</strong> : @{{coupon_applied}}</p>
+                                    <p><strong> @{{payment_record.other_details.coupon_applied}}</strong></p>
+                                    <div ng-if="other_details.is_coupon_applied==1">
+                                        <p><strong>{{getPhrase('discount')}}</strong> : {{getCurrencyCode().' '}}
+                                            @{{other_details.discount_availed}}</p>
+                                        <p><strong>{{getPhrase('after_discount')}}</strong> : {{getCurrencyCode().' '}}
+                                            @{{other_details.after_discount}}</p>
+                                    </div>
                                 </div>
-                                <p><strong>{{getPhrase('plan_type')}}</strong> : @{{payment_record.plan_type}}</p>
-                                <p><strong>{{getPhrase('notes')}}</strong> : @{{payment_record.notes}}</p>
-                                <p><strong>{{getPhrase('created_at')}}</strong> : @{{payment_record.created_at}}</p>
-                                <p><strong>{{getPhrase('updated_at')}}</strong> : @{{payment_record.updated_at}}</p>
-                                <p><strong>{{getPhrase('comments')}}</strong> : <textarea class="form-control"
-                                                                                          name="admin_comment"></textarea>
-                                </p>
-                                <input type="hidden" name="record_id" value="@{{payment_record.id}}">
+                                <div ng-if="payment_record.plan_type_En=='academic_expenses'">
+                                    <p><strong>{{getPhrase('been_paid')}}</strong> : {{getCurrencyCode().' '}}
+                                        @{{payment_record.cost}}</p>
+                                    <p><strong>{{getPhrase('coupon_applied')}}</strong> : <strong
+                                                ng-if="payment_record.coupon_applied==1"> {{getPhrase('yes')}}</strong><strong
+                                                ng-if="payment_record.coupon_applied!=1"> {{getPhrase('no')}}</strong>
+                                    </p>
+                                    <p></p>
+                                    <div ng-if="payment_record.coupon_applied==1">
+                                        <p><strong>{{getPhrase('discount')}}</strong> : {{getCurrencyCode().' '}}
+                                            @{{payment_record.discount_amount}}</p>
+                                        <p><strong>{{getPhrase('after_discount')}}</strong> : {{getCurrencyCode().' '}}
+                                            @{{payment_record.after_discount}}</p>
+                                    </div>
+                                    <p><strong>{{getPhrase('plan_type')}}</strong> : @{{payment_record.plan_type}}</p>
+                                    <p><strong>{{getPhrase('notes')}}</strong> : @{{payment_record.notes}}</p>
+                                    <p><strong>{{getPhrase('created_at')}}</strong> : @{{payment_record.created_at}}</p>
+                                    <p><strong>{{getPhrase('updated_at')}}</strong> : @{{payment_record.updated_at}}</p>
+                                    <p><strong>{{getPhrase('comments')}}</strong> : <textarea class="form-control"
+                                                                                              name="admin_comment"></textarea>
+                                    </p>
+                                    <input type="hidden" name="record_id" value="@{{payment_record.id}}">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,7 +123,7 @@
 
 @section('footer_scripts')
 
-    @include('common.datatables', array('route'=>$ajax_url, 'route_as_url' => TRUE))
+    @include('common.datatables', array('route'=>$ajax_url, 'route_as_url' => true))
     @include('payments.scripts.js-scripts');
     <script>
         function viewDetails(record_id) {
