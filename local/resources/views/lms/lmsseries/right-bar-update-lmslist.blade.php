@@ -13,7 +13,7 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-12 clearfix">
-				<div ng-if="savedSeries!=''" class="vertical-scroll" >
+				<div ng-if="savedSeries.length>0" class="vertical-scroll" >
 
 					 				<a class="remove-all-questions text-red" ng-click="removeAll()">{{ getPhrase('remove_all')}}</a>
 					 				<table
