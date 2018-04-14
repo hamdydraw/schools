@@ -50,7 +50,10 @@
                             title : 'الثانى'
                         }
                     ];
-                    $scope.current_sem_sc = '1';
+                    @if($record != false)
+                        $scope.current_sem_sc = {{$record->semester_num}};
+                        $scope.current_sem_sc = $scope.current_sem_sc.toString();
+                    @endif
                     $scope.getCourses();
                 })
         }
@@ -87,6 +90,9 @@
                     @if(isset($recored_subject))
                     $scope.current_subject_sc   = {{$recored_subject}};
                     $scope.current_subject_sc   = $scope.current_subject_sc.toString();
+                    @endif
+                    @if($recored_subject == 0)
+                    $scope.current_subject_sc   = $scope.academic_subjects_sc[0].subject_id.toString();
                     @endif
                     $scope.getTopics();
                 })
