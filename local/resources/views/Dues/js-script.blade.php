@@ -40,6 +40,7 @@
                     return;
                 }
                 if (resultParsed.status == 1) {
+                    $('.apply-input-button').prop('disabled', true)
                     if (resultParsed.type == "value") {
                         var total = parseInt($('#total').text().trim()) - parseInt(resultParsed.discount)
                         $('#total').text(total.toString())
@@ -47,8 +48,7 @@
                         $('#your_money').attr('max', total)
                         $('#to_be_copoun').text("{{getPhrase('discount_is')}}" + resultParsed.discount)
                         $('#coupon').val(resultParsed.discount);
-                    }else
-                    {
+                    }else{
                         var total = parseInt($('#total').text().trim())
                         var discount= parseInt(resultParsed.discount)
                         var totalAfterDiscount=total - ((total * discount) / 100)
