@@ -19,14 +19,14 @@
 				</div>
 					@include('errors.errors')
 				<!-- /.row -->
-				
+
 				<div class="panel panel-custom col-lg-6 col-lg-offset-3" style="width: 100%">
 					<div class="panel-heading">
-					@if(checkRole(getUserGrade(2))) 
+					@if(checkRole(getUserGrade(2)))
 						<div class="pull-right messages-buttons">
-							 
+
 							<a href="{{URL_QUIZ_QUESTIONBANK}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('list')}}</a>
-							 
+
 						</div>
 						@endif
 					<h1>{{ $title }}  </h1>
@@ -84,18 +84,18 @@
 							</tr>
 							</tbody>
 						</table>
-					
-					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_radio_template.xlsx" class="btn btn-info helper_step2">{{getPhrase('single_answer')}}
+
+					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_radio_template.xlsx" class="btn btn-info helper_step2">{{getPhrase('download_single_answer_file')}}
 					</a>
-					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_checkbox_template.xlsx" class="btn btn-info helper_step3">{{getPhrase('multi_answer')}}
+					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_checkbox_template.xlsx" class="btn btn-info helper_step3">{{getPhrase('download_multi_answer_file')}}
 					</a>
-					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_blanks_template.xlsx" class="btn btn-info helper_step4">{{getPhrase('fill_the_blanks')}}
+					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_blanks_template.xlsx" class="btn btn-info helper_step4">{{getPhrase('download_fill_the_blanks_file')}}
 					</a>
-				 
+
 							<?php $button_name = getPhrase('upload'); ?>
-					
+
 						{!! Form::open(array('url' => URL_QUESTIONBAMK_IMPORT, 'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}
-					<?php $button_name = getPhrase('upload'); 
+					<?php $button_name = getPhrase('upload');
 					// $question_types = array();
 					$question_types 		= array( ''              => 'Select',
                                         'radio'         => 'Single Answer',
@@ -109,20 +109,20 @@
 						{{Form::select('question_type',$question_types , null, ['class'=>'form-control', "id"=>"question_type", "ng-model"=>"question_type" , 'required'=> 'true'])}}
 						{!! Form::open(array('url' => URL_QUESTIONBAMK_IMPORT, 'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}
 						</fieldset>
-				 
+
 					<fieldset ng-if="question_type" class='col-sm-4 col-sm-offset-4 form-group margintop30'>
-	
+
 					{!! Form::file('excel', array('class'=>'form-control','id'=>'excel_input', 'accept'=>'.xls,.xlsx')) !!}
-					 
+
 					</fieldset>
 					  </div>
-					
+
 						<div ng-if="question_type"  class="buttons text-center">
-							<button class="btn btn-lg btn-success button" 
+							<button class="btn btn-lg btn-success button"
 							ng-disabled='!formUsers.$valid'>{{ $button_name }}</button>
 						</div>
 
-					 
+
 					{!! Form::close() !!}
 					</div>
 				</div>
@@ -145,7 +145,7 @@ file.onchange = function(e){
     {
         case 'xls':
         case 'xlsx':
-            
+
             break;
         default:
             alertify.error("{{getPhrase('file_type_not_allowed')}}");
