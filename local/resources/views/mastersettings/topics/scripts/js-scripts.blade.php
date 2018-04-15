@@ -50,9 +50,12 @@
                             title : 'الثانى'
                         }
                     ];
-                    @if($record != false)
+                    $scope.current_sem_sc = '1';
+                    @if(isset($record))
+                        @if($record != false)
                         $scope.current_sem_sc = {{$record->semester_num}};
                         $scope.current_sem_sc = $scope.current_sem_sc.toString();
+                        @endif
                     @endif
                     $scope.getCourses();
                 })
@@ -87,13 +90,17 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
+                    if($scope.academic_subjects_sc.length != 0){
+                        $scope.current_subject_sc = $scope.academic_subjects_sc[0].subject_id.toString();
+                    }
                     @if(isset($recored_subject))
                     $scope.current_subject_sc   = {{$recored_subject}};
                     $scope.current_subject_sc   = $scope.current_subject_sc.toString();
+                        @if($recored_subject == 0)
+                            $scope.current_subject_sc   = $scope.academic_subjects_sc[0].subject_id.toString();
+                        @endif
                     @endif
-                    @if($recored_subject == 0)
-                    $scope.current_subject_sc   = $scope.academic_subjects_sc[0].subject_id.toString();
-                    @endif
+
                     $scope.getTopics();
                 })
         }

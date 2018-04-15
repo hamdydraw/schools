@@ -378,6 +378,9 @@ class QuestionBank extends Model
             if(!$this->isValidSuccessRecord($record))
                 continue;
             unset($tempRecord);
+            $tempRecord['academic_id']  = $record->academic_id;
+            $tempRecord['sem_id']       = $record->sem_id;
+            $tempRecord['course_id']    = $record->course_id;
             $tempRecord['topic_id']     = $record->topic_id;
             $tempRecord['subject_id']   = $record->subject_id;
             $tempRecord['question_type']= $record->question_type;
@@ -453,6 +456,9 @@ class QuestionBank extends Model
                 continue;
 
             unset($tempRecord);
+            $tempRecord['academic_id']  = $record->academic_id;
+            $tempRecord['sem_id']       = $record->sem_id;
+            $tempRecord['course_id']    = $record->course_id;
             $tempRecord['topic_id']     = $record->topic_id;
             $tempRecord['subject_id']   = $record->subject_id;
             $tempRecord['question_type']= $record->question_type;
@@ -484,6 +490,9 @@ class QuestionBank extends Model
              if(!$this->isValidSuccessRecord($record))
                 continue;
             unset($tempRecord);
+            $tempRecord['academic_id']  = $record->academic_id;
+            $tempRecord['sem_id']       = $record->sem_id;
+            $tempRecord['course_id']    = $record->course_id;
             $tempRecord['topic_id']     = $record->topic_id;
             $tempRecord['subject_id']   = $record->subject_id;
             $tempRecord['question_type']= $record->question_type;
@@ -527,6 +536,9 @@ class QuestionBank extends Model
         {
             $record = (object)$record;
             $question = new QuestionBank();
+            $question->academic_id  = $record->academic_id;
+            $question->sem_id       = $record->sem_id;
+            $question->course_id    = $record->course_id;
             $question->topic_id     = $record->topic_id;
             $question->subject_id   = $record->subject_id;
             $question->question_type= $record->question_type;
