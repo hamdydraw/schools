@@ -22,7 +22,7 @@
 
         <div class="col-md-12 clearfix">
 
-            <div ng-if="savedQuestions!=''" class="vertical-scroll">
+            <div ng-if="savedQuestions.length > 0" class="vertical-scroll">
 
                 <a class="remove-all-questions text-red" style="cursor: pointer;"
                    ng-click="removeAll()">{{getPhrase('remove_all')}}</a>

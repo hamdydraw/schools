@@ -1245,14 +1245,17 @@ function getTeacherSubjects($year,$semester,$course){
 
 function getSubjectDetails($id){
     $subject = \App\CourseSubject::where('id',$id)->first();
+    $data['year']    = '';
+    $data['sem']     = '';
+    $data['course']  = '';
+    $data['subject'] = '';
     if($subject){
         $data['year']    = \App\Academic::where('id',$subject->academic_id)->select(['id','academic_year_title'])->first();
         $data['sem']     = $subject->semister;
         $data['course']  = \App\Course::where('id',$subject->course_parent_id)->select(['id','course_title'])->first();
         $data['subject'] = \App\Subject::where('id',$subject->subject_id)->select(['id','subject_title'])->first();
-        return $data;
     }
-    return "failed";
+    return $data;
 
 }
 

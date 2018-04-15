@@ -83,16 +83,13 @@
 
 							<fieldset class="form-group col-md-6">
 
-								{{ Form::label('lms_categories', getphrase('select_subject')) }}
+								{{ Form::label('select_subject', getphrase('select_subject')) }}
 
 
-								<select name="lms_categories" class="form-control" required="required" ng-model="current_subject_sc" ng-change="categoryChanged(current_subject_sc)">
+								<select name="select_subject" class="form-control" required="required" ng-model="current_subject_sc" ng-change="categoryChanged(current_subject_sc)">
 									<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
 								</select>
 
-								{{--{{Form::select('lms_categories', $categories, null, ['class'=>'form-control', 'ng-model' => 'category_id',--}}
-
-								{{--'placeholder' => 'Select', 'ng-change'=>'categoryChanged(category_id)' ])}}--}}
 
 							</fieldset>
 

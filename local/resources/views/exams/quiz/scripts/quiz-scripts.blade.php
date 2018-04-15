@@ -55,6 +55,7 @@
             })
                 .then(function (response) {
                     $scope.branch = response.data.course_id.toString();
+                    $scope.quiz_type = response.data.type;
                     $scope.getCategories($scope.branch);
                     $scope.category = response.data.id;
                 })
@@ -73,7 +74,6 @@
                         $scope.current_sem_sc       = response.data.sem.toString();
                         $scope.current_course_sc    = response.data.course.id.toString();
                         $scope.current_subject_sc   = $scope.subject_id_sc.toString();
-                        console.log(response.data);
                         $scope.getSubjects();
 
 
@@ -122,6 +122,7 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
+                    $scope.setCategories(0);
                 })
         }
 
@@ -132,16 +133,21 @@
 
 
         $scope.getCategories = function (id) {
+            if($scope.quiz_type == 'online'){
+                table = 'quizcategories';
+            }
+            if($scope.quiz_type == 'offline'){
+                table = 'quizofflinecategories';
+            }
             $http({
                 method:"GET",
-                url:'{{PREFIX}}'+'/get_categories/'+id+'/quizcategories',
+                url:'{{PREFIX}}'+'/get_categories/'+id+'/'+table,
                 dataType:"json",
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
                     $scope.categories = response.data;
                     $scope.category   = $scope.category.toString();
-                    console.log($scope.category,$scope.categories);
                 })
         }
 

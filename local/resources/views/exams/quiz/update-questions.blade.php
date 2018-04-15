@@ -56,36 +56,53 @@
 
 					<?php $button_name = getPhrase('create'); ?>
 
+						<div class="row">
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('academic_year')}}</label>
+								<span class="text-red">*</span>
+								<select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+									<option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('Semester')}}</label>
+								<span class="text-red">*</span>
+								<select name="sem_id" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+									<option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group col-md-4">
+								<label for="">{{getPhrase('branch')}}</label>
+								<span class="text-red">*</span>
+								<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+									<option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+								</select>
+							</fieldset>
+						</div>
 					 		<div class="row">
 
-							<fieldset class="form-group col-md-6">
+								<fieldset class="form-group col-md-6">
 
-								{{ Form::label('subject', getphrase('subjects')) }}
+									{{ Form::label('subject', getphrase('select_subject')) }}
 
-								<span class="text-red">*</span>
 
-								{{Form::select('subject', $subjects, null, ['class'=>'form-control', 'ng-model' => 'subject_id', 
+									<select name="subject" class="form-control" id="helper_step2" required="required" ng-model="current_subject_sc" ng-change="subjectChanged(current_subject_sc)">
+										<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+									</select>
 
-								'placeholder' => 'Select', 'ng-change'=>'subjectChanged(subject_id)','id'=>'helper_step2' ])}}
 
-							</fieldset>
+								</fieldset>
+
 
 
 								<fieldset class="form-group col-md-6 helper_step3">
-
 								{{ Form::label('difficulty', getphrase('difficulty')) }}
-			
 
 								<select ng-model="difficulty" class="form-control" >
-
-								<option value="">{{getPhrase('select')}}</option>	
-
-								<option value="easy">{{getPhrase('easy')}}</option>	
-
-								<option value="medium">{{getPhrase('medium')}}</option>	
-
-								<option value="hard">{{getPhrase('hard')}}</option>	
-
+								<option value="">{{getPhrase('select')}}</option>
+								<option value="easy">{{getPhrase('easy')}}</option>
+								<option value="medium">{{getPhrase('medium')}}</option>
+								<option value="hard">{{getPhrase('hard')}}</option>
 								</select>
 
 								</fieldset>
@@ -93,33 +110,19 @@
 
 
 								<fieldset class="form-group col-md-6 helper_step4">
-
 								{{ Form::label('question_type', getphrase('question_type')) }}
-
 								<select ng-model="question_type" class="form-control" >
-
 									<option selected="selected" value="">{{getPhrase('select')}}</option>
-
 									<option value="radio">{{getPhrase('single_answer')}}</option>
-
 									<option value="checkbox">{{getPhrase('multi_answer')}}</option>
-
-									{{-- <option value="descriptive">Discriptive</option> --}}
-
 									<option value="blanks">{{getPhrase('fill_in_the_blanks')}}</option>
-
 									<option value="match">{{getPhrase('match_the_following')}}</option>
-
 									<option value="para">{{getPhrase('paragraph')}}</option>
-
 									<option value="video">{{getPhrase('video')}}</option>
 									<option value="audio">{{getPhrase('audio')}}</option>
-
 								</select>
 
 								</fieldset>
-
-
 
 								<fieldset class="form-group col-md-6">
 

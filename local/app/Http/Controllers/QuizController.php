@@ -604,11 +604,11 @@ class QuizController extends Controller
 
         $subject_id = $request->subject_id;
         $subject = Subject::where('id', '=', $subject_id)->first();
-        $topics = $subject
-            ->topics()
+        $topics = App\Topic::where('subject_id',$subject_id)
             ->where('parent_id', '=', '0')
-            ->get(['topic_name', 'id']);
-        $questions = $subject->questions()->get([
+            ->select(['topic_name', 'id'])
+            ->get();
+        $questions =QuestionBank::where('subject_id',$subject_id)->select([
             'id',
             'subject_id',
             'topic_id',
@@ -617,7 +617,7 @@ class QuizController extends Controller
             'marks',
             'difficulty_level',
             'status'
-        ]);
+        ])->get();
         return json_encode(array('topics' => $topics, 'questions' => $questions, 'subject' => $subject));
     }
 
@@ -710,7 +710,7 @@ class QuizController extends Controller
         $total_questions = count($questions_to_update);
         //Clear all previous questions
         if (!env('DEMO_MODE')) {
-            DB::table('questionbank_quizzes')->where('quize_id', '=', $quiz_id)->delete();
+            DB::statement("delete from questionbank_quizzes where quize_id = '$quiz_id'");
         }
         //Insert New Questions
         DB::table('questionbank_quizzes')->insert($questions_to_update);
