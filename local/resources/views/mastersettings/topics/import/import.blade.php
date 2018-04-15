@@ -21,7 +21,7 @@
 					@include('errors.errors')
 				<!-- /.row -->
 				
-							<div class="panel panel-custom col-lg-6 col-lg-offset-3">
+							<div class="panel panel-custom col-lg-6 col-lg-offset-3" style="width: 100%;">
 					<div class="panel-heading">
 					@if(checkRole(getUserGrade(2))) 
 						<div class="pull-right messages-buttons">
@@ -33,8 +33,56 @@
 					<h1>{{ $title }}  </h1>
 					</div>
 
-					<div class="panel-body text-center">
-					
+					<div class="panel-body text-center" ng-controller="importTopicCtrl">
+						<fieldset class="form-group col-md-3">
+							<label for="">{{getPhrase('academic_year')}}</label>
+							<span class="text-red">*</span>
+							<select name="year" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+								<option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+							</select>
+						</fieldset>
+
+						<fieldset class="form-group col-md-3">
+							<label for="">{{getPhrase('Semester')}}</label>
+							<span class="text-red">*</span>
+							<select name="semesters" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
+								<option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+							</select>
+						</fieldset>
+
+						<fieldset class="form-group col-md-3">
+							<label for="">{{getPhrase('branch')}}</label>
+							<span class="text-red">*</span>
+							<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+								<option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
+							</select>
+						</fieldset>
+
+						<fieldset class="form-group col-md-3">
+							<label for="">{{getPhrase('subject')}}</label>
+							<span class="text-red">*</span>
+							<select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+								<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+							</select>
+						</fieldset>
+						<table class='table table-bordered table-striped' ng-if="current_subject_sc">
+							<thead>
+							<tr>
+								<th><center>academic_id</center></th>
+								<th><center>semester_num</center></th>
+								<th><center>course_id</center></th>
+								<th><center>subject_id</center></th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>@{{ current_year_sc }}</td>
+								<td>@{{ current_sem_sc }}</td>
+								<td>@{{ current_course_sc }}</td>
+								<td>@{{ current_subject_sc }}</td>
+							</tr>
+							</tbody>
+						</table>
 					<a href="{{DOWNLOAD_LINK_TOPICS_IMPORT_EXCEL}}" class="btn btn-info helper_step2">{{getPhrase('download_template')}}
 					</a>
 					
@@ -74,6 +122,7 @@
 @section('footer_scripts')
  @include('common.validations')
   @include('common.alertify')
+ @include('mastersettings.topics.import.import-script')
  <script>
  	var file = document.getElementById('excel_input');
 
