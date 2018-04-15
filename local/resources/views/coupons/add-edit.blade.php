@@ -56,6 +56,13 @@
 <script src="{{JS}}datepicker.min.js"></script>
  <script src="{{JS}}bootstrap-toggle.min.js"></script>   
  <script>
+     $("form").submit(function(){
+         if ($('#discount_types').val() == 'percent' && $('#discount_value').val() > 80){
+             alert("{{getPhrase('percent_can_not_exceed')}}"+' 80%')
+             return false
+		 }
+         return true
+     });
  	  $('.input-daterange').datepicker({
         autoclose: true,
         startDate: "0d",

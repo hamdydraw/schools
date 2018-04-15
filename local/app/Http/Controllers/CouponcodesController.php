@@ -195,7 +195,7 @@ class CouponcodesController extends Controller
         $rules = [
             'title' => 'bail|required|max:60',
             'coupon_code' => 'bail|unique:couponcodes,coupon_code,' . $record->id,
-            'discount_value' => 'bail|required|numeric',
+            /*'discount_value' => 'bail|required|numeric',*/
             'minimum_bill' => 'bail|required|numeric',
             'discount_maximum_amount' => 'bail|required|numeric',
             'valid_from' => 'bail|required|date',
