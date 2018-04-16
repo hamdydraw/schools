@@ -50,23 +50,23 @@
      				<div class="row">
 
 
-					<fieldset class="form-group col-md-4" ng-if="quiz_type=='offline'">
+					{{--<fieldset class="form-group col-md-4" ng-if="quiz_type=='offline'">--}}
 
-						{{ Form::label('offline_quiz_category_id', getphrase('offline_category')) }}
-						<span class="text-red">*</span>
-						<select class="form-control" name="category_id"  ng-model="category">
-							<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.title}}</option>
-						</select>
+						{{--{{ Form::label('offline_quiz_category_id', getphrase('offline_category')) }}--}}
+						{{--<span class="text-red">*</span>--}}
+						{{--<select class="form-control" name="category_id"  ng-model="current_category">--}}
+							{{--<option  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.title}}</option>--}}
+						{{--</select>--}}
 
-					</fieldset>
+					{{--</fieldset>--}}
 
 
-					<fieldset class="form-group col-md-4" ng-if="quiz_type=='online'">
+					<fieldset class="form-group col-md-4">
 
 						{{ Form::label('category_id', getphrase('category')) }}
 						<span class="text-red">*</span>
-						<select class="form-control" name="category_id" ng-model="category">
-							<option ng-selected="@{{ category }}"  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
+						<select class="form-control" name="category_id" ng-model="current_category">
+							<option  ng-repeat="item in categories" value="@{{ item.id }}">@{{item.category}}</option>
 						</select>
 
 					</fieldset>

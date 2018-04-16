@@ -11,7 +11,7 @@
 
 <script>
 
-    app.controller('QuizController', function ($scope, $http, $timeout, httpPreConfig, $location) {
+    app.controller('QuizController', function ($scope, $http, $timeout, httpPreConfig, $location,$rootScope) {
 
         $scope.academic_years = [];
         $scope.parent_courses = [];
@@ -32,6 +32,7 @@
         $scope.current_subject_sc   = null;
         $scope.subject_id_sc        = {{$id}};
         $scope.academic_years_sc    = [];
+        $scope.first_time = true;
         $scope.academic_sems_sc  = [
             {
                 value : 1,
@@ -57,7 +58,8 @@
                     $scope.branch = response.data.course_id.toString();
                     $scope.quiz_type = response.data.type;
                     $scope.getCategories($scope.branch);
-                    $scope.category = response.data.id;
+                    $scope.current_category = response.data.id.toString();
+                    $rootScope.setten_cat   = $scope.current_category;
                 })
         }
 
@@ -74,6 +76,7 @@
                         $scope.current_sem_sc       = response.data.sem.toString();
                         $scope.current_course_sc    = response.data.course.id.toString();
                         $scope.current_subject_sc   = $scope.subject_id_sc.toString();
+                        $scope.current_category     = $rootScope.setten_cat;
                         $scope.getSubjects();
 
 
@@ -91,10 +94,11 @@
             })
                 .then(function (response) {
                     $scope.academic_years_sc = response.data;
-                    $scope.get_edit_data();
+                    $scope.current_sem_sc = '1';
+                    $scope.getCourses();
                 })
         }
-
+        $scope.getYears();
 
         $scope.getCourses = function () {
             $http({
@@ -105,10 +109,13 @@
             })
                 .then(function (response) {
                     $scope.academic_courses_sc = response.data;
-                    $scope.getYears();
+                    if($scope.academic_courses_sc.length != 0){
+                        $scope.current_course_sc    = $scope.academic_courses_sc[0].id.toString();
+                    }
+                    $scope.getSubjects();
                 })
         }
-        $scope.getCourses();
+
 
         $scope.getSubjects = function (subject = 1) {
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
@@ -122,6 +129,9 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
+//                    if($scope.academic_subjects_sc.length != 0){
+//                        $scope.current_subject_sc    = $scope.academic_subjects_sc[0].id.toString();
+//                    }
                     $scope.setCategories(0);
                 })
         }
@@ -133,12 +143,14 @@
 
 
         $scope.getCategories = function (id) {
+            table = 'quizcategories';
             if($scope.quiz_type == 'online'){
                 table = 'quizcategories';
             }
             if($scope.quiz_type == 'offline'){
                 table = 'quizofflinecategories';
             }
+            $scope.categories = [];
             $http({
                 method:"GET",
                 url:'{{PREFIX}}'+'/get_categories/'+id+'/'+table,
@@ -147,7 +159,20 @@
             })
                 .then(function (response) {
                     $scope.categories = response.data;
-                    $scope.category   = $scope.category.toString();
+//                    if($scope.categories.length != 0){
+//                        $scope.current_category    = $scope.categories[0].id.toString();
+//                    }
+                    if($scope.quiz_type == 'offline'){
+                        angular.forEach($scope.categories,function(item){
+                            item.category = item.title;
+                        });
+                    }
+                    $scope.current_category     = $rootScope.setten_cat;
+                    if($scope.first_time){
+                        $scope.get_edit_data();
+                        $scope.first_time = false;
+                    }
+
                 })
         }
 
