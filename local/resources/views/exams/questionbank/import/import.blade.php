@@ -74,6 +74,7 @@
 							</select>
 
 						</fieldset>
+						<br><br><br>
 
 						<table class='table table-bordered table-striped' ng-if="current_subject_sc">
 							<thead>
@@ -95,14 +96,15 @@
 							</tr>
 							</tbody>
 						</table>
-
+						<br><br><br>
+					<div class="row">
 					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_radio_template.xlsx" class="btn btn-info helper_step2">{{getPhrase('download_single_answer_file')}}
 					</a>
 					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_checkbox_template.xlsx" class="btn btn-info helper_step3">{{getPhrase('download_multi_answer_file')}}
 					</a>
 					<a href="{{DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL}}questions_blanks_template.xlsx" class="btn btn-info helper_step4">{{getPhrase('download_fill_the_blanks_file')}}
 					</a>
-
+					</div>
 							<?php $button_name = getPhrase('upload'); ?>
 
 						{!! Form::open(array('url' => URL_QUESTIONBAMK_IMPORT, 'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}

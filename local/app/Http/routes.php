@@ -1343,8 +1343,8 @@ Route::get('get_subjects_by_course/{course}',function ($course){
                              ->where('course_parent_id',$course)->groupBy('course_subject.subject_id')->get();
 });
 
-Route::get('get_toopy/{course}/{subject}', function ($course,$subject) {
-    return get_Topics($course,$subject);
+Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem) {
+    return get_Topics($course,$subject,$sem);
 });
 
 

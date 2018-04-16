@@ -1323,8 +1323,8 @@ function default_year()
     return $current_academic_id->getCurrentAcademic()->id;
 }
 
-function get_Topics($course,$subject){
-    $data = \App\Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->get();
+function get_Topics($course,$subject,$sem){
+    $data = \App\Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->where('semester_num',$sem)->get();
 //    $data = \App\Topic::where('parent_id',0)->get();
     $topics = [];
     foreach ($data as $item){

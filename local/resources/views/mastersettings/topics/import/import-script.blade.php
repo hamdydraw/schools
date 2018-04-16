@@ -77,13 +77,18 @@
         $scope.get_topics = function () {
             $http({
                 method: "GET",
-                url: '{{PREFIX}}' + 'get_toopy/' + $scope.current_course_sc + '/' + $scope.current_subject_sc,
+                url: '{{PREFIX}}' + 'get_toopy/' + $scope.current_course_sc + '/' + $scope.current_subject_sc + '/' + $scope.current_sem_sc ,
                 dataType: "json",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
                     console.log(response.data);
                     $scope.topics_sc = response.data;
+                    angular.forEach($scope.topics_sc,function(item){
+                        if(item.parent_id == 0){
+                            item.topic_name = "- "+item.topic_name;
+                        }
+                    });
                     if($scope.topics_sc.length != 0)
                     {
                         $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
