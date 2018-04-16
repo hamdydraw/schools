@@ -92,19 +92,10 @@
 </div>
 
 <fieldset class="form-group col-md-6">
-    {{ Form::label('main_topic_id', getphrase('main_topic')) }} <span class="text-red">*</span>
+    {{ Form::label('topic_id', getphrase('topic')) }} <span class="text-red">*</span>
 
-    <select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc" ng-change="get_sub_topics()">
-        <option ng-repeat="topic in topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
-    </select>
-
-</fieldset>
-
-<fieldset class="form-group ">
-    {{ Form::label('topic_id', getphrase('sub_topic')) }} <span class="text-red">*</span>
-
-    <select name="topic_id" class="form-control" required="required" ng-model="sub_topic_id_sc">
-        <option ng-repeat="sub_topic in sub_topics_sc" value="@{{ sub_topic.id }}">@{{ sub_topic.topic_name }}</option>
+    <select name="topic_id" class="form-control" required="required" ng-model="topic_id_sc">
+        <option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
     </select>
 
 </fieldset>

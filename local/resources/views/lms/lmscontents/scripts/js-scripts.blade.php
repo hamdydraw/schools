@@ -38,16 +38,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
                     $scope.current_sem_sc     = response.data.sem_id.toString();
                     $scope.current_course_sc  = response.data.course_id.toString();
                     $scope.current_subject_sc = response.data.subject_id.toString();
-                    if(response.data.parent_topic != null){
-                        $scope.topic_id_sc        = response.data.parent_topic.toString();
-                    }else{
-                        $scope.topic_id_sc = null;
-                    }
-                    $scope.sub_topic_id_sc    = response.data.topic_id.toString();
-
-                    if($scope.topic_id_sc == '0'){
-                        $scope.topic_id_sc    = $scope.sub_topic_id_sc;
-                    }
+                    $scope.topic_id_sc    = response.data.topic_id.toString();
                     $http({
                         method:"GET",
                         url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
@@ -58,23 +49,12 @@ app.controller('angLmsController', function($scope, $http,Upload) {
                             $scope.academic_subjects_sc = response.data;
                             $http({
                                 method: "GET",
-                                url: '{{PREFIX}}' + 'get_topics/' + $scope.current_subject_sc + '/' + $scope.current_course_sc,
+                                url: '{{PREFIX}}' + 'get_toopy/' + $scope.current_course_sc + '/' + $scope.current_subject_sc + '/' + $scope.current_sem_sc ,
                                 dataType: "json",
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             })
                                 .then(function (response) {
                                     $scope.topics_sc = response.data;
-                                    $scope.sub_topics_sc = [];
-                                    if($scope.topic_id_sc == null){return false;}
-                                    $http({
-                                        method: "GET",
-                                        url: '{{PREFIX}}' + 'get_sub_topic/' + $scope.topic_id_sc,
-                                        dataType: "json",
-                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                    })
-                                        .then(function (response) {
-                                            $scope.sub_topics_sc = response.data;
-                                        })
                                 })
                         });
 
@@ -147,7 +127,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
     $scope.get_topics = function () {
         $http({
             method: "GET",
-            url: '{{PREFIX}}' + 'get_topics/' + $scope.current_subject_sc + '/' + $scope.current_course_sc,
+            url: '{{PREFIX}}' + 'get_toopy/' + $scope.current_course_sc + '/' + $scope.current_subject_sc + '/' + $scope.current_sem_sc ,
             dataType: "json",
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
@@ -156,24 +136,6 @@ app.controller('angLmsController', function($scope, $http,Upload) {
                 if($scope.topics_sc.length != 0)
                 {
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
-                }
-                $scope.get_sub_topics();
-            })
-    }
-
-    $scope.get_sub_topics = function () {
-        $http({
-            method: "GET",
-            url: '{{PREFIX}}' + 'get_sub_topic/' + $scope.topic_id_sc,
-            dataType: "json",
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-            .then(function (response) {
-                $scope.sub_topics_sc = response.data;
-                if($scope.topics_sc.length == 0){$scope.sub_topics_sc = [];}
-                if($scope.sub_topics_sc.length != 0)
-                {
-                    $scope.sub_topic_id_sc = $scope.sub_topics_sc[0].id.toString();
                 }
                 if($scope.first_time){
                     $scope.ifEdit();
