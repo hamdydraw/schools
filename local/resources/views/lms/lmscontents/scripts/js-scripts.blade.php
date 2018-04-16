@@ -133,6 +133,11 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         })
             .then(function (response) {
                 $scope.topics_sc = response.data;
+                angular.forEach($scope.topics_sc,function(item){
+                    if(item.parent_id == 0){
+                        item.topic_name = "- "+item.topic_name;
+                    }
+                });
                 if($scope.topics_sc.length != 0)
                 {
                     $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
