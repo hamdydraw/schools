@@ -10,6 +10,7 @@
         $scope.current_subject_sc   = null;
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
+        $scope.topics_sc = [];
         $scope.current_year_sc = {{default_year()}};
         $scope.current_year_sc = $scope.current_year_sc.toString();
 
@@ -69,8 +70,24 @@
                     if($scope.academic_subjects_sc.length != 0){
                         $scope.current_subject_sc = $scope.academic_subjects_sc[0].subject_id.toString();
                     }
-//                    $scope.current_subject_sc   = $scope.current_subject_sc.toString();
+                    $scope.get_topics();
+                })
+        }
 
+        $scope.get_topics = function () {
+            $http({
+                method: "GET",
+                url: '{{PREFIX}}' + 'get_toopy/' + $scope.current_course_sc + '/' + $scope.current_subject_sc,
+                dataType: "json",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    $scope.topics_sc = response.data;
+                    if($scope.topics_sc.length != 0)
+                    {
+                        $scope.topic_id_sc = $scope.topics_sc[0].id.toString();
+                    }
                 })
         }
     });

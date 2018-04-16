@@ -1323,9 +1323,24 @@ function default_year()
     return $current_academic_id->getCurrentAcademic()->id;
 }
 
+function get_Topics($course,$subject){
+    $data = \App\Topic::where('parent_id',0)->where('course_id',$course)->where('subject_id',$subject)->get();
+//    $data = \App\Topic::where('parent_id',0)->get();
+    $topics = [];
+    foreach ($data as $item){
+        array_push($topics,$item);
+        $subdata = \App\Topic::where('parent_id',$item->id)->get();
+        foreach ($subdata as $subtopic){
+            array_push($topics,$subtopic);
+        }
+    }
+    return $topics;
+}
+
 function get_topic_name($id){
     return Topic::where('id',$id)->pluck('topic_name')->first();
 }
+
 function make_title($year,$sem,$course,$subject)
 {
     $ytitle = Academic::where('slug',$year)->pluck('academic_year_title')->first();

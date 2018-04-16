@@ -34,7 +34,7 @@
 
 					<div class="panel-body text-center" ng-controller="importTopicCtrl">
 
-						<fieldset class="form-group col-md-3">
+						<fieldset class="form-group col-md-2">
 							<label for="">{{getPhrase('academic_year')}}</label>
 							<span class="text-red">*</span>
 							<select name="year" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
@@ -42,7 +42,7 @@
 							</select>
 						</fieldset>
 
-						<fieldset class="form-group col-md-3">
+						<fieldset class="form-group col-md-2">
 							<label for="">{{getPhrase('Semester')}}</label>
 							<span class="text-red">*</span>
 							<select name="semesters" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getSubjects()">
@@ -50,7 +50,7 @@
 							</select>
 						</fieldset>
 
-						<fieldset class="form-group col-md-3">
+						<fieldset class="form-group col-md-2">
 							<label for="">{{getPhrase('branch')}}</label>
 							<span class="text-red">*</span>
 							<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
@@ -58,21 +58,31 @@
 							</select>
 						</fieldset>
 
-						<fieldset class="form-group col-md-3">
+						<fieldset class="form-group col-md-2">
 							<label for="">{{getPhrase('subject')}}</label>
 							<span class="text-red">*</span>
-							<select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc">
+							<select name="subject_id" class="form-control" required="required" ng-model="current_subject_sc"  ng-change="get_topics()">
 								<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
 							</select>
+						</fieldset>
+
+						<fieldset class="form-group col-md-2">
+							{{ Form::label('topics', getphrase('topics')) }} <span class="text-red">*</span>
+
+							<select name="main_topic_id" class="form-control" required="required" ng-model="topic_id_sc">
+								<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+							</select>
+
 						</fieldset>
 
 						<table class='table table-bordered table-striped' ng-if="current_subject_sc">
 							<thead>
 							<tr>
 								<th><center>academic_id</center></th>
-								<th><center>semester_num</center></th>
+								<th><center>sem_id</center></th>
 								<th><center>course_id</center></th>
 								<th><center>subject_id</center></th>
+								<th><center>topic_id</center></th>
 							</tr>
 							</thead>
 							<tbody>
@@ -81,6 +91,7 @@
 								<td>@{{ current_sem_sc }}</td>
 								<td>@{{ current_course_sc }}</td>
 								<td>@{{ current_subject_sc }}</td>
+								<td>@{{ topic_id_sc }}</td>
 							</tr>
 							</tbody>
 						</table>
@@ -97,10 +108,10 @@
 						{!! Form::open(array('url' => URL_QUESTIONBAMK_IMPORT, 'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}
 					<?php $button_name = getPhrase('upload');
 					// $question_types = array();
-					$question_types 		= array( ''              => 'Select',
-                                        'radio'         => 'Single Answer',
-                                        'checkbox'      => 'Multi Answer',
-                                        'blanks'        => 'Fill in blanks');
+					$question_types 		= array( ''              => getPhrase('Select'),
+                                        'radio'         => getPhrase('upload_single_answer_file'),
+                                        'checkbox'      => getPhrase('upload_multi_answer_file'),
+                                        'blanks'        => getPhrase('upload_fill_the_blanks_file'));
 
 					?>
 					 	<div class="row">

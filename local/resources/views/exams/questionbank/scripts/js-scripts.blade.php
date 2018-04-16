@@ -133,9 +133,7 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-//                    if (response.data.length === 0) {
-//                        showHide('undef')
-//                    }
+
                     $scope.topics_sc = response.data;
                     if($scope.topics_sc.length != 0 && $scope.first_time != 1)
                     {

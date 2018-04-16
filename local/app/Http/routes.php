@@ -1343,11 +1343,24 @@ Route::get('get_subjects_by_course/{course}',function ($course){
                              ->where('course_parent_id',$course)->groupBy('course_subject.subject_id')->get();
 });
 
+Route::get('get_toopy/{course}/{subject}', function ($course,$subject) {
+    return get_Topics($course,$subject);
+});
+
 
 //test Route
 
 Route::get('/test_it', function () {
-    return get_main_tables();
+    $data = \App\Topic::where('parent_id',0)->get();
+    $topics = [];
+    foreach ($data as $item){
+        array_push($topics,$item);
+        $subdata = \App\Topic::where('parent_id',$item->id)->get();
+        foreach ($subdata as $subtopic){
+            array_push($topics,$subtopic);
+        }
+    }
+    return $topics;
 });
 
 Route::get('/test_2', function () {
