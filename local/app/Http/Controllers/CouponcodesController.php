@@ -216,8 +216,8 @@ class CouponcodesController extends Controller
 
         $record->title = $name;
         $record->coupon_code = $request->coupon_code;
-        $record->discount_type = $request->discount_type;
-        $record->discount_value = $request->discount_value;
+       /* $record->discount_type = $request->discount_type;
+        $record->discount_value = $request->discount_value;*/
         $record->minimum_bill = $request->minimum_bill;
         $record->discount_maximum_amount = $request->discount_maximum_amount;
         $record->valid_from = $request->valid_from;
