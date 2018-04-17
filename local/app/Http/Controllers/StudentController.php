@@ -45,6 +45,10 @@ class StudentController extends Controller
     {
 
         $userRecord = User::where('slug', $slug)->first();
+        if(!$userRecord){
+            pageNotFound();
+            return back();
+        }
         $phone_number = $userRecord->phone;
         $data['userRecord'] = $userRecord;
         $studentRecord = Student::where('user_id', $userRecord->id)->get()->first();
@@ -59,25 +63,26 @@ class StudentController extends Controller
         $course_time = '';
         if (!empty($studentRecord->roll_no)) {
             $student_joinDetails = App\StudentPromotion::where('user_id', '=', $studentRecord->user_id)->get()->first();
-            $course_time = Course::where('id', '=',
-                $student_joinDetails->from_course_id)->select('course_dueration')->first();
 
-            $data['course_time'] = $course_time;
+                $course_time = Course::where('id', '=',$student_joinDetails->from_course_id)->select('course_dueration')->first();
 
-            $join_academicTitle = Academic::where('id', '=', $student_joinDetails->from_academic_id)->
-            select('academic_year_title')->first();
+                $data['course_time'] = $course_time;
 
-
-            $join_parentName = Course::where('id', '=', $student_joinDetails->from_course_parent_id)->
-            select('course_title')->first();
-            $data['join_parentName'] = $join_parentName;
-
-            $join_courseName = Course::where('id', '=', $student_joinDetails->from_course_id)->
-            select('course_title')->first();
+                $join_academicTitle = Academic::where('id', '=', $student_joinDetails->from_academic_id)->
+                select('academic_year_title')->first();
 
 
-            $data['join_year'] = $student_joinDetails->from_year;
-            $data['join_semister'] = $student_joinDetails->from_semister;
+                $join_parentName = Course::where('id', '=', $student_joinDetails->from_course_parent_id)->
+                select('course_title')->first();
+                $data['join_parentName'] = $join_parentName;
+
+                $join_courseName = Course::where('id', '=', $student_joinDetails->from_course_id)->
+                select('course_title')->first();
+
+
+                $data['join_year'] = $student_joinDetails->from_year;
+                $data['join_semister'] = $student_joinDetails->from_semister;
+
 
         }
 

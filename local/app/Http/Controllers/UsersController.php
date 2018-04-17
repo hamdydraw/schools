@@ -804,6 +804,7 @@ class UsersController extends Controller
             return back();
         }
 
+
         if (checkRole(getUserGrade(2))) {
             $validation['role_id'] = 'bail|required|integer';
         }
@@ -820,12 +821,15 @@ class UsersController extends Controller
             }
         }
 
+
+
         $record->name = $name;
         $record->email = $request->email;
         $record->id_number = $request->id_number;
         if(isset($request->default_lang)){
             $record->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
         }else{  $record->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
+
 
         if (checkRole(getUserGrade(2))) {
             if ($record->role_id != 3) {
@@ -839,6 +843,7 @@ class UsersController extends Controller
                 }
             }
         }
+
         //check if role exist
         if(isset($request->role_id)){
             $record->role_id = $request->role_id;
@@ -876,7 +881,8 @@ class UsersController extends Controller
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         App\Language::resetLanguage();
 
-        return redirect(URL_USERS . "users");
+
+        return back();
     }
 
 
