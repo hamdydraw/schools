@@ -59,10 +59,10 @@
                   'user_id': $scope.current_user_id,
                   };
                
-        $http.post(route, data).success(function(result, status) {
+        $http.post(route, data).then(function(result, status) {
         users = [];
  
-        angular.forEach(result, function(value, key) {
+        angular.forEach(result.data, function(value, key) {
 
             users.push(value);
           })
