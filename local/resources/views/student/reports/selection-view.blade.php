@@ -63,7 +63,7 @@
   <div class="row" ng-if="year_selected" ng-show="show_div">
   <div class="col-md-12">
 <div class="row">
-    <div class="col-md-9"><h2 >Select Category</h2></div>
+    <div class="col-md-9"><h2 >{{getPhrase('select_category')}}</h2></div>
     <div class="col-md-3">
 
     </div>
@@ -95,7 +95,7 @@
 
                 <td>@{{exam.title}}</td>
                 <td>@{{exam.marks_obtained}}/@{{exam.total_marks}}</td>
-                <td>@{{exam.exam_status|uppercase}} (@{{exam.percentage}})</td>
+                <td>@{{exam.exam_status}} (@{{exam.percentage}})</td>
                 <td>@{{exam.updated_at}}</td>
                 <td>
                 <a href="{{URL_STUDENT_EXAM_ANALYSIS_BYSUBJECT.$user->slug}}/@{{exam.quiz_slug}}/@{{exam.result_slug}}" target="_blank" class="btn btn-info btn-sm">{{getPhrase('analysis')}}</a>

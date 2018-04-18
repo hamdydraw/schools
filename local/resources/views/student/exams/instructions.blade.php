@@ -5,6 +5,20 @@
 @section('content')
 
 
+	<style>
+		.left-sidebar{
+			display: none;
+		}
+		#wrapper{
+			background-color: white;
+
+		}
+		.tab {
+			display:inline-block;
+			margin-left: 40px;
+		}
+	</style>
+
 <div id="page-wrapper" ng-model="academia" ng-controller="instructions">
 			<div class="container-fluid">
 				<!-- Page Heading -->
@@ -45,16 +59,16 @@
 
 								<ul class="guide">
 									<li>
-										<span class="answer"><i class="mdi mdi-check"></i></span> {{getPhrase("You_have_answered_the_question")}}
+										<span class="answer"><i class="mdi mdi-check"></i></span><p>{{getPhrase("You_have_answered_the_question")}}<span class="tab"></span></p>
 									</li>
 									<li>
-										<span class="notanswer"><i class="mdi mdi-close"></i></span> {{getPhrase("You_have_not_answered_the_question")}}
+										<span class="notanswer"><i class="mdi mdi-close"></i></span><p>{{getPhrase("You_have_not_answered_the_question")}}<span class="tab"></span> </p>
 									</li>
 									<li>
-										<span class="marked"><i class="mdi mdi-eye"></i></span> {{getPhrase("You_have_answered_the_question_but_have_marked_the_question_for_review")}}
+										<span class="marked"><i class="mdi mdi-eye"></i></span><p>{{getPhrase("You_have_answered_the_question_but_have_marked_the_question_for_review")}}<span class="tab"></span> </p>
 									</li>
 									<li>
-										<span class="notvisited"><i class="mdi mdi-eye-off"></i></span> {{getPhrase("You_have_not_visited_the_question_yet")}}
+										<span class="notvisited"><i class="mdi mdi-eye-off"></i></span><p>{{getPhrase("You_have_not_visited_the_question_yet")}}<span class="tab"></span> </p>
 									</li>
 								</ul>
 
@@ -110,5 +124,6 @@ app.controller('instructions', function($scope, $http) {
 
 });
 </script>
+
 
 @stop

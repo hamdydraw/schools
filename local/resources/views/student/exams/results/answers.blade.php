@@ -76,7 +76,7 @@
 
 
 
-                            <span class="pull-right">{{getPhrase('result').': '.$result_record->exam_status}}
+                            <span class="pull-right">{{getPhrase('result').': '.getPhrase($result_record->exam_status)}}
  
 
                             </span>

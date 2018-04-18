@@ -15,8 +15,8 @@
                                     <div class="row answersheet">
                                         <div class="col-md-4"><h4>{{$left->title}} </h4></div>
                                         <div class="col-md-4"><h4>{{$right->title}}</h4></div>
-                                        <div class="col-md-2"><h4>Your answer</h4></div>
-                                        <div class="col-md-2"><h4>Correct</h4></div>
+                                        <div class="col-md-2"><h4>{{getPhrase('your_answer')}}</h4></div>
+                                        <div class="col-md-2"><h4>{{getPhrase('correct')}}</h4></div>
                                     </div>
                                     <?php for($index=0; $index<count($left_options); $index++) { ?>
                                     <div class="row answersheet">

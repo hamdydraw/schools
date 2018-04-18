@@ -81,7 +81,7 @@
 
 							<?php $grade_system = getSettings('general')->gradeSystem; ?>
 
-								{{ getPhrase('result')}} <span>{{  ucfirst($record->exam_status) }}</span>
+								{{ getPhrase('result')}} <span>{{  getPhrase($record->exam_status) }}</span>
 
 							</li>
 

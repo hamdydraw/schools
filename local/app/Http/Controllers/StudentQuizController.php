@@ -1306,7 +1306,7 @@ class StudentQuizController extends Controller
             })
             ->editColumn('exam_status', function ($records) {
                 $result = ucfirst($records->exam_status);
-                return ($result == 'Pass') ? '<span class="label label-success">' . $result . '</span>' : '<span class="label label-danger">' . $result . '</span>';
+                return ($result == 'Pass') ? '<span class="label label-success">' . getPhrase($result) . '</span>' : '<span class="label label-danger">' . getPhrase($result) . '</span>';
             })
             ->removeColumn('total_marks')
             ->removeColumn('total_marks')

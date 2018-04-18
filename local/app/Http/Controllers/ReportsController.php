@@ -171,6 +171,9 @@ class ReportsController extends Controller
                 'quizzes.slug as quiz_slug'
             ])
             ->get();
+            foreach ($quizzes as $quiz){
+                $quiz->exam_status = getPhrase($quiz->exam_status);
+            }
 
         return json_encode($quizzes);
     }

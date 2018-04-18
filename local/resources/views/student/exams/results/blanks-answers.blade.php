@@ -4,7 +4,7 @@
 
     $correct_answers = json_decode($question->correct_answers); ?>
         <div class="col-md-6">
-            <h4> Submitted</h4>
+            <h4> {{getPhrase('Submitted')}}</h4>
             <form>
                 <ul class="filling-blank answersheet">
                 <?php 
@@ -24,7 +24,7 @@
         
         
         <div class="col-md-6">
-            <h4> Correct</h4>
+            <h4> {{getPhrase('Correct')}}</h4>
             <form>
                 
                 <ul class="filling-blank answersheet">
