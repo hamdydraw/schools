@@ -58,14 +58,10 @@ class CourseController extends Controller
     public function getDatatable()
     {
         Session::set('i', 0);
-        $records = Course::select([
+        $records = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->select([
             'parent_id',
+            'category_id',
             'course_title',
-            'course_code',
-            /*'course_dueration',*/
-            'grade_system',
-            /*'is_having_semister',*/
-            /*'is_having_elective_subjects',*/
             'slug',
             'id',
             'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'
@@ -102,39 +98,15 @@ class CourseController extends Controller
                 }
                 return $records->course_title;
             })
+            ->editColumn('category_id', function ($records) {
+              return get_category_name($records->category_id);
+            })
             ->editColumn('parent_id', function ($records) {
                 $val = Session::set('i', Session::get('i') + 1);
                 return Session::get('i');
 
             })
 
-
-
-            /*->editColumn('course_dueration', function ($records) {
-                return
-
-                    ($records->parent_id == 0) ? $records->course_dueration . ' ' . getPhrase('years') : '-';
-            })*/
-            ->editColumn('grade_system', function ($records) {
-
-                if ($records->parent_id == 0) {
-                    if ($records->grade_system != 'percentage') {
-                        return strtoupper($records->grade_system);
-                    } else {
-                        return ucfirst($records->grade_system);
-                    }
-                } else {
-                    return '-';
-                }
-
-            })
-            /*->editColumn('is_having_semister', function ($records) {
-                return ($records->parent_id == 0) ? ($records->is_having_semister) ? getPhrase('yes') : getPhrase('no') :
-                    '-';
-            })*/
-            /* ->editColumn('is_having_elective_subjects', function ($records) {
-                 return ($records->parent_id) ? ($records->is_having_elective_subjects) ? getPhrase('yes') : getPhrase('no') : '-';
-             })*/
             ->removeColumn('id')
             ->removeColumn('slug')
             ->removeColumn('is_having_elective_subjects')
@@ -172,7 +144,7 @@ class CourseController extends Controller
      */
     public function edit($slug)
     {
-        $record = Course::where('slug', $slug)->get()->first();
+        $record = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('slug', $slug)->get()->first();
         $data['record'] = $record;
         $list = Course::getCourses(0);
         $data['course_parent_list'] = array_pluck($list, 'course_title', 'id');
@@ -196,7 +168,6 @@ class CourseController extends Controller
 
         $this->validate($request, [
             'course_title' => 'bail|required|max:60',
-            'course_code' => 'bail|required|max:20|unique:courses,course_code,' . $record->id,
             'parent_id' => 'bail|required|integer',
             'course_dueration' => 'bail|required_if:parent_id,!= 0',
         ]);
@@ -242,12 +213,9 @@ class CourseController extends Controller
         }
 
         $record->course_title = $name;
-        $record->course_code = $request->course_code;
         $record->parent_id = $request->parent_id;
-       /* $record->course_dueration = $request->course_dueration;*/
-        $record->grade_system = $request->grade_system;
-       /* $record->is_having_semister = $request->is_having_semister;*/
-        /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
+        $record->category_id = $request->category_id;
+
         $record->description = $request->description;
         $record->update_stamp($request);
         $record->save();
@@ -301,7 +269,6 @@ class CourseController extends Controller
     {
         $rules = [
             'course_title' => 'bail|required|max:60',
-            'course_code' => 'bail|required|max:20|unique:courses,course_code',
             'parent_id' => 'bail|required|integer'
         ];
         $this->validate($request, $rules);
@@ -309,11 +276,10 @@ class CourseController extends Controller
         $name = $request->course_title;
         $record->course_title = $name;
         $record->slug = $record->makeSlug($name, true);
-        $record->course_code = $request->course_code;
         $record->parent_id = $request->parent_id;
         $record->course_dueration = 1;
-        $record->grade_system = 0;
         $record->is_having_semister = 0;
+        $record->category_id = $request->category_id;
         /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
 
@@ -322,11 +288,6 @@ class CourseController extends Controller
             $rules = [
                 'course_dueration' => 'bail|required|integer'
             ];
-
-            /*$record->course_dueration = $request->course_dueration;*/
-            $record->grade_system = $request->grade_system;
-           /* $record->is_having_semister = $request->is_having_semister;*/
-            /*$record->is_having_elective_subjects = $request->is_having_elective_subjects;*/
         }
 
 

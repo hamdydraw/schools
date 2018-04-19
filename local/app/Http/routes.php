@@ -1190,7 +1190,20 @@ Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
 Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
 });
-//get_question_data
+
+Route::get('get_school_categories',function (){
+    return \App\Category::all();
+});
+
+Route::get('get_category_courses/{id}',function ($id){
+    return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('category_id',$id)->where('parent_id',0)->get();
+});
+
+Route::get('get_course_data/{slug}',function ($slug){
+    return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('slug',$slug)->first();
+});
+
+
 
 
 
