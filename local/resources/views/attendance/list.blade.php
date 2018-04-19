@@ -94,7 +94,7 @@
                                     <tr>
                                         <td>{{ $sno++ }}</td>
                                         <td>{{ $student->roll_no }}</td>
-                                        <td><img src="{{getProfilePath($user->image)}}"></td>
+                                        {{--<td><img src="{{getProfilePath($user->image)}}"></td>--}}
                                         <td>{{ $student->first_name }}</td>
                                         <td>
                                             <div class="col-md-4">
