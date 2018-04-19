@@ -47,11 +47,8 @@ class SubjectsController extends Controller
         prepareBlockUserMessage();
         return back();
       }
-
-
-
          $records = Subject::select([
-          'id','subject_title', 'subject_code','slug','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
+          'id','subject_title','slug','maximum_marks', 'pass_marks', 'is_lab', 'is_elective_type','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
          ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
@@ -147,11 +144,9 @@ class SubjectsController extends Controller
       }
         $record                 = Subject::where('slug', $slug)->get()->first();
 
-          $this->validate($request, [
-         'subject_title'          => 'bail|required|max:60',
-         'subject_code'           => 'bail|required|max:20|unique:subjects,subject_code,'.$record->id
-
-         ]);
+      $this->validate($request, [
+        'subject_title'          => 'bail|required|max:60|unique:subjects,subject_title,'.$record->id,
+	      ]);
 
         $name                   = $request->subject_title;
 
@@ -163,7 +158,6 @@ class SubjectsController extends Controller
         $record->slug               = $record->makeSlug($name, true);
 
         $record->subject_title      = $name;
-        $record->subject_code       = $request->subject_code;
         $record->maximum_marks      = 100;
         $record->pass_marks         = 40;
         $record->internal_marks     = 20;
@@ -191,22 +185,20 @@ class SubjectsController extends Controller
       }
 
        $this->validate($request, [
-         'subject_title'          => 'required',
-         'subject_code'           => 'required|max:20|unique:subjects,subject_code',
+         'subject_title'          => 'required|unique:subjects',
+        ]);
 
-            ]);
         $record                     = new Subject();
         $name                       = $request->subject_title;
         $record->subject_title      = $name;
         $record->slug               = $record->makeSlug($name, TRUE);
-        $record->subject_code       = $request->subject_code;
         $record->maximum_marks      = 100;
         $record->pass_marks         = 40;
         $record->internal_marks     = 20;
         $record->external_marks     = 60;
         $record->is_lab             = $request->is_lab;
-       /* $record->is_elective_type   = $request->is_elective_type;*/
-       $record->user_stamp($request);
+        /* $record->is_elective_type   = $request->is_elective_type;*/
+        $record->user_stamp($request);
         $record->save();
 
 

@@ -45,8 +45,8 @@
 
 								<button type="submit"
 										class="btn  btn-success button helper_step3">{{ getPhrase('update')}}</button>
-								<a href="{{URL_MASTERSETTINGS_COURSE}}"
-								   class="btn  btn-primary button helper_step1">{{ getPhrase('courses_list')}}</a>
+								<a href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS_ADD}}"
+								   class="btn  btn-primary button helper_step1">{{ getPhrase('allocate_subject_to_course')}}</a>
 
 							</div>
 							<h1>{{ $title }}</h1>
