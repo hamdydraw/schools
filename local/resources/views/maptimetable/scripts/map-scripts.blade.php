@@ -53,8 +53,8 @@ app.controller('MapTimingsetController', function( $scope, $http, $timeout) {
   
       route = '{{URL_ACADEMICS_COURSES_GET_PARENT_COURSES}}';  
     data= {_method: 'post', '_token':$scope.getToken(), 'academic_id': academic_id};
-     $http.post(route, data).success(function(result, status) {
-      $scope.parent_courses = result;
+     $http.post(route, data).then(function(result, status) {
+      $scope.parent_courses = result.data;
         });
      }
 
@@ -73,9 +73,9 @@ app.controller('MapTimingsetController', function( $scope, $http, $timeout) {
                   'academic_id': academic_id, 
                   'parent_course_id': parent_course_id
               };
-        $http.post(route, data).success(function(result, status) {
+        $http.post(route, data).then(function(result, status) {
         $scope.courses = [];
-        angular.forEach(result, function(obj, index){
+        angular.forEach(result.data, function(obj, index){
           $scope.courses.push(obj.course);
         });
         $scope.parent_selected = true;

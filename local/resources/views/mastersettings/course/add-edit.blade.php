@@ -16,7 +16,7 @@
         @include('errors.errors')
         <!-- /.row -->
 
-            <div class="panel panel-custom">
+            <div class="panel panel-custom" ng-controller="course_add_edit">
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons helper_step1">
                         <a href="{{URL_MASTERSETTINGS_COURSE}}"
@@ -51,6 +51,7 @@
 @stop
 @section('footer_scripts')
     @include('common.validations')
+    @include('mastersettings.course.script')
 
 
  

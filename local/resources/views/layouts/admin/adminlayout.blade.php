@@ -238,6 +238,51 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                                                                                 aria-hidden="true"></i> {{ getPhrase('users') }}
                     </a></li>
 
+                <li {{ isActive($active_class, 'master_settings') }} >
+
+                    <a data-toggle="collapse" data-target="#master_settings" href="{{URL_SETTINGS_DASHBOARD}}"><i
+                                class="fa fa-cog" aria-hidden="true"></i>
+
+                        {{ getPhrase('master_settings') }} </a>
+
+                    <ul id="master_settings" class="collapse sidemenu-dropdown">
+                        @if(checkRole(getUserGrade(2)))
+
+                            <li><a href="{{URL_COURSES_DASHBOARD}}"> <i class="fa fa-cogs"
+                                                                        aria-hidden="true"></i> {{ getPhrase('master_setup') }}
+                                </a></li>
+
+                            <li><a href="{{URL_MASTERSETTINGS_SETTINGS}}"> <i
+                                            class="icon-settings"></i> {{ getPhrase('settings') }}</a></li>
+                            @if(($settings->coupons->value == 1))
+                                <li {{ isActive($active_class, 'coupons') }} >
+
+                                    <a href="{{URL_COUPONS}}" data-target="#coupons" href="javascript:void()"><i
+                                                class="fa fa-hashtag"></i>
+                                        {{ getPhrase('coupons') }} </a>
+
+
+
+                                </li>
+                            @endif
+
+                        @endif
+
+                        @if($settings->certificate->value == 1)
+                            <li><a href="{{URL_MASTERSETTINGS_CERTIFICATES_SETTINGS}}"> <i
+                                            class="icon-settings"></i> {{ getPhrase('certificates_settings') }}</a></li>
+                        @endif
+
+
+
+
+                        <li><a href="{{URL_MASTERSETTINGS_EMAIL_TEMPLATES}}"> <i class="fa fa-telegram"
+                                                                                 aria-hidden="true"></i> {{ getPhrase('email_templates') }}
+                            </a></li>
+
+                    </ul>
+                </li>
+
 
 
                 <li {{ isActive($active_class, 'academic') }} >
@@ -287,6 +332,19 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                                                            aria-hidden="true"></i> {{ getPhrase('students_detained_list')}}
                                 </a></li>
                         @endif
+
+                        {{--<li><a href="{{URL_MASTERSETTINGS_RELIGIONS}}"> <i class="fa fa-rebel"--}}
+                                                                           {{--aria-hidden="true"></i>{{ getPhrase('religions_master') }}--}}
+                            {{--</a></li>--}}
+                        {{--@if(Module_state('branches'))--}}
+                            {{--<li><a href="{{URL_BRANCHES_LIST}}"><i class="fa fa-building"--}}
+                                                                   {{--aria-hidden="true"></i> {{ getPhrase('branches') }}--}}
+                                {{--</a></li>--}}
+                        {{--@endif--}}
+
+                        {{--<li><a href="{{URL_MASTERSETTINGS_CATEGORIES}}"> <i class="fa fa-arrows"--}}
+                                                                            {{--aria-hidden="true"></i>{{ getPhrase('categories_master') }}--}}
+                            {{--</a></li>--}}
                     </ul>
 
                 </li>
@@ -347,50 +405,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                     </li>
                 @endif
 
-                <li {{ isActive($active_class, 'master_settings') }} >
 
-                    <a data-toggle="collapse" data-target="#master_settings" href="{{URL_SETTINGS_DASHBOARD}}"><i
-                                class="fa fa-cog" aria-hidden="true"></i>
-
-                        {{ getPhrase('master_settings') }} </a>
-
-                    <ul id="master_settings" class="collapse sidemenu-dropdown">
-                        @if(checkRole(getUserGrade(2)))
-
-                            <li><a href="{{URL_COURSES_DASHBOARD}}"> <i class="fa fa-cogs"
-                                                                        aria-hidden="true"></i> {{ getPhrase('master_setup') }}
-                                </a></li>
-
-                            <li><a href="{{URL_MASTERSETTINGS_SETTINGS}}"> <i
-                                            class="icon-settings"></i> {{ getPhrase('settings') }}</a></li>
-
-                        @endif
-
-                        @if($settings->certificate->value == 1)
-                            <li><a href="{{URL_MASTERSETTINGS_CERTIFICATES_SETTINGS}}"> <i
-                                            class="icon-settings"></i> {{ getPhrase('certificates_settings') }}</a></li>
-                        @endif
-
-                        <li><a href="{{URL_MASTERSETTINGS_RELIGIONS}}"> <i class="fa fa-rebel"
-                                                                           aria-hidden="true"></i>{{ getPhrase('religions_master') }}
-                            </a></li>
-                            @if(Module_state('branches'))
-                            <li><a href="{{URL_BRANCHES_LIST}}"><i class="fa fa-building"
-                                                                                                             aria-hidden="true"></i> {{ getPhrase('branches') }}
-                                </a></li>
-                            @endif
-
-                        <li><a href="{{URL_MASTERSETTINGS_CATEGORIES}}"> <i class="fa fa-arrows"
-                                                                            aria-hidden="true"></i>{{ getPhrase('categories_master') }}
-                            </a></li>
-
-
-                        <li><a href="{{URL_MASTERSETTINGS_EMAIL_TEMPLATES}}"> <i class="fa fa-telegram"
-                                                                                 aria-hidden="true"></i> {{ getPhrase('email_templates') }}
-                            </a></li>
-
-                    </ul>
-                </li>
 
                 @if(Module_state('library_Management'))
                     <li {{ isActive($active_class, 'library') }} >
@@ -426,19 +441,6 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 </a></li>
                         </ul>
 
-                    </li>
-                @endif
-                @if(($settings->coupons->value == 1))
-                    <li {{ isActive($active_class, 'coupons') }} >
-
-                        <a data-toggle="collapse" data-target="#coupons" href="javascript:void()"><i
-                                    class="fa fa-hashtag"></i>
-                            {{ getPhrase('coupons') }} </a>
-
-                        <ul id="coupons" class="collapse sidemenu-dropdown">
-                            <li><a href="{{URL_COUPONS}}"> <i class="fa fa-list"></i>{{ getPhrase('list') }}</a></li>
-                            <li><a href="{{URL_COUPONS_ADD}}"> <i class="fa fa-plus"></i>{{ getPhrase('add') }}</a></li>
-                        </ul>
                     </li>
                 @endif
                 <li {{ isActive($active_class, 'reports') }} >

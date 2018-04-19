@@ -69,10 +69,10 @@
                 'status'  : status
               };
 
-          $http.post(route, data).success(function(result, status) {
+          $http.post(route, data).then(function(result, status) {
             if(result.status==1){
               $scope.topics = [];
-              angular.forEach(result.topics,function(value,key){
+              angular.forEach(result.data.topics,function(value,key){
                 $scope.topics.push(value);
               });
               alertify.success('{{getPhrase('record_updated_successfully')}}');  

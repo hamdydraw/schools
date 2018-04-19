@@ -1190,7 +1190,20 @@ Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
 Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
 });
-//get_question_data
+
+Route::get('get_school_categories',function (){
+    return \App\Category::all();
+});
+
+Route::get('get_category_courses/{id}',function ($id){
+    return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('category_id',$id)->where('parent_id',0)->get();
+});
+
+Route::get('get_course_data/{slug}',function ($slug){
+    return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('slug',$slug)->first();
+});
+
+
 
 
 
@@ -1358,16 +1371,7 @@ Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem
 //test Route
 
 Route::get('/test_it', function () {
-    $data = \App\Topic::where('parent_id',0)->get();
-    $topics = [];
-    foreach ($data as $item){
-        array_push($topics,$item);
-        $subdata = \App\Topic::where('parent_id',$item->id)->get();
-        foreach ($subdata as $subtopic){
-            array_push($topics,$subtopic);
-        }
-    }
-    return $topics;
+    return json_encode(is_teachers_subject('1','1','17','34'));
 });
 
 Route::get('/test_2', function () {

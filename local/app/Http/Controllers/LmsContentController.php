@@ -99,11 +99,14 @@ class LmsContentController extends Controller
       $year_id    = App\Academic::where('slug',$year)->pluck('id')->first();
       $course_id  = App\Course::where('slug',$course)->pluck('id')->first();
 
+
       if(Auth::user()->role_id == 3){
+          if(!is_teachers_subject($year_id,$sem,$course_id,$subject_id)){
+              prepareBlockUserMessage();
+              return back();
+          }
           $records = LmsContent::join('subjects', 'lmscontents.subject_id', '=', 'subjects.id')
-              ->join('subjectpreferences','lmscontents.subject_id','=','subjectpreferences.subject_id')
               ->select(['lmscontents.title','lmscontents.image','lmscontents.content_type','lmscontents.course_id', 'subjects.subject_title','lmscontents.topic_id','lmscontents.slug', 'lmscontents.id','lmscontents.updated_at','lmscontents.created_at','lmscontents.created_by_user','lmscontents.updated_by_user','lmscontents.created_by_ip','lmscontents.updated_by_ip' ])
-              ->where('subjectpreferences.user_id','=',Auth::user()->id)
               ->where('subjects.id','=',$subject_id)
               ->where('lmscontents.academic_id','=',$year_id)
               ->where('lmscontents.sem_id','=',$sem)

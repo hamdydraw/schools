@@ -7,6 +7,7 @@ use App\Semister;
 use DB;
 use App\Scopes\DeleteScope;
 use App\Scopes\BranchScope;
+use App\Scopes\CategoryScope;
 
 class Course extends Model
 {
@@ -24,6 +25,7 @@ class Course extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
+        static::addGlobalScope(new CategoryScope);
     }
     
     public function allotedFeeCategories($academicCourseId)

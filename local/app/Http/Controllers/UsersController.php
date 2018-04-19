@@ -428,6 +428,7 @@ class UsersController extends Controller
             $data['active_class'] = 'children';
         }
         $data['layout'] = getLayout();
+        $data['categories']     = array_pluck(App\Category::all(),'category_name','id');
 
 
         $data['module_helper'] = getModuleHelper('create-user');
@@ -763,6 +764,7 @@ class UsersController extends Controller
         $data['default_lang']   = App\Language::where('id',$record->default_lang)->pluck('code')->first();
         $data['branches']       = array_pluck(App\Branch::all(),'name','id');
         $data['default_branch'] = $record->branch_id;
+        $data['categories']     = array_pluck(App\Category::all(),'category_name','id');
         //;
         return view('users.add-edit-user', $data);
     }
@@ -800,6 +802,7 @@ class UsersController extends Controller
 
 
 
+
         if (!isEligible($slug)) {
             return back();
         }
@@ -821,7 +824,9 @@ class UsersController extends Controller
             }
         }
 
-
+        if($record->id == Auth::user()->id && checkRole(getUserGrade(2))){
+            $record->category_id = $request->category_id;
+        }
 
         $record->name = $name;
         $record->email = $request->email;

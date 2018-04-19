@@ -38,8 +38,6 @@
 									 
 									<th>{{ getPhrase('id')}}</th>
 									<th>{{ getPhrase('subject')}}</th>
-									<th>{{ getPhrase('code')}}</th>
-									
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 								</tr>
 							</thead>

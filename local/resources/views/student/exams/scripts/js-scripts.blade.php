@@ -80,9 +80,9 @@ app.controller('angExamScript', function($scope, $http) {
 
         data= {_method: 'post', '_token':$scope.getToken(), 'item_type':item_type };
 
-        $http.post(route, data).success(function(result) {
+        $http.post(route, data).then(function(result) {
 
-            $scope.saved_bookmarks = result;        
+            $scope.saved_bookmarks = result.data;        
 
              
 
@@ -190,13 +190,13 @@ app.controller('angExamScript', function($scope, $http) {
 
        
 
-        $http.post(route, data).success(function(result, status) {
+        $http.post(route, data).then(function(result, status) {
 
             
 
-            if(result.status==0){
+            if(result.data.status==0){
 
-             alertify.error(result.message);
+             alertify.error(result.data.message);
 
             }
 

@@ -62,12 +62,12 @@
             };
 
 
-            $http.post(route, data).success(function (result, status) {
+            $http.post(route, data).then(function (result, status) {
 
-                if (result.status == 0) {
+                if (result.data.status == 0) {
 
 
-                    alertify.error(result.message);
+                    alertify.error(result.data.message);
 
                     return;
 
@@ -81,21 +81,21 @@
 
                     $scope.isApplied = true;
 
-                    $scope.ngdiscount = result.discount;
+                    $scope.ngdiscount = result.data.discount;
 
-                    $scope.discount_availed = result.discount;
+                    $scope.discount_availed = result.data.discount;
 
-                    $scope.ngtotal = result.amount_to_pay;
+                    $scope.ngtotal = result.data.amount_to_pay;
 
                     $('#is_coupon_applied').val('1');
 
-                    $('#discount_availed').val(result.discount);
+                    $('#discount_availed').val(result.data.discount);
 
-                    $('#after_discount').val(result.amount_to_pay);
+                    $('#after_discount').val(result.data.amount_to_pay);
 
-                    $('#coupon_id').val(result.coupon_id);
+                    $('#coupon_id').val(result.data.coupon_id);
 
-                    alertify.success(result.message);
+                    alertify.success(result.data.message);
 
                     return;
 

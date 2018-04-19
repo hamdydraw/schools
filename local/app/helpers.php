@@ -1358,3 +1358,21 @@ function make_title($year,$sem,$course,$subject)
     return $ytitle.'-'.$ctitle.'-'.$semtitle.'-'.$stitle;
 
 }
+
+function is_teachers_subject($year,$sem,$course,$subject)
+{
+    $flag = \App\CourseSubject::where('year',$year)->where('semister',$sem)->where('course_parent_id',$course)->where('subject_id',$subject)->where('staff_id',Auth::user()->id)->first();
+    if($flag){
+        return true;
+    }
+    return false;
+}
+
+function get_category_name($id)
+{
+    return \App\Category::where('id',$id)->pluck('category_name')->first();
+}
+function get_branch_name($id)
+{
+    return \App\Branch::where('id',$id)->pluck('name')->first();
+}

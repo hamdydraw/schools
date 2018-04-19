@@ -12,7 +12,7 @@
 					</div>
 				</div>
 
-				 <div class="row">
+
 					<div class="col-md-3">
 						<div class="card card-blue text-xs-center">
 							<div class="card-block">
@@ -28,40 +28,7 @@
 							</a>
 						</div>
 					</div>
-					<div class="col-md-3">
-						<div class="card card-green text-xs-center">
-							<div class="card-block">
-					  <h4 class="card-title">
-					  	<h4 class="card-title">
-						<i class="fa fa-rebel"></i>
 
-					  </h4>
-
-								<p class="card-text">{{ getPhrase('religions_master')}}</p>
-							</div>
-							<a class="card-footer text-muted"
-							href="{{URL_MASTERSETTINGS_RELIGIONS}}">
-								{{ getPhrase('view_all')}}
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="card card-yellow text-xs-center">
-							<div class="card-block">
-					  <h4 class="card-title">
-					  	<h4 class="card-title">
-						<i class="fa fa-arrows"></i>
-
-					  </h4>
-
-								<p class="card-text">{{ getPhrase('categories_master')}}</p>
-							</div>
-							<a class="card-footer text-muted"
-							href="{{URL_MASTERSETTINGS_CATEGORIES}}">
-								{{ getPhrase('view_all')}}
-							</a>
-						</div>
-					</div>
                      <?php
                      $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
                      $settings = json_decode($settings->settings_data);
@@ -83,6 +50,25 @@
 						</div>
 					</div>
                      @endif
+
+
+				@if(($settings->coupons->value == 1))
+				<div class="col-md-3">
+					<div class="card card-black text-xs-center">
+						<div class="card-block">
+							<h4 class="card-title">
+								<i class="fa fa-hashtag" aria-hidden="true"></i>
+
+							</h4>
+							<p class="card-text">{{ getPhrase('coupons')}}</p>
+						</div>
+						<a class="card-footer text-muted"
+						   href="{{URL_COUPONS}}">
+							{{ getPhrase('view_all')}}
+						</a>
+					</div>
+				</div>
+				@endif
 
 					<div class="col-md-3">
 						<div class="card card-yellow text-xs-center">

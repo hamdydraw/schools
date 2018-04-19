@@ -92,12 +92,12 @@
                 'year': year,
             };
 
-            $http.post(route, data).success(function (result, status) {
+            $http.post(route, data).then(function (result, status) {
                 users = [];
-                $scope.days = result.days;
-                $scope.timings_map = result.timemaps;
-                $scope.maximum_periods_set = result.maximum_periods_set;
-                $scope.source_items = result.staff_records;
+                $scope.days = result.data.days;
+                $scope.timings_map = result.data.timemaps;
+                $scope.maximum_periods_set = result.data.maximum_periods_set;
+                $scope.source_items = result.data.staff_records;
                 timetable_list = [];
                 angular.forEach($scope.timings_map, function (day, day_number) {
                     timetable_list.push(day.periods);
@@ -148,10 +148,10 @@
                 'search_text': text,
             };
 
-            $http.post(route, data).success(function (result, status) {
+            $http.post(route, data).then(function (result, status) {
                 users = [];
 
-                angular.forEach(result, function (value, key) {
+                angular.forEach(result.data, function (value, key) {
                     users.push(value);
                 })
 
@@ -172,7 +172,7 @@
             };
             $scope.selected_user = user;
             $scope.form_show = false;
-            $http.post(route, data).success(function (result, status) {
+            $http.post(route, data).then(function (result, status) {
                 if (result.length > 0) {
 
 
@@ -198,8 +198,8 @@
                 'subject_id': item.subject_id,
                 'id': item.id
             };
-            $http.post(route, request_data).success(function (result, status) {
-                $scope.topics_completed = result;
+            $http.post(route, request_data).then(function (result, status) {
+                $scope.topics_completed = result.data;
             });
 
 

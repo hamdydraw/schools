@@ -72,9 +72,9 @@ app.controller('prepareQuestions', function( $scope, $http) {
         route = '{{URL_EXAM_SERIES_GET_EXAMS}}';  
         data= {_method: 'post', '_token':$scope.getToken(), 'category_id': category_id};
          $scope.topics =[];
-        $http.post(route, data).success(function(result, status) {
+        $http.post(route, data).then(function(result, status) {
         $scope.categoryExams = [];
-        $scope.categoryExams = result.exams;
+        $scope.categoryExams = result.data.exams;
         $scope.removeDuplicates();
         
         });

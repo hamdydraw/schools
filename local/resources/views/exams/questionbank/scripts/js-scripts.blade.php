@@ -38,7 +38,6 @@
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
-            console.log('edit working');
             if($scope.lastPart != 'add-question'){
                 $http({
                     method:"GET",

@@ -81,7 +81,7 @@ $new_tab_active = ' in active';
 					<fieldset class="form-group ">
 						{{ Form::label('ID_number', getphrase('ID_number')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('id_number', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '1234567890','ng-model'=>'id_number','required'=> 'true','ng-minlength' => '10','ng-maxlength' => '10',
+						{{ Form::text('id_number', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => '1234567890','ng-model'=>'id_number','ng-minlength' => '10','ng-maxlength' => '10',
 
 'oninput' => "this.value = this.value.replace(/[^0-9]/, '')"
 
