@@ -14,8 +14,6 @@
          $scope.academic_courses_sc  = [];
          $scope.academic_subjects_sc = [];
          $scope.role_sc        = {{Auth::user()->role_id}};
-
-
          $scope.lastPart = window.location.href.split("/").pop();
          $scope.getCourses = function () {
              if($scope.role_sc == 9){
@@ -88,6 +86,26 @@
                      })
              }
 
+         }
+
+         $scope.getSubjectsTimetable = function () {
+
+             if($scope.current_course_sc == null || $scope.current_subject_sc == null){
+                 return false;
+             }
+             $http({
+                 method:"GET",
+                 url:'{{PREFIX}}'+'get_subjects_timetable/'+$scope.current_subject_sc+'/'+$scope.current_course_sc,
+                 dataType:"json",
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+             })
+                 .then(function (response) {
+                     $scope.time_subjects_sc = response.data;
+                     if(response.data.length != 0) {
+                         $scope.current_subject_sc = response.data[0].subject_id.toString();
+                     }
+
+                 })
          }
 
  
