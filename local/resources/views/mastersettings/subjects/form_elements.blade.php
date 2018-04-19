@@ -17,29 +17,6 @@
 	    					{!! getValidationMessage('maxlength')!!}
 						</div>
 					</fieldset>
-
-					<fieldset class="form-group">
-						
-						{{ Form::label('subject_code', getphrase('subject_code')) }}
-						<span class="text-red">*</span>
-						{{ Form::text('subject_code', $record !=null ? null : rand(1,60000) , $attributes = array('class'=>'form-control',
-							'ng-model'=>'subject_code', 
-							'ng-pattern' => getRegexPattern('name'),
-							'required'=> 'true', 
-							'ng-class'=>'{"has-error": formSubjects.subject_code.$touched && formSubjects.subject_code.$invalid}',
-							'ng-minlength' => '2',
-							'ng-maxlength' => '20',
-						)) }}
-						<div class="validation-error" ng-messages="formSubjects.subject_code.$error" >
-	    					{!! getValidationMessage()!!}
-	    					{!! getValidationMessage('pattern')!!}
-	    					{!! getValidationMessage('minlength')!!}
-	    					{!! getValidationMessage('maxlength')!!}
-						</div>
-					</fieldset>
-					
-					 
- 
 	
 					<div class="row">
 					<fieldset class='form-group col-md-6 helper_step2'>
