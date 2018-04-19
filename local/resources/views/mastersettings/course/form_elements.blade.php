@@ -1,24 +1,20 @@
 <fieldset class="form-group">
-    {{ Form::label('parent_id', getphrase('select_parent')) }}
-
+    <label for="category_id">{{getPhrase('category')}}</label>
     <span class="text-red">*</span>
-
-    {{Form::select('parent_id', $course_parent_list, null, ['class'=>'form-control select2','placeholder'=>'select',
-
-        'ng-model'=>'parent_id',
-
-        'required'=> 'true',
-
-        'ng-class'=>'{"has-error": formCourses.parent_id.$touched && formCourses.parent_id.$invalid}',
-
-         ])}}
-
-    <div class="validation-error" ng-messages="formCourses.parent_id.$error">
-
-        {!! getValidationMessage()!!}
-
-    </div>
+    <select name="category_id" class="form-control"  required="required" ng-model="current_category" ng-change="get_courses()">
+        <option  ng-repeat="category in categorties" value="@{{ category.id }}">@{{ category.category_name }}</option>
+    </select>
 </fieldset>
+
+<fieldset class="form-group">
+    <label for="parent_id">{{getPhrase('select_parent')}}</label>
+    <span class="text-red">*</span>
+    <select name="parent_id" class="form-control"  required="required" ng-model="current_course">
+        <option  ng-repeat="course in courses" value="@{{ course.id }}">@{{ course.course_title }}</option>
+        <option value="0">Parent</option>
+    </select>
+</fieldset>
+
 
 
 <fieldset class="form-group">
@@ -57,124 +53,11 @@
 
 </fieldset>
 
-<fieldset class="form-group">
-
-    {{ Form::label('course_code', getphrase('course_code')) }}
-
-    <span class="text-red">*</span>
-
-    {{ Form::text('course_code', $value = $title== 'Add Course' ? rand(1,60000):null , $attributes = array('class'=>'form-control', 'placeholder' => 'MBA',
-
-        'ng-model'=>'course_code',
-
-        'ng-pattern'=>getRegexPattern('name'),
-
-        'required'=> 'true',
-
-        'ng-class'=>'{"has-error": formCourses.course_code.$touched && formCourses.course_code.$invalid}',
-
-        'ng-minlength' => '2',
-
-        'ng-maxlength' => '20',
-
-        )) }}
-
-    <div class="validation-error" ng-messages="formCourses.course_code.$error">
-
-        {!! getValidationMessage()!!}
-
-        {!! getValidationMessage('pattern')!!}
-
-        {!! getValidationMessage('minlength')!!}
-
-        {!! getValidationMessage('maxlength')!!}
-
-    </div>
-
-</fieldset>
-
-{{--<fieldset ng-if="parent_id==0" class="form-group">
-    {{ Form::label('course_duration', getphrase('duration_in_years')) }}
-
-    <span class="text-red">*</span>
-
-    {{Form::select('course_dueration',
-    array('1'=>1),
-    null, ['class'=>'form-control select2',
-    'placeholder'=>'select',
-
-        'ng-model'=>'course_dueration',
-          'id'    => 'course_duration',
-
-        'required'=> 'true',
-
-        'ng-class'=>'{"has-error": formCourses.course_dueration.$touched && formCourses.course_dueration.$invalid}'])}}
-
-    <div class="validation-error" ng-messages="formCourses.course_dueration.$error">
-
-        {!! getValidationMessage()!!}
 
 
-    </div>
-</fieldset>--}}
-
-<fieldset ng-if="parent_id==0" class="form-group">
-    {{ Form::label('grade_system', getphrase('grade_system')) }}
-
-    <span class="text-red">*</span>
-
-    {{Form::select('grade_system',
-    array('percentage'=> 'Percentage', 'gpa'=>'GPA'),
-    null, ['class'=>'form-control select2' ,
-    'placeholder'=>'select',
-
-        'ng-model'=>'grade_system',
-
-
-        'required'=> 'true',
-
-        'ng-class'=>'{"has-error": formCourses.grade_system.$touched && formCourses.grade_system.$invalid}'])}}
-
-    <div class="validation-error" ng-messages="formCourses.grade_system.$error">
-
-        {!! getValidationMessage()!!}
-
-
-    </div>
-</fieldset>
 
 <div class="row ">
-    {{--<fieldset ng-if="parent_id==0" class='form-group col-md-6 helper_step2'>
-        {{ Form::label('is_having_semister', getphrase('is_having_semesters')) }}
-        <div class="form-group row">
-            <div class="col-md-6">
-                {{ Form::radio('is_having_semister', 0, false, array('id'=>'free', 'name'=>'is_having_semister')) }}
 
-                <label for="free"> <span class="fa-stack radio-button"> <i
-                                class="mdi mdi-check active"></i> </span> {{getPhrase('No')}}</label>
-            </div>
-            <div class="col-md-6">
-                {{ Form::radio('is_having_semister', 1, true, array('id'=>'paid', 'name'=>'is_having_semister')) }}
-                <label for="paid"> <span class="fa-stack radio-button"> <i
-                                class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
-            </div>
-        </div>
-    </fieldset>--}}
-
-    {{--<fieldset ng-if="parent_id!=0" class='form-group col-md-6 helper_step3'>
-      {{ Form::label('is_having_elective_subjects', getphrase('is_having_electives')) }}
-      <div class="form-group row">
-          <div class="col-md-6">
-          {{ Form::radio('is_having_elective_subjects', 0, true, array('id'=>'free1', 'name'=>'is_having_elective_subjects')) }}
-
-              <label for="free1"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('No')}}</label>
-          </div>
-          <div class="col-md-6">
-          {{ Form::radio('is_having_elective_subjects', 1, false, array('id'=>'paid1', 'name'=>'is_having_elective_subjects')) }}
-              <label for="paid1"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('Yes')}} </label>
-          </div>
-      </div>
-  </fieldset>--}}
 </div>
 
 <fieldset class="form-group helper_step4">

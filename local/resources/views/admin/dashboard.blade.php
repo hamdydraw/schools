@@ -10,7 +10,7 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 
-							<li><i class="fa fa-home"></i> {{ $title}}</li>
+							<li><i class="fa fa-home"></i> {{ $title}}</li> - {{get_branch_name(Auth::user()->branch_id)}} - {{get_category_name(Auth::user()->category_id)}}
 						</ol>
 					</div>
 				</div>

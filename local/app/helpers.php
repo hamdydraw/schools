@@ -1367,3 +1367,12 @@ function is_teachers_subject($year,$sem,$course,$subject)
     }
     return false;
 }
+
+function get_category_name($id)
+{
+    return \App\Category::where('id',$id)->pluck('category_name')->first();
+}
+function get_branch_name($id)
+{
+    return \App\Branch::where('id',$id)->pluck('name')->first();
+}

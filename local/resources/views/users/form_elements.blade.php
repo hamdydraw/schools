@@ -192,6 +192,23 @@ if ($record) {
  ])}}
 </fieldset>
 @endif
+@if(checkRole(getUserGrade(2)) && $record != false)
+    @if($record->id == Auth::user()->id)
+<fieldset class="form-group">
+    {{ Form::label('category', getphrase('category')) }}
+
+    <span class="text-red">*</span>
+
+    {{Form::select('category_id', $categories, null, ['placeholder' => getPhrase('select_category'),'class'=>'form-control',
+
+
+    'required'=> 'true',
+
+ ])}}
+</fieldset>
+        @endif
+@endif
+
 
 @if(Module_state('language_settings'))
 <fieldset class="form-group">

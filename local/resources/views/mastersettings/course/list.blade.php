@@ -35,12 +35,8 @@
 							<thead>
 								<tr>
 								 	<th>{{ getPhrase('number')}}</th>
+									<th>{{ getPhrase('category')}}</th>
 									<th>{{ getPhrase('course_name')}} (ID)</th>
-									<th>{{ getPhrase('code')}}</th>
-									{{--<th>{{ getPhrase('duration')}}</th>--}}
-									<th>{{ getPhrase('grade_type')}}</th>
-									{{--<th>{{ getPhrase('semester')}}</th>--}}
-
 									<th id="helper_step2">{{ getPhrase('action')}}</th>
 
 								</tr>
