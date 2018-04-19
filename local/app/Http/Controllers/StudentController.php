@@ -388,6 +388,7 @@ class StudentController extends Controller
     {
 
 
+
         if($request->account == 0){
             if ($request->parent_name == '' || $request->parent_user_name == '' || $request->parent_email == '' || $request->parent_password == '' || $request->id_number == '' || strlen($request->id_number) != 10) {
 
@@ -396,15 +397,6 @@ class StudentController extends Controller
 
             }
         }
-
-        $columns = array(
-            'parent_name' => 'bail|required',
-            'id_number' => 'bail|required|numeric|digits:10|unique:users,id_number',
-            'parent_user_name' => 'bail|required|unique:users,username',
-            'parent_email' => 'bail|required|unique:users,email'
-        );
-
-        $this->validate($request, $columns);
 
         $user = User::where('slug', '=', $slug)->first();
         $role_id = getRoleData('parent');
