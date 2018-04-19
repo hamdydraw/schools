@@ -19,9 +19,9 @@ app.controller('payments_report', function( $scope, $http) {
         route = '{{URL_GET_PAYMENT_RECORD}}';  
         data= {_method: 'post', '_token':$scope.getToken(), 'record_id': record_id};
          $scope.payment_record =[];
-        $http.post(route, data).success(function(result, status) {
-        if(result.status)
-        $scope.payment_record = result.record;
+        $http.post(route, data).then(function(result, status) {
+        if(result.data.status)
+        $scope.payment_record = result.data.record;
         if($scope.payment_record.plan_type=='combo')
         	$scope.payment_record.plan_type = 'Exam Series';
         

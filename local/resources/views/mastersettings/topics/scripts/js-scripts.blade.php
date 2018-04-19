@@ -166,13 +166,13 @@
 
             data = {_method: 'post', '_token': $scope.getToken(), 'subject_id': subject_id};
 
-            $http.post(route, data).success(function (result, status) {
+            $http.post(route, data).then(function (result, status) {
                 /*
                 | Pouplate the subject parents based on selected subject
                  */
                 $('#parent').empty();
-                for (i = 0; i < result.length; i++)
-                    $('#parent').append('<option value="' + result[i].id + '">' + result[i].text + '</option>');
+                for (i = 0; i < result.data.length; i++)
+                    $('#parent').append('<option value="' + result.data[i].id + '">' + result.data[i].text + '</option>');
             });
         }
 

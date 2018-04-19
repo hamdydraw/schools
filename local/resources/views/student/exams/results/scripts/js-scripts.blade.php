@@ -33,8 +33,8 @@ app.controller('angExamScript', function($scope, $http) {
         route = '{{URL_BOOKMARK_SAVED_BOOKMARKS}}';  
 
         data= {_method: 'post', '_token':$scope.getToken(), 'item_type':item_type };
-        $http.post(route, data).success(function(result) {
-            $scope.saved_bookmarks = result;        
+        $http.post(route, data).then(function(result) {
+            $scope.saved_bookmarks = result.data;        
              
             angular.forEach($scope.bookmarks, function(value, index) {
                   $scope.bookmarks[index] = $scope.isBookmarked(index);

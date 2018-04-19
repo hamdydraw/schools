@@ -137,6 +137,56 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <div class="card card-green text-xs-center">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <h4 class="card-title">
+                                    <i class="fa fa-rebel"></i>
+
+                                </h4>
+
+                                <p class="card-text">{{ getPhrase('religions_master')}}</p>
+                        </div>
+                        <a class="card-footer text-muted"
+                           href="{{URL_MASTERSETTINGS_RELIGIONS}}">
+                            {{ getPhrase('view_all')}}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-yellow text-xs-center">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <h4 class="card-title">
+                                    <i class="fa fa-arrows"></i>
+
+                                </h4>
+
+                                <p class="card-text">{{ getPhrase('categories_master')}}</p>
+                        </div>
+                        <a class="card-footer text-muted"
+                           href="{{URL_MASTERSETTINGS_CATEGORIES}}">
+                            {{ getPhrase('view_all')}}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 ">
+                    <div class="card card-black text-xs-center helper_step6">
+                        <div class="card-block">
+                            <h4 class="card-title">
+
+                                <i class="fa fa-list-ul" aria-hidden="true"></i>
+                            </h4>
+                            <p class="card-text">{{ getPhrase('branches_management')}}</p>
+                        </div>
+                        <a class="card-footer text-muted"
+                           href="{{URL_BRANCHES_LIST}}">
+                            {{ getPhrase('view_all')}}
+                        </a>
+                    </div>
+                </div>
             </div>
 @stop
 

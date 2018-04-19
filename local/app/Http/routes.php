@@ -1351,16 +1351,7 @@ Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem
 //test Route
 
 Route::get('/test_it', function () {
-    $data = \App\Topic::where('parent_id',0)->get();
-    $topics = [];
-    foreach ($data as $item){
-        array_push($topics,$item);
-        $subdata = \App\Topic::where('parent_id',$item->id)->get();
-        foreach ($subdata as $subtopic){
-            array_push($topics,$subtopic);
-        }
-    }
-    return $topics;
+    return json_encode(is_teachers_subject('1','1','17','34'));
 });
 
 Route::get('/test_2', function () {

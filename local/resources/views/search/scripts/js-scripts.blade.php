@@ -39,9 +39,9 @@
                   'semister': semister,
                };
                
-        $http.post(route, data).success(function(result, status) {
+        $http.post(route, data).then(function(result, status) {
         $scope.result_data = [];
-        angular.forEach(result, function(value, key) {
+        angular.forEach(result.data, function(value, key) {
             $scope.result_data.push(value);
           })
 
