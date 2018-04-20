@@ -1078,15 +1078,15 @@ function getDefaultParentCourseId()
 
 function getStudentInfo($slug){
     $student_id = \App\User::where('slug',$slug)->pluck('id')->first();
-    $student    = \App\Student::where('user_id',$student_id)->first();
+    $student    = \App\Student::withoutGlobalScope(App\Scopes\BranchScope::class)->where('user_id',$student_id)->first();
     $academic_id = new App\Academic();
     $academic_id = $academic_id->getCurrentAcademic()['id'];
     $academicSemester = new App\AcademicSemester();
     $currentSemester  = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
     //get the needed info
     $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
-    $data['current_grade']         = \App\Course::where('id',$student->course_parent_id)->pluck('course_title')->first();
-    $data['current_class']         = \App\Course::where('id',$student->course_id)->pluck('course_title')->first();
+    $data['current_grade']         = \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id',$student->course_parent_id)->pluck('course_title')->first();
+    $data['current_class']         = \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id',$student->course_id)->pluck('course_title')->first();
     $data['current_semester'] = "";
     if($currentSemester != null){
         if($currentSemester->sem_num == 1){
@@ -1375,4 +1375,15 @@ function get_category_name($id)
 function get_branch_name($id)
 {
     return \App\Branch::where('id',$id)->pluck('name')->first();
+}
+
+function get_subject_name_from_course_subject($id)
+{
+    $sid = \App\CourseSubject::where('id',$id)->pluck('subject_id')->first();
+    return get_subject_name($sid);
+}
+
+function get_subject_name($id)
+{
+    return \App\Subject::where('id',$id)->pluck('subject_title')->first();
 }

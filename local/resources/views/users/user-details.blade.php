@@ -37,6 +37,8 @@
 							<div class="aouther-school">
 								<h2>{{ $record->name}}</h2>
 								<p><span>{{$record->email}}</span></p>
+								<p><span>{{get_branch_name(Auth::user()->branch_id)}}</span></p>
+								<p><span>{{get_category_name(Auth::user()->category_id)}}</span></p>
 								
 							</div>
 

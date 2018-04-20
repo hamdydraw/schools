@@ -96,8 +96,8 @@ class AcademicCoursesController extends Controller
         $model = AcademicCourse::where('academic_id', '=', $record->id)->groupBy('course_id')->get();
         $count = $model->count();
         $academic_id = $record->id;
-        DB::beginTransaction();
-        try {
+        DB::statement("delete from academic_course where academic_id = '$record->id'");
+
             if ($count) {
                 if (!env('DEMO_MODE')) {
                     //Previous records exists
@@ -114,24 +114,16 @@ class AcademicCoursesController extends Controller
                     $newRecord->user_stamp($request);
                     $newRecord->save();
                     $courseSem = App\CourseSemister::where('course_id', $value)->first();
-                    $courseSem->current_semester = 0;
-                    $courseSem->update_stamp($request);
-                    $courseSem->save();
+                    if($courseSem){
+                        $courseSem->current_semester = 0;
+                        $courseSem->update_stamp($request);
+                        $courseSem->save();
+                    }
                 }
 
             }
 
-            DB::commit();
             flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
-        } catch (Exception $ex) {
-            DB::rollBack();
-            if (getSetting('show_foreign_key_constraint', 'module')) {
-
-                flash(getPhrase('Ooops'), $ex->getMessage(), 'error');
-            } else {
-                flash(getPhrase('Ooops'), getPhrase('improper_data'), 'error');
-            }
-        }
 
         return redirect(URL_MASTERSETTINGS_ACADEMICS);
 

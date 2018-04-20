@@ -25,6 +25,14 @@
     <table class="table">
         <tbody>
         <tr>
+            <th>{{getPhrase('current_academic_branch')}}:</th>
+            <th>{{get_branch_name(Auth::user()->branch_id)}}</th>
+        </tr>
+        <tr>
+            <th>{{getPhrase('current_category')}}:</th>
+            <th>{{get_category_name(Auth::user()->category_id)}}</th>
+        </tr>
+        <tr>
             <th>{{getPhrase('current_academic_year')}}:</th>
             <th>{{$student['current_academic_year']}}</th>
         </tr>

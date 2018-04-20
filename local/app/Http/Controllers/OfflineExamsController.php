@@ -74,15 +74,11 @@ class OfflineExamsController extends Controller
                 ->groupBy('quizzes.id');
         }
         else {
-            $records = Quiz::join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
-                ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-                ->join('academics', 'academics.id', '=', 'quizapplicability.academic_id')
-                ->join('courses', 'courses.id', '=', 'quizapplicability.course_id')
-                ->join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
+            $records = Quiz::join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
                 ->select([
                     'quizzes.title',
                     'quizofflinecategories.title as quiz_offline_category',
-                    'subjects.subject_title',
+                    'quizzes.subject_id',
                     'quizzes.total_marks',
                     'quizzes.pass_percentage',
                     'quizzes.type',
@@ -93,7 +89,7 @@ class OfflineExamsController extends Controller
                     'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
                 ])
                 ->where('quizzes.type', '!=', 'online')
-                ->where('quizapplicability.academic_id', '=', $academic_id)
+//                ->where('quizapplicability.academic_id', '=', $academic_id)
                 ->groupBy('quizzes.id');
         }
 
@@ -124,6 +120,10 @@ class OfflineExamsController extends Controller
             ->editColumn('title', function ($records) {
 
                 return '<a href="' . URL_OFFLINE_EXAMS_SELECTION_VIEW . $records->slug . '">' . $records->title . ' (' . $records->id . ')' . '</a>';
+            })
+            ->editColumn('subject_id', function ($records) {
+
+                return get_subject_name_from_course_subject($records->subject_id);
             })
             ->removeColumn('id')
             ->removeColumn('slug')

@@ -478,26 +478,24 @@ class QuizController extends Controller
             $record->having_negative_mark = 1;
             $record->negative_mark = $request->negative_mark;
             $record->instructions_page_id = $request->instructions_page_id;
+            $record->category_id = $request->category_id;
 
 
         } else {
 
-            $rules['offline_quiz_category_id'] = 'bail|required|integer';
-            $record->offline_quiz_category_id = $request->offline_quiz_category_id;
+            $rules['category_id'] = 'bail|required|integer';
+            $record->offline_quiz_category_id = $request->category_id;
         }
 
 
         $this->validate($request, $rules);
 
-        DB::beginTransaction();
 
-        try {
 
             $name = $request->title;
             $record->title = $name;
             $record->slug = $record->makeSlug($name, true);
 
-            $record->category_id = $request->category_id;
             $record->dueration = $request->dueration;
             $record->total_marks = $request->total_marks;
             $record->pass_percentage = $request->pass_percentage;
@@ -533,18 +531,7 @@ class QuizController extends Controller
             }
 
             flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-            DB::commit();
 
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            if (getSetting('show_foreign_key_constraint', 'module')) {
-
-                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
-            } else {
-                flash(getPhrase('Ooops'), getPhrase('improper_data_submitted'), 'error');
-            }
-        }
         if ($type == 'offline') {
             return redirect(URL_OFFLINE_EXAMS);
         } else {

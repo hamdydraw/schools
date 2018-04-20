@@ -51,7 +51,7 @@ class StudentController extends Controller
         }
         $phone_number = $userRecord->phone;
         $data['userRecord'] = $userRecord;
-        $studentRecord = Student::where('user_id', $userRecord->id)->get()->first();
+        $studentRecord = Student::withoutGlobalScope(App\Scopes\BranchScope::class)->where('user_id', $userRecord->id)->get()->first();
         $data['join_date'] = isset($studentRecord->date_of_join) ? $studentRecord->date_of_join : '';
         $data['birth_date'] = isset($studentRecord->date_of_birth) ? $studentRecord->date_of_birth : '';
 

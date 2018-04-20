@@ -20,6 +20,5 @@ class Instruction extends Model
     {
         parent::boot();
         static::addGlobalScope(new DeleteScope);
-        static::addGlobalScope(new BranchScope);
     }
 }
