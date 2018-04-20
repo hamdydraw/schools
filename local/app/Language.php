@@ -42,6 +42,7 @@ class Language extends Model
    public function addPhrase($phrase, $default_language = 0)
    {
 
+
    		if($default_language==0)
    			$default_language_id = Language::getDefaultLanguage();
 
