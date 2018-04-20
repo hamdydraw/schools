@@ -113,6 +113,11 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
                 {{ Form::text('academic_id', $value = $academic_title->academic_year_title , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
             </fieldset>
             <fieldset class="form-group col-md-4">
+                {{ Form::label('branch', getphrase('current_category')) }}
+                <span class="text-red">*</span>
+                {{ Form::text('course_parent_id', $value = get_category_name($record->category_id) , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
+            </fieldset>
+            <fieldset class="form-group col-md-4">
                 {{ Form::label('branch', getphrase('current_branch')) }}
                 <span class="text-red">*</span>
                 {{ Form::text('course_parent_id', $value = $course_parent_name->course_title , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
@@ -169,7 +174,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
 
     @else
         <div class="col-md-6 col-md-offset-4">
-            @include('common.year-selection-view')
+            @include('common.year-selection-with-category')
 
         </div>
 
