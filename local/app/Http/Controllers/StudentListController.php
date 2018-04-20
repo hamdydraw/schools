@@ -75,12 +75,23 @@ class StudentListController extends Controller
             ->where('current_semister', '=', $semister)
             ->select(['students.user_id as id', 'users.name', 'roll_no', 'admission_no', 'course_title', 'blood_group', 'mobile', 'home_phone', 'image', 'academic_year_title', 'email', 'current_year', 'current_semister', 'course_dueration', 'students.academic_id as academic_id', 'students.course_id as course_id', 'students.user_id as user_id', 'users.slug'])
             ->get();
+
         if ($course_details->course_dueration > 1 && $course_details->is_having_semister == 1) {
             $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . $semister . ' ' . 'semester ' . ' ' . getPhrase('list');
+            $data['academic_year_title']= $academic_details->academic_year_title ;
+            $data['course_title']= $course_details->course_title;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
+
         } elseif ($course_details->course_dueration > 1 && $course_details->is_having_semister == 0) {
             $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . getPhrase('list');
+            $data['academic_year_title']= $academic_details->academic_year_title ;
+            $data['course_title']= $course_details->course_title ;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
         } else {
             $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . getPhrase('list');
+            $data['academic_year_title']= $academic_details->academic_year_title;
+            $data['course_title']= $course_details->course_title;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
         }
         $data['records'] = $records;
         $data['extracols'] = $request->extracols;
@@ -167,6 +178,7 @@ class StudentListController extends Controller
       $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.getPhrase('course_completed_list');
     }*/
         $data['title'] = $academic_details->academic_year_title . ' ' . getPhrase('completed_students_of_year');
+        $data['academic_year_title'] =  $academic_details->academic_year_title;
         $data['records'] = $records;
         $view = \View::make('student.cousrse-completd-list-print-file', $data);
         $contents = $view->render();
@@ -238,10 +250,19 @@ class StudentListController extends Controller
 
         if ($course_details->course_dueration > 1 && $course_details->is_having_semister == 1) {
             $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . $semister . ' ' . 'semester ' . ' ' . getPhrase('course_detained_list');
+            $data['academic_year_title']= $academic_details->academic_year_title;
+            $data['course_title']= $course_details->course_title;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
         } elseif ($course_details->course_dueration > 1 && $course_details->is_having_semister == 0) {
             $data['title'] = $academic_details->academic_year_title . ' ' . $course_details->course_title . ' ' . $year . ' ' . 'year' . ' ' . getPhrase('course_detained_list');
+            $data['academic_year_title']= $academic_details->academic_year_title;
+            $data['course_title']= $course_details->course_title;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
         } else {
             $data['title'] = $academic_details->academic_year_title . ' ' . getPhrase('for_year') . ' ' . $course_details->course_title . ' ' . getPhrase('course_detained_list');
+            $data['academic_year_title']= $academic_details->academic_year_title;
+            $data['course_title']= $course_details->course_title;
+            $data['year_title']= Course::where('id','=', $course_details->parent_id)->first()->course_title;
         }
         $data['records'] = $records;
         $view = \View::make('student.cousrse-detained-list-print-file', $data);
