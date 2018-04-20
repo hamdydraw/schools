@@ -3,8 +3,9 @@
  <script src="{{JS}}angular-messages.js"></script>
 
  <script >
-  var app = angular.module('academia', ['ngMessages']);
+     var app = angular.module('academia', ['ngMessages','satellizer']);
 </script>
+<script src="{{JS}}satellizer.min.js"></script>
 
 @include('common.angular-factory',array('load_module'=> FALSE))
 

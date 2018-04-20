@@ -4,6 +4,7 @@
 
     var app = angular.module('academia', ['ngDraggable']);
     app.controller('TimetableController', function ($scope, $http, $timeout) {
+        console.log("function working");
         $scope.parent_courses = [];
         $scope.courses = [];
         $scope.parent_selected = false;
@@ -203,6 +204,7 @@
 
 
         }
+
 
 
     });

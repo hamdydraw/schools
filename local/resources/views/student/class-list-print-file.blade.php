@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="en" dir="{{ (App\Language::isDefaultLanuageRtl()) ? 'rtl' : 'ltr' }}">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="assets/images/favicon.ico">
     <title>{{$title}}</title>
 
     <link rel="stylesheet" href="{{CSS}}Report/font-icons/entypo/css/entypo.css">
@@ -13,10 +12,11 @@
     <link rel="stylesheet" href="{{CSS}}Report/bootstrap.css">
     <link rel="stylesheet" href="{{CSS}}Report/neon-core.css">
     <link rel="stylesheet" href="{{CSS}}Report/neon-theme.css">
+    @if(Session::has('lang_dir') && Session::get('lang_dir') == 1 )
     <link rel="stylesheet" href="{{CSS}}Report/neon-rtl.css">
-
-
+        @endif
 </head>
+
 <body class="page-body">
 
 <div class="page-container">
@@ -96,7 +96,7 @@
                         <br />
 
                         <a href="javascript:window.print();" class="btn btn-primary btn-icon icon-left hidden-print">
-                            طباعة او حفظ بي دي أف
+{{getphrase('print_and_export')}}
                             <i class="entypo-doc-text"></i>
                         </a>
                     </div>

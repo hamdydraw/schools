@@ -1344,6 +1344,13 @@ Route::get('get_sub_topic/{id}',function ($id){
     return $main;
 });
 
+Route::get('get_subjects_timetable/{subject}/{course}',function ($subject,$course){
+    return \App\TimingsetDetails::join('timetable','timingsetdetails.id','=','timetable.timingset_details_id')
+                ->where('timetable.subject_id', '=', $subject)
+                ->where('timetable.course_id', '=',  $course)
+                ->where('timetable.user_id', '=', Auth::user()->id)
+        ->get();
+});
 
 Route::get('get_subject_topics/{subject}/{course}/{sem}', function ($subject,$course,$sem) {
     return get_subject_topics($subject,$course,$sem);
@@ -1404,3 +1411,66 @@ Route::get('/popup_data', function () {
     return view("layouts.general");
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/wesam',function ()
+
+{
+//    $test = DB::table('timingsetdetails')
+//        ->join('timetable', 'timingsetdetails.id', '=', 'timetable.timingset_details_id')
+//        ->where('timetable.academic_id', '=',$_RE)
+//        ->select('period_name')
+//        ->get();
+//    return $test;
+//    $test = DB::table('timingsetdetails')
+//        ->join('timetable', function ($join) {
+//            $join->on('timingsetdetails.id', '=', 'timetable.timingset_details_id')
+//                ->where('timetable.subject_id', '=',  34)
+//                ->where('timetable.course_id', '=',  29)
+//                ->where('timetable.user_id', '=',  1868)
+//                ;
+//        })
+//        ->select('period_name')
+//        ->get();
+//    return $test;
+
+
+//    $data = DB::table('timingsetdetails')
+//        ->join('timetable', function ($join) {
+//            $join->on('timingsetdetails.id', '=', 'timetable.timingset_details_id')
+//                ->where('timetable.subject_id', '=', 34)
+//                ->where('timetable.course_id', '=',  29)
+//                ->where('timetable.user_id', '=',  Auth::user()->id);
+//        })
+//        ->select('period_name')
+//        ->get();
+//    return $data;
+}
+);
