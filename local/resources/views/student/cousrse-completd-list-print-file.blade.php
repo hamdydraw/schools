@@ -9,13 +9,22 @@
     <title>{{$title}}</title>
 
     <link rel="stylesheet" href="{{CSS}}Report/font-icons/entypo/css/entypo.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
+    <link rel="stylesheet" href="{{CSS}}font-awesome.css"/>
     <link rel="stylesheet" href="{{CSS}}Report/bootstrap.css">
     <link rel="stylesheet" href="{{CSS}}Report/neon-core.css">
     <link rel="stylesheet" href="{{CSS}}Report/neon-theme.css">
     @if(Session::has('lang_dir') && Session::get('lang_dir') == 1 )
         <link rel="stylesheet" href="{{CSS}}Report/neon-rtl.css">
     @endif
+
+    <style>
+        @media print {
+            .head th {
+                background-color: #91919a !important;
+                color:white !important;
+                -webkit-print-color-adjust: exact;
+            }}
+    </style>
 </head>
 <body class="page-body">
 
@@ -31,6 +40,8 @@
 
                 <div class="col-sm-4 invoice-right" style="text-align: right">
                     <h3>{{getSetting('site_title','site_settings')}}</h3>
+                    <h4>{{getPhrase('address')}} : {{getSetting('site_address','site_settings')}}</h4>
+                    <h4>{{getPhrase('phone')}} : {{getSetting('site_Phone','site_settings')}}</h4>
                 </div>
 
                 <div class="col-sm-4 invoice-left pull-left" style="text-align: left">
@@ -40,16 +51,11 @@
                 </div>
 
                 <div class="col-sm-4 pull-right" style="text-align: left">
-
-                    <h3>{{$title}}</h3>
+                    <h4>{{getPhrase('date')}} : {{\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
+                    <h4>{{getPhrase('academic_year')}} : {{$academic_year_title}}</h4>
                 </div>
 
-
-
-
-
             </div>
-
 
             <hr class="margin" />
 
@@ -57,7 +63,7 @@
             <div class="margin"></div>
 
             <table class="table table-bordered">
-                <thead>
+                <thead class="head">
                 <tr>
                     <th style="border:1px solid #000;">{{getPhrase('sn')}}</th>
                     <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
@@ -95,7 +101,7 @@
 
                         <a href="javascript:window.print();" class="btn btn-primary btn-icon icon-left hidden-print">
                             {{getphrase('print_and_export')}}
-                            <i class="entypo-doc-text"></i>
+                            <i class="fa fa-print"></i>
                         </a>
                     </div>
 

@@ -7,22 +7,20 @@
      @include('common.js-script-year-selection',array('user_slug'=>$user->slug))
 
 
-      $scope.exam_categories = []; 
+      $scope.exam_categories = [];
       $scope.exam_list       = []; 
       $scope.show_div = false;
 
       $scope.doCall     = function () {
-      $scope.year_selected   = true;
+      $scope.year_selected   = false;
       $scope.resetResult();
  
-      academic_id          = $scope.selected_academic_id;
-      parent_course_id     = $scope.selected_course_parent_id;
-      course_id            = $scope.selected_course_id;
-
-      year                 = $scope.selected_year;
-      semister                 = $scope.selected_semister;
+      academic_id          = '{{prepareStudentSessionRecord($user_slug)->student->academic_id}}';
+      parent_course_id     = '{{prepareStudentSessionRecord($user_slug)->student->course_parent_id}}';
+      course_id            = '{{prepareStudentSessionRecord($user_slug)->student->course_id}}';
+      year                 = '{{prepareStudentSessionRecord($user_slug)->student->current_year}}';
+      semister                 = '{{prepareStudentSessionRecord($user_slug)->student->current_semister}}';
         user_id          = '{{$user->id}}';
-      
         route   = '{{URL_STUDENT_RESULTS_GET_EXAM_CATEGORIES}}';  
         data    = {   _method: 'post', 
                   '_token':httpPreConfig.getToken(), 

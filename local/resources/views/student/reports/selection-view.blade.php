@@ -49,7 +49,7 @@
                 </h1>
             </div>
             <div class="panel-body instruction">
-                <div class="row">
+                <div class="row" ng-hide="true">
 
                          @include('common.year-selection-view',array(
                                 'user_slug'=>$user->slug,
@@ -60,7 +60,7 @@
    <div ng-hide="show_div">
        {{getPhrase('no_data_available_with_the_selection')}}
    </div>
-  <div class="row" ng-if="year_selected" ng-show="show_div">
+  <div class="row">
   <div class="col-md-12">
 <div class="row">
     <div class="col-md-9"><h2 >{{getPhrase('select_category')}}</h2></div>
