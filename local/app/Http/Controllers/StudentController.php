@@ -64,7 +64,7 @@ class StudentController extends Controller
         if (!empty($studentRecord->roll_no)) {
             $student_joinDetails = App\StudentPromotion::where('user_id', '=', $studentRecord->user_id)->get()->first();
 
-                $course_time = Course::where('id', '=',$student_joinDetails->from_course_id)->select('course_dueration')->first();
+                $course_time = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=',$student_joinDetails->from_course_id)->select('course_dueration')->first();
 
                 $data['course_time'] = $course_time;
 
@@ -72,11 +72,11 @@ class StudentController extends Controller
                 select('academic_year_title')->first();
 
 
-                $join_parentName = Course::where('id', '=', $student_joinDetails->from_course_parent_id)->
+                $join_parentName = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $student_joinDetails->from_course_parent_id)->
                 select('course_title')->first();
                 $data['join_parentName'] = $join_parentName;
 
-                $join_courseName = Course::where('id', '=', $student_joinDetails->from_course_id)->
+                $join_courseName = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $student_joinDetails->from_course_id)->
                 select('course_title')->first();
 
 
@@ -97,11 +97,11 @@ class StudentController extends Controller
         select('academic_year_title')->first();
         $data['academic_title'] = $academic_title;
 
-        $course_parent_name = Course::where('id', '=', $studentRecord->course_parent_id)->
+        $course_parent_name = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $studentRecord->course_parent_id)->
         select('course_title')->first();
         $data['course_parent_name'] = $course_parent_name;
 
-        $course_name = Course::where('id', '=', $studentRecord->course_id)->
+        $course_name = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $studentRecord->course_id)->
         select('course_title')->first();
         $data['course_name'] = $course_name;
 
@@ -110,6 +110,7 @@ class StudentController extends Controller
 
         $studentObject = new Student();
         $data['record'] = $studentRecord;
+
 
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $list = App\Course::getCourses(0);
@@ -184,7 +185,8 @@ class StudentController extends Controller
 
         $itHasErrors = false;
 
-        if ($request->academic_id == '' || $request->course_parent_id == '' || $request->course_id == '') {
+
+        if ($request->academic_id == '' || $request->course_parent_id == '' || $request->course_id == '' || $request->category_id == '') {
 
             $itHasErrors = true;
 
@@ -219,6 +221,7 @@ class StudentController extends Controller
         $user_record = getUserWithSlug($slug);
 
         $student = Student::where('user_id', '=', $user_record->id)->first();
+        $user    = User::where('id','=',$user_record->id)->first();
 
         if ($student->roll_no == null) {
             $current_year = 1;
@@ -239,8 +242,11 @@ class StudentController extends Controller
             $student->current_semister = $current_semister;
             $student->course_parent_id = $request->course_parent_id;
             $student->course_id = $request->course_id;
+            $student->category_id = $request->category_id;
             $student->update_stamp($request);
             $student->save();
+            $user->category_id    = $request->category_id;
+            $user->save();
 
             // Promotion insert start
 

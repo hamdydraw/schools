@@ -15,6 +15,48 @@
 
         @include('common.js-script-year-selection',array('doCall'=>false))
 
+            $scope.get_categories = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_school_categories',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.categorties = response.data;
+                    if(response.data.length != 0){
+                        $scope.current_category   = response.data[0].id.toString();
+                        $scope.get_courses();
+                    }
+                })
+        }
+
+         $scope.get_categories();
+
+            $scope.get_courses = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_category_courses/'+$scope.current_category,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.parent_courses = response.data;
+                })
+        }
+        
+        $scope.get_classes = function ($id) {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_sub_courses/'+$id,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.courses = response.data;
+                })
+        }
+
     /**
      * Returns the token by fetching if from from form
      * 
