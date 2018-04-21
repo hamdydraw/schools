@@ -310,7 +310,8 @@ class QuizController extends Controller
         );
         $data['module_helper'] = getModuleHelper('create-quiz');
         $data['edit_or_add'] = 'edit';
-        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+        $current_year = default_year();
+        $data['branches']   = array_pluck(getCourses($current_year), 'course_title', 'id');
         $data['current_category'] = QuizCategory::where('id',$record->category_id)->first();
         return view('exams.quiz.add-edit', $data);
     }
