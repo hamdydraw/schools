@@ -137,7 +137,8 @@ class OfflineQuizCategoriesController extends Controller
     	$data['title']              = getPhrase('add_Category');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('create-category');
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = null;
     	return view('offlineexams.quizcategories.add-edit', $data);
     }
@@ -155,7 +156,8 @@ class OfflineQuizCategoriesController extends Controller
         $data['title']              = getPhrase('edit_Category');
         $data['layout']             = getLayout();
         $data['module_helper']      = getModuleHelper('create-category');
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = $record->course_id;
     	return view('offlineexams.quizcategories.add-edit', $data);
     }

@@ -129,7 +129,8 @@ class QuizCategoryController extends Controller
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('create_category');
         $data['module_helper']      = getModuleHelper('create-quiz-category');
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = null;
     	return view('exams.quizcategories.add-edit', $data);
     }
@@ -152,7 +153,8 @@ class QuizCategoryController extends Controller
     		return redirect($isValid);
 
     	$data['record']       		= $record;
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = $record->course_id;
     	$data['active_class']       = 'exams';
     	$data['title']              = getPhrase('edit_category');

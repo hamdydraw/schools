@@ -142,7 +142,8 @@ class LmsCategoryController extends Controller
     	$data['active_class']       = 'lms';
     	$data['title']              = getPhrase('create_category');
         $data['module_helper']      = getModuleHelper('lms-categories-create');
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = null;
     	return view('lms.lmscategories.add-edit', $data);
     }
@@ -164,7 +165,8 @@ class LmsCategoryController extends Controller
     		return redirect($isValid);
 
     	$data['record']       		= $record;
-        $data['classes']            = array_pluck(App\Course::where('parent_id','=',0)->get(),'course_title','id');
+        $current_year = default_year();
+        $data['classes']            = array_pluck(getCourses($current_year),'course_title','id');
         $data['default_class']      = $record->course_id;
     	$data['active_class']       = 'lms';
     	$data['title']              = getPhrase('edit_category');
