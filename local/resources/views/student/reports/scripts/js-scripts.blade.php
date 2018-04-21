@@ -4,8 +4,11 @@
 <script>
     app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
     {
-        @include('common.js-script-year-selection',array('user_slug'=>$user->slug))
-
+        @if(isset($admin))
+                @include('common.js-script-year-selection',array('user_slug'=>$user->slug,'user_id'=>$user->id))
+           @else
+                @include('common.js-script-year-selection',array('user_slug'=>$user->slug))
+                @endif
 
             $scope.exam_categories = [];
         $scope.exam_list       = [];
@@ -24,7 +27,6 @@
                 year             = $scope.selected_year;
                 semister         = $scope.selected_semister;
                 user_id          = '{{ $user->id }}';
-                route            = '{{ URL_STUDENT_RESULTS_GET_EXAMS }}';
             }
             @else
             {

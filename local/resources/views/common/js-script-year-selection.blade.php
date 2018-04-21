@@ -122,7 +122,10 @@ route = '{{URL_ACADEMICS_COURSES_GET_CHILD_COURSES}}';
 data= {   _method: 'post',
 '_token':httpPreConfig.getToken(),
 'academic_id': academic_id,
-'parent_course_id': parent_course_id
+'parent_course_id': parent_course_id,
+@if(isset($user_id))
+'user_id':'{{$user_id}}'
+@endif
 };
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
 angular.forEach(result.data, function(value, key){

@@ -96,7 +96,7 @@ class ReportsController extends Controller
         $data['active_class'] = 'analysis';
         $data['title'] = getPhrase('overall_subject_wise_analysis');
         $data['user'] = $user_record;
-        $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
+        $data['academic_years'] = addSelectToList(getAcademicYears());
         $userid = $user_record->id;
         $data['layout'] = getLayout();
         $data['userrecord'] = $user_record;
