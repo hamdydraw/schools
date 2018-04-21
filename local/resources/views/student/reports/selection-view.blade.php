@@ -55,10 +55,13 @@
                             @else
                                 <div class="row" ng-hide="true">
                                     @endif
-
-                        @include('common.year-selection-view',array(
-                               'user_slug'=>$user->slug,
-                               'class'=>'custom-row-6'))
+                                    @if(Auth::user()->role_id == '1')
+                                        @include('common.year-selection-view',array('class'=>'custom-row-6'))
+                                        @else
+                                        @include('common.year-selection-view',array(
+                                                                  'user_slug'=>$user->slug,
+                                                                  'class'=>'custom-row-6'))
+                                    @endif
                     </div>
 
 

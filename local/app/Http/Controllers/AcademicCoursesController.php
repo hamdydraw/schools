@@ -223,6 +223,11 @@ class AcademicCoursesController extends Controller
         if ($user_role == 'student') {
             $records = $records->where('parent_id', '=', $student_record->course_parent_id)
                 ->where('courses.id',$student_record->course_id);
+        }elseif (isset($request->user_id))
+        {
+            $student_record = App\Student::where('user_id', '=', $request->user_id)->first();
+            $records = $records->where('parent_id', '=', $student_record->course_parent_id)
+                ->where('courses.id',$student_record->course_id);
         } else {
             $records = $records->groupBy('courses.id');
         }
