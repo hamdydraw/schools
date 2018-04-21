@@ -1389,15 +1389,19 @@ Route::get('tables/fix', 'TablesController@fix');
 
 Route::get('/record_branch', function () {
     $tables = DB::select('SHOW TABLES');
+    $right_tables = ['authors','examseries','examtoppers','feedbacks',
+                    'libraryassettypes','librarymasters','modulehelper',
+                    'notifications','quizofflinecategories','publishers',
+                    'quizzes','quizcategories','quizresults','staff','students','users','users_login'];
     foreach ($tables as $table){
-          if($table->Tables_in_sasbit_school == 'branch' || $table->Tables_in_sasbit_school == 'dues_purchase'){
-              continue;
-          }
+        if(in_array($table->Tables_in_sasbit_school,$right_tables)) {
+            continue;
+        }
         $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
-        if(!in_array('branch_id',$columns)) {
+        if(in_array('branch_id',$columns)) {
 
-//            DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP `branch_id`");
-         DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` ADD `branch_id` SMALLINT NOT NULL DEFAULT '1'");
+            DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP `branch_id`");
+//              DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP  `branch_id`");
         }
 
     }
