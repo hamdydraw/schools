@@ -247,7 +247,8 @@ class QuizController extends Controller
         $data['title'] = getPhrase('create_quiz');
         $data['module_helper'] = getModuleHelper('create-quiz');
         $data['edit_or_add'] = 'add';
-        $data['branches']   = array_pluck(getCourses(), 'course_title', 'id');
+        $current_year = default_year();
+        $data['branches']   = array_pluck(getCourses($current_year), 'course_title', 'id');
         $data['sid'] = 0;
         return view('exams.quiz.add-edit', $data);
     }

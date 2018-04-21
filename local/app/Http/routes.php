@@ -1236,15 +1236,15 @@ Route::get('get_years',function (){
     return \App\Academic::where('show_in_list',1)->get();
 });
 
-Route::get('get_courses',function (){
+Route::get('get_courses/{year}',function ($year){
     if(Auth::user()->role_id == 3){
-        return getTeacherCourses();
+        return getTeacherCourses($year);
     }
-    return getCourses();
+    return getCourses($year);
 });
 
-Route::get('get_teacher_courses',function (){
-    return getTeacherCourses();
+Route::get('get_teacher_courses/{year}',function ($year){
+    return getTeacherCourses($year);
 });
 
 Route::get('supervisor/teacher-courses/{slug}',function($slug){

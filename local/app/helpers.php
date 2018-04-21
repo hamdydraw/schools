@@ -1190,11 +1190,15 @@ function getCategory($id,$table){
     return   DB::table($table)->where('course_id',$id)->get();
 }
 
-function getCourses(){
-    return \App\Course::where('parent_id',0)->get();
+function getCourses($year){
+    return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
+        ->where('academic_course.academic_id',$year)
+        ->where('courses.parent_id',0)
+        ->select(['courses.id','courses.slug','courses.course_title'])
+        ->get();
 }
 
-function getTeacherCourses(){
+function getTeacherCourses($year){
 
     $current_academic_id = new Academic();
     $semister = new App\AcademicSemester();
@@ -1202,8 +1206,10 @@ function getTeacherCourses(){
     $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
 
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
+                      ->join('academic_course','courses.id','=','academic_course.course_id')
                       ->select(['courses.id','courses.slug','courses.course_title'])
                       ->where('courses.parent_id',0)
+                      ->where('academic_course.academic_id',$year)
                       ->where('course_subject.semister',$current_semster)
                       ->where('course_subject.staff_id',Auth::user()->id)
                       ->groupBy('course_subject.course_parent_id')

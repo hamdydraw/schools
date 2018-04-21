@@ -7,7 +7,7 @@
  
      app.controller('academicAttendance', function ($scope, $http, httpPreConfig) {
     @include('common.js-script-year-selection',array('doCall'=>false))
-         $scope.current_year_sc      = null;
+         $scope.current_year_sc      = {{default_year()}};
          $scope.current_sem_sc       = null;
          $scope.current_course_sc    = null;
          $scope.current_subject_sc   = null;
@@ -32,7 +32,7 @@
              }else{
                  $http({
                      method:"GET",
-                     url:'{{PREFIX}}'+'get_courses',
+                     url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
                      dataType:"json",
                      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })

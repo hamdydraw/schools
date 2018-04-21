@@ -33,7 +33,7 @@
                             <fieldset class="form-group col-md-6">
                                 <label for="">{{getPhrase('academic_year')}}</label>
                                 <span class="text-red">*</span>
-                                <select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getSubjects()">
+                                <select name="year_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="getCourses()">
                                     <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
                                 </select>
                             </fieldset>
