@@ -181,7 +181,8 @@ class LmsSeriesController extends Controller
 
       	$data['title']              = getPhrase('add_series');
         $data['module_helper']      = getModuleHelper('lms-series-create');
-        $data['branches']           = array_pluck(getCourses(), 'course_title', 'id');
+        $current_year = default_year();
+        $data['branches']           = array_pluck(getCourses($current_year), 'course_title', 'id');
     	return view('lms.lmsseries.add-edit', $data);
     }
 

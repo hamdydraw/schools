@@ -91,7 +91,7 @@ app.controller('angLmsController', function($scope, $http,Upload) {
     $scope.getCourses = function () {
         $http({
             method:"GET",
-            url:'{{PREFIX}}'+'get_courses',
+            url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
             dataType:"json",
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })
