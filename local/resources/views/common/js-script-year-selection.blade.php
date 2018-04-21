@@ -265,6 +265,5 @@ $scope.selected_academic_id = $scope.academic_year;
 $scope.getParentCourses($scope.academic_year);
 
 }
-    
- 
-    
+
+
