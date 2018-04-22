@@ -188,6 +188,15 @@
                   "ng-change"  => "prepareToCourses()"
                   ])}}
                 </fieldset>
+
+                  <fieldset class="form-group">
+                    <label for="category_id">{{getPhrase('category')}}</label>
+                    <span class="text-red">*</span>
+                    <select name="category_id" class="form-control"  required="required" ng-model="current_category" ng-change="get_courses()">
+                      <option  ng-repeat="category in categorties" value="@{{ category.id }}">@{{ category.category_name }}</option>
+                    </select>
+                  </fieldset>
+
                 {{--for another year class--}}
                 <fieldset ng-if="showToNewParent" class="form-group">
                   <label for="to_course_parent_id">{{getphrase('transfer_to_course')}}</label>
@@ -196,8 +205,8 @@
                   id="to_course_parent_id"
                   class="form-control"
                   ng-model="to_course_parent_id"
-                  ng-change="prepareToCourses(to_course_parent_id)"
-                  ng-options="option.id as option.course_title for option in parent_courses track by option.id">
+                  ng-change="get_sub_courses(to_course_parent_id)"
+                  ng-options="option.course_id as option.course_title for option in p_courses track by option.course_id">
                   <option value="">{{getPhrase('select')}}</option>
 
                 </select>

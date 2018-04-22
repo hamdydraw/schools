@@ -1199,12 +1199,21 @@ Route::get('get_category_courses/{id}',function ($id){
     return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('category_id',$id)->where('parent_id',0)->get();
 });
 
+
 Route::get('get_course_data/{slug}',function ($slug){
     return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('slug',$slug)->first();
 });
 
 Route::get('get_sub_courses/{id}',function ($id){
     return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id',$id)->get();
+});
+
+Route::get('get_cat_year_courses/{id}/{year}',function ($id,$year){
+    return \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)
+        ->join('academic_course','courses.id','=','academic_course.course_id')
+        ->where('category_id',$id)->where('parent_id',0)
+        ->where('academic_course.academic_id',$year)
+        ->get();
 });
 
 
@@ -1277,6 +1286,10 @@ Route::get('supervisor/teacher-subjects/{year}/{sem}/{course}/{slug}',function($
 
 
 //getTeacherCourses
+
+Route::get('get_branches',function (){
+    return \App\Branch::all();
+});
 
 Route::get('get_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
     if(Auth::user()->role_id == 3){

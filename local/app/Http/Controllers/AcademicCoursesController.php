@@ -32,13 +32,13 @@ class AcademicCoursesController extends Controller
             return redirect($isValid);
         }
 
-        $courses = App\Course::where('parent_id', '=', 0)->select(['id', 'course_title', 'parent_id'])->get();
+        $courses = App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id', '=', 0)->select(['id', 'course_title', 'parent_id'])->get();
 
         $alloted_list = $record->academicCourses()->orderBy('course_id', 'asc')->get();
         $final_list = [];
 
         foreach ($alloted_list as $l) {
-            $course_item = App\Course::where('id', '=', $l->course_id)->first();
+            $course_item = App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $l->course_id)->first();
             $final_list[] = (object)array(
                 'id' => $l->course_id,
                 'course_title' => $course_item->course_title,
@@ -155,6 +155,7 @@ class AcademicCoursesController extends Controller
                 'academic_id'
             ])
             ->where('academic_id', '=', $request->academic_id)
+            ->where('courses.category_id',Auth::user()->category_id)
             ->groupBy('course_id')->get();
         foreach ($records as $key => $value) {
             $temp['course'] = $value;

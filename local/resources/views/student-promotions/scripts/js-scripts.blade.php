@@ -20,6 +20,52 @@
         $scope.to_academic_year = {{default_year()}};
         $scope.to_academic_year = $scope.to_academic_year.toString();
 
+        $scope.get_categories = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_school_categories',
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.categorties = response.data;
+                    if(response.data.length != 0){
+                        $scope.current_category   = response.data[0].id.toString();
+                        $scope.get_courses();
+                    }
+                })
+        }
+        $scope.get_categories();
+
+        $scope.get_courses = function () {
+//            console.log($scope.to_academic_year)
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_cat_year_courses/'+$scope.current_category+'/'+$scope.to_academic_year,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    $scope.p_courses = response.data;
+
+                })
+        }
+
+        $scope.get_sub_courses = function (id) {
+//            console.log($scope.to_academic_year)
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_sub_courses/'+id,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.to_courses = response.data;
+
+                })
+        }
+
         $scope.doCall = function () {
             $scope.year_selected = true;
             if ($scope.to_years.length <= 0)

@@ -1398,6 +1398,8 @@ class UsersController extends Controller
                             $user_record['phone'] = $record->phone;
                             $user_record['address'] = $record->address;
                             $user_record['role_id'] = $role_id;
+                            $user_record['branch_id'] = $record->branch_id;
+                            $user_record['category_id'] = $record->category_id;
 
                             $user_record['academic_id'] = $record->academic_id;
                             $user_record['course_parent_id'] = $record->course_parent_id;
@@ -1498,6 +1500,8 @@ class UsersController extends Controller
             $user->email = $request->email;
             $user->username = $request->username;
             $user->password = bcrypt($request->password);
+            $user->category_id = $request->category_id;
+            $user->branch_id   = $request->branch_id;
 
             $user->role_id = $request->role_id;
             $user->login_enabled = 1;
@@ -1516,6 +1520,8 @@ class UsersController extends Controller
             $student->roll_no = 'p' . rand(1, 6000000);
 
 
+            $student->category_id = $request->category_id;
+            $student->branch_id   = $request->branch_id;
             $student->academic_id = (int)$request->academic_id;
             $student->course_parent_id = (int)$request->course_parent_id;
             $student->course_id = (int)$request->course_id;

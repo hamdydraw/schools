@@ -53,6 +53,7 @@ class StudentPromotionsController extends Controller
 
         if ($request->is_completed == 0) {
 
+
             $academic_id = $request->academic_id;
             $course_parent_id = $request->course_parent_id;
 
@@ -114,16 +115,14 @@ class StudentPromotionsController extends Controller
                 $to_year = 1;
             }
 
-            DB::beginTransaction();
-            try {
 
                 foreach ($request->selected_list as $key => $record) {
                     if ($record == 'nothing') {
                         continue;
                     }
-                    $studentObject = App\Student::where('user_id', '=', $key)->first();
-                    $studentObjectPromotion = App\StudentPromotion::where('student_id', '=',
-                        $studentObject->id)->orderBy('id', 'desc')->first();
+                    $studentObject = App\Student::withoutGlobalScope(App\Scopes\BranchScope::class)->where('user_id', '=', $key)->first();
+                    $studentObjectPromotion = App\StudentPromotion::where('student_id', '=',$studentObject->id)->orderBy('id', 'desc')->first();
+
                     $promotionObject = new App\StudentPromotion();
                     $promotionObject->user_id = $key;
                     $promotionObject->student_id = $studentObject->id;
@@ -166,10 +165,11 @@ class StudentPromotionsController extends Controller
                     $promotionObject->created_by_user = Auth::user()->id;
                     if(isset($request->branch)){
                         $promotionObject->branch_id = $request->branch;
-                        App\User::where('id',$key)->update(['branch_id' =>$request->branch]);
+                        App\User::where('id',$key)->update(['branch_id' =>$request->branch,'category_id' => $request->category_id]);
                     }
                     $promotionObject->save();
                     $studentObject->academic_id = $to_academic_id;
+                    $studentObject->category_id = $request->category_id;
                     if (isset($request->to_course_parent_id)) {
                         /*$student_course=App\Course::where('parent_id',$request->to_course_parent_id)->first();*/
                         $studentObject->course_parent_id = $request->to_course_parent_id;
@@ -194,16 +194,6 @@ class StudentPromotionsController extends Controller
                 }
 
                 flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-                DB::commit();
-            } catch (Exception $e) {
-                DB::rollBack();
-                if (getSetting('show_foreign_key_constraint', 'module')) {
-
-                    flash(getPhrase('Ooops'), $e->getMessage(), 'error');
-                } else {
-                    flash(getPhrase('Ooops'), getPhrase('improper_selection'), 'error');
-                }
-            }
         } else {
 
             DB::beginTransaction();

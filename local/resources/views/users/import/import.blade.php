@@ -68,32 +68,84 @@
 				</div>
 				<div class="col-md-8">
 						<h4>{{ getPhrase('information_helper_for_excel_data')}}</h4>
+					<div class="row">
 
-						  @include('common.year-selection-view', array('class'=>'custom-row-6'))
+						<fieldset class="form-group col-md-3">
+							<label for="academic_branch">{{getPhrase('academic_branch')}}</label>
+							<span class="text-red">*</span>
+							<select name="branch_id" class="form-control" required="required" ng-model="current_branch">
+								<option ng-repeat="branch in branchs" value="@{{ branch.id }}">@{{ branch.name }}</option>
+							</select>
+						</fieldset>
+
+					<fieldset class="form-group col-md-3">
+						<label for="">{{getPhrase('academic_year')}}</label>
+						<span class="text-red">*</span>
+						<select name="year" class="form-control"  required="required" ng-model="current_year_sc" ng-change="get_courses()">
+							<option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+						</select>
+					</fieldset>
+
+					<fieldset class="form-group col-md-3">
+						<label for="">{{getPhrase('Semester')}}</label>
+						<span class="text-red">*</span>
+						<select name="semesters" class="form-control" required="required" ng-model="current_sem_sc" ng-change="get_courses()">
+							<option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+						</select>
+					</fieldset>
+					</div>
+					<div class="row">
+
+						<fieldset class="form-group col-md-3">
+							<label for="category_id">{{getPhrase('category')}}</label>
+							<span class="text-red">*</span>
+							<select name="category_id" class="form-control"  required="required" ng-model="current_category" ng-change="get_courses()">
+								<option  ng-repeat="category in categorties" value="@{{ category.id }}">@{{ category.category_name }}</option>
+							</select>
+						</fieldset>
+
+					<fieldset class="form-group col-md-3">
+						<label for="">{{getPhrase('branch')}}</label>
+						<span class="text-red">*</span>
+						<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="get_sub_courses(current_course_sc)">
+							<option ng-repeat="course in academic_courses_sc" value="@{{ course.course_id }}">@{{ course.course_title }}</option>
+						</select>
+					</fieldset>
+						<fieldset class="form-group col-md-3">
+							<label for="">{{getPhrase('class')}}</label>
+							<span class="text-red">*</span>
+							<select name="class" class="form-control" required="required" ng-model="current_sub_course">
+								<option ng-repeat="sub_course in subcourses" value="@{{ sub_course.id }}">@{{ sub_course.course_title }}</option>
+							</select>
+						</fieldset>
+					</div>
+
 						  <div class="row">
 						  <div class="col-md-12 vertical-scroll" >
-						  
-						  <table class='table' ng-if="result_data">
-						  <thead>
-						  	<th>{{getPhrase('academic_id')}}</th>
-						  	<th>{{getPhrase('course_parent_id')}}</th>
-						  	<th>{{getPhrase('course_id')}}</th>
-						  	<th>{{getPhrase('year')}}</th>
-						  	<th>{{getPhrase('semester')}}</th>
-						  	
-						  </thead>	
-						  <tbody>
 
-						  	<tr>
-						  		<td>@{{result_data.academic_id}}</td>
-						  		<td>@{{result_data.course_parent_id}}</td>
-						  		<td>@{{result_data.course_id}}</td>
-						  		<td>@{{result_data.year}}</td>
-						  		<td>@{{result_data.semister}}</td>
-						  		
-						  	</tr>
-						  </tbody>
-						  </table>	
+							  <table class='table table-bordered table-striped' ng-if="current_sub_course">
+								  <thead>
+								  <tr>
+									  <th><center>branch_id</center></th>
+									  <th><center>academic_id</center></th>
+									  <th><center>current_semister</center></th>
+									  <th><center>category_id</center></th>
+									  <th><center>course_parent_id</center></th>
+									  <th><center>course_id</center></th>
+								  </tr>
+								  </thead>
+								  <tbody>
+								  <tr>
+									  <td>@{{ current_branch }}</td>
+									  <td>@{{ current_year_sc }}</td>
+									  <td>@{{ current_sem_sc }}</td>
+									  <td>@{{ current_category }}</td>
+									  <td>@{{ current_course_sc }}</td>
+									  <td>@{{ current_sub_course }}</td>
+								  </tr>
+								  </tbody>
+							  </table>
+							  <br><br><br>
 						  </div>
 						  	
 						  </div>
