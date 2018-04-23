@@ -1386,7 +1386,7 @@ Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem
 //test Route
 
 Route::get('/test_it', function () {
-    return json_encode(is_teachers_subject('1','1','17','34'));
+    return get_users_nu();
 });
 
 Route::get('/test_2', function () {

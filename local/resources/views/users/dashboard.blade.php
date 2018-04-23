@@ -162,7 +162,7 @@
 					<div class="col-md-3 ">
 						<div class="card card-green text-xs-center helper_step8">
 							<div class="card-block">
-							<h4 class="card-title">{{ App\User::get()->count()}}</h4>
+							<h4 class="card-title">{{ get_users_nu() }}</h4>
 
 								<p class="card-text">{{ getPhrase('all_users')}}</p>
 							</div>

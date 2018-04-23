@@ -1393,3 +1393,44 @@ function get_subject_name($id)
 {
     return \App\Subject::where('id',$id)->pluck('subject_title')->first();
 }
+
+function get_users_nu()
+{
+    $records = User::join('roles', 'users.role_id', '=', 'roles.id')
+        ->select([
+            'users.name',
+            'image',
+            'id_number',
+            'email',
+            'roles.display_name',
+            'roles.name as role_name',
+            'login_enabled',
+            'role_id',
+            'slug',
+            'users.id',
+            'users.status',
+            'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
+        ])
+        ->where('users.role_id','!=','5')
+        ->orderBy('users.updated_at', 'desc');
+    $records2 = User::join('roles', 'users.role_id', '=', 'roles.id')
+        ->select([
+            'users.name',
+            'image',
+            'id_number',
+            'email',
+            'roles.display_name',
+            'roles.name as role_name',
+            'login_enabled',
+            'role_id',
+            'slug',
+            'users.id',
+            'users.status',
+            'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
+        ])
+        ->where('users.role_id','=','5')
+        ->where('users.category_id','=',Auth::user()->category_id)
+        ->orderBy('users.updated_at', 'desc');
+    $data = $records->union($records2)->get();
+    return count($data);
+}
