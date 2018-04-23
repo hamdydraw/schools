@@ -8,6 +8,7 @@ use DB;
 use Exception;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Auth;
 
 class CourseSubjectsController extends Controller
 {
@@ -52,6 +53,7 @@ class CourseSubjectsController extends Controller
         $this->setSlug($slug);
 
         $records = CourseSubject::join('academics', 'academics.id', '=', 'course_subject.academic_id')
+            ->join('courses','course_subject.course_id','=','courses.id')
             ->select([
                 'academics.academic_year_title',
                 'academic_id',
@@ -60,6 +62,7 @@ class CourseSubjectsController extends Controller
                 'course_subject.id',
                 'course_subject.created_by_user','course_subject.updated_by_user','course_subject.created_by_ip','course_subject.updated_by_ip','course_subject.created_at','course_subject.updated_at'
             ])
+            ->where('courses.category_id',Auth::user()->category_id)
             ->groupBy('academic_id')
             ->groupBy('course_id');
 
