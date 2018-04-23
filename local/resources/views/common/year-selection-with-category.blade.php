@@ -73,7 +73,7 @@ if (isset($user_slug)) {
                     class="form-control"
                     ng-model="course_parent_id"
                     ng-change="get_classes(course_parent_id)"
-                    ng-options="option.id as option.course_title for option in parent_courses track by option.id">
+                    ng-options="option.course_id as option.course_title for option in parent_courses track by option.course_id">
                 <option value="">{{getPhrase('select')}}</option>
             </select>
         </fieldset>

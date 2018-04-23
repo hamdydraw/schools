@@ -102,6 +102,7 @@ class UsersController extends Controller
                 ->join('students', 'students.user_id', '=', 'users.id')
                 ->join('courses', 'courses.id', '=', 'students.course_id')
                 ->where('roles.id', '=', $role)
+                ->where('users.category_id',Auth::user()->category_id)
                 ->select([
                     'users.id',
                     'users.name',

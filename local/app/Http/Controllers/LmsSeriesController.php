@@ -97,7 +97,8 @@ class LmsSeriesController extends Controller
                 'lmsseries.created_by_ip',
                 'lmsseries.updated_by_ip',
                 'lmsseries.created_at',
-                'lmsseries.updated_at']);
+                'lmsseries.updated_at'])
+                ->where('courses.category_id',Auth::user()->category_id);
         }
 
         return Datatables::of($records)

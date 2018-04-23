@@ -80,6 +80,7 @@ class OfflineQuizCategoriesController extends Controller
     {
 
          $records = OfflineQuizCategories::join('courses','quizofflinecategories.course_id','=','courses.id')
+                                        ->where('courses.category_id',Auth::user()->category_id)
                                         ->select(['quizofflinecategories.id',
                                                   'quizofflinecategories.title',
                                                   'courses.course_title',

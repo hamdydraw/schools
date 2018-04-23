@@ -85,8 +85,9 @@ class LmsCategoryController extends Controller
             return back();
         }
 
-         $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')->select([
-         	'lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at']);
+         $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')
+                                ->select(['lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at'])
+                                ->where('courses.category_id',Auth::user()->category_id);
         $this->setSettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

@@ -58,6 +58,7 @@
                        {{ \App\User::join('roles', 'users.role_id', '=', 'roles.id')
                 ->join('students', 'students.user_id', '=', 'users.id')
                 ->join('courses', 'courses.id', '=', 'students.course_id')
+                ->where('courses.category_id',Auth::user()->category_id)
                 ->where('roles.id', '=', 5)->get()->count()}}
 
 							</h4>

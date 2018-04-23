@@ -75,6 +75,7 @@ class OfflineExamsController extends Controller
         }
         else {
             $records = Quiz::join('quizofflinecategories', 'quizzes.offline_quiz_category_id', '=', 'quizofflinecategories.id')
+                ->join('courses','quizzes.course_id','=','courses.id')
                 ->select([
                     'quizzes.title',
                     'quizofflinecategories.title as quiz_offline_category',
@@ -89,6 +90,7 @@ class OfflineExamsController extends Controller
                     'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
                 ])
                 ->where('quizzes.type', '!=', 'online')
+                ->where('courses.category_id',Auth::user()->category_id)
 //                ->where('quizapplicability.academic_id', '=', $academic_id)
                 ->groupBy('quizzes.id');
         }

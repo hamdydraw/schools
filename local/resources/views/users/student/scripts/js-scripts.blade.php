@@ -36,7 +36,7 @@
             $scope.get_courses = function () {
             $http({
                 method:"GET",
-                url:'{{PREFIX}}'+'get_category_courses/'+$scope.current_category,
+                url:'{{PREFIX}}'+'get_cat_year_courses/'+$scope.current_category+'/'+$scope.academic_year,
                 dataType:"json",
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -53,6 +53,7 @@
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    console.log(response.data);
                     $scope.courses = response.data;
                 })
         }

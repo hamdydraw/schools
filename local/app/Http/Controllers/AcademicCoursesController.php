@@ -32,18 +32,20 @@ class AcademicCoursesController extends Controller
             return redirect($isValid);
         }
 
-        $courses = App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id', '=', 0)->select(['id', 'course_title', 'parent_id'])->get();
+        $courses = App\Course::where('parent_id', '=', 0)->select(['id', 'course_title', 'parent_id'])->get();
 
         $alloted_list = $record->academicCourses()->orderBy('course_id', 'asc')->get();
         $final_list = [];
 
         foreach ($alloted_list as $l) {
-            $course_item = App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id', '=', $l->course_id)->first();
-            $final_list[] = (object)array(
-                'id' => $l->course_id,
-                'course_title' => $course_item->course_title,
-                'parent_id' => $course_item->parent_id
-            );
+            $course_item = App\Course::where('id', '=', $l->course_id)->first();
+            if($course_item){
+                $final_list[] = (object)array(
+                    'id' => $l->course_id,
+                    'course_title' => $course_item->course_title,
+                    'parent_id' => $course_item->parent_id
+                );
+            }
         }
         $data['record'] = $record;
         $data['active_class'] = 'mastersettings';
@@ -96,7 +98,15 @@ class AcademicCoursesController extends Controller
         $model = AcademicCourse::where('academic_id', '=', $record->id)->groupBy('course_id')->get();
         $count = $model->count();
         $academic_id = $record->id;
-        DB::statement("delete from academic_course where academic_id = '$record->id'");
+        //DB::statement("delete from academic_course where academic_id = '$record->id'");
+        $courses =AcademicCourse::join('courses','academic_course.course_id','=','courses.id')
+                        ->select(['academic_course.id'])
+                        ->where('academic_course.academic_id',$record->id)
+                        ->where('courses.category_id',Auth::user()->category_id)
+                        ->get();
+        foreach ($courses as $course){
+            DB::statement("delete from academic_course where id = '$course->id'");
+        }
 
             if ($count) {
                 if (!env('DEMO_MODE')) {

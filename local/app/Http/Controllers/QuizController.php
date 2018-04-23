@@ -128,6 +128,7 @@ class QuizController extends Controller
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
                     ])
+                    ->where('courses.category_id',Auth::user()->category_id)
                     ->orderBy('quizzes.updated_at', 'desc');
             }
 
@@ -354,6 +355,8 @@ class QuizController extends Controller
         $record->is_paid = 0;
         $record->negative_mark = 0;
         $record->type = $request->type;
+        $record->course_id = $request->course_id;
+
         $record->instructions_page_id = App\Instruction::first()->id;
 
         if ($type == 'online') {
@@ -464,6 +467,7 @@ class QuizController extends Controller
         $instructions_page_id = 0;
         $pass_percentage = 0;
         $record->is_paid = 0;
+        $record->course_id = $request->course_id;
         $record->negative_mark = 0;
         $record->type = $request->type;
         $record->instructions_page_id = App\Instruction::first()->id;

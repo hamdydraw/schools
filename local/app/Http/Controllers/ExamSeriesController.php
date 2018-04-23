@@ -113,6 +113,7 @@ class ExamSeriesController extends Controller
                 'examseries.created_at',
                 'examseries.updated_at'
             ])
+                ->where('courses.category_id',Auth::user()->category_id)
                 ->orderBy('updated_at', 'desc');
         }
 
