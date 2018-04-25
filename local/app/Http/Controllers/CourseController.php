@@ -242,7 +242,7 @@ class CourseController extends Controller
             $coursesem->course_id = $record->id;
             $coursesem->year = $year;
             $coursesem->total_semisters = 2;
-            $coursesem->current_semester = 1;
+            $coursesem->current_semester = 0;
             $coursesem->user_stamp($request);
             $coursesem->save();
         }
@@ -278,7 +278,7 @@ class CourseController extends Controller
         $record->slug = $record->makeSlug($name, true);
         $record->parent_id = $request->parent_id;
         $record->course_dueration = 1;
-        $record->is_having_semister = 0;
+        $record->is_having_semister = 1;
         $record->category_id = $request->category_id;
         /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
@@ -293,6 +293,7 @@ class CourseController extends Controller
 
         $record->user_stamp($request);
         $record->save();
+
 
 
         if ($record->is_having_semister) {

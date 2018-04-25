@@ -312,12 +312,13 @@ class CourseSubjectsController extends Controller
         //Delete the unwanted/non-submitted items from course subjects table
         if (!env('DEMO_MODE')) {
             foreach ($items_to_remove as $index => $subject_id) {
-                $query = App\CourseSubject::where('academic_id', '=', $academic_id)
-                    ->where('course_parent_id', '=', $course_parent_id)
-                    /* ->where('course_id', '=', $course_id)*/
-                    ->where('year', '=', $current_year)
-                    ->where('semister', '=', $current_sem)
-                    ->where('subject_id', '=', $subject_id)->delete();
+//                $query = App\CourseSubject::where('academic_id', '=', $academic_id)
+//                    ->where('course_parent_id', '=', $course_parent_id)
+//                    /* ->where('course_id', '=', $course_id)*/
+//                    ->where('year', '=', $current_year)
+//                    ->where('semister', '=', $current_sem)
+//                    ->where('subject_id', '=', $subject_id)->delete();
+                DB::statement("delete from course_subject where academic_id = '$academic_id' and year = '$current_year' and semister = '$current_sem' and subject_id = '$subject_id'");
             }
         }
 
