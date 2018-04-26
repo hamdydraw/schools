@@ -874,7 +874,7 @@ Route::post('payments/offline-payment/update', ['middleware' => 'stopOrOn:offlin
 //LMS Categories
 
 //Settings ---dashboard
-Route::get('settings/dashboard', 'SettingsController@settingsDashboard');
+    Route::get('settings/dashboard', 'SettingsController@settingsDashboard');
 Route::get('mastersettings/settings/', 'SettingsController@index');
 Route::get('mastersettings/settings/index', 'SettingsController@index');
 
@@ -1166,6 +1166,10 @@ Route::get('offlineexmas/quiz/categories/getList', [
 
 //academic operations ---dashboard
 Route::get('academicoperations/dashboard', 'AcademicOperationsDashboardController@index');
+
+//Attendance operations --Dashboard
+Route::get('attendanceoperations/dashboard', 'AttendanceOperationsDashboardController@index');
+
 
 //Student Quiz dashboard
 Route::get('student/quiz/dashboard', 'StudentQuizController@dashboard');

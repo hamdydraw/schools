@@ -302,6 +302,13 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 					</li>
 					@endif
 
+                    @if($settings->attendance_and_departure->value == 1)
+                    <li {{ isActive($active_class, 'Automatic_call') }}>
+						<a  href="#"><i class="fa fa-assistive-listening-systems" ></i>
+							{{ getPhrase('Automatic_call') }} </a>
+					</li>
+                    @endif
+
 					<li {{ isActive($active_class, 'academic_expenses') }}>
 						<a  href="{{url('parent/purchase-expenses/all/')}}"><i class="fa fa-credit-card" ></i>
 							{{ getPhrase('academic_expenses') }} </a>

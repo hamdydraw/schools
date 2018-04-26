@@ -18,21 +18,22 @@
 				</div>
 
 				 <div class="row">
-					<div class="col-md-3">
-						<div class="card card-blue text-xs-center helper_step1">
-							<div class="card-block">
-					  <h4 class="card-title">
-					  <i class="fa fa-id-card" aria-hidden="true"></i>
-					  </h4>
+					{{--<div class="col-md-3">--}}
+						{{--<div class="card card-blue text-xs-center helper_step1">--}}
+							{{--<div class="card-block">--}}
+					  {{--<h4 class="card-title">--}}
+					  {{--<i class="fa fa-id-card" aria-hidden="true"></i>--}}
+					  {{--</h4>--}}
 
-								<p class="card-text">{{ getPhrase('id_cards')}}</p>
-							</div>
-							<a class="card-footer text-muted"
-							href="{{URL_CERTIFICATES_GENERATE_IDCARD}}">
-								{{ getPhrase('lets_start')}}
-							</a>
-						</div>
-					</div>
+								{{--<p class="card-text">{{ getPhrase('id_cards')}}</p>--}}
+							{{--</div>--}}
+							{{--<a class="card-footer text-muted"--}}
+							{{--href="{{URL_CERTIFICATES_GENERATE_IDCARD}}">--}}
+								{{--{{ getPhrase('lets_start')}}--}}
+							{{--</a>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+
 					<div class="col-md-3">
 						<div class="card card-green text-xs-center helper_step2">
 							<div class="card-block">

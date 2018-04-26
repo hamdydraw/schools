@@ -822,6 +822,11 @@ define('URL_BRANCHES_DELETE', PREFIX.'branches/delete/');
 //Dashboards -academic operations
 define('URL_ACADEMICOPERATIONS_DASHBOARD', PREFIX.'academicoperations/dashboard');
 
+
+
+//Dashboards -AttendanceOperations operations
+define('URL_AttendanceOperations_DASHBOARD', PREFIX.'attendanceoperations/dashboard');
+
 //Dashboards -users
 define('URL_USERS_DASHBOARD', PREFIX.'users/dashboard');
 

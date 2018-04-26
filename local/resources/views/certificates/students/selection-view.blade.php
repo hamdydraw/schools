@@ -17,16 +17,14 @@
                                 </i>
                             </a>
                         </li>
+
                         <li>
-                            <a href="{{URL_ACADEMICOPERATIONS_DASHBOARD}}">
-                                {{getPhrase('academic_operations')}}
+                            <a href="{{URL_AttendanceOperations_DASHBOARD}}">
+                                {{getPhrase('Attendance_and_departure')}}
                             </a>
+
                         </li>
-                        <li>
-                            <a href="{{URL_CERTIFICATES_DASHBOARD}}">
-                                {{getPhrase('certificates_dashboard')}}
-                            </a>
-                        </li>
+
                         <li>
 
                             {{$title}}
