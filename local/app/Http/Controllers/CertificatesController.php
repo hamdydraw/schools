@@ -169,7 +169,16 @@ class CertificatesController extends Controller
      */
     public function idCards()
     {
-        $data['active_class'] = 'academic';
+
+        $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
+        $settings = json_decode($settings->settings_data);
+        if($settings->attendance_and_departure->value != 1)
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['active_class'] = 'attendance';
         $data['title'] = getPhrase('id_card_generation');
         $data['user'] = Auth::user();
         $data['settings'] = Settings::where('slug', 'id-card-fields')->get()->first();

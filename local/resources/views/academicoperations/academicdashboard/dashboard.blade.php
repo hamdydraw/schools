@@ -72,21 +72,22 @@
 						</div>
 
 					</div>
-					<div class="col-md-3">
-						<div class="card card-blue text-xs-center helper_step5">
-							<div class="card-block">
-					  <h4 class="card-title">
-                     <i class="fa fa-check-square-o">	</i>			 
-                      </h4>
-                          
-								<p class="card-text">{{ getPhrase('class_attendance_report')}}</p>
-							</div>
-							<a class="card-footer text-muted" 
-							href="{{URL_STUDENT_CLASS_ATTENDANCE}}">
-								{{ getPhrase('view_all')}}
-							</a>
-						</div>
-					</div>
+					{{--<div class="col-md-3">--}}
+						{{--<div class="card card-blue text-xs-center helper_step5">--}}
+							{{--<div class="card-block">--}}
+					  {{--<h4 class="card-title">--}}
+                     {{--<i class="fa fa-check-square-o">	</i>			 --}}
+                      {{--</h4>--}}
+                          {{----}}
+								{{--<p class="card-text">{{ getPhrase('class_attendance_report')}}</p>--}}
+							{{--</div>--}}
+							{{--<a class="card-footer text-muted" --}}
+							{{--href="{{URL_STUDENT_CLASS_ATTENDANCE}}">--}}
+								{{--{{ getPhrase('view_all')}}--}}
+							{{--</a>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+
 					<div class="col-md-3">
 						<div class="card card-black text-xs-center helper_step6">
 							<div class="card-block">

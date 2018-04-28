@@ -117,7 +117,16 @@ class StudentAttendanceReportController extends Controller
      */
     public function classAttendance()
     {
-        $data['active_class']       = 'academic';
+
+        $settings = \App\Settings::where('key', 'module')->first(['settings_data']);
+        $settings = json_decode($settings->settings_data);
+        if($settings->attendance_and_departure->value != 1)
+        {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['active_class']       = 'attendance';
         $data['title']              = getPhrase('attendance_report');
 
         $data['academic_years']     = addSelectToList(getAcademicYears());

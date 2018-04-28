@@ -306,13 +306,14 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                             class="fa fa-exchange"></i> {{ getPhrase('transfers')}}</a>
                             </li>
                         @endif
+
                         @if(Module_state('daily_school_schedule'))
                             <li><a href="{{URL_TIMETABLE_DASHBOARD}}"> <i
                                             class="fa fa-clock-o"></i> {{ getPhrase('timetable')}}</a></li>
                         @endif
-                        <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}"> <i class="fa fa-check-square-o"
+                        <!-- <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}"> <i class="fa fa-check-square-o"
                                                                            aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
-                            </a></li>
+                            </a></li> -->
                         @if(Module_state('exams'))
                             <li><a href="{{URL_STUDENT_MARKS_REPORT}}"> <i class="fa fa-line-chart"
                                                                            aria-hidden="true"></i> {{ getPhrase('class_marks_report')}}
@@ -348,7 +349,47 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                     </ul>
 
                 </li>
-                @if(Module_state('exams'))
+
+                @if($settings->attendance_and_departure->value == 1)
+                <li {{ isActive($active_class, 'attendance') }} >
+                    <a data-toggle="collapse" data-target="#attendance" href="{{URL_AttendanceOperations_DASHBOARD}}">
+                        <i class="fa fa-street-view" aria-hidden="true"></i>
+                        {{ getPhrase('attendance_and_departure') }} </a>
+
+                    <ul id="attendance" class="collapse sidemenu-dropdown">
+
+
+
+                        <li><a href="{{URL_CERTIFICATES_GENERATE_IDCARD}}">
+                                <i class="fa fa-id-card"aria-hidden="true"></i> {{ getPhrase('ID_cards')}}
+                            </a></li>
+
+                        <li><a href="#">
+                                <i class="fa fa-user-secret"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure')}}
+                            </a></li>
+
+                        <li><a href="#">
+                                <i class="fa fa-assistive-listening-systems"aria-hidden="true"></i> {{ getPhrase('Automatic_call')}}
+                            </a></li>
+
+                        <li><a href="#">
+                                <i class="fa fa-microphone"aria-hidden="true"></i> {{ getPhrase('voice_records_for_students')}}
+                            </a></li>
+
+                        <li><a href="#">
+                                <i class="fa fa-file-archive-o"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure_report')}}
+                            </a></li>
+
+                        <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}">
+                                <i class="fa fa-check-square-o"aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
+                            </a></li>
+                    </ul>
+
+                </li>
+                @endif
+
+
+            @if(Module_state('exams'))
                     <li {{ isActive($active_class, 'exams') }} >
 
                         <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
