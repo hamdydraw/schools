@@ -1393,6 +1393,21 @@ Route::get('/test_2', function () {
     return \GuzzleHttp\json_encode(getMaxID())  ;
 });
 
+
+Route::get('/courseSem', function () {
+    $ids =  \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id',0)->select(['id'])->get();
+    \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id',0)->update(['is_having_semister' => 1]);
+    foreach ($ids as $id){
+        $CS = new \App\CourseSemister();
+        $CS->course_id        = $id->id;
+        $CS->year             = 1;
+        $CS->total_semisters  = 2;
+        $CS->current_semester = 0;
+        $CS->save();
+    }
+    return "Done";
+});
+
 //return getMaxID();
 
 Route::get('tables/list', 'TablesController@index');
