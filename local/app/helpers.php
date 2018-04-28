@@ -1119,19 +1119,19 @@ function teacher_subject($slug){
 
 //get the main tables in database
 function get_main_tables(){
-
+  $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
     //course_subject
     $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset'];
     foreach ($tables as $table){
-        if(in_array($table->Tables_in_sasbit_school,$ignored))
+        if(in_array($table->$TABLES_IN_DB,$ignored))
         {
             continue;
         }
-        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        $columns = Schema::getColumnListing($table->$TABLES_IN_DB);
         if(in_array('slug',$columns)) {
-            array_push($main_tables,$table->Tables_in_sasbit_school);
+            array_push($main_tables,$table->$TABLES_IN_DB);
         }
     }
     return $main_tables;

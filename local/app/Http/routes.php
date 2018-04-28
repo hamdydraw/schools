@@ -1405,20 +1405,21 @@ Route::get('tables/fix', 'TablesController@fix');
 
 
 Route::get('/record_branch', function () {
+  $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');
     $tables = DB::select('SHOW TABLES');
     $right_tables = ['authors','examseries','examtoppers','feedbacks',
                     'libraryassettypes','librarymasters','modulehelper',
                     'notifications','quizofflinecategories','publishers',
                     'quizzes','quizcategories','quizresults','staff','students','users','users_login'];
     foreach ($tables as $table){
-        if(in_array($table->Tables_in_sasbit_school,$right_tables)) {
+        if(in_array($table->$TABLES_IN_DB,$right_tables)) {
             continue;
         }
-        $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+        $columns = Schema::getColumnListing($table->$TABLES_IN_DB);
         if(in_array('branch_id',$columns)) {
 
-            DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP `branch_id`");
-//              DB::statement("ALTER TABLE `$table->Tables_in_sasbit_school` DROP  `branch_id`");
+            DB::statement("ALTER TABLE `$table->$TABLES_IN_DB` DROP `branch_id`");
+//              DB::statement("ALTER TABLE `$table->$TABLES_IN_DB` DROP  `branch_id`");
         }
 
     }

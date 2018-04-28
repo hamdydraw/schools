@@ -30,12 +30,13 @@ class TablesController extends Controller
             return back();
         }
         $tables  = DB::select('SHOW TABLES');
+        $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');
         foreach ($tables as $table){
 
-            if($table->Tables_in_sasbit_school == 'branch'){continue;}
-            $current = $table->Tables_in_sasbit_school;
+            if($table->$TABLES_IN_DB == 'branch'){continue;}
+            $current = $table->$TABLES_IN_DB;
 
-            $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+            $columns = Schema::getColumnListing($table->$TABLES_IN_DB);
             if(!$this->inArray('created_at',$columns)){
                 DB::statement("ALTER TABLE `$current` ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
             }
@@ -73,8 +74,8 @@ class TablesController extends Controller
         $tables  = DB::select('SHOW TABLES');
         $records = ['created_at','updated_at','updated_by_ip','created_by_ip','created_by_user','updated_by_user','record_status','table_name','branch_id'];
         foreach ($tables as $table){
-            $table->title = $table->Tables_in_sasbit_school;
-            $columns = Schema::getColumnListing($table->Tables_in_sasbit_school);
+            $table->title = $table->$TABLES_IN_DB;
+            $columns = Schema::getColumnListing($table->$TABLES_IN_DB);
             foreach ($records as $record){
                 if($this->inArray($record,$columns)){
                     $table->$record = true;
