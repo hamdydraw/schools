@@ -84,27 +84,29 @@
 		<div class="text-center buttons ">
 			<div class="col-md-5">
 				<a href="javascript:void(0);" class="pull-left" data-toggle="modal" data-target="#myModal" ><i class="icon icon-question"></i> {{getPhrase('forgot_password')}}</a>
-				<br>
-				<div class="col-md-4">
-					@if($key['facebook'] == 1)
-					<a ng-click="authenticate('facebook')" class="btn btn-block btn-social btn-facebook"><span style="padding-left: 5%;" class="fa fa-facebook" aria-hidden="true"></span>{{getPhrase('Sign_in_with_Facebook')}}</a>
-					<br>
-					@endif
-					@if($key['google'] == 1)
-					<a ng-click="authenticate('google')" class="btn btn-block btn-social btn-google-plus"><span style="padding-left: 5%;" class="fa fa-google"></span>{{getPhrase('Sign_in_with_Google')}}</a>
-					@endif
-				</div>
 			</div>
 			<div class="col-md-7">
 				<!-- <button type="submit" class="btn button btn-primary btn-lg" ng-disabled='!loginForm.$valid'>{{getPhrase('login')}}</button> -->
 				<button type="submit" class="btn button btn-primary btn-lg" >{{getPhrase('login')}}</button>
+			
+				<div class="text-center buttons">
+
+						@if($key['facebook'] == 1)
+						<a ng-click="authenticate('facebook')" class="btn btn-block btn-social btn-facebook"><span style="padding-left: 5%;" class="fa fa-facebook" aria-hidden="true"></span>{{getPhrase('Sign_in_with_Facebook')}}</a>
+						<br>
+						@endif
+
+						@if($key['google'] == 1)
+						<a ng-click="authenticate('google')" class="btn btn-block btn-social btn-google-plus"><span style="padding-left: 5%;" class="fa fa-google"></span>{{getPhrase('Sign_in_with_Google')}}</a>
+						@endif
+
+				</div>
 			</div>
 
 		</div>
 	</div>
 
 	{!! Form::close() !!}
-
 
 
 </div>
