@@ -72,6 +72,7 @@ class TablesController extends Controller
     public function getTables()
     {
         $tables  = DB::select('SHOW TABLES');
+        $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');
         $records = ['created_at','updated_at','updated_by_ip','created_by_ip','created_by_user','updated_by_user','record_status','table_name','branch_id'];
         foreach ($tables as $table){
             $table->title = $table->$TABLES_IN_DB;
