@@ -1408,8 +1408,12 @@ class UsersController extends Controller
 
                     foreach ($data as $key => $value) {
 
+
                         foreach ($value as $record) {
                             unset($user_record);
+                            if($record->name == null){
+                                break;
+                            }
 
                             $user_record['username'] = $record->username;
                             $user_record['name'] = $record->name;
