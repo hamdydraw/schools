@@ -13,10 +13,10 @@
                 @{{period.start_time | date : 'hh'}} - @{{period.end_time | date : 'hh'}}</th>
             </thead>
               <tbody>
-                  <tr ng-repeat=" timemap in timings_map track by $index">
+                  <tr ng-repeat=" day in days track by $index">
                     <td>
-                    
-                    @{{days[timemap.periods[0].day_number].day}}</td>
+
+                    @{{day.day}}</td>
                     <td ng-repeat="item in target_items[$index]">
                    <ul class="days" > 
                     <li class="day" >

@@ -434,6 +434,7 @@ class TimetableController extends Controller
                         //Record Available, User Not availabe
                         if (!env('DEMO_MODE')) {
                             $record->delete();
+                            DB::statement("delete from timetable where record_status = 3");
                         }
                     }
 

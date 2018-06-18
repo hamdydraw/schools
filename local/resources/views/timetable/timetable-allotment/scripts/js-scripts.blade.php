@@ -9,7 +9,7 @@
 
 <script>
  
- app.controller('TimetableController', function ($scope, $http, $timeout, httpPreConfig,$location)
+ app.controller('TimetableController', function ($scope, $http, $timeout, httpPreConfig,$location,$filter)
   {
     @include('common.js-script-year-selection')
     $scope.parent_courses  = [];
@@ -34,14 +34,16 @@
 
 
 
-  $scope.days = [ {day_no:0, day:'Sun'},
+  $scope.days = [
                   {day_no:1, day:'Mon'},
                   {day_no:2, day:'Tue'},
                   {day_no:3, day:'Wed'},
                   {day_no:4, day:'Thr'},
                   {day_no:5, day:'Fri'},
-                  {day_no:6, day:'Sat'}
+                  {day_no:6, day:'Sat'},
+                  {day_no:7, day:'Sun'}
                 ] ;
+
   $scope.total_periods = [];
       
       $scope.ingAngData = function(data) {
@@ -81,6 +83,8 @@
         timetable_list = [];
         angular.forEach($scope.timings_map, function(day, day_number){
           timetable_list.push(day.periods);
+            console.log(day.periods[0].day_number);
+            $filter('filter')($scope.days, {'day_no':day.periods[0].day_number});
         })
         
         $scope.target_items = timetable_list;

@@ -1315,7 +1315,12 @@ Route::get('current_year_sem',function (){
     $current_academic_id = new Academic();
     $data['year']=$current_academic_id->getCurrentAcademic()->id;
     $semister = new App\AcademicSemester();
-    $data['semister'] = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+
+    $data['semister'] = $semister->getCurrentSemeterOfAcademicYear($data['year']);
+    if($data['semister']){
+        $data['semister'] =  $data['semister']->sem_num;
+    }else {  $data['semister'] = 1; }
+
     return $data;
 
 });

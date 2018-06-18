@@ -691,13 +691,13 @@ function addSelectToList($list)
  */
 function getDay($dayNumber = -1)
 {
-    $days[0] = getPhrase('sun');
     $days[1] = getPhrase('mon');
     $days[2] = getPhrase('tue');
     $days[3] = getPhrase('wed');
     $days[4] = getPhrase('thu');
     $days[5] = getPhrase('fri');
     $days[6] = getPhrase('sat');
+    $days[7] = getPhrase('sun');
 
     if ($dayNumber == -1) {
         return $days;
@@ -1203,7 +1203,10 @@ function getTeacherCourses($year){
     $current_academic_id = new Academic();
     $semister = new App\AcademicSemester();
     $data['year']=$current_academic_id->getCurrentAcademic()->id;
-    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
+    if($current_semster){
+        $current_semster = $current_semster->sem_num;
+    }else { $current_semster = 1; }
 
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
                       ->join('academic_course','courses.id','=','academic_course.course_id')
