@@ -138,7 +138,11 @@ Route::get('departments/getDepartments', [
 //Users ---dashboard
 Route::get('users/dashboard', 'UsersDashboardController@index');
 Route::get('users/import', 'UsersController@importUsers');
+Route::get('teachers/import', 'UsersController@importTeachers');
+//importTeachers
 Route::post('users/import', 'UsersController@readExcel');
+Route::post('teachers/import', 'UsersController@readTeacherExcel');
+//readTeacherExcel
 
 Route::get('users/create', 'UsersController@create');
 Route::get('users/staff-inactive/{role}', 'UsersController@staff_inactivelist');

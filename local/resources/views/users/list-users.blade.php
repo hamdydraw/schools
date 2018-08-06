@@ -29,6 +29,9 @@
 					@if($role=='student')
 					<a href="{{URL_USERS_IMPORT}}" class="btn  btn-primary button" >{{ getPhrase('import_excel')}}</a>
 					@endif
+						@if($role=='staff')
+							<a href="{{URL_TEACHER_IMPORT}}" class="btn  btn-primary button" >{{ getPhrase('import_excel')}}</a>
+						@endif
 					@if(count($academic_details)&&count($course_details))
 					<a href="{{URL_USERS_ADD}}" class="btn  btn-primary button" >{{ getPhrase('add_user')}}</a>
 					@endif

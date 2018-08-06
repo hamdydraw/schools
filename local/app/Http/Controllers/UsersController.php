@@ -1380,6 +1380,22 @@ class UsersController extends Controller
         return view('users.import.import', $data);
     }
 
+    public function importTeachers($role = 'staff')
+    {
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $data['records'] = false;
+        $data['active_class'] = 'users';
+        $data['heading'] = getPhrase('users');
+        $data['title'] = getPhrase('import_teacher_data');
+        $data['academic_years'] = addSelectToList(getAcademicYears());
+        $data['layout'] = getLayout();
+        return view('users.import.teacher-import', $data);
+    }
+
     public function readExcel(Request $request)
     {
         $columns = array(
@@ -1407,7 +1423,6 @@ class UsersController extends Controller
                 if (!empty($data) && $data->count()) {
 
                     foreach ($data as $key => $value) {
-
 
                         foreach ($value as $record) {
                             unset($user_record);
@@ -1501,9 +1516,121 @@ class UsersController extends Controller
         $data['title'] = getPhrase('report');
 
         return redirect(URL_USERS_IMPORT);
-
     }
 
+
+    public function readTeacherExcel(Request $request)
+    {
+        $columns = array('excel' => 'bail|required',);
+        $this->validate($request, $columns);
+
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $success_list = [];
+        $failed_list = [];
+        DB::beginTransaction();
+        try {
+            if (Input::hasFile('excel')) {
+                $path = Input::file('excel')->getRealPath();
+                $data = Excel::load($path, function ($reader) {})->get();
+                $user_record = array();
+                $users = array();
+                $isHavingDuplicate = 0;
+                $role_id = getRoleData('staff');
+                if (!empty($data) && $data->count()) {
+
+                    foreach ($data as $key => $value) {
+
+                        foreach ($value as $record) {
+                            unset($user_record);
+                            if($record->name == null){
+                                break;
+                            }
+
+                            $user_record['username'] = $record->id_number;
+                            $user_record['name'] = $record->name;
+                            $user_record['email'] = $record->email;
+                            $user_record['id_number'] = $record->id_number;
+
+                            $user_record['password'] = $record->id_number;
+                            $user_record['role_id'] = $role_id;
+                            $user_record['branch_id'] = $record->branch_id;
+                            $user_record['category_id'] = $record->category_id;
+
+                            $user_record['course_parent_id'] = $record->course_parent_id;
+                            $user_record['course_id'] = $record->course_id;
+                            $user_record['first_name'] = $record->first_name;
+                            $user_record['last_name'] = $record->last_name;
+                            $user_record['middle_name'] = $record->middle_name;
+                            $user_record['date_of_join'] = $record->date_of_join;
+
+
+                            $user_record = (object)$user_record;
+
+                            $failed_length = count($failed_list);
+                            if ($this->isRecordExists($record->username, 'username')) {
+
+                                $isHavingDuplicate = 1;
+                                $temp = array();
+                                $temp['record'] = $user_record;
+                                $temp['type'] = 'Record already exists with this name';
+                                $failed_list[$failed_length] = (object)$temp;
+                                continue;
+                            }
+
+                            if ($this->isRecordExists($record->email, 'email')) {
+                                $isHavingDuplicate = 1;
+                                $temp = array();
+                                $temp['record'] = $user_record;
+                                $temp['type'] = 'Record already exists with this email';
+                                $failed_list[$failed_length] = (object)$temp;
+                                continue;
+                            }
+
+                            $users[] = $user_record;
+
+                        }
+
+                    }
+                    if (!env('DEMO_MODE')) {
+                        if ($this->addTeacher($users)) {
+                            $success_list = $users;
+                            DB::commit();
+                        }
+                    }
+                }
+            }
+
+            $this->excel_data['failed'] = $failed_list;
+            $this->excel_data['success'] = $success_list;
+
+            flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
+            //$this->downloadExcel();
+
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollBack();
+            if (getSetting('show_foreign_key_constraint', 'module')) {
+
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
+            } else {
+                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
+            }
+        }
+
+        // URL_USERS_IMPORT_REPORT
+        $data['failed_list'] = $failed_list;
+        $data['success_list'] = $success_list;
+        $data['records'] = false;
+        $data['layout'] = getLayout();
+        $data['active_class'] = 'users';
+        $data['heading'] = getPhrase('users');
+        $data['title'] = getPhrase('report');
+
+        return redirect(URL_USERS_IMPORT);
+    }
     /**
      * This method verifies if the record exists with the email or user name
      * If Exists it returns true else it returns false
@@ -1575,6 +1702,45 @@ class UsersController extends Controller
             $promotionObject->record_updated_by = Auth::user()->id;
 
             $promotionObject->save();
+        }
+        return true;
+    }
+
+    public function addTeacher($users)
+    {
+        foreach ($users as $request) {
+            $user = new User();
+            $name = $request->name;
+            $user->name = $name;
+            $user->id_number = $request->id_number;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            $user->password = bcrypt($request->password);
+            $user->category_id = $request->category_id;
+            $user->branch_id   = $request->branch_id;
+
+            $user->role_id = $request->role_id;
+            $user->login_enabled = 1;
+            $user->slug = $user->makeSlug($name);
+            $user->save();
+
+            $user->roles()->attach($user->role_id);
+
+            $teacher = new App\Staff();
+            $teacher->staff_id = "ACA".$user->id;
+            $teacher->user_id  = $user->id;
+
+            $teacher->course_parent_id  = $request->course_parent_id;
+            $teacher->course_id         = $request->course_id;
+            $teacher->first_name        = $request->first_name;
+            $teacher->middle_name       = $request->middle_name;
+            $teacher->last_name	        = $request->last_name;
+            $teacher->date_of_join	    = $request->date_of_join;
+
+
+
+            $teacher->save();
+
         }
         return true;
     }

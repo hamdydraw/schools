@@ -81,6 +81,7 @@ define('IMAGE_PATH_UPLOAD_LIBRARY_DEFAULT_THUMB', UPLOADS.'library/thumbnail/def
 
 
 define('DOWNLOAD_LINK_USERS_IMPORT_EXCEL', PREFIX.'downloads/excel-templates/users_template.xlsx');
+define('DOWNLOAD_LINK_TEACHERS_IMPORT_EXCEL', PREFIX.'downloads/excel-templates/teachers_template.xlsx');
 define('DOWNLOAD_LINK_SUBJECTS_IMPORT_EXCEL', PREFIX.'downloads/excel-templates/subjects_template.xlsx');
 define('DOWNLOAD_LINK_TOPICS_IMPORT_EXCEL', PREFIX.'downloads/excel-templates/topics_template.xlsx');
 define('DOWNLOAD_LINK_QUESTION_IMPORT_EXCEL', PREFIX.'downloads/excel-templates/');
@@ -385,6 +386,7 @@ define('URL_USERS_REGISTER', PREFIX.'register');
 define('URL_USERS_LOGIN', PREFIX.'login');
 
 define('URL_USERS_IMPORT', PREFIX.'users/import');
+define('URL_TEACHER_IMPORT', PREFIX.'teachers/import');
 define('URL_USERS_IMPORT_REPORT', PREFIX.'users/import-report');
 define('URL_USERS_IMPORT_EXCEL_INFORMATION', PREFIX.'users/import/get-excel-information');
 
