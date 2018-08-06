@@ -1452,6 +1452,8 @@ class UsersController extends Controller
                             $user_record['gender'] = $record->gender;
                             $user_record['current_year'] = $record->current_year;
                             $user_record['current_semister'] = $record->current_semister;
+                            $user_record['id_number'] = $record->id_number;
+                            $user_record['parent_name'] = $record->parent_name;
 
                             $user_record = (object)$user_record;
 
@@ -1660,6 +1662,7 @@ class UsersController extends Controller
             $user->slug = $user->makeSlug($name);
             $user->phone = $request->phone;
             $user->address = $request->address;
+            $user->parent_id = $this->isParentExist($request->id_number,$request->parent_name);
             $user->save();
 
             $user->roles()->attach($user->role_id);
@@ -1706,6 +1709,7 @@ class UsersController extends Controller
         return true;
     }
 
+
     public function addTeacher($users)
     {
         foreach ($users as $request) {
@@ -1743,6 +1747,26 @@ class UsersController extends Controller
 
         }
         return true;
+    }
+
+    public function isParentExist($number,$name){
+        $parent = User::where('id_number',$number)->first();
+        if($parent){
+            return $parent->id;
+        }
+        $new_parent = new User();
+        $new_parent->name          = $name;
+        $new_parent->id_number     = $number;
+        $new_parent->username      = $number;
+        $new_parent->password      = bcrypt($number);
+        $new_parent->email         = $number."_".$name."@gmail.com";
+        $new_parent->slug          = $new_parent->makeSlug($name);
+        $new_parent->role_id       = 6;
+        $new_parent->login_enabled = 1;
+
+        $new_parent->save();
+        $new_parent->roles()->attach($new_parent->role_id);
+        return $new_parent->id;
     }
 
     public function downloadExcel()
