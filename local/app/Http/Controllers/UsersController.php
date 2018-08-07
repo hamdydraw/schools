@@ -1631,7 +1631,7 @@ class UsersController extends Controller
         $data['heading'] = getPhrase('users');
         $data['title'] = getPhrase('report');
 
-        return redirect(URL_USERS_IMPORT);
+        return redirect(URL_TEACHER_IMPORT);
     }
     /**
      * This method verifies if the record exists with the email or user name
@@ -1713,6 +1713,11 @@ class UsersController extends Controller
     public function addTeacher($users)
     {
         foreach ($users as $request) {
+
+            if(User::where('email',$request->email)->first()){
+                continue;
+            }
+
             $user = new User();
             $name = $request->name;
             $user->name = $name;
