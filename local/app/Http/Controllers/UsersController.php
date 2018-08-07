@@ -1451,8 +1451,10 @@ class UsersController extends Controller
                             $user_record['date_of_join'] = $record->date_of_join;
                             $user_record['gender'] = $record->gender;
                             $user_record['current_year'] = $record->current_year;
-                            $user_record['current_semister'] = $record->current_semister;
-                            $user_record['id_number'] = $record->id_number;
+                            $user_record['current_semister']  = $record->current_semister;
+                            $user_record['parent_id_number']  = $record->parent_id_number;
+                            $user_record['student_id_number'] = $record->student_id_number;
+
                             $user_record['parent_name'] = $record->parent_name;
 
                             $user_record = (object)$user_record;
@@ -1662,7 +1664,8 @@ class UsersController extends Controller
             $user->slug = $user->makeSlug($name);
             $user->phone = $request->phone;
             $user->address = $request->address;
-            $user->parent_id = $this->isParentExist($request->id_number,$request->parent_name);
+            $user->id_number = $request->student_id_number;
+            $user->parent_id = $this->isParentExist($request->parent_id_number,$request->parent_name);
             $user->save();
 
             $user->roles()->attach($user->role_id);
