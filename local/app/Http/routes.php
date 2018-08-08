@@ -1398,8 +1398,12 @@ Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem
 
 //test Route
 
-Route::get('/test_it', function () {
-    return get_users_nu();
+Route::get('/test_it/{number}', function ($number) {
+    $parent = \App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id_number',$number)->first();
+    if($parent){
+        return $parent->id;
+    }
+    return "a7a";
 });
 
 Route::get('/test_2', function () {

@@ -1650,6 +1650,10 @@ class UsersController extends Controller
     public function addUser($users)
     {
         foreach ($users as $request) {
+            $student = \App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id_number',$request->student_id_number)->first();
+            if($student){
+                continue;
+            }
             $user = new User();
             $name = $request->name;
             $user->name = $name;
@@ -1758,7 +1762,7 @@ class UsersController extends Controller
     }
 
     public function isParentExist($number,$name){
-        $parent = User::where('id_number',$number)->first();
+        $parent = \App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id_number',$number)->first();
         if($parent){
             return $parent->id;
         }
