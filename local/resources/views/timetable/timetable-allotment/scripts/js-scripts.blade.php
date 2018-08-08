@@ -35,13 +35,13 @@
 
 
   $scope.days = [
-                  {day_no:1, day:'Mon'},
-                  {day_no:2, day:'Tue'},
-                  {day_no:3, day:'Wed'},
-                  {day_no:4, day:'Thr'},
-                  {day_no:5, day:'Fri'},
-                  {day_no:6, day:'Sat'},
-                  {day_no:7, day:'Sun'}
+                  {day_no:1, day:'Sun'},
+                  {day_no:2, day:'Mon'},
+                  {day_no:3, day:'Tue'},
+                  {day_no:4, day:'Wed'},
+                  {day_no:5, day:'Thr'},
+                  {day_no:6, day:'Fri'},
+                  {day_no:7, day:'Sat'}
                 ] ;
 
   $scope.total_periods = [];

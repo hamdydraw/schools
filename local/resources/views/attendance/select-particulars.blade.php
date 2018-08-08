@@ -136,7 +136,7 @@
                                     {{ Form::label('attendance_date', getphrase('attendance_date')) }}
                                     <div class="input-group date" data-date="{{date('Y/m/d')}}"
                                          data-provide="datepicker" data-date-format="{{getDateFormat()}}">
-                                        {{ Form::text('attendance_date', $value = date('Y/m/d') , $attributes = array('class'=>'form-control', 'placeholder' => '2015/7/17', 'id'=>'dp')) }}
+                                        {{ Form::text('attendance_date', $value = date('Y/m/d') , $attributes = array('class'=>'form-control','ng-model' => 'attendance_date','ng-change' => 'test_change()', 'placeholder' => '2015/7/17', 'id'=>'dp')) }}
                                         <div class="input-group-addon">
                                             <span class="mdi mdi-calendar"></span>
                                         </div>

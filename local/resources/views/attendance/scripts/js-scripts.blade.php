@@ -108,6 +108,12 @@
                  })
          }
 
+         $scope.test_change = function () {
+             console.log("date changed");
+         }
+
+         $scope.test_change();
+
  
 });
   

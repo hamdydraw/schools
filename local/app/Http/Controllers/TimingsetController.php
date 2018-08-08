@@ -381,7 +381,7 @@ class TimingsetController extends Controller
        else{
            try {
                     if(!env('DEMO_MODE')) {
-                        $record->delete();
+                        DB::statement("delete from timingsetdetails where id = '$record->id'");
                     }
                 $response['status'] = 1;
                 $response['message'] = getPhrase('record_deleted_successfully');
