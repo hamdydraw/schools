@@ -33,6 +33,11 @@ class SubjectPreferencesController extends Controller
             }
         }
 
+        if (!checkRole(getUserGrade(2))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
         $record = App\User::where('slug', '=', $slug)->first();
         $staff_record = $record->staff()->first();
         if ($isValid = $this->isValidRecord($record)) {

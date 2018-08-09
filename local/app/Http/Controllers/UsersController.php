@@ -121,7 +121,7 @@ class UsersController extends Controller
             $records = User::join('roles', 'users.role_id', '=', 'roles.id')
                 ->join('students', 'students.user_id', '=', 'users.id')
                 ->join('courses', 'courses.id', '=', 'students.course_id')
-                ->where('roles.id', '=', $role)
+//                ->where('roles.id', '=', $role)
                 ->where('users.category_id',Auth::user()->category_id)
                 ->select([
                     'users.id',
@@ -1745,6 +1745,9 @@ class UsersController extends Controller
             $teacher = new App\Staff();
             $teacher->staff_id = "ACA".$user->id;
             $teacher->user_id  = $user->id;
+
+
+            $teacher->branch_id   = $request->branch_id;
 
             $teacher->course_parent_id  = $request->course_parent_id;
             $teacher->course_id         = $request->course_id;

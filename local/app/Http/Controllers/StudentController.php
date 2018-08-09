@@ -170,6 +170,7 @@ class StudentController extends Controller
             $data['countries'][$key] = getPhrase($value);
         }
 
+        //return $data;
         return view('users.student.add-edit-student', $data);
     }
 

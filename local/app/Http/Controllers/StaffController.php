@@ -43,7 +43,7 @@ class StaffController extends Controller
 
         $data['userRecord']         = $userRecord;
         $phone_number               = $userRecord->phone;
-        $staffRecord                = Staff::where('user_id', $userRecord->id)->get()->first();
+        $staffRecord                = Staff::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('user_id', $userRecord->id)->first();
 
         $data['join_date']          =  isset($staffRecord->date_of_join) ?  $staffRecord->date_of_join:'';
         $data['birth_date']         = isset($staffRecord->date_of_birth) ? $staffRecord->date_of_birth : '';

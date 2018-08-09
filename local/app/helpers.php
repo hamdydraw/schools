@@ -245,7 +245,7 @@ function formatPercentage($number)
 function getUserRecord($user_id = 0)
 {
     if ($user_id) {
-        return (new App\User())->where('id', '=', $user_id)->first();
+        return (new App\User())->withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id', '=', $user_id)->first();
     }
     return Auth::user();
 }

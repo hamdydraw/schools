@@ -103,20 +103,20 @@
                 <div class="row">
 
 
-                    <div class="col-md-4 ">
-                        <div class="card card-yellow text-xs-center">
-                            <div class="card-block">
-                                <h4 class="card-title">
-                                    <i class="fa fa-hand-o-up"></i>
-                                </h4>
-                                <p class="card-text">{{ getPhrase('subject_preferences')}}</p>
-                            </div>
-                            <a class="card-footer text-muted"
-                               href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">
-                                {{ getPhrase('view_all')}}
-                            </a>
-                        </div>
-                    </div>
+                    {{--<div class="col-md-4 ">--}}
+                        {{--<div class="card card-yellow text-xs-center">--}}
+                            {{--<div class="card-block">--}}
+                                {{--<h4 class="card-title">--}}
+                                    {{--<i class="fa fa-hand-o-up"></i>--}}
+                                {{--</h4>--}}
+                                {{--<p class="card-text">{{ getPhrase('subject_preferences')}}</p>--}}
+                            {{--</div>--}}
+                            {{--<a class="card-footer text-muted"--}}
+                               {{--href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">--}}
+                                {{--{{ getPhrase('view_all')}}--}}
+                            {{--</a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <div class="col-md-4 ">
                         <div class="card card-green text-xs-center">

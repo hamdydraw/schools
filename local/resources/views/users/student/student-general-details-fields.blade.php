@@ -101,17 +101,22 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
         @endif
     </div>
     <br>
+
     <div class="col-md-12">
         <h3>{{ getPhrase('present_academic_details')}}</h3>
     </div>
     @if($record->academic_id!=0||$record->course_parent_id!=0||$record->course_id!=0)
 
+
+
         <div class="row">
             <fieldset class="form-group col-md-4">
                 {{ Form::label('academic_year', getphrase('current_academic_year')) }}
                 <span class="text-red">*</span>
+
                 {{ Form::text('academic_id', $value = $academic_title->academic_year_title , $attributes = array('class'=>'form-control','readonly'=>'true')) }}
             </fieldset>
+
             <fieldset class="form-group col-md-4">
                 {{ Form::label('branch', getphrase('current_category')) }}
                 <span class="text-red">*</span>
@@ -131,6 +136,7 @@ array('url' => ['student/profile/edit/general', $userRecord->slug],
             @if(!empty($record->roll_no))
 
                 <?php
+
 
                 if($course_time->course_dueration > 1 && $year != -1 && $semister != -1){
 
