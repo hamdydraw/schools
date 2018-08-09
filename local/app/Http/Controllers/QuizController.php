@@ -87,10 +87,11 @@ class QuizController extends Controller
 
         if ($slug == '') {
             if(is_teacher()){
-                $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-                    ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
+                $records = Quiz::withoutGlobalScope(App\Scopes\BranchScope::class)
+                    ->join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+//                    ->join('subjectpreferences','quizzes.subject_id','=','subjectpreferences.subject_id')
                     ->join('courses','quizcategories.course_id','=','courses.id')
-                    ->where('subjectpreferences.user_id','=',Auth::user()->id)
+//                    ->where('subjectpreferences.user_id','=',Auth::user()->id)
                     ->where('quizzes.type','=','online')
                     ->select([
                         'type',
@@ -110,7 +111,8 @@ class QuizController extends Controller
                     ->orderBy('quizzes.updated_at', 'desc');
 
             }else {
-                $records = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+                $records = Quiz::withoutGlobalScope(App\Scopes\BranchScope::class)
+                    ->join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
                     ->join('courses','quizcategories.course_id','=','courses.id')
                     ->where('quizzes.type','=','online')
                     ->select([
@@ -128,7 +130,7 @@ class QuizController extends Controller
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
                     ])
-                    ->where('courses.category_id',Auth::user()->category_id)
+//                    ->where('courses.category_id',Auth::user()->category_id)
                     ->orderBy('quizzes.updated_at', 'desc');
             }
 

@@ -28,16 +28,10 @@ class OfflineExamsController extends Controller
 
     public function index()
     {
-        if (!checkRole(getUserGrade(3))) {
-            prepareBlockUserMessage();
-            return back();
-        }
+       pageNotFound();
+       return back();
 
-        $data['active_class'] = 'exams';
-        $data['title'] = getPhrase('update_offline_exams_marks');
-        $data['layout'] = getLayout();
-        $data['module_helper'] = getModuleHelper('offlineexams-list');
-        return view('offlineexams.list', $data);
+
     }
 
     public function getDatatable($slug = '')

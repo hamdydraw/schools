@@ -1403,7 +1403,27 @@ Route::get('/test_it/{number}', function ($number) {
 });
 
 Route::get('/test_2', function () {
-    return \GuzzleHttp\json_encode(getMaxID())  ;
+    $records = \App\Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
+//        ->join('courses','quizcategories.course_id','=','courses.id')
+        ->where('quizzes.type','=','online')
+        ->select([
+            'type',
+            'title',
+            'dueration',
+            'courses.course_title',
+            'quizcategories.category',
+            'quizzes.subject_id',
+            'is_paid',
+            'total_marks',
+            'tags',
+            'quizzes.slug',
+            'quizzes.id as quiz_id',
+            'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
+
+        ])
+//                    ->where('courses.category_id',Auth::user()->category_id)
+        ->orderBy('quizzes.updated_at', 'desc')->get();
+    return $records;
 });
 
 

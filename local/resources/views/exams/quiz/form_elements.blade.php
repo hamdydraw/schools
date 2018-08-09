@@ -24,10 +24,10 @@
 
 
                             <?php
-                            if(Module_state('experimental_tests_only')){
+                            if(1 == 2){
                                 $quiz_types = array('online'=> getPhrase('online'), 'offline'=> getPhrase('offline'));
-                            }else{$quiz_types = array('online'=> getPhrase('online'));}
-                            ?>
+							}else{$quiz_types = array('online'=> getPhrase('online'));}
+							?>
 
 							{{ Form::label('type', getphrase('quiz_type')) }}
 							<span class="text-red">*</span>
@@ -97,12 +97,7 @@
 							<span class="text-red">*</span>
 							{{ Form::text('total_marks', $value = null , $attributes = array('class'=>'form-control','readonly'=>'true' ,'placeholder' => getPhrase('It_will_be_updated_by_adding_the_questions'))) }}
 					</fieldset>
-					<fieldset class="form-group col-md-3" ng-show="quiz_type=='offline'">
 
-							{{ Form::label('total_marks', getphrase('total_marks')) }}
-							<span class="text-red">*</span>
-							{{ Form::text('total_marks', $value = null , $attributes = array('class'=>'form-control' ,'placeholder' => getPhrase('100'))) }}
-					</fieldset>
 					 <fieldset class="form-group col-md-3">
 
 						{{ Form::label('pass_percentage', getphrase('pass_percentage')) }}

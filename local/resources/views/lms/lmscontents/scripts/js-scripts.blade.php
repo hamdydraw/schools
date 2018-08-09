@@ -14,6 +14,8 @@ app.controller('angLmsController', function($scope, $http,Upload) {
     $scope.academic_courses_sc  = [];
     $scope.academic_subjects_sc = [];
 
+    $scope.main_topic = [];
+
 
     $scope.first_time = true;
 
@@ -136,7 +138,16 @@ app.controller('angLmsController', function($scope, $http,Upload) {
                 angular.forEach($scope.topics_sc,function(item){
                     if(item.parent_id == 0){
                         item.topic_name = "- "+item.topic_name;
+                        $scope.main_topic.push(item);
                     }
+                });
+                angular.forEach($scope.main_topic,function (item) {
+                    item.sub_topics = [];
+                    angular.forEach($scope.topics_sc,function(item2){
+                        if(item.id == item2.parent_id){
+                            item.sub_topics.push(item2);
+                        }
+                    });
                 });
                 if($scope.topics_sc.length != 0)
                 {

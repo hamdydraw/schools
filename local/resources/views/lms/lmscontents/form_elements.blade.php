@@ -95,7 +95,10 @@
     {{ Form::label('topic_id', getphrase('topic')) }} <span class="text-red">*</span>
 
     <select name="topic_id" class="form-control" required="required" ng-model="topic_id_sc">
-        <option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+        <optgroup ng-repeat="topic in main_topic" label="@{{ topic.topic_name }}">
+            <option ng-repeat="subs in topic.sub_topics" value="@{{ subs.id }}">@{{ subs.topic_name }}</option>
+        </optgroup>
+        {{--<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>--}}
     </select>
 
 </fieldset>

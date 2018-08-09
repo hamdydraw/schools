@@ -408,14 +408,14 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                             <li><a href="{{URL_EXAM_SERIES}}"> <i
                                             class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
                                 </a></li>
-                            @if(Module_state('experimental_tests_only'))
-                                <li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"
-                                                                                       aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
-                                    </a></li>
-                                <li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"
-                                                                        aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}
-                                    </a></li>
-                            @endif
+                            {{--@if(Module_state('experimental_tests_only'))--}}
+                                {{--<li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"--}}
+                                                                                       {{--aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}--}}
+                                    {{--</a></li>--}}
+                                {{--<li><a href="{{URL_OFFLINE_EXAMS}}"> <i class="fa fa-external-link"--}}
+                                                                        {{--aria-hidden="true"></i> {{ getPhrase('offline_exams_')}}--}}
+                                    {{--</a></li>--}}
+                            {{--@endif--}}
                             <li><a href="{{URL_INSTRUCTIONS}}"> <i
                                             class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
 

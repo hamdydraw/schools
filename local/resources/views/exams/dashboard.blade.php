@@ -75,38 +75,38 @@
 						 </a>
 					 </div>
 				 </div>
-					 @if(Module_state('experimental_tests_only'))
-					<div class="col-md-3 ">
-						<div class="card card-blue text-xs-center helper_step4">
-							<div class="card-block">
-							<h4 class="card-title">
-                    <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
-							</h4>
-								<p class="card-text">{{ getPhrase('offline_exam_categories')}}</p>
-							</div>
-							<a class="card-footer text-muted"
-							href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}">
-								{{ getPhrase('view_all')}}
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="card card-yellow text-xs-center helper_step5">
-							<div class="card-block">
-							<h4 class="card-title">
-								<i class="fa fa-external-link"></i>
+					 {{--@if(Module_state('experimental_tests_only'))--}}
+					{{--<div class="col-md-3 ">--}}
+						{{--<div class="card card-blue text-xs-center helper_step4">--}}
+							{{--<div class="card-block">--}}
+							{{--<h4 class="card-title">--}}
+                    {{--<i class="fa fa-sort-amount-asc" aria-hidden="true"></i>--}}
+							{{--</h4>--}}
+								{{--<p class="card-text">{{ getPhrase('offline_exam_categories')}}</p>--}}
+							{{--</div>--}}
+							{{--<a class="card-footer text-muted"--}}
+							{{--href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}">--}}
+								{{--{{ getPhrase('view_all')}}--}}
+							{{--</a>--}}
+						{{--</div>--}}
+					{{--</div>--}}
+					{{--<div class="col-md-3">--}}
+						{{--<div class="card card-yellow text-xs-center helper_step5">--}}
+							{{--<div class="card-block">--}}
+							{{--<h4 class="card-title">--}}
+								{{--<i class="fa fa-external-link"></i>--}}
 
-							</h4>
-								<p class="card-text">{{ getPhrase('offline_exams')}}</p>
-							</div>
-							<a class="card-footer text-muted"
-							href="{{URL_OFFLINE_EXAMS}}">
-								{{ getPhrase('view_all')}}
-							</a>
-						</div>
+							{{--</h4>--}}
+								{{--<p class="card-text">{{ getPhrase('offline_exams')}}</p>--}}
+							{{--</div>--}}
+							{{--<a class="card-footer text-muted"--}}
+							{{--href="{{URL_OFFLINE_EXAMS}}">--}}
+								{{--{{ getPhrase('view_all')}}--}}
+							{{--</a>--}}
+						{{--</div>--}}
 
-					</div>
-					 @endif
+					{{--</div>--}}
+					 {{--@endif--}}
 
 					<div class="col-md-3 ">
 						<div class="card card-yellow text-xs-center helper_step7">

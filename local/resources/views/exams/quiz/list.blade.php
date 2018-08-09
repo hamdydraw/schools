@@ -45,7 +45,7 @@
 
 						<div class="pull-right messages-buttons helper_step2">
 
-							<a href="{{URL_EXAM_SERIES}}" class="btn  btn-primary button" >{{ getPhrase('create_series')}}</a>
+							<a href="{{URL_EXAM_SERIES}}" class="btn  btn-primary button" >{{ getPhrase('create_new_exam_series')}}</a>
 
 						</div>
 

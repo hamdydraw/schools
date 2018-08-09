@@ -11,7 +11,7 @@
 
         $scope.explanation = false;
         $scope.topics_sc = [];
-        $scope.sub_topic_sc = [];
+        $scope.main_topic = [];
 
         $scope.current_course_sc    = null;
         $scope.current_subject_sc   = null;
@@ -132,8 +132,18 @@
                     angular.forEach($scope.topics_sc,function(item){
                         if(item.parent_id == 0){
                             item.topic_name = "- "+item.topic_name;
+                            $scope.main_topic.push(item);
                         }
                     });
+                    angular.forEach($scope.main_topic,function (item) {
+                        item.sub_topics = [];
+                        angular.forEach($scope.topics_sc,function(item2){
+                           if(item.id == item2.parent_id){
+                               item.sub_topics.push(item2);
+                           }
+                        });
+                    });
+//                    console.log($scope.main_topic);
                     if($scope.topics_sc.length != 0 && $scope.first_time != 1)
                     {
                         $scope.topic_id_sc = $scope.topics_sc[0].id.toString();

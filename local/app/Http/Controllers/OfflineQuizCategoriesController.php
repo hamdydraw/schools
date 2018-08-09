@@ -36,17 +36,11 @@ class OfflineQuizCategoriesController extends Controller
      */
     public function index()
     {
-        if(!checkRole(getUserGrade(3)))
-        {
-            prepareBlockUserMessage();
-            return back();
-        }
-        $data['active_class']       = 'exams';
-        $data['title']              = getPhrase('offline_quiz_categories');
-        $data['layout']             = getLayout();
-        $data['module_helper']      = getModuleHelper('list');
 
-    	return view('offlineexams.quizcategories.list', $data);
+
+            pageNotFound();
+            return back();
+
     }
 
 

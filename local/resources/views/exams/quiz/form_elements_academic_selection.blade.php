@@ -2,7 +2,7 @@
 <div class="row" >
 
 				<?php
-				$applicable_to_specific = array('0'=>'All', '1'=>getPhrase('specific_classes'));
+				$applicable_to_specific = array('1'=>getPhrase('specific_classes'));
 				$applicable_to_specific_offline = array('1'=>getPhrase('specific_classes'));
 				?>
 				<input type="hidden" name="applicable_to_specific" value="1"
