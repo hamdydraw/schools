@@ -48,7 +48,7 @@ class UsersController extends Controller
             return back();
         }
 
-        $expected_roles = ['owner','educational_supervisor','admin', 'staff', 'student', 'librarian', 'assistant_librarian', 'parent', 'users'];
+        $expected_roles = ['owner','educational_supervisor','admin', 'staff', 'student', 'librarian', 'assistant_librarian', 'parent', 'users', 'secondary_parent'];
 
         if (!in_array($role, $expected_roles)) {
             $role = 'student';
@@ -220,7 +220,9 @@ class UsersController extends Controller
                 if ($records->role_name == 'educational_supervisor') {
                     $link_data.=' <li ><a href="../mastersettings/supervisor/assign-staff/'. $records->slug . '"><i class="fa fa-user" aria-hidden="true"></i>' . getPhrase("assign_teacher_to_supervisor") . '</a></li>';
                 }
-
+                if ($records->role_name == 'secondary_parent') {
+                    $link_data.=' <li ><a href="../mastersettings/secondary-parent/assign-student/'. $records->slug . '"><i class="fa fa-user" aria-hidden="true"></i>' . getPhrase("assign_students_to_secondary_parent") . '</a></li>';
+                }
                 if ($records->role_name == 'staff') {
                     $status_name = getPhrase('make_inactive');
                     if (!$records->status) {

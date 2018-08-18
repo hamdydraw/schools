@@ -363,6 +363,9 @@ function getLayout()
     if (checkRole(['librarian', 'assistant_librarian'])) {
         $layout = 'layouts.librarian.librarianlayout';
     }
+    if (checkRole(['secondary_parent'])) {
+      $layout = 'users.secondary-parent.dashboard';
+    }
     return $layout;
 }
 

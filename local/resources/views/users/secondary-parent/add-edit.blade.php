@@ -29,7 +29,7 @@
 
                         <div class="panel-heading">
                             <div class="pull-right messages-buttons helper_step1">
-                                <a href="{{url('users/educational_supervisor')}}"
+                                <a href="{{url('users/secondary_parent')}}"
                                    class="btn  btn-primary button">{{ getPhrase('all')}}</a>
                             </div>
                             <h1>{{ $title }}  </h1>
@@ -39,7 +39,7 @@
 
                             <?php $button_name = getPhrase('update'); ?>
                             {{ Form::model($record,
-                            array('url' => 'mastersettings/supervisor/assign-staff/'.$record->slug,
+                            array('url' => 'mastersettings/secondary-parent/assign-student/'.$record->slug,
                             'method'=>'post')) }}
 
 
@@ -47,15 +47,15 @@
                                 <div class="col-md-12 helper_step2">
                                     <h2 class="selected-item-title">{{$record->academic_year_title}}</h2>
                                     <div class='containerVertical' id="target" ng-drop="true"
-                                         ng-drop-success="onDropComplete($data, $event, 'staff')">
-                                        <div ng-if="!allocated_staff.length"
+                                         ng-drop-success="onDropComplete($data, $event, 'student')">
+                                        <div ng-if="!allocated_student.length"
                                              class="subject-placeholder"> {{getPhrase('no_item_selected')}}</div>
-                                        <div ng-repeat="item in allocated_staff" class="items-sub"
-                                             id="allocated_staff-@{{item.id}}">@{{item.name}}
+                                        <div ng-repeat="item in allocated_student" class="items-sub"
+                                             id="allocated_student-@{{item.id}}">@{{item.name}}
                                             <input type="hidden" name="selected_list[]"
                                                    data-myname="@{{item.username}}" value="@{{item.id}}">
                                             <i class="fa fa-trash text-danger pull-right"
-                                               ng-click="removeItem(item,'{{$record->id}}','staff')"></i>
+                                               ng-click="removeItem(item,'{{$record->id}}', 'student')"></i>
                                         </div>
 
                                     </div>

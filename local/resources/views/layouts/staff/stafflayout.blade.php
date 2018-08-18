@@ -280,7 +280,7 @@ $role = getRoleData($user->role_id);
 
                         </li>
                     @endif
-                @else
+                @elseif($role == 'educational_supervisor')
                     <li {{ isActive($active_class, 'teachers-subjects') }} >
                         <a href="{{url('supervisor/staff/teachers-subjects')}}">
                             <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
@@ -306,6 +306,31 @@ $role = getRoleData($user->role_id);
                             <i class="fa fa-users"></i>{{ getPhrase('outstanding_students_report') }}</a></li>
 
                     </li>
+                    @elseif($role == 'secondary_parent')
+                      <li {{ isActive($active_class, 'allocated_students') }} >
+                          <a href="{{url('secondary-parent/student')}}">
+                              <i class="fa fa-users"></i>{{ getPhrase('allocated_students') }}</a></li>
+
+                      </li>
+                      <li {{ isActive($active_class, 'Automatic_call') }} >
+                          <a href="#">
+                              <i class="fa fa-assistive-listening-systems"></i>{{ getPhrase('Automatic_call') }}</a></li>
+
+                      </li>
+                      @if($settings->push_notifications->value == 1)
+                          <li>
+
+                              <a href="{{URL_NOTIFICATIONS}}"><i class="fa fa-bell-o" aria-hidden="true"></i>
+                                  {{ getPhrase('notifications') }} </a>
+
+                          </li>
+                      @endif
+                      @if($settings->messaging->value == 1 && in_array($current_user->role_id,$available_types))
+                          <li>
+                              <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o" aria-hidden="true"></i></span>
+                                  {{ getPhrase('messages')}} </a>
+                          </li>
+                      @endif
                 @endif
             </ul>
         </div>

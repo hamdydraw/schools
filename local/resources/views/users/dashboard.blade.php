@@ -160,6 +160,26 @@
 					</div>
 
 					<div class="col-md-3 ">
+						<div class="card card-yellow text-xs-center helper_step7">
+							<div class="card-block">
+							<h4 class="card-title">
+								<?php $secondaryParentsObject =  App\User::where('role_id','=',10)->get()->count();
+
+							 ?>
+						   {{$secondaryParentsObject}}
+
+							</h4>
+
+								<p class="card-text">{{ getPhrase('Secondary_parents')}}</p>
+							</div>
+							<a class="card-footer text-muted"
+							href="{{URL_USERS."secondary_parent"}}">
+								{{ getPhrase('view_all')}}
+							</a>
+						</div>
+					</div>
+
+					<div class="col-md-3 ">
 						<div class="card card-green text-xs-center helper_step8">
 							<div class="card-block">
 							<h4 class="card-title">{{ get_users_nu() }}</h4>

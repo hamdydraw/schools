@@ -850,3 +850,6 @@ define('URL_HEADER_SEARCH_LINK', PREFIX.'user/search');
 define('URL_STUDENT_QUIZ_DASHBOARD', PREFIX.'student/quiz/dashboard');
 
 define('URL_PRINT_HTMLDATA', PREFIX.'html/print-data');
+
+//Assign stuedent to secondaryParent
+define('URL_MASTERSETTINGS_STUDENT_SECONDARY_PARENT_STATUS', PREFIX.'mastersettings/assign-student/check-status');

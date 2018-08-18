@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $role = getRoleData($user->role_id);
 
         if ($role == 'admin' || $role == 'owner' || $role == 'staff'
-            || $role == 'librarian' || $role == 'assistant_librarian' || $role == 'educational_supervisor') {
+            || $role == 'librarian' || $role == 'assistant_librarian' || $role == 'educational_supervisor' || $role == 'secondary_parent') {
 
 
             if ($role == 'librarian' || $role == 'assistant_librarian') {
@@ -124,6 +124,10 @@ class DashboardController extends Controller
             if ($role == 'assistant_librarian' || $role == 'librarian') {
                 $view_page = 'library.librarydashboard.dashboard';
 
+            }
+            if ($role == 'secondary_parent') {
+              $view_page = 'users.secondary-parent.dashboard';
+              $data['role'] = $role;
             }
 
 

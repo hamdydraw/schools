@@ -240,6 +240,17 @@ Route::group(['middleware' => 'supervisor'], function () {
 });
 Route::post('supervisor/staff/students-marks/{slug}', 'SupervisorController@getClassMarks');
 Route::post('supervisor/staff/print-students-marks/{slug}', 'SupervisorController@printClassMarks');
+
+//Second Parent Controller
+Route::get('mastersettings/secondary-parent/assign-student/{slug}', 'SecondaryParentController@assignStudent');
+Route::post('mastersettings/secondary-parent/assign-student/{slug}', 'SecondaryParentController@updateSecondaryParentStudent');
+Route::post('mastersettings/assign-student/check-status', 'SecondaryParentController@checkStatus');
+
+Route::get('secondary-parent/student', 'SecondaryParentController@getStudents');
+Route::get('secondary-parent/student/getlist', [
+    'as' => 'students.dataTable',
+    'uses' => 'SecondaryParentController@getDatatableOfStudents'
+]);
 Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //////////////////////
 //Parent Controller //
