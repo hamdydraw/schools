@@ -136,6 +136,35 @@ $new_tab_active = ' in active';
 				</table>
 			</div>
 		</div>
+
+            <?php  $sec_parent = \App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id',$user_record->secondary_parent_id)->first(); ?>
+			@if($sec_parent)
+				<h3>{{getPhrase('secondary_parent')}}</h3>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<table class="table table-bordered table-striped">
+						<tbody>
+						<tr>
+							<td>{{getPhrase('name')}}</td>
+							<td>{{$sec_parent->name}}</td>
+						</tr>
+						<tr>
+							<td>{{getPhrase('username')}}</td>
+							<td>{{$sec_parent->username}}</td>
+						</tr>
+						<tr>
+							<td>{{getPhrase('email')}}</td>
+							<td>{{$sec_parent->email}}</td>
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+				@endif
 		@endif
+
+
+
 
 	</div>

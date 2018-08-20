@@ -37,7 +37,7 @@
 							<div class="card-block">
 					  <h4 class="card-title">
 					  	<h4 class="card-title">
-								<?php $adminObject =  App\User::where('role_id','=',2)->get()->count();
+								<?php $adminObject =  App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('role_id','=',2)->get()->count();
 
 							 ?>
 						   {{$adminObject}}
@@ -143,7 +143,7 @@
 						<div class="card card-blue text-xs-center helper_step7">
 							<div class="card-block">
 							<h4 class="card-title">
-								<?php $parentObject =  App\User::where('role_id','=',6)->get()->count();
+								<?php $parentObject =  App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('role_id','=',6)->get()->count();
 
 							 ?>
 						   {{$parentObject}}

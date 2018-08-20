@@ -18,6 +18,7 @@ use Exception;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\GeneralSettings as Settings;
 use Image;
 use ImageSettings;
 use Input;
@@ -173,7 +174,8 @@ class UsersController extends Controller
 
             $role = getRoleData($slug);
 
-            $records = User::join('roles', 'users.role_id', '=', 'roles.id')
+            $records = User::withoutGlobalScope(\App\Scopes\BranchScope::class)
+                ->join('roles', 'users.role_id', '=', 'roles.id')
                 ->where('roles.id', '=', $role)
                 ->select([
                     'users.name',
@@ -724,7 +726,7 @@ class UsersController extends Controller
     public function edit($slug)
     {
 
-        $record = User::where('slug', $slug)->get()->first();
+        $record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
 
         if (!isEligible($slug)) {
             return back();
@@ -1377,6 +1379,7 @@ class UsersController extends Controller
         $data['active_class'] = 'users';
         $data['heading'] = getPhrase('users');
         $data['title'] = getPhrase('import_users');
+        $data['countries'] = (new Settings())->getCountries();
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $data['layout'] = getLayout();
         return view('users.import.import', $data);
@@ -1451,6 +1454,8 @@ class UsersController extends Controller
                             $user_record['middle_name'] = $record->middle_name;
                             $user_record['date_of_birth'] = $record->date_of_birth;
                             $user_record['date_of_join'] = $record->date_of_join;
+                            $user_record['nationality'] = $record->date_of_join;
+
                             $user_record['gender'] = $record->gender;
                             $user_record['current_year'] = $record->current_year;
                             $user_record['current_semister']  = $record->current_semister;
@@ -1458,6 +1463,9 @@ class UsersController extends Controller
                             $user_record['student_id_number'] = $record->student_id_number;
 
                             $user_record['parent_name'] = $record->parent_name;
+
+                            $user_record['sec_parent_id_number']  = $record->secondary_parent_id;
+                            $user_record['sec_parent_name'] = $record->secondary_parent_name;
 
                             $user_record = (object)$user_record;
 
@@ -1671,7 +1679,9 @@ class UsersController extends Controller
             $user->phone = $request->phone;
             $user->address = $request->address;
             $user->id_number = $request->student_id_number;
+
             $user->parent_id = $this->isParentExist($request->parent_id_number,$request->parent_name);
+            $user->secondary_parent_id = $this->isParentExist($request->sec_parent_id_number,$request->sec_parent_name);
             $user->save();
 
             $user->roles()->attach($user->role_id);
@@ -1685,6 +1695,7 @@ class UsersController extends Controller
 
 
             $student->category_id = $request->category_id;
+            $student->nationality = $request->nationality;
             $student->branch_id   = $request->branch_id;
             $student->academic_id = (int)$request->academic_id;
             $student->course_parent_id = (int)$request->course_parent_id;

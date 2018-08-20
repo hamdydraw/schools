@@ -18,6 +18,7 @@ use App\Scopes\DeleteScope;
 use App\QuizCategory;
 use App\Academic;
 use Illuminate\Support\Facades\Auth;
+use App\GeneralSettings as Settings;
 
 Route::get('/', function () {
 
@@ -1437,6 +1438,13 @@ Route::get('/test_2', function () {
     return $records;
 });
 
+Route::get('/get_countries', function () {
+    $countries =  DB::table('countries')->orderBy('id')->get();
+    foreach ($countries as $country){
+        $country->nationality = getPhrase($country->country_name);
+    }
+    return $countries;
+});
 
 Route::get('/courseSem', function () {
     $ids =  \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('parent_id',0)->select(['id'])->get();
@@ -1457,7 +1465,7 @@ Route::get('/courseSem', function () {
 Route::get('tables/list', 'TablesController@index');
 Route::get('tables/fix', 'TablesController@fix');
 
-
+//get_countries
 
 Route::get('/record_branch', function () {
   $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');

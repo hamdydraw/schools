@@ -179,10 +179,10 @@ $role = getRoleData($user->role_id);
                     </a>
                 </li>
                 @if($role == 'staff')
-                    <li {{ isActive($active_class, 'subjectPreferences') }} >
+                    {{--<li {{ isActive($active_class, 'subjectPreferences') }} >--}}
 
-                        <a href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">
-                            <i class="fa fa-hand-o-up"></i>{{ getPhrase('subject_preferences') }}</a></li>
+                        {{--<a href="{{URL_STAFF_SUBJECT_PREFERENCES.Auth::user()->slug}}">--}}
+                            {{--<i class="fa fa-hand-o-up"></i>{{ getPhrase('subject_preferences') }}</a></li>--}}
 
                     <li {{ isActive($active_class, 'academic') }} >
 

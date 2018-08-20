@@ -98,6 +98,22 @@
               })
       }
 
+      $scope.getCountries = function () {
+          $http({
+              method:"GET",
+              url:'{{PREFIX}}'+'/get_countries',
+              dataType:"json",
+              headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+          })
+              .then(function (response) {
+                  $scope.countires = response.data;
+                  console.log($scope.countires);
+                  if(response.data.length != 0){
+                      $scope.current_nationality   = response.data[0].country_code.toString();
+                  }
+              })
+      }
+      $scope.getCountries();
 
 
       $scope.tab             = 1;

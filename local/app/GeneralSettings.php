@@ -120,7 +120,7 @@ class GeneralSettings extends Model
 
     public function getCountries($value='')
     {
-        $countries = DB::table('countries')->orderBy('id')->pluck('country_name', 'country_code');
+            $countries = DB::table('countries')->orderBy('id')->pluck('country_name', 'country_code');
         return $countries;
     }
     /**

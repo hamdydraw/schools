@@ -119,6 +119,14 @@
 							</select>
 						</fieldset>
 					</div>
+					<div class="row">
+						<fieldset class="form-group col-md-5">
+							<label for="">{{getPhrase('nationality')}}</label>
+							<select name="class" class="form-control" required="required" ng-model="current_nationality">
+								<option ng-repeat="country in countires" value="@{{ country.country_code }}">@{{ country.nationality }}</option>
+							</select>
+						</fieldset>
+					</div>
 
 						  <div class="row">
 						  <div class="col-md-12 vertical-scroll" >
@@ -132,6 +140,7 @@
 									  <th><center>category_id</center></th>
 									  <th><center>course_parent_id</center></th>
 									  <th><center>course_id</center></th>
+									  <th><center>nationality</center></th>
 								  </tr>
 								  </thead>
 								  <tbody>
@@ -142,6 +151,7 @@
 									  <td>@{{ current_category }}</td>
 									  <td>@{{ current_course_sc }}</td>
 									  <td>@{{ current_sub_course }}</td>
+									  <td>@{{ current_nationality }}</td>
 								  </tr>
 								  </tbody>
 							  </table>
