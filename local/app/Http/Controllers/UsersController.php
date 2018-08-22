@@ -1454,7 +1454,7 @@ class UsersController extends Controller
                             $user_record['middle_name'] = $record->middle_name;
                             $user_record['date_of_birth'] = $record->date_of_birth;
                             $user_record['date_of_join'] = $record->date_of_join;
-                            $user_record['nationality'] = $record->date_of_join;
+                            $user_record['nationality'] = $record->nationality;
 
                             $user_record['gender'] = $record->gender;
                             $user_record['current_year'] = $record->current_year;
@@ -1681,9 +1681,11 @@ class UsersController extends Controller
             $user->id_number = $request->student_id_number;
 
             $user->parent_id = $this->isParentExist($request->parent_id_number,$request->parent_name);
-            $user->secondary_parent_id = $this->isParentExist($request->sec_parent_id_number,$request->sec_parent_name);
+            $secondary_parent_id = $this->isSecondParentExist($request->sec_parent_id_number,$request->sec_parent_name);
             $user->save();
-
+            $secondary_parent_student['secondary_parent_id'] = $secondary_parent_id;
+            $secondary_parent_student['student_id']          = $user->id;
+            DB::table('secondary_parent_student')->insert($secondary_parent_student);
             $user->roles()->attach($user->role_id);
 
             $current_year = (int)$request->current_year;
@@ -1796,6 +1798,27 @@ class UsersController extends Controller
         $new_parent->roles()->attach($new_parent->role_id);
         return $new_parent->id;
     }
+
+    public function isSecondParentExist($number,$name){
+        $parent = \App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id_number',$number)->first();
+        if($parent){
+            return $parent->id;
+        }
+        $new_parent = new User();
+        $new_parent->name          = $name;
+        $new_parent->id_number     = $number;
+        $new_parent->username      = $number;
+        $new_parent->password      = bcrypt($number);
+        $new_parent->email         = $number."_".$name."@gmail.com";
+        $new_parent->slug          = $new_parent->makeSlug($name);
+        $new_parent->role_id       = 10;
+        $new_parent->login_enabled = 1;
+
+        $new_parent->save();
+        $new_parent->roles()->attach($new_parent->role_id);
+        return $new_parent->id;
+    }
+
 
     public function downloadExcel()
     {

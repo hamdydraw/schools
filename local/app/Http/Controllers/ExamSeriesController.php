@@ -39,7 +39,7 @@ class ExamSeriesController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(3))) {
+        if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
         }

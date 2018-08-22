@@ -22,7 +22,7 @@ class Quiz extends Model
 
     public static function getRecordWithSlug($slug)
     {
-        return Quiz::where('slug', '=', $slug)->first();
+        return Quiz::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', '=', $slug)->first();
     }
     
     /**

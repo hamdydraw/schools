@@ -232,9 +232,9 @@ $role = getRoleData($user->role_id);
                                     </a></li>
                                 <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
                                 </li>
-                                <li><a href="{{URL_EXAM_SERIES}}"> <i
-                                                class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
-                                    </a></li>
+                                {{--<li><a href="{{URL_EXAM_SERIES}}"> <i--}}
+                                                {{--class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}--}}
+                                    {{--</a></li>--}}
                                 {{--@if(Module_state('experimental_tests_only'))--}}
                                     {{--<li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"--}}
                                                                                            {{--aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}--}}

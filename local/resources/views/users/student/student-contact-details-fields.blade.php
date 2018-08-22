@@ -61,7 +61,7 @@
 										<fieldset class="form-group col-md-6">
 												{{ Form::label('country', getphrase('country')) }}
 											<span class="text-red">*</span>
-											{{Form::select('country', $countries, null, ['placeholder' => getPhrase('select'),'class'=>'form-control'])}}
+											{{Form::select('country', $countries, $user_country, ['placeholder' => getPhrase('select'),'class'=>'form-control'])}}
 										</fieldset>
 
 										<fieldset class="form-group col-md-6">

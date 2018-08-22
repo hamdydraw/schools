@@ -156,17 +156,25 @@ class AcademicCoursesController extends Controller
      */
     public function getParentCourses(Request $request)
     {
-        $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.id')
-            ->select([
-                'course_title',
-                'courses.id',
-                'course_dueration',
-                'is_having_semister',
-                'academic_id'
-            ])
-            ->where('academic_id', '=', $request->academic_id)
-            ->where('courses.category_id',Auth::user()->category_id)
-            ->groupBy('course_id')->get();
+
+        if(Auth::user()->role_id == 3){
+            $records =  getTeacherCourses($request->academic_id);
+        }
+        else{
+            $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.id')
+                ->select([
+                    'course_title',
+                    'courses.id',
+                    'course_dueration',
+                    'is_having_semister',
+                    'academic_id'
+                ])
+                ->where('academic_id', '=', $request->academic_id)
+                ->where('courses.category_id',Auth::user()->category_id)
+                ->groupBy('course_id')->get();
+        }
+
+
         foreach ($records as $key => $value) {
             $temp['course'] = $value;
             $temp['semister'] = $value->semisters();

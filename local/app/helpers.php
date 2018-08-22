@@ -1190,15 +1190,44 @@ function subTopics($id)
 
 
 function getCategory($id,$table){
-    return   DB::table($table)->where('course_id',$id)->get();
+    return   DB::table($table)->where('course_id',$id)->where('branch_id',Auth::user()->branch_id)->get();
 }
 
 function getCourses($year){
+    if(isTeacher()){
+        return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
+            ->join('course_subject','courses.id','=','course_subject.course_parent_id')
+            ->where('academic_course.academic_id',$year)
+            ->where('courses.parent_id',0)
+            ->where('courses.category_id',Auth::user()->category_id)
+            ->where('course_subject.staff_id',Auth::user()->id)
+            ->select(['courses.id','courses.slug','courses.course_title'])
+            ->get();
+
+    }
+
     return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
         ->where('academic_course.academic_id',$year)
         ->where('courses.parent_id',0)
+        ->where('courses.category_id',Auth::user()->category_id)
         ->select(['courses.id','courses.slug','courses.course_title'])
         ->get();
+
+
+}
+
+function isAdmin(){
+    if(Auth::user()->role_id == 2){
+        return true;
+    }
+    return false;
+}
+
+function isTeacher(){
+    if(Auth::user()->role_id == 3){
+        return true;
+    }
+    return false;
 }
 
 function getTeacherCourses($year){

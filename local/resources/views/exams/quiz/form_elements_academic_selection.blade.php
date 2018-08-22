@@ -63,7 +63,7 @@
 	  				 <fieldset class="form-group col-md-3" ng-if="academic_year"	>
 
 						<span class="text-red">*</span>
-						 <label for="course_parent_id">{{getPhrase('course')}}</label>
+						 <label for="course_parent_id">{{getPhrase('Branch')}}</label>
                             <select
                             name="course_parent_id"
                             id="course_parent_id"

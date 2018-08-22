@@ -61,6 +61,7 @@
 							</a>
 						</div>
 					</div>
+					 @if(checkRole(getUserGrade(2)))
 					<div class="col-md-3 ">
 					 <div class="card card-orange text-xs-center helper_step6">
 						 <div class="card-block">
@@ -75,6 +76,7 @@
 						 </a>
 					 </div>
 				 </div>
+					 @endif
 					 {{--@if(Module_state('experimental_tests_only'))--}}
 					{{--<div class="col-md-3 ">--}}
 						{{--<div class="card card-blue text-xs-center helper_step4">--}}

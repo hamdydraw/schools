@@ -245,11 +245,11 @@
                 $scope.parent_courses = [];
                 obj = {id: '', course_title: 'Select'};
                 $scope.parent_courses.push(obj);
-
                 angular.forEach(result, function (value, key) {
                     obj = {id: value.course.id, course_title: value.course.course_title};
                     $scope.parent_courses.push(obj);
                 });
+
 
             });
         }

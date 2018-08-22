@@ -84,10 +84,20 @@ class LmsCategoryController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
-         $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')
-                                ->select(['lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at'])
-                                ->where('courses.category_id',Auth::user()->category_id);
+        if(isTeacher()){
+            $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')
+                ->join('course_subject','courses.id','=','course_subject.course_parent_id')
+                ->select(['lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at'])
+                ->where('courses.category_id',Auth::user()->category_id)
+                ->where('lmscategories.branch_id',Auth::user()->branch_id)
+                ->where('course_subject.staff_id',Auth::user()->id)
+                ->groupBy('lmscategories.id');
+        }else{
+            $records = LmsCategory::join('courses','lmscategories.course_id','=','courses.id')
+                ->select(['lmscategories.category','courses.course_title', 'lmscategories.image', 'lmscategories.description', 'lmscategories.id','lmscategories.slug','lmscategories.created_by_user','lmscategories.updated_by_user','lmscategories.created_by_ip','lmscategories.updated_by_ip','lmscategories.created_at','lmscategories.updated_at'])
+                ->where('courses.category_id',Auth::user()->category_id)
+                ->where('lmscategories.branch_id',Auth::user()->branch_id);
+        }
         $this->setSettings();
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

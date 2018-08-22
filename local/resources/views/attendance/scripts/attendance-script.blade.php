@@ -40,7 +40,29 @@ app.controller('attendanceController', function($scope, $http) {
         }
 
     });
-      
+
+
+        $scope.all_here = function(){
+            console.log("all here");
+            $(".all_here").prop("checked", true);
+            $scope.absent = 0;
+            $scope.leave = 0;
+            $scope.present = $scope.total;
+        }
+        $scope.all_absent = function(){
+            console.log("all not here");
+            $(".all_absent").prop("checked", true);
+            $scope.absent = $scope.total;
+            $scope.present = 0;
+            $scope.leave = 0;
+        }
+        $scope.all_left = function(){
+            console.log("all gone");
+            $(".all_left").prop("checked", true);
+            $scope.leave = $scope.total;
+            $scope.present = 0;
+            $scope.absent = 0;
+        }
       
       $scope.present = present;
       $scope.absent = absent;

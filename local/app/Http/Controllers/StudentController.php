@@ -159,7 +159,13 @@ class StudentController extends Controller
         $data['semisters'] = $semisters;
         $data['religions'] = \App\Religion::lists('religion_name', 'id');
         $data['categories'] = \App\Category::lists('category_name', 'id');
-        $data['countries'] = (new Settings())->getCountries();
+        $data['countries']    = (new Settings())->getCountries();
+        if($studentRecord->nationality != null){
+            $data['user_country'] = DB::table('countries')->where('country_code',$studentRecord->nationality)->first()->country_code;
+        }else{
+            $data['user_country'] = '';
+        }
+        //return $data;
         $data['active_class'] = 'users';
         $data['tab_active'] = $tab;
         $data['title'] = getPhrase('student_profile');

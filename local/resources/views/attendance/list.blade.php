@@ -88,6 +88,25 @@
                                     <th>{{ getPhrase('notes')}}</th>
                                 </tr>
                                 </thead>
+                                <div class="row">
+                                    <div class="centered" style="    margin-right: 39%;">
+                                        {{ Form::radio('pall', 'P',false, array('id'=>'pall','name'=>'all','ng-click' => 'all_here()','class' => 'attendance_code')) }}
+                                        <label for="pall" style="margin-left: 3%"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_here')}}   </label>
+
+                                        {{ Form::radio('aall', 'A',false, array('id'=>'aall','name'=>'all','ng-click' => 'all_absent()','class' => 'attendance_code')) }}
+                                        <label for="aall" style="margin-left: 3%"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_absent')}}   </label>
+
+                                        {{ Form::radio('lall', 'P',false, array('id'=>'lall','name'=>'all','ng-click' => 'all_left()','class' => 'attendance_code')) }}
+                                        <label for="lall"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_left')}}   </label>
+                                    </div>
+
+                                </div>
+
+                                {{--<input type="radio" name="test" value="test" onclick="test()" id="testit">test<br>--}}
+                                {{--<label for="testit"> <span--}}
+                                            {{--class="fa-stack radio-button"> <i--}}
+                                                {{--class="mdi mdi-check active"></i> </span> {{getPhrase('present')}}--}}
+                                {{--</label>--}}
                                 <?php $sno = 1; ?>
                                 @foreach($students as $student)
                                     <?php $user = $student->user()->first(); ?>
@@ -139,7 +158,7 @@
                                                     'id'=>'present'.$student->id,
                                                     'name'=>'attendance_code['.$student->id.']',
                                                     'ng-click' => 'updateCount()',
-                                                    'class' => 'attendance_code'
+                                                    'class' => 'attendance_code all_here'
                                                 )) }}
 
                                                 <label for="present{{$student->id}}"> <span
@@ -149,7 +168,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 {{ Form::radio('attendance_code', 'A', $absent, array('id'=>'absent'.$student->id, 'name'=>'attendance_code['.$student->id.']',
-                                                    'ng-click' => 'updateCount()'
+                                                    'ng-click' => 'updateCount()','class' => 'all_absent'
                                                 )) }}
                                                 <label for="absent{{$student->id}}"> <span
                                                             class="fa-stack radio-button"> <i
@@ -158,7 +177,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 {{ Form::radio('attendance_code', 'L', $leave, array('id'=>'leave'.$student->id, 'name'=>'attendance_code['.$student->id.']',
-                                                'ng-click' => 'updateCount()'
+                                                'ng-click' => 'updateCount()','class' => 'all_left'
                                                 )) }}
                                                 <label for="leave{{$student->id}}"> <span class="fa-stack radio-button"> <i
                                                                 class="mdi mdi-check active"></i> </span> {{getPhrase('leave')}}
@@ -191,6 +210,21 @@
     </div>
 @endsection
 
+<script>
+    function all_here(){
+        console.log("all here");
+        $(".all_here").prop("checked", true);
+    }
+    function all_absent(){
+        console.log("all not here");
+        $(".all_absent").prop("checked", true);
+    }
+    function all_left(){
+        console.log("all gone");
+        $(".all_left").prop("checked", true);
+    }
+
+</script>
 
 @section('footer_scripts')
 
