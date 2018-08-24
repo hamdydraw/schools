@@ -282,6 +282,7 @@ class CourseController extends Controller
         $record->category_id = $request->category_id;
         /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
+        $subjects =  App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id')->get();
 
         if ($request->parent_id == 0) {
 
@@ -293,6 +294,25 @@ class CourseController extends Controller
 
         $record->user_stamp($request);
         $record->save();
+
+        $current_academic_id = new App\Academic();
+        $semister = new App\AcademicSemester();
+        $current_academic_id = $current_academic_id->getCurrentAcademic()->id;
+//        $current_semster = $semister->getCurrentSemeterOfAcademicYear($current_academic_id)->sem_num;
+
+        foreach ($subjects as $subject){
+            $course_subject = new App\CourseSubject();
+            $course_subject->slug = $course_subject->makeSlug(getHashCode());
+            $course_subject->academic_id = $current_academic_id;
+            $course_subject->course_parent_id = $request->parent_id;
+            $course_subject->course_id = $record->id;
+            $course_subject->year = $current_academic_id;
+            $course_subject->sessions_needed = 0;
+            $course_subject->semister = $subject->semister;
+            $course_subject->subject_id = $subject->subject_id;
+            $course_subject->user_stamp($request);
+            $course_subject->save();
+        }
 
 
 
