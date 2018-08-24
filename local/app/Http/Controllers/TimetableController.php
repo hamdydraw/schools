@@ -112,7 +112,7 @@ class TimetableController extends Controller
             ->join('users', 'users.id', '=', 'staff.user_id')
             ->where('users.status', '!=', 0)
             ->where('course_subject.academic_id', '=', $academic_id)
-            ->where('course_subject.course_id', '=', $course_parent_id)
+            ->where('course_subject.course_id', '=', $course_id)
             /*->where('course_subject.year', '=', $year)*/
             ->where('course_subject.semister', '=', $semister)
             ->select([
