@@ -398,12 +398,13 @@ Route::patch('mastersettings/course/editSemisters', 'CourseController@updateSemi
 
 //Course Subjects
 Route::get('mastersettings/course-subjects/add', 'CourseSubjectsController@create');
+Route::get('mastersettings/course-subjects/select', 'CourseSubjectsController@select');
 
 Route::post('mastersettings/course-subjects/add', 'CourseSubjectsController@store');
 Route::patch('mastersettings/course-subjectsd/edit/{slug}', 'CourseSubjectsController@update');
 Route::delete('mastersettings/course-subjects/delete', 'CourseSubjectsController@delete');
-Route::get('mastersettings/course-subjects/getList/{slug}', 'CourseSubjectsController@getDatatable');
-Route::get('mastersettings/course-subjects/{slug?}', 'CourseSubjectsController@index');
+Route::get('mastersettings/course-subjects/getList/{year}/{sem}/{course}/{class}', 'CourseSubjectsController@getDatatable');
+Route::get('mastersettings/course-subjects/{year}/{sem}/{course}/{class}', 'CourseSubjectsController@index');
 
 Route::post('mastersettings/course-subjects/getCourseYears', 'CourseSubjectsController@getCourseYears');
 Route::post('mastersettings/course-subjects/getSemisters', 'CourseSubjectsController@getSemisters');
@@ -1407,7 +1408,9 @@ Route::get('get_toopy/{course}/{subject}/{sem}', function ($course,$subject,$sem
     return get_Topics($course,$subject,$sem);
 });
 
-
+Route::get('/get_classes/{course}',function ($course){
+    return \App\Course::where('parent_id',$course)->get();
+});
 //test Route
 
 Route::get('/test_it/{number}', function ($number) {
@@ -1415,27 +1418,8 @@ Route::get('/test_it/{number}', function ($number) {
 });
 
 Route::get('/test_2', function () {
-    $records = \App\Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-//        ->join('courses','quizcategories.course_id','=','courses.id')
-        ->where('quizzes.type','=','online')
-        ->select([
-            'type',
-            'title',
-            'dueration',
-            'courses.course_title',
-            'quizcategories.category',
-            'quizzes.subject_id',
-            'is_paid',
-            'total_marks',
-            'tags',
-            'quizzes.slug',
-            'quizzes.id as quiz_id',
-            'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
-        ])
-//                    ->where('courses.category_id',Auth::user()->category_id)
-        ->orderBy('quizzes.updated_at', 'desc')->get();
-    return $records;
+
 });
 
 Route::get('/get_countries', function () {
@@ -1459,6 +1443,8 @@ Route::get('/courseSem', function () {
     }
     return "Done";
 });
+
+
 
 //return getMaxID();
 
@@ -1513,7 +1499,7 @@ Route::get('/popup_data', function () {
 
 
 
-
+//get_classes
 
 
 

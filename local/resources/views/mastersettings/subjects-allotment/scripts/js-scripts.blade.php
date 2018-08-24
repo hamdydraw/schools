@@ -31,7 +31,6 @@ app.controller('courseSubjectsController', function($scope, $http, $timeout, htt
        * @return {[type]}      [description]
        */
       $scope.ingAngData = function(data) {
-      
          angular.forEach(data.source_items,function(value,key){
           source_item = value;
           source_item['preference'] = data.preferred_subjects[value.id];
@@ -59,7 +58,7 @@ app.controller('courseSubjectsController', function($scope, $http, $timeout, htt
          });
         }
 
-         
+
       }
 
        
@@ -84,7 +83,8 @@ app.controller('courseSubjectsController', function($scope, $http, $timeout, htt
          * @return {[type]}      [description]
          */
        $scope.onDropComplete=function(data,evt, id, academic_id, course_id,year,semister, user_id,subject){
-       
+
+
         res = httpPreConfig.findIndexInData($scope.target_items, 'index', id);
           
           if(res!=-1){
@@ -163,6 +163,7 @@ app.controller('courseSubjectsController', function($scope, $http, $timeout, htt
        * @return {[type]}      [description]
        */
       $scope.removeItem = function(item, source, id,academic_id, course_id, year, semister,user_id) {
+
 
         // return;
         httpPreConfig.showConfirmation().then(function(result){

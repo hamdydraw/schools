@@ -57,7 +57,7 @@
 
 					@if($record->is_having_semister)
 					<?php
-					$semisters = App\CourseSemister::getCourseYearSemisters($course_id, $yearno);
+					$semisters = App\CourseSemister::getCourseYearSemisters($original_course, $yearno);
 
 					$total_data = [];
 
@@ -88,7 +88,7 @@
 
 						@if($semisters->total_semisters == 0)
 						<?php
-						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $course_id, $yearno, 0);
+						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $original_course, $yearno, 0);
 						$angular_key = $yearno.'_0';
 
 						?>
@@ -108,7 +108,7 @@
 
 					@else
 					<?php
-						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $course_id, $yearno, 0);
+						$subjects = App\CourseSubject::getCourseSavedSubjects($academic_id, $original_course, $yearno, 0);
 						$angular_key = $yearno.'_0';
 						?>
 

@@ -26,45 +26,62 @@ class CourseSubjectsController extends Controller
      * based on subjects are alloted to them
      * @return [type] [description]
      */
-    public function index($slug = 'courses')
-    {
-        $expected_slugs = ['courses', 'staff'];
 
-        if (!in_array($slug, $expected_slugs)) {
-            $slug = 'courses';
-        }
+    public function index($year,$sem,$course,$class)
+    {
+
 
         $data['active_class'] = 'master_settings';
-        $data['slug'] = $slug;
         $data['title'] = getPhrase('allocate_staff_to_courses');
         $data['layout'] = getLayout();
         $data['module_helper'] = getModuleHelper('courses-list-for-staff');
+        $data['year']     = $year;
+        $data['sem']      = $sem;
+        $data['course']   = $course;
+        $data['class']    = $class;
 
         return view('mastersettings.course-subjects.list', $data);
+    }
+
+    public function select()
+    {
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('allocate_staff_to_courses');
+        $data['layout'] = getLayout();
+        $data['module_helper'] = getModuleHelper('courses-list-for-staff');
+        return view('mastersettings.course-subjects.select', $data);
     }
 
     /**
      * This method returns the datatables data to view
      * @return [type] [description]
      */
-    public function getDatatable($slug)
+    public function getDatatable($year,$sem,$course,$class)
     {
-
+        $slug = 'courses';
         $this->setSlug($slug);
 
-        $records = CourseSubject::join('academics', 'academics.id', '=', 'course_subject.academic_id')
-            ->join('courses','course_subject.course_id','=','courses.id')
+//        if(!course_in_year($year,$course)){
+//            return back();
+//        }
+
+
+
+        $records = App\Course::join('academic_course','courses.parent_id','=','academic_course.course_id')
+            ->join('academics','academic_course.academic_id','=','academics.id')
             ->select([
-                'academics.academic_year_title',
-                'academic_id',
-                'course_parent_id',
-                'course_id',
-                'course_subject.id',
-                'course_subject.created_by_user','course_subject.updated_by_user','course_subject.created_by_ip','course_subject.updated_by_ip','course_subject.created_at','course_subject.updated_at'
+                'academics.id as academic_id',
+                'academics.academic_year_title as academic_year_title',
+                'courses.parent_id as course_parent_id',
+                'courses.id as course_id',
+                'courses.created_by_user','courses.updated_by_user','courses.created_by_ip','courses.updated_by_ip','courses.created_at','courses.updated_at'
             ])
             ->where('courses.category_id',Auth::user()->category_id)
-            ->groupBy('academic_id')
-            ->groupBy('course_id');
+            ->where('courses.slug',$class)
+            ->where('academics.slug',$year)
+//            ->where('courses.parent_id','!=','0')
+            ->groupBy('academics.id')
+            ->groupBy('courses.id');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -97,6 +114,9 @@ class CourseSubjectsController extends Controller
                 }
                 return '<a href="' . URL_COURSE_SUBJECTS_ADD_STAFF . $records->academic_id . '/' . $records->course_id . '">' . $records->academic_year_title . '</a>';
             })
+            ->editColumn('course_id', function ($records) {
+                return App\Course::find($records->course_id)->course_title;
+            })
             ->editColumn('course_parent_id', function ($records) {
                 return App\Course::find($records->course_parent_id)->course_title;
             })
@@ -104,9 +124,7 @@ class CourseSubjectsController extends Controller
             /*->editColumn('course_id', function ($records) {
                 return App\Course::find($records->course_id)->course_title;
             })*/
-            ->removeColumn('id')
             ->removeColumn('academic_id')
-            ->removeColumn('course_id')
             ->removeColumn('created_by_user')
             ->removeColumn('updated_by_user')
             ->removeColumn('created_by_ip')
@@ -219,6 +237,7 @@ class CourseSubjectsController extends Controller
         $selected_list = $request->selected_list;
         $total_classes = $request->total_classes;
         $exception_occured = 0;
+        //return $request->all();
         DB::beginTransaction();
         try {
             foreach ($selected_list as $key => $subjects_list) {
@@ -322,25 +341,28 @@ class CourseSubjectsController extends Controller
             }
         }
 
-
+        $sub_courses = App\Course::where('parent_id',$course_parent_id)->get();
         //Insert the new set of records
         if ($items_to_add != null) {
 
             foreach ($items_to_add as $key => $value) {
-                $record = new App\CourseSubject();
-                $record->academic_id = $academic_id;
-                $record->slug = $record->makeSlug(getHashCode());
-                $record->course_parent_id = $course_parent_id;
-                //will be removed;
-                $record->course_id = $course_parent_id;
-                //
-                $record->year = $current_year;
-                $record->semister = $current_sem;
-                $record->subject_id = $value;
-                $record->sessions_needed = $total_classes[$key];
-                //$record->user_stamp()
-                $record->user_stamp($request);
-                $record->save();
+                foreach ($sub_courses as $sub_course){
+                    $record = new App\CourseSubject();
+                    $record->academic_id = $academic_id;
+                    $record->slug = $record->makeSlug(getHashCode());
+                    $record->course_parent_id = $course_parent_id;
+                    //will be removed;
+                    $record->course_id = $sub_course->id;
+                    //
+                    $record->year = $current_year;
+                    $record->semister = $current_sem;
+                    $record->subject_id = $value;
+                    $record->sessions_needed = $total_classes[$key];
+                    //$record->user_stamp()
+                    $record->user_stamp($request);
+                    $record->save();
+                }
+
             }
         }
         if ($diff_to_update != null) {
@@ -550,6 +572,10 @@ class CourseSubjectsController extends Controller
 
         $course_record = App\Course::where('id', '=', $course_id)->first();
 
+        if($course_record->parent_id != 0){
+            $data['original_course'] = $course_record->parent_id;
+        }
+
         if ($isValid = $this->isValidRecord($academic_record)) {
             return redirect($isValid);
         }
@@ -590,6 +616,7 @@ class CourseSubjectsController extends Controller
         $academic_title = $academic_record->academic_year_title;
 
 
+
         $available_data = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
@@ -605,6 +632,10 @@ class CourseSubjectsController extends Controller
             ])
             ->get();
 
+//return $available_data;
+
+        //return $available_data;
+
         $keys = $this->prepareKeys($available_data);
         $data['keys'] = $keys;
         $data['items'] = json_encode(array(
@@ -613,13 +644,16 @@ class CourseSubjectsController extends Controller
             'preferred_subjects' => $preferred_subjects
         ));
 
+
         $course_title = $course_record->course_title;
         $data['academic_id'] = $academic_id;
         $data['course_id'] = $course_id;
         $data['record'] = $course_record;
+        //return $data;
         $data['title'] = getPhrase('allocate_staff')
             . ' - ' . $academic_title . ' - ' . $course_title;
         $data['module_helper'] = getModuleHelper('allocate-staff-to-subjects');
+
 
         return view('mastersettings.subjects-allotment.manage-course-subjects.list-subjects-for-course', $data);
     }
@@ -672,7 +706,7 @@ class CourseSubjectsController extends Controller
                 $query = App\CourseSubject::
                 where('academic_id', '=', $academic_id)
                     ->where('course_id', '=', $course_id)
-                    ->where('course_parent_id', '=', $course_id)
+//                    ->where('course_parent_id', '=', $course_id)
                     ->where('year', '=', $record->year)
                     ->where('semister', '=', $record->semister);
 
@@ -758,7 +792,7 @@ class CourseSubjectsController extends Controller
         $semister = $request->semister;
         $user_id = $request->user_id;
         $deleteFromSub = App\CourseSubject::where('academic_id', '=', $academic_id)
-            ->where('course_parent_id', '=', $course_id)
+            ->where('course_id', '=', $course_id)
             ->where('subject_id', '=', $subject_id)
             ->where('year', '=', $year)
             ->where('semister', '=', $semister)

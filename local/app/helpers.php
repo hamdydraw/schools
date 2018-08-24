@@ -1469,3 +1469,23 @@ function get_users_nu()
     $data = $records->union($records2)->get();
     return count($data);
 }
+
+function course_in_year($year,$course){
+
+    $record = App\Course::join('academic_course', 'academic_course.course_id', '=', 'courses.id')
+        ->join('academics','academics.id','=','academic_course.academic_id')
+        ->select([
+            'academics.academic_year_title',
+            'academics.id',
+            'courses.parent_id as course_parent_id',
+            'courses.id as course_id',
+            'courses.created_by_user','courses.updated_by_user','courses.created_by_ip','courses.updated_by_ip','courses.created_at','courses.updated_at'
+        ])
+        ->where('courses.category_id',Auth::user()->category_id)
+        ->where('academics.slug',$year)
+        ->where('courses.slug',$course)->get()->count();
+    if($record == 0){
+        return true;
+    }
+    return false;
+}

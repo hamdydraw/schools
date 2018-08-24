@@ -14,7 +14,7 @@ class CourseSubject extends Model
     {
         return CourseSubject::join('subjects', 'subjects.id','=','course_subject.subject_id')
 
-            ->where('course_parent_id', '=', $courseId)
+            ->where('course_subject.course_id', '=', $courseId)
             ->where('year', '=', $year)
 
             ->where('academic_id', '=', $academicId)

@@ -37,7 +37,7 @@
 									<th id="helper_step2">{{ getPhrase('academic_year')}}</th>
 									<th>{{ getPhrase('branch')}}</th>
 
-									{{--<th>{{ getPhrase('course')}}</th>--}}
+									<th>{{ getPhrase('course')}}</th>
 									<th id="helper_step3">{{ getPhrase('action')}}</th>
 								</tr>
 							</thead>
@@ -58,6 +58,6 @@
 	<script src="{{JS}}angular.js"></script>
 	<script src="{{JS}}scripts/courseSubjects.js"></script>
 
- @include('common.datatables', array('route'=> URL_MASTERSETTINGS_COURSE_SUBJECTS_AJAXLIST.$slug, 'route_as_url' => 1))
+ @include('common.datatables', array('route'=> URL_MASTERSETTINGS_COURSE_SUBJECTS_AJAXLIST.$year."/".$sem."/".$course."/".$class, 'route_as_url' => 1))
 
 @stop

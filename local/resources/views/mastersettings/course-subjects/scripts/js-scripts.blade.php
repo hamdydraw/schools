@@ -35,11 +35,13 @@
          * @return {[type]}      [description]
          */
         $scope.ingAngData = function(data) {
-
+            console.log($scope.target_items);
             if(data.target_items!=null){
                 angular.forEach(data.target_items,function(value,key){
 
-                    $scope.target_items[value.year+'_'+value.semister].push(value);
+                    if($scope.target_items[value.year+'_'+value.semister] != null){
+                        $scope.target_items[value.year+'_'+value.semister].push(value);
+                    }
                 });
             }
             angular.forEach(data.source_items,function(value,key){

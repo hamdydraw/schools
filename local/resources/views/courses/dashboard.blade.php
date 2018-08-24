@@ -117,7 +117,7 @@
                             <p class="card-text">{{ getPhrase('allocate_staff_to_subject')}}</p>
                         </div>
                         <a class="card-footer text-muted"
-                           href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS."staff"}}">
+                           href="{{PREFIX."mastersettings/course-subjects/select"}}">
                             {{ getPhrase('view_all')}}
                         </a>
                     </div>
