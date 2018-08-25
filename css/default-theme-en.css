@@ -5447,7 +5447,7 @@ table.dataTable tbody td {
 .users-list > li {
     width: 25%;
     float: left;
-    padding: 10px;
+    padding: 0px;
     text-align: center;
 }
 .users-list > li img {
