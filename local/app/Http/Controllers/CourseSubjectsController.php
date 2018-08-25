@@ -239,6 +239,9 @@ class CourseSubjectsController extends Controller
         $exception_occured = 0;
         //return $request->all();
         DB::beginTransaction();
+
+        //delete current assigned subjects and add new selected ones
+        //DB::statement("delete from course_subject where course_parent_id = '$course_parent_id' ");
         try {
             foreach ($selected_list as $key => $subjects_list) {
 
@@ -338,11 +341,13 @@ class CourseSubjectsController extends Controller
 //                    ->where('semister', '=', $current_sem)
 //                    ->where('subject_id', '=', $subject_id)->delete();
                 DB::statement("delete from course_subject where academic_id = '$academic_id' and year = '$current_year' and semister = '$current_sem' and subject_id = '$subject_id'");
+
             }
         }
 
         $sub_courses = App\Course::where('parent_id',$course_parent_id)->get();
         //Insert the new set of records
+
         if ($items_to_add != null) {
 
             foreach ($items_to_add as $key => $value) {
