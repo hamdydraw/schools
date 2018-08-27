@@ -1148,10 +1148,10 @@ class UsersController extends Controller
          * Validate the non-admin user wether is trying to access other user profile
          * If so return the user back to previous page with message
          */
-
-        if (!isEligible($slug)) {
-            return back();
-        }
+         
+        // if (!isEligible($slug)) {
+        //     return back();
+        // }
 
         $data['record'] = $record;
 

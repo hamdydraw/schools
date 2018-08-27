@@ -178,19 +178,18 @@ class LessionPlansController extends Controller
         $course_time = App\Course::where('id', '=', $request->course_id)->select('course_dueration')->first();
         $academic_title = App\Academic::where('id', '=', $request->academic_id)->select('academic_year_title')->first();
         $course_name = App\Course::where('id', '=', $request->course_id)->select('course_title')->first();
-        $branch_name = App\Course::where('id', '=', $request->course_parent_id)->select('course_code')->first();
-
+        $course_id = App\Staff::where('user_id', Auth::user()->id)->select('course_id')->first()->course_id;
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('student_list');
         $data['academic_id'] = $request->academic_id;
         $data['course_parent_id'] = $request->course_parent_id;
-        $data['course_id'] = $request->course_id;
+        $data['course_id'] = $course_id;
         $data['year'] = $request->year;
         $data['semister'] = $request->semister;
         $data['course_time'] = $course_time;
         $data['layout'] = getLayout();
         if ($course_time->course_dueration != 1) {
-            $data['title'] = $academic_title->academic_year_title . ' ' . $branch_name->course_code . ' ' .
+            $data['title'] = $academic_title->academic_year_title . ' ' .
                 $course_name->course_title . ' ' . $request->year . ' ' . getPhrase('year') . ' ' . $request->semister . ' ' . getPhrase('semester') . ' ' . getPhrase('students');
         } else {
             $data['title'] = $academic_title->academic_year_title . ' ' . $course_name->course_title . ' ' . getPhrase('students');
@@ -215,7 +214,8 @@ class LessionPlansController extends Controller
                 'users.image',
                 'students.roll_no',
                 'courses.course_title',
-                'users.email'
+                'users.email',
+                'users.slug'
             ])
             ->where('students.academic_id', '=', $academic_id)
             ->where('students.course_parent_id', '=', $course_parent_id)
@@ -229,7 +229,7 @@ class LessionPlansController extends Controller
         return Datatables::of($records)
             ->editColumn('first_name', function ($records) {
                 $data = '';
-                $data = $records->first_name . ' ' . $records->last_name;
+                $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->first_name . ' ' . $records->last_name.'</a>';
                 return $data;
 
             })
