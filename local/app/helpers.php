@@ -1269,7 +1269,8 @@ function getSubjects($year,$semester,$course){
     return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
                              ->where('academic_id',$year)
                              ->where('semister',$semester)
-                             ->where('course_id',$course)
+                             ->where('course_parent_id',$course)
+                             ->groupBy('course_subject.subject_id')
                              ->select(['course_subject.id as id','subjects.id as subject_id','subjects.slug','subjects.subject_title'])
                              ->get();
 }
@@ -1278,14 +1279,16 @@ function getTeacherSubjects($year,$semester,$course){
     return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
         ->where('academic_id',$year)
         ->where('semister',$semester)
-        ->where('course_id',$course)
+        ->where('course_parent_id',$course)
         ->where('staff_id',Auth::user()->id)
+        ->groupBy('course_subject.subject_id')
         ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.slug','subjects.subject_title'])
         ->get();
 }
 
 function getSubjectDetails($id){
     $subject = \App\CourseSubject::where('id',$id)->first();
+ //$subject = \App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id')->get();
     $data['year']    = '';
     $data['sem']     = '';
     $data['course']  = '';
