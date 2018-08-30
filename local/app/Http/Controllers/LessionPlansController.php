@@ -219,9 +219,9 @@ class LessionPlansController extends Controller
             ])
             ->where('students.academic_id', '=', $academic_id)
             ->where('students.course_parent_id', '=', $course_parent_id)
-            ->where('students.course_id', '=', $course_id)
-            ->where('students.current_year', '=', $year)
-            ->where('students.current_semister', '=', $semister)
+            // ->where('students.course_id', '=', $course_id)
+            // ->where('students.current_year', '=', $year)
+            // ->where('students.current_semister', '=', $semister)
             ->orderBy('students.updated_at', 'desc')->get();
 
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();

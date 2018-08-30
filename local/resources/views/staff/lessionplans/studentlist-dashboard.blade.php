@@ -46,17 +46,13 @@
 						                  <input type="hidden" name="course_parent_id"   value="{{$subject->course_parent_id}}" >
 						                  <input type="hidden" name="year"        value="{{$subject->year}}" >
 						                  <input type="hidden" name="semister"    value="{{$subject->semister}}" >
-						                  
-								@if($subject->course_dueration>1)
-								    @if($subject->semister!=0)
-								<p class="card-text">{{ $subject->year.' '.getPhrase('year').' - '.$subject->semister.' '.getPhrase('semester')}}</p>
-								      @else
-								      <p class="card-text">{{ $subject->year.' '.getPhrase('year')}}</p>
-                                    @endif
-								@endif
-
+																@if($subject->semister == 1)
+																	<p class="card-text">{{ getPhrase('first_term')}}</p>
+																	@elseif($subject->semister == 2)
+																	<p class="card-text">{{ getPhrase('second_term')}}</p>
+																@endif
 							</div>
-							
+
 							<div >
 
 							<button class="btn card-footer text-muted"
