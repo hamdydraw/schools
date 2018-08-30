@@ -42,7 +42,7 @@
 						<div class="pull-right messages-buttons">
 
 							<button type="submit" class="btn  btn-success button helper_step1" >{{ getPhrase('update')}}</button>
-							<a href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS."staff"}}" class="btn  btn-primary button helper_step2" >{{ getPhrase('list')}}</a>
+							<a href="{{URL_MASTERSETTINGS_COURSE_SUBJECTS."select"}}" class="btn  btn-primary button helper_step2" >{{ getPhrase('list')}}</a>
 
 						</div>
 						<h1>{{ $title }}</h1>
