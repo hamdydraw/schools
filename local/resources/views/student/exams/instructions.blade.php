@@ -43,6 +43,15 @@
 					</div>
 					<div class="panel-body instruction no-arrow">
 
+
+						@if($record->entry_option==1 && $check_attemp >0)
+							<div class="row">
+								<div class="col-md-12">
+
+									عفوا لقد تم دخولك الاختبار من قبل ولا يمكنك دخوله مرة اخرى
+								</div>
+							</div>
+							@else
 						<div class="row">
 							<div class="col-md-12">
 								<h2>{{getPhrase('exam_name')}}:   {{$record->title}} </h2>
@@ -106,7 +115,7 @@
 					{!! Form::close() !!}
 
 						</div>
-
+							@endif
 
 					</div>
 				</div>

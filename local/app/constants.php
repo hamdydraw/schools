@@ -453,6 +453,7 @@ define('URL_STUDENT_EXAM_GETATTEMPTS', PREFIX.'exams/student/get-exam-attempts/'
 define('URL_STUDENT_EXAM_ANALYSIS_BYSUBJECT', PREFIX.'student/analysis/by-subject/');
 define('URL_STUDENT_EXAM_ANALYSIS_BYEXAM', PREFIX.'student/analysis/get-by-exam/');
 define('URL_STUDENT_EXAM_FINISH_EXAM', PREFIX.'exams/student/finish-exam/');
+define('URL_STUDENT_EXAM_DELETE', PREFIX.'exams/student/deleteExamAttempts/');
 
 define('URL_QUIZ_GET_SCHEDULED_EXAMS', PREFIX.'exams/student/get-scheduled-exams/');
 define('URL_QUIZ_LOAD_SCHEDULED_EXAMS', PREFIX.'exams/student/load-scheduled-exams/');
@@ -591,7 +592,7 @@ define('URL_MESSAGES_SHOW', PREFIX.'messages/');
 define('URL_MESSAGES_CREATE', PREFIX.'messages/create');
 
 
-define('URL_GENERATE_CERTIFICATE', PREFIX.'result/generate-certificate/');
+define('URL_GENERATE_CERTIFICATE', PREFIX.'resultresult/generate-certificate/');
 
 
 define('URL_PAYMENT_REPORTS', PREFIX.'payments-report/');

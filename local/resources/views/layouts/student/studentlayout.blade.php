@@ -293,9 +293,9 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                         <li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"><i
                                         class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
 
-                        <li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc"
+                      <!--  <li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc"
                                                                                aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
-                            </a></li>
+                            </a></li>-->
                     </ul>
 
 

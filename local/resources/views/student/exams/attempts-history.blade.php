@@ -28,20 +28,20 @@
 
 				    @if(checkRole(getUserGrade(2)))
                        <li><a href="{{URL_USERS_DASHBOARD}}">{{ getPhrase('users_dashboard') }}</a> </li>
-                       
+
 
 					<li><a href="{{URL_USERS."student"}}">{{ getPhrase('student_users') }}</a> </li>
 					@endif
 
                        @if(checkRole(getUserGrade(12)))
-                   <li><a href="{{URL_USER_DETAILS.$user->slug}}">{{ $user->name }} {{getPhrase('details') }}</a> </li> 
+                   <li><a href="{{URL_USER_DETAILS.$user->slug}}">{{ $user->name }} {{getPhrase('details') }}</a> </li>
                    @endif
 
                    @if(checkRole(getUserGrade(7)))
                    <li><a href="{{URL_PARENT_CHILDREN}}">{{ getPhrase('children') }}</a> </li>
-							
-                   <li><a href="{{URL_USER_DETAILS.$user->slug}}">{{ $user->name }} {{getPhrase('details') }}</a> </li> 
-					@endif		 
+
+                   <li><a href="{{URL_USER_DETAILS.$user->slug}}">{{ $user->name }} {{getPhrase('details') }}</a> </li>
+					@endif
 
 							<li>{{ $title}}</li>
 
@@ -51,7 +51,7 @@
 
 				</div>
 
-								
+
 
 				<!-- /.row -->
 
@@ -59,7 +59,7 @@
 
 					<div class="panel-heading">
 
-						 
+
 
 						<h1>{{ $title.' '.getPhrase('of').' '.$user->name }}</h1>
 
@@ -67,7 +67,7 @@
 
 					<div class="panel-body packages">
 
-						<div > 
+						<div >
 
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 
@@ -75,31 +75,31 @@
 
 								<tr>
 
-								 
+
 
 									<th>{{ getPhrase('title')}}</th>
 
 									<th>{{ getPhrase('type')}}</th>
 
-								 
+
 
 									<th>{{ getPhrase('marks')}}</th>
 
-								 	 
+
 
 									<th>{{ getPhrase('result')}}</th>
 
-									 
+
 
 									<th>{{ getPhrase('action')}}</th>
 
-								  
+
 
 								</tr>
 
 							</thead>
 
-							 
+
 
 						</table>
 
@@ -127,7 +127,7 @@
 
 @endsection
 
- 
+
 
 
 
@@ -144,6 +144,6 @@
  @endif
 
  @include('common.chart', array($chart_data,'ids' => array('myChart1')));
-
+ @include('common.deletescript', array('route'=>URL_STUDENT_EXAM_DELETE))
 @stop
 

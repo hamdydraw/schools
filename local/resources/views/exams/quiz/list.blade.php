@@ -55,7 +55,7 @@
 
 					<div class="panel-body packages">
 
-						<div > 
+						<div >
 
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 
@@ -63,9 +63,9 @@
 
 								<tr>
 
-									
+
 									<th>{{ getPhrase('type')}}</th>
-									
+
 									<th id="helper_step3">{{ getPhrase('title')}} (ID)</th>
 
 									<th>{{ getPhrase('duration')}}</th>
@@ -83,7 +83,7 @@
 									<th>{{getPhrase('branch')}}</th>
 									<th>{{getPhrase('subject')}}</th>
 
-									
+
 
 									<th id="helper_step4">{{ getPhrase('action')}}</th>
 
@@ -91,7 +91,7 @@
 
 							</thead>
 
-							 
+
 
 						</table>
 

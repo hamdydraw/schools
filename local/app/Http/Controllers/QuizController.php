@@ -399,6 +399,7 @@ class QuizController extends Controller
             $record->dueration = $request->dueration;
             $record->total_marks = $request->total_marks;
             $record->pass_percentage = $request->pass_percentage;
+            $record->entry_option = $request->entry_option;
             $record->tags = '';
             $record->cost = 0;
             $record->validity = -1;
@@ -527,6 +528,7 @@ class QuizController extends Controller
                 $record->having_negative_mark = 0;
             }
 
+            $record->entry_option=$request->entry_option;
             $record->description = $request->description;
             $record->record_updated_by = Auth::user()->id;
             $record->applicable_to_specific = $request->applicable_to_specific;

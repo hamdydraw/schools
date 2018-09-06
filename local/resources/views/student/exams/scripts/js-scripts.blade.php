@@ -22,7 +22,7 @@ var app = angular.module('academia', []);
 
 app.controller('angExamScript', function($scope, $http) {
 
-    
+
 
     $scope.initAngData = function(data) {
 
@@ -40,7 +40,7 @@ app.controller('angExamScript', function($scope, $http) {
 
         }
 
-    $scope.hints = 0;    
+    $scope.hints = 0;
 
     $scope.saved_bookmarks = [];
 
@@ -54,7 +54,7 @@ app.controller('angExamScript', function($scope, $http) {
 
      });
 
-    
+
 
 
 
@@ -74,7 +74,7 @@ app.controller('angExamScript', function($scope, $http) {
 
     {
 
-        route = '{{URL_BOOKMARK_SAVED_BOOKMARKS}}';  
+        route = '{{URL_BOOKMARK_SAVED_BOOKMARKS}}';
 
 
 
@@ -82,9 +82,9 @@ app.controller('angExamScript', function($scope, $http) {
 
         $http.post(route, data).then(function(result) {
 
-            $scope.saved_bookmarks = result.data;        
+            $scope.saved_bookmarks = result.data;
 
-             
+
 
             angular.forEach($scope.bookmarks, function(value, index) {
 
@@ -92,7 +92,7 @@ app.controller('angExamScript', function($scope, $http) {
 
               });
 
-        });  
+        });
 
 
 
@@ -112,7 +112,7 @@ app.controller('angExamScript', function($scope, $http) {
 
     /**
 
-     * This method searches for the particular element in the sent array and returns 
+     * This method searches for the particular element in the sent array and returns
 
      * -1 if not found
 
@@ -172,15 +172,15 @@ app.controller('angExamScript', function($scope, $http) {
 
         bookmark_value=0;
 
-        route = '{{URL_BOOKMARK_ADD}}';  
+        route = '{{URL_BOOKMARK_ADD}}';
 
         data= {_method: 'post', '_token':$scope.getToken(), 'item_id': item_id, 'item_type':item_type };
 
-        
+
 
         if(operation=='delete') {
 
-          route = '{{URL_BOOKMARK_DELETE}}'+item_id;  
+          route = '{{URL_BOOKMARK_DELETE}}'+item_id;
 
           bookmark_value = -1;
 
@@ -188,11 +188,11 @@ app.controller('angExamScript', function($scope, $http) {
 
         }
 
-       
+
 
         $http.post(route, data).then(function(result, status) {
 
-            
+
 
             if(result.data.status==0){
 
@@ -206,7 +206,7 @@ app.controller('angExamScript', function($scope, $http) {
 
                     var index = $scope.saved_bookmarks.indexOf(item_id);
 
-                    $scope.saved_bookmarks.splice(index, 1); 
+                    $scope.saved_bookmarks.splice(index, 1);
 
                 }
 
@@ -240,7 +240,7 @@ app.controller('angExamScript', function($scope, $http) {
 
 
 
-    
+
 
 });
 
@@ -302,23 +302,23 @@ DIV_REFERENCE.first().show();
 
 updateCount();
 
- 
+
 
 // onlclick of next button
 
-$('.next').click(function() { 
+$('.next').click(function() {
 
   nextClick($(this).attr('id'));
 
    $('.next #markbtn').show();
 
-});    
+});
 
 
 
 // onlclick of prev button
 
-$('.prev').click(function() { 
+$('.prev').click(function() {
 
    prevClick($(this).attr('id'));
 
@@ -328,7 +328,7 @@ $('.prev').click(function() {
 
 $('.clear-answer').click(function() {
 
-  clearAnswer();    
+  clearAnswer();
 
 });
 
@@ -374,7 +374,7 @@ function prevClick(argument) {
 
     doGeneralOperations();
 
-  
+
 
     return false;
 
@@ -400,7 +400,7 @@ function clearAnswer() {
 
         }
 
-         
+
 
     });
 
@@ -442,7 +442,7 @@ function bookmark(operation) {
 
 function processNext(is_marked) {
 
-    
+
 
     /**
 
@@ -452,7 +452,7 @@ function processNext(is_marked) {
 
     list = $(VISIBLE_ELEMENT + ' input ');
 
-    
+
 
     /**
 
@@ -462,13 +462,13 @@ function processNext(is_marked) {
 
     textarea_list =  $(VISIBLE_ELEMENT + ' textarea ');
 
-    
+
 
     // This is the global flag to determine wether the user is answered or skipped this question
 
     answer_status = 0;
 
-    
+
 
     //Process input type of elements in foreach loop
 
@@ -480,7 +480,7 @@ function processNext(is_marked) {
 
             element_type = $(value).attr('type');
 
-            
+
 
             switch(element_type)
 
@@ -498,7 +498,7 @@ function processNext(is_marked) {
 
     }
 
-    
+
 
     //Process textarea type of elements in foreach loop
 
@@ -534,7 +534,7 @@ function processNext(is_marked) {
 
     }
 
-    
+
 
     //Update the palette with status
 
@@ -586,7 +586,7 @@ function checkButtonStatus() {
 
     }
 
-    else 
+    else
 
     {
 
@@ -693,7 +693,7 @@ function updateCount() {
 }
 
 function showSubjectQuestion(subject_id) {
-  
+
   question_number = $($("."+subject_id).first()).attr('id');
    $(VISIBLE_ELEMENT).hide();
 
@@ -704,9 +704,9 @@ function showSubjectQuestion(subject_id) {
     return false;
 }
 
-$('.finish').click(function() { 
+$('.finish').click(function() {
 
-   
+
 
 });
 
@@ -742,7 +742,7 @@ function getCurrentQuestionNumber() {
 
 
 
- 
+
 
 
 
@@ -757,10 +757,10 @@ function getCurrentQuestionNumber() {
         SECONDS     = sec;
 
         $("#timerdiv").addClass('text-success');
-       
+
         startInterval();
 
-     } 
+     }
 
      function startInterval()
 
@@ -772,7 +772,7 @@ function getCurrentQuestionNumber() {
 
      }
 
-    
+
 
     function stopInterval()
 
@@ -780,13 +780,13 @@ function getCurrentQuestionNumber() {
 
         clearInterval(timer);
 
-    } 
+    }
 
 
 
-    
 
-    
+
+
 
      function tictac(){
 
@@ -802,11 +802,11 @@ function getCurrentQuestionNumber() {
 
                 SPENT_TIME[visible_div_id] = SPENT_TIME[visible_div_id]+1;
 
-            
+
 
             $('#time_spent_'+visible_div_id).val(SPENT_TIME[visible_div_id]);
 
-            
+
 
             if(SECONDS<=0)
 
@@ -822,27 +822,27 @@ function getCurrentQuestionNumber() {
 
                 {
 
-                    
+
 
                      if(HOURS==0) {
                       $("#timerdiv").removeClass('text-success');
                       $("#timerdiv").addClass("text-red");
                      }
-                    
+
 
                 }
 
-                
 
-                
 
-                
+
+
+
 
                 if(MINUTES<0)
 
                 {
                   if(HOURS!=0) {
-                   
+
                     MINUTES = 59;
                     HOURS =  HOURS-1;
                     SECONDS = 59;
@@ -860,25 +860,25 @@ function getCurrentQuestionNumber() {
 
                     // swal({   title: "Timeup!",   text: "You are exceeded the time to finish the exam",   timer: 5000,   showConfirmButton: true });
 
-    
 
- 
+
+
 
                   $('#onlineexamform').submit();
 
- 
+
 
                 }
 
-                
 
-                    
+
+
 
                 SECONDS=60;
 
             }
 
-            
+
 
             if(MINUTES>=0)
 
@@ -892,7 +892,7 @@ function getCurrentQuestionNumber() {
 
 
 
-Mousetrap.bind('left', function() { 
+Mousetrap.bind('left', function() {
 
   prevClick();
 
@@ -900,7 +900,7 @@ Mousetrap.bind('left', function() {
 
 
 
-Mousetrap.bind('right', function() { 
+Mousetrap.bind('right', function() {
 
   nextClick();
 
@@ -908,7 +908,7 @@ Mousetrap.bind('right', function() {
 
 
 
-Mousetrap.bind('escape', function() { 
+Mousetrap.bind('escape', function() {
 
   clearAnswer();
 
@@ -928,7 +928,7 @@ Mousetrap.bind(['shift+down'], function(e) {
 
 });
 
- 
+
 
 
 

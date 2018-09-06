@@ -676,9 +676,11 @@ Route::get('exams/student/load-scheduled-exams/{slug}', 'StudentQuizController@l
 
 Route::post('exams/student/finish-exam/{slug}', 'StudentQuizController@finishExam');
 Route::get('exams/student/reports/{slug}', 'StudentQuizController@reports');
+Route::delete('exams/student/deleteExamAttempts/{slug}', 'StudentQuizController@deleteExamAttempts');
 
 
 Route::get('exams/student/exam-attempts/{user_slug}/{exam_slug?}', 'StudentQuizController@examAttempts');
+Route::get('exams/student/exam-attempts/delete/{exam_slug?}', 'StudentQuizController@delete');
 Route::get('exams/student/get-exam-attempts/{user_slug}/{exam_slug?}', 'StudentQuizController@getExamAttemptsData');
 
 Route::get('student/analysis/by-exam/{user_slug}', 'StudentQuizController@examAnalysis');

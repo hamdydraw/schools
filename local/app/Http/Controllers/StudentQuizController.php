@@ -224,6 +224,8 @@ class StudentQuizController extends Controller
             return back();
         }
         $record = Quiz::getRecordWithSlug($slug);
+        $check_attemp=App\QuizResult::where('user_id',$user_id)
+            ->where('quiz_id',$record->id)->count();
 
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
@@ -1288,10 +1290,10 @@ class StudentQuizController extends Controller
                 if (getSetting('certificate', 'module')) {
                     $certificate_link = '<li><a href="' . URL_GENERATE_CERTIFICATE . $records->resultsslug . '" target="_blank"><i class="fa fa-certificate"></i>' . getPhrase("generate_certificate") . '</a></li>';
                 }
-
+                $delete_link= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->resultsslug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';
 
                 $tail = '</ul> </div>';
-                return $options . $certificate_link . $tail;
+                return $options . $certificate_link .$delete_link. $tail;
 
             })
             ->editColumn('title', function ($records) {
@@ -1712,6 +1714,35 @@ class StudentQuizController extends Controller
         return view('student.exams.subject-analysis.subject-analysis', $data);
         //End
     }
+    public function deleteExamAttempts($slug)
+    {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        /**
+         * Delete the questions associated with this quiz first
+         * Delete the quiz
+         * @var [type]
+         */
+        $record = QuizResult::where('slug', $slug)->first();
+        try {
 
+            if (!env('DEMO_MODE')) {
+                $record->delete();
+            }
+            $response['status'] = 1;
+            $response['message'] = getPhrase('record_deleted_successfully');
+        } catch (Exception $e) {
+            $response['status'] = 0;
+            if (getSetting('show_foreign_key_constraint', 'module')) {
+                $response['message'] = $e->getMessage();
+            } else {
+                $response['message'] = getPhrase('this_record_is_in_use_in_other_modules');
+            }
+        }
+        return json_encode($response);
+
+    }
 
 }
