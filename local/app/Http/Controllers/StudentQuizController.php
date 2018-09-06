@@ -251,6 +251,7 @@ class StudentQuizController extends Controller
         }
 
         $data['record'] = $record;
+        $data['check_attemp'] = $check_attemp;
         $data['active_class'] = 'exams';
         $data['layout'] = getLayout();
         $data['title'] = $record->title;
