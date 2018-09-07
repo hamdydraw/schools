@@ -1291,8 +1291,10 @@ class StudentQuizController extends Controller
                 if (getSetting('certificate', 'module')) {
                     $certificate_link = '<li><a href="' . URL_GENERATE_CERTIFICATE . $records->resultsslug . '" target="_blank"><i class="fa fa-certificate"></i>' . getPhrase("generate_certificate") . '</a></li>';
                 }
-                $delete_link= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->resultsslug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';
-
+                $delete_link='';
+                if (checkRole(getUserGrade(1))) {
+                    $delete_link = ' <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->resultsslug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';
+                }
                 $tail = '</ul> </div>';
                 return $options . $certificate_link .$delete_link. $tail;
 
@@ -1727,11 +1729,11 @@ class StudentQuizController extends Controller
          * @var [type]
          */
 
-
+        $record = QuizResult::where('slug', $slug)->first();
         try {
 
             if (!env('DEMO_MODE')) {
-                DB::statement("delete from quizresults where slug = '$slug'");
+                $record->delete();
             }
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
