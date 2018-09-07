@@ -169,10 +169,7 @@
 				{{ Form::label('end_date', getphrase('end_date')) }}
 				{{ Form::text('end_date', $date_to , $attributes = array('class'=>'input-sm form-control', 'placeholder' => '2015/7/17', 'id' => 'datetimepicker7')) }}
  			</fieldset>
-				<fieldset class="form-group col-md-6">
-					{{ Form::label('entry_option', getphrase('exam_entry_options')) }}
-				     {{Form::select('entry_option',[1=>getphrase('once_only'),2=>getphrase('More_than_once')],$record,['placeholder' => getPhrase('select'),'class'=>'input-sm form-control'])}}
-				</fieldset>
+
 			</div>
 
 				<div  class="row" ng-if="quiz_type!='offline'">
@@ -183,7 +180,10 @@
                     }else{$payment_options = array('0'=> getPhrase('free'));}
                     ?>
 
-
+						<fieldset class="form-group col-md-6">
+							{{ Form::label('entry_option', getphrase('exam_entry_options')) }}
+							{{Form::select('entry_option',[1=>getphrase('once_only'),2=>getphrase('More_than_once')],$record,['placeholder' => getPhrase('select'),'class'=>'input-sm form-control'])}}
+						</fieldset>
 					 <fieldset class="form-group col-md-6" >
 						{{ Form::label('is_paid', getphrase('is_paid')) }}
 						<span class="text-red">*</span>

@@ -1726,11 +1726,12 @@ class StudentQuizController extends Controller
          * Delete the quiz
          * @var [type]
          */
-        $record = QuizResult::where('slug', $slug)->first();
+
+
         try {
 
             if (!env('DEMO_MODE')) {
-                $record->delete();
+                DB::statement("delete from quizresults where slug = '$slug'");
             }
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
