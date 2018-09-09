@@ -372,7 +372,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 <i class="fa fa-assistive-listening-systems"aria-hidden="true"></i> {{ getPhrase('Automatic_call')}}
                             </a></li>
 
-                        <li><a href="#">
+                        <li><a href="{{url('attendanceoperations/record-student')}}">
                                 <i class="fa fa-microphone"aria-hidden="true"></i> {{ getPhrase('voice_records_for_students')}}
                             </a></li>
 

@@ -1,12 +1,13 @@
 
 @if(!isset($load_module) )
  <script src="{{JS}}angular.js"></script>
+ <script src="{{JS}}angular-audio-recorder.min.js"></script>
 @endif
 <script src="{{JS}}barcode.js"></script>
 <script>
 
 @if(!isset($load_module) )
-var app = angular.module('academia', ['io-barcode']);
+var app = angular.module('academia', ['io-barcode','angularAudioRecorder']);
 var app2 = angular.module('special', ['io-barcode']);
 @endif
 
@@ -33,7 +34,7 @@ app.factory('httpPreConfig', function($http, $rootScope, $timeout, $q) {
         },
          showConfirmation: function() {
                 var defer = $q.defer();
-                
+
 
   swal({
 
@@ -56,16 +57,16 @@ app.factory('httpPreConfig', function($http, $rootScope, $timeout, $q) {
     },
 
     function(isConfirm) {
-      
-      if (isConfirm) { 
-       
-       
+
+      if (isConfirm) {
+
+
       defer.resolve(1);
 
       } else {
-       
+
         swal("{{getPhrase('cancelled')}}", "{{getPhrase('your_record_is_safe')}} :)", "error");
-         
+
           defer.resolve(0);
       }
 
@@ -87,19 +88,19 @@ app.factory('httpPreConfig', function($http, $rootScope, $timeout, $q) {
                        deferred.resolve();
                    },
                    error: function(xhr, ajaxOptions, thrownError) {
-                       
+
                        if (xhr.status == 0) {
-                           
+
                        } else if (xhr.status == 404) {
-                           
+
                        } else {
-                           
+
                        }
                    },
                    beforeSend: function() {},
                    complete: function() {}
                });
-           
+
        }
      }
 

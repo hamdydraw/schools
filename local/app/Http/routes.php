@@ -1188,6 +1188,10 @@ Route::get('academicoperations/dashboard', 'AcademicOperationsDashboardControlle
 
 //Attendance operations --Dashboard
 Route::get('attendanceoperations/dashboard', 'AttendanceOperationsDashboardController@index');
+Route::get('attendanceoperations/record-student', 'StudentNamesRecordingController@index');
+Route::post('student/recorder', 'StudentNamesRecordingController@Store');
+Route::post('attendanceoperations/recorder/delete', 'StudentNamesRecordingController@Delete');
+
 
 
 //Student Quiz dashboard
