@@ -164,7 +164,7 @@ function createDownloadLink(blob,id) {
       fd.append("audio_data",blob, filename);
       var request = {
             method: 'POST',
-            url: '/schoolsysrepo/student/recorder',
+            url: "{{url('student/recorder')}}",
             data: fd,
             headers: {
                 'Content-Type': undefined
