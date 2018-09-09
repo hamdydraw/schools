@@ -33,11 +33,11 @@
 							<div class="card-block">
 							<h4 class="card-title">
 						<i class="fa fa-street-view"></i>
-						
+
 							</h4>
 								<p class="card-text">{{ getPhrase('Attendance_and_departure')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="#">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -52,7 +52,7 @@
 							</h4>
 								<p class="card-text">{{ getPhrase('Automatic_call')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="#">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -64,12 +64,12 @@
 							<div class="card-block">
 							<h4 class="card-title">
 								<i class="fa fa-microphone"></i>
-					
+
 							</h4>
 								<p class="card-text">{{ getPhrase('voice_records_for_student')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
-							href="#">
+							<a class="card-footer text-muted"
+							href="{{url('attendanceoperations/record-student')}}">
 								{{ getPhrase('view_all')}}
 							</a>
 						</div>
@@ -96,12 +96,12 @@
 						<div class="card card-blue text-xs-center helper_step5">
 							<div class="card-block">
 					  <h4 class="card-title">
-                     <i class="fa fa-check-square-o">	</i>			 
+                     <i class="fa fa-check-square-o">	</i>
                       </h4>
-                          
+
 								<p class="card-text">{{ getPhrase('class_attendance_report')}}</p>
 							</div>
-							<a class="card-footer text-muted" 
+							<a class="card-footer text-muted"
 							href="{{URL_STUDENT_CLASS_ATTENDANCE}}">
 								{{ getPhrase('view_all')}}
 							</a>
@@ -112,13 +112,13 @@
 
 
 
-				
+
 		<!-- /#page-wrapper -->
 
 @stop
 
 @section('footer_scripts')
- 
- 
+
+
 
 @stop

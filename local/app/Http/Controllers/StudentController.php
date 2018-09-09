@@ -573,7 +573,8 @@ class StudentController extends Controller
                 'students.academic_id as academic_id',
                 'students.course_id as course_id',
                 'students.user_id as user_id',
-                'users.slug'
+                'users.slug',
+                'students.student_audio'
             ])
             ->get();
 
