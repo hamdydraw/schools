@@ -641,7 +641,6 @@ class TimetableController extends Controller
         }
         $days = getDay();
         $data['allocated_periods'] = json_encode($allocated_periods);
-
         $data['layout'] = getLayout();
         if ($user_id) {
             $data['right_bar'] = true;

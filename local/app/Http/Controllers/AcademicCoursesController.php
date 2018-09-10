@@ -227,6 +227,7 @@ class AcademicCoursesController extends Controller
         $academic_id = $request->academic_id;
         $parent_course_id = $request->parent_course_id;
         $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.parent_id')
+            ->join('course_subject','course_subject.course_id','=','courses.id')
             ->where('academic_course.academic_id', '=', $academic_id)
             ->where('academic_course.course_id', '=', $parent_course_id)
             ->select([
@@ -234,9 +235,13 @@ class AcademicCoursesController extends Controller
                 'courses.id',
                 'course_dueration',
                 'is_having_semister',
-                'academic_id',
-                'parent_id'
+                'academic_course.academic_id',
+                'courses.parent_id'
             ]);
+
+        if($user_role == 'staff'){
+            $records = $records->where('course_subject.staff_id',Auth::user()->id);
+        }
 
 
         if ($user_role == 'student') {

@@ -34,6 +34,7 @@
             $scope.maximum_periods_set = data.maximum_periods_set;
             $scope.days = data.days;
 
+
             $scope.timings_map = data.timemaps;
             $scope.target_items = data.timemaps;
 

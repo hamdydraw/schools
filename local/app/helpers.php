@@ -694,13 +694,13 @@ function addSelectToList($list)
  */
 function getDay($dayNumber = -1)
 {
-    $days[1] = getPhrase('mon');
-    $days[2] = getPhrase('tue');
-    $days[3] = getPhrase('wed');
-    $days[4] = getPhrase('thu');
-    $days[5] = getPhrase('fri');
-    $days[6] = getPhrase('sat');
-    $days[7] = getPhrase('sun');
+    $days[1] = getPhrase('sun');
+    $days[2] = getPhrase('mon');
+    $days[3] = getPhrase('tue');
+    $days[4] = getPhrase('wed');
+    $days[5] = getPhrase('thu');
+    $days[6] = getPhrase('fri');
+    $days[7] = getPhrase('sat');
 
     if ($dayNumber == -1) {
         return $days;
