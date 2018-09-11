@@ -1425,7 +1425,8 @@ Route::get('/test_it/{number}', function ($number) {
 
 Route::get('/test_2', function () {
 
-
+    $ids = \App\CourseSubject::where('staff_id',Auth::user()->id)->pluck('id');
+    return $ids;
 });
 
 Route::get('/get_countries', function () {
