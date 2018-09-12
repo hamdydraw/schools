@@ -1120,6 +1120,11 @@ function teacher_subject($slug){
     return false;
 }
 
+
+function teacher_quizzes(){
+    $ids = \App\CourseSubject::where('staff_id',Auth::user()->id)->pluck('id');
+    return $ids;
+}
 //get the main tables in database
 function get_main_tables(){
   $TABLES_IN_DB='Tables_in_'.env('DB_DATABASE');

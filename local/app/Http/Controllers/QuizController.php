@@ -87,12 +87,14 @@ class QuizController extends Controller
 
         if ($slug == '') {
             if(is_teacher()){
+                $ids = teacher_quizzes();
                 $records = Quiz::withoutGlobalScope(App\Scopes\BranchScope::class)
                     ->join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
                     ->join('courses','quizcategories.course_id','=','courses.id')
                     ->join('course_subject','quizzes.course_id','=','course_subject.course_parent_id')
                     ->where('quizzes.type','=','online')
                     ->where('course_subject.staff_id',Auth::user()->id)
+                  //  ->whereIn('quizzes.subject_id',$ids)
                     ->groupBy('quizzes.id')
                     ->select([
                         'type',
