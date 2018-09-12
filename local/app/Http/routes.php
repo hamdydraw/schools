@@ -1272,15 +1272,18 @@ Route::get('get_years',function (){
     return \App\Academic::where('show_in_list',1)->get();
 });
 
-Route::get('get_courses/{year}',function ($year){
+Route::get('get_courses/{year}/{staff_id?}',function ($year,$staff_id){
     if(Auth::user()->role_id == 3){
-        return getTeacherCourses($year);
+        return getTeacherCourses($year,null);
+    }
+    else if ($staff_id != "null") {
+      return getTeacherCourses($year,$staff_id);
     }
     return getCourses($year);
 });
 
 Route::get('get_teacher_courses/{year}',function ($year){
-    return getTeacherCourses($year);
+    return getTeacherCourses($year,null);
 });
 
 Route::get('supervisor/teacher-courses/{slug}',function($slug){
@@ -1318,15 +1321,18 @@ Route::get('get_branches',function (){
     return \App\Branch::all();
 });
 
-Route::get('get_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
+Route::get('get_subjects/{year}/{sem}/{course}/{slug?}',function ($year,$sem,$course,$slug){
     if(Auth::user()->role_id == 3){
-        return getTeacherSubjects($year,$sem,$course);
+        return getTeacherSubjects($year,$sem,$course,null);
+    }
+    elseif ($slug != 'null') {
+      return getTeacherSubjects($year,$sem,$course,$slug);
     }
     return getSubjects($year,$sem,$course);
 });
 
 Route::get('get_teacher_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){
-    return getTeacherSubjects($year,$sem,$course);
+    return getTeacherSubjects($year,$sem,$course, null);
 });
 
 Route::get('get_subject_edit/{id}',function ($id){

@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    <div id="page-wrapper" ng-controller="academicAttendance">
+<div id="page-wrapper" ng-controller="academicAttendance">
         <div class="container-fluid">
             <!-- Page Heading -->
             <div class="row">
@@ -43,14 +43,14 @@
                                href="{{url('supervisor/staff/teacher-student-attendance')}}">{{getPhrase('all')}}</a>
                         @endif
                     </div>
-                    <h1>{{getPhrase('select_details')}}</h1>
+                    <h1>{{ getPhrase('attendance') }}</h1>
                 </div>
 
                 <div class="panel-body instruction">
 
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <h3>{{ getPhrase('general_instructions') }}</h3>
                             <ul class="guide">
                                 <li>
@@ -76,15 +76,15 @@
                                 </li>
 
                             </ul>
-                        </div>
-                        @if($role_name =='staff')
+                        </div> -->
+                        @if($role_name =='staff' || $role_name =='owner' || $role_name =='admin')
                             {!! Form::open(array('url' => URL_STUDENT_ATTENDENCE_ADD.$userdata->slug, 'method' => 'POST')) !!}
                         @elseif($role_name=='educational_supervisor')
                             {!! Form::open(array('url' => 'supervisor/staff/students-attendance/'.$slugData->slug, 'method' => 'POST')) !!}
                         @endif
 
 
-                        @if($role_name!='staff' and $role_name!='educational_supervisor')
+                        @if($role_name!='staff' and $role_name!='educational_supervisor' and $role_name!='owner')
 
                             <div class="col-md-6">
 
@@ -93,9 +93,21 @@
                             </div>
 
                         @else
-
-                            <div class="col-md-6">
-                                <fieldset class="form-group col-md-6">
+                        @if(isset($teachers))
+                        <div class="col-md-8">
+                            <fieldset class="form-group col-md-8">
+                                <label for="">{{getPhrase('teachers')}}</label>
+                                <span class="text-red">*</span>
+                                <select name="teacherSlug" class="form-control" required="required"
+                                        ng-model="current_teacher" ng-change="getCourses()">
+                                    <option ng-repeat="teacher in {{$teachers}}"
+                                            value="@{{teacher.slug}}">@{{ teacher.name }}</option>
+                                </select>
+                            </fieldset>
+                          </div>
+                            @endif
+                            <div class="col-md-8">
+                                <fieldset class="form-group col-md-8">
                                     <label for="">{{getPhrase('branch')}}</label>
                                     <span class="text-red">*</span>
                                     <select name="course_id" class="form-control" required="required"
@@ -104,7 +116,7 @@
                                                 value="@{{ course.id }}">@{{ course.course_title }}</option>
                                     </select>
                                 </fieldset>
-                                <fieldset class="form-group col-md-6">
+                                <fieldset class="form-group col-md-8">
                                     <label for="">{{getPhrase('subject')}}</label>
                                     <span class="text-red">*</span>
                                     <select name="course_subject_id" class="form-control" required="required"
@@ -115,14 +127,14 @@
                                 </fieldset>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-8">
 
 
                                 <?php
                                 $number_of_class = getPeriod();
                                 ?>
 
-                                <fieldset class="form-group col-md-12">
+                                <fieldset class="form-group col-md-8">
                                     {{ Form::label('class', getphrase('Session_number')) }}
                                     <span class="text-red">*</span>
                                     {{Form::select('total_class',$number_of_class,  null,
@@ -131,7 +143,7 @@
 
 
 
-                                <fieldset class="form-group col-md-12">
+                                <fieldset class="form-group col-md-8">
 
                                     {{ Form::label('attendance_date', getphrase('attendance_date')) }}
                                     <div class="input-group date" data-date="{{date('Y/m/d')}}"
@@ -150,7 +162,7 @@
                         <hr>
 
 
-                        <div class="text-center">
+                        <div class="text-center col-md-6">
                             <button type="submit" class="btn button btn-lg btn-primary">
                                 {{getPhrase('get_details')}}
                             </button>

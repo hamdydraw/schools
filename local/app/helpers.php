@@ -1230,23 +1230,27 @@ function isTeacher(){
     return false;
 }
 
-function getTeacherCourses($year){
+function getTeacherCourses($year,$staffSlug){
 
     $current_academic_id = new Academic();
     $semister = new App\AcademicSemester();
+    $staffId = Auth::user()->id;
     $data['year']=$current_academic_id->getCurrentAcademic()->id;
     $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
     if($current_semster){
         $current_semster = $current_semster->sem_num;
     }else { $current_semster = 1; }
-
+    if($staffSlug != null) {
+      $teacher = App\User::where('slug', $staffSlug)->first();
+      $staffId = $teacher->id;
+    }
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
                       ->join('academic_course','courses.id','=','academic_course.course_id')
                       ->select(['courses.id','courses.slug','courses.course_title'])
                       ->where('courses.parent_id',0)
                       ->where('academic_course.academic_id',$year)
                       ->where('course_subject.semister',$current_semster)
-                      ->where('course_subject.staff_id',Auth::user()->id)
+                      ->where('course_subject.staff_id',$staffId)
                       ->groupBy('course_subject.course_parent_id')
                       ->get();
 }
@@ -1275,12 +1279,17 @@ function getSubjects($year,$semester,$course){
                              ->get();
 }
 
-function getTeacherSubjects($year,$semester,$course){
+function getTeacherSubjects($year,$semester,$course,$slug){
+  $teacherSlug = Auth::user()->id;
+  if($slug != null) {
+    $teacher = App\User::where('slug', $slug)->first();
+    $teacherSlug = $teacher->id;
+  }
     return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
         ->where('academic_id',$year)
         ->where('semister',$semester)
         ->where('course_parent_id',$course)
-        ->where('staff_id',Auth::user()->id)
+        ->where('staff_id',$teacherSlug)
         ->groupBy('course_subject.subject_id')
         ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.slug','subjects.subject_title'])
         ->get();

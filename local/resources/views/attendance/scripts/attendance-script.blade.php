@@ -16,7 +16,7 @@ app.controller('attendanceController', function($scope, $http) {
 
     $scope.updateCount = function () {
 
-     
+
       var RadiobtnValues    =$("div #myForm").find('input:checked');
       present = 0;
       absent = 0;
@@ -27,12 +27,12 @@ app.controller('attendanceController', function($scope, $http) {
         if(value=='P')
         {
           present++;
-         
+
         }
         else if(value=='L')
         {
           leave++;
-          
+
         }
         else if(value=='A')
         {
@@ -63,11 +63,21 @@ app.controller('attendanceController', function($scope, $http) {
             $scope.present = 0;
             $scope.absent = 0;
         }
-      
+        $scope.cancel_all = function(){
+            console.log("all cancel");
+            $(".all_here").prop("checked", false);
+            $(".all_absent").prop("checked", false);
+            $(".all_left").prop("checked", false);
+
+            $scope.leave = 0;
+            $scope.present = 0;
+            $scope.absent = 0;
+        }
+
       $scope.present = present;
       $scope.absent = absent;
       $scope.leave = leave;
-    
+
     }
  });
 </script>

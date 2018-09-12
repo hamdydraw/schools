@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\Academic;
 use App\Course;
+use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -28,7 +29,7 @@ class StudentAttendanceController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         if ($role != 'educational_supervisor') {
-            if (!checkRole(getUserGrade(11))) {
+            if (!checkRole(getUserGrade(3))) {
                 prepareBlockUserMessage();
                 return back();
             }
@@ -37,6 +38,10 @@ class StudentAttendanceController extends Controller
             if (!isEligible($slug)) {
                 return back();
             }
+        }
+        if ($role == 'owner' || $role == 'admin') {
+          $teachers = $this->getTeachers();
+          $data['teachers'] = $teachers;
         }
 
 
@@ -60,8 +65,6 @@ class StudentAttendanceController extends Controller
         $data['slugData']=$userData;
 
         $data['layout'] = getLayout();
-
-
         return view('attendance.select-particulars', $data);
     }
 
@@ -144,10 +147,12 @@ class StudentAttendanceController extends Controller
      */
     public function create(Request $request, $slug)
     {
-
         $userData = App\User::where('slug', '=', $slug)->first();
+        if(isset($request->teacherSlug)) {
+          $userData = App\User::where('slug', '=', $request->teacherSlug)->first();
+        }
         $data['slugData']=$userData;
-        $user = getUserRecord();
+        $user = getUserRecord($userData->id);
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         if ($role != 'educational_supervisor') {
@@ -181,8 +186,7 @@ class StudentAttendanceController extends Controller
          * Find wether the attendance is already added for the day or not
          * @var [type]
          */
-        $att_records = $this->isAttendanceAlreadyTaken($course_subject_record, $slug, $request);
-
+        $att_records = $this->isAttendanceAlreadyTaken($course_subject_record, $userData->slug, $request);
         $data['attendance_taken'] = false;
         if (count($att_records)) {
             $data['attendance_taken'] = true;
@@ -252,14 +256,15 @@ class StudentAttendanceController extends Controller
             ->where('semester', '=', $semister)
             ->where('subject_id', '=', $course_subject_record->subject_id)
             ->where('total_class', '=', $request->total_class)
-            ->where('record_updated_by', '=', $user->id)
-            ->where('attendance_date', '=', $request->attendance_date);
+            // ->where('record_updated_by', '=', $user->id)
+            ->where('attendance_date', '=', $request->attendance_date)
+            ->where('record_status', '=', 1);
         if (!$delete) {
             return $data->get();
         }
 
         return $data->delete();
-
+            
     }
 
     /**
@@ -299,8 +304,9 @@ class StudentAttendanceController extends Controller
         $current_semister = $request->current_semister;
         $attendance_date = $request->attendance_date;
         $attendance_code_records = $request->attendance_code;
-        $remarks = $request->remarks;
+        $activities = $request->activities;
         $notes = $request->notes;
+        $healthStatus = $request->health_status;
         $subject_id = $request->subject_id;
         $total_class = $request->total_class;
         $updated_by = $request->record_updated_by;
@@ -321,8 +327,9 @@ class StudentAttendanceController extends Controller
             $attendance->record_updated_by = $updated_by;
             $attendance->student_id = $key;
             $attendance->attendance_code = $value;
-            $attendance->remarks = $remarks[$key];
+            $attendance->activities = $activities[$key];
             $attendance->notes = $notes[$key];
+            $attendance->health_status = $healthStatus[$key];
             $attendance->record_updated_by = $user_id;
             $attendance->user_stamp($request);
             $attendance->save();
@@ -368,5 +375,33 @@ class StudentAttendanceController extends Controller
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect('mastersettings/course');
+    }
+
+    public function getTeachers()
+    {
+
+            $records = User::join('roles', 'users.role_id', '=', 'roles.id')
+                ->join('staff', 'staff.user_id', '=', 'users.id')
+                ->join('courses', 'courses.id', '=', 'staff.course_parent_id')
+                ->where('roles.id', '=', 3)
+                ->where('users.status', '!=', 0)
+                ->select([
+                    'users.name',
+                    'image',
+                    'id_number',
+                    'staff.staff_id',
+                    'staff.job_title',
+                    'courses.course_title',
+                    'email',
+                    'roles.name as role_name',
+                    'login_enabled',
+                    'role_id',
+                    'users.slug as slug',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at',
+                    'users.status',
+                    'staff.user_id'
+                ])
+                ->orderBy('users.updated_at', 'desc')->get();
+                return $records;
     }
 }

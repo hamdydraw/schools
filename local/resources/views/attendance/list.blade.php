@@ -5,6 +5,10 @@
 @section('content')
 
 
+<?php
+$classTitle = $submitted_data->course_record->course_title;
+
+?>
     <div id="page-wrapper" ng-controller="attendanceController" ng-init="initAngData('{{count($students)}}');">
         <div class="container-fluid">
             <!-- Page Heading -->
@@ -18,7 +22,7 @@
                         @endif
                         <li>{{ $title }}</li>
                         <li>{{ $slugData->name }}</li>
-                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{getphrase('particulars')}}</a>
+                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">{{ getPhrase('attendance_sheet_for').' '.$classTitle }}</a>
                         </li>
                     </ol>
                 </div>
@@ -29,11 +33,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-8">
-                            <?php
-                            $title = $submitted_data->course_record->course_title;
-
-                            ?>
-                            <h1>{{ getPhrase('attendance_for').' '.$submitted_data->academic_title->academic_year_title.' '.$title }}</h1>
+                            <h1>{{ getPhrase('attendance_sheet_for').' '.$classTitle }}</h1>
                             <p><strong>{{ getPhrase('date').' '.$submitted_data->attendance_date }}</strong></p>
 
                         </div>
@@ -83,9 +83,10 @@
                                     <th>{{ getPhrase('roll_no')}}</th>
                                     <th>{{ getPhrase('photo')}}</th>
                                     <th>{{ getPhrase('name')}}</th>
-                                    <th>{{ getPhrase('attendance')}}</th>
-                                    <th>{{ getPhrase('remarks')}}</th>
+                                    <th>{{ getPhrase('attendance_status')}}</th>
                                     <th>{{ getPhrase('notes')}}</th>
+                                    <th>{{ getPhrase('activities')}}</th>
+                                    <th>{{ getPhrase('health_status')}}</th>
                                 </tr>
                                 </thead>
                                 <div class="row">
@@ -97,7 +98,10 @@
                                         <label for="aall" style="margin-left: 3%"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_absent')}}   </label>
 
                                         {{ Form::radio('lall', 'P',false, array('id'=>'lall','name'=>'all','ng-click' => 'all_left()','class' => 'attendance_code')) }}
-                                        <label for="lall"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_left')}}   </label>
+                                        <label for="lall" style="margin-left: 3%"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('all_left')}}   </label>
+
+                                        {{ Form::radio('cAll', 'P',false, array('id'=>'cAll','name'=>'all','ng-click' => 'cancel_all()','class' => 'attendance_code')) }}
+                                        <label for="cAll"> <span class="fa-stack radio-button"> <i class="mdi mdi-check active"></i> </span> {{getPhrase('cancel_all')}}   </label>
                                     </div>
 
                                 </div>
@@ -113,7 +117,7 @@
                                     <tr>
                                         <td>{{ $sno++ }}</td>
                                         <td>{{ $student->roll_no }}</td>
-                                        {{--<td><img src="{{getProfilePath($user->image)}}"></td>--}}
+                                        <td><img src="{{getProfilePath($user->image)}}"></td>
                                         <td>{{ $student->first_name }}</td>
                                         <td>
                                             <div class="col-md-4">
@@ -121,8 +125,9 @@
                                                 $present = false;
                                                 $absent = false;
                                                 $leave = false;
-                                                $remarks = '';
+                                                $activities = '';
                                                 $notes = '';
+                                                $healthStatus = '' ;
                                                 if($attendance_taken) {
                                                 foreach($attendance_records as $atr)
                                                 {
@@ -133,7 +138,8 @@
                                                 $absent    = false;
                                                 $leave        = false;
                                                 $notes = $atr->notes;
-                                                $remarks = $atr->remarks;
+                                                $activities = $atr->activities;
+                                                $healthStatus = $atr->health_status;
                                                 switch ($atr->attendance_code) {
                                                 case 'P':
                                                 $present = true;
@@ -185,12 +191,15 @@
                                             </div>
                                         </td>
                                         <td>
+                                            {{ Form::textarea('notes', $notes , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('notes'), 'rows'=>1, 'cols'=>15, 'name'=>'notes['.$student->id.']')) }}
+                                        </td>
+                                        <td>
 
-                                            {{ Form::textarea('remarks', $remarks , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('remarks'), 'rows'=>1, 'cols'=>15, 'name'=>'remarks['.$student->id.']')) }}
+                                          {{ Form::textarea('activities', $activities , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('activities'), 'rows'=>1, 'cols'=>15, 'name'=>'activities['.$student->id.']')) }}
 
                                         </td>
                                         <td>
-                                            {{ Form::textarea('notes', $notes , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('notes'), 'rows'=>1, 'cols'=>15, 'name'=>'notes['.$student->id.']')) }}
+                                          {{ Form::textarea('health_status', $healthStatus , $attributes = array('class'=>'form-control', 'placeholder' => getPhrase('health_status'), 'rows'=>1, 'cols'=>15, 'name'=>'health_status['.$student->id.']')) }}
                                         </td>
                                     </tr>
 

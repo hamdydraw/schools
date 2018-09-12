@@ -4,13 +4,15 @@
 @include('common.angular-factory')
 <script>
 
- 
+
      app.controller('academicAttendance', function ($scope, $http, httpPreConfig) {
     @include('common.js-script-year-selection',array('doCall'=>false))
          $scope.current_year_sc      = {{default_year()}};
          $scope.current_sem_sc       = null;
          $scope.current_course_sc    = null;
          $scope.current_subject_sc   = null;
+         $scope.current_teacher = null;
+         $scope.attendance_date = new Date().toISOString().split("T")[0];
          $scope.academic_courses_sc  = [];
          $scope.academic_subjects_sc = [];
          $scope.role_sc        = {{Auth::user()->role_id}};
@@ -25,14 +27,13 @@
                      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })
                      .then(function (response) {
-                         console.log(response.data);
                          $scope.academic_courses_sc = response.data;
                          $scope.setCurrents();
                      })
              }else{
                  $http({
                      method:"GET",
-                     url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
+                     url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc+'/'+$scope.current_teacher,
                      dataType:"json",
                      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })
@@ -44,7 +45,7 @@
          }
 
          $scope.getCourses();
-
+         
          $scope.setCurrents = function () {
              $http({
                  method:"GET",
@@ -55,7 +56,6 @@
                  .then(function (response) {
                      $scope.current_year_sc = response.data.year;
                      $scope.current_sem_sc  = response.data.semister;
-                     console.log(response.data);
                  })
          }
 
@@ -77,7 +77,7 @@
              }else{
                  $http({
                      method:"GET",
-                     url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc,
+                     url:'{{PREFIX}}'+'get_subjects/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+$scope.current_teacher,
                      dataType:"json",
                      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })
@@ -114,7 +114,7 @@
 
          $scope.test_change();
 
- 
+
 });
-  
+
 </script>

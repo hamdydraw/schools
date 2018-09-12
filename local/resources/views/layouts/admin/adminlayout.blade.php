@@ -364,7 +364,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 <i class="fa fa-id-card"aria-hidden="true"></i> {{ getPhrase('ID_cards')}}
                             </a></li>
 
-                        <li><a href="#">
+                        <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
                                 <i class="fa fa-user-secret"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure')}}
                             </a></li>
 

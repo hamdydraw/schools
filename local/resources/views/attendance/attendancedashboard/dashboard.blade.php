@@ -38,7 +38,7 @@
 								<p class="card-text">{{ getPhrase('Attendance_and_departure')}}</p>
 							</div>
 							<a class="card-footer text-muted"
-							href="#">
+							href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
 								{{ getPhrase('view_all')}}
 							</a>
 						</div>
