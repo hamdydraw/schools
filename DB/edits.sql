@@ -1,1 +1,0 @@
-ALTER TABLE `lmscontents` ADD `course_id` INT NOT NULL DEFAULT '17' AFTER `subject_id`;
