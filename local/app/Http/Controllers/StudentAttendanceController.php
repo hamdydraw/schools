@@ -52,7 +52,9 @@ class StudentAttendanceController extends Controller
         if (getRoleData(Auth::user()->role_id) == 'educational_supervisor')
         {
             $data['active_class'] = 'teacher-student-attendance';
-        }else {
+        } elseif (getRoleData(Auth::user()->role_id) == 'admin' || getRoleData(Auth::user()->role_id) == 'owner') {
+          $data['active_class'] = 'attendance';
+        } else {
             $data['active_class'] = 'academic';
         }
         $data['title'] = getPhrase('attendance');

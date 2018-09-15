@@ -44,9 +44,9 @@
         </div>
         <div class="panel-body instruction">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
 
-              @include('common.year-selection-view', array('class'=>'custom-row-6'))
+              @include('common.year-selection-view', array('class'=>'custom-row-3'))
             </div>
 
   </div>

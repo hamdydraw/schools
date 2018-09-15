@@ -1279,6 +1279,9 @@ Route::get('get_courses/{year}/{staff_id?}',function ($year,$staff_id){
     else if ($staff_id != "null") {
       return getTeacherCourses($year,$staff_id);
     }
+    elseif ($staff_id == "null") {
+      return 0 ;
+    }
     return getCourses($year);
 });
 
