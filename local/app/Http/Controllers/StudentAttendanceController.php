@@ -203,6 +203,8 @@ class StudentAttendanceController extends Controller
         $data['record'] = false;
         if ($role == 'educational_supervisor'){
             $data['active_class'] = 'teacher-student-attendance';
+        } elseif (getRoleData(Auth::user()->role_id) == 'admin' || getRoleData(Auth::user()->role_id) == 'owner') {
+            $data['active_class'] = 'attendance';
         }else {
             $data['active_class'] = 'academic';
         }
@@ -266,7 +268,7 @@ class StudentAttendanceController extends Controller
         }
 
         return $data->delete();
-            
+
     }
 
     /**
