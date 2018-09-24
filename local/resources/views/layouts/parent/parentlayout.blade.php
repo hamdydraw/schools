@@ -304,7 +304,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
                     @if($settings->attendance_and_departure->value == 1)
                     <li {{ isActive($active_class, 'Automatic_call') }}>
-						<a  href="#"><i class="fa fa-assistive-listening-systems" ></i>
+						<a  href="{{url('parent/autocall')}}"><i class="fa fa-assistive-listening-systems" ></i>
 							{{ getPhrase('Automatic_call') }} </a>
 					</li>
                     @endif

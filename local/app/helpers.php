@@ -337,6 +337,9 @@ function getUserGrade($grade = 5)
         case 15:
             return ['assistant_librarian', 'librarian'];
             break;
+        case 16:
+            return ['parent','secondary_parent'];
+            break;
 
 
     }

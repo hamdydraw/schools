@@ -313,7 +313,7 @@ $role = getRoleData($user->role_id);
 
                       </li>
                       <li {{ isActive($active_class, 'Automatic_call') }} >
-                          <a href="#">
+                          <a href="{{url('parent/autocall')}}">
                               <i class="fa fa-assistive-listening-systems"></i>{{ getPhrase('Automatic_call') }}</a></li>
 
                       </li>

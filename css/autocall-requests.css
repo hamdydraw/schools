@@ -1,0 +1,69 @@
+body{
+  background: #353F4D;
+  color: #F3F3F3;
+  font-family: 'Oswald', sans-serif;
+  font-size: 22px;
+}
+
+.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+
+  margin-left: 100%;
+}
+
+.ng-enter-active {
+  margin-left: 0;
+}
+
+.ng-leave {
+  -webkit-transition: 1s;
+  transition: 1s;
+
+  margin-left: 0;
+}
+
+.ng-leave-active {
+  margin-left: 100%;
+}
+
+.ng-move {
+  -webkit-transition: 1s;
+  transition: 1s;
+
+  background: gold;
+}
+
+.ng-move-active {
+  background: #fff;
+}
+#request {
+  float: right;
+  overflow:hidden;
+  overflow-y:auto;
+  height: 500px;
+}
+#request li {
+  width: 600px;
+  border-bottom: #f8fafb 1px solid;
+  list-style-type: none;
+  height: 40px;
+
+}
+#request> :first-child {
+  background-color: #44A1EF;
+}
+
+#request li .exitButton {
+  width: 20%;
+  height: 100%;
+  float: left;
+}
+
+.exitButton.ng-hide {
+  opacity: 0;
+}
+.exitButton.ng-hide-add,
+.exitButton.ng-hide-remove {
+  transition: all linear 0.5s;
+}

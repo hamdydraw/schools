@@ -854,3 +854,7 @@ define('URL_PRINT_HTMLDATA', PREFIX.'html/print-data');
 
 //Assign stuedent to secondaryParent
 define('URL_MASTERSETTINGS_STUDENT_SECONDARY_PARENT_STATUS', PREFIX.'mastersettings/assign-student/check-status');
+
+
+//Automatic Call
+define('URL_PARENT_AUTOCALL_GETLIST', PREFIX.'parent/autocall/getList/');

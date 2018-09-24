@@ -262,7 +262,20 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
     Route::get('parent/purchase-expenses/all', 'ParentsController@getUserExpenses');
     Route::get('purchase-expenses/getlist', 'ParentsController@getDatatableExpenses');
     Route::get('children/analysis', 'ParentsController@childrenAnalysis');
+/////autocall/////
+    Route::get('parent/autocall', 'AutomaticCallController@index');
+    Route::get('parent/autocall/getList/{slug}', 'AutomaticCallController@getDatatable');
+    Route::post('parent/autocall', 'AutomaticCallController@AutomaticCallRequest');
+    Route::get('parent/autocallrequests/{student_id}', 'AutomaticCallController@ParentRequests');
+    Route::get('parent/autocallrequests/{student_id}/{slug}', 'AutomaticCallController@getDatatableRequests');
+    ////for admin ///////
+    Route::get('attendanceoperations/autocall', 'AutomaticCallController@allRequest');
+    Route::post('attendanceoperations/autocall/leave', 'AutomaticCallController@leave');
+    Route::post('attendanceoperations/autocall/counter', 'AutomaticCallController@counter');
+
+
 });
+
 /////////////////////
 // Master Settings //
 /////////////////////
