@@ -6,6 +6,7 @@ app.controller('automaticCallController', function($scope, $interval, $http, $ti
   $scope.requests = [];
   $scope.temp = [];
   $scope.studentInfo = {} ;
+  $scope.newRequests = [];
   $scope.today = new Date().toISOString().split("T")[0];
   var current = 0;
   var now = new Date();
@@ -15,7 +16,33 @@ app.controller('automaticCallController', function($scope, $interval, $http, $ti
   }
   tick();
   $interval(tick, 60000);
+ var automaticRequest = function () {
+   console.log("automaticRequest");
+$http({
+  method: 'GET',
+  url: "{{url('attendanceoperations/autocall/notview')}}"
+}).then(function success(response) {
+ $scope.newRequests = response.data;
+  var length = $scope.newRequests.length - $scope.temp.length;
+  if(length>0) {
+    if($scope.temp.length == 0) {
+      for (var i = $scope.temp.length ; i <$scope.newRequests.length; i++) {
+        $scope.temp.push($scope.newRequests[i]);
+        $scope.requests.push($scope.newRequests[i]);
+      }
+      $scope.play();
+    } else {
+      for (var i = $scope.temp.length ; i <$scope.newRequests.length; i++) {
+        $scope.temp.push($scope.newRequests[i]);
+        $scope.requests.push($scope.newRequests[i]);
+      }
+    }
+  }
+});
 
+
+ }
+ $interval(automaticRequest, 15000);
   $scope.getRequest = function(requests) {
     $scope.requests = requests;
     if($scope.requests.length == 0) {
@@ -91,7 +118,11 @@ app.controller('automaticCallController', function($scope, $interval, $http, $ti
 
   $scope.getTime = function() {
     var minutes = now.getMinutes();
-    var hours = now.getHours()-12;
+    if (now.getHours()<12) {
+      var hours = now.getHours()
+    } else {
+      var hours = now.getHours()-12;
+    }
     var seconds = now.getSeconds();
     return time = hours + ":" + minutes + ":" + seconds ;
   }

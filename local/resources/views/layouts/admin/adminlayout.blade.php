@@ -368,7 +368,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 <i class="fa fa-user-secret"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure')}}
                             </a></li>
 
-                        <li><a href="{{url('attendanceoperations/autocall')}}" target="_blank">
+                        <li><a href="{{url('attendanceoperations/autocall/view')}}" target="_blank">
                                 <i class="fa fa-assistive-listening-systems"aria-hidden="true"></i> {{ getPhrase('Automatic_call')}}
                             </a></li>
 

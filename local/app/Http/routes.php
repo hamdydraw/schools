@@ -269,7 +269,7 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
     Route::get('parent/autocallrequests/{student_id}', 'AutomaticCallController@ParentRequests');
     Route::get('parent/autocallrequests/{student_id}/{slug}', 'AutomaticCallController@getDatatableRequests');
     ////for admin ///////
-    Route::get('attendanceoperations/autocall', 'AutomaticCallController@allRequest');
+    Route::get('attendanceoperations/autocall/{note}', 'AutomaticCallController@allRequest');
     Route::post('attendanceoperations/autocall/leave', 'AutomaticCallController@leave');
     Route::post('attendanceoperations/autocall/counter', 'AutomaticCallController@counter');
 

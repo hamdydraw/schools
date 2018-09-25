@@ -152,7 +152,7 @@ class AutomaticCallController extends Controller {
 
     return Datatables::of($automaticCallRequests)->make();
   }
-  public function allRequest() {
+  public function allRequest($note) {
     $user = getUserWithSlug();
     if (!checkRole(getUserGrade(2))) {
         prepareBlockUserMessage();
@@ -187,8 +187,12 @@ foreach($requestwithStudent as $student) {
     $student->course_parent_id = $courseParentTitle;
 }
 $data['requests'] = $requestwithStudent;
+  if($note == "view") {
     return view('automaticcall.adminautocall.all-request', $data);
+  } else {
+    return $requestwithStudent;
   }
+}
 
   public function leave(Request $request)
   {
