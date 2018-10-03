@@ -27,7 +27,10 @@
             swal("","{{getPhrase('The_student_is_absent_today')}}!", "error");
           } else if(msg == "left") {
             swal("","{{getPhrase('The_student_is_left_today')}}!", "error");
+          } else if(msg == "notAttendance") {
+            swal("","{{getPhrase('Student_attendance_record_is_not_updated')}}!", "error");
           }
+
         }
 
     });

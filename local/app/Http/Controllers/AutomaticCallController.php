@@ -112,14 +112,14 @@ class AutomaticCallController extends Controller {
       }
     }
     else {
-      $newRequest = new AutocallRequest();
-      $newRequest->student_id = $request->student_id;
-      $newRequest->parent_id = $request->parent_id;
-      $newRequest->request_date = $request->request_date;
-      $newRequest->request_status = 0;
-      $newRequest->leave_status = 0;
-      $newRequest->user_stamp($request);
       if($studentAttendance) {
+        $newRequest = new AutocallRequest();
+        $newRequest->student_id = $request->student_id;
+        $newRequest->parent_id = $request->parent_id;
+        $newRequest->request_date = $request->request_date;
+        $newRequest->request_status = 0;
+        $newRequest->leave_status = 0;
+        $newRequest->user_stamp($request);
         if($studentAttendance->attendance_code == "A") {
           return response("absent", 406);
         } elseif($studentAttendance->attendance_code == "L") {
@@ -129,8 +129,7 @@ class AutomaticCallController extends Controller {
           return response(200);
         }
       } else {
-        $newRequest->save();
-        return response(200);
+        return response("notAttendance", 406);
       }
 
   }
