@@ -101,7 +101,7 @@ class AutomaticCallController extends Controller {
    $studentAttendance = StudentAttendance::where('student_id', $studentID)
                                          ->where('record_status', 1)
                                          ->where('attendance_date', $request->request_date)
-                                         ->orderBy('updated_at', 'desc')->first();
+                                         ->orderBy('total_class', 'desc')->first();
 
     if($requestIsExist){
       if($requestIsExist->leave_status == 0) {
