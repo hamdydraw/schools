@@ -56,6 +56,7 @@ define('IMAGE_PATH_UPLOAD_LMS_CONTENTS', UPLOADS.'lms/content/');
 define('IMAGE_PATH_UPLOAD_STUDENT_PAPERS', UPLOADS.'student_papers/');
 define('HOMEWORK_PATH',UPLOADS.'exams/');
 
+
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_VEHICLE', UPLOADS.'transportation/vehicletype/');
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_DEFAULT', UPLOADS.'transportation/default.jpg');
 
@@ -165,6 +166,9 @@ define('URL_HOMEWORK_ADD', PREFIX.'homework/add-homework');
 define('URL_HOMEWORK_EDIT', PREFIX.'homework/edit-homework');
 define('URL_HOMEWORK_VIEW', PREFIX.'homework/list');
 define('URL_HOMEWORK_STUDENT', PREFIX.'homework');
+define('URL_HOMEWORK_CHILDREN_GETLIST', PREFIX.'homework/children/getList/');
+define('URL_HOMEWORK_PARENT', PREFIX.'homework/parent/children');
+//homework/parent/children
 
 //URL_HOMEWORK_STUDENT
 

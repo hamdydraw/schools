@@ -327,5 +327,52 @@ class HomeWorkController extends Controller
             ->make();
     }
 
+    public function children()
+    {
+
+        $user = getUserWithSlug();
+
+        if (!checkRole(getUserGrade(7))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        if (!isEligible($user->slug)) {
+            return back();
+        }
+
+        $data['records'] = false;
+        $data['user'] = $user;
+        $data['title'] = getPhrase('children');
+        $data['active_class'] = 'homeworks';
+        $data['layout'] = getLayout();
+        return view('home_work.list-children', $data);
+    }
+
+    /**
+     * This method returns the datatables data to view
+     * @return [type] [description]
+     */
+
+    public function getDatatable($slug)
+    {
+        $records = array();
+        $user = getUserWithSlug($slug);
+
+        $records = User::select(['name', 'image', 'email', 'slug', 'id'])->where('parent_id', '=', $user->id)->get();
+
+
+        return Datatables::of($records)
+            ->editColumn('name', function ($records) {
+                return '<a href="' . URL_HOMEWORK_STUDENT .'/'. $records->slug . '" title="' . $records->name . '">' . ucfirst($records->name) . '</a>';
+            })
+            ->editColumn('image', function ($records) {
+                return '<img src="' . getProfilePath($records->image) . '"  />';
+            })
+            ->removeColumn('slug')
+            ->removeColumn('id')
+            ->make();
+    }
+
 
 }

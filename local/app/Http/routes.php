@@ -651,6 +651,9 @@ Route::get('homework/get-homeworks-datable/{teacher}/{course}/{subject}', 'HomeW
 Route::delete('homework/delete/{slug}', 'HomeWorkController@destroy');
 Route::get('homework/{slug?}', 'HomeWorkController@StudentHW');
 Route::get('homeworkDatable/{student}', 'HomeWorkController@StudentDatable');
+Route::get('homework/parent/children', 'HomeWorkController@children');
+Route::get('homework/children/getList/{slug}', 'HomeWorkController@getDatatable');
+
 //Question bank
 Route::get('exams/questionbank', 'QuestionBankController@index');
 Route::get('exams/questionbank/add-question', 'QuestionBankController@create');

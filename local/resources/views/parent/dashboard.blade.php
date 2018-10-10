@@ -38,6 +38,17 @@
 							</a>
 						</div>
 					</div>
+							 <div class="col-md-4">
+								 <div class="card card-yellow text-xs-center">
+									 <div class="card-block">
+										 <h4 class="card-title"><i class="fa fa-briefcase"></i></h4>
+										 <p class="card-text">{{ getPhrase('Homeworks')}}</p>
+									 </div>
+									 <a class="card-footer text-muted" href="{{URL_HOMEWORK_PARENT }}">
+										 {{ getPhrase('view_all')}}
+									 </a>
+								 </div>
+							 </div>
 					@endif
 					<div class="col-md-4">
 						<div class="card card-green text-xs-center">
@@ -53,6 +64,7 @@
 
 
 				</div>
+
 				<div class="row">
 					@if(Module_state('exams'))
 					<div class="col-md-6">
