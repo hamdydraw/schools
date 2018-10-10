@@ -389,6 +389,11 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                 @endif
 
 
+                    <li {{ isActive($active_class, 'homeworks') }} >
+                        <a href="{{URL_HOMEWORK_VIEW}}">
+                            <i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
+                            
+
             @if(Module_state('exams'))
                     <li {{ isActive($active_class, 'exams') }} >
 

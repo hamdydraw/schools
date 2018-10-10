@@ -54,7 +54,7 @@ define('IMAGE_PATH_UPLOAD_LMS_CATEGORIES', UPLOADS.'lms/categories/');
 define('IMAGE_PATH_UPLOAD_LMS_DEFAULT', UPLOADS.'lms/categories/default.png');
 define('IMAGE_PATH_UPLOAD_LMS_CONTENTS', UPLOADS.'lms/content/');
 define('IMAGE_PATH_UPLOAD_STUDENT_PAPERS', UPLOADS.'student_papers/');
-
+define('HOMEWORK_PATH',UPLOADS.'exams/');
 
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_VEHICLE', UPLOADS.'transportation/vehicletype/');
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_DEFAULT', UPLOADS.'transportation/default.jpg');
@@ -159,6 +159,15 @@ define('URL_MASTERSETTINGS_STAFF_SUPERVISOR_STATUS', PREFIX.'mastersettings/assi
 define('URL_ACADEMICS_COURSES_GET_PARENT_COURSES', PREFIX.'academic-courses/get-parent-courses');
 define('URL_ACADEMICS_COURSES_GET_CHILD_COURSES', PREFIX.'academic-courses/get-child-courses');
 define('URL_ACADEMICS_REMOVE_SUBJECT', PREFIX.'academic-courses/remove-subject');
+
+//Homework
+define('URL_HOMEWORK_ADD', PREFIX.'homework/add-homework');
+define('URL_HOMEWORK_EDIT', PREFIX.'homework/edit-homework');
+define('URL_HOMEWORK_VIEW', PREFIX.'homework/list');
+define('URL_HOMEWORK_STUDENT', PREFIX.'homework');
+
+//URL_HOMEWORK_STUDENT
+
 
 //MASTER SETTINGS COURSE
 define('URL_MASTERSETTINGS_COURSE', PREFIX.'mastersettings/course');

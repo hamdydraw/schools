@@ -58,6 +58,7 @@
                             </a>
                         </div>
                     </div>
+
                     @if(Module_state('daily_school_schedule'))
                     <div class="col-md-4">
                         <div class="card card-red text-xs-center">
@@ -138,6 +139,17 @@
                                 <p class="card-text">{{ getPhrase('student_attendance') }}</p>
                             </div>
                             <a class="card-footer text-muted" href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
+                                {{ getPhrase('view_all')}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-yellow text-xs-center">
+                            <div class="card-block">
+                                <h4 class="card-title"><i class="fa fa-briefcase"></i></h4>
+                                <p class="card-text">{{ getPhrase('Homeworks')}}</p>
+                            </div>
+                            <a class="card-footer text-muted" href="{{URL_HOMEWORK_VIEW }}">
                                 {{ getPhrase('view_all')}}
                             </a>
                         </div>

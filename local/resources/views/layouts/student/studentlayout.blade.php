@@ -298,6 +298,9 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                             </a></li>-->
                     </ul>
 
+                    <li {{ isActive($active_class, 'homeworks') }} >
+                        <a href="{{URL_HOMEWORK_STUDENT}}">
+                            <i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
 
                 </li>
                 @endif

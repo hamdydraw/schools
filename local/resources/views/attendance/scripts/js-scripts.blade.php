@@ -31,6 +31,7 @@
                          $scope.setCurrents();
                      })
              }else{
+                 console.log($scope.current_teacher);
                  $http({
                      method:"GET",
                      url:'{{PREFIX}}'+'get_courses_2/'+$scope.current_year_sc+'/'+$scope.current_teacher,
@@ -114,6 +115,10 @@
 
          $scope.test_change();
 
+         $scope.file_upload = function ($files) {
+             console.log($files);
+
+         }
 
 });
 

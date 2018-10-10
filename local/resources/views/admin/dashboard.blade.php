@@ -119,6 +119,17 @@
 						</div>
 					</div>
 					 <div class="col-md-3">
+						 <div class="card card-yellow text-xs-center">
+							 <div class="card-block">
+								 <h4 class="card-title"><i class="fa fa-briefcase"></i></h4>
+								 <p class="card-text">{{ getPhrase('Homeworks')}}</p>
+							 </div>
+							 <a class="card-footer text-muted" href="{{URL_HOMEWORK_VIEW }}">
+								 {{ getPhrase('view_all')}}
+							 </a>
+						 </div>
+					 </div>
+					 <div class="col-md-3">
 						<div class="card card-blue text-xs-center helper_step1">
 							<div class="card-block">
 								<h4 class="card-title">

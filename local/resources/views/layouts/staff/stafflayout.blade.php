@@ -194,6 +194,8 @@ $role = getRoleData($user->role_id);
                         <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
                             <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
 
+
+
                     @if(Module_state('management_of_educational_content'))
                         <li {{ isActive($active_class, 'lms') }} >
 
@@ -216,6 +218,9 @@ $role = getRoleData($user->role_id);
                             </ul>
                         </li>
                     @endif
+                    <li {{ isActive($active_class, 'homeworks') }} >
+                        <a href="{{URL_HOMEWORK_VIEW}}">
+                            <i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
                     @if(Module_state('exams'))
                         <li {{ isActive($active_class, 'exams') }} >
 

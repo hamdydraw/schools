@@ -639,6 +639,18 @@ Route::post('library/returns/return-asset/staff', 'LibraryIssuesController@retur
 // EXAMINATION SYSTEM //
 ////////////////////////
 
+//homework
+Route::get('homework/list', 'HomeWorkController@index');
+Route::get('homework/add-homework', 'HomeWorkController@create');
+Route::get('homework/edit-homework/{slug}', 'HomeWorkController@edit');
+Route::get('homework/get-homework-data/{slug}', 'HomeWorkController@show');
+Route::post('homework/add-homework', 'HomeWorkController@store');
+Route::patch('homework/edit-homework/{slug}', 'HomeWorkController@update');
+Route::get('homework/get-homeworks/{teacher}/{course}/{subject}', 'HomeWorkController@showList');
+Route::get('homework/get-homeworks-datable/{teacher}/{course}/{subject}', 'HomeWorkController@getHomeworks');
+Route::delete('homework/delete/{slug}', 'HomeWorkController@destroy');
+Route::get('homework/{slug?}', 'HomeWorkController@StudentHW');
+Route::get('homeworkDatable/{student}', 'HomeWorkController@StudentDatable');
 //Question bank
 Route::get('exams/questionbank', 'QuestionBankController@index');
 Route::get('exams/questionbank/add-question', 'QuestionBankController@create');
@@ -1279,6 +1291,12 @@ Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
     return $current_category;
 });
 
+
+Route::get('available_HW_extn',function (){
+    $data =  \App\Settings::get_HW_extensions();
+    $extn = $data->value;
+    return $extn;
+});
 
 //subject and course routes
 Route::get('get_years',function (){

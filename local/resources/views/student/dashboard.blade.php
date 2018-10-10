@@ -93,6 +93,18 @@
 </div>
 </div>
 		@endif
+
+		<div class="col-md-4">
+			<div class="card card-yellow text-xs-center">
+				<div class="card-block">
+					<h4 class="card-title"><i class="fa fa-briefcase"></i></h4>
+					<p class="card-text">{{ getPhrase('Homeworks')}}</p>
+				</div>
+				<a class="card-footer text-muted" href="{{URL_HOMEWORK_STUDENT }}">
+					{{ getPhrase('view_all')}}
+				</a>
+			</div>
+		</div>
 	@if(Module_state('library_Management'))
 <div class="col-md-4">
 <div class="card card-black text-xs-center">
