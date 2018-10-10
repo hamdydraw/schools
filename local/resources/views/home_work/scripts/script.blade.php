@@ -55,7 +55,7 @@
                     if($scope.av_extn.includes(extn)){
                         $scope.valid = "ok";
                         Upload.upload({
-                            url: '{{PREFIX}}exams/questionbank/upload',
+                            url: '{{PREFIX}}homework/upload',
                             dataType: "json",
                             file: file,
                             method: "POST",

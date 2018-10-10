@@ -394,5 +394,45 @@ class HomeWorkController extends Controller
             ->make();
     }
 
+    public function processUpload(Request $request, $record = null, $file_name, $type = 'option')
+    {
+        if (env('DEMO_MODE')) {
+            return;
+        }
+        if ($record == null) {
+            $record1 = rand(1, 200000);
+            $record2 = rand(1, 200000);
+            if ($request->hasFile($file_name)) {
+                $destinationPath = "uploads/homeworks/";
+                $fileName = $record . '-' . $file_name . '.' . $request->$file_name->guessClientExtension();
+                if ($type != 'option') {
 
+                    $fileName = $record1 . $type . $record2 . '.' . $request->$file_name->guessClientExtension();
+
+                }
+            }
+        } else {
+            if ($request->hasFile($file_name)) {
+                $destinationPath = "uploads/homeworks/";
+                $fileName = $record->id . '-' . $file_name . '.' . $request->$file_name->guessClientExtension();
+            }
+        }
+
+        $request->file($file_name)->move($destinationPath, $fileName);
+        return $fileName;
+    }
+
+    public function upload(Request $request)
+    {
+
+
+        if ($request->hasFile('file')) {
+
+
+            $value = $this->processUpload($request, null, 'file', 'question');
+            return json_encode(['state' => 'success', 'desc' => getPhrase('upload_success'), 'file' => $value]);
+        }
+        return json_encode(['state' => 'failed', 'desc' => getPhrase('upload_failed')]);
+
+    }
 }
