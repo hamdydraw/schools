@@ -32,6 +32,7 @@
                                 <th>{{ getPhrase('title')}}</th>
                                 <th>{{ getPhrase('subject')}}</th>
                                 <th>{{ getPhrase('teacher')}}</th>
+                                <th>{{getPhrase('Explanation')}}</th>
                                 <th>{{ getPhrase('file')}}</th>
                                 <th>{{getPhrase('created_at')}}</th>
 

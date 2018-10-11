@@ -37,6 +37,7 @@
                                 <th>{{ getPhrase('title')}}</th>
                                 <th>{{ getPhrase('subject')}}</th>
                                 <th>{{ getPhrase('branch')}}</th>
+                                <th>{{getPhrase('Explanation')}}</th>
                                 <th>{{ getPhrase('file')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
 

@@ -655,6 +655,7 @@ Route::get('homework/parent/children', 'HomeWorkController@children');
 Route::get('homework/children/getList/{slug}', 'HomeWorkController@getDatatable');
 Route::post('homework/upload', 'HomeWorkController@upload');
 Route::delete('homework/file-delete/{file}', 'HomeWorkController@deleteFile');
+Route::get('homework/explanation/{slug}','HomeWorkController@showExplanation');
 //homework/file-delete
 
 //Question bank

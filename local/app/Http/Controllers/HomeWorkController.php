@@ -77,7 +77,7 @@ class HomeWorkController extends Controller
         $semister = new AcademicSemester();
         $year=$current_academic_id->getCurrentAcademic()->id;
         $sem = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
-        $records    = HomeWork::select(['id','slug','title','subject_id','course_id','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
+        $records    = HomeWork::select(['id','slug','title','subject_id','course_id','explanation','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
             ->where('subject_id',$subject_id)->where('course_id',$course_id)->where('staff_id',$teacher_id)->where('year',$year)->where('sem',$sem);
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -105,8 +105,12 @@ class HomeWorkController extends Controller
             ->editColumn('subject_id', function ($records) {
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();
             })
+
             ->editColumn('course_id', function ($records) {
                 return Course::where('id',$records->course_id)->pluck('course_title')->first();
+            })
+            ->editColumn('explanation', function ($records) {
+                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >view</a>";
             })
             ->editColumn('file', function ($records) {
                 return "<a href='".HOMEWORK_PATH.$records->file."' download>".$records->file."</a>";
@@ -334,10 +338,13 @@ class HomeWorkController extends Controller
         $year=$current_academic_id->getCurrentAcademic()->id;
         $sem = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
 
-        $records    = HomeWork::select(['id','slug','title','subject_id','staff_id','file','created_at'])->where('course_id',$course_id)->where('year',$year)->where('sem',$sem);
+        $records    = HomeWork::select(['id','slug','title','subject_id','staff_id','explanation','file','created_at'])->where('course_id',$course_id)->where('year',$year)->where('sem',$sem);
         return Datatables::of($records)
             ->editColumn('subject_id', function ($records) {
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();
+            })
+            ->editColumn('explanation', function ($records) {
+                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >view</a>";
             })
             ->editColumn('staff_id', function ($records) {
                 return User::where('id',$records->staff_id)->pluck('name')->first();
@@ -347,6 +354,12 @@ class HomeWorkController extends Controller
             })
             ->removeColumn('slug')
             ->make();
+    }
+
+    public function showExplanation($slug)
+    {
+        $explanation = HomeWork::where('slug',$slug)->first()->explanation;
+        return $explanation;
     }
 
     public function children()
