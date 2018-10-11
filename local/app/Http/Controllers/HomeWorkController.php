@@ -454,15 +454,14 @@ class HomeWorkController extends Controller
     public function deleteFile($file)
     {
 
-        if(file_exists(getcwd()."\uploads\homeworks\\".$file)){
-            unlink(getcwd()."\uploads\homeworks\\".$file);
+        if(file_exists(getcwd()."/uploads/homeworks/".$file)){
+            unlink(getcwd()."/uploads/homeworks/".$file);
             HomeWork::where('file',$file)->update(['file' => null]);
             return $file;
         }else{
             HomeWork::where('file',$file)->update(['file' => null]);
             return "file not found";
         }
-
 
     }
 }
