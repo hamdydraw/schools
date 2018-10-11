@@ -104,13 +104,13 @@ $extn = $data->value;
          </span>
                 {{--{{Form::file('question_file', $attributes = array('class'=>'form-control'))}}--}}
                 <input class="form-control" id="upload1" type="file" accept="{{$extn}}" ng-model="upload1" ngf-select="upload_file($files)">
-                <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
                 <span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
                 <span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
 
             </fieldset>
         </div>
 </div>
+<input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
 <div class="buttons text-center">
     <button type="submit" ng-disabled="bupload == false" class="btn btn-lg btn-primary">{{$button_name}}</button>
 </div>
