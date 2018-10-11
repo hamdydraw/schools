@@ -54,7 +54,8 @@ define('IMAGE_PATH_UPLOAD_LMS_CATEGORIES', UPLOADS.'lms/categories/');
 define('IMAGE_PATH_UPLOAD_LMS_DEFAULT', UPLOADS.'lms/categories/default.png');
 define('IMAGE_PATH_UPLOAD_LMS_CONTENTS', UPLOADS.'lms/content/');
 define('IMAGE_PATH_UPLOAD_STUDENT_PAPERS', UPLOADS.'student_papers/');
-define('HOMEWORK_PATH',UPLOADS.'exams/');
+define('HOMEWORK_PATH',UPLOADS.'homeworks/');
+define('GW_FILE_DELETE',PREFIX.'homework/file-delete/');
 
 
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_VEHICLE', UPLOADS.'transportation/vehicletype/');

@@ -54,13 +54,15 @@ class HomeWorkController extends Controller
         $coursee  = Course::where('slug',$course)->first();
 
         $data['active_class'] = 'homeworks';
-        $data['title'] = $subject->subject_title . ' - ' . $coursee->course_title . ' - ' . getPhrase('HomeWorks');
+
         $data['subject'] = $subject;
         $data['course']  = $coursee;
         if($teacher == "null"){
             $teacher = Auth::user()->slug;
         }
         $data['teacher'] = $teacher;
+        $teacher_name = User::where('slug',$teacher)->first()->name;
+        $data['title'] = $subject->subject_title . ' - ' . $coursee->course_title . ' - ' .$teacher_name .' - ' . getPhrase('HomeWorks');
         $data['module_helper'] = getModuleHelper('view-questions');
 
         return view('home_work.homework', $data);
@@ -288,7 +290,7 @@ class HomeWorkController extends Controller
         $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-        return redirect(URL_HOMEWORK_VIEW);
+        return back();
 
     }
 
@@ -429,10 +431,17 @@ class HomeWorkController extends Controller
         if ($request->hasFile('file')) {
 
 
-            $value = $this->processUpload($request, null, 'file', 'question');
+            $value = $this->processUpload($request, null, 'file', 'homework');
             return json_encode(['state' => 'success', 'desc' => getPhrase('upload_success'), 'file' => $value]);
         }
         return json_encode(['state' => 'failed', 'desc' => getPhrase('upload_failed')]);
 
+    }
+
+    public function deleteFile($file)
+    {
+        @unlink("uploads\homeworks\\".$file);
+        HomeWork::where('file',$file)->update(['file' => null]);
+        return $file;
     }
 }

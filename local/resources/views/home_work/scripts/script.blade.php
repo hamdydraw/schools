@@ -36,12 +36,27 @@
                         console.log(response.data);
                         $scope.title = response.data.title;
                         $scope.explanation = response.data.explanation;
+                        if(response.data.file != ''){
+                            $scope.uploaded_file = response.data.file;
+                        }
                     })
             }
         }
+        $scope.deleteFile = function () {
+            $http({
+                method:"delete",
+                url:'{{GW_FILE_DELETE}}'+$scope.uploaded_file,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.uploaded_file = false;
+                })
+        }
         $scope.ifEdit();
-
+        $scope.bupload = true;
         $scope.upload_file = function ($files) {
+            $scope.bupload = false;
             var file = $files[0];
             extn = "."+file.name.split(".").pop();
             $http({
@@ -66,10 +81,12 @@
                             }
                             if (response.data.state == "success") {
                                 toastr.success(response.data.desc);
+                                $scope.bupload = true;
+                                $scope.uploaded_file = response.data.file;
                             }
                             $scope.file_show = "{{ EXAM_UPLOADS}}" + response.data.file;
                             $scope.file_name = response.data.file;
-                            $scope.massage = "file uploaded successfully";
+                            //$scope.massage = "file uploaded successfully";
                             $('#upload1').val('');
                         });
                     }else{

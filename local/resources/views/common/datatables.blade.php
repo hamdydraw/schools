@@ -31,6 +31,7 @@ if (isset($table_columns)) {
                     processing: true,
                     serverSide: true,
                     type: 'GET',
+                    order: [ [0, 'desc'] ],
 
                     ajax: '{{ $routeValue }}',
                     @if(isset($user_type))
@@ -86,6 +87,7 @@ if (isset($table_columns)) {
                     "infoEmpty":"{{getPhrase('showing')}} 0 {{getPhrase('to')}} 0 {{getPhrase('of')}} 0 {{getPhrase('entries')}}",
                 },
                 ajax: '{{ $routeValue }}',
+                order: [ [0, 'desc'] ],
                 @if(isset($table_columns))
                 columns: "{!!$setData!!}"
                 @endif
