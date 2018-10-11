@@ -19,7 +19,7 @@
 
                 <div class="panel-heading">
                     <div class="pull-right messages-buttons">
-                        <a href="{{URL_QUIZ_QUESTIONBANK}}" class="btn  btn-primary button">{{ getPhrase('list')}}</a>
+                        <a href="{{URL_HOMEWORK_VIEW}}" class="btn  btn-primary button">{{ getPhrase('list')}}</a>
                     </div>
                     <h1>{{ $title }}  </h1>
                 </div>
