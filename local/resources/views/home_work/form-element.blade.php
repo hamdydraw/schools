@@ -15,11 +15,12 @@
 </style>
 
 <?php
-
 $data =  \App\Settings::get_HW_extensions();
 $extn = $data->value;
 
 ?>
+
+
 <div class="row">
 <div class="col-md-8">
     <fieldset class="form-group col-md-8">

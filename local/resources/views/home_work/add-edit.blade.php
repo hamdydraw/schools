@@ -35,7 +35,7 @@
                     @endif
 
                     @include('home_work.form-element',
-                    array('button_name'=> $button_name))
+                    array('button_name'=> $button_name,'record'=>isset($record)?$record:null))
 
                     {!! Form::close() !!}
 

@@ -249,7 +249,7 @@ class HomeWorkController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-        $data['record']     = HomeWork::where('slug', $slug)->get()->first();
+        $data['record']     = HomeWork::where('slug', $slug)->first();
         $data['edit'] = "set";
         if($data['record'] == null){
             prepareBlockUserMessage();
