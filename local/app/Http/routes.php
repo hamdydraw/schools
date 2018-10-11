@@ -1047,6 +1047,8 @@ Route::get('student/attendance/getList', [
     'uses' => 'StudentAttendanceController@getDatatable'
 ]);
 
+Route::get('student/attendance-report', 'StudentAttendanceController@attendance_report');
+
 
 //Student Attendence Report
 

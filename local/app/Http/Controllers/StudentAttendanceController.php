@@ -408,4 +408,20 @@ class StudentAttendanceController extends Controller
                 ->orderBy('users.updated_at', 'desc')->get();
                 return $records;
     }
+
+    public function attendance_report()
+    {
+        $data['active_class'] = 'attendance';
+        $data['title'] = getPhrase('attendance_report');
+
+        $data['academic_years'] = addSelectToList(getAcademicYears());
+        $list = App\Course::getCourses(0);
+
+        $data['layout'] = getLayout();
+        $data['module_helper'] = getModuleHelper('student-list');
+        return view('attendance.reports.attendance-report', $data);
+    }
+
 }
+
+

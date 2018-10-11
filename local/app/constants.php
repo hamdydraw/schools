@@ -58,6 +58,8 @@ define('HOMEWORK_PATH',UPLOADS.'homeworks/');
 define('GW_FILE_DELETE',PREFIX.'homework/file-delete/');
 
 
+
+
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_VEHICLE', UPLOADS.'transportation/vehicletype/');
 define('IMAGE_PATH_UPLOAD_TRANSPORTATION_DEFAULT', UPLOADS.'transportation/default.jpg');
 
@@ -705,6 +707,8 @@ define('URL_STUDENT_ATTENDENCE_EDIT', PREFIX.'student/attendance/edit/');
 define('URL_STUDENT_ATTENDENCE_DELETE', PREFIX.'student/attendance/delete/');
 define('URL_STUDENT_ATTENDENCE_GETLIST', PREFIX.'student/attendance/getlist/');
 
+define('ATTENDANCE_REPORT_VIEW', PREFIX.'student/attendance-report');
+//ATTENDANCE_REPORT_VIEW
 
 //STUDENT ATTENDENCE REPORT
 define('URL_STUDENT_ATTENDENCE_REPORT', PREFIX.'student/attendance/reports');
