@@ -1489,11 +1489,7 @@ Route::get('/test_it/{number}', function ($number) {
 
 Route::get('/test_2', function () {
 
-    $current_academic_id = new Academic();
-    $semister = new App\AcademicSemester();
-    $data['year']=$current_academic_id->getCurrentAcademic()->id;
-    $data['sem'] = $semister->getCurrentSemeterOfAcademicYear($data['year'])->sem_num;
-    return $data;
+    return getcwd()."\uploads\homeworks\\";
 });
 
 Route::get('/get_countries', function () {
