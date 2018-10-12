@@ -110,7 +110,7 @@ class HomeWorkController extends Controller
                 return Course::where('id',$records->course_id)->pluck('course_title')->first();
             })
             ->editColumn('explanation', function ($records) {
-                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >view</a>";
+                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >".getPhrase('view')."</a>";
             })
             ->editColumn('file', function ($records) {
                 return "<a href='".HOMEWORK_PATH.$records->file."' download>".$records->file."</a>";
@@ -344,7 +344,7 @@ class HomeWorkController extends Controller
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();
             })
             ->editColumn('explanation', function ($records) {
-                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >view</a>";
+                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >".getPhrase('view')."</a>";
             })
             ->editColumn('staff_id', function ($records) {
                 return User::where('id',$records->staff_id)->pluck('name')->first();

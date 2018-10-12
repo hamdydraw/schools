@@ -90,7 +90,7 @@ $extn = $data->value;
 <div class="row" ng-if="uploaded_file">
     <div class="col-md-6">
         <a class="btn" style="font-size: 30px" href="{{HOMEWORK_PATH}}@{{uploaded_file}}" download>@{{ uploaded_file }}</a>
-        <a class="btn btn-danger" ng-click="deleteFile()">delete</a>
+        <a class="btn btn-danger" ng-click="deleteFile()">{{getPhrase('delete')}}</a>
     </div>
 
 </div>
@@ -115,4 +115,3 @@ $extn = $data->value;
 <div class="buttons text-center">
     <button type="submit" ng-disabled="bupload == false" class="btn btn-lg btn-primary">{{$button_name}}</button>
 </div>
-
