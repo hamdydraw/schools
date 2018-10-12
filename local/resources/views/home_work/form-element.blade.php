@@ -75,13 +75,15 @@ $extn = $data->value;
         {{ Form::label('explanation', getphrase('explanation')) }}
         <span class="text-red">*</span>
 
-        {{ Form::textarea('explanation', $value = null , $attributes = array('class'=>'form-control ckeditor', 'placeholder' => 'Your question', 'rows' => '5',
-        'ng-model'=>'explanation',
-        'id'=>'explanation',
-        'ng-class'=>'{"has-error": formQuestionBank.question.$touched && formQuestionBank.question.$invalid}',
-        'ng-minlength' => '0',
+        {{--{{ Form::textarea('explanation', $value = null , $attributes = array('class'=>'form-control ckeditor', 'placeholder' => 'Your question', 'rows' => '5',--}}
+        {{--'ng-model'=>'explanation',--}}
+        {{--'id'=>'explanation',--}}
+        {{--'ng-class'=>'{"has-error": formQuestionBank.question.$touched && formQuestionBank.question.$invalid}',--}}
+        {{--'ng-minlength' => '0',--}}
 
-        )) }}
+        {{--)) }}--}}
+
+            <textarea name="explanation" id="explanation" class="form-control ckeditor">@if(isset($record)) {{$record->explanation}}    @endif</textarea>
         </fieldset>
     </div>
 </div>
@@ -115,3 +117,4 @@ $extn = $data->value;
 <div class="buttons text-center">
     <button type="submit" ng-disabled="bupload == false" class="btn btn-lg btn-primary">{{$button_name}}</button>
 </div>
+

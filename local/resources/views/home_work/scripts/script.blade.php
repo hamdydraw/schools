@@ -35,7 +35,6 @@
                     .then(function (response) {
                         console.log(response.data);
                         $scope.title = response.data.title;
-                        $scope.explanation = response.data.explanation;
                         if(response.data.file != ''){
                             $scope.uploaded_file = response.data.file;
                         }
