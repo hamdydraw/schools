@@ -1148,7 +1148,7 @@ class UsersController extends Controller
          * Validate the non-admin user wether is trying to access other user profile
          * If so return the user back to previous page with message
          */
-         
+
         // if (!isEligible($slug)) {
         //     return back();
         // }
@@ -1463,10 +1463,10 @@ class UsersController extends Controller
                             $user_record['student_id_number'] = $record->student_id_number;
 
                             $user_record['parent_name'] = $record->parent_name;
-
+                            if($record->secondary_parent_id && $record->secondary_parent_id){
                             $user_record['sec_parent_id_number']  = $record->secondary_parent_id;
                             $user_record['sec_parent_name'] = $record->secondary_parent_name;
-
+                          }
                             $user_record = (object)$user_record;
 
                             $failed_length = count($failed_list);
@@ -1681,11 +1681,14 @@ class UsersController extends Controller
             $user->id_number = $request->student_id_number;
 
             $user->parent_id = $this->isParentExist($request->parent_id_number,$request->parent_name);
-            $secondary_parent_id = $this->isSecondParentExist($request->sec_parent_id_number,$request->sec_parent_name);
+
             $user->save();
-            $secondary_parent_student['secondary_parent_id'] = $secondary_parent_id;
-            $secondary_parent_student['student_id']          = $user->id;
-            DB::table('secondary_parent_student')->insert($secondary_parent_student);
+            if(@$request->sec_parent_id_number && @$request->sec_parent_name){
+              $secondary_parent_id = $this->isSecondParentExist($request->sec_parent_id_number,$request->sec_parent_name);
+              $secondary_parent_student['secondary_parent_id'] = $secondary_parent_id;
+              $secondary_parent_student['student_id']          = $user->id;
+              DB::table('secondary_parent_student')->insert($secondary_parent_student);
+            }
             $user->roles()->attach($user->role_id);
 
             $current_year = (int)$request->current_year;
