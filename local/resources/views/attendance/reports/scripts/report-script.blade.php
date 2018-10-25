@@ -25,44 +25,40 @@
 
 
 
-        {{--$scope.doCall     = function () {--}}
-            {{--$scope.year_selected   = true;--}}
-            {{--if($scope.to_years.length<=0)--}}
-                {{--$scope.to_years      = $scope.years;--}}
-
-            {{--academic_id          = $scope.selected_academic_id;--}}
-            {{--parent_course_id     = $scope.selected_course_parent_id;--}}
-            {{--course_id            = $scope.selected_course_id;--}}
-
-            {{--year                 =  $scope.selected_year;--}}
-            {{--semister             =  $scope.selected_semister;--}}
-
-
-            {{--route   = '{{URL_GET_STUDENTS}}';--}}
-            {{--data    = {   _method: 'post',--}}
-                {{--'_token':httpPreConfig.getToken(),--}}
-                {{--'academic_id': academic_id,--}}
-                {{--'parent_course_id': parent_course_id,--}}
-                {{--'course_id': course_id,--}}
-                {{--'year': year,--}}
-                {{--'semister': semister,--}}
-            {{--};--}}
-
-            {{--httpPreConfig.webServiceCallPost(route, data).then(function(result){--}}
-                {{--users = [];--}}
-                {{--angular.forEach(result.data, function(value, key) {--}}
-                    {{--users.push(value);--}}
-                {{--})--}}
-
-                {{--$scope.result_data = users;--}}
+        $scope.start_report = function () {
+            $scope.current_course = $("#course_parent_id").val();
+            $scope.report = {
+                'date_of_start' : null,
+                'date_of_finish' : null,
+                'academic_year' : null,
+                'current_course' : null,
+                'semisters' : null
+            };
+            $scope.report.date_of_start  = $scope.date_of_start;
+            $scope.report.date_of_finish = $scope.date_of_finish;
+            $scope.report.academic_year  = $scope.academic_year;
+            $scope.report.current_course = $scope.current_course;
+            $scope.report.semisters      = $scope.semisters.current_semister;
+            console.log($scope.report);
+            $http({
+                method:"post",
+                url:'{{PREFIX}}'+'student/attendance-report',
+                data:$scope.report,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                })
+        }
 
 
-                {{--$scope.class_title         = $scope.result_data[0].academic_year_title+'-'+$scope.result_data[0].course_title+' '+'Student List';--}}
+        $scope.doCall     = function () {
+            if($scope.date_of_start && $scope.date_of_finish){
+                $scope.ready = true;
+            }
 
-                {{--$scope.class_title_yer_sem = $scope.result_data[0].academic_year_title+'-'+$scope.result_data[0].course_title+'-'+$scope.result_data[0].current_year+' '+'year'+'-'+$scope.result_data[0].current_semister+' '+'semester'+' '+'Student List';--}}
-
-            {{--});--}}
-        {{--}--}}
+        }
 
         $scope.addColumns = function(n)
         {
@@ -87,6 +83,8 @@
             $('#htmlform').submit();
         }
     });
+
+
 
 
 </script>

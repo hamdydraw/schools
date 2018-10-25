@@ -1049,7 +1049,7 @@ Route::get('student/attendance/getList', [
 
 Route::get('student/attendance-report', 'StudentAttendanceController@attendance_report');
 
-
+Route::post('student/attendance-report', 'StudentAttendanceController@makeReport');
 //Student Attendence Report
 
 
@@ -1489,7 +1489,7 @@ Route::get('/test_it/{number}', function ($number) {
 
 Route::get('/test_2', function () {
 
-    return getcwd()."\uploads\homeworks\\";
+    return \App\Settings::getSetting('site_logo_attendance_header','site_settings');
 });
 
 Route::get('/get_countries', function () {

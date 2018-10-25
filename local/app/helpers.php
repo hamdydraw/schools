@@ -1542,3 +1542,19 @@ function course_in_year($year,$course){
     }
     return false;
 }
+
+function change_att_symbols($char){
+    if($char == 'A'){
+        return "<p style='color:red'>غ</p>";
+    }
+    if($char == 'L'){
+        return "<p style='color:blue'>س</p>";
+    }
+    if($char == 'P'){
+        return "<p style='color:green'>ح</p>";
+    }
+    else{
+        return "<p style='color:black'>-</p>";
+    }
+
+}

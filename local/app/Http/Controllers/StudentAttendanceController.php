@@ -10,6 +10,11 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Input;
+use DatePeriod;
+use DateTime;
+use DateInterval;
+
 
 class StudentAttendanceController extends Controller
 {
@@ -420,6 +425,45 @@ class StudentAttendanceController extends Controller
         $data['layout'] = getLayout();
         $data['module_helper'] = getModuleHelper('student-list');
         return view('attendance.reports.attendance-report', $data);
+    }
+
+    public function makeReport(Request $request)
+    {
+        $data['start_date']  = $request->date_of_start."م";
+        $data['finish_date'] = $request->date_of_end."م";
+        $data['hijri_start'] = new HijriDate( strtotime($request->date_of_start) );
+        $data['hijri_start'] = $data['hijri_start']->get_date()." هـ";
+        $data['hijri_end'] = new HijriDate( strtotime($request->date_of_end) );
+        $data['hijri_end'] = $data['hijri_end']->get_date()."هـ";
+
+        $data['period'] = new DatePeriod(
+            new DateTime($request->date_of_start),
+            new DateInterval('P1D'),
+            new DateTime($request->date_of_end)
+        );
+
+        $data['records']['students'] = App\Student::join('users','students.user_id','=','users.id')
+            ->select('users.id','users.name','students.id as sid')
+            ->where('students.course_id',$request->course_id)
+            ->get();
+        foreach ($data['records']['students'] as $student){
+            $student->name = str_replace(' ', '_', $student->name);
+            foreach($data['period']  as $key => $value){
+                $data[$student->name][$key] = App\StudentAttendance::select('studentattendance.attendance_code')
+                    ->where('studentattendance.academic_id',$request->academic_id)
+                    ->where('studentattendance.semester',$request->current_semister)
+                    ->where('studentattendance.attendance_date',$value->format('y-m-d'))
+                    ->where('studentattendance.student_id',$student->sid)->first();
+                if($data[$student->name][$key] == null){
+                    $data[$student->name][$key] = "-";
+                }else{
+                    $data[$student->name][$key] = $data[$student->name][$key]->attendance_code;
+                }
+            }
+
+        }
+       //return $data;
+        return view('attendance.reports.report-table',$data);
     }
 
 }

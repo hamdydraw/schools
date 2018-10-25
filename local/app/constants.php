@@ -735,7 +735,7 @@ define('URL_STUDENT_DETAINED_LIST', PREFIX.'student/detained/list');
 define('URL_PRINT_DETAINED_STUDENT_LIST', PREFIX.'student/detained/list/print');
 // define('URL_STUDENT_CLASS_OFFLINE_EXAMS_LIST', PREFIX.'student/class-offline-exams-list');
 // define('URL_STUDENT_CLASS_MARKS', PREFIX.'student/class-marks');
-
+define('URL_REPORT_TABLE', PREFIX.'student/attendance-report');
 //LESSION PLANS MODULE
 define('URL_LESSION_PLANS_DASHBOARD', PREFIX.'staff/lession-plans/');
 define('URL_LESSION_PLANS_VIEW_TOPICS', PREFIX.'staff/lession-plans/view-topics/');

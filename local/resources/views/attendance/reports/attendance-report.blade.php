@@ -33,7 +33,7 @@
             </div>
 
 
-            {!! Form::open(array('url' => URL_PRINT_STUDENT_LIST_CLASSWISE, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
+            {!! Form::open(array('url' => URL_REPORT_TABLE, 'method' => 'POST', 'name'=>'htmlform ','target'=>'_blank', 'id'=>'htmlform', 'novalidate'=>'')) !!}
             <div id="wes"></div>
             <div class="panel panel-custom">
                 <div class="panel-heading">
@@ -44,29 +44,35 @@
                 </div>
                 <div class="panel-body instruction">
                     @include('common.year-selection-view', array('class'=>'custom-row-6'))
+                    <div class="row">
                     <div class="col-sm-6">
                         <label for="date_of_birth">{{getPhrase('starting_date')}}</label>
                         <span class="text-red">*</span>
                         <div id="dpYears" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
-                            <input class="form-control" placeholder="2015/7/17" id="dp" name="date_of_start" type="text" value="2018/7/17">
+                            <input class="form-control" ng-model="date_of_start" ng-change="doCall()" placeholder="2015/7/17" id="dp" name="date_of_start" type="text" value="2018/7/17">
                             <div class="input-group-addon">
                                 <span class="mdi mdi-calendar"></span>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-sm-6">
                         <label for="date_of_birth">{{getPhrase('finishing_date')}}</label>
                         <span class="text-red">*</span>
                         <div id="dpYears" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
-                            <input class="form-control" placeholder="2015/7/17" id="dp" name="date_of_end" type="text" value="2018/7/17">
+                            <input class="form-control" ng-model="date_of_finish" ng-change="doCall()" placeholder="2015/7/17" id="dp" name="date_of_end" type="text" value="2018/7/17">
                             <div class="input-group-addon">
                                 <span class="mdi mdi-calendar"></span>
                             </div>
                         </div>
                     </div>
-
+                    </div>
                     <hr>
+                    <div class="row">
+                        <div class="buttons text-center">
+                            <button type="submit" ng-click="start_report()" ng-disabled = "!ready" class="btn btn-lg btn-primary">{{getPhrase('view_report')}}</button>
+                        </div>
+                    </div>
+
 
                     <div ng-show="result_data.length>0" class="row">
 
