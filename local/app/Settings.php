@@ -90,6 +90,16 @@ class Settings extends Model
         }
         return $setting_data[$key]->value;
     }
+
+    public static function get_att_logo(){
+        $settings = Settings::where('key','site_settings')->first();
+        $setting_data = (array) json_decode($settings['settings_data']);
+        if(!array_key_exists('site_logo_attendance_header', $setting_data))
+        {
+            return getPhrase('invalid_setting');
+        }
+        return $setting_data['site_logo_attendance_header']->value;
+    }
     /**
      * This method validates and sends the setting value
      * @param  [type] $setting_type [description]
@@ -177,5 +187,8 @@ class Settings extends Model
         return TRUE;
 
     }
+
+
+
 
 }

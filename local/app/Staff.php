@@ -3,7 +3,7 @@
 namespace App;
 use App\User;
 use App\Staff;
-use App\GeneralSettings as Settings;
+use App\GeneralSettings as Setting;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use App\Scopes\BranchScope;
@@ -29,7 +29,7 @@ class Staff extends Model
     //
     public function prepareStaffID($userid)
     {
-    	return (new Settings())->getStaffIDPrefix().$userid;
+    	return (new Setting())->getStaffIDPrefix().$userid;
     }
 
 

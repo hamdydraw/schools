@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>2018-2019 أول أ قائمة</title>
 
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/Report/font-icons/entypo/css/entypo.css">
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/font-awesome.css"/>
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/Report/bootstrap.css">
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/Report/neon-core.css">
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/Report/neon-theme.css">
-    <link rel="stylesheet" href="http://localhost/schoolsysrepo/css/Report/neon-rtl.css">
+    <link rel="stylesheet" href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css">
+    <link rel="stylesheet" href="{{PREFIX}}css/font-awesome.css"/>
+    <link rel="stylesheet" href="{{PREFIX}}css/Report/bootstrap.css">
+    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-core.css">
+    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-theme.css">
+    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-rtl.css">
     <style>
         @media  print {
             .head th {
@@ -31,7 +31,7 @@
 <div class="container" id="main_frame">
     <div class="row">
         <center>
-            <img src="{{IMAGE_PATH_SETTINGS}}{{\App\Settings::getSetting('site_logo_attendance_header','site_settings')}}">
+            <img src="{{IMAGE_PATH_SETTINGS}}{{\App\Settings::get_att_logo()}}">
         </center>
 
     </div>

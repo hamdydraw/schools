@@ -1558,3 +1558,7 @@ function change_att_symbols($char){
     }
 
 }
+
+function get_student_class($id){
+    return Student::where('user_id',$id)->first()->course_parent_id;
+}

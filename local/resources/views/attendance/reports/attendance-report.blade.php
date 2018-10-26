@@ -4,7 +4,7 @@
 
 @stop
 
-<link rel="stylesheet" href="http://localhost/schoolsysrepo/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="{{PREFIX}}css/bootstrap-datepicker.min.css">
 @section('content')
     <div id="page-wrapper" ng-controller="TabController">
         <div class="container-fluid">
