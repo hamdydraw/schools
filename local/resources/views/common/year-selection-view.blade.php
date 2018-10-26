@@ -44,7 +44,7 @@ if (isset($user_slug)) {
 
 <div class="row {{$custom_class}}">
     <div class="col-md-12">
-       {{-- @if(!$user_record)--}}
+
             <fieldset class="form-group"
                       ng-init="setPreSelectedData('{{$academic_id}}','{{$course_parent_id}}','{{$course_id}}', '{{$year}}','{{$semister}}')">
                 {{ Form::label ('academic_year', getphrase('academic_year')) }}
@@ -55,24 +55,7 @@ if (isset($user_slug)) {
                     "ng-change" => "getParentCourses(academic_year)"
                 ])}}
             </fieldset>
-        {{--@else
 
-            <fieldset class="form-group"
-                      ng-init="setPreSelectedData('{{$academic_id}}','{{$course_parent_id}}','{{$course_id}}', '{{$year}}','{{$semister}}')">
-                {{ Form::label ('academic_year', getphrase('academic_year')) }}
-                {{ Form::select('academic_id', $academic_years, $academic_id,
-                [   'class'     => 'form-control',
-                    "id"        => "select_academic_year",
-                    "ng-model"  => "academic_year",
-                    "ng-change" => "getParentCourses(academic_year)",
-                    'disabled'  => true
-                ])}}
-            </fieldset>
-            <input type="hidden" name="extra_academic_id" value="{{$academic_id}}">
-        @endif--}}
-
-        {{--الصف الدراسى--}}
-       {{-- @if(!$user_record)--}}
             <fieldset ng-if="selected_academic_id" class="form-group">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
                 <select
@@ -85,23 +68,7 @@ if (isset($user_slug)) {
                     <option value="">{{getPhrase('select')}}</option>
                 </select>
             </fieldset>
-        {{--@else
-            <fieldset ng-if="selected_academic_id" class="form-group">
-                <label for="course_parent_id">{{getPhrase('branch')}}</label>
-                <select
 
-                        name="course_parent_id"
-                        id="course_parent_id"
-                        class="form-control"
-                        ng-model="course_parent_id"
-                        ng-change="getChildCourses(academic_year, course_parent_id)"
-                        disabled=true
-                        ng-options="option.id as option.course_title for option in parent_courses track by option.id">
-                    <option value="">{{getPhrase('select')}}</option>
-
-                </select>
-            </fieldset>
-        @endif--}}
         {{--الفصل الدراسى--}}
         <fieldset ng-if="selected_course_parent_id" class="form-group">
             <label for="course_id">{{getPhrase('course')}}</label>

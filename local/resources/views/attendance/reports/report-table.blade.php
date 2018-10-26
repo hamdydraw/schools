@@ -37,7 +37,7 @@
     </div>
     <div class="row">
         <center>
-            <h3>تقرير الحضور و الانصراف من الفترة {{$start_date}} الموافق ({{$hijri_start}}) الى {{$finish_date}} الموافق ({{$hijri_end}})</h3>
+            <h3>{{getPhrase('Attendance_report_and_departure_from_the_period')}} {{$start_date}} {{getPhrase('Corresponding')}} ({{$hijri_start}}) {{getPhrase('to')}} {{$finish_date}} {{getPhrase('Corresponding')}} ({{$hijri_end}})</h3>
         </center>
     </div>
     <div class="row">
@@ -45,7 +45,7 @@
             <table class="table  table-bordered table-dark" style="font-size: 20px;
     border-spacing: 0" border="1">
                 <thead>
-                <th>الاسم</th>
+                <th>{{getPhrase('name')}}</th>
                 @foreach($period  as $key => $value)
                     <th>{{$value->format('d-m')}}</th>
                 @endforeach
@@ -87,5 +87,9 @@
             ];
         document.body.innerHTML = document.body.innerHTML.replace(/\d(?=[^<>]*(<|$))/g, function($0) { return map[$0]});
     }
-    window.onload = replaceDigits;
+    dir = document.getElementsByTagName("html")[0].getAttribute("dir");
+    if(dir == 'rtl'){
+        window.onload = replaceDigits;
+    }
+
 </script>

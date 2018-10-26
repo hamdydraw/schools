@@ -60,7 +60,12 @@
    </div>
    <br>
  <div class="row vertical-scroll" id="printable_data">
-
+     <div class="col-sm-4 pull-right" id="right_data" style="text-align: left; display: none">
+         <h4>{{getPhrase('date')}} : {{\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
+         <h4>{{getPhrase('academic_year')}} : @{{academic_year}}</h4>
+         <h4 id="print_course_parent"></h4>
+         <h4>{{getPhrase('course')}} : <span id="print_course"></span></h4>
+     </div>
     <table ng-if="result_data.length>0" class="table table-bordered" style="border-collapse: collapse;">
     <thead>
         <th style="border:1px solid #000;">{{getPhrase('sn')}}</th>
@@ -99,7 +104,7 @@
 
 <div ng-if="result_data.length==0" class="text-center" >{{getPhrase('no_data_available')}}</div>
 <br>
-<a ng-if="result_data.length>0"  class="btn btn-primary" ng-click="printIt()">Print</a>
+<a ng-if="result_data.length>0"  class="btn btn-primary" onclick="PrintElem(printable_data)">{{getPhrase('Print')}}</a>
   </div>
 </div>
 
@@ -111,7 +116,11 @@
     </div>
 </div>
 {!! Form::close() !!}
+
+
+
 @stop
+
 
 
 
@@ -121,3 +130,27 @@
     @include('attendance.class-report.scripts.js-scripts')
 
 @stop
+<script>
+    function PrintElem(elem)
+    {
+        var mywindow = window.open('', 'PRINT', 'height=800,width=800');
+        testvar = $("#course_parent_id option:selected").text();
+        console.log(testvar);
+        mywindow.document.write('<html dir="rtl"><head><title>' + document.title  + '</title>');
+        mywindow.document.write('<link href="{{PREFIX}}css/bootstrap.min.css" rel="stylesheet">');
+        mywindow.document.write('</head><body>');
+        mywindow.document.write('<style>@media print { a[href]:after {content: none !important;    }      } #right_data{ display:block!important;}        </style>');
+        mywindow.document.write('<center><h1>' + document.title  + '</h1></center>');
+        mywindow.document.write(document.getElementById("printable_data").innerHTML);
+        mywindow.document.write('<div class="row"><div class="col-sm-12"><div class="invoice-right"><br><a href="javascript:window.print();" class="btn btn-primary btn-icon icon-left hidden-print">طباعة وتصدير <i class="fa fa-print"></i> </a> </div> </div>');
+        mywindow.document.write('</body></html>');
+
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+
+//            mywindow.print();
+//            mywindow.close();
+
+        return true;
+    }
+</script>

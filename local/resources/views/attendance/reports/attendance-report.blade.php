@@ -179,9 +179,9 @@
 
 
 @section('footer_scripts')
-    <script src="http://localhost/schoolsysrepo/js/moment.min.js"></script>
-    <script src="http://localhost/schoolsysrepo/js/bootstrap-datepicker.min.js"></script>
-    <script src="http://localhost/schoolsysrepo/js/bootstrap-datetimepicker.js"></script>
+    <script src="{{PREFIX}}js/moment.min.js"></script>
+    <script src="{{PREFIX}}js/bootstrap-datepicker.min.js"></script>
+    <script src="{{PREFIX}}js/bootstrap-datetimepicker.js"></script>
 
     @include('attendance.reports.scripts.report-script')
 

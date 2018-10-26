@@ -161,7 +161,7 @@ class MessagesController extends Controller
         if(Auth::user()->role_id == '5'){
             $course_id = get_student_class(Auth::user()->id);
             $first  = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->select('users.name','users.id')->whereIn('role_id',['1','2']);
-            $second = User::join('staff','users.id','=','staff.user_id')->select('users.name','users.id')->where('staff.course_parent_id',$course_id)->union($first)->get();
+            $second = User::join('course_subject','users.id','=','course_subject.staff_id')->select('users.name','users.id')->where('course_subject.course_parent_id',$course_id)->union($first)->get();
             $users =  $second;
         }
         $data['title']               = getPhrase('send_message');
