@@ -1,12 +1,10 @@
-
-
 <html lang="en" dir="rtl">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>2018-2019 أول أ قائمة</title>
+    <title>{{getPhrase('Attendance_report_and_departure_from_the_period')}} {{$start_date}} {{getPhrase('Corresponding')}} ({{$hijri_start}}) {{getPhrase('to')}} {{$finish_date}} {{getPhrase('Corresponding')}} ({{$hijri_end}})</title>
 
     <link rel="stylesheet" href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css">
     <link rel="stylesheet" href="{{PREFIX}}css/font-awesome.css"/>
@@ -67,7 +65,7 @@
             <div class="invoice-right">
                 <br>
                 <a href="javascript:window.print();" class="btn btn-primary btn-icon icon-left hidden-print">
-                    طباعة وتصدير
+                {{getPhrase('print')}}
                     <i class="fa fa-print"></i>
                 </a>
             </div>
