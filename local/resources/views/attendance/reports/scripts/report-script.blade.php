@@ -54,7 +54,7 @@
 
 
         $scope.doCall     = function () {
-            if($scope.date_of_start && $scope.date_of_finish){
+            if($scope.date_of_start && $scope.date_of_finish && $scope.current_course){
                 $scope.ready = true;
             }
 

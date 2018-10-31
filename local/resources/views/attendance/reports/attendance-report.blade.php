@@ -69,7 +69,7 @@
         <hr>
         <div class="row">
           <div class="buttons text-center">
-            <button type="submit" ng-click="start_report()" ng-disabled = "!ready" class="btn btn-lg btn-primary">{{getPhrase('view_report')}}</button>
+            <button type="submit" ng-click="start_report()" ng-disabled = "!date_of_start || !date_of_finish || !semisters.current_semister" class="btn btn-lg btn-primary">{{getPhrase('view_report')}}</button>
           </div>
         </div>
 

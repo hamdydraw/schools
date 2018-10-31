@@ -60,11 +60,19 @@
    </div>
    <br>
  <div class="row vertical-scroll" id="printable_data">
-     <div class="col-sm-4 pull-right" id="right_data" style="text-align: left; display: none">
-         <h4>{{getPhrase('date')}} : {{\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
-         <h4>{{getPhrase('academic_year')}} : @{{academic_year}}</h4>
-         <h4 id="print_course_parent"></h4>
-         <h4>{{getPhrase('course')}} : <span id="print_course"></span></h4>
+     <div class="row" id="right_data" style="text-align: left; display: none;margin-bottom: 10%;">
+         <div class="col-sm-4 invoice-right" style="text-align: right">
+             <h3>{{getSetting('site_title','site_settings')}}</h3>
+             <h4>{{getPhrase('address')}} : {{getSetting('site_address','site_settings')}}</h4>
+             <h4>{{getPhrase('phone')}} : {{getSetting('site_Phone','site_settings')}}</h4>
+         </div>
+
+         <div class="col-sm-4 pull-right">
+             <h4>{{getPhrase('date')}} : {{\Carbon\Carbon::now()->format('d-m-Y')}}</h4>
+             <h4>{{getPhrase('academic_year')}} : <span id="c_year"></span> </h4>
+             <h4 id="print_course_parent"></h4>
+             <h4>{{getPhrase('course')}} : <span id="print_course"></span></h4>
+         </div>
      </div>
     <table ng-if="result_data.length>0" class="table table-bordered" style="border-collapse: collapse;">
     <thead>
@@ -134,8 +142,9 @@
     function PrintElem(elem)
     {
         var mywindow = window.open('', 'PRINT', 'height=800,width=800');
-        testvar = $("#course_parent_id option:selected").text();
-        console.log(testvar);
+        $("#print_course_parent").text($("#course_parent_id option:selected").text());
+        $("#print_course").text($("#course_id option:selected").text());
+        $("#c_year").text($("#select_academic_year option:selected").text());
         mywindow.document.write('<html dir="rtl"><head><title>' + document.title  + '</title>');
         mywindow.document.write('<link href="{{PREFIX}}css/bootstrap.min.css" rel="stylesheet">');
         mywindow.document.write('</head><body>');
