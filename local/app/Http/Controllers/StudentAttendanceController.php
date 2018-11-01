@@ -462,7 +462,12 @@ class StudentAttendanceController extends Controller
             }
 
         }
-       //return $data;
+        $data['print_year']   = Academic::where('id',$request->academic_id)->first()->academic_year_title;
+        $data['print_term']   = SemesterName($request->current_semister);
+        $data['print_course'] = Course::where('id',$request->course_parent_id)->first()->course_title;
+        $data['print_class']  = Course::where('id',$request->course_id)->first()->course_title;
+
+
         return view('attendance.reports.report-table',$data);
     }
 

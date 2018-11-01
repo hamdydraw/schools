@@ -157,30 +157,12 @@ return;
 }
 
 index = httpPreConfig.findIndexInData($scope.courses, 'id', course);
-{{--total_years               = $scope.courses[index].course_dueration;--}}
+
 $scope.selected_course_id = $scope.courses[index].id;
 
 
-{{--if(total_years==1) {
-$scope.selected_semister = 0;
-$scope.selected_year = 1;
-}--}}
 
-{{--$scope.years = { "current_year": "Select","values": ['Select'] };
-for(i=1; i<=total_years; i++)
-{
-$scope.years.values.push(i);
-}
-
-$scope.current_year = 'select';--}}
-{{--if($scope.pre_selected_year)
-{
-$scope.years.current_year = $scope.pre_selected_year;
-$scope.current_year = $scope.years.current_year;
-$scope.yearChanged($scope.years.current_year)
-}--}}
 if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "transfers" || $location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed"
-|| $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "class-attendance"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "detainedlist"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-3]+$location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "studentresults"

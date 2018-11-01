@@ -60,6 +60,8 @@
 
         }
 
+        $scope.isNumber = angular.isNumber;
+
         $scope.addColumns = function(n)
         {
             $scope.blank_columns = [];

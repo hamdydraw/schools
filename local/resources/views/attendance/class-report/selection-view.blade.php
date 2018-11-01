@@ -112,7 +112,7 @@
 
 <div ng-if="result_data.length==0" class="text-center" >{{getPhrase('no_data_available')}}</div>
 <br>
-<a ng-if="result_data.length>0"  class="btn btn-primary" onclick="PrintElem(printable_data)">{{getPhrase('Print')}}</a>
+<button ng-if="result_data.length>0"  class="btn btn-primary" type="submit">{{getPhrase('Print')}}</button>
   </div>
 </div>
 

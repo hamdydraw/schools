@@ -29,9 +29,17 @@
 <div class="container" id="main_frame">
     <div class="row">
         <center>
-            <img src="{{IMAGE_PATH_SETTINGS}}{{\App\Settings::get_att_logo()}}">
+            <img style="width: 100%;" src="{{IMAGE_PATH_SETTINGS}}{{\App\Settings::get_att_logo()}}">
         </center>
 
+    </div>
+    <div class="row" style="font-size: 15px;">
+        <div style="float: right;">
+            <span>{{$print_year}} - {{getPhrase($print_term)}} - {{$print_course}} - {{$print_class}}</span>
+        </div>
+        <div style="float: left;">
+            <span>{{\Carbon\Carbon::now()->format('d-m-Y')}}</span>
+        </div>
     </div>
     <div class="row">
         <center>
@@ -43,16 +51,16 @@
             <table class="table  table-bordered table-dark" style="font-size: 20px;
     border-spacing: 0" border="1">
                 <thead>
-                <th>{{getPhrase('name')}}</th>
+                <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
                 @foreach($period  as $key => $value)
-                    <th>{{$value->format('d-m')}}</th>
+                    <th style="border:1px solid #000;">{{$value->format('d-m')}}</th>
                 @endforeach
                 </thead>
                 @foreach($records['students'] as $student)
                     <tr>
-                        <td>{{str_replace('_', ' ', $student->name)}}</td>
+                        <td style="border:1px solid #000;">{{str_replace('_', ' ', $student->name)}}</td>
                         @foreach(${$student->name}  as $key => $value)
-                            <td><p>{!!  html_entity_decode(change_att_symbols($value))!!}  </p></td>
+                            <td style="border:1px solid #000;"><p>{!!  html_entity_decode(change_att_symbols($value))!!}  </p></td>
                         @endforeach
                     </tr>
                 @endforeach

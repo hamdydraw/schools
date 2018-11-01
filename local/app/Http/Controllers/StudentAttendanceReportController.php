@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use App;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Academic;
+use App\Course;
 
 use Yajra\Datatables\Datatables;
 use DB;
@@ -157,9 +159,8 @@ class StudentAttendanceReportController extends Controller
                           ->join('users', 'users.id', '=', 'students.user_id')
                           ->where('studentattendance.academic_id', '=', $academic_id)
                           ->where('students.course_id', '=', $course_id)
-                          ->where('studentattendance.course_id', '=', $course_parent_id);
-                          /*->where('studentattendance.year', '=', $year)
-                          ->where('studentattendance.semester', '=', $semister);*/
+                          ->where('studentattendance.course_id', '=', $course_parent_id)
+                          ->where('studentattendance.semester', '=', $semister);
 
         $total_class  = $query->groupBy('student_id')->sum('total_class');
 
@@ -168,13 +169,6 @@ class StudentAttendanceReportController extends Controller
 
        $summary_attendance = array();
        $sno = 1;
-        $semister = new App\AcademicSemester();
-        $currentSemeterOfYear = $semister->getCurrentSemeterOfAcademicYear($academic_id);
-        if ($currentSemeterOfYear) {
-            $currentSemeterOfYear = $currentSemeterOfYear->sem_num;
-        } else {
-            $currentSemeterOfYear = 0;
-        }
        foreach($students as $student)
        {
           $temp['sno'] = $sno++;
@@ -182,9 +176,9 @@ class StudentAttendanceReportController extends Controller
           $temp['slug'] = $student->slug;
           $temp['roll_no'] = $student->roll_no;
           $temp['total_classes'] = $total_class;
-           $present = $student->getAttendanceCount('P', $academic_id, $course_parent_id, $year, $currentSemeterOfYear);
-          $absent = $student->getAttendanceCount('A', $academic_id, $course_parent_id, $year, $currentSemeterOfYear);
-          $leave = $student->getAttendanceCount('L', $academic_id, $course_parent_id, $year, $currentSemeterOfYear);
+           $present = $student->getAttendanceCount('P', $academic_id, $course_parent_id, $year, $semister);
+          $absent = $student->getAttendanceCount('A', $academic_id, $course_parent_id, $year, $semister);
+          $leave = $student->getAttendanceCount('L', $academic_id, $course_parent_id, $year, $semister);
           $temp['present'] = ($present) ? $present : 0;
           $temp['absent'] = ($absent) ? $absent: 0;
           $temp['leave'] = ($leave) ? $leave: 0;
@@ -236,25 +230,25 @@ class StudentAttendanceReportController extends Controller
     public function printClassAttendance(Request $request)
     {
 
-            $academic_id = $request->academic_id;
-            $course_id   = $request->course_id;
-            $year        = 1;
-            if($request->year){
-              $year = $request->year;
-            }
-            $semister = 0;
-            if($request->semister){
-            $semister    = $request->semister;
-          }
-          $academic_details  =  App\Academic::where('id',$request->academic_id)->first();
-          $course_details  =  App\Course::where('id',$request->course_id)->first();
-        $query = App\StudentAttendance::
-                            join('students', 'students.id', '=', 'studentattendance.student_id')
-                          ->join('users', 'users.id', '=', 'students.user_id')
-                          ->where('studentattendance.academic_id', '=', $academic_id)
-                          ->where('studentattendance.course_id', '=', $course_id)
-                          ->where('studentattendance.year', '=', $year)
-                          ->where('studentattendance.semester', '=', $semister);
+        $data['print_year']   = Academic::where('id',$request->academic_id)->first()->academic_year_title;
+        $data['print_course'] = Course::where('id',$request->course_parent_id)->first()->course_title;
+        $data['print_class']  = Course::where('id',$request->course_id)->first()->course_title;
+        $data['print_term']   = SemesterName($request->current_semister);
+
+        $academic_id = $request->academic_id;
+        $course_parent_id   = $request->course_parent_id;
+        $course_id      =$request->course_id;
+        $year        = $request->year;
+        $semister    = $request->current_semister;
+
+
+
+        $query = App\StudentAttendance::join('students', 'students.id', '=', 'studentattendance.student_id')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('studentattendance.academic_id', '=', $academic_id)
+            ->where('students.course_id', '=', $course_id)
+            ->where('studentattendance.course_id', '=', $course_parent_id)
+            ->where('studentattendance.semester', '=', $semister);
 
         $total_class  = $query->groupBy('student_id')->sum('total_class');
 
@@ -271,30 +265,18 @@ class StudentAttendanceReportController extends Controller
           $temp['slug'] = $student->slug;
           $temp['roll_no'] = $student->roll_no;
           $temp['total_classes'] = $total_class;
-           $present = $student->getAttendanceCount('P', $academic_id, $course_id, $year, $semister);
-          $absent = $student->getAttendanceCount('A', $academic_id, $course_id, $year, $semister);
-          $leave = $student->getAttendanceCount('L', $academic_id, $course_id, $year, $semister);
+           $present = $student->getAttendanceCount('P', $academic_id, $course_parent_id, $year, $semister);
+          $absent = $student->getAttendanceCount('A', $academic_id, $course_parent_id, $year, $semister);
+          $leave = $student->getAttendanceCount('L', $academic_id, $course_parent_id, $year, $semister);
           $temp['present'] = ($present) ? $present : 0;
           $temp['absent'] = ($absent) ? $absent: 0;
           $temp['leave'] = ($leave) ? $leave: 0;
           $temp['percentage'] = getPercentage($present,$total_class);
           $summary_attendance[] = $temp;
        }
-         if($course_details->course_dueration>1 && $course_details->is_having_semister==1){
-         $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.$year.' '.'year'.' '.$semister.' '.'semester '.' '.getPhrase('attendance_report');
-         }
-        elseif ($course_details->course_dueration>1 && $course_details->is_having_semister==0) {
-         $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.$year.' '.'year'.' '.getPhrase('attendance_report');
-        }
-        else{
-          $data['title']     = $academic_details->academic_year_title.' '.$course_details->course_title.' '.getPhrase('attendance_report');
-        }
 
-         $data['summary_attendance']   = $summary_attendance;
-         $view     = \View::make('attendance.class-report.print-file',$data);
-        $contents = $view->render();
-
-        return $contents;
+        $data['summary_attendance'] = $summary_attendance;
+        return view('attendance.class-report.print-file',$data);
     }
 
     public function render($__php, $__data)
