@@ -352,25 +352,53 @@ function getUserGrade($grade = 5)
 function getLayout()
 {
     $layout = 'layouts.student.studentlayout';
-    if (checkRole(getUserGrade(2))) {
+    if (Is_Owner()) {
         $layout = 'layouts.admin.adminlayout';
     }
-    if (checkRole(['parent'])) {
+    if (is_parent()) {
         $layout = 'layouts.parent.parentlayout';
     }
 
-    if (checkRole(['staff', 'educational_supervisor'])) {
+    if (is_teacher()) {
         $layout = 'layouts.staff.stafflayout';
     }
 
-    if (checkRole(['librarian', 'assistant_librarian'])) {
+    if (Is_Librarian()) {
         $layout = 'layouts.librarian.librarianlayout';
     }
-    if (checkRole(['secondary_parent'])) {
+    if (Is_Secondary_parent()) {
       $layout = 'users.secondary-parent.dashboard';
     }
     return $layout;
 }
+
+function Is_Owner(){
+    if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2){
+        return true;
+    }
+    return false;
+}
+function is_parent(){
+    if(Auth::user()->role_id == 6){
+        return true;
+    }
+    return false;
+}
+
+function Is_Librarian(){
+    if(Auth::user()->role_id == 7 || Auth::user()->role_id == 8){
+        return true;
+    }
+    return false;
+}
+
+function Is_Secondary_parent(){
+    if(Auth::user()->role_id == 10){
+        return true;
+    }
+    return false;
+}
+
 
 function validateUser($slug)
 {
@@ -1285,6 +1313,32 @@ function getTeacherCourses2($year,$staffSlug){
                       ->groupBy('course_subject.course_parent_id')
                       ->get();
 }
+
+function getTeacherClasses($year,$staffSlug,$course){
+
+    $current_academic_id = new Academic();
+    $semister = new App\AcademicSemester();
+    $staffId = Auth::user()->id;
+    $data['year']=$current_academic_id->getCurrentAcademic()->id;
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
+    if($current_semster){
+        $current_semster = $current_semster->sem_num;
+    }else { $current_semster = 1; }
+    if($staffSlug != null) {
+        $teacher = App\User::where('slug', $staffSlug)->first();
+        $staffId = $teacher->id;
+    }
+    return \App\Course::join('course_subject','courses.id','=','course_subject.course_id')
+        ->select(['courses.id','courses.slug','courses.course_title'])
+        ->where('course_subject.course_parent_id',$course)
+        ->where('course_subject.academic_id',$year)
+//        ->where('course_subject.semister',$current_semster)
+        ->where('course_subject.staff_id',$staffId)
+        ->groupBy('course_subject.course_id')
+        ->get();
+}
+
+
 
 function getSemesters($id){
     return \App\AcademicSemester::where('academic_id',$id)->select(['sem_num'])->get();

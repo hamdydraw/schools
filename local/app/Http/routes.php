@@ -1333,6 +1333,18 @@ Route::get('get_courses_2/{year}/{staff_id?}',function ($year,$staff_id){
     return getCourses($year);
 });
 
+//getTeacherClasses
+Route::get('teacher_classes/{year}/{staff_id}/{course}',function ($year,$staff_id,$course){
+    if(Auth::user()->role_id == 3){
+        return getTeacherClasses($year,null,$course);
+    }
+
+    return getTeacherClasses($year,$staff_id,$course);
+
+
+});
+
+
 Route::get('get_teacher_courses/{year}',function ($year){
     return getTeacherCourses($year,null);
 });
@@ -1352,6 +1364,9 @@ Route::get('supervisor/teacher-courses/{slug}',function($slug){
         ->get();
 
 });
+//get_courses_2
+
+
 
 Route::get('supervisor/teacher-subjects/{year}/{sem}/{course}/{slug}',function($year,$sem,$course,$slug){
 

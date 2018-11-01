@@ -52,11 +52,21 @@ $extn = $data->value;
             <label for="">{{getPhrase('branch')}}</label>
             <span class="text-red">*</span>
             <select name="course_id" class="form-control" required="required"
-                    ng-model="current_course_sc" ng-change="getSubjects()">
+                    ng-model="current_course_sc" ng-change="getClasses()">
                 <option ng-repeat="course in academic_courses_sc"
                         value="@{{ course.id }}">@{{ course.course_title }}</option>
             </select>
         </fieldset>
+            <fieldset class="form-group col-md-8">
+                <label for="">{{getPhrase('class')}}</label>
+                <span class="text-red">*</span>
+                <select name="class_id" class="form-control" required="required"
+                        ng-model="current_class_sc" ng-change="getSubjects()">
+                    <option ng-repeat="aclass in academic_classes_sc"
+                            value="@{{ aclass.id }}">@{{ aclass.course_title }}</option>
+                </select>
+            </fieldset>
+
         <fieldset class="form-group col-md-8">
             <label for="">{{getPhrase('subject')}}</label>
             <span class="text-red">*</span>

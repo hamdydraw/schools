@@ -77,7 +77,7 @@ class HomeWorkController extends Controller
         $semister = new AcademicSemester();
         $year=$current_academic_id->getCurrentAcademic()->id;
         $sem = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
-        $records    = HomeWork::select(['id','slug','title','subject_id','course_id','explanation','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
+        $records    = HomeWork::select(['id','slug','title','subject_id','course_parent_id','course_id','explanation','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
             ->where('subject_id',$subject_id)->where('course_id',$course_id)->where('staff_id',$teacher_id)->where('year',$year)->where('sem',$sem);
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -106,6 +106,9 @@ class HomeWorkController extends Controller
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();
             })
 
+            ->editColumn('course_parent_id', function ($records) {
+                return Course::where('id',$records->course_parent_id)->pluck('course_title')->first();
+            })
             ->editColumn('course_id', function ($records) {
                 return Course::where('id',$records->course_id)->pluck('course_title')->first();
             })
@@ -212,7 +215,8 @@ class HomeWorkController extends Controller
             $record->staff_id = $staffId;
 
         }
-        $record->course_id = $request->course_id;
+        $record->course_parent_id = $request->course_id;
+        $record->course_id = $request->class_id;
         $record->subject_id = $request->course_subject_id;
         $record->explanation = $request->explanation;
         $record->year = $year;
@@ -332,7 +336,7 @@ class HomeWorkController extends Controller
     public function StudentDatable($student)
     {
         $student_id = User::where('slug',$student)->pluck('id')->first();
-        $course_id  = Student::where('user_id',$student_id)->pluck('course_parent_id')->first();
+        $course_id  = Student::where('user_id',$student_id)->pluck('course_id')->first();
         $current_academic_id = new Academic();
         $semister = new AcademicSemester();
         $year=$current_academic_id->getCurrentAcademic()->id;

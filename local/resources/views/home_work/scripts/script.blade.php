@@ -129,6 +129,20 @@
             }
         }
 
+        $scope.getClasses = function () {
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'teacher_classes/'+$scope.current_year_sc+'/'+$scope.current_teacher+'/'+$scope.current_course_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_classes_sc = response.data;
+                    //$scope.setCurrents();
+
+                })
+        }
+
         $scope.getCourses();
 
         $scope.setCurrents = function () {
@@ -202,8 +216,8 @@
 
 
             $scope.teacher_slug = $scope.current_teacher;
-            angular.forEach($scope.academic_courses_sc,function (item) {
-                if(item.id == $scope.current_course_sc){
+            angular.forEach($scope.academic_classes_sc,function (item) {
+                if(item.id == $scope.current_class_sc){
                     $scope.course_slug =  item.slug;
                 }
             })
