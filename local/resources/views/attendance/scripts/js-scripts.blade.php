@@ -78,7 +78,7 @@
              }else{
                  $http({
                      method:"GET",
-                     url:'{{PREFIX}}'+'get_subjects_2/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+$scope.current_teacher,
+                     url:'{{PREFIX}}'+'get_subjects_2/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_class_sc+'/'+$scope.current_teacher,
                      dataType:"json",
                      headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                  })

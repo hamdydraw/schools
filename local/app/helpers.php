@@ -281,7 +281,7 @@ function urlHasString($str)
 
 function checkRole($roles)
 {
-    if (Entrust::hasRole($roles)) {
+    if (in_array(Auth::user()->role_id,$roles)) {
         return true;
     }
     return false;
@@ -292,53 +292,53 @@ function getUserGrade($grade = 5)
 {
     switch ($grade) {
         case 1:
-            return ['owner'];
+            return [1];
             break;
         case 2:
-            return ['owner', 'admin'];
+            return [1, 2];
             break;
         case 3:
-            return ['owner', 'admin', 'staff'];
+            return [1, 2, 3];
             break;
         case 4:
-            return ['owner', 'admin', 'parent'];
+            return [1, 2, 6];
             break;
         case 5:
-            return ['student'];
+            return [5];
             break;
         case 6:
-            return ['admin'];
+            return [2];
             break;
         case 7:
-            return ['parent'];
+            return [6];
             break;
         case 8:
-            return ['librarian', 'owner', 'admin',];
+            return [7, 1, 2];
             break;
         case 9:
-            return ['assistant_librarian', 'librarian', 'owner', 'admin',];
+            return [8, 7, 1, 2];
             break;
         case 10:
-            return ['owner', 'admin', 'parent', 'student'];
+            return [1, 2, 6, 5];
             break;
 
         case 11:
-            return ['staff'];
+            return [3];
             break;
         case 12:
-            return ['owner', 'admin', 'student'];
+            return [1, 2, 5];
             break;
         case 13:
-            return ['student', 'parent'];
+            return [5, 6];
             break;
         case 14:
-            return ['owner', 'admin', 'student', 'staff', 'parent'];
+            return [1, 2, 5, 3, 6];
             break;
         case 15:
-            return ['assistant_librarian', 'librarian'];
+            return [8, 7];
             break;
         case 16:
-            return ['parent','secondary_parent'];
+            return [6,10];
             break;
 
 
@@ -1373,7 +1373,7 @@ function getTeacherSubjects2($year,$semester,$course,$slug){
     return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
         ->where('academic_id',$year)
         ->where('semister',$semester)
-        ->where('course_parent_id',$course)
+        ->where('course_id',$course)
         ->where('staff_id',$teacherSlug)
         ->groupBy('course_subject.subject_id')
         ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.slug','subjects.subject_title'])
