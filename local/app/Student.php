@@ -100,10 +100,10 @@ class Student extends Model
      * this method returns the student list it is not necessary course_parent_id
      */
 
-    public function getStudents($academic_id,  $course_parent_id/*$year, $semester*/)
+    public function getStudents($academic_id,$course_parent_id/*$year, $semester*/)
     {
         return Student::where('academic_id', '=', $academic_id)
-                        ->where('course_parent_id', '=', $course_parent_id)
+                        ->where('course_id', '=', $course_parent_id)
                         /*->where('current_year', '=', $year)
                         ->where('current_semister', '=', $semester)*/
                         ->get();

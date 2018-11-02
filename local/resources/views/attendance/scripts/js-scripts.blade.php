@@ -89,6 +89,20 @@
 
          }
 
+         $scope.getClasses = function () {
+             $http({
+                 method:"GET",
+                 url:'{{PREFIX}}'+'teacher_classes/'+$scope.current_year_sc+'/'+$scope.current_teacher+'/'+$scope.current_course_sc,
+                 dataType:"json",
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+             })
+                 .then(function (response) {
+                     $scope.academic_classes_sc = response.data;
+                     //$scope.setCurrents();
+
+                 })
+         }
+
          $scope.getSubjectsTimetable = function () {
 
              if($scope.current_course_sc == null || $scope.current_subject_sc == null){

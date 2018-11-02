@@ -154,6 +154,7 @@ class StudentAttendanceController extends Controller
      */
     public function create(Request $request, $slug)
     {
+
         $userData = App\User::where('slug', '=', $slug)->first();
         if(isset($request->teacherSlug)) {
           $userData = App\User::where('slug', '=', $request->teacherSlug)->first();
@@ -230,7 +231,7 @@ class StudentAttendanceController extends Controller
         $studentObject = new App\Student();
         $students = $studentObject->getStudents(
             $course_subject_record->academic_id,
-            $course_subject_record->course_parent_id
+            $request->class_id
         /*$current_year,
         $current_semister*/
         );
