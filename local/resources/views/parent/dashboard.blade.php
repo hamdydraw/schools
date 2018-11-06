@@ -17,7 +17,8 @@
 					<div class="col-md-4">
 						<div class="card card-blue text-xs-center">
 							<div class="card-block">
-								<h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4>
+                <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
+								<h4 class="card-title"><i class="fa fa-random"></i></h4>
 								<p class="card-text">{{ getPhrase('quiz_categories')}}</p>
 							</div>
 							<a class="card-footer text-muted" href="{{URL_STUDENT_EXAM_CATEGORIES}}">
@@ -27,7 +28,7 @@
 					</div>
 					 @endif
 					 @if(Module_state('exams'))
-					<div class="col-md-4">
+					<!-- <div class="col-md-4">
 						<div class="card card-yellow text-xs-center">
 							<div class="card-block">
 								<h4 class="card-title">{{ App\Quiz::get()->count()}}</h4>
@@ -37,7 +38,7 @@
 								{{ getPhrase('view_all')}}
 							</a>
 						</div>
-					</div>
+					</div> -->
 							 <div class="col-md-4">
 								 <div class="card card-yellow text-xs-center">
 									 <div class="card-block">

@@ -279,13 +279,13 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                 <li {{ isActive($active_class, 'exams') }} >
 
 
-                    <a data-toggle="collapse" data-target="#exams"><i class="fa fa-pencil-square-o"
+                    <a data-toggle="collapse" data-target="#exams" href="{{URL_STUDENT_EXAM_CATEGORIES}}"><i class="fa fa-pencil-square-o"
                                                                       aria-hidden="true"></i>
 
                         {{ getPhrase('exams') }} </a>
 
 
-                    <ul id="exams" class="collapse sidemenu-dropdown">
+                    <!-- <ul id="exams" class="collapse sidemenu-dropdown">
 
                         <li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"><i
                                         class="fa fa-random"></i>{{ getPhrase('exam_categories') }}</a></li>
@@ -293,10 +293,10 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                         <li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"><i
                                         class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
 
-                      <!--  <li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc"
+                       <li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc"
                                                                                aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
-                            </a></li>-->
-                    </ul>
+                            </a></li>
+                    </ul> -->
 
                     <li {{ isActive($active_class, 'homeworks') }} >
                         <a href="{{URL_HOMEWORK_STUDENT}}">

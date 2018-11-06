@@ -400,6 +400,10 @@ function getUserGrade($grade = 5)
        case 15:
             return ['assistant_librarian', 'librarian'];
             break;
+        case 16:
+            return ['parent','secondary_parent'];
+            break;
+
 
 
     }
@@ -1447,6 +1451,7 @@ function getTeacherSubjects($year,$semester,$course){
         ->where('course_parent_id',$course)
         ->where('staff_id',Auth::user()->id)
         ->select(['course_subject.id','course_subject.subject_id','course_subject.slug','subjects.slug','subjects.subject_title'])
+        ->groupBy('subjects.subject_title')
         ->get();
 }
 
