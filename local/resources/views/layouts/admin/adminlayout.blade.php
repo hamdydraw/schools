@@ -392,7 +392,7 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                     <li {{ isActive($active_class, 'homeworks') }} >
                         <a href="{{URL_HOMEWORK_VIEW}}">
                             <i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
-                            
+
 
             @if(Module_state('exams'))
                     <li {{ isActive($active_class, 'exams') }} >
@@ -410,9 +410,9 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 </a></li>
                             <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
                             </li>
-                            <li><a href="{{URL_EXAM_SERIES}}"> <i
+                            <!-- <li><a href="{{URL_EXAM_SERIES}}"> <i
                                             class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
-                                </a></li>
+                                </a></li> -->
                             {{--@if(Module_state('experimental_tests_only'))--}}
                                 {{--<li><a href="{{URL_OFFLINEEXMAS_QUIZ_CATEGORIES}}"> <i class="fa fa-sort-amount-asc"--}}
                                                                                        {{--aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}--}}

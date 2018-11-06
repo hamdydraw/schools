@@ -43,11 +43,11 @@
 
 						</div>
 
-						<div class="pull-right messages-buttons helper_step2">
+						<!-- <div class="pull-right messages-buttons helper_step2">
 
 							<a href="{{URL_EXAM_SERIES}}" class="btn  btn-primary button" >{{ getPhrase('create_new_exam_series')}}</a>
 
-						</div>
+						</div> -->
 
 						<h1>{{ $title }}</h1>
 
@@ -118,4 +118,3 @@
  @include('common.deletescript', array('route'=>URL_QUIZ_DELETE))
 
 @stop
-
