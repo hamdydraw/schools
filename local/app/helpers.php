@@ -279,15 +279,22 @@ function urlHasString($str)
 
 }
 
-function checkRole($roles)
+/*function checkRole($roles)
 {
     if (in_array(Auth::user()->role_id,$roles)) {
         return true;
     }
     return false;
+}*/
+
+function checkRole($roles)
+{
+    if(Entrust::hasRole($roles))
+       return TRUE;
+   return FALSE;
 }
 
-
+/*
 function getUserGrade($grade = 5)
 {
     switch ($grade) {
@@ -339,6 +346,59 @@ function getUserGrade($grade = 5)
             break;
         case 16:
             return [6,10];
+            break;
+
+
+    }
+}*/
+function getUserGrade($grade = 5)
+{
+    switch ($grade) {
+        case 1:
+            return ['owner'];
+            break;
+       case 2:
+            return ['owner', 'admin'];
+            break;
+       case 3:
+            return ['owner', 'admin', 'staff'];
+            break;
+       case 4:
+            return ['owner', 'admin', 'parent'];
+            break;
+       case 5:
+            return ['student'];
+            break;
+       case 6:
+            return ['admin'];
+            break;
+       case 7:
+            return ['parent'];
+            break;
+       case 8:
+            return ['librarian','owner', 'admin',];
+            break;
+       case 9:
+            return ['assistant_librarian', 'librarian','owner', 'admin',];
+            break;
+       case 10:
+            return ['owner', 'admin', 'parent','student'];
+            break;
+
+       case 11:
+             return ['staff'];
+             break;
+       case 12:
+            return ['owner', 'admin','student'];
+            break;
+       case 13:
+            return ['student','parent'];
+            break;
+       case 14:
+            return ['owner', 'admin','student','staff','parent'];
+            break;
+       case 15:
+            return ['assistant_librarian', 'librarian'];
             break;
 
 

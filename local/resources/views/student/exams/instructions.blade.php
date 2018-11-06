@@ -47,8 +47,7 @@
 						@if($record->entry_option==1 && $check_attemp >0)
 							<div class="row">
 								<div class="col-md-12">
-
-									عفوا لقد تم دخولك الاختبار من قبل ولا يمكنك دخوله مرة اخرى
+									{{getPhrase('sorry_you_have_taken_this_exam_you_cant_enter_again')}}
 								</div>
 							</div>
 							@else

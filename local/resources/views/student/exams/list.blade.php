@@ -13,23 +13,23 @@
 						<ol class="breadcrumb">
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
 							<li><a href="{{URL_STUDENT_QUIZ_DASHBOARD}}">{{getPhrase('quizzes_dashboard')}}</a></li>
-							
+
 							<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> {{getPhrase('quiz_categories')}} </a> </li>
 
 							<li>{{ $title }}</li>
 						</ol>
 					</div>
 				</div>
-								
+
 				<!-- /.row -->
 				<div class="panel panel-custom">
 					<div class="panel-heading">
-						
-					 
+
+
 						<h1>{{ $title }}</h1>
 					</div>
 					<div class="panel-body packages">
-						<div> 
+						<div>
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
 								<tr>
@@ -39,10 +39,10 @@
 									<th>{{ getPhrase('type')}}</th>
 									<th>{{ getPhrase('total_marks')}}</th>
 									<th>{{ getPhrase('action')}}</th>
-								  
+
 								</tr>
 							</thead>
-							 
+
 						</table>
 						</div>
 
@@ -52,7 +52,7 @@
 			<!-- /.container-fluid -->
 		</div>
 @endsection
- 
+
 
 @section('footer_scripts')
   @if(isset($category))

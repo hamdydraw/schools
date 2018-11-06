@@ -133,7 +133,7 @@ class QuizController extends Controller
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
                     ])
-//                    ->where('courses.category_id',Auth::user()->category_id)
+                   ->where('courses.category_id',Auth::user()->category_id)
                     ->orderBy('quizzes.updated_at', 'desc');
             }
 
