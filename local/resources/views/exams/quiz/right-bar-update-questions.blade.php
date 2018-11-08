@@ -4,11 +4,13 @@
 
     <div class="crearfix selected-questions-details">
 
+        <center><span>@{{ current_course_name()  }}  @{{ current_subject_name() }}  @{{ current_sem_name() }}</span></center>
         <span class="pull-left">{{getPhrase('saved_questions')}} (@{{savedQuestions.length}})</span>
 
         <span class="pull-right">{{getPhrase('total_marks')}}: @{{ totalMarks }}</span>
 
     </div>
+
 
 </div>
 
@@ -19,6 +21,7 @@
 <div class="panel-body">
 
     <div class="row">
+
 
         <div class="col-md-12 clearfix">
 
@@ -53,7 +56,7 @@
 
                         <td>@{{ savedQuestions[$index].subject_title}}</td>
 
-                        <td title="@{{ savedQuestions[$index].question}}">@{{ savedQuestions[$index].question }}</td>
+                        <td title="@{{ savedQuestions[$index].question | removeHTMLTags}}">@{{ savedQuestions[$index].question | removeHTMLTags }}</td>
 
                         <td>@{{ savedQuestions[$index].marks}}</td>
 

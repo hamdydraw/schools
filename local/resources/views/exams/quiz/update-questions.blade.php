@@ -181,11 +181,11 @@
 
 										<td>@{{subject.subject_title}}</td>
 
-										<td 
+										<td
 
-										title="@{{subjectQuestions[$index].question}}" >
+										title="@{{subjectQuestions[$index].question | removeHTMLTags}}" >
 
-										@{{question.question}}
+										@{{question.question | removeHTMLTags}}
 
 										</td>
 

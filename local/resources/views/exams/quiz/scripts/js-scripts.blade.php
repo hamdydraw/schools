@@ -8,6 +8,12 @@
 </script>
 @include('common.angular-factory',array('load_module'=> false))
 <script>
+    app.filter('removeHTMLTags', function() {
+        return function(text) {
+            return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+        };
+    });
+
     app.controller('prepareQuestions', function ($scope, $http, httpPreConfig) {
         @if ($settingsQuestions != null)
             var oneEl = '[';
@@ -255,6 +261,33 @@
          */
         $scope.getItem = function ($key) {
             return JSON.parse(localStorage.getItem($key));
+        }
+
+        $scope.current_course_name = function () {
+
+            angular.forEach($scope.academic_courses_sc,function (item) {
+                if(item.id == $scope.current_course_sc){
+                    result =  item.course_title;
+                }
+            })
+            return result+"-";
+        }
+        $scope.current_subject_name = function () {
+            angular.forEach($scope.academic_subjects_sc,function (item) {
+                if(item.subject_id == $scope.current_subject_sc){
+                    res =  item.subject_title;
+                }
+            })
+            return res+"-";
+        }
+        $scope.current_sem_name = function () {
+            if($scope.current_sem_sc == 1){
+                return '{{ getPhrase('first_term') }}';
+            }
+            if($scope.current_sem_sc == 2){
+                return '{{ getPhrase('second_term') }}';
+            }
+            return "";
         }
 
         /**
