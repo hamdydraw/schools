@@ -48,7 +48,7 @@
           <div class="col-sm-6">
             <label for="date_of_birth">{{getPhrase('starting_date')}}</label>
             <span class="text-red">*</span>
-            <div id="dpYears" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
+            <div id="dpStart" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
               <input class="form-control" ng-model="date_of_start" ng-change="doCall()" placeholder="2018/7/17" id="dp" name="date_of_start" type="text" value="2018/7/17">
               <div class="input-group-addon">
                 <span class="mdi mdi-calendar"></span>
@@ -58,7 +58,7 @@
           <div class="col-sm-6">
             <label for="date_of_birth">{{getPhrase('finishing_date')}}</label>
             <span class="text-red">*</span>
-            <div id="dpYears" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
+            <div id="dpFinish" class="input-group date" data-date-viewmode="years" data-provide="datepicker" data-date-format="yyyy/mm/dd">
               <input class="form-control" ng-model="date_of_finish" ng-change="doCall()" placeholder="2018/7/17" id="dp" name="date_of_end" type="text" value="2018/7/17">
               <div class="input-group-addon">
                 <span class="mdi mdi-calendar"></span>
@@ -180,8 +180,13 @@
 
 @section('footer_scripts')
 <script src="{{PREFIX}}js/moment.min.js"></script>
-<script src="{{PREFIX}}js/bootstrap-datepicker.min.js"></script>
+<script src="{{PREFIX}}js/bootstrap-datepicker.js"></script>
 <script src="{{PREFIX}}js/bootstrap-datetimepicker.js"></script>
+<script>
+    $('.date').on('changeDate', function(ev){
+        $(this).datepicker('hide');
+    });
+</script>
 
 @include('attendance.reports.scripts.report-script')
 

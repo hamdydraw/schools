@@ -1468,6 +1468,10 @@ Route::get('get_sub_topic/{id}',function ($id){
     return $main;
 });
 
+Route::get('get_all_topics/{subject}/{course}/{year}/{sem}', function ($subject,$course,$year,$sem) {
+    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->get();
+});
+
 Route::get('get_subjects_timetable/{subject}/{course}',function ($subject,$course){
     return \App\TimingsetDetails::join('timetable','timingsetdetails.id','=','timetable.timingset_details_id')
                 ->where('timetable.subject_id', '=', $subject)

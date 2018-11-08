@@ -33,6 +33,11 @@
 /*global require:false */
 /*global jQuery:false */
 /*global moment:false */
+
+$('.date').on('changeDate', function(ev){
+    $(this).datepicker('hide');
+});
+
 (function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {

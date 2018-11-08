@@ -608,7 +608,12 @@ class QuizController extends Controller
             ->where('parent_id', '=', '0')
             ->select(['topic_name', 'id'])
             ->get();
-        $questions =QuestionBank::where('subject_id',$subject_id)->select([
+        $questions =QuestionBank::where('subject_id',$subject_id)
+            ->where('course_id',$request->course_id)
+            ->where('topic_id',$request->topic_id)
+            ->where('academic_id',$request->academic_id)
+            ->where('sem_id',$request->sem_id)
+            ->select([
             'id',
             'subject_id',
             'topic_id',

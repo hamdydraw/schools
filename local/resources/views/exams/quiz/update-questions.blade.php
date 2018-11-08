@@ -81,13 +81,25 @@
 						</div>
 					 		<div class="row">
 
-								<fieldset class="form-group col-md-6">
+								<fieldset class="form-group col-md-4">
 
 									{{ Form::label('subject', getphrase('select_subject')) }}
 
 
-									<select name="subject" class="form-control" id="helper_step2" required="required" ng-model="current_subject_sc" ng-change="subjectChanged(current_subject_sc)">
+									<select name="subject" class="form-control" id="helper_step2" required="required" ng-model="current_subject_sc" ng-change="get_topics()">
 										<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
+									</select>
+
+
+								</fieldset>
+
+								<fieldset class="form-group col-md-4">
+
+									{{ Form::label('topic', getphrase('select_topic')) }}
+
+
+									<select name="topic" class="form-control" id="helper_step2" required="required" ng-model="current_topic_sc" ng-change="subjectChanged()">
+										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
 									</select>
 
 
@@ -95,7 +107,9 @@
 
 
 
-								<fieldset class="form-group col-md-6 helper_step3">
+
+
+								<fieldset class="form-group col-md-4 helper_step3">
 								{{ Form::label('difficulty', getphrase('difficulty')) }}
 
 								<select ng-model="difficulty" class="form-control" >

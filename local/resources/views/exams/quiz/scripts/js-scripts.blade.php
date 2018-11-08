@@ -97,7 +97,7 @@
                     $scope.academic_subjects_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
-                        $scope.subjectChanged($scope.current_subject_sc);
+                        $scope.get_topics();
                     }
                 })
         }
@@ -122,16 +122,43 @@
 
         }
 
-        $scope.subjectChanged = function (selected_number) {
+        $scope.get_topics = function()
+        {
+            if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null || $scope.current_subject_sc == null){
+                return false;
+            }
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_all_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_topics_sc = response.data;
+                    if(response.data.length != 0) {
+                        $scope.current_topic_sc = response.data[0].id.toString();
+                        $scope.subjectChanged();
+                    }
+                })
+        }
 
-            if (selected_number == '')
-                selected_number = $scope.subject_id;
-            subject_id = selected_number;
-            if (subject_id === undefined)
-                return;
+        $scope.subjectChanged = function () {
+
+
+
 
             route = '{{URL_QUIZ_GET_QUESTIONS}}';
-            data = {_method: 'post', '_token': httpPreConfig.getToken(), 'subject_id': subject_id};
+            data = {
+                _method: 'post',
+                '_token': httpPreConfig.getToken(),
+                'subject_id': $scope.current_subject_sc,
+                'course_id':$scope.current_course_sc,
+                'academic_id':$scope.current_year_sc,
+                'sem_id':$scope.current_sem_sc,
+                'topic_id' : $scope.current_topic_sc
+            };
+            console.log(data);
+
             $scope.topics = [];
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
                 result = result.data;
