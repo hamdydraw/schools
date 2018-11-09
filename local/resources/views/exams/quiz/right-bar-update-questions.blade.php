@@ -4,7 +4,7 @@
 
     <div class="crearfix selected-questions-details">
 
-        <center><span>@{{ current_course_name()  }}  @{{ current_subject_name() }}  @{{ current_sem_name() }}</span></center>
+        <center><span>{{ $record->details['course']->course_title  }} - {{ $record->details['subject']->subject_title }} - {{ getPhrase(SemesterName($record->details['sem'])) }}</span></center>
         <span class="pull-left">{{getPhrase('saved_questions')}} (@{{savedQuestions.length}})</span>
 
         <span class="pull-right">{{getPhrase('total_marks')}}: @{{ totalMarks }}</span>
@@ -42,6 +42,8 @@
 
                         <th>{{getPhrase('question')}}</th>
 
+                        <th>{{getPhrase('topic')}}</th>
+
                         <th>{{getPhrase('marks')}}</th>
 
                         <th></th>
@@ -57,6 +59,8 @@
                         <td>@{{ savedQuestions[$index].subject_title}}</td>
 
                         <td title="@{{ savedQuestions[$index].question | removeHTMLTags}}">@{{ savedQuestions[$index].question | removeHTMLTags }}</td>
+
+                        <td> @{{ savedQuestions[$index].topic_name }}</td>
 
                         <td>@{{ savedQuestions[$index].marks}}</td>
 

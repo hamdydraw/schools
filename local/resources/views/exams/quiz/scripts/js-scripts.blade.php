@@ -25,6 +25,7 @@
                 oneEl += ',"question_id":'+'{{trim($question['question_id'])}}';
                 oneEl += ',"marks":'+'{{trim($question['marks'])}}';
                 oneEl += ',"topic_id":'+'{{trim($question['topic_id'])}}';
+                oneEl += ',"topic_name":'+'"{{trim($question['topic_name'])}}"';
                 oneEl += ',"question":'+'<?php echo json_encode(trim(preg_replace('/\s\s+/', ' ', $question['question']))); ?>';
                 oneEl += ',"question_type":'+'"{{trim($question['question_type'])}}"';
                 oneEl += ',"difficulty_level":'+'"{{trim($question['difficulty_level'])}}"';
@@ -148,6 +149,8 @@
                 })
         }
 
+
+
         $scope.subjectChanged = function () {
 
 
@@ -163,12 +166,10 @@
                 'sem_id':$scope.current_sem_sc,
                 'topic_id' : $scope.current_topic_sc
             };
-            console.log(data);
 
             $scope.topics = [];
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
                 result = result.data;
-                console.log(result);
 
                 $scope.subjectQuestions = [];
                 $scope.subject = result.subject;
@@ -207,6 +208,7 @@
             record.question_id = question.id;
             record.marks = question.marks;
             record.topic_id = question.topic_id;
+            record.topic_name = question.topic_name;
             record.question = question.question;
             record.subject_title = subject.subject_title;
             record.question_type = question.question_type;
@@ -263,31 +265,19 @@
             return JSON.parse(localStorage.getItem($key));
         }
 
-        $scope.current_course_name = function () {
 
-            angular.forEach($scope.academic_courses_sc,function (item) {
-                if(item.id == $scope.current_course_sc){
-                    result =  item.course_title;
-                }
+        $scope.get_topic_name = function (topic_id) {
+            console.log("things");
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_topic_name/'+topic_id,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            return result+"-";
-        }
-        $scope.current_subject_name = function () {
-            angular.forEach($scope.academic_subjects_sc,function (item) {
-                if(item.subject_id == $scope.current_subject_sc){
-                    res =  item.subject_title;
-                }
-            })
-            return res+"-";
-        }
-        $scope.current_sem_name = function () {
-            if($scope.current_sem_sc == 1){
-                return '{{ getPhrase('first_term') }}';
-            }
-            if($scope.current_sem_sc == 2){
-                return '{{ getPhrase('second_term') }}';
-            }
-            return "";
+                .then(function (response) {
+                    return "test";
+                })
+            return "test";
         }
 
         /**

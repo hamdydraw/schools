@@ -608,20 +608,22 @@ class QuizController extends Controller
             ->where('parent_id', '=', '0')
             ->select(['topic_name', 'id'])
             ->get();
-        $questions =QuestionBank::where('subject_id',$subject_id)
-            ->where('course_id',$request->course_id)
-            ->where('topic_id',$request->topic_id)
-            ->where('academic_id',$request->academic_id)
-            ->where('sem_id',$request->sem_id)
+        $questions =QuestionBank::join('topics','topics.id','=','questionbank.topic_id')
+            ->where('questionbank.subject_id',$subject_id)
+            ->where('questionbank.course_id',$request->course_id)
+            ->where('questionbank.topic_id',$request->topic_id)
+            ->where('questionbank.academic_id',$request->academic_id)
+            ->where('questionbank.sem_id',$request->sem_id)
             ->select([
-            'id',
-            'subject_id',
-            'topic_id',
-            'question_type',
-            'question',
-            'marks',
-            'difficulty_level',
-            'status'
+            'questionbank.id',
+            'questionbank.subject_id',
+            'questionbank.topic_id',
+            'questionbank.question_type',
+            'questionbank.question',
+            'questionbank.marks',
+            'questionbank.difficulty_level',
+            'questionbank.status',
+            'topics.topic_name'
         ])->get();
         return json_encode(array('topics' => $topics, 'questions' => $questions, 'subject' => $subject));
     }
@@ -645,6 +647,8 @@ class QuizController extends Controller
          */
         $record = Quiz::getRecordWithSlug($slug);
         $data['record'] = $record;
+        $data['record']['details'] = getSubjectDetails($record->subject_id);
+
         $data['active_class'] = 'exams';
         $data['right_bar'] = true;
         $data['right_bar_path'] = 'exams.quiz.right-bar-update-questions';
@@ -666,6 +670,7 @@ class QuizController extends Controller
                 $subject = $question_details->subject;
 
                 $temp['topic_id'] = $question_details->topic_id;
+                $temp['topic_name'] = App\Topic::where('id',$question_details->topic_id)->first()->topic_name;
                 $temp['question'] = $question_details->question;
                 $temp['question_type'] = $question_details->question_type;
                 $temp['difficulty_level'] = $question_details->difficulty_level;

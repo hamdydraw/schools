@@ -1412,6 +1412,11 @@ Route::get('get_subject_edit/{id}',function ($id){
     return getSubjectDetails($id);
 });
 
+Route::get('get_topic_name/{id}',function ($id){
+    return \App\Topic::where('id',$id)->first()->topic_name;
+});
+
+
 Route::get('current_year_sem',function (){
 
     $current_academic_id = new Academic();
