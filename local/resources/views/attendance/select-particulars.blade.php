@@ -77,14 +77,14 @@
 
                             </ul>
                         </div> -->
-                        @if($role_name =='staff' || $role_name =='owner' || $role_name =='admin')
+                        @if($role_name =='staff' || $role_name =='owner' || $role_name =='admin'|| $role_name == 'student_guide' )
                             {!! Form::open(array('url' => URL_STUDENT_ATTENDENCE_ADD.$userdata->slug, 'method' => 'POST')) !!}
-                        @elseif($role_name=='educational_supervisor')
+                        @elseif($role_name=='educational_supervisor' )
                             {!! Form::open(array('url' => 'supervisor/staff/students-attendance/'.$slugData->slug, 'method' => 'POST')) !!}
                         @endif
 
 
-                        @if($role_name!='staff' and $role_name!='educational_supervisor' and $role_name!='owner')
+                        @if($role_name!='staff' and $role_name!='educational_supervisor' and $role_name!='owner' and $role_name != 'student_guide')
 
                             <div class="col-md-6">
 

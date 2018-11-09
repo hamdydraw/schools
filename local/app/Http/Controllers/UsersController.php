@@ -849,7 +849,7 @@ class UsersController extends Controller
             }
         }
 
-        if($record->id == Auth::user()->id && checkRole(getUserGrade(2))){
+        if($record->id == Auth::user()->id && checkRole(getUserGrade(17))){
             $record->category_id = $request->category_id;
         }
 

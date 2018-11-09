@@ -4,7 +4,7 @@
 @stop
 
 @section('content')
-    @if($role == 'educational_supervisor')
+    @if($role == 'educational_supervisor' || $role == 'student_guide')
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">

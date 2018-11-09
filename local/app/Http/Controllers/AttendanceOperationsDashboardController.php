@@ -29,7 +29,7 @@ class AttendanceOperationsDashboardController extends Controller
     public function index()
     {
 
-      if(!checkRole(getUserGrade(2)))
+      if(!checkRole(getUserGrade(17)))
       {
         prepareBlockUserMessage();
         return back();

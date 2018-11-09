@@ -403,7 +403,10 @@ function getUserGrade($grade = 5)
         case 16:
             return ['parent','secondary_parent'];
             break;
-
+        case 17:
+            return ['admin','owner','student_guide'];
+        case 18:
+            return ['admin','owner','student_guide','staff'];
 
 
     }
@@ -1199,7 +1202,7 @@ function getStudentInfo($slug){
 
 //check if the user is a teacher
 function is_teacher(){
-    if(Auth::user()->role_id == 3){
+    if(Auth::user()->role_id == 3 || Auth::user()->role_id == 9 || Auth::user()->role_id == 11){
         return true;
     }
     return false;

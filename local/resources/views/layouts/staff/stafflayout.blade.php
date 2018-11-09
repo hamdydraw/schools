@@ -85,6 +85,10 @@ $role = getRoleData($user->role_id);
         <?php //$newUsers = (new App\User())->getLatestUsers();
         ?>
         <ul class="nav navbar-right top-nav">
+            <li><a href="{{URL_HEADER_SEARCH_LINK}}">
+                    <i class="fa fa-search"></i> {{ getPhrase('search_student') }}  </a>
+
+            </li>
 
             <li class="dropdown profile-menu">
                 <div class="dropdown-toggle top-profile-menu" data-toggle="dropdown">
@@ -165,6 +169,7 @@ $role = getRoleData($user->role_id);
                     </li>
                 </ul>
             </li>
+
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <!-- /.navbar-collapse -->
@@ -285,7 +290,7 @@ $role = getRoleData($user->role_id);
 
                         </li>
                     @endif
-                @elseif($role == 'educational_supervisor')
+                @elseif($role == 'educational_supervisor' || $role == 'student_guide')
                     <li {{ isActive($active_class, 'teachers-subjects') }} >
                         <a href="{{url('supervisor/staff/teachers-subjects')}}">
                             <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
@@ -296,6 +301,49 @@ $role = getRoleData($user->role_id);
                             <i class="fa fa-paper-plane-o"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
 
                     </li>
+
+                    @if($settings->attendance_and_departure->value == 1 && $role == 'student_guide')
+                        <li {{ isActive($active_class, 'attendance') }} >
+                            <a data-toggle="collapse" data-target="#attendance" href="{{URL_AttendanceOperations_DASHBOARD}}">
+                                <i class="fa fa-street-view" aria-hidden="true"></i>
+                                {{ getPhrase('attendance_and_departure') }} </a>
+
+                            <ul id="attendance" class="collapse sidemenu-dropdown">
+
+
+
+                                <li><a href="{{URL_CERTIFICATES_GENERATE_IDCARD}}">
+                                        <i class="fa fa-id-card"aria-hidden="true"></i> {{ getPhrase('ID_cards')}}
+                                    </a></li>
+
+                                <li><a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
+                                        <i class="fa fa-user-secret"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure')}}
+                                    </a></li>
+
+                                <li><a href="{{url('attendanceoperations/autocall/view')}}" target="_blank">
+                                        <i class="fa fa-assistive-listening-systems"aria-hidden="true"></i> {{ getPhrase('Automatic_call')}}
+                                    </a></li>
+
+                                <li><a href="{{url('attendanceoperations/record-student')}}">
+                                        <i class="fa fa-microphone"aria-hidden="true"></i> {{ getPhrase('voice_records_for_students')}}
+                                    </a></li>
+
+                                <li><a href="{{ATTENDANCE_REPORT_VIEW}}">
+                                        <i class="fa fa-file-archive-o"aria-hidden="true"></i> {{ getPhrase('Attendance_and_departure_report')}}
+                                    </a></li>
+
+                                <li><a href="{{URL_STUDENT_CLASS_ATTENDANCE}}">
+                                        <i class="fa fa-check-square-o"aria-hidden="true"></i> {{ getPhrase('class_attendance_report')}}
+                                    </a></li>
+                            </ul>
+
+                        </li>
+                    @endif
+                @if($role == 'student_guide')
+                        <li {{ isActive($active_class, 'search_student') }} >
+                            <a href="{{ URL_HEADER_SEARCH_LINK }}">
+                                <i class="fa fa-street-view"></i>{{ getPhrase('search_student') }}</a></li>
+                    @endif
                     <li {{ isActive($active_class, 'teacher-student-attendance') }} >
                         <a href="{{url('supervisor/staff/teacher-student-attendance')}}">
                             <i class="fa fa-calendar-check-o"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>

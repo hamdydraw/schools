@@ -34,7 +34,7 @@ class StudentAttendanceController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         if ($role != 'educational_supervisor') {
-            if (!checkRole(getUserGrade(3))) {
+            if (!checkRole(getUserGrade(17))) {
                 prepareBlockUserMessage();
                 return back();
             }
@@ -44,7 +44,7 @@ class StudentAttendanceController extends Controller
                 return back();
             }
         }
-        if ($role == 'owner' || $role == 'admin') {
+        if ($role == 'owner' || $role == 'admin' || $role == 'student_guide') {
           $teachers = $this->getTeachers();
           $data['teachers'] = $teachers;
         }
@@ -57,7 +57,7 @@ class StudentAttendanceController extends Controller
         if (getRoleData(Auth::user()->role_id) == 'educational_supervisor')
         {
             $data['active_class'] = 'teacher-student-attendance';
-        } elseif (getRoleData(Auth::user()->role_id) == 'admin' || getRoleData(Auth::user()->role_id) == 'owner') {
+        } elseif (getRoleData(Auth::user()->role_id) == 'admin' || getRoleData(Auth::user()->role_id) == 'owner' || getRoleData(Auth::user()->role_id) == 'student_guide') {
           $data['active_class'] = 'attendance';
         } else {
             $data['active_class'] = 'academic';
@@ -164,7 +164,7 @@ class StudentAttendanceController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         if ($role != 'educational_supervisor') {
-            if (!checkRole(getUserGrade(3))) {
+            if (!checkRole(getUserGrade(18))) {
 
                 prepareBlockUserMessage();
                 return back();

@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $role = getRoleData($user->role_id);
 
         if ($role == 'admin' || $role == 'owner' || $role == 'staff'
-            || $role == 'librarian' || $role == 'assistant_librarian' || $role == 'educational_supervisor' || $role == 'secondary_parent') {
+            || $role == 'librarian' || $role == 'assistant_librarian' || $role == 'educational_supervisor' || $role == 'secondary_parent' || $role == 'student_guide') {
 
 
             if ($role == 'librarian' || $role == 'assistant_librarian') {
@@ -104,12 +104,17 @@ class DashboardController extends Controller
                 $view_page = 'admin.dashboard';
                 $data['module_helper'] = getModuleHelper('owner-dashboard');
             }
-            if ($role == 'staff' || $role == 'educational_supervisor') {
+            if ($role == 'staff' || $role == 'educational_supervisor' || $role == 'student_guide') {
                 $view_page = 'staff.dashboard';
 
                 if ($role == 'educational_supervisor')
                 {
                     $data['role']='educational_supervisor';
+                }
+
+                if ($role == 'student_guide')
+                {
+                    $data['role']='student_guide';
                 }
                 if ($role == 'staff')
                 {
