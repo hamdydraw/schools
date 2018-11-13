@@ -2376,12 +2376,13 @@ a.library-item:hover img {
   }
   body.login-screen .login-content {
     background: #fff;
-    max-width: 1220px;
+    max-width: 700px;
     width: 100%;
     margin: 0 0;
-    padding: 0 0 100px;
-    background-color: #f8fafb;
+    padding: 0 0 0 0px;
+    background: rgba(255, 255, 255, 0.97);
     box-shadow: 0px 0px 139px 0.00px rgba(147, 161, 185, 0.59);
+    border-radius: 10px;
   }
   .login-content .logo {
     padding: 50px;
