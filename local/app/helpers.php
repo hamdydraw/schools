@@ -430,6 +430,10 @@ function getLayout()
         $layout = 'layouts.staff.stafflayout';
     }
 
+    if (is_student_guide()) {
+        $layout = 'layouts.student_guide.studentGuidelayout';
+    }
+
     if (Is_Librarian()) {
         $layout = 'layouts.librarian.librarianlayout';
     }
@@ -1202,7 +1206,14 @@ function getStudentInfo($slug){
 
 //check if the user is a teacher
 function is_teacher(){
-    if(Auth::user()->role_id == 3 || Auth::user()->role_id == 9 || Auth::user()->role_id == 11){
+    if(Auth::user()->role_id == 3 || Auth::user()->role_id == 9){
+        return true;
+    }
+    return false;
+}
+
+function is_student_guide(){
+    if(Auth::user()->role_id == 11){
         return true;
     }
     return false;

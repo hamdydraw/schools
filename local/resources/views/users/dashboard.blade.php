@@ -103,6 +103,21 @@
 							 </a>
 						 </div>
 					 </div>
+					 <div class="col-md-3 ">
+						 <div class="card card-green text-xs-center helper_step4">
+							 <div class="card-block">
+								 <h4 class="card-title"><?php $staffObject =  App\User::where('role_id','=',11)->get()->count();
+                                     ?>
+									 {{$staffObject}}
+								 </h4>
+								 <p class="card-text">{{ getPhrase('student_guide')}}</p>
+							 </div>
+							 <a class="card-footer text-muted"
+								href="{{URL_USERS."student_guide"}}">
+								 {{ getPhrase('view_all')}}
+							 </a>
+						 </div>
+					 </div>
 					<div class="col-md-3 ">
 						<div class="card card-red text-xs-center helper_step5">
 							<div class="card-block">

@@ -104,7 +104,7 @@ class DashboardController extends Controller
                 $view_page = 'admin.dashboard';
                 $data['module_helper'] = getModuleHelper('owner-dashboard');
             }
-            if ($role == 'staff' || $role == 'educational_supervisor' || $role == 'student_guide') {
+            if ($role == 'staff' || $role == 'educational_supervisor') {
                 $view_page = 'staff.dashboard';
 
                 if ($role == 'educational_supervisor')
@@ -124,6 +124,11 @@ class DashboardController extends Controller
                     $data['right_bar_data'] = array();
                 }
 
+            }
+            if ($role == 'student_guide')
+            {
+                $view_page = 'student_guide.dashboard';
+                $data['role']='student_guide';
             }
 
             if ($role == 'assistant_librarian' || $role == 'librarian') {
