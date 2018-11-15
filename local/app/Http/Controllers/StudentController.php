@@ -666,11 +666,12 @@ class StudentController extends Controller
 
         $records = User::join('students', 'users.id', '=', 'students.user_id')
             ->join('academics', 'academics.id', '=', 'students.academic_id')
-            ->join('courses', 'courses.id', '=', 'students.course_id')
-            ->where('name', 'LIKE', '%' . $term . '%');
+            ->join('courses', 'courses.id', '=', 'students.course_id');
 
 
-        $records = $records->orWhere('first_name', 'LIKE', '%' . $term . '%')
+
+        $records = $records->where(function ($query) use ($term) {$query->where('name', 'LIKE', '%' . $term . '%')
+            ->orWhere('first_name', 'LIKE', '%' . $term . '%')
             ->orWhere('last_name', 'LIKE', '%' . $term . '%')
             ->orWhere('admission_no', 'LIKE', '%' . $term . '%')
             ->orWhere('roll_no', 'LIKE', '%' . $term . '%')
@@ -706,7 +707,7 @@ class StudentController extends Controller
                 'users.slug',
                 'users.email as email',
                 'is_having_semister'
-            ])->limit(10);
+            ]);})->limit(10);
 
 
 
@@ -715,13 +716,14 @@ class StudentController extends Controller
             if ($certificate_type == 'tc') {
                 $records = $records->having('students.current_year', '=', -1)
                     ->having('students.current_semister', '=', -1);
+
             }
         } else {
             $records = $records->having('students.current_year', '!=', -1)
                 ->having('students.current_semister', '!=', -1);
         }
 
-        $records = $records->get();
+        $records = $records ->where('users.category_id',Auth::user()->category_id)->get();
 
         foreach ($records as $record){
             $record->education_level = Course::where('id',$record->C_id)->pluck('course_title')->first();

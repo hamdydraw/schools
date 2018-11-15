@@ -506,7 +506,7 @@ function Module_state($key){
 function isEligible($slug)
 {
 
-    if (!checkRole(getUserGrade(2))) {
+    if (!checkRole(getUserGrade(17))) {
 
         if (!validateUser($slug)) {
             if (!checkRole(['parent']) || !isActualParent($slug)) {

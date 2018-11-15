@@ -181,89 +181,6 @@ $role = getRoleData($user->role_id);
                         <i class="icon-home"></i> {{ getPhrase('dashboard') }}
                     </a>
                 </li>
-                @if($role == 'staff')
-
-
-                    <li {{ isActive($active_class, 'academic') }} >
-
-                        <a href="{{URL_STUDENT_ATTENDENCE.Auth::user()->slug}}">
-                            <i class="fa fa-calendar-check-o"></i>{{ getPhrase('attendance') }}</a></li>
-
-                    <li {{ isActive($active_class, 'lession') }} >
-
-                        <a href="{{URL_LESSION_PLANS_DASHBOARD.Auth::user()->slug}}">
-                            <i class="fa fa-paper-plane-o"></i>{{ getPhrase('lesson_plans') }}</a></li>
-
-
-
-                    @if(Module_state('management_of_educational_content'))
-                        <li {{ isActive($active_class, 'lms') }} >
-
-                            <a data-toggle="collapse" data-target="#lms" href="{{URL_LMS_DASHBOARD}}"><i
-                                        class="fa fa-leanpub"
-                                        aria-hidden="true"></i>
-                                </i>
-                                {{ getPhrase('lms') }}</a>
-
-                            <ul id="lms" class="collapse sidemenu-dropdown">
-                                <li><a href="{{ URL_LMS_CATEGORIES }}"> <i
-                                                class="fa fa-random"></i>{{ getPhrase('lms_categories') }}</a></li>
-
-                                <li><a href="{{ URL_LMS_SERIES }}"> <i
-                                                class="fa fa-list-ol"></i>{{ getPhrase('lms_series') }}
-                                    </a></li>
-                                <li><a href="{{ URL_LMS_CONTENT }}"> <i
-                                                class="icon-books"></i>{{ getPhrase('lms_contents') }}
-                                    </a></li>
-                            </ul>
-                        </li>
-                    @endif
-                    <li {{ isActive($active_class, 'homeworks') }} >
-                        <a href="{{URL_HOMEWORK_VIEW}}">
-                            <i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
-                    @if(Module_state('exams'))
-                        <li {{ isActive($active_class, 'exams') }} >
-
-                            <a data-toggle="collapse" data-target="#exams" href="{{URL_EXAMS_DASHBOARD}}"><i
-                                        class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </i>
-                                {{ getPhrase('exams') }} </a>
-
-                            <ul id="exams" class="collapse sidemenu-dropdown">
-                                <li><a href="{{URL_QUIZ_QUESTIONBANK}}"> <i
-                                                class="fa fa-question"></i>{{ getPhrase('question_bank') }}</a></li>
-                                <li><a href="{{URL_QUIZ_CATEGORIES}}"> <i
-                                                class="fa fa-random"></i>{{ getPhrase('categories') }}
-                                    </a></li>
-                                <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
-                                </li>
-                                <li><a href="{{URL_INSTRUCTIONS}}"> <i
-                                                class="fa fa-hand-o-right"></i> {{ getPhrase('instructions')}}</a></li>
-
-                            </ul>
-
-                        </li>
-                    @endif
-
-                    @if(Module_state('daily_school_schedule'))
-                        <li {{ isActive($active_class, 'timetable') }} >
-
-                            <a href="{{URL_TIMETABLE_STAFF.Auth::user()->slug}}">
-                                <i class="fa fa-calendar"></i>{{ getPhrase('timetable') }}</a></li>
-                    @endif
-
-
-                    @if($settings->messaging->value == 1)
-                        @if($messages_module)
-                            <li {{ isActive($active_class, 'messages') }} >
-                                <a href="{{URL_MESSAGES}}"><span><i class="fa fa-comments-o fa-2x"
-                                                                    aria-hidden="true"><h5
-                                                    class="badge badge-success">{{$count = Auth::user()->newThreadsCount()}}</h5></i></span>
-                                    {{ getPhrase('messages')}} </a>
-
-
-                        @endif
-                    @endif
                     @if($settings->push_notifications->value == 1)
                         <li {{ isActive($active_class, 'notifications') }} >
 
@@ -274,18 +191,6 @@ $role = getRoleData($user->role_id);
 
                         </li>
                     @endif
-                @elseif($role == 'educational_supervisor' || $role == 'student_guide')
-                    <li {{ isActive($active_class, 'teachers-subjects') }} >
-                        <a href="{{url('supervisor/staff/teachers-subjects')}}">
-                            <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>
-
-                    </li>
-                    <li {{ isActive($active_class, 'staff-topic-plan') }} >
-                        <a href="{{url('supervisor/staff/staff-topic-plan')}}">
-                            <i class="fa fa-paper-plane-o"></i>{{ getPhrase('staff_toic_plan') }}</a></li>
-
-                    </li>
-
                     @if($settings->attendance_and_departure->value == 1 && $role == 'student_guide')
                         <li {{ isActive($active_class, 'attendance') }} >
                             <a data-toggle="collapse" data-target="#attendance" href="{{URL_AttendanceOperations_DASHBOARD}}">
@@ -323,27 +228,11 @@ $role = getRoleData($user->role_id);
 
                         </li>
                     @endif
-                    @if($role == 'student_guide')
                         <li {{ isActive($active_class, 'search_student') }} >
                             <a href="{{ URL_HEADER_SEARCH_LINK }}">
                                 <i class="fa fa-street-view"></i>{{ getPhrase('search_student') }}</a></li>
-                    @endif
-                    <li {{ isActive($active_class, 'teacher-student-attendance') }} >
-                        <a href="{{url('supervisor/staff/teacher-student-attendance')}}">
-                            <i class="fa fa-calendar-check-o"></i>{{ getPhrase('teacher_students_attendance') }}</a></li>
 
-                    </li>
-                    <li {{ isActive($active_class, 'teachers-timetable') }} >
-                        <a href="{{url('supervisor/staff/teachers-timetable')}}">
-                            <i class="fa fa-calendar"></i>{{ getPhrase('teachers_timetables') }}</a></li>
 
-                    </li>
-                    <li {{ isActive($active_class, 'students-marks') }} >
-                        <a href="{{url('supervisor/staff/students-marks')}}">
-                            <i class="fa fa-users"></i>{{ getPhrase('outstanding_students_report') }}</a></li>
-
-                    </li>
-                @endif
             </ul>
         </div>
     </aside>

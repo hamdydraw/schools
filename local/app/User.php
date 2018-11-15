@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\CategoryScope;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Zizaco\Entrust\Traits\EntrustUserTrait;

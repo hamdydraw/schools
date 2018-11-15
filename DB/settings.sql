@@ -69,3 +69,66 @@ ALTER TABLE `settings`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+UPDATE `settings` SET `settings_data` = '{
+   "owner":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "admin":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "staff":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "student":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "parent":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "librarian":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "assistant_librarian":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "educational_supervisor":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "secondary_parent":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   },
+   "student_guide":{
+      "value":"1",
+      "type":"checkbox",
+      "extra":"",
+      "tool_tip":""
+   }
+}' WHERE `settings`.`id` = 13;
