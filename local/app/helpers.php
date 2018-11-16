@@ -382,7 +382,7 @@ function getUserGrade($grade = 5)
             return ['assistant_librarian', 'librarian','owner', 'admin',];
             break;
        case 10:
-            return ['owner', 'admin', 'parent','student'];
+            return ['owner', 'admin', 'parent','student','student_guide'];
             break;
 
        case 11:

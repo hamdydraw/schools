@@ -80,7 +80,7 @@ $scope.getUserDetails = function (user) {
                   'current_year': user.current_year,
                   'current_semister': user.current_semister,
                };
-        $scope.selected_user = user;        
+        $scope.selected_user = user;       
         $scope.form_show = false;
         httpPreConfig.
        httpPreConfig.webServiceCallPost(route, data).then(function(result){

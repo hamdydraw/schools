@@ -666,7 +666,37 @@ class StudentController extends Controller
 
         $records = User::join('students', 'users.id', '=', 'students.user_id')
             ->join('academics', 'academics.id', '=', 'students.academic_id')
-            ->join('courses', 'courses.id', '=', 'students.course_id');
+            ->join('courses', 'courses.id', '=', 'students.course_id')
+            ->select([
+            'students.user_id as id',
+            'users.name',
+            'roll_no',
+            'admission_no',
+            'course_title',
+            'courses.parent_id as C_id',
+            'blood_group',
+            'mobile',
+            'id_number',
+            'home_phone',
+            'image',
+            'academic_year_title',
+            'current_year',
+            'current_semister',
+            'students.first_name',
+            'students.middle_name',
+            'students.last_name',
+            'fathers_name',
+            'mothers_name',
+            'address_lane1',
+            'city',
+            'state',
+            'zipcode',
+            'course_dueration',
+            'date_of_join',
+            'users.slug',
+            'users.email as email',
+            'is_having_semister'
+        ]);
 
 
 
@@ -677,37 +707,7 @@ class StudentController extends Controller
             ->orWhere('roll_no', 'LIKE', '%' . $term . '%')
             ->orWhere('mobile', 'LIKE', '%' . $term . '%')
             ->orWhere('home_phone', 'LIKE', '%' . $term . '%')
-            ->orWhere('email', 'LIKE', '%' . $term . '%')
-            ->select([
-                'students.user_id as id',
-                'users.name',
-                'roll_no',
-                'admission_no',
-                'course_title',
-                'courses.parent_id as C_id',
-                'blood_group',
-                'mobile',
-                'id_number',
-                'home_phone',
-                'image',
-                'academic_year_title',
-                'current_year',
-                'current_semister',
-                'students.first_name',
-                'students.middle_name',
-                'students.last_name',
-                'fathers_name',
-                'mothers_name',
-                'address_lane1',
-                'city',
-                'state',
-                'zipcode',
-                'course_dueration',
-                'date_of_join',
-                'users.slug',
-                'users.email as email',
-                'is_having_semister'
-            ]);})->limit(10);
+            ->orWhere('email', 'LIKE', '%' . $term . '%');})->limit(10);
 
 
 
@@ -723,7 +723,7 @@ class StudentController extends Controller
                 ->having('students.current_semister', '!=', -1);
         }
 
-        $records = $records ->where('users.category_id',Auth::user()->category_id)->get();
+        $records = $records->where('users.category_id',Auth::user()->category_id)->get();
 
         foreach ($records as $record){
             $record->education_level = Course::where('id',$record->C_id)->pluck('course_title')->first();
