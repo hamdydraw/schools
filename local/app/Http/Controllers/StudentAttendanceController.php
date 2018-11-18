@@ -34,7 +34,7 @@ class StudentAttendanceController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         if ($role != 'educational_supervisor') {
-            if (!checkRole(getUserGrade(17))) {
+            if (!checkRole(getUserGrade(17)) && !checkRole(getUserGrade(3))) {
                 prepareBlockUserMessage();
                 return back();
             }
@@ -473,5 +473,3 @@ class StudentAttendanceController extends Controller
     }
 
 }
-
-
