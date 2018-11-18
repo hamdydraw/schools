@@ -192,7 +192,7 @@ if ($record) {
  ])}}
 </fieldset>
 @endif
-@if(checkRole(getUserGrade(17)) && $record != false)
+@if((checkRole(getUserGrade(17)) || checkRole(getUserGrade(3))) && $record != false)
     @if($record->id == Auth::user()->id)
 <fieldset class="form-group">
     {{ Form::label('category', getphrase('category')) }}
