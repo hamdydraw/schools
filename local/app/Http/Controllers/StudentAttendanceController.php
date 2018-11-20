@@ -428,6 +428,13 @@ class StudentAttendanceController extends Controller
         return view('attendance.reports.attendance-report', $data);
     }
 
+
+    public function clean($string) {
+        $string = str_replace(' ', '_', $string); // Replaces all spaces with hyphens.
+        $string = str_replace('-', '_', $string); // Replaces all spaces with hyphens.
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+
     public function makeReport(Request $request)
     {
         $data['start_date']  = $request->date_of_start."م";
@@ -437,6 +444,11 @@ class StudentAttendanceController extends Controller
         $data['hijri_end'] = new HijriDate( strtotime($request->date_of_end) );
         $data['hijri_end'] = $data['hijri_end']->get_date()."هـ";
 
+        if($request->date_of_start > $request->date_of_end){
+            flash(getPhrase('Ooops'), getPhrase('invalid_dates'), 'overlay');
+            return back();
+        }
+
         $data['period'] = new DatePeriod(
             new DateTime($request->date_of_start),
             new DateInterval('P1D'),
@@ -444,21 +456,24 @@ class StudentAttendanceController extends Controller
         );
 
         $data['records']['students'] = App\Student::join('users','students.user_id','=','users.id')
-            ->select('users.id','users.name','students.id as sid')
+            ->select('users.id','users.name','students.id as sid','users.slug as slug')
             ->where('students.course_id',$request->course_id)
             ->get();
+
+
+
         foreach ($data['records']['students'] as $student){
-            $student->name = str_replace(' ', '_', $student->name);
+            $student->slug = $this->clean($student->slug);
             foreach($data['period']  as $key => $value){
-                $data[$student->name][$key] = App\StudentAttendance::select('studentattendance.attendance_code')
+                $data[$student->slug][$key] = App\StudentAttendance::select('studentattendance.attendance_code')
                     ->where('studentattendance.academic_id',$request->academic_id)
                     ->where('studentattendance.semester',$request->current_semister)
                     ->where('studentattendance.attendance_date',$value->format('y-m-d'))
                     ->where('studentattendance.student_id',$student->sid)->first();
-                if($data[$student->name][$key] == null){
-                    $data[$student->name][$key] = "-";
+                if($data[$student->slug][$key] == null){
+                    $data[$student->slug][$key] = "-";
                 }else{
-                    $data[$student->name][$key] = $data[$student->name][$key]->attendance_code;
+                    $data[$student->slug][$key] = $data[$student->slug][$key]->attendance_code;
                 }
             }
 

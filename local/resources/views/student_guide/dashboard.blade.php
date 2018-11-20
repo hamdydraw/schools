@@ -74,7 +74,7 @@
                                 <p class="card-text">{{ getPhrase('Automatic_call')}}</p>
                             </div>
                             <a class="card-footer text-muted"
-                               href="{{url('attendanceoperations/autocall')}}" target="_blank">
+                               href="{{url('attendanceoperations/autocall/view')}}" target="_blank">
                                 {{ getPhrase('view_all')}}
                             </a>
                         </div>

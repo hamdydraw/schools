@@ -153,7 +153,7 @@ class AutomaticCallController extends Controller {
   }
   public function allRequest($note) {
     $user = getUserWithSlug();
-    if (!checkRole(getUserGrade(2))) {
+    if (!checkRole(getUserGrade(17))) {
         prepareBlockUserMessage();
         return back();
     }

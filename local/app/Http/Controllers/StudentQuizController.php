@@ -1189,6 +1189,9 @@ class StudentQuizController extends Controller
         $border_color = [];
         foreach ($marks as $record) {
             $quiz_record = $record->quizName;
+            if(!isset($quiz_record)){
+                continue;
+            }
             $labels[] = $quiz_record->title . ' ' . $record->updated_at;
             $dataset[] = $record->percentage;
             $dataset_label = $quiz_record->title . ' (' . $record->percentage . '%)';
