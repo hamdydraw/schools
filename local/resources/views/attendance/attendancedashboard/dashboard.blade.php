@@ -53,7 +53,7 @@
 								<p class="card-text">{{ getPhrase('Automatic_call')}}</p>
 							</div>
 							<a class="card-footer text-muted"
-							href="{{url('attendanceoperations/autocall')}}" target="_blank">
+							href="{{url('attendanceoperations/autocall/view')}}" target="_blank">
 								{{ getPhrase('view_all')}}
 							</a>
 						</div>
@@ -86,7 +86,7 @@
 							<p class="card-text">{{ getPhrase('Attendance_and_departure_report')}}</p>
 						</div>
 						<a class="card-footer text-muted"
-						   href="#">
+						   href="{{ATTENDANCE_REPORT_VIEW}}">
 							{{ getPhrase('view_all')}}
 						</a>
 					</div>
