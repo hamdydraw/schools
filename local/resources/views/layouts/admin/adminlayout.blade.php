@@ -410,6 +410,8 @@ if ($settings->messaging->value == 1 && in_array($current_user->role_id, $availa
                                 </a></li>
                             <li><a href="{{URL_QUIZZES}}"> <i class="icon-total-time"></i> {{ getPhrase('quiz')}}</a>
                             </li>
+                            <li><a href="{{URL_QUIZ_REPORT_VIEW}}"> <i class="fa fa-file"></i> {{ getPhrase('REPORT_OF_QUIZ_RESULTS')}}</a>
+                            </li>
                             <!-- <li><a href="{{URL_EXAM_SERIES}}"> <i
                                             class="fa fa-list-ol"></i> {{ getPhrase('exam_series')}}
                                 </a></li> -->

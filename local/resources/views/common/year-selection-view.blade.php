@@ -112,7 +112,6 @@ if (isset($user_slug)) {
             >
             </select>
 
-
         </fieldset>
 
     </div>

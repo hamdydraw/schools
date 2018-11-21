@@ -61,6 +61,21 @@
 							</a>
 						</div>
 					</div>
+
+          <div class="col-md-3 ">
+						<div class="card card-green text-xs-center helper_step3">
+							<div class="card-block">
+							<h4 class="card-title">
+                           <i class="fa fa-file" aria-hidden="true"></i>
+							</h4>
+								<p class="card-text">{{ getPhrase('REPORT_OF_QUIZ_RESULTS')}}</p>
+							</div>
+							<a class="card-footer text-muted"
+							href="{{URL_QUIZ_REPORT_VIEW}}">
+								{{ getPhrase('view_all')}}
+							</a>
+						</div>
+					</div>
 					 @if(checkRole(getUserGrade(2)))
 					<div class="col-md-3 ">
 					 <div class="card card-orange text-xs-center helper_step6">

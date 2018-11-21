@@ -1442,6 +1442,16 @@ function getSubjects($year,$semester,$course){
                              ->get();
 }
 
+function getSubjects2($year,$semester,$course){
+    return \App\CourseSubject::join('subjects','course_subject.subject_id','=','subjects.id')
+        ->where('academic_id',$year)
+        ->where('semister',$semester)
+        ->where('course_id',$course)
+        ->groupBy('course_subject.subject_id')
+        ->select(['course_subject.id as id','subjects.id as subject_id','subjects.slug','subjects.subject_title'])
+        ->get();
+}
+
 function getTeacherSubjects2($year,$semester,$course,$slug){
   $teacherSlug = Auth::user()->id;
   if($slug != null) {

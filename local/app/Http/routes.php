@@ -733,6 +733,9 @@ Route::post('student/results/get-exams', 'ReportsController@getExamsByCategory')
 
 //Exams ---dashboard
 Route::get('exams/dashboard', 'QuizController@quizdashboard');
+Route::get('exams/quiz/results/view', 'QuizController@quiz_results');
+Route::post('exams/quiz/report', 'QuizController@report_result');
+//exams/quiz/result/view
 Route::get('exams/quizzes', 'QuizController@index');
 Route::get('exams/quiz/add', 'QuizController@create');
 Route::post('exams/quiz/add', 'QuizController@store');
@@ -1277,7 +1280,10 @@ Route::get('get_cat_year_courses/{id}/{year}',function ($id,$year){
         ->get();
 });
 
-
+Route::get('get_exams/{course}/{subject}',function ($course,$subject){
+    return \App\Quiz::select(['id','title','slug'])->where('course_id',$course)->where('subject_id',$subject)->get();
+});
+//get_exams
 
 // get logged users
 Route::get('userslogged/list','UsersLoginController@index');
@@ -1327,8 +1333,8 @@ Route::get('get_courses_2/{year}/{staff_id?}',function ($year,$staff_id){
     else if ($staff_id != "null") {
       return getTeacherCourses2($year,$staff_id);
     }
-    elseif ($staff_id == "null") {
-      return 0 ;
+    else if($staff_id == "null"){
+        return 0;
     }
     return getCourses($year);
 });
@@ -1337,6 +1343,9 @@ Route::get('get_courses_2/{year}/{staff_id?}',function ($year,$staff_id){
 Route::get('teacher_classes/{year}/{staff_id}/{course}',function ($year,$staff_id,$course){
     if(Auth::user()->role_id == 3){
         return getTeacherClasses($year,null,$course);
+    }
+    if(checkRole(getUserGrade(2)) && $staff_id == 'null'){
+        return \App\Course::where('parent_id',$course)->get();
     }
 
     return getTeacherClasses($year,$staff_id,$course);
@@ -1401,7 +1410,7 @@ Route::get('get_subjects_2/{year}/{sem}/{course}/{slug?}',function ($year,$sem,$
     elseif ($slug != 'null') {
       return getTeacherSubjects2($year,$sem,$course,$slug);
     }
-    return getSubjects($year,$sem,$course);
+    return getSubjects2($year,$sem,$course);
 });
 
 Route::get('get_teacher_subjects/{year}/{sem}/{course}',function ($year,$sem,$course){

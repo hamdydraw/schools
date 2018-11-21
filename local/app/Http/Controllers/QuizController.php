@@ -11,6 +11,7 @@ use Auth;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
+use function PHPSTORM_META\type;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Redirect;
 
@@ -588,6 +589,52 @@ class QuizController extends Controller
 
     }
 
+    public function quiz_results()
+    {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $data['active_class'] = 'exams';
+        $user = getUserRecord();
+        $data['role_name'] = getRoleData($user->role_id);
+        $data['layout'] = getLayout();
+        $data['title'] = getPhrase('Report_of_quiz_results');
+        $data['academic_years'] = addSelectToList(\App\Academic::pluck('academic_year_title', 'id'));
+        return view('exams.quiz_results.list',$data);
+    }
+
+    public function report_result(Request $request)
+    {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $data['title'] = getPhrase('Report_of_quiz_results');
+        $users = App\QuizResult::join('users','users.id','=','quizresults.user_id')
+                                 ->select('users.id as user')
+                                 ->where('quiz_id',$request->current_quiz_id)
+                                 ->groupBy('quizresults.user_id')
+                                 ->get();
+        $result = array();
+        foreach ($users as $user){
+            $result[$user->user] =  App\QuizResult::join('users','users.id','=','quizresults.user_id')
+                ->select('users.id','quizresults.id as result_id','users.name as name','quizresults.total_marks','quizresults.marks_obtained')
+                ->where('quiz_id',$request->current_quiz_id)
+                ->where('quizresults.user_id',$user->user)
+                ->orderBy('quizresults.id', 'desc')->first();
+        }
+        $data['results'] = $result;
+        $data['print_year']   = App\Academic::where('id',$request->academic_id)->first()->academic_year_title;
+        $data['print_term']   = SemesterName($request->sem_id);
+        $data['print_course'] = App\Course::where('id',$request->course_id)->first()->course_title;
+        $data['print_class']  = App\Course::where('id',$request->class_id)->first()->course_title;
+        $data['print_quiz']   = Quiz::where('id',$request->current_quiz_id)->first()->title;
+        //return $data;
+
+        return view('exams.quiz_results.report_view',$data);
+    }
+
     public function getReturnUrl()
     {
         return URL_QUIZZES;
@@ -732,4 +779,10 @@ class QuizController extends Controller
         return redirect(URL_QUIZ_UPDATE_QUESTIONS . $slug);
     }
 
+
+
+
 }
+
+
+

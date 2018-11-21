@@ -98,8 +98,31 @@
              })
                  .then(function (response) {
                      $scope.academic_classes_sc = response.data;
-                     //$scope.setCurrents();
+                 })
+         }
 
+         $scope.admin_classes = function () {
+             $http({
+                 method:"GET",
+                 url:'{{PREFIX}}'+'get_classes/'+$scope.current_course_sc,
+                 dataType:"json",
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+             })
+                 .then(function (response) {
+                     $scope.academic_classes_sc = response.data;
+                 })
+         }
+         
+         $scope.get_exams = function () {
+             $http({
+                 method:"GET",
+                 url:'{{PREFIX}}'+'get_exams/'+$scope.current_course_sc+'/'+$scope.current_subject_sc,
+                 dataType:"json",
+                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+             })
+                 .then(function (response) {
+                     console.log(response.data);
+                     $scope.quizs = response.data;
                  })
          }
 

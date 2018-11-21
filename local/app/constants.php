@@ -708,6 +708,9 @@ define('URL_STUDENT_ATTENDENCE_DELETE', PREFIX.'student/attendance/delete/');
 define('URL_STUDENT_ATTENDENCE_GETLIST', PREFIX.'student/attendance/getlist/');
 
 define('ATTENDANCE_REPORT_VIEW', PREFIX.'student/attendance-report');
+define('URL_QUIZ_REPORT', PREFIX.'exams/quiz/report');
+define('URL_QUIZ_REPORT_VIEW', PREFIX.'exams/quiz/results/view');
+//URL_QUIZ_REPORT
 //ATTENDANCE_REPORT_VIEW
 
 //STUDENT ATTENDENCE REPORT
