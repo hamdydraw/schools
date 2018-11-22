@@ -1715,3 +1715,8 @@ function change_att_symbols($char){
 function get_student_class($id){
     return Student::where('user_id',$id)->first()->course_parent_id;
 }
+
+
+function get_role_name($id){
+    return \App\Role::where('id',$id)->first()->name;
+}

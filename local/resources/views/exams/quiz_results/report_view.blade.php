@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{$title}}</title>
 
-    <link rel="stylesheet" href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css">
-    <link rel="stylesheet" href="{{PREFIX}}css/font-awesome.css"/>
-    <link rel="stylesheet" href="{{PREFIX}}css/Report/bootstrap.css">
-    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-core.css">
-    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-theme.css">
-    <link rel="stylesheet" href="{{PREFIX}}css/Report/neon-rtl.css">
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css">
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/font-awesome.css"/>
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/bootstrap.css">
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-core.css">
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-theme.css">
+    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-rtl.css">
     <style>
         @media  print {
             .head th {
-                background-color: #91919a !important;
-                color:white !important;
+                background-color: #91919a ;
+                color:white;
                 -webkit-print-color-adjust: exact;
             }}
     </style>
@@ -34,9 +34,9 @@
 
     </div>
     <div class="row" style="font-size: 15px;">
-        <div style="float: right;">
-            <span>{{$print_year}} - {{getPhrase($print_term)}} - {{$print_course}} - {{$print_class}} - {{$print_quiz}}</span>
-        </div>
+        {{--<div style="float: right;">--}}
+            {{--<span>{{$print_year}} - {{getPhrase($print_term)}} - {{$print_course}} - {{$print_class}} - {{$print_quiz}}</span>--}}
+        {{--</div>--}}
         <div style="float: left;">
             <span>{{\Carbon\Carbon::now()->format('d-m-Y')}}</span>
         </div>
@@ -58,7 +58,7 @@
                 @endforeach
             </table>
 
-        <table class="table  table-bordered table-dark" style="margin-top:4%;font-size: 20px;width: 30%;
+        <table class="table  table-bordered table-dark" style="margin-top:5%;font-size: 20px;width: 44%;
     border-spacing: 0;float: left;" border="1">
                 <tr>
                     <th style="background-color: grey;color: white">{{getPhrase('teacher_name')}}</th>

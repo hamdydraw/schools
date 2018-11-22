@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <fieldset class="form-group col-md-8">
-                                    <input type="submit" value="{{getPhrase('send')}}" class="btn-lg btn btn-google-plus" style="float: left">
+                                    <input type="submit" ng-disabled="bupload == false" value="{{getPhrase('send')}}" class="btn-lg btn btn-google-plus" style="float: left">
                                 </fieldset>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
 
                         @foreach($replays as $replay)
                     <div class="row">
-                        <span><h3>{{$replay->name}}</h3></span>
+                        <span><h3>{{$replay->name}} <span style="color: blue">({{ getPhrase(get_role_name($replay->role_id))}}) </span></h3></span>
                         <p>{!! $replay->massage !!}</p>
                         @if($replay->file != '')
                         <span style="background-color: yellow">{{$replay->file}}</span>

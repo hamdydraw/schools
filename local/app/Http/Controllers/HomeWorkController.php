@@ -94,8 +94,8 @@ class HomeWorkController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li><a href="'.URL_HOMEWORK_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>'.$view;
-                        $link_data.= '<li><a href="'.URL_HOMEWORK_STUDENTS.$records->slug.'"><i class="fa fa-child"></i>'.getPhrase('show_students').'</a></li>';
+                            <li><a href="'.URL_HOMEWORK_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>';
+                        $link_data.= '<li><a href="'.URL_HOMEWORK_STUDENTS.$records->slug.'"><i class="fa fa-child"></i>'.getPhrase('show_students').'</a></li>'.$view;
                 $temp = '';
                 if(checkRole(getUserGrade(3))) {
                     $temp .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
@@ -390,8 +390,9 @@ class HomeWorkController extends Controller
         $homework = HomeWork::where('id',$record->homework_id)->first();
 
         $data['replays'] = HomeWorkReplay::join('users','users.id','=','homeworks_student_replay.sender_id')
-                                         ->select('users.name','homeworks_student_replay.id','homeworks_student_replay.created_at','massage','file')
+                                         ->select('users.name','users.role_id','homeworks_student_replay.id','homeworks_student_replay.created_at','massage','file')
                                          ->where('homeworks_student_id',$record->id)
+                                         ->orderBy('id','desc')
                                          ->get();
 
         $data['homework'] = $homework;
