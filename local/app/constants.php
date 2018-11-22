@@ -168,9 +168,16 @@ define('URL_ACADEMICS_REMOVE_SUBJECT', PREFIX.'academic-courses/remove-subject')
 define('URL_HOMEWORK_ADD', PREFIX.'homework/add-homework');
 define('URL_HOMEWORK_EDIT', PREFIX.'homework/edit-homework');
 define('URL_HOMEWORK_VIEW', PREFIX.'homework/list');
+define('URL_HOMEWORK_STUDENT_VIEW', PREFIX.'homework/view/');
 define('URL_HOMEWORK_STUDENT', PREFIX.'homework');
 define('URL_HOMEWORK_CHILDREN_GETLIST', PREFIX.'homework/children/getList/');
 define('URL_HOMEWORK_PARENT', PREFIX.'homework/parent/children');
+define('URL_HOMEWORK_REPLAY', PREFIX.'homework/replay/');
+define('URL_HOMEWORK_STUDENTS', PREFIX.'homework/students/');
+
+//homework/students/
+
+//URL_HOMEWORK_REPLAY
 //homework/parent/children
 
 //URL_HOMEWORK_STUDENT

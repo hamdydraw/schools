@@ -576,6 +576,16 @@ function isSubscribed($type = 'main', $user_slug = '')
     return false;
 }
 
+function getUserName($claw){
+    return User::where('slug',$claw)->orWhere('id',$claw)->first()->name;
+}
+function is_student(){
+    if(Auth::user()->role_id == 5){
+        return true;
+    }
+    return false;
+}
+
 /**
  * This method will send the random color to use in graph
  * The random color generation is based on the number parameter

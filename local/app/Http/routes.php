@@ -642,6 +642,7 @@ Route::post('library/returns/return-asset/staff', 'LibraryIssuesController@retur
 //homework
 Route::get('homework/list', 'HomeWorkController@index');
 Route::get('homework/add-homework', 'HomeWorkController@create');
+Route::get('homework/view/{slug}','HomeWorkController@show_student_homework');
 Route::get('homework/edit-homework/{slug}', 'HomeWorkController@edit');
 Route::get('homework/get-homework-data/{slug}', 'HomeWorkController@show');
 Route::post('homework/add-homework', 'HomeWorkController@store');
@@ -656,6 +657,11 @@ Route::get('homework/children/getList/{slug}', 'HomeWorkController@getDatatable'
 Route::post('homework/upload', 'HomeWorkController@upload');
 Route::delete('homework/file-delete/{file}', 'HomeWorkController@deleteFile');
 Route::get('homework/explanation/{slug}','HomeWorkController@showExplanation');
+Route::post('homework/replay/{slug}','HomeWorkController@replay');
+Route::get('homework/students/{slug}','HomeWorkController@Homework_students');
+Route::get('homework/students/datable/{slug}', 'HomeWorkController@HW_student_Datable');
+//HW_student_Datable
+//homework/replay/
 //homework/file-delete
 
 //Question bank
@@ -1517,7 +1523,7 @@ Route::get('/get_classes/{course}',function ($course){
 //test Route
 
 Route::get('/test_it/{number}', function ($number) {
-    return getUserRecord($number);
+    return getUserName($number);
 });
 
 Route::get('/test_2', function () {

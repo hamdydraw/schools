@@ -28,12 +28,9 @@
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>{{ getPhrase('id')}}</th>
-                                <th>{{ getPhrase('title')}}</th>
-                                <th>{{ getPhrase('subject')}}</th>
-                                <th>{{ getPhrase('teacher')}}</th>
-                                <th>{{ getPhrase('file')}}</th>
-                                <th>{{getPhrase('created_at')}}</th>
+
+                                <th>{{getPhrase('last_update')}}</th>
+                                <th>{{getPhrase('student_name')}}</th>
                                 <th>{{getPhrase('show')}}</th>
 
                             </tr>
@@ -51,6 +48,6 @@
 
 @section('footer_scripts')
 
-    @include('common.datatables', array('route'=>PREFIX.'homeworkDatable/'.$student_slug, 'route_as_url' => 'TRUE'))
+    @include('common.datatables', array('route'=>PREFIX.'homework/students/datable/'.$homework->slug, 'route_as_url' => 'TRUE'))
 
 @stop

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\HomeWork;
+use App\HomeWorkReplay;
+use App\HomeworkStudent;
 use App\Staff;
 use App\Student;
 use Illuminate\Http\Request;
@@ -93,6 +95,7 @@ class HomeWorkController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li><a href="'.URL_HOMEWORK_EDIT.'/'.$records->slug.'"><i class="fa fa-pencil"></i>'.getPhrase("edit").'</a></li>'.$view;
+                        $link_data.= '<li><a href="'.URL_HOMEWORK_STUDENTS.$records->slug.'"><i class="fa fa-child"></i>'.getPhrase('show_students').'</a></li>';
                 $temp = '';
                 if(checkRole(getUserGrade(3))) {
                     $temp .= '<li><a href="javascript:void(0);" onclick="deleteRecord(\''.$records->slug.'\');"><i class="fa fa-trash"></i>'. getPhrase("delete").'</a></li>';
@@ -204,6 +207,7 @@ class HomeWorkController extends Controller
         $semister = new AcademicSemester();
         $year = $current_academic_id->getCurrentAcademic()->id;
         $sem  = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
+        $students = Student::select('user_id')->where('course_id',$request->class_id)->get();
 
         $record = new HomeWork();
         $record->title = $request->title;
@@ -224,6 +228,14 @@ class HomeWorkController extends Controller
         $record->file        = $request->question_file;
         $record->user_stamp($request);
         $record->save();
+        foreach ($students as $student){
+            $homework = new HomeworkStudent();
+            $homework->homework_id = $record->id;
+            $homework->slug = $homework->makeSlug($record->title.$homework->homework_id,true);
+            $homework->student_id  = $student->user_id;
+            $homework->save();
+        }
+
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_HOMEWORK_VIEW);
     }
@@ -336,25 +348,19 @@ class HomeWorkController extends Controller
     public function StudentDatable($student)
     {
         $student_id = User::where('slug',$student)->pluck('id')->first();
-        $course_id  = Student::where('user_id',$student_id)->pluck('course_id')->first();
-        $current_academic_id = new Academic();
-        $semister = new AcademicSemester();
-        $year=$current_academic_id->getCurrentAcademic()->id;
-        $sem = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
-
-        $records    = HomeWork::select(['id','slug','title','subject_id','staff_id','explanation','file','created_at'])->where('course_id',$course_id)->where('year',$year)->where('sem',$sem);
+        $records    = HomeWork::join('homeworks_student','homeworks_student.homework_id','=','home_works.id')->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])->where('homeworks_student.student_id',$student_id);
         return Datatables::of($records)
             ->editColumn('subject_id', function ($records) {
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();
-            })
-            ->editColumn('explanation', function ($records) {
-                return "<a onclick=\"window.open('".PREFIX."homework/explanation/".$records->slug."','name','width=600,height=400')\" href='".PREFIX."homework/explanation/".$records->slug."' target=\"popup\" >".getPhrase('view')."</a>";
             })
             ->editColumn('staff_id', function ($records) {
                 return User::where('id',$records->staff_id)->pluck('name')->first();
             })
             ->editColumn('file', function ($records) {
                 return "<a href='".HOMEWORK_PATH.$records->file."' download>".$records->file."</a>";
+            })
+            ->addColumn('show',function ($records){
+                return "<a href='".URL_HOMEWORK_STUDENT_VIEW.$records->slug."' >".getPhrase('show')."</a>";
             })
             ->removeColumn('slug')
             ->make();
@@ -364,6 +370,108 @@ class HomeWorkController extends Controller
     {
         $explanation = HomeWork::where('slug',$slug)->first()->explanation;
         return $explanation;
+    }
+
+    public function show_student_homework($slug){
+        if (!checkRole(getUserGrade(14))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $record = HomeworkStudent::where('slug',$slug)->first();
+        if(!$record){
+            pageNotFound();
+            return back();
+        }
+        if(is_student() && $record->student_id != Auth::user()->id){
+            pageNotFound();
+            return back();
+        }
+        $homework = HomeWork::where('id',$record->homework_id)->first();
+
+        $data['replays'] = HomeWorkReplay::join('users','users.id','=','homeworks_student_replay.sender_id')
+                                         ->select('users.name','homeworks_student_replay.id','homeworks_student_replay.created_at','massage','file')
+                                         ->where('homeworks_student_id',$record->id)
+                                         ->get();
+
+        $data['homework'] = $homework;
+        $data['record'] = $record;
+        $data['title'] = $homework->title;
+        $data['active_class'] = 'homeworks';
+        $data['layout'] = getLayout();
+        //return $data;
+        return view('home_work.homework_view',$data);
+    }
+
+    public function replay($slug,Request $request)
+    {
+        if (!checkRole(getUserGrade(14))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        $record = HomeworkStudent::where('slug',$slug)->first();
+
+        if(!$record){
+            pageNotFound();
+            return back();
+        }
+        if(is_student() && $record->student_id != Auth::user()->id){
+            pageNotFound();
+            return back();
+        }
+
+        $data['slug'] = $slug;
+        $data['request'] = $request->all();
+        $replay = new HomeWorkReplay();
+        $replay->homeworks_student_id = $record->id;
+        $replay->sender_id            = Auth::user()->id;
+        $replay->massage              = $request->replay;
+        $replay->file                 = $request->question_file;
+        $replay->save();
+        flash(getPhrase('success'), getPhrase('replay_added_successfully'), 'success');
+        return back();
+    }
+    public function Homework_students($slug)
+    {
+        $homework = HomeWork::where('slug',$slug)->first();
+        if(!$homework){
+            pageNotFound();
+            return back();
+        }
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $data['homework'] = $homework;
+        $data['title'] = $homework->title;
+        $data['active_class'] = 'homeworks';
+        $data['layout'] = getLayout();
+        return view('home_work.homework_students',$data);
+
+    }
+
+    public function HW_student_Datable($slug)
+    {
+        $records  = array();
+        $homework = HomeWork::where('slug',$slug)->first();
+        $records  = HomeworkStudent::select('id','student_id','slug')->where('homework_id',$homework->id);
+        return Datatables::of($records)
+            ->editColumn('id', function ($records) {
+                $last_update = HomeWorkReplay::where('homeworks_student_id',$records->id)->orderBy('id','desc')->first();
+                if(!$last_update){
+                    $last_update = HomeworkStudent::where('id',$records->id)->first()->created_at;
+                }else { $last_update = $last_update->created_at;}
+                return $last_update;
+            })
+            ->editColumn('student_id', function ($records) {
+                return getUserName($records->student_id);
+            })
+            ->addColumn('show',function ($records){
+                return "<a href='".URL_HOMEWORK_STUDENT_VIEW.$records->slug."' >".getPhrase('show')."</a>";
+            })
+            ->removeColumn('slug')
+            ->make();
     }
 
     public function children()
