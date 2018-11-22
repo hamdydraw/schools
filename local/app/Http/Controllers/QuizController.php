@@ -611,6 +611,8 @@ class QuizController extends Controller
             return back();
         }
         $data['title'] = getPhrase('Report_of_quiz_results');
+        $subject_id = App\CourseSubject::where('id',$request->course_subject_id)->first()->subject_id;
+        $staff_id   = App\CourseSubject::where('id',$request->course_subject_id)->first()->staff_id;
         $users = App\QuizResult::join('users','users.id','=','quizresults.user_id')
                                  ->select('users.id as user')
                                  ->where('quiz_id',$request->current_quiz_id)
@@ -625,12 +627,15 @@ class QuizController extends Controller
                 ->orderBy('quizresults.id', 'desc')->first();
         }
         $data['results'] = $result;
-        $data['print_year']   = App\Academic::where('id',$request->academic_id)->first()->academic_year_title;
-        $data['print_term']   = SemesterName($request->sem_id);
-        $data['print_course'] = App\Course::where('id',$request->course_id)->first()->course_title;
-        $data['print_class']  = App\Course::where('id',$request->class_id)->first()->course_title;
-        $data['print_quiz']   = Quiz::where('id',$request->current_quiz_id)->first()->title;
-        //return $data;
+        $data['print_year']    = App\Academic::where('id',$request->academic_id)->first()->academic_year_title;
+        $data['print_term']    = SemesterName($request->sem_id);
+        $data['print_course']  = App\Course::where('id',$request->course_id)->first()->course_title;
+        $data['print_class' ]  = App\Course::where('id',$request->class_id)->first()->course_title;
+        $data['print_quiz']    = Quiz::where('id',$request->current_quiz_id)->first()->title;
+        $data['print_subject'] = Subject::where('id',$subject_id)->first()->subject_title;
+        $data['max_mark']      = Quiz::where('id',$request->current_quiz_id)->first()->total_marks;
+        $data['teacher_name']  = App\User::where('id',$staff_id)->first()->name;
+
 
         return view('exams.quiz_results.report_view',$data);
     }

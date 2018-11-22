@@ -42,9 +42,8 @@
         </div>
     </div>
     <div class="row">
-        <center>
-            <table class="table  table-bordered table-dark" style="font-size: 20px;
-    border-spacing: 0;    margin-top: 5%;" border="1">
+            <table class="table  table-bordered table-dark" style="font-size: 20px;width: 50%;
+    border-spacing: 0;float: right;    margin-top: 5%;" border="1">
                 <thead>
                 <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
                 <th style="border:1px solid #000;">{{getPhrase('result')}}</th>
@@ -53,12 +52,43 @@
                     <tr>
                         <td style="border:1px solid #000;">{{$result->name}}</td>
 
-                        <td style="border:1px solid #000;"><p>{{$result->marks_obtained}} / {{ $result->total_marks }}</p></td>
+                        <td style="border:1px solid #000;"><p>{{$result->marks_obtained}}</p></td>
 
                     </tr>
                 @endforeach
             </table>
-        </center>
+
+        <table class="table  table-bordered table-dark" style="margin-top:4%;font-size: 20px;width: 30%;
+    border-spacing: 0;float: left;" border="1">
+                <tr>
+                    <th style="background-color: grey;color: white">{{getPhrase('teacher_name')}}</th>
+                    <th>{{$teacher_name}}</th>
+                </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('academic_year')}}</th>
+                <th>{{$print_year}}</th>
+            </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('branch')}}</th>
+                <th>{{$print_course}}</th>
+            </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('Semester')}}</th>
+                <th>{{getPhrase($print_term)}}</th>
+            </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('subject')}}</th>
+                <th>{{$print_subject}}</th>
+            </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('exam')}}</th>
+                <th>{{$print_quiz}}</th>
+            </tr>
+            <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('total_marks')}}</th>
+                <th>{{$max_mark}}</th>
+            </tr>
+        </table>
 
     </div>
     <div class="row">
