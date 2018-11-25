@@ -5,3 +5,18 @@ VALUES ('24', 'الملفات المسموح بها فى الرسائل', 'allow
 ALTER TABLE `homeworks_student_replay` ADD CONSTRAINT `HW_S_ID` FOREIGN KEY (`homeworks_student_id`) REFERENCES `sasbit_school`.`homeworks_student`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `homeworks_student`  ADD CONSTRAINT `HW_id` FOREIGN KEY (`homework_id`) REFERENCES `home_works` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `messenger_threads` ADD `has_file` BOOLEAN NOT NULL DEFAULT FALSE AFTER `subject`;
+
+ALTER TABLE `messages_files` ADD CONSTRAINT `MSG_id` FOREIGN KEY (`messages_id`) REFERENCES `sasbit_school`.`messenger_messages`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `messenger_messages` ADD CONSTRAINT `R222` FOREIGN KEY (`thread_id`) REFERENCES `sasbit_school`.`messenger_threads`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE `messenger_participants` ADD CONSTRAINT `R222` FOREIGN KEY (`thread_id`) REFERENCES `sasbit_school`.`messenger_threads`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+ALTER TABLE `homeworks_student` ADD INDEX(`homework_id`);
+
+ALTER TABLE `homeworks_student_replay` ADD INDEX(`homeworks_student_id`);
