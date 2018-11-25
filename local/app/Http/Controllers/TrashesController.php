@@ -98,6 +98,9 @@ class TrashesController extends Controller
             pageNotFound();
             return back();
         }
+        if($table == 'home_works'){
+            Delete_HW_files($slug);
+        }
         DB::statement("DELETE FROM $table WHERE slug = '$slug'");
         $response['status'] = 1;
         $response['message'] = getPhrase('record_deleted_successfully');

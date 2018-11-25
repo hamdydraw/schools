@@ -1720,3 +1720,29 @@ function get_student_class($id){
 function get_role_name($id){
     return \App\Role::where('id',$id)->first()->name;
 }
+
+function Delete_HW_files($slug){
+    $homework = \App\HomeWork::withoutGlobalScope(\App\Scopes\DeleteScope::class)->where('slug',$slug)->first();
+    if($homework->file){
+        $flag = Delete_File($homework->file,'homeworks');
+    }
+    $student_homeworks = \App\HomeworkStudent::where('homework_id',$homework->id)->get();
+    foreach ($student_homeworks as $hw){
+        $hw_replays = \App\HomeWorkReplay::where('homeworks_student_id',$hw->id)->get();
+        foreach ($hw_replays as $replay){
+            if($replay->file){
+                $flag = Delete_File($replay->file,'homeworks');
+            }
+        }
+    }
+    return $flag;
+}
+
+function Delete_File($file,$path){
+    if(file_exists(getcwd()."/uploads/".$path."/".$file)){
+        unlink(getcwd()."/uploads/".$path."/".$file);
+        return $file;
+    }else{
+        return "file not found";
+    }
+}

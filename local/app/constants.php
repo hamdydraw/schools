@@ -56,7 +56,7 @@ define('IMAGE_PATH_UPLOAD_LMS_CONTENTS', UPLOADS.'lms/content/');
 define('IMAGE_PATH_UPLOAD_STUDENT_PAPERS', UPLOADS.'student_papers/');
 define('HOMEWORK_PATH',UPLOADS.'homeworks/');
 define('GW_FILE_DELETE',PREFIX.'homework/file-delete/');
-
+define('MSG_FILE_DELETE',PREFIX.'message/file-delete/');
 
 
 

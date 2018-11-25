@@ -13,6 +13,21 @@
 
     ?>
 
+    <style>
+        #progressbar {
+            background-color: black;
+            border-radius: 13px; /* (height of inner div) / 2 + padding */
+            padding: 3px;
+            margin-top: 3%;
+        }
+
+        #progressbar_2 {
+            background-color: orange;
+            width: 0%; /* Adjust with JavaScript */
+            height: 20px;
+            border-radius: 10px;
+        }
+    </style>
     <div id="page-wrapper" ng-controller="homeworkCtrl">
         <div class="container-fluid">
             <!-- Page Heading -->
@@ -56,11 +71,16 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <fieldset class="form-group col-md-8">
-                                    <input class="form-control" id="upload1" type="file" accept="{{$extn}}" ng-model="upload1" ngf-select="upload_file($files)">
+                                    <input ng-if="!file_name" class="form-control" id="upload1" type="file" accept="{{$extn}}" ng-model="upload1" ngf-select="upload_file($files)">
                                     <span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
                                     <span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
-                                    {{getPhrase('supported_formats_are')}} {{$extn}}
+                                    <span ng-if="!file_name">{{getPhrase('supported_formats_are')}} {{$extn}}</span>
+                                    <span ng-if="file_name" style="background-color: yellow;color: green"> @{{ file_name }}</span>
                                     <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
+                                    <a ng-if="file_name" class="btn btn-danger" ng-click="deleteFile()">{{getPhrase('delete')}}</a>
+                                    <div id="progressbar" style="display: none">
+                                        <div id="progressbar_2"></div>
+                                    </div>
                                 </fieldset>
                             </div>
                         </div>
@@ -81,7 +101,11 @@
                         <span style="background-color: yellow">{{$replay->file}}</span>
                         <a class="btn btn-primary" href='{{HOMEWORK_PATH.$replay->file}}' download> {{getPhrase('download')}}</a>
                         @endif
+                        @if(!is_student())
+                            <a href="{{url('homework/replay/delete\/').$replay->id}}" class="btn btn-danger" style="float: left;margin-right: 2%;">{{getPhrase('delete_replay')}}</a>
+                        @endif
                         <h4 style="float: left">{{$replay->created_at}}</h4>
+
                     </div>
                             @endforeach
 

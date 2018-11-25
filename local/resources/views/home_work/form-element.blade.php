@@ -119,6 +119,9 @@ $extn = $data->value;
                 <input class="form-control" id="upload1" type="file" accept="{{$extn}}" ng-model="upload1" ngf-select="upload_file($files)">
                 <span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
                 <span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
+                <div id="progressbar" style="display: none">
+                    <div id="progressbar_2"></div>
+                </div>
 
             </fieldset>
         </div>

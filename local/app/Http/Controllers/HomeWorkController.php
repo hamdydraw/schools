@@ -18,6 +18,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeWorkController extends Controller
 {
@@ -576,5 +577,24 @@ class HomeWorkController extends Controller
             return "file not found";
         }
 
+    }
+
+
+    public function deleteReplay($id){
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $replay = HomeWorkReplay::where('id',$id)->first();
+        if(!$replay){
+            pageNotFound();
+            return back();
+        }
+        if($replay->file){
+            $this->deleteFile($replay->file);
+        }
+        DB::delete('Delete from homeworks_student_replay where id = ?', [$replay->id]);
+        flash(getPhrase('success'), getPhrase('record_deleted_successfully'), 'success');
+        return back();
     }
 }

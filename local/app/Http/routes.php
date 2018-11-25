@@ -660,11 +660,13 @@ Route::get('homework/explanation/{slug}','HomeWorkController@showExplanation');
 Route::post('homework/replay/{slug}','HomeWorkController@replay');
 Route::get('homework/students/{slug}','HomeWorkController@Homework_students');
 Route::get('homework/students/datable/{slug}', 'HomeWorkController@HW_student_Datable');
-//HW_student_Datable
-//homework/replay/
-//homework/file-delete
 
-//Question bank
+Route::get('homework/replay/delete/{id}', 'HomeWorkController@deleteReplay');
+//HW_student_Datable
+
+
+
+
 Route::get('exams/questionbank', 'QuestionBankController@index');
 Route::get('exams/questionbank/add-question', 'QuestionBankController@create');
 Route::get('exams/questionbank/view/{year}/{sem}/{course}/{subject}', 'QuestionBankController@show');
@@ -1038,6 +1040,9 @@ Route::group(['prefix' => 'messages', 'middleware' => 'stopOrOn:messaging'], fun
     Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
 });
 
+Route::post('messages/upload', 'MessagesController@upload');
+Route::delete('message/file-delete/{file}', 'MessagesController@deleteFile');
+
 
 //////////////////////
 //Attendance Module //
@@ -1315,6 +1320,12 @@ Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
 
 Route::get('available_HW_extn',function (){
     $data =  \App\Settings::get_HW_extensions();
+    $extn = $data->value;
+    return $extn;
+});
+
+Route::get('available_Massages_extn',function (){
+    $data =  \App\Settings::get_message_extensions();
     $extn = $data->value;
     return $extn;
 });

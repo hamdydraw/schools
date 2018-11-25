@@ -50,6 +50,7 @@
             })
                 .then(function (response) {
                     $scope.uploaded_file = false;
+                    $scope.file_name     = false;
                 })
         }
         $scope.ifEdit();
@@ -67,6 +68,7 @@
                 .then(function (response) {
                     $scope.av_extn = response.data.split(',');
                     if($scope.av_extn.includes(extn)){
+                        $('#progressbar').show();
                         $scope.valid = "ok";
                         Upload.upload({
                             url: '{{PREFIX}}homework/upload',
@@ -74,6 +76,9 @@
                             file: file,
                             method: "POST",
                             headers: {'Content-Type': undefined}
+                        }).progress(function (e) {
+                            var progress = (e.loaded / e.total) * 100;
+                            $("#progressbar_2").css('width', progress + '%');
                         }).then(function (response, status, headers, config) {
                             if (response.data.state == "failed") {
                                 toastr.error(response.data.desc, 'Error');
@@ -86,6 +91,7 @@
                             $scope.file_show = "{{ EXAM_UPLOADS}}" + response.data.file;
                             $scope.file_name = response.data.file;
                             //$scope.massage = "file uploaded successfully";
+                            $('#progressbar').hide();
                             $('#upload1').val('');
                         });
                     }else{
