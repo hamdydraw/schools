@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2018 at 12:19 PM
+-- Generation Time: Nov 25, 2018 at 06:53 PM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 5.6.19
 
@@ -23,42 +23,48 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `homeworks_student_replay`
+-- Table structure for table `homeworks_student`
 --
 
-CREATE TABLE `homeworks_student_replay` (
+CREATE TABLE `homeworks_student` (
   `id` int(11) NOT NULL,
-  `homeworks_student_id` int(11) NOT NULL,
-  `sender_id` int(11) NOT NULL,
-  `massage` text COLLATE utf8_bin,
-  `file` varchar(220) COLLATE utf8_bin DEFAULT NULL,
+  `slug` varchar(220) COLLATE utf8_bin NOT NULL,
+  `homework_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
---
--- Dumping data for table `homeworks_student_replay`
---
-
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `homeworks_student_replay`
+-- Indexes for table `homeworks_student`
 --
-ALTER TABLE `homeworks_student_replay`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `homeworks_student`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `homework_id` (`homework_id`,`student_id`),
+  ADD KEY `created_at` (`created_at`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `homeworks_student_replay`
+-- AUTO_INCREMENT for table `homeworks_student`
 --
-ALTER TABLE `homeworks_student_replay`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `homeworks_student`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `homeworks_student`
+--
+ALTER TABLE `homeworks_student`
+  ADD CONSTRAINT `HW_id` FOREIGN KEY (`homework_id`) REFERENCES `home_works` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
