@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Http\Requests;
+
 namespace App\Http\Controllers;
 use \App;
 use App\User;
@@ -14,6 +13,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+
 
 
 class MessagesController extends Controller
@@ -60,6 +62,7 @@ class MessagesController extends Controller
         // All threads that user is participating in
         $threads = Thread::forUser($currentUserId)->latest('updated_at')->paginate(getRecordsPerPage());
         // All threads that user is participating in, with new messages
+       // return $threads;
 
         $data['title']        = getPhrase('create_message');
         $data['active_class'] = 'messages';
@@ -68,6 +71,45 @@ class MessagesController extends Controller
         $data['layout']       = getLayout();
 
         return view('messaging-system.index', $data);
+    }
+
+    public function search($key)
+    {
+        if($key == "all"){
+            $threads = Thread::forUser(Auth::user()->id)
+                ->select('messenger_threads.id','subject')
+                ->latest('messenger_threads.updated_at')
+                ->get();
+        }else {
+            $threads = Thread::forUser(Auth::user()->id)
+                             ->select('messenger_threads.id','subject')
+                             ->where('subject','like','%'.$key.'%')
+                             ->latest('messenger_threads.updated_at')
+                             ->get();
+          }
+
+        foreach ($threads as $thread){
+            $thread->last_time = $thread->latestMessage->updated_at->diffForHumans();
+            $thread->body      = $thread->latestMessage->body;
+            $thread->username  = getUserName($thread->latestMessage->user_id);
+            $thread->role      = getPhrase(getRole($thread->latestMessage->user_id));
+            $sender = getUserRecord($thread->latestMessage->user_id);
+            $thread->image     = getProfilePath($sender->image);
+            $thread->hasfile   = $this->ThreadHasFile($thread->id);
+        }
+        return $threads;
+    }
+
+
+    public function ThreadHasFile($id)
+    {
+        $massages = Message::where('thread_id',$id)->get();
+        foreach ($massages as $massage){
+            if(App\MessagesFile::where('messages_id',$massage->id)->first()){
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * Shows a message thread.
@@ -189,6 +231,9 @@ class MessagesController extends Controller
         }
 
         $input = Input::all();
+
+        $files =  json_decode($input['question_file']);
+
         if (Input::has('recipients')) {
 
             $selectors = 'hai';
@@ -198,19 +243,39 @@ class MessagesController extends Controller
              flash(getPhrase('Ooops'),getPhrase('please select the recipients'), 'overlay');
              return redirect(URL_MESSAGES_CREATE);
         }
+        $flag = "no";
+        if(count($files) > 0){
+            $flag = "yes";
+        }
+
         $thread = Thread::create(
             [
+                'has_file' => $flag,
                 'subject' => $input['subject'],
+
             ]
         );
-        // Message
-        Message::create(
+
+        $Message = Message::create(
             [
                 'thread_id' => $thread->id,
                 'user_id'   => Auth::user()->id,
                 'body'      => $input['message'],
             ]
         );
+
+        foreach ($input['recipients'] as $reciver)
+        {
+            $user = User::where('id',$reciver)->first();
+            $message['{$reciver}']         = $user->username;
+            $message['to_email']        = $user->email;
+            $message['{$sender}']          = Auth::user()->username;
+            $message['{$sender_type}']     = getRole(Auth::user()->id);
+            $message['{$message_subject}'] = $input['subject'];
+            $message['{$message_body}']    = $input['message'];
+            sendEmail('messages',$message);
+
+        }
         // Sender
         Participant::create(
             [
@@ -219,10 +284,19 @@ class MessagesController extends Controller
                 'last_read' => new Carbon,
             ]
         );
+        //$message['to_email'] =
         // Recipients
         if (Input::has('recipients')) {
             $thread->addParticipant($input['recipients']);
         }
+
+        if(count($files) > 0){
+         foreach ($files as $file){
+            $mfile = new App\MessagesFile();
+            $mfile->file_name = $file;
+            $mfile->messages_id = $Message->id;
+            $mfile->save();
+        }}
 
         return redirect(URL_MESSAGES);
     }
@@ -244,6 +318,7 @@ class MessagesController extends Controller
         $current_user =     Auth::user();
         $available_types = App\Settings::getMassages();
 
+
         if(!in_array($current_user->role_id,$available_types))
         {
             pageNotFound();
@@ -257,8 +332,10 @@ class MessagesController extends Controller
             return redirect('messages');
         }
         $thread->activateAllParticipants();
+        $input = Input::all();
+        $files =  json_decode($input['question_file']);
         // Message
-        Message::create(
+        $Message = Message::create(
             [
                 'thread_id' => $thread->id,
                 'user_id'   => Auth::id(),
@@ -274,11 +351,54 @@ class MessagesController extends Controller
         );
         $participant->last_read = new Carbon;
         $participant->save();
+        if(count($files) > 0){
+            foreach ($files as $file){
+                $mfile = new App\MessagesFile();
+                $mfile->file_name = $file;
+                $mfile->messages_id = $Message->id;
+                $mfile->save();
+            }}
         // Recipients
         if (Input::has('recipients')) {
             $thread->addParticipants(Input::get('recipients'));
         }
         return redirect('messages/' . $id);
+    }
+
+
+
+
+    public function upload(Request $request)
+    {
+        $destinationPath = "uploads/messages/";
+        $record1 = rand(1, 200000);
+        $record2 = rand(1, 200000);
+
+        if ($request->hasFile('file')) {
+
+            foreach ($request->file as $file){
+                $extension = $file->extension();
+                $filename  = $file->getClientOriginalName();
+                $finalname[$record1] = $record1 . $filename;
+                $file->move($destinationPath,$finalname[$record1]);
+                $record1++;
+            }
+            return json_encode(['state' => 'success', 'desc' => getPhrase('upload_success'), 'files' => $finalname]);
+        }
+
+        return json_encode(['state' => 'failed', 'desc' => getPhrase('upload_failed')]);
+
+    }
+
+    public function deleteFile($file)
+    {
+
+        if(file_exists(getcwd()."/uploads/messages/".$file)){
+            unlink(getcwd()."/uploads/messages/".$file);
+        }else{
+            return "file not found";
+        }
+
     }
 
 }

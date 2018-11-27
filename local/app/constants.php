@@ -37,10 +37,11 @@ define('POP_UP_DATA', PREFIX.'popup_data/');
 
 
 
-
+define('MESSAGES_FILES', PREFIX.'uploads/messages/');
 define('IMAGE_STUDENT_ICON', IMAGES.'system/graduate.png');
 define('IMAGE_TEACHER_ICON', IMAGES.'system/teacher-pointing-blackboard.png');
 define('IMAGE_ADMIN_ICON', IMAGES.'system/admin.png');
+define('IMAGE_FILE_ICON', IMAGES.'system/file.png');
 
 define('IMAGE_PATH_UPLOAD_SERIES', UPLOADS.'exams/series/');
 define('IMAGE_PATH_UPLOAD_SERIES_THUMB', UPLOADS.'exams/series/thumb/');
@@ -100,6 +101,7 @@ define('DOWNLOAD_SAMPLE_DATA_PG_DATABASE', PREFIX.'downloads/database/install_du
 define('DOWNLOAD_SAMPLE_DATA_UNIVERSITY_DATABASE', PREFIX.'downloads/database/install_dummy_data_university.sql');
 
 
+//
 
 define('CURRENCY_CODE', '$ ');
 define('RECORDS_PER_PAGE', '8');
@@ -613,6 +615,8 @@ define('URL_FEEDBACKS_GETLIST', PREFIX.'feedback/getlist');
 define('URL_MESSAGES', PREFIX.'messages');
 define('URL_MESSAGES_SHOW', PREFIX.'messages/');
 define('URL_MESSAGES_CREATE', PREFIX.'messages/create');
+define('URL_MESSAGES_SEARCH', PREFIX.'messages/search/');
+//
 
 
 define('URL_GENERATE_CERTIFICATE', PREFIX.'resultresult/generate-certificate/');

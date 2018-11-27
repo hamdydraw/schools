@@ -31,6 +31,9 @@ class EmailTemplate extends Model
     public function sendEmail($template, $data)
     {	
     	$template = EmailTemplate::where('title', '=', $template)->first();
+
+        $template->content = strtr($template->content, $data);
+
     	$content = \Blade::compileString($this->getTemplate($template));
 		$result = $this->render($content, $data);
 		\Mail::send('emails.template', ['body' => $result], function ($message) use ($template, $data) 
@@ -57,7 +60,7 @@ class EmailTemplate extends Model
     	$view = \View::make('emails.template', [
     											'header' => $header->content, 
     											'footer' => $footer->content,
-    											'body' => $template->content, 
+    											'body' => $template->content,
     											]);
 
 		return $view->render();
@@ -71,6 +74,7 @@ class EmailTemplate extends Model
 	 */
     public function render($__php, $__data)
 	{
+
 	    $obLevel = ob_get_level();
 	    ob_start();
 	    extract($__data, EXTR_SKIP);

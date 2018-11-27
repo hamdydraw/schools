@@ -1,0 +1,6 @@
+
+INSERT INTO `settings` (`id`, `title`, `key`, `slug`, `image`, `settings_data`, `description`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `record_status`, `table_name`, `branch_id`)
+VALUES ('24', 'الملفات المسموح بها فى الرسائل', 'allowed_messages_files', 'allowed_messages_files', NULL, '{"homework_allowed_files":{"value":".pdf,.xlsx","type":"text","extra":"","tool_tip":"extensions only are allowed"}}', 'edit the files extensions allowed in the system', NULL, NULL, NULL, NULL, NULL, NULL, '1', 'settings', '1');
+
+INSERT INTO `emailtemplates` (`id`, `title`, `slug`, `type`, `subject`, `content`, `from_email`, `from_name`, `record_updated_by`, `created_at`, `updated_at`, `updated_by_ip`, `created_by_ip`, `created_by_user`, `updated_by_user`, `record_status`, `table_name`, `branch_id`)
+VALUES (9, 'messages', 'messages1225', 'content', 'Ø±Ø³Ø§Ù„Ø© Ø¬Ø¯ÙŠØ¯Ø©', '<p>dear {$reciver}<br />\r\n<br />\r\n{$sender} ({$sender_type}) sent you message<br />\r\n<br />\r\nsubject&nbsp;: {$message_subject}<br />\r\n<br />\r\ntext&nbsp; &nbsp; &nbsp; : {$message_body}<br />\r\n<br />\r\n&nbsp;</p>\r\n', 'school@sasbit.com', 'Ø¥Ø¯Ø§Ø±Ø© Ù†Ø¸Ø§Ù… Ø§Ù„ØªØ¹Ù„ÙŠÙ… Ø§Ù„Ø§Ù„ÙƒØªØ±ÙˆÙ†ÙŠ	', 1790, '2018-11-27 13:32:41', '2018-11-27 17:58:57', '::1', '::1', 1790, 1790, 2, 'emailtemplates', 1);

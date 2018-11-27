@@ -1,7 +1,31 @@
 @extends($layout)
+
+<?php
+$data =  \App\Settings::get_message_extensions();
+$extn = $data->value;
+
+?>
+@include('messaging-system.script')
+
+<style>
+    #progressbar {
+        background-color: black;
+        border-radius: 13px; /* (height of inner div) / 2 + padding */
+        padding: 3px;
+        margin-top: 3%;
+    }
+
+    #progressbar_2 {
+        background-color: orange;
+        width: 0%; /* Adjust with JavaScript */
+        height: 20px;
+        border-radius: 10px;
+    }
+</style>
+
 <link rel="stylesheet" type="text/css" href="{{CSS}}select2.css">
 @section('content')
-<div id="page-wrapper">
+<div id="page-wrapper" ng-controller="homeworkCtrl">
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="row">
@@ -59,10 +83,29 @@
     </div>
 
 
+    <div class="row">
+        <div class="col-md-8">
+            <fieldset class="form-group col-md-8">
+                <div ng-if="!file_name">
+                <input class="form-control" id="upload1" type="file" accept="{{$extn}}" multiple ng-model="upload1" ngf-select="upload_file($files)">
+                <span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
+                <span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
+                {{getPhrase('supported_formats_are')}} {{$extn}}
+                </div>
+                <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
+                <span ng-if="file_name"><p style="color: green">@{{ file_name.length  }} {{getPhrase('files_uploaded')}}</p></span>
+                <span ng-if="file_name"><p ng-repeat="file in file_name">@{{file}}</p></span>
+                <a    ng-if="file_name" class="btn btn-danger" ng-click="deleteFile()">{{getPhrase('delete')}}</a>
+                <div id="progressbar" style="display: none">
+                    <div id="progressbar_2"></div>
+                </div>
+            </fieldset>
+        </div>
 
+    </div>
     <!-- Submit Form Input -->
     <div class="text-right">
-        {!! Form::submit(getphrase('send'), ['class' => 'btn btn-primary btn-lg']) !!}
+        <input type="submit" ng-disabled="bupload == false" value="{{getPhrase('send')}}" class="btn-lg btn btn-primary" style="float: left">
     </div>
 </div>
 {!! Form::close() !!}

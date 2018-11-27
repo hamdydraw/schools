@@ -276,6 +276,9 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 
 });
 
+
+
+
 /////////////////////
 // Master Settings //
 /////////////////////
@@ -1042,6 +1045,7 @@ Route::group(['prefix' => 'messages', 'middleware' => 'stopOrOn:messaging'], fun
 
 Route::post('messages/upload', 'MessagesController@upload');
 Route::delete('message/file-delete/{file}', 'MessagesController@deleteFile');
+Route::get('messages/search/{key}', 'MessagesController@search');
 
 
 //////////////////////
@@ -1533,9 +1537,7 @@ Route::get('/get_classes/{course}',function ($course){
 });
 //test Route
 
-Route::get('/test_it/{number}', function ($number) {
-    return getUserName($number);
-});
+Route::get('/test_it/{key}', 'MessagesController@search');
 
 Route::get('/test_2', function () {
 

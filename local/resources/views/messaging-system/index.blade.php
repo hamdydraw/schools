@@ -1,25 +1,36 @@
 @extends($layout)
+@include('messaging-system.script')
 @section('content')
- <div id="page-wrapper">
+ <div id="page-wrapper" ng-controller="homeworkCtrl">
+
   <div class="row">
                     <div class="col-lg-12">
                         <ol class="breadcrumb">
                             <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-                            <li><a href="{{URL_MESSAGES}}">Messages</a> </li>
+                            <li><a href="{{URL_MESSAGES}}">{{getPhrase('Messages')}}</a> </li>
 
                         </ol>
                     </div>
                 </div>
                 <div class="panel panel-custom">
                     <div class="panel-heading">
+
+
                         <div class="pull-right messages-buttons">
                             <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES}}"> {{getPhrase('inbox').'('.$count = Auth::user()->newThreadsCount().')'}} </a>
-                            <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES_CREATE}}"> 
+                            <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES_CREATE}}">
                             {{getPhrase('compose')}}</a>
-
-                 
+                        </div>
+                        <div class="col-md-3 col-md-offset-3 pull-right">
+                            <fieldset class="form-group">
+                                <input type="text" placeholder="{{getPhrase('search_in_inbox')}}" ng-model="key" ng-change="keyChanged()" name="search" class="form-control ng-valid ng-touched ng-dirty ng-valid-parse ng-empty" >
+                            </fieldset>
                         </div>
                         <h1>{{getPhrase('inbox')}}</h1>
+
+
+                        </div>
+
                     </div>
                     <?php $currentUserId = Auth::user()->id;?>
                     <div class="panel-body packages">
@@ -29,26 +40,26 @@
                               
                                 <ul class="inbox-message-list inbox-message-nocheckbox">
 
-                              @if(count($threads)>0)
-                                        <?php $cnt = 0; ?>
-                                        @foreach($threads as $thread)
-                                        <?php $class = $thread->isUnread($currentUserId) ? 'alert-info' : ''; ?>
-                                       <?php $sender = getUserRecord($thread->latestMessage->user_id); ?>
-                                    <li class="unread-message {!!$class!!}">
-                                    <?php $image_path = getProfilePath($sender->image);?>
-                                        
-                                        <img class="sender" src="{{$image_path}}" alt="">
-                                         <a href="{{URL_MESSAGES_SHOW.$thread->id}}" class="message-suject">
-                                            <h3>{{ucfirst($thread->subject)}}</h3>
-                                            <p>{!! $thread->latestMessage->body !!}</p>
-                                        </a>
-                                        <span class="receive-time"><i class="mdi mdi-clock"></i> {{$thread->latestMessage->updated_at->diffForHumans()}}</span>
-                                    </li>
-                                      @endforeach
-                                    @else
 
-                                        <p>{{getPhrase('sorry_no_messages_available')}}.</p>
-                                    @endif
+                                    <li class="unread-message" ng-repeat="head in heads" style="margin-bottom: 2%;">
+                                        
+                                        <img class="sender" src="@{{ head.image }}" alt="">
+                                         <a href="{{URL_MESSAGES_SHOW}} @{{ head.id }}" class="message-suject">
+                                            <p style="font-size: 17px;">@{{ head.username }}</p>
+                                             <p style="font-size: 15px;">(@{{ head.role }})</p>
+                                            <h3> @{{ head.subject }}</h3>
+                                            <p ng-bind-html-unsafe="head.body"> @{{ head.body }}</p>
+                                                 <img width="45" height="45" ng-if="head.hasfile == true" src="{{IMAGE_FILE_ICON}}">
+                                        </a>
+                                        <span class="receive-time"><i class="mdi mdi-clock"></i> @{{ head.last_time }}</span>
+                                        <br>
+                                    </li>
+
+
+
+
+                                        <p ng-if="heads.length == 0">{{getPhrase('sorry_no_messages_available')}}.</p>
+
                             
                                   </ul>
                               

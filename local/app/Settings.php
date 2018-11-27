@@ -61,6 +61,12 @@ class Settings extends Model
         return $values->homework_allowed_files;
     }
 
+    public static function get_message_extensions(){
+        $record = Settings::where('slug', 'allowed_messages_files')->first();
+        $values = json_decode($record->settings_data);
+        return $values->homework_allowed_files;
+    }
+
     public static function get_default_theme(){
         $record = Settings::where('slug', 'site-settings')->first();
         $values = json_decode($record->settings_data);

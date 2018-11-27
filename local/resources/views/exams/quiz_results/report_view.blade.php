@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{$title}}</title>
 
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css">
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/font-awesome.css"/>
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/bootstrap.css">
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-core.css">
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-theme.css">
-    <link rel="stylesheet" media="all" href="{{PREFIX}}css/Report/neon-rtl.css">
+    <link rel="stylesheet"   href="{{PREFIX}}css/Report/font-icons/entypo/css/entypo.css"  type="text/css" media="all" />
+    <link rel="stylesheet"   href="{{PREFIX}}css/font-awesome.css"  type="text/css" media="all"/>
+    <link rel="stylesheet"   href="{{PREFIX}}css/Report/bootstrap.css" type="text/css" media="all">
+    <link rel="stylesheet"   href="{{PREFIX}}css/Report/neon-core.css" type="text/css" media="all">
+    <link rel="stylesheet"   href="{{PREFIX}}css/Report/neon-theme.css" type="text/css" media="all">
+    <link rel="stylesheet"   href="{{PREFIX}}css/Report/neon-rtl.css" type="text/css" media="all">
     <style>
         @media  print {
-            .head th {
-                background-color: #91919a ;
-                color:white;
-                -webkit-print-color-adjust: exact;
+            h3{
+                background-color: #91919a;
+                color:red;
+                -webkit-print-color-adjust:exact;
             }}
     </style>
 </head>
@@ -31,7 +31,6 @@
         <center>
             <img style="width: 100%;" src="{{IMAGE_PATH_SETTINGS}}{{\App\Settings::get_att_logo()}}">
         </center>
-
     </div>
     <div class="row" style="font-size: 15px;">
         {{--<div style="float: right;">--}}
@@ -42,7 +41,7 @@
         </div>
     </div>
     <div class="row">
-            <table class="table  table-bordered table-dark" style="font-size: 20px;width: 50%;
+            <table class="table  table-bordered table-dark" style="font-size: 17px;width: 50%;word-spacing: 2px;
     border-spacing: 0;float: right;    margin-top: 5%;" border="1">
                 <thead>
                 <th style="border:1px solid #000;">{{getPhrase('name')}}</th>
@@ -58,7 +57,7 @@
                 @endforeach
             </table>
 
-        <table class="table  table-bordered table-dark" style="margin-top:5%;font-size: 20px;width: 44%;
+        <table class="table  table-bordered table-dark" style="margin-top:5%;font-size: 17px;width: 44%;word-spacing: 2px;
     border-spacing: 0;float: left;" border="1">
                 <tr>
                     <th style="background-color: grey;color: white">{{getPhrase('teacher_name')}}</th>

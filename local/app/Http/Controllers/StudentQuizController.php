@@ -397,6 +397,7 @@ class StudentQuizController extends Controller
 
         $quiz = Quiz::getRecordWithSlug($slug);
 
+
         if ($this->examSession('check')) {
             flash(getPhrase('Ooops'), getPhrase('exam_already_submitted'), 'info');
             return redirect($this->getRedirectUrl());

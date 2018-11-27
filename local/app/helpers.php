@@ -1342,7 +1342,7 @@ function getCourses($year){
 }
 
 function isAdmin(){
-    if(Auth::user()->role_id == 2){
+    if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
         return true;
     }
     return false;
@@ -1745,4 +1745,9 @@ function Delete_File($file,$path){
     }else{
         return "file not found";
     }
+}
+
+function getMessageFiles($id)
+{
+    return \App\MessagesFile::where('messages_id',$id)->get();
 }
