@@ -76,7 +76,7 @@ $new_tab_active = ' in active';
 					<fieldset class="form-group ">
 						{{ Form::label('parent_name', getphrase('parent_name')) }}
 						<span class="text-red" >*</span>
-						{{ Form::text('parent_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack', 'ng-model'=>'parent_name')) }}
+						{{ Form::text('parent_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'), 'ng-model'=>'parent_name')) }}
 					</fieldset>
 					<fieldset class="form-group ">
 						{{ Form::label('ID_number', getphrase('ID_number')) }}
@@ -91,7 +91,7 @@ $new_tab_active = ' in active';
 					<fieldset class="form-group ">
 						{{ Form::label('parent_user_name', getphrase('parent_user_name')) }}
 						<span class="text-red" >*</span>
-						{{ Form::text('parent_user_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack', 'ng-model'=>'parent_user_name')) }}
+						{{ Form::text('parent_user_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'), 'ng-model'=>'parent_user_name')) }}
 					</fieldset>
 					<fieldset class="form-group ">
 						{{ Form::label('parent_email', getphrase('parent_email')) }}

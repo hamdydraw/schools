@@ -11,7 +11,7 @@
 										<fieldset class="form-group col-md-6">
 										{{ Form::label('first_name', getphrase('first_name')) }}
 										<span class="text-red" >*</span>
-											{{ Form::text('first_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack')) }}
+											{{ Form::text('first_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'))) }}
 										</fieldset>
 										<fieldset class="form-group col-md-6">
 										{{ Form::label('middle_name', getphrase('middle_name')) }}

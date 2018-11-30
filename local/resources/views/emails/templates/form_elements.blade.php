@@ -68,7 +68,7 @@
 					<fieldset class="form-group">
 						{{ Form::label('from_name', getphrase('from_name')) }}
 						<span class="text-red">*</span>
-						{{ Form::text('from_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
+						{{ Form::text('from_name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'),
 							'ng-model'=>'from_name',
 							'ng-pattern' => getRegexPattern("name"),
 							'required'=> 'true',

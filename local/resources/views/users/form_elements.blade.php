@@ -5,7 +5,7 @@
 
     <span class="text-red">*</span>
 
-    {{ Form::text('name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
+    {{ Form::text('name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'),
 
         'ng-model'=>'name',
 
@@ -75,7 +75,7 @@ if ($record) {
 
     <span class="text-red">*</span>
 
-    {{ Form::text('username', $value = $username_value , $attributes = array('class'=>'form-control', 'placeholder' => 'Jack',
+    {{ Form::text('username', $value = $username_value , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'),
 
         'ng-model'=>'username',
 
@@ -134,7 +134,7 @@ if ($record) {
 
     <span class="text-red">*</span>
 
-    {{ Form::email('email', $value = null, $attributes = array('class'=>'form-control', 'placeholder' => 'jack@jarvis.com',
+    {{ Form::email('email', $value = null, $attributes = array('class'=>'form-control', 'placeholder' => 'email@sasbit.com',
 
         'ng-model'=>'email',
 
