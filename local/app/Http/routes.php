@@ -1543,7 +1543,7 @@ Route::get('/test_it/{key}', function ($key){
 
 Route::get('/test_2', function () {
 
-    $users =  \App\User::where('email','like','% %')->get();
+    return $_SERVER['SERVER_NAME'];
 });
 
 Route::get('/fix_mails', function () {
@@ -1551,7 +1551,7 @@ Route::get('/fix_mails', function () {
     $users =  \App\User::get();
     foreach ($users as $user){
         if(ValidateMail($user->email) == false){
-            $user->email = $user->id_number."@sasbit.com";
+            $user->email = $user->id_number."@".$_SERVER['SERVER_NAME'];
             $user->save();
         }
     }
