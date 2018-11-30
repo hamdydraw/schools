@@ -393,14 +393,16 @@ class MessagesController extends Controller
         $destinationPath = "uploads/messages/";
         $record1 = rand(1, 200000);
         $record2 = rand(1, 200000);
+        $finalname = [];
 
         if ($request->hasFile('file')) {
 
             foreach ($request->file as $file){
                 $extension = $file->extension();
                 $filename  = $file->getClientOriginalName();
-                $finalname[$record1] = $record1 . $filename;
-                $file->move($destinationPath,$finalname[$record1]);
+                $name = $record1 . $filename;
+                array_push($finalname,$name);
+                $file->move($destinationPath,$name);
                 $record1++;
             }
             return json_encode(['state' => 'success', 'desc' => getPhrase('upload_success'), 'files' => $finalname]);

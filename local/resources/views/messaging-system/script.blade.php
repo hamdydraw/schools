@@ -11,6 +11,7 @@
     app.controller('homeworkCtrl', function ($scope, $http, Upload, toastr) {
 
         $scope.bupload = true;
+        $scope.file_name = [];
         $scope.upload_file = function ($files) {
             console.log("function_worked")
             $scope.bupload = false;
@@ -57,7 +58,9 @@
                                 $scope.uploaded_file = response.data.file;
                             }
                             //$scope.file_show = "{{ EXAM_UPLOADS}}" + response.data.file;
-                            $scope.file_name = response.data.files;
+                            angular.forEach(response.data.files, function(value, key) {
+                                $scope.file_name.push(value)
+                            });
                             $('#progressbar').hide();
                             //$scope.massage = "file uploaded successfully";
                             $('#upload1').val('');

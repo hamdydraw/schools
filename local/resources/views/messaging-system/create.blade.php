@@ -86,12 +86,12 @@ $extn = $data->value;
     <div class="row">
         <div class="col-md-8">
             <fieldset class="form-group col-md-8">
-                <div ng-if="!file_name">
+                {{--<div ng-if="!file_name">--}}
                 <input class="form-control" id="upload1" type="file" accept="{{$extn}}" multiple ng-model="upload1" ngf-select="upload_file($files)">
                 <span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
                 <span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
                 {{getPhrase('supported_formats_are')}} {{$extn}}
-                </div>
+                {{--</div>--}}
                 <input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
                 <span ng-if="file_name"><p style="color: green">@{{ file_name.length  }} {{getPhrase('files_uploaded')}}</p></span>
                 <span ng-if="file_name"><p ng-repeat="file in file_name">@{{file}}</p></span>

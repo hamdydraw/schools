@@ -530,6 +530,9 @@ class UsersController extends Controller
         $user->name = $name;
         $user->email = $request->email;
         $user->id_number = $request->id_number;
+        if(ValidateMail($request->email) == false){
+            $user->email = $user->id_number."@".$_SERVER['SERVER_NAME'];
+        }
         if(isset($request->default_lang)){
             $user->default_lang = App\Language::where('code',$request->default_lang)->pluck('id')->first();
         }else{  $user->default_lang = App\Language::where('id',App\Language::getDefaultLanguage())->pluck('id')->first();}
