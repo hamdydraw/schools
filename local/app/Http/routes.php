@@ -1548,10 +1548,12 @@ Route::get('/test_2', function () {
 
 Route::get('/fix_mails', function () {
 
-    $users =  \App\User::where('email','like','% %')->get();
+    $users =  \App\User::get();
     foreach ($users as $user){
-        $user->email = $user->id_number."@sasbit.com";
-        $user->save();
+        if(ValidateMail($user->email) == false){
+            $user->email = $user->id_number."@sasbit.com";
+            $user->save();
+        }
     }
     return "done";
 });
