@@ -1792,7 +1792,7 @@ class UsersController extends Controller
         $new_parent->id_number     = $number;
         $new_parent->username      = $number;
         $new_parent->password      = bcrypt($number);
-        $new_parent->email         = $number."_".$name."@gmail.com";
+        $new_parent->email         = $number."@sasbit.com";
         $new_parent->slug          = $new_parent->makeSlug($name);
         $new_parent->role_id       = 6;
         $new_parent->login_enabled = 1;
@@ -1812,7 +1812,7 @@ class UsersController extends Controller
         $new_parent->id_number     = $number;
         $new_parent->username      = $number;
         $new_parent->password      = bcrypt($number);
-        $new_parent->email         = $number."_".$name."@gmail.com";
+        $new_parent->email         = $number."@sasbit.com";
         $new_parent->slug          = $new_parent->makeSlug($name);
         $new_parent->role_id       = 10;
         $new_parent->login_enabled = 1;

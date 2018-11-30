@@ -73,7 +73,7 @@
 
                                             <h6 class="media-heading">{!! getPhrase(getRole($message->user['id'])) !!}</h6>
                                             <p>{!! $message->body !!}</p>
-                                            <div class="text-muted"><small>Posted {!! $message->created_at->diffForHumans() !!}</small></div>
+                                            <div class="text-muted"><small>Posted {!! getPhrase(str_replace(' ','_',$message->created_at->diffForHumans())) !!}</small></div>
                                             @foreach(getMessageFiles($message->id) as $file)
                                                <a href="{{MESSAGES_FILES.$file->file_name}}" download> <img width="35" height="35" src="{{IMAGE_FILE_ICON}}"></a>
                                             @endforeach
@@ -111,7 +111,7 @@
 
             <!-- Submit Form Input -->
             <div class="text-center">
-                {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-lg']) !!}
+                {!! Form::submit(getPhrase('send'), ['class' => 'btn btn-primary btn-lg']) !!}
             </div>
             {!! Form::close() !!}
 

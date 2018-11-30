@@ -116,15 +116,15 @@ if ($record) {
 
     $readonly = '';
 
-    if (!checkRole(getUserGrade(4)))
-
-        $readonly = 'readonly="true"';
-
-    if ($record) {
-
-        $readonly = 'readonly="true"';
-
-    }
+//    if (!checkRole(getUserGrade(4)))
+//
+//        $readonly = 'readonly="true"';
+//
+//    if ($record) {
+//
+//        $readonly = 'readonly="true"';
+//
+//    }
 
 
 

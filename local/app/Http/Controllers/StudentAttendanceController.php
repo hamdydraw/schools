@@ -243,6 +243,7 @@ class StudentAttendanceController extends Controller
         $data['layout'] = getLayout();
         $data['role_name'] = getRoleData($user->role_id);
         $data['userdata'] = $user;
+        $data['period']   = $request->total_class;
 
         if (count($students)) {
             return view('attendance.list', $data);
@@ -323,8 +324,16 @@ class StudentAttendanceController extends Controller
         $user_id = Auth::User()->id;
 
 
+
         foreach ($attendance_code_records as $key => $value) {
 
+
+            if($total_class == 1 &&  $value == 'A'){
+                $student   = App\Student::where('id',$key)->first();
+                $student = User::where('id',$student->user_id)->first();
+                $parent    = User::where('id',$student->parent_id)->first();
+                makeAbsNotification($parent,$student,$request);
+            }
             $attendance = new App\StudentAttendance();
 
             $attendance->academic_id = $academic_id;

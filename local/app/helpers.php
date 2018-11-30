@@ -1,16 +1,12 @@
 <?php
 
-/**
- * Flash Helper
- * @param  string|null $title
- * @param  string|null $text
- * @return void
- */
+/**absent*/
 
 use Illuminate\Support\Facades\Auth;
 use App\Student;
 use App\User;
 use App\Topic;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Academic;
 
@@ -411,6 +407,13 @@ function getUserGrade($grade = 5)
 
     }
 }
+
+
+function ValidateMail($email){
+    $result = filter_var( $email, FILTER_VALIDATE_EMAIL );
+    return $result;
+}
+
 
 /**
  * Returns the appropriate layout based on the user logged in
@@ -879,6 +882,55 @@ function getPercentage($value, $total)
     return number_format(($value / $total) * 100, 2);
 }
 
+function getPeriodNumber($number){
+    if($number == 1){
+        return getPhrase('First_period');
+    }
+    if($number == 2){
+        return getPhrase('Second_period');
+    }
+    if($number == 3){
+        return getPhrase('Third_period');
+    }
+    if($number == 4){
+        return getPhrase('Forth_period');
+    }
+    if($number == 5){
+        return getPhrase('Fifth_period');
+    }
+    if($number == 6){
+        return getPhrase('Sixth_period');
+    }
+    if($number == 7){
+        return getPhrase('Seventh_period');
+    }
+    if($number == 8){
+        return getPhrase('Eighth_period');
+    }
+
+}
+
+function makeAbsNotification($parent,$student,Request $request)
+{
+    $notifi = new \App\Notification();
+    $notifi->title = getPhrase('Absence_status');
+    $notifi->slug  = $notifi->makeSlug($notifi->title);
+    $notifi->short_description = "dear mr $parent->name <br> your son $student->name is absent";
+    $notifi->description       = "dear mr $parent->name <br> your son $student->name is absent from the first period in the day $request->attendance_date";
+    $datetime = new DateTime('today');
+    $notifi->valid_from =  $datetime->format('Y-m-d H:i:s');
+    $datetime = new DateTime('tomorrow');
+    $notifi->valid_to =  $datetime->format('Y-m-d H:i:s');
+    $notifi->user_stamp($request);
+    $notifi->save();
+    $parent_notifi = new \App\user_notifications();
+    $parent_notifi->user_id = $parent->id;
+    $parent_notifi->notification_id = $notifi->id;
+    $parent_notifi->user_stamp($request);
+    $parent_notifi->save();
+    return true;
+
+}
 /**
  * This method will return the data for bootstrap tour plugin
  * @param  [type] $key [description]

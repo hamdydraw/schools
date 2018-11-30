@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -90,6 +91,7 @@ class MessagesController extends Controller
 
         foreach ($threads as $thread){
             $thread->last_time = $thread->latestMessage->updated_at->diffForHumans();
+            $thread->last_time = getPhrase(str_replace(' ','_',$thread->last_time));
             $thread->body      = $thread->latestMessage->body;
             $thread->username  = getUserName($thread->latestMessage->user_id);
             $thread->role      = getPhrase(getRole($thread->latestMessage->user_id));
@@ -267,9 +269,9 @@ class MessagesController extends Controller
         foreach ($input['recipients'] as $reciver)
         {
             $user = User::where('id',$reciver)->first();
-            $message['{$reciver}']         = $user->username;
+            $message['{$reciver}']         = $user->name;
             $message['to_email']        = $user->email;
-            $message['{$sender}']          = Auth::user()->username;
+            $message['{$sender}']          = Auth::user()->name;
             $message['{$sender_type}']     = getRole(Auth::user()->id);
             $message['{$message_subject}'] = $input['subject'];
             $message['{$message_body}']    = $input['message'];
@@ -315,6 +317,10 @@ class MessagesController extends Controller
             return back();
         }
 
+        $recipients = DB::table('messenger_participants')->where('thread_id', $id)->where('user_id','!=',Auth::user()->id)->select('user_id')->get();
+        $subject = Thread::where('id',$id)->first()->subject;
+
+
         $current_user =     Auth::user();
         $available_types = App\Settings::getMassages();
 
@@ -349,6 +355,8 @@ class MessagesController extends Controller
                 'user_id'   => Auth::user()->id,
             ]
         );
+
+
         $participant->last_read = new Carbon;
         $participant->save();
         if(count($files) > 0){
@@ -361,6 +369,18 @@ class MessagesController extends Controller
         // Recipients
         if (Input::has('recipients')) {
             $thread->addParticipants(Input::get('recipients'));
+        }
+        foreach ($recipients as $reciver)
+        {
+            $user = User::where('id',$reciver->user_id)->first();
+            $message['{$reciver}']         = $user->name;
+            $message['to_email']           = $user->email;
+            $message['{$sender}']          = Auth::user()->name;
+            $message['{$sender_type}']     = getRole(Auth::user()->id);
+            $message['{$message_subject}'] = $subject;
+            $message['{$message_body}']    = $input['message'];
+            sendEmail('messages',$message);
+
         }
         return redirect('messages/' . $id);
     }

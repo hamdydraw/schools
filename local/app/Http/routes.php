@@ -1537,11 +1537,23 @@ Route::get('/get_classes/{course}',function ($course){
 });
 //test Route
 
-Route::get('/test_it/{key}', 'MessagesController@search');
+Route::get('/test_it/{key}', function ($key){
+    return json_encode(ValidateMail($key));
+});
 
 Route::get('/test_2', function () {
 
-    return \App\Settings::getSetting('site_logo_attendance_header','site_settings');
+    $users =  \App\User::where('email','like','% %')->get();
+});
+
+Route::get('/fix_mails', function () {
+
+    $users =  \App\User::where('email','like','% %')->get();
+    foreach ($users as $user){
+        $user->email = $user->id_number."@sasbit.com";
+        $user->save();
+    }
+    return "done";
 });
 
 Route::get('/get_countries', function () {
