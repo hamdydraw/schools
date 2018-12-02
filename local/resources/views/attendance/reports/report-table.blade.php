@@ -59,10 +59,12 @@
                 @foreach($records['students'] as $student)
                     <tr>
                         <td style="border:1px solid #000;">{{str_replace('_', ' ', $student->name)}}</td>
-                        @if(isset())
-                        @foreach(${$student->name}  as $key => $value)
+
+                        @if(isset(${$student->slug}))
+                        @foreach(${$student->slug}  as $key => $value)
                             <td style="border:1px solid #000;"><p>{!!  html_entity_decode(change_att_symbols($value))!!}  </p></td>
                         @endforeach
+                        @endif
                     </tr>
                 @endforeach
             </table>
