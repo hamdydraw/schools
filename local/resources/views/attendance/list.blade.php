@@ -117,7 +117,7 @@ $classTitle = $submitted_data->course_record->course_title;
                                         <td>{{ $sno++ }}</td>
                                         
                                         <td><img src="{{getProfilePath($user->image)}}"></td>
-                                        <td style="width:20%">{{ $student->last_name }}</td>
+                                        <td style="width:20%">{{ $student->name }}</td>
                                         <td>
                                             <div class="col-md-4">
                                                 <?php
