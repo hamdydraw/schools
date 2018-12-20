@@ -420,7 +420,7 @@ class StudentAttendanceController extends Controller
                     'users.status',
                     'staff.user_id'
                 ])
-                ->orderBy('users.updated_at', 'desc')->get();
+                ->orderBy('users.name', 'desc')->get();
                 return $records;
     }
 

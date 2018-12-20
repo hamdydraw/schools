@@ -71,6 +71,9 @@ class ParentsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
+						   <li><a href="' . URL_HOMEWORK_STUDENT.'/' . $records->slug .'"><i class="fa fa-briefcase"></i>'. getPhrase('Homeworks') .'</a></li>
+						   <li><a href="' . URL_STUDENT_EXAM_CATEGORIES.'"><i class="fa fa-briefcase"></i>'. getPhrase('exams') .'</a></li>
+						   <li><a href="' . URL_STUDENT_LMS_CATEGORIES .'"><i class="fa fa-briefcase"></i>'. getPhrase('lms') .'</a></li>
                         </ul>
                     </div>';
                 }
