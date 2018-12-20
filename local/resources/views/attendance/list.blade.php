@@ -3,8 +3,7 @@
     <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
 @section('content')
-
-
+ 
 <?php
 $classTitle = $submitted_data->course_record->course_title;
 
@@ -80,9 +79,9 @@ $classTitle = $submitted_data->course_record->course_title;
                                 <thead>
                                 <tr>
                                     <th>{{ getPhrase('sno')}}</th>
-                                    <th>{{ getPhrase('roll_no')}}</th>
+                                    
                                     <th>{{ getPhrase('photo')}}</th>
-                                    <th>{{ getPhrase('name')}}</th>
+                                    <th style="width:20%">{{ getPhrase('name')}}</th>
                                     <th>{{ getPhrase('attendance_status')}}</th>
                                     <th>{{ getPhrase('notes')}}</th>
                                     <th>{{ getPhrase('activities')}}</th>
@@ -116,9 +115,9 @@ $classTitle = $submitted_data->course_record->course_title;
                                     <?php $user = $student->user()->first(); ?>
                                     <tr>
                                         <td>{{ $sno++ }}</td>
-                                        <td>{{ $student->roll_no }}</td>
+                                        
                                         <td><img src="{{getProfilePath($user->image)}}"></td>
-                                        <td>{{ $student->first_name }}</td>
+                                        <td style="width:20%">{{ $student->last_name }}</td>
                                         <td>
                                             <div class="col-md-4">
                                                 <?php

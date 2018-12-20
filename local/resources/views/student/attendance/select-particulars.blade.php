@@ -20,7 +20,7 @@
                             {{getPhrase('attendance')}}
                         </a>
                     </li>
-                     
+
                 </ol>
             </div>
         </div>
@@ -116,10 +116,10 @@
     </div>
 </div>
 @endsection
- 
+
 
 @section('footer_scripts')
-  
- 
+
+
 
 @stop

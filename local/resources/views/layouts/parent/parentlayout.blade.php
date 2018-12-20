@@ -265,10 +265,11 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 									{{ getPhrase('analysis') }} </a>
 
 								</li>
-
+<!-- hamdy
 								<li {{ isActive($active_class, 'homeworks') }} >
 									<a href="{{URL_HOMEWORK_PARENT}}">
-										<i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a></li>
+										<i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a>
+										</li>
 										@if(Module_state('exams'))
 										<li {{ isActive($active_class, 'exams') }} >
 
@@ -284,9 +285,10 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 												<li><a href="{{URL_STUDENT_EXAM_SERIES_LIST}}"> <i class="fa fa-list-ol"></i>{{ getPhrase('exam_series') }}</a></li>
 												<li><a href="{{URL_STUDENT_EXAM_OFFLINE_EXAMS}}"> <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> {{ getPhrase('offline_exams_categories')}}
 											</a></li>
-										</ul> -->
+										</ul> 
 									</li>
 									@endif
+								
 									@if(Module_state('management_of_educational_content'))
 									<li {{ isActive($active_class, 'lms') }} >
 										<a  href="{{ URL_STUDENT_LMS_CATEGORIES }}"><i class="fa fa-leanpub" aria-hidden="true"></i>
@@ -303,9 +305,9 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
 										</ul> -->
 
-									</li>
+								<!-- hamdy	</li>
 									@endif
-
+	-->
 									@if($settings->attendance_and_departure->value == 1)
 									<li {{ isActive($active_class, 'Automatic_call') }}>
 										<a  href="{{url('parent/autocall')}}"><i class="fa fa-assistive-listening-systems" ></i>
