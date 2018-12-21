@@ -614,7 +614,9 @@ class QuizController extends Controller
         $subject_id = App\CourseSubject::where('id',$request->course_subject_id)->first()->subject_id;
         $staff_id   = App\CourseSubject::where('id',$request->course_subject_id)->first()->staff_id;
         $users = App\QuizResult::join('users','users.id','=','quizresults.user_id')
+                                 ->join('students','users.id','=','students.user_id')
                                  ->select('users.id as user')
+                                 ->where('students.course_id',$request->class_id)
                                  ->where('quiz_id',$request->current_quiz_id)
                                  ->groupBy('quizresults.user_id')
                                  ->get();
