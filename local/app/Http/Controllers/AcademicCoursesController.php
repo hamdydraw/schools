@@ -171,7 +171,14 @@ class AcademicCoursesController extends Controller
                 ])
                 ->where('academic_id', '=', $request->academic_id)
                 ->where('courses.category_id',Auth::user()->category_id)
-                ->groupBy('course_id')->get();
+                ->groupBy('course_id');
+
+                // show only student's parent course
+                if(Auth::user()->role_id == 5){
+                    $records= $records->where('academic_course.course_id',Auth::user()->student->course_parent_id);
+                }
+                
+                $records = $records->get();
         }
 
 
