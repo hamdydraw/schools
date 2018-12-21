@@ -46,6 +46,27 @@ class ParentsController extends Controller
         $data['layout'] = getLayout();
         return view('parent.list-users', $data);
     }
+	public function children()
+    {
+
+        $user = getUserWithSlug();
+
+        if (!checkRole(getUserGrade(7))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+
+        if (!isEligible($user->slug)) {
+            return back();
+        }
+
+        $data['records'] = false;
+        $data['user'] = $user;
+        $data['title'] = getPhrase('children');
+        $data['active_class'] = 'children';
+        $data['layout'] = getLayout();
+        return view('parent.lession-children', $data);
+    }
 
     /**
      * This method returns the datatables data to view
@@ -71,6 +92,7 @@ class ParentsController extends Controller
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                            <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
+						   <li><a href="' . URL_STUDENT_LEASON_PLAN . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("lesson_plans") . '</a></li>
 						   <li><a href="' . URL_HOMEWORK_STUDENT.'/' . $records->slug .'"><i class="fa fa-briefcase"></i>'. getPhrase('Homeworks') .'</a></li>
 						   <li><a href="' . URL_STUDENT_EXAM_CATEGORIES.'"><i class="fa fa-briefcase"></i>'. getPhrase('exams') .'</a></li>
 						   <li><a href="' . URL_STUDENT_LMS_CATEGORIES .'"><i class="fa fa-briefcase"></i>'. getPhrase('lms') .'</a></li>
@@ -80,6 +102,43 @@ class ParentsController extends Controller
             })
             ->editColumn('name', function ($records) {
                 return '<a href="' . URL_USER_DETAILS . $records->slug . '" title="' . $records->name . '">' . ucfirst($records->name) . '</a>';
+            })
+            ->editColumn('image', function ($records) {
+                return '<img src="' . getProfilePath($records->image) . '"  />';
+            })
+            ->removeColumn('slug')
+            ->removeColumn('id')
+            ->make();
+    }
+public function getLessionChildDatatable($slug)
+    {
+        $records = array();
+        $user = getUserWithSlug($slug);
+
+        $records = User::select(['name', 'image', 'email', 'slug', 'id'])->where('parent_id', '=', $user->id)->get();
+
+
+        return Datatables::of($records)
+            ->addColumn('action', function ($records) {
+                $buy_package = '';
+
+                if (!isSubscribed('main', $records->slug) == 1) {
+                    return '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                           <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
+						   <li><a href="' . URL_STUDENT_LEASON_PLAN . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("lesson_plans") . '</a></li>
+						   <li><a href="' . URL_HOMEWORK_STUDENT.'/' . $records->slug .'"><i class="fa fa-briefcase"></i>'. getPhrase('Homeworks') .'</a></li>
+						   <li><a href="' . URL_STUDENT_EXAM_CATEGORIES.'"><i class="fa fa-briefcase"></i>'. getPhrase('exams') .'</a></li>
+						   <li><a href="' . URL_STUDENT_LMS_CATEGORIES .'"><i class="fa fa-briefcase"></i>'. getPhrase('lms') .'</a></li>
+                        </ul>
+                    </div>';
+                }
+            })
+            ->editColumn('name', function ($records) {
+                return '<a href="' . URL_STUDENT_LEASON_PLAN . $records->slug . '" title="' . $records->name . '">' . ucfirst($records->name) . '</a>';
             })
             ->editColumn('image', function ($records) {
                 return '<img src="' . getProfilePath($records->image) . '"  />';

@@ -463,7 +463,8 @@ define('URL_SEARCH_PARENT_RECORDS', PREFIX.'student/get-parent-records');
 define('URL_STUDENT_COURSES', PREFIX.'student/courses');
 define('URL_STUDENT_COURSE_SEMISTER', PREFIX.'student/course-semister/');
 
-
+define('URL_STUDENT_LEASON_PLAN', PREFIX.'student/lession-plans/');
+define('URL_PARENT_CHILDREN_LESSION_PLAN', PREFIX.'parent/children/lession-plans');
 ///////////////////
 // STUDENT EXAMS //
 ///////////////////
@@ -488,6 +489,7 @@ define('URL_QUIZ_LOAD_SCHEDULED_EXAMS', PREFIX.'exams/student/load-scheduled-exa
 define('URL_PARENT_CHILDREN', PREFIX.'parent/children');
 define('URL_PARENT_CHILDREN_LIST', PREFIX.'parent/children_list');
 define('URL_PARENT_CHILDREN_GETLIST', PREFIX.'parent/children/getList/');
+define('URL_PARENT_CHILDREN_GETLESSIONCHILDLIST', PREFIX.'parent/children/getLessionChildList/');
 define('URL_PARENT_CHILDREN_GETLIST_EXPENSES', PREFIX.'purchase-expenses/getlist');
 define('URL_MASTERSETTINGS_EXPENSES_DELETE', PREFIX.'mastersettings/dues/delete/');
 define('URL_SUBSCRIBE', PREFIX.'subscription/subscribe/');

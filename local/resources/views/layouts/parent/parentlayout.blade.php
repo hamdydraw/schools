@@ -265,9 +265,9 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 									{{ getPhrase('analysis') }} </a>
 
 								</li>
-<!-- hamdy
-								<li {{ isActive($active_class, 'homeworks') }} >
-									<a href="{{URL_HOMEWORK_PARENT}}">
+								<!-- hamdy
+								    <li {{ isActive($active_class, 'homeworks') }} >
+									    <a href="{{URL_HOMEWORK_PARENT}}">
 										<i class="fa fa-briefcase"></i>{{ getPhrase('Homeworks') }}</a>
 										</li>
 										@if(Module_state('exams'))
@@ -275,9 +275,7 @@ if($settings->messaging->value == 1 && in_array($current_user->role_id,$availabl
 
 											<a data-toggle="collapse" data-target="#exams" href="{{URL_STUDENT_EXAM_CATEGORIES}}"><i class="fa fa-pencil-square-o" ></i>
 
-												{{ getPhrase('exams') }} </a>
-
-
+												{{ getPhrase('exams') }} </a> 
 												<!-- <ul id="exams" class="collapse sidemenu-dropdown">
 
 												<li><a href="{{URL_STUDENT_EXAM_CATEGORIES}}"> <i class="fa fa-random"></i>{{ getPhrase('exam_categories') }}</a></li>
