@@ -79,16 +79,24 @@ class StudentAttendanceReportController extends Controller
         $academic_id        = $request->academic_id;
         $student_id         = $request->student_id;
         $course_id          = $request->course_id;
-        $course_parent_id          = $request->parent_course_id;
+        $course_parent_id   = $request->parent_course_id;
         $year               = $request->year;
-        $semister           = $request->semister;
-        $semister = new App\AcademicSemester();
-        $currentSemeterOfYear = $semister->getCurrentSemeterOfAcademicYear($academic_id);
-        if ($currentSemeterOfYear) {
-            $currentSemeterOfYear = $currentSemeterOfYear->sem_num;
+
+        
+        // $semister           = $request->semister;
+        // activated semester input
+        if (isset($request->semister)) {
+            $currentSemeterOfYear = $request->semister;
         } else {
-            $currentSemeterOfYear = 0;
+            $semister = new App\AcademicSemester();
+            $currentSemeterOfYear = $semister->getCurrentSemeterOfAcademicYear($academic_id);
+            if ($currentSemeterOfYear) {
+                $currentSemeterOfYear = $currentSemeterOfYear->sem_num;
+            } else {
+                $currentSemeterOfYear = 0;
+            }
         }
+        
         $attendance         = App\StudentAttendance::
         join('subjects', 'subjects.id', '=', 'studentattendance.subject_id')
 
@@ -96,7 +104,10 @@ class StudentAttendanceReportController extends Controller
 
         ->where('student_id',   '=', $student_id)
         ->where('academic_id',  '=', $academic_id)
-        ->where('course_id',    '=', $course_parent_id)
+        // changed $course_parent_id to be $course_id as i noticed that $course_parent_id is always '0' in studentattendance table
+        // ->where('course_id',    '=', $course_parent_id)
+        ->where('course_id',    '=', $course_id)
+        
         /*->where('year',         '=', $year)*/
         ->where('semester',     '=', $currentSemeterOfYear)
         ->get();

@@ -171,7 +171,14 @@ class AcademicCoursesController extends Controller
                 ])
                 ->where('academic_id', '=', $request->academic_id)
                 ->where('courses.category_id',Auth::user()->category_id)
-                ->groupBy('course_id')->get();
+                ->groupBy('course_id');
+
+                // show only student's parent course
+                if(Auth::user()->role_id == 5){
+                    $records= $records->where('academic_course.course_id',Auth::user()->student->course_parent_id);
+                }
+                
+                $records = $records->get();
         }
 
 
@@ -246,7 +253,8 @@ class AcademicCoursesController extends Controller
 
         if ($user_role == 'student') {
             $records = $records->where('parent_id', '=', $student_record->course_parent_id)
-                ->where('courses.id',$student_record->course_id);
+                ->where('courses.id',$student_record->course_id)
+                ->groupBy('courses.id'); // to fix duplicated courses
         }elseif (isset($request->user_id))
         {
             $student_record = App\Student::where('user_id', '=', $request->user_id)->first();

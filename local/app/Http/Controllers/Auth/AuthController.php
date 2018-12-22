@@ -234,7 +234,7 @@ class AuthController extends Controller
                 session()->put('is_student', '0');
                 if(checkRole(getUserGrade(5)))
                 {
-                    $user = App\User::where('email','=',$request->email)->first();
+                    $user = App\User::where('id_number','=',$request->email)->first();
                     if($user)
                     {
                         session()->put('is_student', '1');
