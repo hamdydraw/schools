@@ -53,6 +53,51 @@ class LessionPlan extends Model
         }
         return $subjects->get();
     }
+/**
+     * This method returns the allocated subjects for
+     * specific student with respective to the current academic year
+     * @param  integer $user_id [description]
+     * @param  integer $limit [description]
+     * @param  string $orderBy [description]
+     * @return [type]           [description]
+     */
+    public static function getStudentSubjects(
+        $user_id = 0,
+        $limit = 20,
+        $orderBy = 'asc'
+    ) {
+        if (!$user_id) {
+            $user_id = Auth::user()->id;
+        }
+
+        //$current_academic_id = getDefaultAcademicId();
+        $academic = new Academic();
+        $current_academic_id = $academic->getCurrentAcademic()['id'];
+        $subjects = [];
+        $subjects = CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
+            ->join('courses', 'courses.id', '=', 'course_subject.course_id')
+			->join('students', 'students.course_id', '=', 'course_subject.course_id')
+            ->where('students.user_id', '=', $user_id)
+            ->where('course_subject.academic_id', '=', $current_academic_id)
+            ->select([
+                'course_subject.id as id',
+                'course_subject.slug as slug',
+                'subject_title',
+                'course_title',
+                'year',
+                'semister',
+                'subject_id',
+                'staff_id',
+                'course_dueration'
+            ])
+            ->limit($limit)->orderBy('semister');
+        if ($orderBy == 'rand') {
+            $subjects = $subjects->inRandomOrder('year');
+        } else {
+            $subjects = $subjects->orderBy('year', $orderBy)->orderBy('semister', $orderBy);
+        }
+        return $subjects->get();
+    }
 
     /**
      * This method will return the detailed report for topics

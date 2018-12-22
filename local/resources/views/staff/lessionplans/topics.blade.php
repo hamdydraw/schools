@@ -8,8 +8,7 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
-                        @if($user=='admin'||$user=='owner')
-
+                        @if($user=='admin'||$user=='owner') 
                             <li><a href="{{URL_STAFF_DETAILS.$user->slug}}">{{ getPhrase('staff_dashboard')}}</a></li>
                         @endif
                         <li><a href="{{URL_LESSION_PLANS_DASHBOARD.$user->slug}}">{{ getPhrase('lesson_plans')}}</a>
@@ -39,6 +38,7 @@
                         <li class="col-md-6" ng-if="topic.childs.length != 0 " ng-repeat="subtopic in topic.childs">
 
                             <div class="topics clearfix">
+							  @if ($role != 'parent')
                                 <div class="checkbox custom-checkbox">
                                     <label>
 
@@ -69,7 +69,7 @@
                                         </div>
                                     </label>
                                 </div>
-
+  @endif
 
                                 <h4 ng-if="subtopic.is_completed==null || subtopic.is_completed==0">
                                     @{{subtopic.topic_name | capitalize}}</h4>

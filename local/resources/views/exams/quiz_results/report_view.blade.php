@@ -68,12 +68,16 @@
                 <th>{{$print_year}}</th>
             </tr>
             <tr>
+                <th style="background-color: grey;color: white">{{getPhrase('Semester')}}</th>
+                <th>{{getPhrase($print_term)}}</th>
+            </tr>
+            <tr>
                 <th style="background-color: grey;color: white">{{getPhrase('branch')}}</th>
                 <th>{{$print_course}}</th>
             </tr>
             <tr>
-                <th style="background-color: grey;color: white">{{getPhrase('Semester')}}</th>
-                <th>{{getPhrase($print_term)}}</th>
+                <th style="background-color: grey;color: white">{{getPhrase('class')}}</th>
+                <th>{{$print_class}}</th>
             </tr>
             <tr>
                 <th style="background-color: grey;color: white">{{getPhrase('subject')}}</th>
