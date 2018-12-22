@@ -730,7 +730,7 @@ class UsersController extends Controller
     {
 
         $record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
-
+         
         if (!isEligible($slug)) {
             return back();
         }
@@ -761,6 +761,7 @@ class UsersController extends Controller
 
         if (!$UserOwnAccount) {
             $current_user_role = getRoleData($record->role_id);
+                     
 
             if ((($current_user_role == 'admin' || $current_user_role == 'owner'))) {
                 if (!checkRole(getUserGrade(1))) {
@@ -770,7 +771,7 @@ class UsersController extends Controller
             }
         }
 
-        $data['record'] = $record;
+        $data['record'] = $record; 
         $data['roles'] = $this->getUserRoles();
 
         foreach ($data['roles'] as $key => $value){

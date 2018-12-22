@@ -39,7 +39,8 @@
             array('url' => URL_USERS_EDIT.$record->slug, 
             'method'=>'patch','novalidate'=>'','name'=>'formUsers ', 'files'=>'true' )) }}
             @else
-            {!! Form::open(array('url' => URL_USERS_ADD, 'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}
+            {!! Form::open(array('url' => URL_USERS_ADD, 
+		'method' => 'POST', 'novalidate'=>'','name'=>'formUsers ', 'files'=>'true')) !!}
               @endif
 
            @include('users.form_elements', array('button_name'=> $button_name, 'record' => $record,'title'=>$title))
