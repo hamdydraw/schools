@@ -102,10 +102,12 @@ class Student extends Model
 
     public function getStudents($academic_id,$course_parent_id/*$year, $semester*/)
     {
-        return Student::join('users', 'students.user_id', '=', 'users.id')->where('academic_id', '=', $academic_id)
+        return Student::join('users', 'students.user_id', '=', 'users.id')
+		                ->where('academic_id', '=', $academic_id)
                         ->where('course_id', '=', $course_parent_id)
                         /*->where('current_year', '=', $year)
                         ->where('current_semister', '=', $semester)*/
+						->select(["students.*","users.name"])
                         ->get();
     }
 
