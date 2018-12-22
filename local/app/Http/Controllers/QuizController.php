@@ -636,7 +636,7 @@ class QuizController extends Controller
         $data['print_quiz']    = Quiz::where('id',$request->current_quiz_id)->first()->title;
         $data['print_subject'] = Subject::where('id',$subject_id)->first()->subject_title;
         $data['max_mark']      = Quiz::where('id',$request->current_quiz_id)->first()->total_marks;
-        $data['teacher_name']  = App\User::where('id',$staff_id)->first()->name;
+        $data['teacher_name']  = App\User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$staff_id)->first()->name;
 
 
         return view('exams.quiz_results.report_view',$data);
