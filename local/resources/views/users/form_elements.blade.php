@@ -1,6 +1,9 @@
 <fieldset class="form-group">
+<?php $readonlyForParents = ''; 
+if(checkRole(['parent']))
+	$readonlyForParents = 'readonly="true"';
 
-
+?>
     {{ Form::label('name', getphrase('name')) }}
 
     <span class="text-red">*</span>
@@ -8,9 +11,9 @@
     {{ Form::text('name', $value = null , $attributes = array('class'=>'form-control', 'placeholder' => getphrase('name'),
 
         'ng-model'=>'name',
-
+        
         'required'=> 'true',
-
+         $readonlyForParents,
         'ng-pattern' => getRegexPattern('name'),
         'ng-class'=>'{"has-error": formUsers.name.$touched && formUsers.name.$invalid}',
 
@@ -55,6 +58,7 @@ if ($record) {
     'ng-model'=>'id_number',
 
     'required'=> 'true',
+	 $readonlyForParents,
 
     'ng-minlength' => '10',
 

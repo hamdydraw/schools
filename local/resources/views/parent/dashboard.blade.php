@@ -17,9 +17,9 @@
 					<div class="col-md-4">
 						<div class="card card-blue text-xs-center">
 							<div class="card-block">
-                <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
+                        <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
 								<h4 class="card-title"><i class="fa fa-random"></i></h4>
-								<p class="card-text">{{ getPhrase('quiz_categories')}}</p>
+								<p class="card-text">{{ getPhrase('exams')}}</p>
 							</div>
 							<a class="card-footer text-muted" href="{{URL_STUDENT_EXAM_CATEGORIES}}">
 								{{ getPhrase('view_all')}}
@@ -55,15 +55,58 @@
 						<div class="card card-green text-xs-center">
 							<div class="card-block">
 								<h4 class="card-title">{{ App\User::where('parent_id', '=', $user->id)->get()->count()}}</h4>
-								<p class="card-text">{{ getPhrase('children')}}</p>
+								<p class="card-text">{{ getPhrase('lesson_plans')}}</p>
 							</div>
-							<a class="card-footer text-muted" href="{{URL_PARENT_CHILDREN}}">
+							<a class="card-footer text-muted" href="{{URL_PARENT_CHILDREN_LESSION_PLAN}}">
 								{{ getPhrase('view_all')}}
 							</a>
 						</div>
 					</div>
-
-
+                   
+					 </div>
+					  <div class="row">
+					   @if(Module_state('management_of_educational_content'))
+					<div class="col-md-4">
+						<div class="card card-red text-xs-center">
+							<div class="card-block">
+                        <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
+								<h4 class="card-title"><i class="fa fa-random"></i></h4>
+								<p class="card-text">{{ getPhrase('lms')}}</p>
+							</div>
+							<a class="card-footer text-muted" href="{{ URL_STUDENT_LMS_CATEGORIES }}">
+								{{ getPhrase('view_all')}}
+							</a>
+						</div>
+					</div>
+					 @endif
+                    @if(Module_state('Automatic_call'))
+					<div class="col-md-4">
+						<div class="card card-brown text-xs-center">
+							<div class="card-block">
+                        <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
+								<h4 class="card-title"><i class="fa fa-random"></i></h4>
+								<p class="card-text">{{ getPhrase('Automatic_call')}}</p>
+							</div>
+							<a class="card-footer text-muted" href="{{url('parent/autocall')}}">
+								{{ getPhrase('view_all')}}
+							</a>
+						</div>
+					</div>
+					 @endif
+					   @if(Module_state('academic_expenses'))
+					<div class="col-md-4">
+						<div class="card card-blue text-xs-center">
+							<div class="card-block">
+                        <!-- <h4 class="card-title">{{ App\QuizCategory::get()->count()}}</h4> -->
+								<h4 class="card-title"><i class="fa fa-random"></i></h4>
+								<p class="card-text">{{ getPhrase('academic_expenses')}}</p>
+							</div>
+							<a class="card-footer text-muted" href="{{url('parent/purchase-expenses/all/')}}">
+								{{ getPhrase('view_all')}}
+							</a>
+						</div>
+					</div>
+					 @endif
 				</div>
 
 				<div class="row">

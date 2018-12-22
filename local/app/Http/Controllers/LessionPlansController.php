@@ -264,6 +264,105 @@ class LessionPlansController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         $recordOfSlug = App\User::where('slug', $userSlug)->first(['id']);
+		
+        if ($role == 'educational_supervisor') {
+            $checkIfExist = App\SupervisorStaff::where('supervisor_id', $user->id)->where('staff_id',
+                $recordOfSlug->id)->first();
+            if ($checkIfExist == null) {
+                flash(getPhrase('error'), getPhrase("you_are_not_eligible_to_enter_here"), 'error');
+                return redirect('dashboard');
+            }
+        }
+        if ($role != 'educational_supervisor' && $role != 'parent') {
+            if (!checkRole(getUserGrade(3))) {
+                prepareBlockUserMessage();
+                return back();
+            }
+        }
+
+        //*********VALIDATING THE USER START*****************//
+        //Make sure that the user is accessing only his record apart from admin/owner
+        if ($role != 'educational_supervisor'  && $role != 'parent') {
+            if (!isEligible($userSlug)) {
+                return back();
+            }
+        }
+
+
+        $user = App\User::where('slug', '=', $userSlug)->first();
+
+        if ($isValid = $this->isValidRecord($user)) {
+            return redirect($isValid);
+        }
+
+        $courseSubjectRecord = App\CourseSubject::where('slug', '=', $courseSubjectSlug)->first();
+        $courseSubjectSemester = $courseSubjectRecord->semister;
+
+        if ($isValid = $this->isValidRecord($courseSubjectRecord)) {
+            return redirect($isValid);
+        }
+
+        //Make sure the user got alotted the subject for him only
+        if ($courseSubjectRecord->staff_id != $user->id  && $role != 'parent') {
+            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
+            return back();
+        }
+
+        //*********VALIDATING THE USER END*****************//
+
+        $courseRecord = App\Course::where('id', '=', $courseSubjectRecord->course_id)->first();
+        $subjectRecord = App\Subject::where('id', '=', $courseSubjectRecord->subject_id)->first();
+
+        $available_records = App\LessionPlan::where('course_subject_id', '=', $courseSubjectRecord->id)->get();
+
+
+        $topics = $this->prepareTopicsList($courseSubjectRecord->subject_id, $courseSubjectRecord->id,
+            $courseSubjectSemester);
+
+
+        if (!count($topics)) {
+            flash(getPhrase('Ooops'), getPhrase('no_topics availble'), 'overlay');
+            return redirect('staff/lession-plans/' . $user->slug);
+        }
+
+        $data['items'] = json_encode(
+            array(
+                'topics' => $topics,
+                'available_records' => $available_records
+            )
+        );
+
+        $data['subject_record'] = $subjectRecord;
+        $data['user'] = $user;
+        $role_name = getRoleData($user->role_id);
+        if ($role_name != 'staff') {
+            $data['active_class'] = 'academic';
+        } else {
+            $data['active_class'] = 'lession';
+        }
+
+        $data['role_name'] = getRoleData(Auth::user()->role_id);
+
+        $data['title'] = getPhrase('lesson_plans_for') . ' ' . $subjectRecord->subject_title . ' ' . getphrase('semester_' . $courseSubjectSemester);
+        $data['layout'] = getLayout();
+        return view('staff.lessionplans.topics', $data);
+
+    }
+ /**
+     * Thid method returns the related topics of the user for the assigned subject
+     *
+     * @param      <type>  $userSlug           The user slug
+     * @param      <type>  $courseSubjectSlug  The course subject slug
+     *
+     * @return     <type>  ( description_of_the_return_value )
+     */
+    public function StudentviewTopics($userSlug, $courseSubjectSlug)
+    {
+        //Check the user Grade
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
+        $recordOfSlug = App\User::where('slug', $userSlug)->first(['id']);
         if ($role == 'educational_supervisor') {
             $checkIfExist = App\SupervisorStaff::where('supervisor_id', $user->id)->where('staff_id',
                 $recordOfSlug->id)->first();
@@ -347,7 +446,6 @@ class LessionPlansController extends Controller
         return view('staff.lessionplans.topics', $data);
 
     }
-
     /**
      * This method prepares  the list of topics and child topics and returns an array
      * @param  [type] $subject_id      [description]
@@ -494,5 +592,48 @@ class LessionPlansController extends Controller
         return json_encode($topics);
     }
 
+	public function Studentindex($slug)
+    {
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role'] = $role;
+
+        $user = App\User::where('slug', '=', $slug)->first();
+
+
+        if ($isValid = $this->isValidRecord($user)) {
+            return redirect($isValid);
+        }
+         
+
+        $subjects = App\LessionPlan::getStudentSubjects($user->id);
+
+        $role_name = getRoleData($user->role_id);
+
+        if ($role_name != 'staff') {
+            $data['active_class'] = 'academic';
+        } else {
+            $data['active_class'] = 'lession';
+        }
+        if (getRoleData(Auth::user()->role_id) == 'educational_supervisor') {
+            $data['active_class'] = 'staff-topic-plan';
+        }
+
+        $data['user'] = $user;
+        $data['record'] = $user;
+        $data['subjects'] = $subjects;
+        $data['title'] = getPhrase('lesson_plans');
+        $data['layout'] = getLayout();
+
+        if (count($subjects)) {
+            return view('student.lessionplans.dashboard', $data);
+        }
+
+        flash(getPhrase('Ooops'), getPhrase('no_data_available'), 'overlay');
+        if ($role == 'educational_supervisor') {
+            return redirect()->back();
+        }
+        return redirect(URL_USERS . "staff");
+    }
 
 }

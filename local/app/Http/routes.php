@@ -257,8 +257,11 @@ Route::group(['middleware' => 'stopOrOn:parent'], function () {
 //Parent Controller //
 //////////////////////
     Route::get('parent/children', 'ParentsController@index');
+	Route::get('parent/children/lession-plans', 'ParentsController@children');
+	
     Route::get('parent/children/list', 'ParentsController@index');
     Route::get('parent/children/getList/{slug}', 'ParentsController@getDatatable');
+	Route::get('parent/children/getLessionChildList/{slug}', 'ParentsController@getLessionChildDatatable');
     Route::get('parent/purchase-expenses/all', 'ParentsController@getUserExpenses');
     Route::get('purchase-expenses/getlist', 'ParentsController@getDatatableExpenses');
     Route::get('children/analysis', 'ParentsController@childrenAnalysis');
@@ -1113,6 +1116,9 @@ Route::post('staff/lession-plans/view-students', 'LessionPlansController@viewStu
 
 Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_parent_id}/{course_id}/{year}/{semister}',
     'LessionPlansController@getDatatable');
+
+Route::get('student/lession-plans/{slug}', 'LessionPlansController@Studentindex');
+Route::get('student/lession-plans/view-topics/{userSlug}/{courseSlug}', 'LessionPlansController@StudentviewTopics');
 
 
 //STUDENT TRANSFERS
