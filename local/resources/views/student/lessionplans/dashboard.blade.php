@@ -62,9 +62,9 @@
 
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
                                    
-									 @if ($role == 'parent')
+									 @if ($role == 'parent' ||$role == 'student')
 										  {{$subject->name}}
-									  else  {{$subject->course_title}}
+									  @else  {{$subject->course_title}}
 										   @endif
                                 </div>
 

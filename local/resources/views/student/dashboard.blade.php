@@ -105,6 +105,19 @@
 				</a>
 			</div>
 		</div>
+		  <div class="col-md-4 ">
+                        <div class="card card-green text-xs-center">
+                            <div class="card-block">
+                                <h4 class="card-title">
+                                    <i class="fa fa-paper-plane-o"></i>
+                                </h4>
+                                <p class="card-text">{{ getPhrase('lesson_plans')}}</p>
+                            </div>
+                            <a class="card-footer text-muted" href="{{URL_STUDENT_LEASON_PLAN.Auth::user()->slug}}">
+                                {{ getPhrase('view_all')}}
+                            </a>
+                        </div>
+                    </div>
 	@if(Module_state('library_Management'))
 <div class="col-md-4">
 <div class="card card-black text-xs-center">
