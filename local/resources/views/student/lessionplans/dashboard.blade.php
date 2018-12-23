@@ -61,7 +61,11 @@
 
 
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
-                                    {{$subject->name}}
+                                   
+									 @if ($role == 'parent')
+										  {{$subject->name}}
+									  else  {{$subject->course_title}}
+										   @endif
                                 </div>
 
                                 <a class="card-footer text-muted"
