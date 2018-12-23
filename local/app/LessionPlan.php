@@ -63,7 +63,7 @@ class LessionPlan extends Model
      */
     public static function getStudentSubjects(
         $user_id = 0,
-        $limit = 20,
+        $limit = 200,
         $orderBy = 'asc'
     ) {
         if (!$user_id) {
@@ -76,10 +76,13 @@ class LessionPlan extends Model
         $subjects = [];
         $subjects = CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->join('courses', 'courses.id', '=', 'course_subject.course_id')
-			->join('students', 'students.course_id', '=', 'course_subject.course_id')
+			->join('students', 'students.course_parent_id', '=', 'course_subject.course_parent_id')
+			->join('staff', 'staff.staff_id', '=', 'course_subject.staff_id')
+			->join('users', 'users.id', '=', 'staff.user_id')
             ->where('students.user_id', '=', $user_id)
             ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
+			     'users.name as name',
                 'course_subject.id as id',
                 'course_subject.slug as slug',
                 'subject_title',
@@ -87,7 +90,7 @@ class LessionPlan extends Model
                 'year',
                 'semister',
                 'subject_id',
-                'staff_id',
+                'staff.staff_id',
                 'course_dueration'
             ])
             ->limit($limit)->orderBy('semister');
