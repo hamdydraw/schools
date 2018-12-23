@@ -61,7 +61,7 @@
 
 
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
-                                    {{$subject->course_title}}
+                                    {{$subject->name}}
                                 </div>
 
                                 <a class="card-footer text-muted"
