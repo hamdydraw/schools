@@ -160,7 +160,7 @@ class StudentAttendanceReportController extends Controller
     public function getClassAttendance(Request $request)
     {
             $academic_id = $request->academic_id;
-            $course_parent_id   = $request->parent_course_id;
+            //$course_parent_id   = $request->parent_course_id; // not used at studentattendance table
             $course_id=$request->course_id;
             $year        = $request->year;
             $semister    = $request->semister;
@@ -170,7 +170,7 @@ class StudentAttendanceReportController extends Controller
                           ->join('users', 'users.id', '=', 'students.user_id')
                           ->where('studentattendance.academic_id', '=', $academic_id)
                           ->where('students.course_id', '=', $course_id)
-                          ->where('studentattendance.course_id', '=', $course_parent_id)
+                        //   ->where('studentattendance.course_id', '=', $course_parent_id)
                           ->where('studentattendance.semester', '=', $semister);
 
         $total_class  = $query->groupBy('student_id')->sum('total_class');
@@ -187,9 +187,9 @@ class StudentAttendanceReportController extends Controller
           $temp['slug'] = $student->slug;
           $temp['roll_no'] = $student->roll_no;
           $temp['total_classes'] = $total_class;
-           $present = $student->getAttendanceCount('P', $academic_id, $course_parent_id, $year, $semister);
-          $absent = $student->getAttendanceCount('A', $academic_id, $course_parent_id, $year, $semister);
-          $leave = $student->getAttendanceCount('L', $academic_id, $course_parent_id, $year, $semister);
+           $present = $student->getAttendanceCount('P', $academic_id, $course_id, $year, $semister);
+          $absent = $student->getAttendanceCount('A', $academic_id, $course_id, $year, $semister);
+          $leave = $student->getAttendanceCount('L', $academic_id, $course_id, $year, $semister);
           $temp['present'] = ($present) ? $present : 0;
           $temp['absent'] = ($absent) ? $absent: 0;
           $temp['leave'] = ($leave) ? $leave: 0;
@@ -247,7 +247,7 @@ class StudentAttendanceReportController extends Controller
         $data['print_term']   = SemesterName($request->current_semister);
 
         $academic_id = $request->academic_id;
-        $course_parent_id   = $request->course_parent_id;
+        // $course_parent_id   = $request->course_parent_id; not used at studentattendance table
         $course_id      =$request->course_id;
         $year        = $request->year;
         $semister    = $request->current_semister;
@@ -258,13 +258,12 @@ class StudentAttendanceReportController extends Controller
             ->join('users', 'users.id', '=', 'students.user_id')
             ->where('studentattendance.academic_id', '=', $academic_id)
             ->where('students.course_id', '=', $course_id)
-            ->where('studentattendance.course_id', '=', $course_parent_id)
+            // ->where('studentattendance.course_id', '=', $course_parent_id)
             ->where('studentattendance.semester', '=', $semister);
 
         $total_class  = $query->groupBy('student_id')->sum('total_class');
 
         $students = $query->groupBy('student_id')
-
                           ->get();
        $summary_attendance = array();
        $sno = 1;
@@ -276,9 +275,9 @@ class StudentAttendanceReportController extends Controller
           $temp['slug'] = $student->slug;
           $temp['roll_no'] = $student->roll_no;
           $temp['total_classes'] = $total_class;
-           $present = $student->getAttendanceCount('P', $academic_id, $course_parent_id, $year, $semister);
-          $absent = $student->getAttendanceCount('A', $academic_id, $course_parent_id, $year, $semister);
-          $leave = $student->getAttendanceCount('L', $academic_id, $course_parent_id, $year, $semister);
+           $present = $student->getAttendanceCount('P', $academic_id, $course_id, $year, $semister);
+          $absent = $student->getAttendanceCount('A', $academic_id, $course_id, $year, $semister);
+          $leave = $student->getAttendanceCount('L', $academic_id, $course_id, $year, $semister);
           $temp['present'] = ($present) ? $present : 0;
           $temp['absent'] = ($absent) ? $absent: 0;
           $temp['leave'] = ($leave) ? $leave: 0;
