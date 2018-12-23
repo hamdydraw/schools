@@ -435,8 +435,8 @@ class CourseSubjectsController extends Controller
                 'semister',
                 'sessions_needed'
             ])
-            ->toSql();
-        dd($course_parent_id);
+            ->groupBy('subject_id', 'semister')->get();
+
         $data['items'] = json_encode(array('source_items' => $subjects, 'target_items' => $available_data));
 
         $course_title = $course_record->course_title;
