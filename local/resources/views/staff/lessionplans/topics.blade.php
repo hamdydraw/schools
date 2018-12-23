@@ -38,7 +38,7 @@
                         <li class="col-md-6" ng-if="topic.childs.length != 0 " ng-repeat="subtopic in topic.childs">
 
                             <div class="topics clearfix">
-							  @if ($role != 'parent')
+							 
                                 <div class="checkbox custom-checkbox">
                                     <label>
 
@@ -69,7 +69,7 @@
                                         </div>
                                     </label>
                                 </div>
-  @endif
+  
 
                                 <h4 ng-if="subtopic.is_completed==null || subtopic.is_completed==0">
                                     @{{subtopic.topic_name | capitalize}}</h4>
