@@ -71,9 +71,9 @@
             })
                 .then(function (response) {
                     $scope.academic_courses_sc = response.data;
-                    if($scope.academic_courses_sc.length != 0){
+                   /* if($scope.academic_courses_sc.length != 0){
                         $scope.current_course_sc = $scope.academic_courses_sc[0].id.toString();
-                    }
+                    }*/
                     $scope.getSubjects();
                 })
         }
