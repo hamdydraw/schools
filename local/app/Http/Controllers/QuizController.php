@@ -11,7 +11,7 @@ use Auth;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
-use function PHPSTORM_META\type;
+use PHPSTORM_META\type;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Redirect;
 

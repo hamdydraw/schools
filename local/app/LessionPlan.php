@@ -80,9 +80,10 @@ class LessionPlan extends Model
 			->join('staff', 'staff.staff_id', '=', 'course_subject.staff_id')
 			->join('users', 'users.id', '=', 'staff.user_id')
             ->where('students.user_id', '=', $user_id)
+			->where('staff.course_parent_id', '=', 'course_subject.course_parent_id')
             ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
-			     'users.name as name',
+			     'users.name as username',
                 'course_subject.id as id',
                 'course_subject.slug as slug',
                 'subject_title',
