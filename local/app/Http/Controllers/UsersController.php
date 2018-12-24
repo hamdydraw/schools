@@ -187,8 +187,8 @@ class UsersController extends Controller
                     'role_id',
                     'users.slug as slug',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
-                ])
-                ->orderBy('users.name', 'desc');
+                ]);
+                // ->orderBy('users.name', 'desc');
 
 
         }
