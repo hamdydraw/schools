@@ -21,10 +21,11 @@ class SecondaryParentController extends Controller
   public function getDatatableOfStudents()
   {
       $records = User::join('secondary_parent_student', 'secondary_parent_student.student_id', '=', 'users.id')
-          ->where('secondary_parent_student.secondary_parent_id', Auth::user()->id)->get([
-              'users.name',
-              'users.slug'
-          ]);
+          ->select([
+            'users.name',
+            'users.slug'
+        ])->where('secondary_parent_student.secondary_parent_id', Auth::user()->id);
+        // ->get();
       return Datatables::of($records)
           ->removeColumn('id')
           ->removeColumn('username')

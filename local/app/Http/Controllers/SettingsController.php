@@ -121,7 +121,7 @@ class SettingsController extends Controller
         if(!Module_state('daily_school_schedule')){
             $records = $records->whereNotIn('key',['time_table']);
         }
-        $records = $records->orderBy('updated_at', 'desc');
+        // $records = $records->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {

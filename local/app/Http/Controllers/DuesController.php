@@ -81,7 +81,8 @@ class DuesController extends Controller
 
     public function getDatatable()
     {
-        $records = AcademicDuesPivot::select(['id', 'academic_id', 'due_id', 'due_value', 'due_type'])->get();
+        $records = AcademicDuesPivot::select(['id', 'academic_id', 'due_id', 'due_value', 'due_type']);
+        //->get();
         return Datatables::of($records)
             ->editColumn('academic_id', function ($record) {
                 return Academic::find($record->academic_id)->academic_year_title;
@@ -407,7 +408,8 @@ class DuesController extends Controller
             'updated_by_ip',
             'created_at',
             'updated_at'
-        ])->get();
+        ]);
+        // ->get();
         return Datatables::of($records)
             ->editColumn('title', function ($records) {
                 return $records->title;

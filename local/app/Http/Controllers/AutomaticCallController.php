@@ -55,15 +55,17 @@ class AutomaticCallController extends Controller {
       $role = getRoleData($user->role_id);
       if($role == "secondary_parent") {
         $records = User::join('secondary_parent_student', 'secondary_parent_student.student_id', '=', 'users.id')
-            ->where('secondary_parent_student.secondary_parent_id', Auth::user()->id)->get([
-                'users.name as name',
-                'users.image as image',
-                'users.slug as slug',
-                'users.id as id',
-                'users.parent_id as parent_id'
-            ]);
+            ->select([
+              'users.name as name',
+              'users.image as image',
+              'users.slug as slug',
+              'users.id as id',
+              'users.parent_id as parent_id'
+          ])->where('secondary_parent_student.secondary_parent_id', Auth::user()->id);
+          // ->get();
       } else  {
-        $records = User::select(['name', 'image', 'slug', 'id', 'parent_id'])->where('parent_id', '=', $user->id)->get();
+        $records = User::select(['name', 'image', 'slug', 'id', 'parent_id'])->where('parent_id', '=', $user->id);
+        // ->get();
      }
 
       return Datatables::of($records)
@@ -147,7 +149,8 @@ class AutomaticCallController extends Controller {
     $records = array();
     $user = getUserWithSlug($slug);
     $automaticCallRequests = AutocallRequest::select(['request_date', 'leave_time', 'autocall_counter'])->where('student_id', $student_id)
-                                            ->where('parent_id', $user->id)->get();
+                                            ->where('parent_id', $user->id);
+                                            // ->get();
 
     return Datatables::of($automaticCallRequests)->make();
   }

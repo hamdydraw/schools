@@ -72,7 +72,7 @@ if (isset($table_columns)) {
 
             tableObj = $('.datatable').DataTable({
                 processing: true,
-                @if(Request::path() == 'users/parent')
+                @if(Request::path() != 'users/users')
                     serverSide: true,
                 @endif
                 cache: true,

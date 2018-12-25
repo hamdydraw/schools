@@ -82,13 +82,13 @@ class QuizCategoryController extends Controller
                             'quizcategories.updated_at'])
                 ->where('courses.category_id',Auth::user()->category_id)
                 ->where('course_subject.staff_id',Auth::user()->id)
-                ->groupBy('quizcategories.id')
-                ->orderBy('updated_at', 'desc');
+                ->groupBy('quizcategories.id');
+                // ->orderBy('updated_at', 'desc');
         }else{
             $records = QuizCategory::join('courses','quizcategories.course_id','=','courses.id')->select([
                 'quizcategories.category','courses.course_title', 'quizcategories.image', 'quizcategories.description', 'quizcategories.id','quizcategories.slug','quizcategories.created_by_user','quizcategories.updated_by_user','quizcategories.created_by_ip','quizcategories.updated_by_ip','quizcategories.created_at','quizcategories.updated_at'])
-                ->where('courses.category_id',Auth::user()->category_id)
-                ->orderBy('updated_at', 'desc');
+                ->where('courses.category_id',Auth::user()->category_id);
+                // ->orderBy('updated_at', 'desc');
         }
 
         $this->setExamSettings();

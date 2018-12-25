@@ -1082,8 +1082,8 @@ class StudentQuizController extends Controller
                 'quizzes.validity',
                 'quizzes.cost'
             ])
-            ->groupBy('quizzes.slug')
-            ->get();
+            ->groupBy('quizzes.slug');
+            // ->get();
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -1257,9 +1257,9 @@ class StudentQuizController extends Controller
                     'user_id'
                 ])
                 ->where('user_id', '=', $user->id)
-                ->where('quizzes.type', '=', 'online')
-                ->orderBy('quizresults.updated_at', 'desc')
-                ->get();
+                ->where('quizzes.type', '=', 'online');
+                // ->orderBy('quizresults.updated_at', 'desc')
+                // ->get();
         } else {
             $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
                 ->select([
@@ -1275,9 +1275,9 @@ class StudentQuizController extends Controller
                 ])
                 ->where('user_id', '=', $user->id)
                 ->where('quiz_id', '=', $exam_record->id)
-                ->where('quizzes.type', '=', 'online')
-                ->orderBy('quizresults.updated_at', 'desc')
-                ->get();
+                ->where('quizzes.type', '=', 'online');
+                // ->orderBy('quizresults.updated_at', 'desc')
+                // ->get();
         }
 
         return Datatables::of($records)
@@ -1424,9 +1424,9 @@ class StudentQuizController extends Controller
                 \DB::raw('count(quizresults.user_id) as attempts, quizzes.slug, user_id')
             ])
             ->where('user_id', '=', $user->id)
-            ->where('quizzes.type', '=', 'online')
-            ->groupBy('quizresults.quiz_id')
-            ->get();
+            ->where('quizzes.type', '=', 'online');
+            // ->groupBy('quizresults.quiz_id')
+            // ->get();
 
         return Datatables::of($records)
             ->editColumn('title', function ($records) {

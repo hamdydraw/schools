@@ -50,8 +50,8 @@ class ModuleHelperController extends Controller
       }
 
          $records = ModuleHelper::select([ 'title',
-            'slug', 'help_link_text','is_enabled','id', 'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
-         ->orderBy('updated_at','desc');
+            'slug', 'help_link_text','is_enabled','id', 'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+        //  ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

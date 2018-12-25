@@ -84,8 +84,8 @@ class TopicsController extends Controller
             ->where('academic_id',$year_id)
             ->where('semester_num',$sem)
             ->where('course_id',$course_id)
-            ->where('subject_id',$subject_id)
-            ->orderBy('updated_at', 'desc');
+            ->where('subject_id',$subject_id);
+            // ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {

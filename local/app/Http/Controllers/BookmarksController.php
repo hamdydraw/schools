@@ -66,8 +66,8 @@ class BookmarksController extends Controller
 
         $records = Bookmark::join('questionbank', 'questionbank.id', '=', 'bookmarks.item_id')
             ->select(['question_type', 'question','marks','bookmarks.id','bookmarks.user_id'])
-            ->where('user_id','=',$user_record->id)
-            ->orderBy('bookmarks.updated_at', 'desc');
+            ->where('user_id','=',$user_record->id);
+            // ->orderBy('bookmarks.updated_at', 'desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

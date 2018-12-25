@@ -88,8 +88,8 @@ class ExamSeriesController extends Controller
                 'examseries.created_at',
                 'examseries.updated_at'
             ])
-                ->where('examseries.created_by_user','=',Auth::user()->id)
-                ->orderBy('updated_at', 'desc');
+                ->where('examseries.created_by_user','=',Auth::user()->id);
+                // ->orderBy('updated_at', 'desc');
         }
         else {
             $records = ExamSeries::join('quizcategories','examseries.category_id','=','quizcategories.id')
@@ -113,8 +113,8 @@ class ExamSeriesController extends Controller
                 'examseries.created_at',
                 'examseries.updated_at'
             ])
-                ->where('courses.category_id',Auth::user()->category_id)
-                ->orderBy('updated_at', 'desc');
+                ->where('courses.category_id',Auth::user()->category_id);
+                // ->orderBy('updated_at', 'desc');
         }
 
         return Datatables::of($records)

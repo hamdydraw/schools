@@ -56,8 +56,8 @@ class NotificationsController extends Controller
 
 
 
-            $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at' ])
-            ->orderBy('id', 'desc');
+            $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at' ]);
+            // ->orderBy('id', 'desc');
 
 
         return Datatables::of($records)

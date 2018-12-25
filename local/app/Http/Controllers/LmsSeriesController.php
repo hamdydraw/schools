@@ -77,8 +77,8 @@ class LmsSeriesController extends Controller
                                           'lmsseries.updated_by_ip',
                                           'lmsseries.created_at',
                                           'lmsseries.updated_at'])
-                ->where('lmsseries.created_by_user','=',Auth::user()->id)
-                ->orderBy('updated_at', 'desc');
+                ->where('lmsseries.created_by_user','=',Auth::user()->id);
+                // ->orderBy('updated_at', 'desc');
         }else {
             $records = LmsSeries::join('lmscategories','lmsseries.lms_category_id','=','lmscategories.id')
                 ->join('courses','lmscategories.course_id','=','courses.id')
