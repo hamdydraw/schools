@@ -715,6 +715,7 @@ define('URL_LIBRARY_RETURN_ASSET_STAFF', PREFIX.'library/returns/return-asset/st
 
 define('URL_STUDENT_ATTENDENCE', PREFIX.'student/attendance/');
 define('URL_STUDENT_ATTENDENCE_ADD', PREFIX.'student/attendance/add/');
+define('URL_STUDENT_ATTENDENCE_CREATE', PREFIX.'student/attendance/create/');
 define('URL_STUDENT_ATTENDENCE_UPDATE', PREFIX.'student/attendance/update/');
 define('URL_STUDENT_ATTENDENCE_EDIT', PREFIX.'student/attendance/edit/');
 define('URL_STUDENT_ATTENDENCE_DELETE', PREFIX.'student/attendance/delete/');

@@ -154,7 +154,7 @@ class StudentAttendanceController extends Controller
      */
     public function create(Request $request, $slug)
     {
-
+ 
         $userData = App\User::where('slug', '=', $slug)->first();
         if(isset($request->teacherSlug)) {
           $userData = App\User::where('slug', '=', $request->teacherSlug)->first();
@@ -215,11 +215,16 @@ class StudentAttendanceController extends Controller
             $data['active_class'] = 'academic';
         }
         $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
-
+		$phase_record = App\Course::where('id', '=', $course_record->parent_id)->first();
+		$subject_record = App\Subject::where('id', '=', $course_subject_record->subject_id)->first();
         $submitted_data = array(
             'attendance_date' => $request->attendance_date,
             'current_year' => $current_year,
             'current_semister' => $current_semister,
+			'phase_title'=>$phase_record->course_title,
+			'course_title'=>$course_record->course_title,
+			'subject_title'=>$subject_record->subject_title,
+			'user_name'=> $userData->name,
             'course_record' => $course_record,
             'subject_id' => $course_subject_record->subject_id,
             'total_class' => $request->total_class,
@@ -357,7 +362,9 @@ class StudentAttendanceController extends Controller
 
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('student/attendance/' . $user->slug);
+        //return redirect('student/attendance/add/' . $user->slug);
+		return redirect()->back()->withInput();
+
     }
 
     /**
