@@ -76,11 +76,10 @@ class LessionPlan extends Model
         $subjects = [];
         $subjects = CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->join('courses', 'courses.id', '=', 'course_subject.course_id')
-			->join('students', 'students.course_parent_id', '=', 'course_subject.course_parent_id')
-			->join('staff', 'staff.staff_id', '=', 'course_subject.staff_id')
+			->join('students', 'students.course_id', '=', 'course_subject.course_id')
+			->join('staff', 'staff.user_id', '=', 'course_subject.staff_id')
 			->join('users', 'users.id', '=', 'staff.user_id')
-            ->where('students.user_id', '=', $user_id)
-			->where('staff.course_parent_id', '=', 'course_subject.course_parent_id')
+            ->where('students.user_id', '=', $user_id) 
             ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
 			     'users.name as username',
