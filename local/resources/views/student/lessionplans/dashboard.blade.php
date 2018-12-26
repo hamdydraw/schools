@@ -63,7 +63,11 @@
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
                                    
 									 @if ($role == 'parent' ||$role == 'student')
-										  {{$subject->username}}
+											 @if($subject->username!='')	 
+												 {{$subject->username}}
+											 @else {{@getPhrase(teacher_is_not_assigned)}}
+											 
+											 @endif
 									  @else  {{$subject->course_title}}
 										   @endif
                                 </div>

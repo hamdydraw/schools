@@ -41,7 +41,11 @@ $classTitle = $submitted_data->course_record->course_title;
 							<strong> - </strong>
 							<strong>{{$submitted_data->user_name}}</strong>
 							<strong> - </strong>
-							<strong>{{$submitted_data->subject_title}}</strong></p>
+							<strong>{{$submitted_data->subject_title}}</strong>
+							<strong> - </strong>
+							<strong>{{getPeriodNumber($submitted_data->total_class)}}</strong>
+							
+							</p>
 
                         </div>
 
