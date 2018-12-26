@@ -127,11 +127,11 @@ class User extends Authenticatable
      public function preferredSubjects()
      {
 
-         $subjects = User:: join('subjectpreferences','subjectpreferences.user_id', '=', 'users.id')
-                             ->join('subjects', 'subjectpreferences.subject_id', '=', 'subjects.id')
+         $subjects = User:: join('course_subject','course_subject.staff_id', '=', 'users.id')
+                             ->join('subjects', 'course_subject.subject_id', '=', 'subjects.id')
                              ->where('users.id', '=', $this->id)
                              ->select(['subjects.id as id', 'subject_title', 'is_lab', 'is_elective_type'])
-                             ->get();
+                             ->distinct()->get();
         return $subjects;
      }
 
