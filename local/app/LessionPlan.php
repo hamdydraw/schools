@@ -94,11 +94,9 @@ class LessionPlan extends Model
                 'course_dueration'
             ])
             ->limit($limit)->orderBy('semister');
-        if ($orderBy == 'rand') {
-            $subjects = $subjects->inRandomOrder('year');
-        } else {
+       
             $subjects = $subjects->orderBy('year', $orderBy)->orderBy('semister', $orderBy);
-        }
+        
         return $subjects->get();
     }
 

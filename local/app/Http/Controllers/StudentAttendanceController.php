@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Input;
 use DatePeriod;
 use DateTime;
 use DateInterval;
+use Session;
+use Redirect;
+use Response;
 
 
 class StudentAttendanceController extends Controller
@@ -153,8 +156,8 @@ class StudentAttendanceController extends Controller
      * @return void
      */
     public function create(Request $request, $slug)
-    {
- 
+    { 
+		
         $userData = App\User::where('slug', '=', $slug)->first();
         if(isset($request->teacherSlug)) {
           $userData = App\User::where('slug', '=', $request->teacherSlug)->first();
@@ -252,7 +255,7 @@ class StudentAttendanceController extends Controller
         $data['role_name'] = getRoleData($user->role_id);
         $data['userdata'] = $user;
         $data['period']   = $request->total_class;
-
+        session()->put('vrequest',$request->all());
         if (count($students)) {
             return view('attendance.list', $data);
         } else {
@@ -296,6 +299,9 @@ class StudentAttendanceController extends Controller
      */
     public function updateAtt(Request $request, $slug)
     {
+ 
+
+		$vrequest=Session::get('vrequest');
 
         $user = App\User::where('slug', '=', $slug)->first();
         /**
@@ -329,10 +335,7 @@ class StudentAttendanceController extends Controller
         $subject_id = $request->subject_id;
         $total_class = $request->total_class;
         $updated_by = $request->record_updated_by;
-        $user_id = Auth::User()->id;
-
-
-
+        $user_id = Auth::User()->id; 
         foreach ($attendance_code_records as $key => $value) {
 
 
@@ -365,8 +368,16 @@ class StudentAttendanceController extends Controller
 
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        //return redirect('student/attendance/add/' . $user->slug);
-		return redirect()->back()->withInput();
+        // return redirect->guest('student/attendance/add/' . $user->slug);
+		//return redirect()->back()->withInput($vrequest);
+		
+		//return Redirect::route('student.attendance.add, $user->slug')->with( ['data' => $vrequest] );
+		//return redirect()->guest(route('student.attendance.add'. $user->slug));
+		//return back()->withInput(['request' => $vrequest]);
+    $resp["status"] = "ok";
+    return Response::json($resp);
+
+
 
     }
 
