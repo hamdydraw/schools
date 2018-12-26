@@ -218,6 +218,8 @@ class StudentAttendanceController extends Controller
         $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
 		$phase_record = App\Course::where('id', '=', $course_record->parent_id)->first();
 		$subject_record = App\Subject::where('id', '=', $course_subject_record->subject_id)->first();
+		
+		
         $submitted_data = array(
             'attendance_date' => $request->attendance_date,
             'current_year' => $current_year,
@@ -229,6 +231,7 @@ class StudentAttendanceController extends Controller
             'course_record' => $course_record,
             'subject_id' => $course_subject_record->subject_id,
             'total_class' => $request->total_class,
+			
             'updated_by' => $user->id,
             'academic_id' => $course_subject_record->academic_id,
             'academic_title' => $academic_title
