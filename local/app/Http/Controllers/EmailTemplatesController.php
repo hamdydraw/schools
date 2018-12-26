@@ -47,8 +47,8 @@ class EmailTemplatesController extends Controller
       }
 
          $records = EmailTemplate::select([
-         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
-         ->orderBy('updated_at', 'DESC');
+         	'title', 'subject', 'type', 'from_email', 'from_name', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+        //  ->orderBy('updated_at', 'DESC');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

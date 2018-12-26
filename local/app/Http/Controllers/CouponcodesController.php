@@ -67,8 +67,8 @@ class CouponcodesController extends Controller
             'updated_by_ip',
             'created_at',
             'updated_at'
-        ])
-            ->orderBy('updated_at', 'desc');
+        ]);
+            // ->orderBy('updated_at', 'desc');
 
 
         return Datatables::of($records)

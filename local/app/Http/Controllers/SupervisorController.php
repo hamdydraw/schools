@@ -43,10 +43,11 @@ class SupervisorController extends Controller
     {
 
         $records = User::join('supervisors_staff', 'supervisors_staff.staff_id', '=', 'users.id')
-            ->where('supervisors_staff.supervisor_id', Auth::user()->id)->get([
+            ->select([
                 'users.name',
                 'users.slug'
-            ]);
+            ])
+            ->where('supervisors_staff.supervisor_id', Auth::user()->id);
         $currentSlug = explode('/', $_SERVER['HTTP_REFERER']);
         $currentSlug = $currentSlug[count($currentSlug) - 1];
         $link = '';
@@ -90,7 +91,7 @@ class SupervisorController extends Controller
 
     public function getDatatable()
     {
-        $records = User::where('role_id', 9)->get(['name', 'slug']);
+        $records = User::select(['name', 'slug'])->where('role_id', 9);
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
                 return '<div class="dropdown more">

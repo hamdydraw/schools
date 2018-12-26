@@ -508,7 +508,8 @@ class HomeWorkController extends Controller
         $records = array();
         $user = getUserWithSlug($slug);
 
-        $records = User::select(['name', 'image', 'email', 'slug', 'id'])->where('parent_id', '=', $user->id)->get();
+        $records = User::select(['name', 'image', 'email', 'slug', 'id'])->where('parent_id', '=', $user->id);
+        // ->get();
 
 
         return Datatables::of($records)

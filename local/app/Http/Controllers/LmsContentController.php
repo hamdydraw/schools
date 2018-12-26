@@ -118,8 +118,8 @@ class LmsContentController extends Controller
               ->where('subjects.id','=',$subject_id)
               ->where('lmscontents.academic_id','=',$year_id)
               ->where('lmscontents.sem_id','=',$sem)
-              ->where('lmscontents.course_id','=',$course_id)
-              ->orderBy('updated_at','desc');
+              ->where('lmscontents.course_id','=',$course_id);
+            //   ->orderBy('updated_at','desc');
       }
 
         $this->setSettings();

@@ -56,8 +56,8 @@ class FeedbackController extends Controller
 
 
             $records = Feedback::join('users', 'users.id','=','feedbacks.user_id')
-            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at','feedbacks.created_at','feedbacks.created_by_user','feedbacks.updated_by_user','feedbacks.created_by_ip','feedbacks.updated_by_ip'])
-            ->orderBy('updated_at', 'desc');
+            ->select(['title', 'image','name','users.username','users.role_id','subject','feedbacks.slug', 'feedbacks.id', 'feedbacks.updated_at','feedbacks.created_at','feedbacks.created_by_user','feedbacks.updated_by_user','feedbacks.created_by_ip','feedbacks.updated_by_ip']);
+            // ->orderBy('updated_at', 'desc');
 
         foreach ($records as $record){
             $record->role_id = \App\Role::where('id',$record->role_id)->pluck('name')->first();

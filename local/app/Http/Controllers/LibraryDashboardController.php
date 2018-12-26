@@ -116,9 +116,9 @@ class LibraryDashboardController extends Controller
 
       ->join('libraryassettypes','librarymasters.asset_type_id','=','libraryassettypes.id')
 
-      ->select(['users.image','students.roll_no','users.name','academics.academic_year_title','courses.course_title','courses.is_having_semister','students.current_year','students.current_semister','libraryissues.library_asset_no','librarymasters.title','users.email','libraryissues.issued_on','libraryissues.due_date','libraryissues.id','libraryissues.user_id','libraryissues.master_asset_id','libraryissues.library_instance_id','courses.course_dueration'])->where('issue_type','=','issue')
+      ->select(['users.image','students.roll_no','users.name','academics.academic_year_title','courses.course_title','courses.is_having_semister','students.current_year','students.current_semister','libraryissues.library_asset_no','librarymasters.title','users.email','libraryissues.issued_on','libraryissues.due_date','libraryissues.id','libraryissues.user_id','libraryissues.master_asset_id','libraryissues.library_instance_id','courses.course_dueration'])->where('issue_type','=','issue');
 
-      ->orderBy('libraryissues.updated_at','desc');
+      // ->orderBy('libraryissues.updated_at','desc');
 
       return Datatables::of($records)
 
@@ -217,9 +217,9 @@ class LibraryDashboardController extends Controller
       ->join('staff','libraryissues.user_id','=','staff.user_id')
       ->join('courses','staff.course_id','=','courses.id')
       ->join('librarymasters','libraryissues.master_asset_id','=','librarymasters.id')
-      ->select(['libraryissues.id','users.image','staff.staff_id','users.name','courses.course_title','libraryissues.library_asset_no','librarymasters.title','users.email','libraryissues.issued_on','libraryissues.due_date','libraryissues.user_id','libraryissues.master_asset_id','libraryissues.library_instance_id'])->where('issue_type','=','issue')
+      ->select(['libraryissues.id','users.image','staff.staff_id','users.name','courses.course_title','libraryissues.library_asset_no','librarymasters.title','users.email','libraryissues.issued_on','libraryissues.due_date','libraryissues.user_id','libraryissues.master_asset_id','libraryissues.library_instance_id'])->where('issue_type','=','issue');
 
-      ->orderBy('libraryissues.updated_at','desc');
+      // ->orderBy('libraryissues.updated_at','desc');
 
       return Datatables::of($records)
       

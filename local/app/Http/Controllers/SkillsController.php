@@ -40,7 +40,8 @@ class SkillsController extends Controller
 
     public function getDatatable()
     {
-        $records = Skill::select(['id','slug','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->get();
+        $records = Skill::select(['id','slug','skill_title', 'course_id', 'subject_id','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+        // ->get();
 
 
         return Datatables::of($records)

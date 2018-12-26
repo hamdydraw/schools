@@ -111,8 +111,8 @@ class QuizController extends Controller
                         'quizzes.id as quiz_id',
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
-                    ])
-                    ->orderBy('quizzes.updated_at', 'desc');
+                    ]);
+                    // ->orderBy('quizzes.updated_at', 'desc');
 
             }else {
                 $records = Quiz::withoutGlobalScope(App\Scopes\BranchScope::class)
@@ -134,8 +134,8 @@ class QuizController extends Controller
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
                     ])
-                   ->where('courses.category_id',Auth::user()->category_id)
-                    ->orderBy('quizzes.updated_at', 'desc');
+                   ->where('courses.category_id',Auth::user()->category_id);
+                    // ->orderBy('quizzes.updated_at', 'desc');
             }
 
 
@@ -158,8 +158,8 @@ class QuizController extends Controller
                     'quizzes.id as quiz_id',
                     'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
                 ])
-                ->where('quizzes.category_id', '=', $category->id)
-                ->orderBy('quizcategories.updated_at', 'desc');
+                ->where('quizzes.category_id', '=', $category->id);
+                // ->orderBy('quizcategories.updated_at', 'desc');
         }
 
 

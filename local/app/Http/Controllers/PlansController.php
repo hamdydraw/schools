@@ -43,7 +43,8 @@ class PlansController extends Controller
     {
         // DB::statement(DB::raw('set @rownum=0'));
 
-         $records = Plan::select([ 'title', 'name','amount','type','description', 'id','slug'])->orderBy('updated_at','desc');
+         $records = Plan::select([ 'title', 'name','amount','type','description', 'id','slug']);
+        //  ->orderBy('updated_at','desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

@@ -49,8 +49,8 @@ class CertificateTemplatesController extends Controller
       }
 
          $records = CertificateTemplate::select([
-         	'title', 'subject', 'type',  'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
-         ->orderBy('updated_at', 'desc');
+         	'title', 'subject', 'type',  'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at']);
+        //  ->orderBy('updated_at', 'desc');
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

@@ -65,8 +65,8 @@ class studentPapers extends Controller
     public function getDatatable($slug){
         $user    = User::where('slug',$slug)->first();
         $records = student_documents::where('users_id',$user->id)
-                                    ->select('id','name','type','file','created_at','updated_at','updated_by_ip','created_by_ip','created_by_user','updated_by_user')
-                                    ->orderBy('created_at', 'desc');
+                                    ->select('id','name','type','file','created_at','updated_at','updated_by_ip','created_by_ip','created_by_user','updated_by_user');
+                                    // ->orderBy('created_at', 'desc');
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
                 $records->created_by_user_name = App\User::get_user_name($records->created_by_user);

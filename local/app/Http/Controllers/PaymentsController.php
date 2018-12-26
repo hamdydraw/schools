@@ -1276,8 +1276,8 @@ class PaymentsController extends Controller
                 'payments.after_discount',
                 'payments.paid_amount'
             ])
-            ->where('payment_gateway', '=', 'offline')
-            ->orderBy('updated_at', 'desc');
+            ->where('payment_gateway', '=', 'offline');
+            // ->orderBy('updated_at', 'desc');
         if ($slug != 'all') {
             $records->where('payment_status', '=', $slug);
         }

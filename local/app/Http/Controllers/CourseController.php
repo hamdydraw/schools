@@ -65,7 +65,8 @@ class CourseController extends Controller
             'slug',
             'id',
             'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'
-        ])->orderBy('id', 'asc');
+        ]);
+        // ->orderBy('id', 'asc');
 
         return Datatables::of($records)
             ->addColumn('action', function ($records) {

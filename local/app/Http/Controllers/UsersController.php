@@ -96,8 +96,8 @@ class UsersController extends Controller
                     'users.status',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
-                ->where('users.role_id','!=','5')
-                ->orderBy('users.updated_at', 'desc');
+                ->where('users.role_id','!=','5');
+                // ->orderBy('users.updated_at', 'desc');
             $records2 = User::join('roles', 'users.role_id', '=', 'roles.id')
                 ->select([
                     'users.name',
@@ -114,8 +114,8 @@ class UsersController extends Controller
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
                 ->where('users.role_id','=','5')
-                ->where('users.category_id','=',Auth::user()->category_id)
-                ->orderBy('users.updated_at', 'desc');
+                ->where('users.category_id','=',Auth::user()->category_id);
+                // ->orderBy('users.updated_at', 'desc');
             $records->union($records2);
         } elseif ($slug == 'student') {
             $role = getRoleData($slug);
@@ -141,8 +141,8 @@ class UsersController extends Controller
                     'courses.course_dueration',
                     'courses.is_having_semister',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
-                ])
-                ->orderBy('users.updated_at', 'desc');
+                ]);
+                // ->orderBy('users.updated_at', 'desc');
 
         } elseif ($slug == 'staff') {
             $role = getRoleData($slug);
@@ -167,8 +167,8 @@ class UsersController extends Controller
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at',
                     'users.status',
                     'staff.user_id'
-                ])
-                ->orderBy('users.updated_at', 'desc');
+                ]);
+                // ->orderBy('users.updated_at', 'desc');
 
         } else {
 
@@ -187,8 +187,8 @@ class UsersController extends Controller
                     'role_id',
                     'users.slug as slug',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
-                ])
-                ->orderBy('users.name', 'desc');
+                ]);
+                // ->orderBy('users.name', 'desc');
 
 
         }
@@ -358,8 +358,8 @@ class UsersController extends Controller
                 'users.slug as slug',
                 'users.updated_at',
                 'users.status'
-            ])
-            ->orderBy('users.updated_at', 'desc');
+            ]);
+            // ->orderBy('users.updated_at', 'desc');
 
 
         return Datatables::of($records)
@@ -1097,9 +1097,9 @@ class UsersController extends Controller
         $records = array();
 
         $records = LibraryIssue::where('user_id', '=', $user_id)
-            ->select(['id', 'library_asset_no', 'master_asset_id', 'issued_on', 'due_date', 'issue_type', 'return_on'])
-            ->orderBy('updated_at', 'desc')
-            ->get();
+            ->select(['id', 'library_asset_no', 'master_asset_id', 'issued_on', 'due_date', 'issue_type', 'return_on']);
+            // ->orderBy('updated_at', 'desc')
+            // ->get();
 
         return Datatables::of($records)
             ->editColumn('master_asset_id', function ($records) {
