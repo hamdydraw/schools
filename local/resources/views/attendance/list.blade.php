@@ -33,7 +33,15 @@ $classTitle = $submitted_data->course_record->course_title;
                     <div class="row">
                         <div class="col-sm-8">
                             <h1>{{ getPhrase('attendance_sheet_for').' '.$classTitle }} - {{ getPeriodNumber($period) }}</h1>
-                            <p><strong>{{ getPhrase('date').' '.$submitted_data->attendance_date }}</strong></p>
+                            <p><strong>{{ getPhrase('date').' '.$submitted_data->attendance_date }}</strong>
+							<strong> - </strong>
+							<strong>{{$submitted_data->phase_title}}</strong>
+							<strong> - </strong>
+							<strong>{{$submitted_data->course_title}}</strong>
+							<strong> - </strong>
+							<strong>{{$submitted_data->user_name}}</strong>
+							<strong> - </strong>
+							<strong>{{$submitted_data->subject_title}}</strong></p>
 
                         </div>
 
