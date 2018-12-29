@@ -230,50 +230,7 @@ $classTitle = $submitted_data->course_record->course_title;
     </div>
 	 
 @endsection
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous">
-</script>
-<script>
-
-jQuery(document).ready(function(){
-	
-            jQuery('#ajaxSubmit').click(function(e){
-				var formData = JSON.parse(JSON.stringify(jQuery('#form').serialize())) // store json object
-console.log(formData);
-               e.preventDefault();
-               $.ajaxSetup({
-                  headers: {
-                      'X-CSRF-TOKEN': $('meta[name="CSRF_TOKEN"]').attr('content')
-                  }
-              });
-               jQuery.ajax({
-                  url: "<?=URL_STUDENT_ATTENDENCE_UPDATE.$userdata->slug?>",
-                  method: 'post',
-                  data: {
-                    formData
-                  },
-                  success: function(result){
-                     alert('<?=getPhrase('record_updated_successfully');?>');
-                  }});
-               });
-            });
-    function all_here(){
-        console.log("all here");
-        $(".all_here").prop("checked", true);
-    }
-    function all_absent(){
-        console.log("all not here");
-        $(".all_absent").prop("checked", true);
-    }
-    function all_left(){
-        console.log("all gone");
-        $(".all_left").prop("checked", true);
-    }
-	
-
-</script>
-
+  
 @section('footer_scripts')
 
     @include('attendance.scripts.attendance-script')

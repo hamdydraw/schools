@@ -374,9 +374,101 @@ class StudentAttendanceController extends Controller
 		//return Redirect::route('student.attendance.add, $user->slug')->with( ['data' => $vrequest] );
 		//return redirect()->guest(route('student.attendance.add'. $user->slug));
 		//return back()->withInput(['request' => $vrequest]);
-    $resp["status"] = "ok";
-    return Response::json($resp);
+  $userData = App\User::where('slug', '=', $slug)->first();
+        if(isset($vrequest['teacherSlug'])) {
+          $userData = App\User::where('slug', '=', $vrequest['teacherSlug'])->first();
+        }
+        $data['slugData']=$userData;
+        $user = getUserRecord($userData->id);
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
+        if ($role != 'educational_supervisor') {
+            if (!checkRole(getUserGrade(18))) {
 
+                prepareBlockUserMessage();
+                return back();
+            }
+        }
+        if ($vrequest['course_subject_id'] == '' || $vrequest['total_class'] == '' || $vrequest['attendance_date'] == '') {
+
+            flash(getPhrase('Ooops'), getPhrase('Please_Select_The_Details'), 'overlay');
+            return redirect()->back()->withInput($vrequest->except('_token'));
+
+        }
+
+        $course_subject_record = App\CourseSubject::where('id', '=', $vrequest['course_subject_id'])->first();
+        $academic_title = Academic::where('id', '=', $course_subject_record->academic_id)->get()->first();
+        if (!$course_subject_record) {
+            flash(getPhrase('Ooops'), getPhrase('Invalid_details_supplied'), 'overlay');
+            return redirect()->back()->withInput($vrequest->except('_token'));
+        }
+
+
+        
+
+        /**
+         * Find wether the attendance is already added for the day or not
+         * @var [type]
+         */
+        
+  $data['attendance_taken'] = false;
+        $data['attendance_records'] = '';
+
+        $current_year = $course_subject_record->year;
+        $current_semister = $course_subject_record->semister;
+
+
+        $data['record'] = false;
+        if ($role == 'educational_supervisor'){
+            $data['active_class'] = 'teacher-student-attendance';
+        } elseif (getRoleData(Auth::user()->role_id) == 'admin' || getRoleData(Auth::user()->role_id) == 'owner') {
+            $data['active_class'] = 'attendance';
+        }else {
+            $data['active_class'] = 'academic';
+        }
+        $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
+		$phase_record = App\Course::where('id', '=', $course_record->parent_id)->first();
+		$subject_record = App\Subject::where('id', '=', $course_subject_record->subject_id)->first();
+		
+		
+        $submitted_data = array(
+            'attendance_date' => $vrequest['attendance_date'],
+            'current_year' => $current_year,
+            'current_semister' => $current_semister,
+			'phase_title'=>$phase_record->course_title,
+			'course_title'=>$course_record->course_title,
+			'subject_title'=>$subject_record->subject_title,
+			'user_name'=> $userData->name,
+            'course_record' => $course_record,
+            'subject_id' => $course_subject_record->subject_id,
+            'total_class' => $vrequest['total_class'],
+			
+            'updated_by' => $user->id,
+            'academic_id' => $course_subject_record->academic_id,
+            'academic_title' => $academic_title
+        );
+
+        $studentObject = new App\Student();
+        $students = $studentObject->getStudents(
+            $course_subject_record->academic_id,
+            $vrequest['class_id']
+        /*$current_year,
+        $current_semister*/
+        );
+
+        $data['submitted_data'] = (object)$submitted_data;
+
+        $data['students'] = $students;
+        $data['title'] = getPhrase('attendance');
+        $data['layout'] = getLayout();
+        $data['role_name'] = getRoleData($user->role_id);
+        $data['userdata'] = $user;
+        $data['period']   = $vrequest['total_class'];
+  if (count($students)) {
+            return view('attendance.list', $data);
+        } else {
+            flash(getPhrase('Ooops'), getPhrase('no_students_available'), 'overlay');
+        }
 
 
     }
