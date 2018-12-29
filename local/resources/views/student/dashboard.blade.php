@@ -57,32 +57,7 @@
 </div>
 @endif
 
-<div class="col-md-4 ">
-                        <div class="card card-green text-xs-center">
-                            <div class="card-block">
-                                <h4 class="card-title">
-                                    <i class="fa fa-paper-plane-o"></i>
-                                </h4>
-                                <p class="card-text">{{ getPhrase('EDIT_USER')}}</p>
-                            </div>
-                            <a class="card-footer text-muted" href="{{URL_USERS_EDIT.Auth::user()->slug}}">
-                                {{ getPhrase('view_all')}}
-                            </a>
-</div>
-</div>
-<div class="col-md-4 ">
-                        <div class="card card-green text-xs-center">
-                            <div class="card-block">
-                                <h4 class="card-title">
-                                    <i class="fa fa-paper-plane-o"></i>
-                                </h4>
-                                <p class="card-text">{{ getPhrase('EDIT_STUDENT')}}</p>
-                            </div>
-                            <a class="card-footer text-muted" href="{{URL_STUDENT_EDIT_PROFILE.Auth::user()->slug}}">
-                                {{ getPhrase('view_all')}}
-                            </a>
-                        </div>
-</div>
+
 <div class="col-md-4">
 <div class="card card-red text-xs-center">
 <div class="card-block">
