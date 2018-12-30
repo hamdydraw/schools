@@ -288,7 +288,30 @@ class StudentAttendanceController extends Controller
         return $data->delete();
 
     }
+ public function isAttendanceAlreadyTakenReload($course_subject_record, $slug, $request, $delete = false)
+    {
 
+        $user = App\User::where('slug', '=', $slug)->first();
+
+        $year = $course_subject_record->year;
+        $semister = $course_subject_record->semister;
+        $data = App\StudentAttendance::
+        where('academic_id', '=', $course_subject_record->academic_id)
+            ->where('course_id', '=', $course_subject_record->course_id)
+            ->where('year', '=', $year)
+            ->where('semester', '=', $semister)
+            ->where('subject_id', '=', $course_subject_record->subject_id)
+            ->where('total_class', '=', $request['total_class'])
+            // ->where('record_updated_by', '=', $user->id)
+            ->where('attendance_date', '=', $request['attendance_date'])
+            ->where('record_status', '=', 1);
+        if (!$delete) {
+            return $data->get();
+        }
+
+        return $data->delete();
+
+    }
     /**
      * Update attendance may do create new set of attendance
      * If attendance is already taken for the specific combination
@@ -411,8 +434,12 @@ class StudentAttendanceController extends Controller
          * @var [type]
          */
         
-  $data['attendance_taken'] = false;
-        $data['attendance_records'] = '';
+ $att_records = $this->isAttendanceAlreadyTakenReload($course_subject_record, $userData->slug, $request);
+        $data['attendance_taken'] = false;
+        if (count($att_records)) {
+            $data['attendance_taken'] = true;
+        }
+             $data['attendance_records'] = $att_records;
 
         $current_year = $course_subject_record->year;
         $current_semister = $course_subject_record->semister;
