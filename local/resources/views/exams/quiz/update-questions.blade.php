@@ -236,7 +236,7 @@
 
 @section('footer_scripts')
 
-@include('exams.quiz.scripts.js-scripts',array('settings'=>$settings))
+@include('exams.quiz.scripts.js-scripts',array('settings'=>$settings,'record' => $record))
 
 @stop
 

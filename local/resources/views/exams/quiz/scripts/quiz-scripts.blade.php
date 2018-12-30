@@ -12,7 +12,7 @@
 <script>
 
     app.controller('QuizController', function ($scope, $http, $timeout, httpPreConfig, $location,$rootScope) {
-
+ 
         $scope.academic_years = [];
         $scope.parent_courses = [];
         $scope.courses = [];
@@ -118,6 +118,7 @@
 
 
         $scope.getSubjects = function (subject = 1) {
+			
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
                 return false;
             }
