@@ -79,7 +79,7 @@ class LessionPlan extends Model
 			->join('students', 'students.course_id', '=', 'course_subject.course_id')
 			->leftjoin('staff', 'staff.user_id', '=', 'course_subject.staff_id')
 			->leftjoin('users', 'users.id', '=', 'staff.user_id')
-            ->where('students.user_id', '=', $user_id) 
+            ->where('students.user_id', '=', $user_id)
             ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
 			     'users.name as username',
@@ -94,9 +94,9 @@ class LessionPlan extends Model
                 'course_dueration'
             ])
             ->limit($limit)->orderBy('semister');
-       
-            $subjects = $subjects->orderBy('year', $orderBy)->orderBy('semister', $orderBy);
-        
+
+            $subjects = $subjects->orderBy('course_subject.id');
+
         return $subjects->get();
     }
 

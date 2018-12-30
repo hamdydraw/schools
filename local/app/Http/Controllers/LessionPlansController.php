@@ -218,16 +218,11 @@ class LessionPlansController extends Controller
                 'users.slug'
             ])
             ->where('students.academic_id', '=', $academic_id)
-            ->where('students.course_parent_id', '=', $course_parent_id);
+            ->where('students.course_parent_id', '=', $course_parent_id)
             // ->where('students.course_id', '=', $course_id)
             // ->where('students.current_year', '=', $year)
-<<<<<<< HEAD
-            // ->where('students.current_semister', '=', $semister)
-            // ->orderBy('students.updated_at', 'desc')->get();
-=======
             // ->where('students.current_semister', '=', $semister)//
             ->orderBy('students.updated_at', 'desc')->get();
->>>>>>> 50e847035c69d622bd0ee163f685cc09da884b7b
 
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 
@@ -269,7 +264,7 @@ class LessionPlansController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         $recordOfSlug = App\User::where('slug', $userSlug)->first(['id']);
-		
+
         if ($role == 'educational_supervisor') {
             $checkIfExist = App\SupervisorStaff::where('supervisor_id', $user->id)->where('staff_id',
                 $recordOfSlug->id)->first();
@@ -599,6 +594,7 @@ class LessionPlansController extends Controller
 
 	public function Studentindex($slug)
     {
+
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role'] = $role;
@@ -609,7 +605,7 @@ class LessionPlansController extends Controller
         if ($isValid = $this->isValidRecord($user)) {
             return redirect($isValid);
         }
-         
+
 
         $subjects = App\LessionPlan::getStudentSubjects($user->id);
 
