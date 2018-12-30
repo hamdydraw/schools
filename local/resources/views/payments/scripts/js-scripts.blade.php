@@ -20,8 +20,8 @@
                 data = {_method: 'post', '_token': $scope.getToken(), 'record_id': record_id};
                 $scope.payment_record = [];
                 $http.post(route, data).then(function (result) {
-                    var result=result.data
-                    console.log(result)
+                    var result=result.data;
+                    console.log(result);
                     if (result.status) {
                         $scope.payment_record = result.record;
                     }

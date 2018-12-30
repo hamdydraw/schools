@@ -99,8 +99,9 @@
                                     <p><strong>{{getPhrase('comments')}}</strong> : <textarea class="form-control"
                                                                                               name="admin_comment"></textarea>
                                     </p>
-                                    <input type="hidden" name="record_id" value="@{{payment_record.id}}">
+                                    
                                 </div>
+                                <input type="hidden" name="record_id" value="@{{payment_record.id}}">
                             </div>
                         </div>
                     </div>
