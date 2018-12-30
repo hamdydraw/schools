@@ -221,8 +221,13 @@ class LessionPlansController extends Controller
             ->where('students.course_parent_id', '=', $course_parent_id);
             // ->where('students.course_id', '=', $course_id)
             // ->where('students.current_year', '=', $year)
+<<<<<<< HEAD
             // ->where('students.current_semister', '=', $semister)
             // ->orderBy('students.updated_at', 'desc')->get();
+=======
+            // ->where('students.current_semister', '=', $semister)//
+            ->orderBy('students.updated_at', 'desc')->get();
+>>>>>>> 50e847035c69d622bd0ee163f685cc09da884b7b
 
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 

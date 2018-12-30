@@ -1553,6 +1553,7 @@ function getSubjectDetails($id){
         $data['sem']     = $subject->semister;
         $data['course']  = \App\Course::where('id',$subject->course_parent_id)->select(['id','course_title'])->first();
         $data['subject'] = \App\Subject::where('id',$subject->subject_id)->select(['id','subject_title'])->first();
+		$data['subject_realid'] = $subject->subject_id;
     }
     return $data;
 
