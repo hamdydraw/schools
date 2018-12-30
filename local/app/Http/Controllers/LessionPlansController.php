@@ -221,7 +221,7 @@ class LessionPlansController extends Controller
             ->where('students.course_parent_id', '=', $course_parent_id)
             // ->where('students.course_id', '=', $course_id)
             // ->where('students.current_year', '=', $year)
-            // ->where('students.current_semister', '=', $semister)//
+            // ->where('students.current_semister', '=', $semister)
             ->orderBy('students.updated_at', 'desc')->get();
 
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
@@ -273,7 +273,7 @@ class LessionPlansController extends Controller
                 return redirect('dashboard');
             }
         }
-        if ($role != 'educational_supervisor' && $role != 'parent') {
+        if ($role != 'educational_supervisor' && $role != 'parent' && $role != 'student') {
             if (!checkRole(getUserGrade(3))) {
                 prepareBlockUserMessage();
                 return back();
@@ -282,7 +282,7 @@ class LessionPlansController extends Controller
 
         //*********VALIDATING THE USER START*****************//
         //Make sure that the user is accessing only his record apart from admin/owner
-        if ($role != 'educational_supervisor'  && $role != 'parent') {
+        if ($role != 'educational_supervisor'  && $role != 'parent' && $role != 'student') {
             if (!isEligible($userSlug)) {
                 return back();
             }
@@ -302,11 +302,7 @@ class LessionPlansController extends Controller
             return redirect($isValid);
         }
 
-        //Make sure the user got alotted the subject for him only
-        if ($courseSubjectRecord->staff_id != $user->id  && $role != 'parent') {
-            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
-            return back();
-        }
+
 
         //*********VALIDATING THE USER END*****************//
 
