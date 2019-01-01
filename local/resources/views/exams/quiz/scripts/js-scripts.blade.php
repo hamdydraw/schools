@@ -111,6 +111,7 @@
                     $scope.academic_subjects_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
+
 						$scope.current_subject_sc = "{{$record->details['subject_realid']}}";
 						
                         $scope.get_topics();
@@ -153,6 +154,7 @@
                     $scope.academic_topics_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_topic_sc = response.data[0].id.toString();
+						
                         $scope.subjectChanged();
                     }
                 })

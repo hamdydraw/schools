@@ -183,7 +183,7 @@ class LessionPlansController extends Controller
         $data['title'] = getPhrase('student_list');
         $data['academic_id'] = $request->academic_id;
         $data['course_parent_id'] = $request->course_parent_id;
-        $data['course_id'] = $course_id;
+        $data['course_id'] = $request->course_id;
         $data['year'] = $request->year;
         $data['semister'] = $request->semister;
         $data['course_time'] = $course_time;
@@ -192,7 +192,7 @@ class LessionPlansController extends Controller
             $data['title'] = $academic_title->academic_year_title . ' ' .
                 $course_name->course_title . ' ' . $request->year . ' ' . getPhrase('year') . ' ' . $request->semister . ' ' . getPhrase('semester') . ' ' . getPhrase('students');
         } else {
-            $data['title'] = $academic_title->academic_year_title . ' ' . $course_name->course_title . ' ' . getPhrase('students');
+            $data['title'] =getPhrase('student_course').' : '.$course_name->course_title.' '.getPhrase('foryear') .' - '. $academic_title->academic_year_title ;
         }
 
         return view('staff.lessionplans.student-list', $data);
@@ -209,17 +209,17 @@ class LessionPlansController extends Controller
                 'students.academic_id',
                 'students.course_parent_id',
                 'students.course_id',
-                'students.first_name',
+                'users.name',
                 'students.last_name',
                 'users.image',
-                'students.roll_no',
+                'users.id_number',
                 'courses.course_title',
                 'users.email',
                 'users.slug'
             ])
             ->where('students.academic_id', '=', $academic_id)
-            ->where('students.course_parent_id', '=', $course_parent_id)
-            // ->where('students.course_id', '=', $course_id)
+           // ->where('students.course_parent_id', '=', $course_parent_id)
+             ->where('students.course_id', '=', $course_id)
             // ->where('students.current_year', '=', $year)
             // ->where('students.current_semister', '=', $semister)
             ->orderBy('students.updated_at', 'desc')->get();
@@ -227,12 +227,7 @@ class LessionPlansController extends Controller
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 
         return Datatables::of($records)
-            ->editColumn('first_name', function ($records) {
-                $data = '';
-                $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->first_name . ' ' . $records->last_name.'</a>';
-                return $data;
-
-            })
+           
             ->editColumn('image', function ($records) {
                 return '<img src="' . getProfilePath($records->image) . '"  />';
             })
@@ -302,7 +297,11 @@ class LessionPlansController extends Controller
             return redirect($isValid);
         }
 
+<<<<<<< HEAD
 
+=======
+       
+>>>>>>> 2cf0e915c143206ea74fb29235b498916c903525
 
         //*********VALIDATING THE USER END*****************//
 
@@ -590,7 +589,11 @@ class LessionPlansController extends Controller
 
 	public function Studentindex($slug)
     {
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 2cf0e915c143206ea74fb29235b498916c903525
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role'] = $role;
@@ -623,6 +626,8 @@ class LessionPlansController extends Controller
         $data['layout'] = getLayout();
 
         if (count($subjects)) {
+			$courseRecord = App\Course::where('id', '=', $subjects[0]->course_parent_id)->first();
+			$data['pcourse_title']=$courseRecord->course_title;
             return view('student.lessionplans.dashboard', $data);
         }
 
