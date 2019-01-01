@@ -8,29 +8,29 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-							
+
 							<li>{{ $title }}</li>
 						</ol>
 					</div>
 				</div>
-								
+
 				<!-- /.row -->
 				<div class="panel panel-custom">
 					<div class="panel-heading">
-						
+
 						<div class="pull-right messages-buttons">
-							 
+
 						</div>
 						<h1>{{ $title }}</h1>
 					</div>
 					<div class="panel-body packages">
 					<?php $lessionPlanObject = new App\LessionPlan();?>
 				 @foreach($subjects as $subject)
-                  
+
                   {!!Form::open(array('url'=>URL_LESSION_PLANS_VIEW_STUDENTS,'method'=>'POST','name'=>'studentList'))!!}
 
-                 
-				 <?php 
+
+				 <?php
 
 				 $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id, $subject->staff_id, $subject->id,$subject->semister);
 				 $percent_completed = round($summary->percent_completed);
@@ -60,14 +60,14 @@
 							>{{ getPhrase('view_students') }}</button>
 
 						</div>
-						
-						
+
+
 						</div>
 					</div>
 					 {!!Form::close()!!}
 				@endforeach
 
-				     
+
 					</div>
 				</div>
 			</div>

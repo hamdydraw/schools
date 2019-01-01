@@ -18,7 +18,7 @@
         @if ($settingsQuestions != null)
             var oneEl = '[';
             <?php $i=0;?>
-             
+
             @foreach($settingsQuestions as $question)
                 oneEl += '{"id":'+'{{trim($question['id'])}}';
                 oneEl += ',"subject_id":'+'{{trim($question['subject_id'])}}';
@@ -87,9 +87,9 @@
                         $scope.current_course_sc   = response.data[0].id.toString();
 						  @if(isset($record))
                         @if($record != false)
-							
+
                            $scope.current_course_sc = "{{$record->course_id}}";
-                        
+
                         @endif
                     @endif
                         $scope.getSubjects();
@@ -113,7 +113,7 @@
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
 
 						$scope.current_subject_sc = "{{$record->details['subject_realid']}}";
-						
+
                         $scope.get_topics();
                     }
                 })
@@ -154,7 +154,7 @@
                     $scope.academic_topics_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_topic_sc = response.data[0].id.toString();
-						
+
                         $scope.subjectChanged();
                     }
                 })

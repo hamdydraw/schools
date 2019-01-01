@@ -227,7 +227,12 @@ class LessionPlansController extends Controller
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 
         return Datatables::of($records)
-           
+            ->editColumn('name', function ($records) {
+               $data = '';
+                $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->name .'</a>';
+                return $data;
+
+            })
             ->editColumn('image', function ($records) {
                 return '<img src="' . getProfilePath($records->image) . '"  />';
             })
@@ -268,20 +273,20 @@ class LessionPlansController extends Controller
                 return redirect('dashboard');
             }
         }
-        if ($role != 'educational_supervisor' && $role != 'parent' && $role != 'student') {
+       /* if ($role != 'educational_supervisor' && $role != 'parent' && $role != 'student') {
             if (!checkRole(getUserGrade(3))) {
                 prepareBlockUserMessage();
                 return back();
             }
         }
 
-        //*********VALIDATING THE USER START*****************//
+
         //Make sure that the user is accessing only his record apart from admin/owner
         if ($role != 'educational_supervisor'  && $role != 'parent' && $role != 'student') {
             if (!isEligible($userSlug)) {
                 return back();
             }
-        }
+        }*/
 
 
         $user = App\User::where('slug', '=', $userSlug)->first();
@@ -297,11 +302,7 @@ class LessionPlansController extends Controller
             return redirect($isValid);
         }
 
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> 2cf0e915c143206ea74fb29235b498916c903525
 
         //*********VALIDATING THE USER END*****************//
 
@@ -315,10 +316,10 @@ class LessionPlansController extends Controller
             $courseSubjectSemester);
 
 
-        if (!count($topics)) {
+        /*if (!count($topics)) {
             flash(getPhrase('Ooops'), getPhrase('no_topics availble'), 'overlay');
             return redirect('staff/lession-plans/' . $user->slug);
-        }
+        }*/
 
         $data['items'] = json_encode(
             array(
@@ -589,11 +590,7 @@ class LessionPlansController extends Controller
 
 	public function Studentindex($slug)
     {
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 2cf0e915c143206ea74fb29235b498916c903525
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role'] = $role;

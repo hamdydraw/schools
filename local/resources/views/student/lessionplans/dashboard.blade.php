@@ -34,7 +34,7 @@
                                href="{{url('supervisor/staff/staff-topic-plan')}}">{{getPhrase('all')}}</a>
                         @endif
                     </div>
-					
+
                     <h1>{{ $title }}- {{$pcourse_title}} - {{$subjects[0]->course_title}} </h1>
                 </div>
 
@@ -62,20 +62,11 @@
 
 
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
-<<<<<<< HEAD
-
-									 @if ($role == 'parent' ||$role == 'student')
-											 @if($subject->username!='')
+                                   @if($subject->username!='')
 												 {{$subject->username}}
-											 @else {{getPhrase('teacher_is_not_assigned')}}
-
-=======
-                                   @if($subject->username!='')	 
-												 {{$subject->username}}
-											 @else 
+											 @else
 											 {{getPhrase('teacher_is_not_assigned')}}
-											 
->>>>>>> 2cf0e915c143206ea74fb29235b498916c903525
+
 											 @endif
                                 </div>
 
