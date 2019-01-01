@@ -83,6 +83,7 @@ class LessionPlan extends Model
             ->where('course_subject.academic_id', '=', $current_academic_id)
             ->select([
 			     'users.name as username',
+				 'course_subject.course_parent_id',
                 'course_subject.id as id',
                 'course_subject.slug as slug',
                 'subject_title',
@@ -95,7 +96,7 @@ class LessionPlan extends Model
             ])
             ->limit($limit)->orderBy('semister');
        
-            $subjects = $subjects->orderBy('year', $orderBy)->orderBy('semister', $orderBy);
+            $subjects = $subjects->orderBy('course_subject.id');
         
         return $subjects->get();
     }

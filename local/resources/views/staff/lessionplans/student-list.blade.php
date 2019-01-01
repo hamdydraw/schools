@@ -11,9 +11,11 @@
 					<div class="col-lg-12">
 						<ol class="breadcrumb">
 							<li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-							<li><a href="{{URL_LESSION_PLANS_STUDENTLIST_DASHBOARD.Auth::user()->slug}}">{{getPhrase('students_dashboard')}}</a></li>
+							<li><a href="{{URL_LESSION_PLANS_STUDENTLIST_DASHBOARD.Auth::user()->slug}}">
+							{{getPhrase('students_dashboard')}}</a></li>
 							
 							 <li>{{$title}}</li>
+								 
 						</ol>
 					</div>
 				</div>
@@ -24,29 +26,20 @@
 				  <h1>{{$title}}</h1>
 				  </div>
 
-					
 					<div class="panel-body packages">
 						<div > 
 						<table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
 							<thead>
-								<tr>
-								     
-
+								<tr> 
                                     <th>{{ getPhrase('name')}}</th>
 									<th>{{ getPhrase('image')}}</th>
-								 	<th>{{ getPhrase('roll_no')}}</th>
-								 	<th>{{ getPhrase('course')}}</th>
-								 	
-									<th>{{ getPhrase('email')}}</th>
-
-									
+								 	<th>{{ getPhrase('id_number')}}</th>
+								 	<th>{{ getPhrase('course')}}</th> 
+									<th>{{ getPhrase('email')}}</th> 
 								</tr>
-							</thead>
-							 
+							</thead> 
 						</table>
-						</div>
-						 
-
+						</div> 
 					</div>
 
 				</div>

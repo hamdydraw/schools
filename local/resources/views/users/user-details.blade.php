@@ -205,7 +205,7 @@
 						</div>
 
 					</div>
-					@if(checkRole(getUserGrade(1))|| checkRole(getUserGrade(2)))
+					
 					  <div class="col-lg-3 col-md-6">
                         <div class="card card-green text-xs-center">
                             <div class="card-block">
@@ -219,7 +219,7 @@
                             </a>
                         </div>
                     </div>
-					@endif
+					
 						@endif
 					
 							
