@@ -34,7 +34,8 @@
                                href="{{url('supervisor/staff/staff-topic-plan')}}">{{getPhrase('all')}}</a>
                         @endif
                     </div>
-                    <h1>{{ $title }} </h1>
+
+                    <h1>{{ $title }}- {{$pcourse_title}} - {{$subjects[0]->course_title}} </h1>
                 </div>
 
                 <div class="panel-body packages">
@@ -61,15 +62,12 @@
 
 
                                     <h4 title="{{$subject->subject_title}}">{{$subject->subject_title}}</h4>
-                                   
-									 @if ($role == 'parent' ||$role == 'student')
-											 @if($subject->username!='')	 
+                                   @if($subject->username!='')
 												 {{$subject->username}}
-											 @else {{@getPhrase(teacher_is_not_assigned)}}
-											 
+											 @else
+											 {{getPhrase('teacher_is_not_assigned')}}
+
 											 @endif
-									  @else  {{$subject->course_title}}
-										   @endif
                                 </div>
 
                                 <a class="card-footer text-muted"

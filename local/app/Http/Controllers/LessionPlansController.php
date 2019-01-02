@@ -183,7 +183,7 @@ class LessionPlansController extends Controller
         $data['title'] = getPhrase('student_list');
         $data['academic_id'] = $request->academic_id;
         $data['course_parent_id'] = $request->course_parent_id;
-        $data['course_id'] = $course_id;
+        $data['course_id'] = $request->course_id;
         $data['year'] = $request->year;
         $data['semister'] = $request->semister;
         $data['course_time'] = $course_time;
@@ -192,7 +192,7 @@ class LessionPlansController extends Controller
             $data['title'] = $academic_title->academic_year_title . ' ' .
                 $course_name->course_title . ' ' . $request->year . ' ' . getPhrase('year') . ' ' . $request->semister . ' ' . getPhrase('semester') . ' ' . getPhrase('students');
         } else {
-            $data['title'] = $academic_title->academic_year_title . ' ' . $course_name->course_title . ' ' . getPhrase('students');
+            $data['title'] =getPhrase('student_course').' : '.$course_name->course_title.' '.getPhrase('foryear') .' - '. $academic_title->academic_year_title ;
         }
 
         return view('staff.lessionplans.student-list', $data);
@@ -209,27 +209,27 @@ class LessionPlansController extends Controller
                 'students.academic_id',
                 'students.course_parent_id',
                 'students.course_id',
-                'students.first_name',
+                'users.name',
                 'students.last_name',
                 'users.image',
-                'students.roll_no',
+                'users.id_number',
                 'courses.course_title',
                 'users.email',
                 'users.slug'
             ])
             ->where('students.academic_id', '=', $academic_id)
-            ->where('students.course_parent_id', '=', $course_parent_id);
-            // ->where('students.course_id', '=', $course_id)
+           // ->where('students.course_parent_id', '=', $course_parent_id)
+             ->where('students.course_id', '=', $course_id)
             // ->where('students.current_year', '=', $year)
             // ->where('students.current_semister', '=', $semister)
-            // ->orderBy('students.updated_at', 'desc')->get();
+            ->orderBy('students.updated_at', 'desc')->get();
 
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 
         return Datatables::of($records)
-            ->editColumn('first_name', function ($records) {
-                $data = '';
-                $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->first_name . ' ' . $records->last_name.'</a>';
+            ->editColumn('name', function ($records) {
+               $data = '';
+                $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->name .'</a>';
                 return $data;
 
             })
@@ -264,7 +264,7 @@ class LessionPlansController extends Controller
         $role = getRoleData($user->role_id);
         $data['role']=$role;
         $recordOfSlug = App\User::where('slug', $userSlug)->first(['id']);
-		
+
         if ($role == 'educational_supervisor') {
             $checkIfExist = App\SupervisorStaff::where('supervisor_id', $user->id)->where('staff_id',
                 $recordOfSlug->id)->first();
@@ -273,20 +273,20 @@ class LessionPlansController extends Controller
                 return redirect('dashboard');
             }
         }
-        if ($role != 'educational_supervisor' && $role != 'parent') {
+       /* if ($role != 'educational_supervisor' && $role != 'parent' && $role != 'student') {
             if (!checkRole(getUserGrade(3))) {
                 prepareBlockUserMessage();
                 return back();
             }
         }
 
-        //*********VALIDATING THE USER START*****************//
+
         //Make sure that the user is accessing only his record apart from admin/owner
-        if ($role != 'educational_supervisor'  && $role != 'parent') {
+        if ($role != 'educational_supervisor'  && $role != 'parent' && $role != 'student') {
             if (!isEligible($userSlug)) {
                 return back();
             }
-        }
+        }*/
 
 
         $user = App\User::where('slug', '=', $userSlug)->first();
@@ -302,11 +302,7 @@ class LessionPlansController extends Controller
             return redirect($isValid);
         }
 
-        //Make sure the user got alotted the subject for him only
-        if ($courseSubjectRecord->staff_id != $user->id  && $role != 'parent') {
-            flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
-            return back();
-        }
+
 
         //*********VALIDATING THE USER END*****************//
 
@@ -320,10 +316,10 @@ class LessionPlansController extends Controller
             $courseSubjectSemester);
 
 
-        if (!count($topics)) {
+        /*if (!count($topics)) {
             flash(getPhrase('Ooops'), getPhrase('no_topics availble'), 'overlay');
             return redirect('staff/lession-plans/' . $user->slug);
-        }
+        }*/
 
         $data['items'] = json_encode(
             array(
@@ -594,6 +590,7 @@ class LessionPlansController extends Controller
 
 	public function Studentindex($slug)
     {
+
         $user = getUserRecord();
         $role = getRoleData($user->role_id);
         $data['role'] = $role;
@@ -604,7 +601,7 @@ class LessionPlansController extends Controller
         if ($isValid = $this->isValidRecord($user)) {
             return redirect($isValid);
         }
-         
+
 
         $subjects = App\LessionPlan::getStudentSubjects($user->id);
 
@@ -626,6 +623,8 @@ class LessionPlansController extends Controller
         $data['layout'] = getLayout();
 
         if (count($subjects)) {
+			$courseRecord = App\Course::where('id', '=', $subjects[0]->course_parent_id)->first();
+			$data['pcourse_title']=$courseRecord->course_title;
             return view('student.lessionplans.dashboard', $data);
         }
 

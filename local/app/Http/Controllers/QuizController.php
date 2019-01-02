@@ -702,7 +702,7 @@ class QuizController extends Controller
         $record = Quiz::getRecordWithSlug($slug);
         $data['record'] = $record;
         $data['record']['details'] = getSubjectDetails($record->subject_id);
-
+         
         $data['active_class'] = 'exams';
         $data['right_bar'] = true;
         $data['right_bar_path'] = 'exams.quiz.right-bar-update-questions';
