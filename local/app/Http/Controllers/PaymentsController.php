@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\ExamSeries;
 use App\LmsSeries;
+use App\DuesPurchase;
 use App\Payment;
 use App\Paypal;
 use App\Quiz;
@@ -456,20 +457,35 @@ class PaymentsController extends Controller
             $item_model = new LmsSeries();
         }
 
-        $item_details = $item_model->where('id', '=', $payment_record->item_id)->first();
+        // $payment_record->item_id > 0  to make sure that it's working with the new way
+        if ($payment_record->plan_type == 'academic_expenses' && $payment_record->item_id > 0) {
+            $payment_record->end_date = date('Y-m-d');
+        } else {
+            $item_details = $item_model->where('id', '=', $payment_record->item_id)->first();
+            $daysToAdd = '+' . $item_details->validity . 'days';
+            $payment_record->end_date = date('Y-m-d', strtotime($daysToAdd));
+            
+        }
 
-        $daysToAdd = '+' . $item_details->validity . 'days';
+        
+
+        if (!empty($payment_record->other_details)) {
+            $details_before_payment = (object)json_decode($payment_record->other_details);
+            $payment_record->coupon_applied = $details_before_payment->is_coupon_applied;
+            $payment_record->coupon_id = $details_before_payment->coupon_id;
+            $payment_record->actual_cost = $details_before_payment->actual_cost;
+            $payment_record->discount_amount = $details_before_payment->discount_availed;
+            $payment_record->after_discount = $details_before_payment->after_discount;
+            $payment_record->paid_amount = $details_before_payment->after_discount;
+        }
+
+        
+        
 
         $payment_record->start_date = date('Y-m-d');
-        $payment_record->end_date = date('Y-m-d', strtotime($daysToAdd));
+        
 
-        $details_before_payment = (object)json_decode($payment_record->other_details);
-        $payment_record->coupon_applied = $details_before_payment->is_coupon_applied;
-        $payment_record->coupon_id = $details_before_payment->coupon_id;
-        $payment_record->actual_cost = $details_before_payment->actual_cost;
-        $payment_record->discount_amount = $details_before_payment->discount_availed;
-        $payment_record->after_discount = $details_before_payment->after_discount;
-        $payment_record->paid_amount = $details_before_payment->after_discount;
+        
         if (!$iscoupon_zero) {
             $payment_record->admin_comments = $request->admin_comment;
         }
@@ -497,7 +513,22 @@ class PaymentsController extends Controller
             ));
         }
         $payment_record->user_stamp($request);
-        $payment_record->save();
+
+
+        if ($payment_record->plan_type == 'academic_expenses' && $payment_record->item_id > 0) {
+            $cost = $payment_record->cost;
+            $duePurchaseId = $payment_record->item_id;
+
+            $that = $this;
+            DB::transaction(function() use ($payment_record, $duePurchaseId, $cost, $that){
+                $payment_record->save();
+                DuesPurchase::proccessApprovedPayment($duePurchaseId, $cost);
+            });
+            
+        } else {
+            $payment_record->save();
+        }
+
 
         if ($payment_record->coupon_applied) {
             $this->couponcodes_usage($payment_record);
@@ -873,7 +904,18 @@ class PaymentsController extends Controller
                 $payment_record->payment_status = PAYMENT_STATUS_CANCELLED;
                 $payment_record->admin_comments = $request->admin_comment;
                 $payment_record->update_stamp($request);
-                $payment_record->save();
+                if ($payment_record->plan_type == 'academic_expenses' && $payment_record->item_id > 0) {
+                    $cost = $payment_record->cost;
+                    $duePurchaseId = $payment_record->item_id;
+                    DB::transaction(function() use ($payment_record, $duePurchaseId, $cost){
+                        $payment_record->save();
+                        DuesPurchase::proccessRejectedPayment($duePurchaseId, $cost);
+                        
+                    });
+                    
+                } else {
+                    $payment_record->save();
+                }
             }
 
             flash(getPhrase('success'), getPhrase('record_was_updated_successfully'), 'overlay');

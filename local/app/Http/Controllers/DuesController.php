@@ -180,6 +180,7 @@ class DuesController extends Controller
         $userRecord = User::where('slug', $slug)->first();
         $gateway = trim($request->gateway);
         $items = ' ';
+        
         if ($expenses_merged == null) {
             flash(getPhrase('Ooops'), getPhrase('you_must_select_one_item_at_least'), 'error');
             return back();

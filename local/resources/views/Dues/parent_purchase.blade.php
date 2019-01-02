@@ -72,10 +72,9 @@
                         @endforeach
 
                     @endif
-
                     <h3>{{getPhrase('total')}}: <span id="total">
                             @if(isset($specifications))
-                                {{$total+$specifications['remain_purchase']}}
+                                {{$total+$specifications['remain_purchase'] - $specifications['under_review']}}
                                 <?php
                                 $total = $total + $specifications['remain_purchase'];
                                 ?>
@@ -87,6 +86,7 @@
                                 ?>
 
                             @endif
+                            
                         </span>
                     </h3>
                     <div class="row">
@@ -116,6 +116,9 @@
                     @endif
                     <h3>{{getPhrase('the_amount_paid')}}: <span
                                 style="color: red;">{{ isset($dues_purchase) ? $specifications['your_money'] : '-'}}</span><br>
+                        <h3>{{getPhrase('the_amount_under_review')}} : <span
+                        style="color: red;">{{ isset($dues_purchase) && isset($specifications['under_review']) && !empty($specifications['under_review']) ? $specifications['under_review'] : '-'}}</span><br>
+                    
                         at time: <span
                                 style="color: red;">{{isset($dues_purchase) ? $dues_purchase->updated_at : '-'}}</span>
                     </h3>
