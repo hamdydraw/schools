@@ -315,18 +315,29 @@ class DuesController extends Controller
                 }
             }
             $your_money = $request->your_money;
-            $specifications['your_money'] += $your_money;
+            
             $coupon = $request->coupon;
             /*$specifications['coupon'] += $coupon;*/
-            $remain_purchase = ($remain - $your_money) - $coupon;
-            $specifications['remain_purchase'] = $remain_purchase;
+
+            //testing
+            if (!isset($specifications['under_review'])) {
+                $specifications['under_review'] = 0;
+            }
+            $specifications['under_review'] += $your_money + $coupon;
+            // $specifications['your_money'] += $your_money;
+            $specifications['remain_purchase'] = $remain;
+            
+            
+            
             $db_object = array(
                 'total' => $specifications['total'],
                 'coupon' => $coupon,
                 'your_money' => $specifications['your_money'],
                 'remain_purchase' => $specifications['remain_purchase'],
+                'under_review' => $specifications['under_review'],
                 'dues_title' => $specifications['dues_title']
             );
+
             $db_object = json_encode($db_object);
             $checkExistence->specifications = $db_object;
             if ($checkExistence->update()) {
@@ -342,7 +353,13 @@ class DuesController extends Controller
         }
         $your_money = $request->your_money;
         $coupon = $request->coupon;
-        $remain_purchase = ($total - $your_money) - $coupon;
+
+        //testing
+        $under_review = $your_money + $coupon;
+        $remain_purchase = $total ;
+
+        $your_money = 0; // not to be calculated untill confirmation
+
         if ($remain_purchase < 0) {
             flash(getPhrase('error'), getPhrase("be_sure_of_input"), 'error');
             return redirect()->back();
@@ -352,6 +369,7 @@ class DuesController extends Controller
             'total' => $total,
             'coupon' => $coupon,
             'your_money' => $your_money,
+            'under_review' => $under_review,
             'remain_purchase' => $remain_purchase,
             'dues_title' => $dues_titles
         );
@@ -520,6 +538,7 @@ class DuesController extends Controller
         $payment = new Payment();
         $payment->slug = $payment->makeSlug(getHashCode());
         $payment->item_name = $items;
+        $payment->item_id = $storeInstance->id;
         $payment->user_id = $userRecord->id;
         $payment->plan_type = 'academic_expenses';
         $payment->payment_gateway = 'offline';

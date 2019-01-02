@@ -32,7 +32,7 @@ class Couponcode extends Model
         $coupon_record = Couponcode::where('coupon_code', '=', $code)->first();
         $applicable_categories = [];
         if(!$coupon_record)
-            return FALSE;
+            return false;
         if($coupon_record->coupon_code_applicability)
         {
             $applicable_categories = (array) json_decode($coupon_record->coupon_code_applicability)->categories;
@@ -43,10 +43,9 @@ class Couponcode extends Model
     						->where('valid_to', '>=', date('Y-m-d'))
                             ->where('status','=','Active')
                            ->first();
-        if($record)
-        {
-            if(in_array($item_type, $applicable_categories))
+        if($record && in_array($item_type, $applicable_categories)){
                 return $record;
         }
+        return false;
     }
 }
