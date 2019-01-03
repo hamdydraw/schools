@@ -111,8 +111,8 @@ class QuizController extends Controller
                         'quizzes.id as quiz_id',
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
-                    ]);
-                    // ->orderBy('quizzes.updated_at', 'desc');
+                    ])
+                    ->orderBy('quizzes.updated_at', 'desc');
 
             }else {
                 $records = Quiz::withoutGlobalScope(App\Scopes\BranchScope::class)
@@ -134,8 +134,8 @@ class QuizController extends Controller
                         'quizzes.created_by_user', 'quizzes.updated_by_user', 'quizzes.created_by_ip', 'quizzes.updated_by_ip', 'quizzes.created_at', 'quizzes.updated_at'
 
                     ])
-                   ->where('courses.category_id',Auth::user()->category_id);
-                    // ->orderBy('quizzes.updated_at', 'desc');
+                   ->where('courses.category_id',Auth::user()->category_id)
+                    ->orderBy('quizzes.updated_at', 'desc');
             }
 
 
@@ -158,8 +158,8 @@ class QuizController extends Controller
                     'quizzes.id as quiz_id',
                     'quizzes.created_by_user','quizzes.updated_by_user','quizzes.created_by_ip','quizzes.updated_by_ip','quizzes.created_at','quizzes.updated_at'
                 ])
-                ->where('quizzes.category_id', '=', $category->id);
-                // ->orderBy('quizcategories.updated_at', 'desc');
+                ->where('quizzes.category_id', '=', $category->id)
+                ->orderBy('quizcategories.updated_at', 'desc');
         }
 
 
@@ -618,9 +618,7 @@ class QuizController extends Controller
         $subject_id = App\CourseSubject::where('id',$request->course_subject_id)->first()->subject_id;
         $staff_id   = App\CourseSubject::where('id',$request->course_subject_id)->first()->staff_id;
         $users = App\QuizResult::join('users','users.id','=','quizresults.user_id')
-                                 ->join('students','users.id','=','students.user_id')
                                  ->select('users.id as user')
-                                 ->where('students.course_id',$request->class_id)
                                  ->where('quiz_id',$request->current_quiz_id)
                                  ->groupBy('quizresults.user_id')
                                  ->get();
@@ -637,19 +635,14 @@ class QuizController extends Controller
         $data['print_term']    = SemesterName($request->sem_id);
         $data['print_course']  = App\Course::where('id',$request->course_id)->first()->course_title;
         $data['print_class' ]  = App\Course::where('id',$request->class_id)->first()->course_title;
-		
+
         $data['print_quiz']    = Quiz::where('id',$request->current_quiz_id)->first()->title;
         $data['print_subject'] = Subject::where('id',$subject_id)->first()->subject_title;
         $data['max_mark']      = Quiz::where('id',$request->current_quiz_id)->first()->total_marks;
-<<<<<<< HEAD
-        $data['teacher_name']  = App\User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$staff_id)->first()->name;
-
-=======
 		if($staff_id>0)
         $data['teacher_name']  = App\User::where('id',$staff_id)->first()->name;
          else
 			 $data['teacher_name'] ='';
->>>>>>> dcc81f0564742b9f1b574fdad331c0f73ac58f57
 
         return view('exams.quiz_results.report_view',$data);
     }
@@ -714,7 +707,7 @@ class QuizController extends Controller
         $record = Quiz::getRecordWithSlug($slug);
         $data['record'] = $record;
         $data['record']['details'] = getSubjectDetails($record->subject_id);
-         
+
         $data['active_class'] = 'exams';
         $data['right_bar'] = true;
         $data['right_bar_path'] = 'exams.quiz.right-bar-update-questions';
@@ -802,6 +795,3 @@ class QuizController extends Controller
 
 
 }
-
-
-
