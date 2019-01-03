@@ -280,7 +280,11 @@ class LessionPlansController extends Controller
             }
         }
 
+<<<<<<< .merge_file_AlE5cS
 
+=======
+        
+>>>>>>> .merge_file_hFbAHX
         //Make sure that the user is accessing only his record apart from admin/owner
         if ($role != 'educational_supervisor'  && $role != 'parent' && $role != 'student') {
             if (!isEligible($userSlug)) {

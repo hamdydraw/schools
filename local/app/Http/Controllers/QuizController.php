@@ -606,6 +606,10 @@ class QuizController extends Controller
 
     public function report_result(Request $request)
     {
+		if(strpos($request->current_quiz_id, 'undefined')){
+		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
+		return back()->withInput();
+		}
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
@@ -633,11 +637,19 @@ class QuizController extends Controller
         $data['print_term']    = SemesterName($request->sem_id);
         $data['print_course']  = App\Course::where('id',$request->course_id)->first()->course_title;
         $data['print_class' ]  = App\Course::where('id',$request->class_id)->first()->course_title;
+		
         $data['print_quiz']    = Quiz::where('id',$request->current_quiz_id)->first()->title;
         $data['print_subject'] = Subject::where('id',$subject_id)->first()->subject_title;
         $data['max_mark']      = Quiz::where('id',$request->current_quiz_id)->first()->total_marks;
+<<<<<<< HEAD
         $data['teacher_name']  = App\User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$staff_id)->first()->name;
 
+=======
+		if($staff_id>0)
+        $data['teacher_name']  = App\User::where('id',$staff_id)->first()->name;
+         else
+			 $data['teacher_name'] ='';
+>>>>>>> dcc81f0564742b9f1b574fdad331c0f73ac58f57
 
         return view('exams.quiz_results.report_view',$data);
     }
