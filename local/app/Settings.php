@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 use Mockery\Exception;
@@ -98,13 +98,23 @@ class Settings extends Model
     }
 
     public static function get_att_logo(){
+        
         $settings = Settings::where('key','site_settings')->first();
         $setting_data = (array) json_decode($settings['settings_data']);
-        if(!array_key_exists('site_logo_attendance_header', $setting_data))
-        {
-            return getPhrase('invalid_setting');
+        if(Auth::user()->category_id==1){
+            if(!array_key_exists('site_logo_attendance_header', $setting_data))
+            {
+                return getPhrase('invalid_setting');
+            }
+            return $setting_data['site_logo_attendance_header']->value;
         }
-        return $setting_data['site_logo_attendance_header']->value;
+        else {
+            if(!array_key_exists('site_logo_attendance_header2', $setting_data))
+            {
+                return getPhrase('invalid_setting');
+            }
+            return $setting_data['site_logo_attendance_header2']->value;
+        }
     }
     /**
      * This method validates and sends the setting value

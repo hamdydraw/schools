@@ -284,7 +284,8 @@
         <th ng-show="thirdYear">{{getPhrase('action')}}</th>
       </thead>
       <tbody>
-        <tr ng-repeat="user in result_data">
+	  
+        <tr ng-repeat="user in result_data track by user.id">
           <td>
             <img ng-if="user.image!=null && user.image!=''" class="thumb"
             src="{{IMAGE_PATH_PROFILE}}@{{user.image}}" height="60">

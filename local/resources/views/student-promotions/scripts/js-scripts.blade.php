@@ -88,7 +88,7 @@
                 'year': year,
                 'semister': semister,
             };
-
+			console.log(data);
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
                 console.log(result);
                 users = [];
