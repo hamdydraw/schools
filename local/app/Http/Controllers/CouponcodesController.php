@@ -427,7 +427,7 @@ class CouponcodesController extends Controller
             'amount_to_pay' => $amount_to_pay,
             'discount' => $discount_availed,
             'coupon_id' => $coupon_id,
-            'type' => $couponRecord->discount_type ?? null
+            'type' => isset($couponRecord->discount_type) ? $couponRecord->discount_type : null
         ));
     }
 
