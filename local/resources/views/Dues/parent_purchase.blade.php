@@ -96,7 +96,7 @@
                             {{ Form::number('your_money', $value = null , $attributes = array('class'=>'form-control','required'=>'required','max'=>$total,'placeholder' => getPhrase('your_money'),'id'=>'your_money')) }}
                         </fieldset>
                     </div>
-                    @if(Module_state('coupons'))
+                    @if(Module_state('coupons') && 1==0 /* copuons disabled */) 
                         <div class="row">
                             <fieldset class="form-group col-md-3">
                                 <input type="text" id="coupon_text"
@@ -119,7 +119,7 @@
                         <h3>{{getPhrase('the_amount_under_review')}} : <span
                         style="color: red;">{{ isset($dues_purchase) && isset($specifications['under_review']) && !empty($specifications['under_review']) ? $specifications['under_review'] : '-'}}</span><br>
                     
-                        at time: <span
+                        {{getPhrase('at_time')}}: <span
                                 style="color: red;">{{isset($dues_purchase) ? $dues_purchase->updated_at : '-'}}</span>
                     </h3>
                     <input type="hidden" value="" id="gateway" name="gateway">
@@ -132,7 +132,7 @@
                                         class=" icon-credit-card"></i> {{getPhrase('payu')}}</button>
                         @endif
 
-                        @if($settingsModule->paypal->value == 1)
+                        @if($settingsModule->paypal->value == 1 && 1 == 0/* paypal is disabled */)
                             <button type="submit" class="btn-lg btn button btn-paypal" id="paypal"><i
                                         class="icon-paypal"></i> {{getPhrase('paypal')}}</button>
                         @endif

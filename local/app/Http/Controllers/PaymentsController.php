@@ -162,7 +162,7 @@ class PaymentsController extends Controller
         $dta = Datatables::of($records)
             ->addColumn('action', function ($records) {
                 if (!($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING)) {
-                    $link_data = ' <a >View More</a>';
+                    $link_data = " <a >".getPhrase('View_More')."</a>";
                     return $link_data;
                 }
                 return;
@@ -171,16 +171,16 @@ class PaymentsController extends Controller
 
                 $rec = '';
                 if ($records->payment_status == PAYMENT_STATUS_CANCELLED) {
-                    $rec = '<span class="label label-danger">' . ucfirst($records->payment_status) . '</span>';
+                    $rec = '<span class="label label-danger">' . getPhrase($records->payment_status) . '</span>';
                 } elseif ($records->payment_status == PAYMENT_STATUS_PENDING) {
-                    $rec = '<span class="label label-info">' . ucfirst($records->payment_status) . '</span>';
+                    $rec = '<span class="label label-info">' . getPhrase($records->payment_status) . '</span>';
                 } elseif ($records->payment_status == PAYMENT_STATUS_SUCCESS) {
-                    $rec = '<span class="label label-success">' . ucfirst($records->payment_status) . '</span>';
+                    $rec = '<span class="label label-success">' . getPhrase($records->payment_status) . '</span>';
                 }
                 return $rec;
             })
             ->editColumn('plan_type', function ($records) {
-                return strtoupper($records->plan_type);
+                return getPhrase($records->plan_type);
             })
             ->editColumn('start_date', function ($records) {
                 if ($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING) {
@@ -195,14 +195,14 @@ class PaymentsController extends Controller
                 return $records->end_date;
             })
             ->editColumn('payment_gateway', function ($records) {
-                $text = ucfirst($records->payment_gateway);
+                $text = getPhrase($records->payment_gateway);
 
-                if ($records->payment_status == PAYMENT_STATUS_SUCCESS) {
+                // if ($records->payment_status == PAYMENT_STATUS_SUCCESS) {
                     $extra = '<ul class="list-unstyled payment-col clearfix"><li>' . $text . '</li>';
-                    $extra .= '<li><p>Cost:' . $records->cost . '</p><p>Aftr Dis.:' . $records->after_discount . '</p><p>Paid:' . $records->paid_amount . '</p></li></ul>';
+                    $extra .= '<li><p>'.getPhrase('Cost').':' . $records->cost . '</p><p>'.getPhrase('Aftr_Dis').'.:' . $records->after_discount . '</p><p>'.getPhrase('Paid').':' . $records->paid_amount . '</p></li></ul>';
                     return $extra;
-                }
-                return $text;
+                // }
+                // return $text;
             })
             ->removeColumn('id')
             ->removeColumn('action');
