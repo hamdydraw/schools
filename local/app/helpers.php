@@ -255,7 +255,7 @@ function getUserRecord($user_id = 0)
 function getUserWithSlug($slug = '')
 {
     if ($slug) {
-        return App\User::where('slug', $slug)->get()->first();
+        return App\User::where('slug', $slug)->first();
     }
     return Auth::user();
 }

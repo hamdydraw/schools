@@ -68,11 +68,11 @@
 
 									<th>{{ getPhrase('plan_type')}}</th>
 
-									<th>{{ getPhrase('start_date')}}</th>
-
-									<th>{{ getPhrase('end_date')}}</th>
-
 									<th>{{ getPhrase('paid_from')}}</th>
+
+									<th>{{ getPhrase('notes')}}</th>
+
+									<th>{{ getPhrase('admin_comments')}}</th>
 
 									<th>{{ getPhrase('date_time')}}</th>
 

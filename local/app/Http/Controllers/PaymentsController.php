@@ -49,7 +49,6 @@ class PaymentsController extends Controller
         }
 
         $user = getUserWithSlug($slug);
-
         $data['is_parent'] = 0;
         $user = getUserWithSlug($slug);
 
@@ -112,9 +111,11 @@ class PaymentsController extends Controller
                     'users.name',
                     'item_name',
                     'plan_type',
-                    'start_date',
-                    'end_date',
+                    // 'start_date',
+                    // 'end_date',
                     'payment_gateway',
+                    'payments.notes',
+                    'payments.admin_comments',
                     'payments.updated_at',
                     'payment_status',
                     'payments.cost',
@@ -145,8 +146,8 @@ class PaymentsController extends Controller
             $records = Payment::select([
                 'item_name',
                 'plan_type',
-                'start_date',
-                'end_date',
+                // 'start_date',
+                // 'end_date',
                 'payment_gateway',
                 'updated_at',
                 'payment_status',
@@ -182,24 +183,27 @@ class PaymentsController extends Controller
             ->editColumn('plan_type', function ($records) {
                 return getPhrase($records->plan_type);
             })
-            ->editColumn('start_date', function ($records) {
-                if ($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING) {
-                    return '-';
-                }
-                return $records->start_date;
-            })
-            ->editColumn('end_date', function ($records) {
-                if ($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING) {
-                    return '-';
-                }
-                return $records->end_date;
-            })
+            // ->editColumn('start_date', function ($records) {
+            //     if ($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING) {
+            //         return '-';
+            //     }
+            //     return $records->start_date;
+            // })
+            // ->editColumn('end_date', function ($records) {
+            //     if ($records->payment_status == PAYMENT_STATUS_CANCELLED || $records->payment_status == PAYMENT_STATUS_PENDING) {
+            //         return '-';
+            //     }
+            //     return $records->end_date;
+            // })
             ->editColumn('payment_gateway', function ($records) {
                 $text = getPhrase($records->payment_gateway);
 
                 // if ($records->payment_status == PAYMENT_STATUS_SUCCESS) {
-                    $extra = '<ul class="list-unstyled payment-col clearfix"><li>' . $text . '</li>';
-                    $extra .= '<li><p>'.getPhrase('Cost').':' . $records->cost . '</p><p>'.getPhrase('Aftr_Dis').'.:' . $records->after_discount . '</p><p>'.getPhrase('Paid').':' . $records->paid_amount . '</p></li></ul>';
+                    $extra = '<ul class="list-unstyled payment-col clearfix">';
+                    // $extra .= '<li>' . $text . '</li>';
+                    $extra .= '<li><p>'.getPhrase('Cost').':' . $records->cost . '</p>';
+                    // $extra .= '<p>'.getPhrase('Aftr_Dis').'.:' . $records->after_discount . '</p><p>'.getPhrase('Paid').':' . $records->paid_amount . '</p>';
+                    $extra .= '</li></ul>';
                     return $extra;
                 // }
                 // return $text;
