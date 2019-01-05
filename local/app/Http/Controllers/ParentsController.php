@@ -230,9 +230,9 @@ public function getLessionChildDatatable($slug)
             })
             ->addColumn('payed', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['your_money']: '-';
-            })->addColumn('coupon', function ($records) {
-                $couponValue=isset($records->specifications) ? json_decode($records->specifications, true)['coupon'] : '-';
-                return '<div style="color: red;">'.$couponValue.'</div>';
+            // })->addColumn('coupon', function ($records) {
+            //     $couponValue=isset($records->specifications) ? json_decode($records->specifications, true)['coupon'] : '-';
+            //     return '<div style="color: red;">'.$couponValue.'</div>';
             })->addColumn('remained', function ($records) {
                 return isset($records->specifications) ? json_decode($records->specifications, true)['remain_purchase'] : '-';
             })->addColumn('action', function ($records) {

@@ -29,7 +29,7 @@
                                 <th>{{ getPhrase('name')}}</th>
                                 <th>{{ getPhrase('deserved_amount')}}</th>
                                 <th>{{ getPhrase('the_amount_paid')}}</th>
-                                <th>{{ getPhrase('coupon')}}</th>
+                                {{-- <th>{{ getPhrase('coupon')}}</th> --}}
                                 <th>{{ getPhrase('remaining_amount')}}</th>
                                 <th>{{ getPhrase('action')}}</th>
                             </tr>
