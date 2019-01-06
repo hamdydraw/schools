@@ -201,7 +201,7 @@ class PaymentsController extends Controller
                 // if ($records->payment_status == PAYMENT_STATUS_SUCCESS) {
                     $extra = '<ul class="list-unstyled payment-col clearfix">';
                     // $extra .= '<li>' . $text . '</li>';
-                    $extra .= '<li><p>'.getPhrase('Cost').':' . $records->cost . '</p>';
+                    $extra .= '<li><p>'.$records->cost . '</p>';
                     // $extra .= '<p>'.getPhrase('Aftr_Dis').'.:' . $records->after_discount . '</p><p>'.getPhrase('Paid').':' . $records->paid_amount . '</p>';
                     $extra .= '</li></ul>';
                     return $extra;
@@ -462,7 +462,7 @@ class PaymentsController extends Controller
         }
 
         // $payment_record->item_id > 0  to make sure that it's working with the new way
-        if ($payment_record->plan_type == 'academic_expenses' && $payment_record->item_id > 0) {
+        if ($payment_record->plan_type == 'academic_expenses') {
             $payment_record->end_date = date('Y-m-d');
         } else {
             $item_details = $item_model->where('id', '=', $payment_record->item_id)->first();

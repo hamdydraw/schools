@@ -61,14 +61,14 @@
 								<tr>
 								@if($is_parent)
 								 <th>{{ getPhrase('image')}}</th>
-                                    <th>{{ getPhrase('user_name')}}</th>
+                                    <th>{{ getPhrase('student_name')}}</th>
                                 @endif
 
-									<th>{{ getPhrase('name')}}</th>
+									<th>{{ getPhrase('details_of_payment')}}</th>
 
 									<th>{{ getPhrase('plan_type')}}</th>
 
-									<th>{{ getPhrase('paid_from')}}</th>
+									<th>{{ getPhrase('paid_amount')}}</th>
 
 									<th>{{ getPhrase('notes')}}</th>
 
