@@ -89,7 +89,7 @@ class CourseController extends Controller
                             ' . $editSemister . '
                             '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
-                            
+
                         </ul>
                     </div>';
             })
@@ -283,7 +283,7 @@ class CourseController extends Controller
         $record->category_id = $request->category_id;
         /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
-        $subjects =  App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id')->get();
+        $subjects =  App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id','semister')->get();
 
         if ($request->parent_id == 0) {
 
