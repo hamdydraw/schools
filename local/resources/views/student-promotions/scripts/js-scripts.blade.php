@@ -74,7 +74,7 @@
             academic_id = $scope.selected_academic_id;
             parent_course_id = $scope.selected_course_parent_id;
             course_id = $scope.selected_course_id;
-
+   
             year = $scope.selected_year;
             semister = $scope.selected_semister;
 

@@ -194,7 +194,21 @@
                         </div>
                     </div>
                 @endif
+                <div class="col-md-4 ">
+                    <div class="card card-green text-xs-center helper_step5">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <i class="fa fa-tasks" aria-hidden="true"></i>
 
+                            </h4>
+                            <p class="card-text">{{ getPhrase('subject_topics')}}</p>
+                        </div>
+                        <a class="card-footer text-muted"
+                           href="{{URL_STAFF_TOPICS}}">
+                            {{ getPhrase('view_all')}}
+                        </a>
+                    </div>
+                </div>
                 </div>
 
                 <!-- /.container-fluid -->

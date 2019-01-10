@@ -19,6 +19,7 @@ if (isset($user_slug)) {
     }
 
     if ($user_record) {
+        
         $academic_id = $user_record->student->academic_id;
         $course_parent_id = $user_record->student->course_parent_id;
         $course_id = $user_record->student->course_id;
@@ -56,7 +57,7 @@ if (isset($user_slug)) {
                 ])}}
             </fieldset>
 
-            <fieldset ng-if="selected_academic_id" class="form-group">
+            <fieldset  class="form-group" ng-show="graduation_page">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
                 <select
                         name="course_parent_id"
@@ -64,7 +65,19 @@ if (isset($user_slug)) {
                         class="form-control"
                         ng-model="course_parent_id"
                         ng-change="getChildCourses(academic_year, course_parent_id)"
-                        ng-options="option.id as option.course_title for option in parent_courses track by option.id">
+                        ng-options="option.id as option.course_title for option in parent_courses | filter: { graduated_course: 1  } track by option.id ">
+                    <option value="">{{getPhrase('select')}}</option>
+                </select>
+            </fieldset>
+            <fieldset  class="form-group" ng-show="!graduation_page">
+                <label for="course_parent_id">{{getPhrase('branch')}}</label>
+                <select
+                        name="course_parent_id"
+                        id="course_parent_id"
+                        class="form-control"
+                        ng-model="course_parent_id"
+                        ng-change="getChildCourses(academic_year, course_parent_id)"
+                        ng-options="option.id as option.course_title for option in parent_courses  track by option.id ">
                     <option value="">{{getPhrase('select')}}</option>
                 </select>
             </fieldset>

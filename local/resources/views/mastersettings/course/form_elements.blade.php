@@ -11,10 +11,21 @@
     <span class="text-red">*</span>
     <select name="parent_id" class="form-control"  required="required" ng-model="current_course">
         <option  ng-repeat="course in courses" value="@{{ course.id }}">@{{ course.course_title }}</option>
-        <option value="0">Parent</option>
+        <option value="0"> {{getPhrase('parentlevel')}}</option>
     </select>
+    
 </fieldset>
-
+<fieldset class="form-group">
+     
+    
+    <input id="graduated_course" class="form-check-input" ng-model="graduated_course"  name="graduated_course" type="checkbox" 
+     id="graduated_course">
+    <label for="graduated_course"> 
+    <span class="fa-stack radio-button" style="border: 2px solid #dcdee0;"> 
+    <i  class="mdi mdi-check active"></i> </span> {{getPhrase('isgraduateyear')}}
+                      </label>
+    
+</fieldset>
 
 
 <fieldset class="form-group">

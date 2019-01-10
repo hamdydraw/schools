@@ -7,6 +7,7 @@ use App\Subject;
 use App\Topic;
 use DB;
 use Excel;
+use Auth;
 use Illuminate\Http\Request;
 use Input;
 use Yajra\Datatables\Datatables;
@@ -26,11 +27,21 @@ class TopicsController extends Controller
      */
     public function index()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
+        $user_record = Auth::user();
+        $staff=$user_record->staff()->first();
+        
 
+        $data['role'] ='';
+        if ($user_record->role_id == getRoleData('staff')) {
+            $data['role'] ='staff';
+            $data['course_id'] =$staff->course_id;
+            $data['course_parent_id'] =$staff->course_parent_id;
+        }
+        //dd($staff->course_parent_id);
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('topics_list');
         $data['module_helper'] = getModuleHelper('topics-list');
@@ -39,11 +50,20 @@ class TopicsController extends Controller
 
     public function indexList($year,$sem,$course,$subject)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
+        $user_record = Auth::user();
+        $staff=$user_record->staff()->first();
+        
 
+        $data['role'] ='';
+        if ($user_record->role_id == getRoleData('staff')) {
+            $data['role'] ='staff';
+            $data['course_id'] =$staff->course_id;
+            $data['course_parent_id'] =$staff->course_parent_id;
+        }
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('topics_list');
         $data['module_helper'] = getModuleHelper('topics-list');
@@ -53,14 +73,61 @@ class TopicsController extends Controller
         $data['subject'] = $subject;
         return view('mastersettings.topics.list', $data);
     }
+    public function staffindex()
+    {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $user_record = Auth::user();
+        $staff=$user_record->staff()->first();
+        
+        $data['layout'] = getLayout();
+        $data['role'] ='';
+        if ($user_record->role_id == getRoleData('staff')) {
+            $data['role'] ='staff';
+            $data['course_id'] =$staff->course_id;
+            $data['course_parent_id'] =$staff->course_parent_id;
+        }
+        //dd($staff->course_parent_id);
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('topics_list');
+        $data['module_helper'] = getModuleHelper('topics-list');
+        return view('staff.topics.main_list', $data);
+    }
 
+    public function staffindexList($year,$sem,$course,$subject)
+    {
+        if (!checkRole(getUserGrade(3))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $user_record = Auth::user();
+        $staff=$user_record->staff()->first();
+        
+        $data['layout'] = getLayout();
+        $data['role'] ='';
+        if ($user_record->role_id == getRoleData('staff')) {
+            $data['role'] ='staff';
+            $data['course_id'] =$staff->course_id;
+            $data['course_parent_id'] =$staff->course_parent_id;
+        }
+        $data['active_class'] = 'master_settings';
+        $data['title'] = getPhrase('topics_list');
+        $data['module_helper'] = getModuleHelper('topics-list');
+        $data['year'] = $year;
+        $data['sem'] = $sem;
+        $data['course'] = $course;
+        $data['subject'] = $subject;
+        return view('staff.topics.list', $data);
+    }
     /**
      * This method returns the datatables data to view
      * @return [type] [description]
      */
     public function getDatatable($year,$sem,$course,$subject)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -108,7 +175,10 @@ class TopicsController extends Controller
                 }
                 $temp .= '</ul></div>';
                 $link_data .= $temp;
-
+               
+                if (checkRole('staff')) {
+                    $link_data='';
+                }
                 return $link_data;
             })
             ->editColumn('topic_name', function ($records) {

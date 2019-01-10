@@ -167,7 +167,7 @@ class AcademicCoursesController extends Controller
                     'courses.id',
                     'course_dueration',
                     'is_having_semister',
-                    'academic_id'
+                    'academic_id','graduated_course'
                 ])
                 ->where('academic_id', '=', $request->academic_id)
                 ->where('courses.category_id',Auth::user()->category_id)

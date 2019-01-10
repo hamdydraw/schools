@@ -1,4 +1,4 @@
-@extends('layouts.admin.adminlayout')
+@extends($layout)
 @section('header_scripts')
     <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
@@ -12,7 +12,7 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a> </li>
-                        <li><a  href="{{URL_COURSES_DASHBOARD}}">{{ getPhrase('master_setup_dashboard')}}</a></li>
+                        <li><a  href="{{URL_STAFF_TOPICS}}">{{ getPhrase('subject_topics')}}</a></li>
                         <li>{{ $title }}</li>
                     </ol>
                 </div>
@@ -84,6 +84,6 @@
 
 
 @section('footer_scripts')
-    @include('mastersettings.topics.scripts.js-scripts')
+    @include('staff.topics.scripts.js-scripts')
 
 @stop

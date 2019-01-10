@@ -152,7 +152,7 @@
                     $scope.subject_slug =  item.slug;
                 }
             })
-            window.location.href = "{{PREFIX}}mastersettings/topics/view/"+$scope.year_slug+"/"+$scope.sem_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
+            window.location.href = "{{PREFIX}}staff/topics/view/"+$scope.year_slug+"/"+$scope.sem_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
         }
 
 

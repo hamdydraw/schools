@@ -6,6 +6,7 @@ use App;
 use App\Course;
 use DB;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Yajra\Datatables\Datatables;
@@ -44,6 +45,7 @@ class CourseController extends Controller
      */
     public function index()
     {
+       
         $data['active_class'] = 'master_settings';
         $data['title'] = getPhrase('list_of_courses');
         $data['layout'] = getLayout();
@@ -58,16 +60,13 @@ class CourseController extends Controller
     public function getDatatable()
     {
         Session::set('i', 0);
-        $records = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->select([
+        $records = Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('category_id',Auth::user()->category_id)->select([
             'parent_id',
             'category_id',
             'course_title',
             'slug',
             'id',
-            'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'
-        ]);
-        // ->orderBy('id', 'asc');
-
+            'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->orderBy('parent_id', 'desc');
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
                 $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
@@ -89,7 +88,7 @@ class CourseController extends Controller
                             ' . $editSemister . '
                             '.$view.'
                             <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>
-
+                            
                         </ul>
                     </div>';
             })
@@ -174,7 +173,7 @@ class CourseController extends Controller
         ]);
 
         $name = $request->course_title;
-
+        
         /**
          * Check if the title of the record is changed,
          * if changed update the slug value based on the new title
@@ -216,7 +215,10 @@ class CourseController extends Controller
         $record->course_title = $name;
         $record->parent_id = $request->parent_id;
         $record->category_id = $request->category_id;
-
+        if($request->graduated_course=="on")
+        $record->graduated_course=1;
+        else
+        $record->graduated_course=0;
         $record->description = $request->description;
         $record->update_stamp($request);
         $record->save();
@@ -283,7 +285,7 @@ class CourseController extends Controller
         $record->category_id = $request->category_id;
         /* $record->is_having_elective_subjects = 0;*/
         $record->description = $request->description;
-        $subjects =  App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id','semister')->get();
+        $subjects =  App\CourseSubject::where('course_parent_id',$request->parent_id)->groupBy('subject_id')->get();
 
         if ($request->parent_id == 0) {
 

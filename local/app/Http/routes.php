@@ -1113,7 +1113,8 @@ Route::post('staff/lession-plans/update-topic', 'LessionPlansController@updateTo
 Route::post('staff/lession-plans/get-last-updated-records', 'LessionPlansController@getLastUpdatedRecords');
 Route::get('staff/lession-plans/student-list/{slug}', 'LessionPlansController@studentlist');
 Route::post('staff/lession-plans/view-students', 'LessionPlansController@viewStudents');
-
+Route::get('staff/topics', 'TopicsController@staffindex');
+Route::get('staff/topics/view/{year}/{sem}/{course}/{subject}', 'TopicsController@staffindexList');
 Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_parent_id}/{course_id}/{year}/{semister}',
     'LessionPlansController@getDatatable');
 

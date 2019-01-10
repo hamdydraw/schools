@@ -70,6 +70,7 @@ class Settings extends Model
     public static function get_default_theme(){
         $record = Settings::where('slug', 'site-settings')->first();
         $values = json_decode($record->settings_data);
+        //dd($values);
         return $values->current_theme->value;
     }
 

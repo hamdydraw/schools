@@ -13,9 +13,14 @@ $scope.have_semisters            = false;
 $scope.parent_courses            = [];
 $scope.courses                   = [];
 $scope.parent_selected           = false;
+$scope.graduation_page           = false;
 $scope.years                     = [];
 $scope.result_data               = [];
 
+if($location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed")
+{
+    $scope.graduation_page=true;
+}
 
 @if(isset($user_slug))
     $scope.pre_selected_academic_id = '';
@@ -69,11 +74,13 @@ $scope.resetParentCourses();
 
 $scope.getParentCourses = function(academic_id)
 {
+    
 if($location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed")
 {
+    
 $scope.selected_academic_id = academic_id;
 $scope.doCall();
-return;
+//return;
 }
 if(academic_id=='')
 return;
@@ -104,7 +111,12 @@ $scope.getChildCourses($scope.selected_academic_id, $scope.pre_selected_course_p
 }
 $scope.getChildCourses = function(academic_id, parent_course_id){
 $scope.thirdYear=false;
-if(parent_course_id === 28)
+var gr=$scope.parent_courses.filter(function(v){
+
+    return v.id==parent_course_id;
+});
+console.log(gr[0].graduated_course);
+if(gr[0].graduated_course === 1)
 {
 $scope.thirdYear=true;
 }
@@ -150,6 +162,7 @@ $scope.prepareYears($scope.pre_selected_course_id)
 }
 
 $scope.prepareYears = function(course){
+ 
 $scope.resetYears();
 if(course==null)
 {
@@ -159,8 +172,7 @@ return;
 index = httpPreConfig.findIndexInData($scope.courses, 'id', course);
 
 $scope.selected_course_id = $scope.courses[index].id;
-
-
+ 
 
 if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "transfers" || $location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed"
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-2]+$location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "studentlist"
@@ -176,7 +188,13 @@ if($location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "tr
 || $location.absUrl().split('/')[$location.absUrl().split('/').length-1] === "record-student"
 )
 {
+    
+    $scope.selected_course_id=course;
+    
+    if( $location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed")
+    $scope.selected_academic_id =academic_id;
 $scope.doCall();
+
 $scope.have_semisters = false;
 $scope.years.current_year    = null;
 }
