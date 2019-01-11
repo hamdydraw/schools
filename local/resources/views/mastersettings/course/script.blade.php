@@ -5,6 +5,7 @@
         $scope.courses = [];
         $scope.first_time = true;
         $scope.graduated_course=false;
+        $scope.show_graduated_course=false;
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
@@ -22,8 +23,11 @@
                         $scope.get_courses();
                         if(response.data.parent_id == 0){
                             $scope.current_course      = '0';
+                            $scope.show_graduated_course=true;
+                           
                         }else{
                             $scope.current_course      = response.data.parent_id.toString();
+                            $scope.show_graduated_course=false;
                         }
 
                     })

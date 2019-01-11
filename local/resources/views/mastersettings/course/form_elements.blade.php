@@ -9,13 +9,13 @@
 <fieldset class="form-group">
     <label for="parent_id">{{getPhrase('select_parent')}}</label>
     <span class="text-red">*</span>
-    <select name="parent_id" class="form-control"  required="required" ng-model="current_course">
+    <select name="parent_id" class="form-control"  required="required" ng-model="current_course"  ng-change="show_graduate(current_course)">
         <option  ng-repeat="course in courses" value="@{{ course.id }}">@{{ course.course_title }}</option>
         <option value="0"> {{getPhrase('parentlevel')}}</option>
     </select>
     
 </fieldset>
-<fieldset class="form-group">
+<fieldset class="form-group" ng-show="show_graduated_course"  >
      
     
     <input id="graduated_course" class="form-check-input" ng-model="graduated_course"  name="graduated_course" type="checkbox" 

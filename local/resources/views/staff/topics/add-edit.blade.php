@@ -1,5 +1,4 @@
-@extends('layouts.admin.adminlayout')
-
+@extends($layout)
 @section('header_scripts')
 <link rel="stylesheet" type="text/css" href="{{CSS}}select2.css">
 @stop
@@ -13,7 +12,7 @@
 						<ol class="breadcrumb">
 							<li><a href="/"><i class="mdi mdi-home"></i></a> </li>
 							<li><a  href="{{URL_COURSES_DASHBOARD}}">{{ getPhrase('master_setup_dashboard')}}</a></li>
-							<li><a href="{{URL_TOPICS}}">{{ getPhrase('topics')}}</a> </li>
+							<li><a href="{{URL_STAFF_TOPICS}}">{{ getPhrase('topics')}}</a> </li>
 							<li class="active">{{isset($title) ? $title : ''}}</li>
 						</ol>
 					</div>
@@ -24,7 +23,7 @@
 							<div class="panel panel-custom col-lg-6 col-lg-offset-3">
 					<div class="panel-heading">
 						<div class="pull-right messages-buttons">
-							<a href="{{URL_TOPICS}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('list')}}</a>
+							<a href="{{URL_STAFF_TOPICS}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('list')}}</a>
 						</div>
 					<h1>{{ $title }}  </h1>
 					</div>
@@ -33,14 +32,14 @@
 					@if ($record)
 					 <?php $button_name = getPhrase('update'); ?>
 						{{ Form::model($record, 
-						array('url' => URL_TOPICS_EDIT.'/'.$record->slug, 
+						array('url' => URL_STAFF_TOPICS_EDIT.'/'.$record->slug, 
 						'method'=>'patch' ,'novalidate'=>'','name'=>'formTopics ')) }}
 					@else
-						{!! Form::open(array('url' => URL_TOPICS_ADD, 'method' => 'POST', 
+						{!! Form::open(array('url' => URL_STAFF_TOPICS_ADD, 'method' => 'POST', 
 						'novalidate'=>'','name'=>'formTopics ')) !!}
 					@endif
 
-					 @include('mastersettings.topics.form_elements',
+					 @include('staff.topics.form_elements',
 					 array('button_name'=> $button_name,'record'=>isset($record) ? $record : null),
 					 array('subjects'=>$subjects, 'total_semesters'=>$total_semesters ,'parent_topics'=>$parent_topics))
 					 
@@ -55,7 +54,7 @@
 		<!-- /#page-wrapper -->
 @stop
 @section('footer_scripts')
-	@include('mastersettings.topics.scripts.js-scripts',array('record' => $record,'topic_name'=>isset($record->topic_name) ? $record->topic_name : null,'recored_subject'=>$recored_subject,'recored_parent'=>$recored_parent,'recored_sem' => $recored_sem,'record_course_id'=> $record_course_id));
+	@include('staff.topics.scripts.js-scripts',array('record' => $record,'topic_name'=>isset($record->topic_name) ? $record->topic_name : null,'recored_subject'=>$recored_subject,'recored_parent'=>$recored_parent,'recored_sem' => $recored_sem,'record_course_id'=> $record_course_id));
 	@include('common.validations', array('isLoaded'=>TRUE));
 @stop
  

@@ -1115,6 +1115,15 @@ Route::get('staff/lession-plans/student-list/{slug}', 'LessionPlansController@st
 Route::post('staff/lession-plans/view-students', 'LessionPlansController@viewStudents');
 Route::get('staff/topics', 'TopicsController@staffindex');
 Route::get('staff/topics/view/{year}/{sem}/{course}/{subject}', 'TopicsController@staffindexList');
+
+Route::get('staff/topics/add', 'TopicsController@create');
+Route::post('staff/topics/add', 'TopicsController@store');
+Route::get('staff/topics/edit/{slug}', 'TopicsController@edit');
+Route::patch('staff/topics/edit/{slug}', 'TopicsController@update');
+Route::delete('staff/topics/delete/{id}', 'TopicsController@delete');
+Route::get('staff/topics/import', 'TopicsController@import');
+Route::post('staff/topics/import', 'TopicsController@readExcel');
+
 Route::get('staff/lession-plans/view-students/get-list/{academic_id}/{course_parent_id}/{course_id}/{year}/{semister}',
     'LessionPlansController@getDatatable');
 

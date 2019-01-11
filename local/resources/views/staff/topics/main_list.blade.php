@@ -24,10 +24,10 @@
 
                     <div class="pull-right messages-buttons">
 
-                        @if($role!='staff')
-                        <a href="{{URL_TOPICS_IMPORT}}" class="btn  btn-primary button helper_step4" >{{ getPhrase('import')}}</a>
-                        <a href="{{URL_TOPICS_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('create')}}</a>
-                        @endif
+                        
+                        <a href="{{URL_STAFF_TOPICS_IMPORT}}" class="btn  btn-primary button helper_step4" >{{ getPhrase('import')}}</a>
+                        <a href="{{URL_STAFF_TOPICS_ADD}}" class="btn  btn-primary button helper_step1" >{{ getPhrase('create')}}</a>
+                        
                     </div>
                     <h1>{{ $title }}</h1>
                 </div>

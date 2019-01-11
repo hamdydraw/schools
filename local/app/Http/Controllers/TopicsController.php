@@ -177,7 +177,20 @@ class TopicsController extends Controller
                 $link_data .= $temp;
                
                 if (checkRole('staff')) {
-                    $link_data='';
+                      $link_data = '<div class="dropdown more">
+                        <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="mdi mdi-dots-vertical"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li><a href="' . URL_STAFF_TOPICS_EDIT . '/' . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>'.$view;
+
+
+                $temp = '';
+                
+                    $temp .= ' <li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';
+                
+                $temp .= '</ul></div>';
+                $link_data .= $temp;
                 }
                 return $link_data;
             })
@@ -209,7 +222,7 @@ class TopicsController extends Controller
      */
     public function create()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -227,6 +240,10 @@ class TopicsController extends Controller
         $data['total_semesters'] = get_sesmters();
         $data['recored_subject']  = 0;
         $data['recored_parent']   = 0;
+        $data['layout'] = getLayout();
+        if (checkRole('staff')) {
+            return view('staff.topics.add-edit', $data);
+        }
         return view('mastersettings.topics.add-edit', $data);
     }
 
@@ -237,7 +254,7 @@ class TopicsController extends Controller
      */
     public function edit($slug)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -260,6 +277,10 @@ class TopicsController extends Controller
         $data['title'] = getPhrase('edit_topic');
         $data['module_helper'] = getModuleHelper('create-topics');
         $data['total_semesters'] = get_sesmters();
+        $data['layout'] = getLayout();
+        if (checkRole('staff')) {
+            return view('staff.topics.add-edit', $data);
+        }
         return view('mastersettings.topics.add-edit', $data);
     }
 
@@ -283,7 +304,7 @@ class TopicsController extends Controller
     public function update(Request $request, $slug)
     {
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -324,6 +345,9 @@ class TopicsController extends Controller
         $record->save();
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
+        if (checkRole('staff')) {
+            return redirect(URL_STAFF_TOPICS);
+        }
         return redirect(URL_TOPICS);
     }
 
@@ -334,7 +358,7 @@ class TopicsController extends Controller
      */
     public function store(Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -360,6 +384,9 @@ class TopicsController extends Controller
         $record->save();
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
+        if (checkRole('staff')) {
+            return redirect(URL_STAFF_TOPICS);
+        }
         return redirect(URL_TOPICS);
     }
 
@@ -400,7 +427,7 @@ class TopicsController extends Controller
      */
     public function getParentTopics($subject_id, Request $request)
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -429,7 +456,7 @@ class TopicsController extends Controller
      */
     public function import()
     {
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -451,7 +478,7 @@ class TopicsController extends Controller
         ];
         $this->validate($request, $rules);
 
-        if (!checkRole(getUserGrade(2))) {
+        if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
         }

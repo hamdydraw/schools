@@ -127,6 +127,11 @@ define('URL_MASTERSETTINGS_EMAIL_TEMPLATES', PREFIX.'email/templates');
 define('URL_MASTERSETTINGS_TOPICS', PREFIX.'mastersettings/topics');
 define('URL_TOPICS_GETLIST', PREFIX.'mastersettings/topics/getList/');
 define('URL_STAFF_TOPICS', PREFIX.'staff/topics');
+define('URL_STAFF_TOPICS_ADD', PREFIX.'staff/topics/add');
+define('URL_STAFF_TOPICS_EDIT', PREFIX.'staff/topics/edit');
+define('URL_STAFF_TOPICS_DELETE', PREFIX.'staff/topics/delete/');
+define('URL_STAFF_TOPICS_IMPORT', PREFIX.'staff/topics/import');
+
 define('URL_MASTERSETTINGS_SUBJECTS', PREFIX.'mastersettings/subjects');
 
 //MASTER SETTINGS RELIGIONS

@@ -66,7 +66,8 @@ class CourseController extends Controller
             'course_title',
             'slug',
             'id',
-            'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])->orderBy('parent_id', 'desc');
+            'created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at'])
+           ->orderBy('id', 'asc');
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
                 $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
