@@ -5,7 +5,7 @@
 <script>
 
 
-     app.controller('academicAttendance', function ($scope, $http, httpPreConfig) {
+     app.controller('academicAttendance', function ($scope, $http, httpPreConfig,$location) {
     @include('common.js-script-year-selection',array('doCall'=>false))
          $scope.current_year_sc      = {{default_year()}};
          $scope.current_sem_sc       = null;
