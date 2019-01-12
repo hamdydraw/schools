@@ -220,6 +220,10 @@ function sendEmail($template, $data)
 {
     return (new App\EmailTemplate())->sendEmail($template, $data);
 }
+function sendNotification($template, $data,$parent,$student,Request $request)
+{
+    return (new App\EmailTemplate())->sendNotification($template, $data,$parent,$student);
+}
 
 /**
  * This method returns the formatted by appending the 0's

@@ -160,8 +160,7 @@ class NotificationsController extends Controller
 
     	$record = Notification::getRecordWithSlug($slug);
 		 $rules = [
-        'title'          	=> 'bail|required|max:50' ,
-
+        'title'          	=> 'bail|required|max:50' , 
          'valid_from'      	=> 'bail|required',
          'valid_to'      	=> 'bail|required',
             ];
@@ -302,7 +301,7 @@ class NotificationsController extends Controller
 
 
         $data['notifications']   =
-            Notification::join('user_notification','notifications.id','=','user_notification.notification_id')
+            Notification::withoutGlobalScope(App\Scopes\BranchScope::class)->join('user_notification','notifications.id','=','user_notification.notification_id')
                 ->where('user_notification.user_id',Auth::user()->id)
                 ->where('notifications.valid_from', '<=', $date)
                 ->where('notifications.valid_to', '>=', $date)
@@ -326,8 +325,8 @@ class NotificationsController extends Controller
 
     public function display($slug)
     {
-        $record = Notification::getRecordWithSlug($slug);
-
+        $record = Notification::withoutGlobalScope(App\Scopes\BranchScope::class)->where('slug', '=', $slug)->first();
+        
         App\user_notifications::viewed($record->id);
 
         if($isValid = $this->isValidRecord($record))

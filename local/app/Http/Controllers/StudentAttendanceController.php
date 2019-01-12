@@ -363,11 +363,19 @@ class StudentAttendanceController extends Controller
         foreach ($attendance_code_records as $key => $value) {
 
 
-            if($total_class == 1 &&  $value == 'A'){
+            if( $value == 'A'){
                 $student   = App\Student::where('id',$key)->first();
-                $student = User::where('id',$student->user_id)->first();
-                $parent    = User::where('id',$student->parent_id)->first();
-                makeAbsNotification($parent,$student,$request);
+                $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->user_id)->first();
+                $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
+                //makeAbsNotification($parent,$student,$request);
+             
+                $message['{$reciver}']         = $parent->name;
+                $message['{$student}']           = $student->name;
+                $message['to_email']           = $parent->email;
+                $message['{$date}']          = $attendance_date;
+                $message['{$class}']     = $total_class;
+                sendNotification('absence',$message,$parent,$student,$request); 
+                sendEmail('absence',$message);
             }
             $attendance = new App\StudentAttendance();
 

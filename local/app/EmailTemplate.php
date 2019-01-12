@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use App\Scopes\DeleteScope;
-
+use DateTime;
 class EmailTemplate extends Model
 {
     protected $table = 'emailtemplates';
@@ -36,8 +36,10 @@ class EmailTemplate extends Model
 
     	$content = \Blade::compileString($this->getTemplate($template));
 		$result = $this->render($content, $data);
+		
 		\Mail::send('emails.template', ['body' => $result], function ($message) use ($template, $data) 
         {
+			
 		    $message->from($template->from_email, $template->from_name);
 		    $message->to($data['to_email'])->subject($template->subject);
 		});
@@ -46,6 +48,42 @@ class EmailTemplate extends Model
 			return False;
 		return TRUE;
 	}
+	    /**
+     * Common notification function to send notification
+     * @param  [type] $template [key of the template]
+     * @param  [type] $data     [data to be passed to view]
+     * @return [type]           [description]
+     */
+
+	public function sendNotification($template, $data,$parent,$student)
+    {	
+    	$template = EmailTemplate::where('title', '=', $template)->first();
+
+        $template->content = strtr($template->content, $data);
+
+    	$content = \Blade::compileString($this->getTemplate($template));
+		 
+
+		
+		$notifi = new \App\Notification();
+		$notifi->title = getPhrase('Absence_status');
+		$notifi->slug  = $notifi->makeSlug($notifi->title);
+		$notifi->short_description = $template->subject;
+		$notifi->description       = $content;
+		$datetime = new DateTime('today');
+		$notifi->valid_from =  $datetime->format('Y-m-d H:i:s');
+		$datetime = new DateTime('tomorrow + 5day');
+		$notifi->valid_to =  $datetime->format('Y-m-d H:i:s');
+		//$notifi->user_stamp($request);
+		$notifi->save();
+		$parent_notifi = new \App\user_notifications();
+		$parent_notifi->user_id = $parent->id;
+		$parent_notifi->notification_id = $notifi->id;
+		//$parent_notifi->user_stamp($request);
+		$parent_notifi->save();
+		return true;
+	}
+
 
 	/**
 	 * Returns the template html code by forming header, body and footer
