@@ -1,10 +1,10 @@
-<script src="http://cdn.ckeditor.com/4.5.8/standard-all/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.5.8/standard-all/ckeditor.js"></script>
 <script>
     $(function () {
         $('.ckeditor').each(function () {
             CKEDITOR.replace($(this).attr('id'), {
                 extraPlugins: 'mathjax',
-                mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML',
+                mathJaxLib: 'https://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS_HTML',
                 height: 320
             });
         });
@@ -15,7 +15,7 @@
 
 </script>
 <script type="text/javascript"
-        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Register.StartupHook("End Jax",function () {
