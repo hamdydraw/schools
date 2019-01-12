@@ -5,7 +5,7 @@
         $scope.courses = [];
         $scope.first_time = true;
         $scope.graduated_course=false;
-        $scope.show_graduated_course=false;
+        $scope.show_graduated_course=true;
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
@@ -17,10 +17,13 @@
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                     .then(function (response) {
+                        
                         $scope.current_category    = response.data.category_id.toString();
-                        if(response.data.graduated_course.toString()==="1")
+                        console.log(response.data);
+                        if(response.data.graduated_course==="1")
                         $scope.graduated_course    = true;
                         $scope.get_courses();
+                      
                         if(response.data.parent_id == 0){
                             $scope.current_course      = '0';
                             $scope.show_graduated_course=true;
