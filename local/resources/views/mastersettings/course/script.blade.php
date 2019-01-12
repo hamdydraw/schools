@@ -52,6 +52,12 @@
                     }
                 })
         }
+        $scope.show_graduate = function (cource) {
+            if(cource==='0')
+            $scope.show_graduated_course=true;
+            else
+            $scope.show_graduated_course=false;
+        }
 
         $scope.get_categories();
 
