@@ -71,6 +71,38 @@ $scope.resetParentCourses();
 
 }
 
+$scope.getAcadmicSemester = function(academic_id)
+{
+    
+if($location.absUrl().split('/')[$location.absUrl().split('/').length-2] === "completed")
+{
+    
+$scope.selected_academic_id = academic_id;
+$scope.doCall();
+//return;
+}
+if(academic_id=='')
+return;
+$scope.resetFields();
+
+$scope.selected_academic_id = academic_id;
+route = '{{URL_ACADEMICS_SEMESTER}}';
+data= {  _method: 'post',
+'_token':httpPreConfig.getToken(),
+'academic_id': academic_id
+};
+$scope.semisters=[];
+$scope.have_semisters = false;
+$scope.semisters = { "current_semister": "<?php echo getPhrase('select'); ?>","values": ['<?php echo getPhrase('select'); ?>'] };
+httpPreConfig.webServiceCallPost(route, data).then(function(result){
+angular.forEach(result.data, function(value, key){
+    $scope.semisters.values.push(value.sem_num);
+    $scope.have_semisters = true;
+console.log(value);
+});
+ 
+});
+}
 
 $scope.getParentCourses = function(academic_id)
 {
@@ -109,6 +141,7 @@ $scope.getChildCourses($scope.selected_academic_id, $scope.pre_selected_course_p
 }
 });
 }
+
 $scope.getChildCourses = function(academic_id, parent_course_id){
 $scope.thirdYear=false;
 var gr=$scope.parent_courses.filter(function(v){
@@ -270,7 +303,7 @@ $scope.academic_year = $scope.pre_selected_academic_id;
 $scope.selected_academic_id = $scope.academic_year;
 
 $scope.getParentCourses($scope.academic_year);
-
+$scope.getAcadmicSemester($scope.academic_year)
 }
 
 

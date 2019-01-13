@@ -169,6 +169,7 @@ define('URL_MASTERSETTINGS_ACADEMICS_COURSES', PREFIX.'mastersettings/academic-c
 define('URL_MASTERSETTINGS_ACADEMICS_COURSES_STATUS', PREFIX.'mastersettings/academic-courses/check-status');
 define('URL_MASTERSETTINGS_STAFF_SUPERVISOR_STATUS', PREFIX.'mastersettings/assign-staff/check-status');
 define('URL_ACADEMICS_COURSES_GET_PARENT_COURSES', PREFIX.'academic-courses/get-parent-courses');
+define('URL_ACADEMICS_SEMESTER', PREFIX.'academic-courses/get-academic-semester');
 define('URL_ACADEMICS_COURSES_GET_CHILD_COURSES', PREFIX.'academic-courses/get-child-courses');
 define('URL_ACADEMICS_REMOVE_SUBJECT', PREFIX.'academic-courses/remove-subject');
 

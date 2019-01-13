@@ -138,6 +138,11 @@ class AcademicCoursesController extends Controller
         return redirect(URL_MASTERSETTINGS_ACADEMICS);
 
     }
+    public function getSemisters(Request $request)
+    {  
+        $semister = new App\AcademicSemester();
+        return$semister->getSemetersOfAcademicYear($request->academic_id);
+    }
 
     /**
      * This method will send the default URL to send the user to back

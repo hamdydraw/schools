@@ -392,6 +392,7 @@ Route::post('mastersettings/academic-courses/{slug}', 'AcademicCoursesController
 
 
 Route::post('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
+Route::post('academic-courses/get-academic-semester', 'AcademicCoursesController@getSemisters');
 Route::get('academic-courses/get-parent-courses', 'AcademicCoursesController@getParentCourses');
 Route::post('academic-courses/get-child-courses', 'AcademicCoursesController@getChildCourses');
 

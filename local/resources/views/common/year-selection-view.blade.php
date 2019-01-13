@@ -53,7 +53,7 @@ if (isset($user_slug)) {
                 [   'class'     => 'form-control',
                     "id"        => "select_academic_year",
                     "ng-model"  => "academic_year",
-                    "ng-change" => "getParentCourses(academic_year)"
+                    "ng-change" => "getAcadmicSemester(academic_year)"
                 ])}}
             </fieldset>
 
@@ -69,6 +69,20 @@ if (isset($user_slug)) {
                     <option value="">{{getPhrase('select')}}</option>
                 </select>
             </fieldset>
+             <fieldset ng-if="have_semisters" class="form-group">
+
+            <label for="semister">{{getPhrase('semester')}}</label>
+
+            <select
+                    name="current_semister"
+                    class="form-control"
+                    ng-model="semisters.current_semister"
+                    ng-options="v for v in semisters.values track by v"
+                    ng-change="semisterChanged(semisters.current_semister)"
+            >
+            </select>
+
+        </fieldset>
             <fieldset  class="form-group" ng-show="!graduation_page">
                 <label for="course_parent_id">{{getPhrase('branch')}}</label>
                 <select
@@ -112,20 +126,7 @@ if (isset($user_slug)) {
         </fieldset>
 
 
-        <fieldset ng-if="have_semisters" class="form-group">
-
-            <label for="semister">{{getPhrase('semester')}}</label>
-
-            <select
-                    name="current_semister"
-                    class="form-control"
-                    ng-model="semisters.current_semister"
-                    ng-options="v for v in semisters.values track by v"
-                    ng-change="semisterChanged(semisters.current_semister)"
-            >
-            </select>
-
-        </fieldset>
+       
 
     </div>
 
