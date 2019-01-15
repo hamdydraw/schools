@@ -20,7 +20,7 @@ class BranchScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         if($model->getTable() != 'users'){
-            if(Auth::user()){
+            if(Auth::user() && (Auth::user()->role_id !=6 && Auth::user()->role_id !=10)){
                 $id = Auth::user()->branch_id;
                 return $builder->where($model->getTable().".branch_id", '=', $id);
             }
