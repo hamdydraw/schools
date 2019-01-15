@@ -198,10 +198,32 @@ $data['requests'] = $requestwithStudent;
 
   public function leave(Request $request)
   {
+    
+    
     $exitRequest = AutocallRequest::where('id', $request->request_id)->first();
     $exitRequest->leave_status = 1;
     $exitRequest->leave_time = $request->leave_time;
     $exitRequest->save();
+    
+    $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$exitRequest->student_id)->first();
+     
+    $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
+    //makeAbsNotification($parent,$student,$request);
+    //$secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
+    
+    $message['{$reciver}']         = $parent->name;
+    $message['{$student}']           = $student->name;
+    $message['to_email']           = $parent->email;
+    $message['{$date}']          = $exitRequest->request_date;
+    $message['{$time}']     = $request->leave_time;
+    $secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
+       
+    if($secondary_parent!=null)
+    {
+        sendNotification('exit',$message,$secondary_parent,$student,$request); 
+    }
+    sendNotification('exit',$message,$parent,$student,$request); 
+    sendEmail('exit',$message);
   }
 
   public function counter(Request $request)

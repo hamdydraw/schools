@@ -29,9 +29,7 @@ class NotificationsController extends Controller
       {
         prepareBlockUserMessage();
         return back();
-      }
-
-
+      } 
         App\user_notifications::where('user_id',Auth::user()->id)->update(['state' => 'old']);
         $data['active_class']       = 'notifications';
         $data['title']              = getPhrase('notifications');
