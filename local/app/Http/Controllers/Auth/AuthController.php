@@ -230,7 +230,9 @@ class AuthController extends Controller
          */
             if($login_status)
             {
-                session()->put('branch_id', Auth::user()->branch_id);
+                if(Auth::user()->role_id != 6 && Auth::user()->role_id != 10){
+                  session()->put('branch_id', Auth::user()->branch_id);
+                }
                 session()->put('is_student', '0');
                 if(checkRole(getUserGrade(5)))
                 {

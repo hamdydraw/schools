@@ -262,7 +262,27 @@ class StudentAttendanceController extends Controller
         }
         return redirect('student/attendance/' . $user->slug);
     }
+    public function isStudentHaveAbsent($course_subject_record, $student_id,$attendance_code, $attendance_date)
+    {
 
+       // $user = App\User::where('slug', '=', $slug)->first();
+
+        $year = $course_subject_record->year;
+        $semister = $course_subject_record->semister;
+        $data = App\StudentAttendance::
+        where('academic_id', '=', $course_subject_record->academic_id)
+            ->where('course_id', '=', $course_subject_record->course_id)
+            ->where('year', '=', $year)
+            ->where('semester', '=', $semister)
+            ->where('subject_id', '=', $course_subject_record->subject_id)
+            ->where('student_id', '=', $student_id) 
+            ->where('attendance_code', '=', $attendance_code)
+            ->where('attendance_date', '=', $attendance_date)
+            ->where('record_status', '=', 1);
+        
+       return $data->get(); 
+
+    }
     public function isAttendanceAlreadyTaken($course_subject_record, $slug, $request, $delete = false)
     {
 
@@ -366,7 +386,7 @@ class StudentAttendanceController extends Controller
                 $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->user_id)->first();
                 $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
                 //makeAbsNotification($parent,$student,$request);
-             
+                
                 $message['{$reciver}']         = $parent->name;
                 $message['{$student}']           = $student->name;
                 $message['to_email']           = $parent->email;
@@ -374,6 +394,35 @@ class StudentAttendanceController extends Controller
                 $message['{$class}']     = $total_class;
                 sendNotification('absence',$message,$parent,$student,$request); 
                 sendEmail('absence',$message);
+            }
+            if($value =='P')
+            {
+                $course_subject_record = App\CourseSubject::where('academic_id', '=', $academic_id)
+                ->where('course_id', '=', $course_id)
+                ->where('subject_id', '=', $subject_id)
+                ->where('staff_id', '=', $user->id)
+                ->first();
+                if(count($this->isStudentHaveAbsent($course_subject_record, $key,'A', $attendance_date))>0)
+                {
+                    $student   = App\Student::where('id',$key)->first();
+                    $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->user_id)->first();
+                    $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
+                    //makeAbsNotification($parent,$student,$request);
+                    $secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
+                    
+                    $message['{$reciver}']         = $parent->name;
+                    $message['{$student}']           = $student->name;
+                    $message['to_email']           = $parent->email;
+                    $message['{$date}']          = $attendance_date;
+                    $message['{$class}']     = $total_class;
+                    if($secondary_parent!=null)
+                    {
+                        sendNotification('attendance',$message,$secondary_parent,$student,$request); 
+                    }
+
+                    sendNotification('attendance',$message,$parent,$student,$request); 
+                    sendEmail('attendance',$message);
+                }
             }
             $attendance = new App\StudentAttendance();
 
