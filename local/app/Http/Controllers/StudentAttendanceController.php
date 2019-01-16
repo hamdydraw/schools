@@ -277,7 +277,7 @@ class StudentAttendanceController extends Controller
             ->where('year', '=', $year)
             ->where('semester', '=', $semister)
             ->where('subject_id', '=', $course_subject_record->subject_id)
-            ->where('student_id', '=', $student_id)
+            ->where('student_id', '=', $student_id) 
             ->where('attendance_code', '=', $attendance_code)
             ->where('attendance_date', '=', $attendance_date)
             ->where('record_status', '=', 1);
