@@ -277,7 +277,7 @@ class StudentAttendanceController extends Controller
             ->where('year', '=', $year)
             ->where('semester', '=', $semister)
             ->where('subject_id', '=', $course_subject_record->subject_id)
-            //->where('total_class', '=', $request->total_class)
+            ->where('student_id', '=', $student_id) 
             ->where('attendance_code', '=', $attendance_code)
             ->where('attendance_date', '=', $attendance_date)
             ->where('record_status', '=', 1);
@@ -404,7 +404,7 @@ class StudentAttendanceController extends Controller
                 ->where('subject_id', '=', $subject_id)
                 ->where('staff_id', '=', $user->id)
                 ->first();
-                if(count($this->isStudentHaveAbsent($course_subject_record, $key,$value, $attendance_date))>0)
+                if(count($this->isStudentHaveAbsent($course_subject_record, $key,'A', $attendance_date))>0)
                 {
                     $student   = App\Student::where('id',$key)->first();
                     $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->user_id)->first();
