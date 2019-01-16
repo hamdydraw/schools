@@ -1210,6 +1210,21 @@ function gettransfercoursetitle($type, $course_id, $year, $semister)
     return $title->course_title;
 }
 
+
+
+function number_to_word($number){
+    if($number == 1){
+        return getPhrase('first');
+    }
+    if($number == 2){
+        return getPhrase('second');
+    }
+    if($number == 3){
+        return getPhrase('third');
+    }
+    return false;
+}
+
 /**
  * This method return the master book asset name
  * @param  [int] $master_assetid [description]
@@ -1372,31 +1387,6 @@ function subTopics($id)
 function getCategory($id,$table){
     return   DB::table($table)->where('course_id',$id)->where('branch_id',Auth::user()->branch_id)->get();
 }
-
-function getCourses($year){
-    if(isTeacher()){
-        return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
-            ->join('course_subject','courses.id','=','course_subject.course_parent_id')
-            ->where('academic_course.academic_id',$year)
-            ->where('courses.parent_id',0)
-            ->where('courses.category_id',Auth::user()->category_id)
-            ->where('course_subject.staff_id',Auth::user()->id)
-            ->select(['courses.id','courses.slug','courses.course_title'])
-            ->groupBy('courses.id')
-            ->get();
-
-    }
-
-    return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
-        ->where('academic_course.academic_id',$year)
-        ->where('courses.parent_id',0)
-        ->where('courses.category_id',Auth::user()->category_id)
-        ->select(['courses.id','courses.slug','courses.course_title'])
-        ->get();
-
-
-}
-
 function isAdmin(){
     if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1){
         return true;
@@ -1411,72 +1401,63 @@ function isTeacher(){
     return false;
 }
 
-
-function getTeacherCourses($year){
-
-    $current_academic_id = new Academic();
-    $semister = new App\AcademicSemester();
-    $data['year']=$current_academic_id->getCurrentAcademic()->id;
-    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
-    if($current_semster){
-        $current_semster = $current_semster->sem_num;
-    }else { $current_semster = 1; }
-
-    return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
-        ->join('academic_course','courses.id','=','academic_course.course_id')
-        ->select(['courses.id','courses.slug','courses.course_title'])
-        ->where('courses.parent_id',0)
+function getCourses($year,$sem = null){
+    if($sem == null){
+        $sem = default_sem($year);
+    }
+    if(isTeacher()){
+        return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
+            ->join('course_subject','courses.id','=','course_subject.course_parent_id')
+            ->where('course_subject.academic_id',$year)
+            ->where('course_subject.semister',$sem)
+            ->where('courses.parent_id',0)
+            ->where('courses.category_id',Auth::user()->category_id)
+            ->where('course_subject.staff_id',Auth::user()->id)
+            ->select(['courses.id','courses.slug','courses.course_title'])
+            ->groupBy('courses.id')
+            ->get();
+    }
+    return \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
         ->where('academic_course.academic_id',$year)
-        ->where('course_subject.semister',$current_semster)
-        ->where('course_subject.staff_id',Auth::user()->id)
-        ->groupBy('course_subject.course_parent_id')
+        ->where('courses.parent_id',0)
+        ->where('courses.category_id',Auth::user()->category_id)
+        ->select(['courses.id','courses.slug','courses.course_title'])
         ->get();
 }
 
-function getTeacherCourses2($year,$staffSlug){
+function getTeacherCourses2($year,$sem,$staffSlug){
 
-    $current_academic_id = new Academic();
-    $semister = new App\AcademicSemester();
-    $staffId = Auth::user()->id;
-    $data['year']=$current_academic_id->getCurrentAcademic()->id;
-    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
-    if($current_semster){
-        $current_semster = $current_semster->sem_num;
-    }else { $current_semster = 1; }
     if($staffSlug != null) {
       $teacher = App\User::where('slug', $staffSlug)->first();
       $staffId = $teacher->id;
+    }else{
+        $staffId = Auth::user()->id;
     }
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
                       ->join('academic_course','courses.id','=','academic_course.course_id')
                       ->select(['courses.id','courses.slug','courses.course_title'])
                       ->where('courses.parent_id',0)
-                      ->where('academic_course.academic_id',$year)
-                      ->where('course_subject.semister',$current_semster)
+                      ->where('course_subject.semister',$sem)
+                      ->where('course_subject.academic_id',$year)
                       ->where('course_subject.staff_id',$staffId)
                       ->groupBy('course_subject.course_parent_id')
                       ->get();
 }
 
-function getTeacherClasses($year,$staffSlug,$course){
+function getTeacherClasses($sem,$year,$staffSlug,$course){
 
-    $current_academic_id = new Academic();
-    $semister = new App\AcademicSemester();
-    $staffId = Auth::user()->id;
-    $data['year']=$current_academic_id->getCurrentAcademic()->id;
-    $current_semster = $semister->getCurrentSemeterOfAcademicYear($data['year']);
-    if($current_semster){
-        $current_semster = $current_semster->sem_num;
-    }else { $current_semster = 1; }
     if($staffSlug != null) {
         $teacher = App\User::where('slug', $staffSlug)->first();
         $staffId = $teacher->id;
+    }else{
+        $staffId = Auth::user()->id;
     }
+
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_id')
         ->select(['courses.id','courses.slug','courses.course_title'])
         ->where('course_subject.course_parent_id',$course)
         ->where('course_subject.academic_id',$year)
-//        ->where('course_subject.semister',$current_semster)
+        ->where('course_subject.semister',$sem)
         ->where('course_subject.staff_id',$staffId)
         ->groupBy('course_subject.course_id')
         ->get();
@@ -1626,6 +1607,16 @@ function default_year()
 {
     $current_academic_id = new Academic();
     return $current_academic_id->getCurrentAcademic()->id;
+}
+
+function default_sem($year)
+{
+    $semister = new App\AcademicSemester();
+    $current_semster = $semister->getCurrentSemeterOfAcademicYear($year);
+    if($current_semster){
+        $current_semster = $current_semster->sem_num;
+    }else{$current_semster = 1;}
+    return $current_semster;
 }
 
 function get_Topics($course,$subject,$sem){

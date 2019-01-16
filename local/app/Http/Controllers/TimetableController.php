@@ -43,13 +43,11 @@ class TimetableController extends Controller
         $data['title'] = getPhrase('timetable');
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $time_mapings = App\TimingsetMap::get();
-
         if(!Module_state('daily_school_schedule'))
         {
             pageNotFound();
             return back();
         }
-
         $data['layout'] = getLayout();
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
             ->where('role_id', '=', getRoleData('staff'))
@@ -61,7 +59,6 @@ class TimetableController extends Controller
         foreach ($users as $user) {
             $preferred_subjects[$user->id] = $user->preferredSubjects();
         }
-
         $periods = App\Timingset::where('slug', '=', 'daily')->first();
         $period_details = $periods->getPeriods();
         $data['right_bar'] = true;
@@ -113,7 +110,6 @@ class TimetableController extends Controller
             ->where('users.status', '!=', 0)
             ->where('course_subject.academic_id', '=', $academic_id)
             ->where('course_subject.course_id', '=', $course_id)
-            /*->where('course_subject.year', '=', $year)*/
             ->where('course_subject.semister', '=', $semister)
             ->select([
                 'course_subject.id as course_subject_id',
@@ -628,7 +624,9 @@ class TimetableController extends Controller
         $allocated_periods = [];
         if ($user_id) {
             //Print Staff Timetable
-            $allocated_periods = $this->getSchedules($academic_id, 0, 0, $currentSemester['sem_num'], $user_id);
+            $academic_id = default_year();
+            $currentSemester = default_sem($academic_id);
+            $allocated_periods = $this->getSchedules($academic_id, 0, 0, $currentSemester, $user_id);
         } else {
             //Print Class timetable
             $allocated_periods = $this->getSchedules(

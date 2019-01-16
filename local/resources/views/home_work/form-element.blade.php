@@ -49,6 +49,28 @@ $extn = $data->value;
 <div class="row">
     <div class="col-md-8">
         <fieldset class="form-group col-md-8">
+            <label for="">{{getPhrase('academic_year')}}</label>
+            <span class="text-red">*</span>
+            <select name="academic_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="get_sems()">
+                <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+            </select>
+        </fieldset>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <fieldset class="form-group col-md-8">
+            <label for="">{{getPhrase('Semester')}}</label>
+            <span class="text-red">*</span>
+            <select name="current_semister" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getCourses()">
+                <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.sem_num }}" value="@{{ sem.sem_num }}"> @{{ sem.title  }}</option>
+            </select>
+        </fieldset>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <fieldset class="form-group col-md-8">
             <label for="">{{getPhrase('branch')}}</label>
             <span class="text-red">*</span>
             <select name="course_id" class="form-control" required="required"

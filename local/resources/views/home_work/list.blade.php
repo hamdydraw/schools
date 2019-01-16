@@ -30,7 +30,7 @@
                     <div>
                         <div class="row">
                             @if(isset($teachers) && !is_teacher())
-                            <fieldset class="form-group col-md-6">
+                            <fieldset class="form-group col-md-4">
                                 <label for="">{{getPhrase('teachers')}}</label>
                                 <span class="text-red">*</span>
                                 <select name="teacherSlug" class="form-control" required="required"
@@ -40,7 +40,26 @@
                                 </select>
                             </fieldset>
                                 @endif
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="">{{getPhrase('academic_year')}}</label>
+                                        <span class="text-red">*</span>
+                                        <select name="academic_id" class="form-control"  required="required" ng-model="current_year_sc" ng-change="get_sems()">
+                                            <option  ng-repeat="year in academic_years_sc" value="@{{ year.id }}">@{{ year.academic_year_title }}</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-4">
+                                    <fieldset class="form-group">
+                                        <label for="">{{getPhrase('Semester')}}</label>
+                                        <span class="text-red">*</span>
+                                        <select name="current_semister" class="form-control" required="required" ng-model="current_sem_sc" ng-change="getCourses()">
+                                            <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.sem_num }}" value="@{{ sem.sem_num }}"> @{{ sem.title  }}</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
                         </div>
+
                         <div class="row">
                                     <fieldset class="form-group col-md-4">
                                         <label for="">{{getPhrase('branch')}}</label>

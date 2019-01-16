@@ -549,7 +549,8 @@ class LessionPlansController extends Controller
         }
         $topics = [];
         $course_subject_record = App\CourseSubject::where('id', '=', $record->course_subject_id)->first();
-        $topics = $this->prepareTopicsList($course_subject_record->subject_id, $course_subject_record->id);
+        $courseSubjectSemester = $course_subject_record->semister;
+        $topics = $this->prepareTopicsList($course_subject_record->subject_id, $course_subject_record->id,$courseSubjectSemester);
 
         return array('status' => $status, 'topics' => $topics);
     }

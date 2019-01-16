@@ -14,23 +14,12 @@ app.controller('prepareQuestions', function( $scope, $http) {
         $scope.is_paid     = $scope.is_paid.toString();
     @endif
     $scope.lastPart = window.location.href.split("/").pop();
-
-    $scope.academic_sems_sc  = [
-        {
-            value : 1,
-            title : 'الاول'
-        },
-        {
-            value : 2,
-            title : 'الثانى'
-        }
-    ];
     $scope.current_course_sc    = null;
     $scope.current_subject_sc   = null;
     $scope.academic_courses_sc  = [];
     $scope.academic_subjects_sc = [];
-    $scope.current_year_sc = {{default_year()}};
-    $scope.current_year_sc = $scope.current_year_sc.toString();
+        @include('common.year_sems_js');
+        @include('common.course_js');
 
     if($scope.lastPart != 'add'){
         $http({
@@ -82,36 +71,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
  
     }
 
-    $scope.getYears = function () {
-        $http({
-            method:"GET",
-            url:'{{PREFIX}}'+'get_years',
-            dataType:"json",
-            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-            .then(function (response) {
-                $scope.academic_years_sc = response.data;
-                $scope.current_sem_sc  = "1";
-                $scope.getCourses();
-            })
-    }
-    $scope.getYears();
 
-    $scope.getCourses = function () {
-        $http({
-            method:"GET",
-            url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
-            dataType:"json",
-            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-            .then(function (response) {
-                $scope.academic_courses_sc = response.data;
-                if(response.data.length != 0){
-                    $scope.current_course_sc   = response.data[0].id.toString();
-                    $scope.getSubjects();
-                }
-            })
-    }
 
     $scope.getSubjects = function () {
         if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){

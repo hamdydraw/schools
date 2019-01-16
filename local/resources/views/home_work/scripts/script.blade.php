@@ -12,7 +12,6 @@
     var app = angular.module('academia', ['ngMessages', 'ngFileUpload', 'toastr']);
     app.controller('homeworkCtrl', function ($scope, $http, Upload, toastr) {
 
-        $scope.current_year_sc      = {{default_year()}};
         $scope.current_sem_sc       = null;
         $scope.current_course_sc    = null;
         $scope.current_subject_sc   = null;
@@ -104,7 +103,7 @@
 
 
         }
-
+    @include('common.year_sems_js')
 
         $scope.getCourses = function () {
             if($scope.role_sc == 9){
@@ -117,19 +116,18 @@
                 })
                     .then(function (response) {
                         $scope.academic_courses_sc = response.data;
-                        $scope.setCurrents();
                     })
             }else{
                 console.log($scope.current_teacher);
                 $http({
                     method:"GET",
-                    url:'{{PREFIX}}'+'get_courses_2/'+$scope.current_year_sc+'/'+$scope.current_teacher,
+                    url:'{{PREFIX}}'+'get_courses_2/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_teacher,
                     dataType:"json",
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                     .then(function (response) {
                         $scope.academic_courses_sc = response.data;
-                        $scope.setCurrents();
+//                        $scope.setCurrents();
 
                     })
             }
@@ -138,7 +136,7 @@
         $scope.getClasses = function () {
             $http({
                 method:"GET",
-                url:'{{PREFIX}}'+'teacher_classes/'+$scope.current_year_sc+'/'+$scope.current_teacher+'/'+$scope.current_course_sc,
+                url:'{{PREFIX}}'+'teacher_classes/'+$scope.current_sem_sc+'/'+$scope.current_year_sc+'/'+$scope.current_teacher+'/'+$scope.current_course_sc,
                 dataType:"json",
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -149,21 +147,6 @@
                 })
         }
 
-        $scope.getCourses();
-
-        $scope.setCurrents = function () {
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'current_year_sem',
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.current_year_sc = response.data.year;
-                    $scope.current_sem_sc  = response.data.semister;
-
-                })
-        }
 
         $scope.getSubjects = function () {
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
@@ -214,10 +197,6 @@
                 })
         }
 
-        $scope.test_change = function () {
-            console.log("date changed");
-        }
-
         $scope.toTable = function () {
 
 
@@ -237,7 +216,6 @@
             window.location.href = "{{PREFIX}}homework/get-homeworks/"+$scope.teacher_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
         }
 
-        $scope.test_change();
 
     });
 </script>
