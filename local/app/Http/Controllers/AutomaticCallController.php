@@ -223,7 +223,7 @@ public function leave(Request $request)
       'users.slug as slug',
       'users.id as id',
       'users.parent_id as parent_id'
-   ])->where('secondary_parent_student.student_id', $exitRequest->student_id);
+   ])->where('secondary_parent_student.student_id', $exitRequest->student_id)->first();
 
   if($secondary_parent!=null)
   {
