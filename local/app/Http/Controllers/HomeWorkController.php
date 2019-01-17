@@ -349,7 +349,13 @@ class HomeWorkController extends Controller
     public function StudentDatable($student)
     {
         $student_id = User::where('slug',$student)->pluck('id')->first();
-        $records    = HomeWork::join('homeworks_student','homeworks_student.homework_id','=','home_works.id')->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])->where('homeworks_student.student_id',$student_id);
+        $student_data = Student::where('user_id',$student_id)->first();
+        $records    = HomeWork::join('homeworks_student','homeworks_student.homework_id','=','home_works.id')
+            ->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])
+            ->where('home_works.year',default_year())
+            ->where('home_works.sem',default_sem(default_year()))
+            ->where('home_works.course_id',$student_data->course_id)
+            ->where('homeworks_student.student_id',$student_id);
         return Datatables::of($records)
             ->editColumn('subject_id', function ($records) {
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();

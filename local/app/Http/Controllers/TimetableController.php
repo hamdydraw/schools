@@ -779,18 +779,10 @@ class TimetableController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('Student_Roll_Number_Is_Not_Generated'), 'overlay');
                 return redirect(URL_USER_DETAILS . $user_record->slug);
             }
-            $academic_id = $record->student->academic_id;
+            $academic_id = default_year();
             $course_id = $record->student->course_id;
             $year = $record->student->current_year;
-            /*$semesterInstance=App\CourseSemister::where('course_id',$record->student->course_parent_id)->first();
-            $semister       = $semesterInstance->current_semester;*/
-            $semister = new App\AcademicSemester();
-            $semister = $semister->getCurrentSemeterOfAcademicYear($academic_id);
-            if ($semister) {
-                $semister = $semister->sem_num;
-            } else {
-                $semister = 0;
-            }
+            $semister = default_sem(default_year());
 
 
             $academic_record = App\Academic::where('id', '=', $academic_id)

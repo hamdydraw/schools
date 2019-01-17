@@ -30,11 +30,11 @@
             }
             @else
             {
-                academic_id          = '{{prepareStudentSessionRecord($user_slug)->student->academic_id}}';
+                academic_id          = '{{default_year()}}';
                 parent_course_id     = '{{prepareStudentSessionRecord($user_slug)->student->course_parent_id}}';
                 course_id            = '{{prepareStudentSessionRecord($user_slug)->student->course_id}}';
                 year                 = '{{prepareStudentSessionRecord($user_slug)->student->current_year}}';
-                semister                 = '{{prepareStudentSessionRecord($user_slug)->student->current_semister}}';
+                semister                 = '{{default_sem(default_year())}}';
                 user_id          = '{{$user->id}}';
             }
             @endif

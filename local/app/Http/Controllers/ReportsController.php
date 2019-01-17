@@ -117,14 +117,12 @@ class ReportsController extends Controller
         $academic_id = $request->academic_id;
         $course_parent_id = $request->parent_course_id;
         $course_id = $request->course_id;
-        $year = $request->year;
         $semister = $request->semister;
         $user_id = $request->user_id;
 
         $categories = APP\QuizResult::join('quizzes', 'quizzes.id', '=', 'quizresults.quiz_id')
             ->join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-            /*->where('quizresults.year', '=',$year)
-            ->where('quizresults.semister', '=',$semister)*/
+            ->where('quizresults.semister', '=',$semister)
             ->where('quizresults.user_id', '=', $user_id)
             ->where('quizresults.academic_id', '=', $academic_id)
             ->where('quizresults.course_id', '=', $course_id)

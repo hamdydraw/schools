@@ -36,6 +36,11 @@
         $scope.academic_subjects_sc = [];
         $scope.lastPart = window.location.href.split("/").pop();
 
+
+
+
+        @include('common.year_sems_js');
+        @include('common.course_js');
         if($scope.lastPart != 'add'){
             $http({
                 method:"GET",
@@ -73,9 +78,6 @@
             }
         }
 
-
-        @include('common.year_sems_js');
-        @include('common.course_js');
 
 
         $scope.getSubjects = function (subject = 1) {

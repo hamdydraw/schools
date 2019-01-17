@@ -111,8 +111,6 @@ class PaymentsController extends Controller
                     'users.name',
                     'item_name',
                     'plan_type',
-                    // 'start_date',
-                    // 'end_date',
                     'payment_gateway',
                     'payments.notes',
                     'payments.admin_comments',
