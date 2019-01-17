@@ -1265,22 +1265,19 @@ function getDefaultParentCourseId()
 function getStudentInfo($slug){
     $student_id = \App\User::where('slug',$slug)->pluck('id')->first();
     $student    = \App\Student::withoutGlobalScope(App\Scopes\BranchScope::class)->where('user_id',$student_id)->first();
-    $academic_id = new App\Academic();
-    $academic_id = $academic_id->getCurrentAcademic()['id'];
-    $academicSemester = new App\AcademicSemester();
-    $currentSemester  = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id);
+    $academic_id = default_year();
     //get the needed info
     $data['current_academic_year'] = \App\Academic::where('id',$academic_id)->pluck('academic_year_title')->first();
     $data['current_grade']         = \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id',$student->course_parent_id)->pluck('course_title')->first();
     $data['current_class']         = \App\Course::withoutGlobalScope(\App\Scopes\CategoryScope::class)->where('id',$student->course_id)->pluck('course_title')->first();
     $data['current_semester'] = "";
-    if($currentSemester != null){
-        if($currentSemester->sem_num == 1){
+
+    $currentSemester = default_sem($academic_id);
+        if($currentSemester == 1){
             $data['current_semester']      = "the_first";
         }else{
             $data['current_semester']      = "the_second";
         }
-    }
     //return the data
     return $data;
 }
