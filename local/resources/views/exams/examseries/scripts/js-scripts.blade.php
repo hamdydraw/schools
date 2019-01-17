@@ -16,7 +16,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
     if($scope.lastPart != 'add'){
         $http({
             method:"GET",
-            url:'{{PREFIX}}'+'/get_default_selectors/'+$scope.lastPart+'/examseries',
+            url:'{{PREFIX}}'+'get_default_selectors/'+$scope.lastPart+'/examseries',
             dataType:"json",
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })

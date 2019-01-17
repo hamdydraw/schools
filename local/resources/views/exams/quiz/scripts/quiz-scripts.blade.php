@@ -41,20 +41,22 @@
 
         @include('common.year_sems_js');
         @include('common.course_js');
-        if($scope.lastPart != 'add'){
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'/get_default_selectors/'+$scope.lastPart+'/quizzes',
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.branch = response.data.course_id.toString();
-                    $scope.quiz_type = response.data.type;
-                    $scope.getCategories($scope.branch);
-                    $scope.current_category = response.data.id.toString();
-                    $rootScope.setten_cat   = $scope.current_category;
+        $scope.ifEdit = function () {
+            if ($scope.lastPart != 'add') {
+                $http({
+                    method: "GET",
+                    url: '{{PREFIX}}' + '/get_default_selectors/' + $scope.lastPart + '/quizzes',
+                    dataType: "json",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
+                    .then(function (response) {
+                        $scope.branch = response.data.course_id.toString();
+                        $scope.quiz_type = response.data.type;
+                        $scope.getCategories($scope.branch);
+                        $scope.current_category = response.data.id.toString();
+                        $rootScope.setten_cat = $scope.current_category;
+                    })
+            }
         }
 
         $scope.get_edit_data = function () {
@@ -133,6 +135,7 @@
                     }
                     $scope.current_category     = $rootScope.setten_cat;
                     if($scope.first_time){
+                        $scope.ifEdit();
                         $scope.get_edit_data();
                         $scope.first_time = false;
                     }

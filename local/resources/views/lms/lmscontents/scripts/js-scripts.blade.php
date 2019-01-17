@@ -190,9 +190,9 @@ app.controller('angLmsController', function($scope, $http,Upload) {
         })
 
         angular.forEach($scope.academic_sems_sc,function (item) {
-            if(item.value == $scope.current_sem_sc){
-                $scope.sem_slug =  item.value;
-            }
+                    if(item.sem_num == $scope.current_sem_sc){
+                        $scope.sem_slug =  item.sem_num;
+                    }
         })
 
         angular.forEach($scope.academic_courses_sc,function (item) {
