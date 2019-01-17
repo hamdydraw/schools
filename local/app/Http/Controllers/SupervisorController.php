@@ -269,7 +269,8 @@ class SupervisorController extends Controller
 
         $staff_records = User::where('role_id', '3')->where('status', '1')->get(['id', 'name', 'username']);
         $allocated_staff = User::join('supervisors_staff', 'supervisors_staff.staff_id', '=', 'users.id')
-            ->where('supervisors_staff.supervisor_id', $record->id)->get([
+            ->where('supervisors_staff.supervisor_id', $record->id)
+            ->where('supervisors_staff.record_status','!=', '3')->get([
                 'users.id',
                 'users.name',
                 'users.username',
@@ -314,12 +315,12 @@ class SupervisorController extends Controller
             if (count($request->selected_list)) {
                 $previousRecord = SupervisorStaff::where('supervisor_id', $record->id)->delete();
                 foreach (array_unique($request->selected_list) as $key => $value) {
-                    if (SupervisorStaff::where('staff_id', $value)->first() != null) {
+                   /* if (SupervisorStaff::where('staff_id', $value)->first() != null) {
                         $teacherName = User::where('id', $value)->first(['name']);
                         $exist = 1;
                         $teacherNames .= '(' . $teacherName->name . ')';
                         continue;
-                    }
+                    }*/
                     $newRecord = new SupervisorStaff();
                     $newRecord->supervisor_id = $record->id;
                     $newRecord->staff_id = $value;
@@ -328,11 +329,13 @@ class SupervisorController extends Controller
 
             }
             DB::commit();
-            if ($exist == 1) {
+            
+           /* if ($exist == 1) {
                 flash(getPhrase('Ooops'), $teacherNames . ' ' . getPhrase('Assigned_to_another_supervisor'), 'error');
             } else {
                 flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
-            }
+            }*/
+            flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
         } catch (Exception $ex) {
             DB::rollBack();
             if (getSetting('show_foreign_key_constraint', 'module')) {
