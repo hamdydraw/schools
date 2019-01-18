@@ -1282,6 +1282,7 @@ Route::get('trashes/list', 'TrashesController@index');
 Route::get('trashes/getList', 'TrashesController@getDatatable');
 Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
+Route::get('trashes/destroy_all','TrashesController@Destroy_all');
 
 Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);

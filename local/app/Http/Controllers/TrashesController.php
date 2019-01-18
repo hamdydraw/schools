@@ -109,4 +109,18 @@ class TrashesController extends Controller
         return json_encode($response);
     }
 
+    public function Destroy_all(){
+        if (!checkRole(getUserGrade(1))) {
+            prepareBlockUserMessage();
+            return back();
+        }
+        $tables = get_main_tables();
+        foreach ($tables as $table){
+            DB::statement("DELETE FROM $table where record_status = 3");
+        }
+        $response['status'] = 1;
+        $response['message'] = getPhrase('records_deleted_successfully');
+        return json_encode($response);
+    }
+
 }

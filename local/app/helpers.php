@@ -1318,7 +1318,7 @@ function get_main_tables(){
     $tables = DB::select('SHOW TABLES');
     $main_tables = array();
     //course_subject
-    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset'];
+    $ignored = ['certificatetemplates','parenttimingsetmap','timetable','timingset','homeworks_student'];
     foreach ($tables as $table){
         if(in_array($table->$TABLES_IN_DB,$ignored))
         {
