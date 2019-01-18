@@ -51,13 +51,18 @@ class SecondaryParentController extends Controller
           prepareBlockUserMessage();
           return back();
       }
-      $record = User::where('slug', '=', $slug)->first();
+      $record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', '=', $slug)->first();
+
       if ($isValid = $this->isValidRecord($record)) {
           return redirect($isValid);
       }
+      if($record->role_id != 10){
+          flash(getPhrase('Ooops'), getPhrase("invalid_user"), 'error');
+          return back();
+      }
 
-      $students_record = User::where('role_id', '5')->where('branch_id', $record->branch_id)->get(['id', 'name', 'username']);
-      $allocated_student = User::join('secondary_parent_student', 'secondary_parent_student.student_id', '=', 'users.id')
+      $students_record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('role_id', '5')->get(['id', 'name', 'username']);
+      $allocated_student = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->join('secondary_parent_student', 'secondary_parent_student.student_id', '=', 'users.id')
           ->where('secondary_parent_student.secondary_parent_id', $record->id)->get([
               'users.id',
               'users.name',
@@ -90,7 +95,7 @@ class SecondaryParentController extends Controller
 
   public function updateSecondaryParentStudent(Request $request, $slug)
   {
-      $record = User::where('slug', '=', $slug)->first(['id']);
+      $record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', '=', $slug)->first(['id']);
 
       if ($isValid = $this->isValidRecord($record)) {
           return redirect($isValid);
@@ -133,6 +138,7 @@ class SecondaryParentController extends Controller
       }
       $studentId = $request->studentId;
       $secondaryParentId = $request->secondaryParentId;
-      $result = SecondaryParentStudent::where('student_id', $studentId)->where('secondary_parent_id', $secondaryParentId)->delete();
+      DB::statement("delete from secondary_parent_student where student_id = $studentId and secondary_parent_id = $secondaryParentId");
+      $result = true;
   }
 }
