@@ -173,7 +173,7 @@ class AutomaticCallController extends Controller {
                                          ->join('users', 'users.id', '=', 'autocall_requests.student_id')
                                          ->where('autocall_requests.request_date', $date)
                                          ->where('autocall_requests.leave_status', 0)
-                                         //->where('users.branch_id', session()->get('branch_id'))
+                                         ->where('users.branch_id', session()->get('branch_id'))
                                          ->select([
                                            'users.name as name',
                                            'users.id as student_id',
@@ -214,7 +214,15 @@ public function leave(Request $request)
   //makeAbsNotification($parent,$student,$request);
   //$secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
    $secondary_parent=SecondaryParentStudent::where('secondary_parent_student.student_id', $exitRequest->student_id)->first();
- 
+
+  $message['{$reciver}']         = $parent->name;
+  $message['{$student}']           = $student->name;
+  $message['to_email']           = $parent->email;
+  $message['{$date}']          = $exitRequest->request_date;
+  $message['{$time}']     = $request->leave_time;
+  sendNotification('exit',$message,$parent,$student,$request);
+  sendEmail('exit',$message);
+
   if($secondary_parent!=null)
   {
     $secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$secondary_parent->secondary_parent_id)->first();
@@ -228,14 +236,6 @@ public function leave(Request $request)
     sendNotification('exit',$message,$secondary_parent,$student,$request);
     sendEmail('exit',$message);
   }
-
-  $message['{$reciver}']         = $parent->name;
-  $message['{$student}']           = $student->name;
-  $message['to_email']           = $parent->email;
-  $message['{$date}']          = $exitRequest->request_date;
-  $message['{$time}']     = $request->leave_time;
-  sendNotification('exit',$message,$parent,$student,$request);
-  sendEmail('exit',$message);
 }
 
   public function counter(Request $request)
