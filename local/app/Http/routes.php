@@ -846,6 +846,9 @@ Route::group(['middleware' => 'stopOrOn:push_notifications'], function () {
 // NOTIFICATIONS FOR STUDENT
     Route::get('notifications/list', 'NotificationsController@usersList');
     Route::get('notifications/show/{slug}', 'NotificationsController@display');
+    Route::get('notifications/destroy/{slug}', 'NotificationsController@destroy');
+    Route::get('notifications/obliviate', 'NotificationsController@obliviate');
+    //obliviate
 });
 
 //BOOKMARKS MODULE

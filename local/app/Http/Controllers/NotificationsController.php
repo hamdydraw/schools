@@ -270,6 +270,26 @@ class NotificationsController extends Controller
         return json_encode($response);
     }
 
+    public function destroy($slug)
+    {
+        $record = Notification::where('slug', $slug)->first();
+        $user   = Auth::user()->id;
+        DB::statement("DELETE FROM `user_notification` WHERE user_id = $user and notification_id = $record->id");
+        $response['status'] = 1;
+        $response['message'] = getPhrase('record_deleted_successfully');
+        return json_encode($response);
+
+    }
+
+    public function obliviate()
+    {
+        $user   = Auth::user()->id;
+        $response['status'] = 1;
+        DB::statement("DELETE FROM `user_notification` WHERE user_id = $user");
+        $response['message'] = getPhrase('records_deleted_successfully');
+        return json_encode($response);
+    }
+
     public function isValidRecord($record)
     {
     	if ($record === null) {
