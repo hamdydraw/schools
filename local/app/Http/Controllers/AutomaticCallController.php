@@ -8,6 +8,7 @@ use App\User;
 use App\AutocallRequest;
 use App\StudentAttendance;
 use App\Student;
+use App\SecondaryParentStudent;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -172,7 +173,7 @@ class AutomaticCallController extends Controller {
                                          ->join('users', 'users.id', '=', 'autocall_requests.student_id')
                                          ->where('autocall_requests.request_date', $date)
                                          ->where('autocall_requests.leave_status', 0)
-                                         ->where('users.branch_id', session()->get('branch_id'))
+                                         //->where('users.branch_id', session()->get('branch_id'))
                                          ->select([
                                            'users.name as name',
                                            'users.id as student_id',
@@ -212,21 +213,12 @@ public function leave(Request $request)
   $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
   //makeAbsNotification($parent,$student,$request);
   //$secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
-
-
-  //$secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
-
-  $secondary_parent = User::join('secondary_parent_student', 'secondary_parent_student.student_id', '=', 'users.id')
-    ->select([
-      'users.name as name',
-      'users.image as image',
-      'users.slug as slug',
-      'users.id as id',
-      'users.parent_id as parent_id'
-   ])->where('secondary_parent_student.student_id', $exitRequest->student_id)->first();
-
+   $secondary_parent=SecondaryParentStudent::where('secondary_parent_student.student_id', $exitRequest->student_id)->first();
+ 
   if($secondary_parent!=null)
   {
+    $secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$secondary_parent->secondary_parent_id)->first();
+    //dd($secondary_parent->email);
 
     $message['{$reciver}']         = $secondary_parent->name;
     $message['{$student}']           = $student->name;
