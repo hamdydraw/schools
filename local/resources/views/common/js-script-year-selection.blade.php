@@ -94,6 +94,8 @@ data= {  _method: 'post',
 $scope.semisters=[];
 $scope.have_semisters = false;
 $scope.semisters = { "current_semister": "<?php echo getPhrase('select'); ?>","values": ['<?php echo getPhrase('select'); ?>'] };
+$scope.semisters.current_semister = {{default_sem(default_year())}}
+$scope.semisters.current_semister =  $scope.semisters.current_semister.toString();
 httpPreConfig.webServiceCallPost(route, data).then(function(result){
 angular.forEach(result.data, function(value, key){
     $scope.semisters.values.push(value.sem_num);

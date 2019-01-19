@@ -213,7 +213,7 @@
                 }
             })
             console.log($scope.teacher_slug);
-            window.location.href = "{{PREFIX}}homework/get-homeworks/"+$scope.teacher_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug;
+            window.location.href = "{{PREFIX}}homework/get-homeworks/"+$scope.teacher_slug+"/"+$scope.course_slug+"/"+$scope.subject_slug+"/"+$scope.current_year_sc+"/"+$scope.current_sem_sc;
         }
 
 

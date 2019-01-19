@@ -52,9 +52,11 @@ class TimetableController extends Controller
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
             ->where('role_id', '=', getRoleData('staff'))
             ->where('users.status', '!=', 0)
+            ->where('users.branch_id',Auth::user()->branch_id)
             ->where('staff.course_id', '!=', '')
             ->select(['users.id as id', 'users.name', 'image', 'job_title', 'gender', 'qualification'])
             ->get();
+
         $preferred_subjects = [];
         foreach ($users as $user) {
             $preferred_subjects[$user->id] = $user->preferredSubjects();
@@ -111,6 +113,7 @@ class TimetableController extends Controller
             ->where('course_subject.academic_id', '=', $academic_id)
             ->where('course_subject.course_id', '=', $course_id)
             ->where('course_subject.semister', '=', $semister)
+            ->where('users.branch_id',Auth::user()->branch_id)
             ->select([
                 'course_subject.id as course_subject_id',
                 'staff.id as staff_main_id',
@@ -357,16 +360,17 @@ class TimetableController extends Controller
      */
     public function updateTimetable(Request $request)
     {
-        $academic_id = $request->academic_id;
-        $course_id = $request->course_id;
+       // return $request->all();
+        $academic_id = $request->year_id;
+        $course_id = $request->class_id;
         $subjects = $request->subject;
         $current_year = 1;
         $current_semister = 0;
         if ($request->has('current_year')) {
-            $current_year = $request->current_year;
+            $current_year = $request->year_id;
         }
         if ($request->has('current_semister')) {
-            $current_semister = $request->current_semister;
+            $current_semister = $request->sem_id;
         }
 
         if ($academic_id == '' || $course_id == '' || $current_year == '') {

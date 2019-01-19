@@ -19,6 +19,12 @@
 
         @include('common.year_sems_js');
 
+
+         $scope.getSubjects = function () {
+             return false;
+         }
+
+
          $scope.getCourses = function () {
              if($scope.role_sc == 9){
                  //supervisor/teacher-courses/{slug}

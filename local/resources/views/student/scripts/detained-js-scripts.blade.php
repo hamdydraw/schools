@@ -2,7 +2,8 @@
 <script>
 
     app.controller('TabController', function ($scope, $http, httpPreConfig, $location) {
-        @include('common.js-script-year-selection')
+        @include('common.year_sems_js');
+        @include('common.course_js');
             $scope.tab = 1;
         $scope.users = [];
         $scope.exam_list = [];
@@ -17,19 +18,22 @@
         $scope.to_total_semisters = 0;
         $scope.current_user = {};
         $scope.current_user_remarks = '';
+        $scope.result_data = [];
 
+        $scope.getSubjects = function () {
+            return false;
+        }
 
         $scope.doCall = function () {
+            $scope.result_data = [];
             $scope.year_selected = true;
-            if ($scope.to_years.length <= 0)
-                $scope.to_years = $scope.years;
 
-            academic_id = $scope.selected_academic_id;
-            parent_course_id = $scope.selected_course_parent_id;
-            course_id = $scope.selected_course_id;
+            academic_id = $scope.current_year_sc;
+            parent_course_id = $scope.current_course_sc;
+            course_id = $scope.current_sub_course;
 
-            year = $scope.selected_year;
-            semister = $scope.selected_semister;
+            year = $scope.current_year_sc;
+            semister = $scope.current_sem_sc;
 
 
             route = '{{URL_GET_STUDENTS_DETAINED}}';

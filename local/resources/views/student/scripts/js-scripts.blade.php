@@ -3,7 +3,8 @@
 
     app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
     {
-        @include('common.js-script-year-selection')
+        @include('common.year_sems_js');
+        @include('common.course_js');
             $scope.tab                  = 1;
         $scope.users                = [];
         $scope.exam_list            = [];
@@ -19,23 +20,25 @@
         $scope.current_user = {};
         $scope.current_user_remarks = '';
         $scope.blank_columns = 1;
+        $scope.result_data = [];
 
 
 
-
+        $scope.getSubjects = function () {
+            return false;
+        }
 
 
         $scope.doCall     = function () {
             $scope.year_selected   = true;
-            if($scope.to_years.length<=0)
-                $scope.to_years      = $scope.years;
+            $scope.result_data = [];
 
-            academic_id          = $scope.selected_academic_id;
-            parent_course_id     = $scope.selected_course_parent_id;
-            course_id            = $scope.selected_course_id;
+            academic_id          = $scope.current_year_sc;
+            parent_course_id     = $scope.current_course_sc;
+            course_id            = $scope.current_sub_course;
 
-            year                 =  $scope.selected_year;
-            semister             =  $scope.selected_semister;
+            year                 =  $scope.current_year_sc;
+            semister             =  $scope.current_sem_sc;
 
 
             route   = '{{URL_GET_STUDENTS}}';
@@ -49,6 +52,7 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
+                console.log(result.data);
                 users = [];
                 angular.forEach(result.data, function(value, key) {
                     users.push(value);
