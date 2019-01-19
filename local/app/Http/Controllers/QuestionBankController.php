@@ -377,10 +377,21 @@ class QuestionBankController extends Controller
             prepareBlockUserMessage();
             return back();
         }
-
+       
         $record = QuestionBank::where('slug', $slug)->get()->first();
+        $current_question_type = $record->question_type;
 
-
+        $inquez=DB::table('questionbank_quizzes')->where('questionbank_id','=',$record->id) ->count();
+        if($inquez>0)
+        { 
+            flash(getPhrase('Ooops'), getPhrase('Cannot_edit_added_to_quiz'), 'error');
+            return back();
+        }
+        if($request->marks!=$request->total_answers && $current_question_type == 'match')
+        { 
+            flash(getPhrase('Ooops'), getPhrase('total_answer_must_equal_marks'), 'error');
+            return back();
+        }
         $rules['topic_id'] = 'bail|required|integer';
         $rules['question'] = 'bail|required';
         $rules['marks'] = 'bail|required|integer';
@@ -391,8 +402,7 @@ class QuestionBankController extends Controller
              * we need to get the type of the question for existing record
              * Assign the question type to a varable $current_question_type
              */
-            $current_question_type = $record->question_type;
-
+           
             if ($current_question_type == 'radio') {
                 $rules['total_answers'] = 'bail|required|integer';
                 $rules = $this->validateRadioQuestions($request, $rules);

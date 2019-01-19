@@ -153,7 +153,7 @@
                 .then(function (response) {
                     $scope.academic_topics_sc = response.data;
                     if(response.data.length != 0) {
-                        $scope.current_topic_sc = response.data[0].id.toString();
+                        $scope.current_topic_sc ="";// response.data[0].id.toString();
 
                         $scope.subjectChanged();
                     }

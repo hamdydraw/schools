@@ -670,7 +670,7 @@ class QuizController extends Controller
         $questions =QuestionBank::join('topics','topics.id','=','questionbank.topic_id')
             ->where('questionbank.subject_id',$subject_id)
             ->where('questionbank.course_id',$request->course_id)
-            ->where('questionbank.topic_id',$request->topic_id)
+           
             ->where('questionbank.academic_id',$request->academic_id)
             ->where('questionbank.sem_id',$request->sem_id)
             ->select([
@@ -683,8 +683,12 @@ class QuizController extends Controller
             'questionbank.difficulty_level',
             'questionbank.status',
             'topics.topic_name'
-        ])->get();
-        return json_encode(array('topics' => $topics, 'questions' => $questions, 'subject' => $subject));
+        ]);//->get();
+        if($request->topic_id!="" && $request->topic_id!=null)
+        $questions = $questions->where('questionbank.topic_id',$request->topic_id);
+
+        $result= $questions->get();
+        return json_encode(array('topics' => $topics, 'questions' => $result, 'subject' => $subject));
     }
 
     /**
