@@ -229,7 +229,8 @@ class UsersController extends Controller
                             <i class="mdi mdi-dots-vertical"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>';
+                        <li><a href="' . URL_USERS_EDIT . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("edit") . '</a></li>
+                         ';
 
                 if ($records->role_name == 'student') {
 
@@ -260,7 +261,7 @@ class UsersController extends Controller
                 }
 
                 $temp = '';
-                $link_data.=$view;
+                $link_data.='<li><a href="' . URL_USERS_SWITCH . $records->slug . '"><i class="fa fa-pencil"></i>' . getPhrase("switch_to_user") . '</a></li>'.$view;
                 //Show delete option to only the owner user
                 if (checkRole(getUserGrade(1)) && $records->id != \Auth::user()->id) {
                     $temp = '<li><a href="javascript:void(0);" onclick="deleteRecord(\'' . $records->slug . '\');"><i class="fa fa-trash"></i>' . getPhrase("delete") . '</a></li>';

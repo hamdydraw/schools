@@ -1321,8 +1321,8 @@ Route::get('get_exams/{course}/{subject}',function ($course,$subject){
 Route::get('userslogged/list','UsersLoginController@index');
 Route::get('userslogged/getList', 'UsersLoginController@getDatatable');
 Route::get('userslogged/destroy','UsersLoginController@deleteRecords');
-
-
+Route::get('users/switchUser/{slug}','UsersLoginController@switchUser');
+Route::get('users/switchAdmin/{slug}','UsersLoginController@switchAdmin');
 //get_default_selectors
 
 Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){

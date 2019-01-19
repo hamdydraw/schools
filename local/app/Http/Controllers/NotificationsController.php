@@ -57,6 +57,11 @@ class NotificationsController extends Controller
             $records = Notification::select(['title', 'valid_from', 'valid_to', 'url', 'id','slug','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at','updated_at' ]);
             // ->orderBy('id', 'desc');
 
+            $records = Notification::leftjoin('user_notification','notifications.id','=','user_notification.notification_id') 
+            ->where('notifications.created_by_user',Auth::user()->id) 
+            ->orWhere('user_notification.user_id',Auth::user()->id) 
+             ->orderBy('notifications.id', 'desc')
+             ->select(['notifications.title', 'notifications.valid_from', 'notifications.valid_to', 'notifications.url', 'notifications.id','notifications.slug','notifications.created_by_user','notifications.updated_by_user','notifications.created_by_ip','notifications.updated_by_ip','notifications.created_at','notifications.updated_at' ])->distinct();
 
         return Datatables::of($records)
         ->addColumn('action', function ($records) {

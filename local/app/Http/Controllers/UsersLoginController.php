@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use function Symfony\Component\VarDumper\Tests\Fixtures\bar;
 use Yajra\Datatables\Datatables;
 use DB;
-
+use Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\User;
+use Session;
 class UsersLoginController extends Controller
 {
     public function index()
@@ -48,5 +49,25 @@ class UsersLoginController extends Controller
     {
         DB::table('users_login')->truncate();
         return back();
+    }
+    public function switchUser($slug)
+    {   
+        //dd(Auth::user()->slug);
+        session()->put('restore_slug', Auth::user()->slug);
+        Auth::logout(); 
+        $user = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
+        Auth::login($user);
+     
+        //$vrequest=Session::get('restore_slug');
+        return redirect('dashboard');
+    }
+    public function switchAdmin($slug='')
+    {    
+       
+        Auth::logout(); 
+        $user = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', Session::get('restore_slug'))->get()->first();
+        Auth::login($user); 
+        session()->put('restore_slug', null);
+        return redirect('dashboard');
     }
 }

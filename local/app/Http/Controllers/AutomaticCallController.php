@@ -173,7 +173,7 @@ class AutomaticCallController extends Controller {
                                          ->join('users', 'users.id', '=', 'autocall_requests.student_id')
                                          ->where('autocall_requests.request_date', $date)
                                          ->where('autocall_requests.leave_status', 0)
-                                         ->where('users.branch_id', session()->get('branch_id'))
+                                        
                                          ->select([
                                            'users.name as name',
                                            'users.id as student_id',

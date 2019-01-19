@@ -160,7 +160,15 @@ $role = getRoleData($user->role_id);
                         </a>
 
                     </li>
+                    @if(Session::has('restore_slug') && Session::get('restore_slug') !=null )
+                        <li> 
+                        <a href="{{URL_USERS_SWITCH_ADMIN.Auth::user()->slug}}">
 
+                            <sapn><i class="fa fa-sign-out" aria-hidden="true"></i> {{ getPhrase('back_to_admin') }}</sapn>
+
+                        </a> 
+                        </li>
+                    @endif
 
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">
