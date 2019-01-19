@@ -46,7 +46,7 @@ class HomeWorkController extends Controller
         return view('home_work.list', $data);
     }
 
-    public function showList($teacher,$course,$subjecti)
+    public function showList($teacher,$course,$subjecti,$year,$sem)
     {
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
@@ -60,6 +60,8 @@ class HomeWorkController extends Controller
 
         $data['subject'] = $subject;
         $data['course']  = $coursee;
+        $data['year']  = $year;
+        $data['sem']  = $sem;
         if($teacher == "null"){
             $teacher = Auth::user()->slug;
         }
@@ -71,15 +73,11 @@ class HomeWorkController extends Controller
         return view('home_work.homework', $data);
     }
 
-    public function getHomeworks($teacher,$course,$subject)
+    public function getHomeworks($teacher,$course,$subject,$year,$sem)
     {
         $subject_id = Subject::where('slug',$subject)->pluck('id')->first();
         $course_id  = Course::where('slug',$course)->pluck('id')->first();
         $teacher_id = User::where('slug',$teacher)->pluck('id')->first();
-        $current_academic_id = new Academic();
-        $semister = new AcademicSemester();
-        $year=$current_academic_id->getCurrentAcademic()->id;
-        $sem = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
         $records    = HomeWork::select(['id','slug','title','subject_id','course_parent_id','course_id','explanation','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
             ->where('subject_id',$subject_id)->where('course_id',$course_id)->where('staff_id',$teacher_id)->where('year',$year)->where('sem',$sem);
         return Datatables::of($records)
@@ -194,6 +192,7 @@ class HomeWorkController extends Controller
      */
     public function store(Request $request)
     {
+
         if (!checkRole(getUserGrade(3))) {
             prepareBlockUserMessage();
             return back();
@@ -204,10 +203,6 @@ class HomeWorkController extends Controller
             'course_subject_id' => 'required',
         ]);
 
-        $current_academic_id = new Academic();
-        $semister = new AcademicSemester();
-        $year = $current_academic_id->getCurrentAcademic()->id;
-        $sem  = $semister->getCurrentSemeterOfAcademicYear($year)->sem_num;
         $students = Student::select('user_id')->where('course_id',$request->class_id)->get();
 
         $record = new HomeWork();
@@ -224,8 +219,8 @@ class HomeWorkController extends Controller
         $record->course_id = $request->class_id;
         $record->subject_id = $request->course_subject_id;
         $record->explanation = $request->explanation;
-        $record->year = $year;
-        $record->sem = $sem;
+        $record->year = $request->academic_id;
+        $record->sem = $request->current_semister;
         $record->file        = $request->question_file;
         $record->user_stamp($request);
         $record->save();
@@ -331,6 +326,7 @@ class HomeWorkController extends Controller
 
     public function StudentHW($student = null)
     {
+
         if (!checkRole(getUserGrade(13))) {
             prepareBlockUserMessage();
             return back();
@@ -349,7 +345,13 @@ class HomeWorkController extends Controller
     public function StudentDatable($student)
     {
         $student_id = User::where('slug',$student)->pluck('id')->first();
-        $records    = HomeWork::join('homeworks_student','homeworks_student.homework_id','=','home_works.id')->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])->where('homeworks_student.student_id',$student_id);
+        $student_data = Student::where('user_id',$student_id)->first();
+        $records    = HomeWork::join('homeworks_student','homeworks_student.homework_id','=','home_works.id')
+            ->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])
+            ->where('home_works.year',default_year())
+            ->where('home_works.sem',default_sem(default_year()))
+            ->where('home_works.course_id',$student_data->course_id)
+            ->where('homeworks_student.student_id',$student_id);
         return Datatables::of($records)
             ->editColumn('subject_id', function ($records) {
                 return Subject::where('id',$records->subject_id)->pluck('subject_title')->first();

@@ -19,7 +19,11 @@
             </div>
             <div class="panel panel-custom">
                 <div class="panel-heading">
+                    <div class="pull-right messages-buttons">
+                        <a href="javascript:void(0)" onclick="destroy_all()" class="btn  btn-primary button helper_step1">{{getPhrase('delete_all_records')}}</a>
+                    </div>
                     <h1>{{ $title }}</h1>
+
                 </div>
                 <div class="panel-body packages">
                     <div>

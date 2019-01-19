@@ -43,25 +43,24 @@ class TimetableController extends Controller
         $data['title'] = getPhrase('timetable');
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $time_mapings = App\TimingsetMap::get();
-
         if(!Module_state('daily_school_schedule'))
         {
             pageNotFound();
             return back();
         }
-
         $data['layout'] = getLayout();
         $users = App\User::join('staff', 'user_id', '=', 'users.id')
             ->where('role_id', '=', getRoleData('staff'))
             ->where('users.status', '!=', 0)
+            ->where('users.branch_id',Auth::user()->branch_id)
             ->where('staff.course_id', '!=', '')
             ->select(['users.id as id', 'users.name', 'image', 'job_title', 'gender', 'qualification'])
             ->get();
+
         $preferred_subjects = [];
         foreach ($users as $user) {
             $preferred_subjects[$user->id] = $user->preferredSubjects();
         }
-
         $periods = App\Timingset::where('slug', '=', 'daily')->first();
         $period_details = $periods->getPeriods();
         $data['right_bar'] = true;
@@ -113,8 +112,8 @@ class TimetableController extends Controller
             ->where('users.status', '!=', 0)
             ->where('course_subject.academic_id', '=', $academic_id)
             ->where('course_subject.course_id', '=', $course_id)
-            /*->where('course_subject.year', '=', $year)*/
             ->where('course_subject.semister', '=', $semister)
+            ->where('users.branch_id',Auth::user()->branch_id)
             ->select([
                 'course_subject.id as course_subject_id',
                 'staff.id as staff_main_id',
@@ -361,16 +360,17 @@ class TimetableController extends Controller
      */
     public function updateTimetable(Request $request)
     {
-        $academic_id = $request->academic_id;
-        $course_id = $request->course_id;
+       // return $request->all();
+        $academic_id = $request->year_id;
+        $course_id = $request->class_id;
         $subjects = $request->subject;
         $current_year = 1;
         $current_semister = 0;
         if ($request->has('current_year')) {
-            $current_year = $request->current_year;
+            $current_year = $request->year_id;
         }
         if ($request->has('current_semister')) {
-            $current_semister = $request->current_semister;
+            $current_semister = $request->sem_id;
         }
 
         if ($academic_id == '' || $course_id == '' || $current_year == '') {
@@ -628,7 +628,9 @@ class TimetableController extends Controller
         $allocated_periods = [];
         if ($user_id) {
             //Print Staff Timetable
-            $allocated_periods = $this->getSchedules($academic_id, 0, 0, $currentSemester['sem_num'], $user_id);
+            $academic_id = default_year();
+            $currentSemester = default_sem($academic_id);
+            $allocated_periods = $this->getSchedules($academic_id, 0, 0, $currentSemester, $user_id);
         } else {
             //Print Class timetable
             $allocated_periods = $this->getSchedules(
@@ -781,18 +783,10 @@ class TimetableController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('Student_Roll_Number_Is_Not_Generated'), 'overlay');
                 return redirect(URL_USER_DETAILS . $user_record->slug);
             }
-            $academic_id = $record->student->academic_id;
+            $academic_id = default_year();
             $course_id = $record->student->course_id;
             $year = $record->student->current_year;
-            /*$semesterInstance=App\CourseSemister::where('course_id',$record->student->course_parent_id)->first();
-            $semister       = $semesterInstance->current_semester;*/
-            $semister = new App\AcademicSemester();
-            $semister = $semister->getCurrentSemeterOfAcademicYear($academic_id);
-            if ($semister) {
-                $semister = $semister->sem_num;
-            } else {
-                $semister = 0;
-            }
+            $semister = default_sem(default_year());
 
 
             $academic_record = App\Academic::where('id', '=', $academic_id)

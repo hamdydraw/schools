@@ -3,7 +3,8 @@
 
     app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
     {
-        @include('common.js-script-year-selection')
+        @include('common.year_sems_js');
+        @include('common.course_js');
             $scope.tab                  = 1;
         $scope.users                = [];
         $scope.exam_list            = [];
@@ -26,7 +27,6 @@
 
 
         $scope.start_report = function () {
-            $scope.current_course = $("#course_parent_id").val();
             $scope.report = {
                 'date_of_start' : null,
                 'date_of_finish' : null,
@@ -36,9 +36,9 @@
             };
             $scope.report.date_of_start  = $scope.date_of_start;
             $scope.report.date_of_finish = $scope.date_of_finish;
-            $scope.report.academic_year  = $scope.academic_year;
-            $scope.report.current_course = $scope.current_course;
-            $scope.report.semisters      = $scope.semisters.current_semister;
+            $scope.report.academic_year  = $scope.current_year_sc;
+            $scope.report.current_course = $scope.current_course_sc;
+            $scope.report.semisters      = $scope.current_sem_sc;
             console.log($scope.report);
             $http({
                 method:"post",
@@ -52,12 +52,15 @@
                 })
         }
 
+        $scope.getSubjects = function () {
+            return false;
+        }
 
         $scope.doCall     = function () {
-            if($scope.date_of_start && $scope.date_of_finish && $scope.current_course){
+            console.log($scope.current_course_sc,$scope.date_of_finish,$scope.date_of_start);
+            if($scope.date_of_start && $scope.date_of_finish && $scope.current_course_sc){
                 $scope.ready = true;
             }
-
         }
 
         $scope.isNumber = angular.isNumber;

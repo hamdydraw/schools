@@ -11,17 +11,29 @@
  
  app.controller('TimetableController', function ($scope, $http, $timeout, httpPreConfig,$location,$filter)
   {
-    @include('common.js-script-year-selection')
+    @include('common.year_sems_js');
+    @include('common.course_js');
     $scope.parent_courses  = [];
     $scope.courses         = [];
     $scope.parent_selected = false;
     $scope.years           = [];
      
     $scope.year_selected   = false;
-    $scope.selected_academic_id      = 1;
-    $scope.selected_course_parent_id = 1;
-    $scope.selected_course_id        = 3;
-    $scope.selected_year             = 1;
+
+      $scope.get_sub_courses = function () {
+          $http({
+              method:"GET",
+              url:'{{PREFIX}}'+'get_sub_courses/'+$scope.current_course_sc,
+              dataType:"json",
+              headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+          })
+              .then(function (response) {
+                  $scope.subcourses = response.data;
+                  if(response.data.length != 0){
+                      $scope.current_sub_course   = response.data[0].id.toString();
+                  }
+              })
+      }
      
     $scope.source_items    = [];
     $scope.target_items    = [];
@@ -53,11 +65,11 @@
       $scope.doCall     = function () {
       $scope.year_selected   = true;
  
-      academic_id          = $scope.selected_academic_id;
-      parent_course_id     = $scope.selected_course_parent_id;
-      course_id            = $scope.selected_course_id;
+      academic_id          = $scope.current_year_sc;
+      parent_course_id     = $scope.current_course_sc;
+      course_id            = $scope.current_class_sc;
       year                 = $scope.selected_year;
-      semister             = $scope.selected_semister;
+      semister             = $scope.current_sem_sc;
       if(!semister)
         semister=0;
  
@@ -72,7 +84,7 @@
                };
                
        httpPreConfig.webServiceCallPost(route, data).then(function(result){
-          /* console.log(result.data);*/
+           console.log(result.data);
         result = result.data;
         users = [];
  

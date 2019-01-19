@@ -23,7 +23,11 @@ $scope.init = function(audio) {
   }
 }
 
-$scope.startRecording = function(id) {
+$scope.getSubjects = function () {
+    return false;
+}
+
+    $scope.startRecording = function(id) {
   var recordButton='recordButton'+id;
   var stopButton = 'stopButton'+id;
 

@@ -57,7 +57,7 @@
 
 @section('footer_scripts')
 
-    @include('common.datatables', array('route'=>PREFIX.'homework/get-homeworks-datable/'.$teacher.'/'.$course->slug.'/'.$subject->slug, 'route_as_url' => 'TRUE'))
+    @include('common.datatables', array('route'=>PREFIX.'homework/get-homeworks-datable/'.$teacher.'/'.$course->slug.'/'.$subject->slug.'/'.$year.'/'.$sem, 'route_as_url' => 'TRUE'))
     @include('common.deletescript', array('route'=>PREFIX."homework/delete/"))
 
 @stop

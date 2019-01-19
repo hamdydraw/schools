@@ -70,7 +70,7 @@
               };
 
           $http.post(route, data).then(function(result, status) {
-            if(result.status==1){
+            if(result.data.status==1){
               $scope.topics = [];
               angular.forEach(result.data.topics,function(value,key){
                 $scope.topics.push(value);

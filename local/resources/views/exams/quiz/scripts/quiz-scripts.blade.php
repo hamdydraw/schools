@@ -25,42 +25,38 @@
         $scope.course_parent_id = '';
         $scope.course_id = '';
         $scope.showCourses = false;
-        $scope.current_year_sc = {{default_year()}};
-        $scope.current_year_sc = $scope.current_year_sc.toString();
         $scope.current_sem_sc       = null;
         $scope.current_course_sc    = null;
         $scope.current_subject_sc   = null;
         $scope.subject_id_sc        = {{$id}};
         $scope.academic_years_sc    = [];
         $scope.first_time = true;
-        $scope.academic_sems_sc  = [
-            {
-                value : 1,
-                title : 'الاول'
-            },
-            {
-                value : 2,
-                title : 'الثانى'
-            }
-        ];
+
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
         $scope.lastPart = window.location.href.split("/").pop();
 
-        if($scope.lastPart != 'add'){
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'/get_default_selectors/'+$scope.lastPart+'/quizzes',
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.branch = response.data.course_id.toString();
-                    $scope.quiz_type = response.data.type;
-                    $scope.getCategories($scope.branch);
-                    $scope.current_category = response.data.id.toString();
-                    $rootScope.setten_cat   = $scope.current_category;
+
+
+
+        @include('common.year_sems_js');
+        @include('common.course_js');
+        $scope.ifEdit = function () {
+            if ($scope.lastPart != 'add') {
+                $http({
+                    method: "GET",
+                    url: '{{PREFIX}}' + '/get_default_selectors/' + $scope.lastPart + '/quizzes',
+                    dataType: "json",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
+                    .then(function (response) {
+                        $scope.branch = response.data.course_id.toString();
+                        $scope.quiz_type = response.data.type;
+                        $scope.getCategories($scope.branch);
+                        $scope.current_category = response.data.id.toString();
+                        $rootScope.setten_cat = $scope.current_category;
+                    })
+            }
         }
 
         $scope.get_edit_data = function () {
@@ -84,37 +80,6 @@
             }
         }
 
-
-        $scope.getYears = function () {
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'get_years',
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.academic_years_sc = response.data;
-                    $scope.current_sem_sc = '1';
-                    $scope.getCourses();
-                })
-        }
-        $scope.getYears();
-
-        $scope.getCourses = function () {
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.academic_courses_sc = response.data;
-                    if($scope.academic_courses_sc.length != 0){
-                        $scope.current_course_sc    = $scope.academic_courses_sc[0].id.toString();
-                    }
-                    $scope.getSubjects();
-                })
-        }
 
 
         $scope.getSubjects = function (subject = 1) {
@@ -170,6 +135,7 @@
                     }
                     $scope.current_category     = $rootScope.setten_cat;
                     if($scope.first_time){
+                        $scope.ifEdit();
                         $scope.get_edit_data();
                         $scope.first_time = false;
                     }

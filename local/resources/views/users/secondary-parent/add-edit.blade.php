@@ -55,7 +55,7 @@
                                             <input type="hidden" name="selected_list[]"
                                                    data-myname="@{{item.username}}" value="@{{item.id}}">
                                             <i class="fa fa-trash text-danger pull-right"
-                                               ng-click="removeItem(item,'{{$record->id}}', 'student')"></i>
+                                                   ng-click="removeItem(item,'{{$record->id}}', 'student')"></i>
                                         </div>
 
                                     </div>

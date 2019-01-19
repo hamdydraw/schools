@@ -25,7 +25,13 @@
 					</div>
 					<div class="panel-body packages">
 					<?php $lessionPlanObject = new App\LessionPlan();?>
-				 @foreach($subjects as $subject)
+						<div class="container">
+						<div class="row">
+							<h3>{{getPhrase('first_term')}}</h3>
+						</div>
+
+						<br>
+				 @foreach($subjects_first as $subject)
 
                   {!!Form::open(array('url'=>URL_LESSION_PLANS_VIEW_STUDENTS,'method'=>'POST','name'=>'studentList'))!!}
 
@@ -46,11 +52,11 @@
 						                  <input type="hidden" name="course_parent_id"   value="{{$subject->course_parent_id}}" >
 						                  <input type="hidden" name="year"        value="{{$subject->year}}" >
 						                  <input type="hidden" name="semister"    value="{{$subject->semister}}" >
-																@if($subject->semister == 1)
-																	<p class="card-text">{{ getPhrase('first_term')}}</p>
-																	@elseif($subject->semister == 2)
-																	<p class="card-text">{{ getPhrase('second_term')}}</p>
-																@endif
+																{{--@if($subject->semister == 1)--}}
+																	{{--<p class="card-text">{{ getPhrase('first_term')}}</p>--}}
+																	{{--@elseif($subject->semister == 2)--}}
+																	{{--<p class="card-text">{{ getPhrase('second_term')}}</p>--}}
+																{{--@endif--}}
 							</div>
 
 							<div >
@@ -66,7 +72,54 @@
 					</div>
 					 {!!Form::close()!!}
 				@endforeach
+						</div>
+						<div class="container">
+						<div class="row">
+							<h3>{{getPhrase('second_term')}}</h3>
+						</div>
+						<br>
+						@foreach($subjects_second as $subject)
 
+							{!!Form::open(array('url'=>URL_LESSION_PLANS_VIEW_STUDENTS,'method'=>'POST','name'=>'studentList'))!!}
+
+
+                            <?php
+
+                            $summary = $lessionPlanObject->getSubjectCompletedStatus($subject->subject_id, $subject->staff_id, $subject->id,$subject->semister);
+                            $percent_completed = round($summary->percent_completed);
+                            ?>
+							<div class="col-md-3">
+								<div class="card {{getDashboardBoxColor()}} text-xs-center card-progress">
+									<div class="card-lg-padding">
+										<h4 class="card-title card-title-sm">{{ $subject->subject_title}}</h4>
+										<p class="card-text">{{ $subject->course_title}}</p>
+
+										<input type="hidden" name="academic_id" value="{{$subject->academic_id}}" >
+										<input type="hidden" name="course_id"   value="{{$subject->course_id}}" >
+										<input type="hidden" name="course_parent_id"   value="{{$subject->course_parent_id}}" >
+										<input type="hidden" name="year"        value="{{$subject->year}}" >
+										<input type="hidden" name="semister"    value="{{$subject->semister}}" >
+										{{--@if($subject->semister == 1)--}}
+										{{--<p class="card-text">{{ getPhrase('first_term')}}</p>--}}
+										{{--@elseif($subject->semister == 2)--}}
+										{{--<p class="card-text">{{ getPhrase('second_term')}}</p>--}}
+										{{--@endif--}}
+									</div>
+
+									<div >
+
+										<button class="btn card-footer text-muted"
+
+										>{{ getPhrase('view_students') }}</button>
+
+									</div>
+
+
+								</div>
+							</div>
+							{!!Form::close()!!}
+						@endforeach
+						</div>
 
 					</div>
 				</div>

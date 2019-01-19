@@ -114,10 +114,11 @@ class LessionPlansController extends Controller
         }
 
 
-        $subjects = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
+        $subjects_first = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->join('courses', 'courses.id', '=', 'course_subject.course_id')
             ->where('staff_id', '=', $user->id)
-            ->where('course_subject.academic_id', '=', getDefaultAcademicId())
+            ->where('course_subject.academic_id', '=', default_year())
+            ->where('course_subject.semister',1)
             ->select([
                 'course_subject.id as id',
                 'course_subject.slug as slug',
@@ -132,9 +133,31 @@ class LessionPlansController extends Controller
                 'course_subject.course_parent_id as course_parent_id',
                 'course_subject.course_id as course_id'
             ])
-            ->orderBy('year')
-            ->orderBy('semister')
+            ->orderBy('course_subject.course_id')
             ->get();
+
+        $subjects_second = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
+            ->join('courses', 'courses.id', '=', 'course_subject.course_id')
+            ->where('staff_id', '=', $user->id)
+            ->where('course_subject.academic_id', '=', default_year())
+            ->where('course_subject.semister',2)
+            ->select([
+                'course_subject.id as id',
+                'course_subject.slug as slug',
+                'subject_title',
+                'course_title',
+                'year',
+                'semister',
+                'subject_id',
+                'staff_id',
+                'course_dueration',
+                'course_subject.academic_id as academic_id',
+                'course_subject.course_parent_id as course_parent_id',
+                'course_subject.course_id as course_id'
+            ])
+            ->orderBy('course_subject.course_id')
+            ->get();
+
 
 
         $role_name = getRoleData($user->role_id);
@@ -146,11 +169,12 @@ class LessionPlansController extends Controller
         }
 
         $data['user'] = $user;
-        $data['subjects'] = $subjects;
+        $data['subjects_first'] = $subjects_first;
+        $data['subjects_second'] = $subjects_second;
         $data['title'] = getPhrase('students_dashboard');
         $data['layout'] = getLayout();
 
-        if (count($subjects)) {
+        if (count($subjects_first) || count($subjects_second)) {
             return view('staff.lessionplans.studentlist-dashboard', $data);
         } else {
             flash(getPhrase('Ooops'), getPhrase('no_data_available'), 'overlay');
@@ -549,7 +573,8 @@ class LessionPlansController extends Controller
         }
         $topics = [];
         $course_subject_record = App\CourseSubject::where('id', '=', $record->course_subject_id)->first();
-        $topics = $this->prepareTopicsList($course_subject_record->subject_id, $course_subject_record->id);
+        $courseSubjectSemester = $course_subject_record->semister;
+        $topics = $this->prepareTopicsList($course_subject_record->subject_id, $course_subject_record->id,$courseSubjectSemester);
 
         return array('status' => $status, 'topics' => $topics);
     }

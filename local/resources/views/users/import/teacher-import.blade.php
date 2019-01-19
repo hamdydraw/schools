@@ -90,7 +90,7 @@
                                 <label for="">{{getPhrase('Semester')}}</label>
                                 <span class="text-red">*</span>
                                 <select name="semesters" class="form-control" required="required" ng-model="current_sem_sc" ng-change="get_courses()">
-                                    <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.value }}" value="@{{ sem.value }}"> @{{ sem.title  }}</option>
+                                    <option ng-repeat="sem in academic_sems_sc" id="@{{ sem.sem_num }}" value="@{{ sem.sem_num }}"> @{{ sem.title  }}</option>
                                 </select>
                             </fieldset>
                         </div>

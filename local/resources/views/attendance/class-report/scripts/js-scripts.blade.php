@@ -4,7 +4,8 @@
 
     app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
     {
-        @include('common.js-script-year-selection')
+        @include('common.year_sems_js');
+        @include('common.course_js');
             $scope.tab             = 1;
 
         $scope.users = [];
@@ -14,14 +15,15 @@
         $scope.form_show = false;
         $scope.button_text = 'Issue New';
 
+
         $scope.doCall = function(){
 
-            academic_id          = $scope.selected_academic_id;
-            parent_course_id     = $scope.selected_course_parent_id;
-            course_id            = $scope.selected_course_id;
+            academic_id          = $scope.current_year_sc;
+            parent_course_id     = $scope.current_course_sc;
+            course_id            = $scope.current_sub_course;
 
-            year                 = $scope.selected_year;
-            semister             = $scope.selected_semister;
+            year                 = $scope.current_year_sc;
+            semister             = $scope.current_sem_sc;
 
             route   = '{{URL_STUDENT_CLASS_ATTENDANCE}}';
             data    = {   _method: 'post',

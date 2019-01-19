@@ -77,17 +77,18 @@ class QuizResult extends Model
     public function getOverallSubjectsReport($user)
     {
 
-        $current_academic_id = new Academic();
-        $current_year=$current_academic_id->getCurrentAcademic()->id;
+
        $student_course = Student::where('user_id',$user->id)->pluck('course_parent_id')->first();
 
        $overallSubjectAnalysis = [];
             $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
             ->select(['subject_analysis','quizresults.user_id'])
             ->where('quizresults.user_id', '=', $user->id)
-            ->where('quizresults.academic_id','=',$current_year)
+            ->where('quizresults.academic_id','=',default_year())
+            ->where('quizresults.semister','=',default_sem(default_year()))
             ->where('quizresults.course_parent_id','=',$student_course)
             ->get();
+
 
        
 

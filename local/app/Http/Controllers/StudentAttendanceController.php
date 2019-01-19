@@ -68,8 +68,6 @@ class StudentAttendanceController extends Controller
         $data['title'] = getPhrase('attendance');
 
 
-        $list = App\Course::getCourses(0);
-
         $data['role_name'] = getRoleData($user->role_id);
         $data['userdata'] = $user;
         $data['slugData']=$userData;

@@ -60,6 +60,7 @@
             route = '{{URL_ACADEMICS_COURSES_GET_PARENT_COURSES}}';
             data= {_method: 'post', '_token':httpPreConfig.getToken(), 'academic_id': academic_id};
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
+                $scope.parent_courses = [];
                 result = result.data;
                 angular.forEach(result, function(value, key){
                     $scope.parent_courses.push(value.course);

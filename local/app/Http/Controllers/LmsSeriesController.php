@@ -61,6 +61,7 @@ class LmsSeriesController extends Controller
         if(is_teacher()){
             $records = LmsSeries::join('lmscategories','lmsseries.lms_category_id','=','lmscategories.id')
                                           ->join('courses','lmscategories.course_id','=','courses.id')
+                                          ->join('course_subject','lmscategories.course_id','=','course_subject.course_parent_id')
                                           ->select(['lmsseries.title',
                                           'lmscategories.category',
                                           'courses.course_title',
@@ -77,7 +78,8 @@ class LmsSeriesController extends Controller
                                           'lmsseries.updated_by_ip',
                                           'lmsseries.created_at',
                                           'lmsseries.updated_at'])
-                ->where('lmsseries.created_by_user','=',Auth::user()->id);
+                ->where('course_subject.staff_id','=',Auth::user()->id)
+                ->groupBy('lmsseries.id');
                 // ->orderBy('updated_at', 'desc');
         }else {
             $records = LmsSeries::join('lmscategories','lmsseries.lms_category_id','=','lmscategories.id')

@@ -145,10 +145,9 @@ class DuesController extends Controller
         $course_id = Student::where('user_id', $data['record']->id)->first(['course_parent_id'])->course_parent_id;
         $data['dues_purchase'] = DuesPurchase::where('student_id', $data['record']->id)->where('parent_id',
             Auth::user()->id)->first();
-        $currentAcademicYear = new Academic();
-        $currentAcademicYear = $currentAcademicYear->getCurrentAcademic()->id;
+
         $schoolExp = AcademicDuesPivot::join('academics_dues', 'academics_dues.id', '=', 'academics_dues_pivot.due_id')
-            ->where('academics_dues_pivot.academic_id', $currentAcademicYear)
+            ->where('academics_dues_pivot.academic_id', default_year())
             ->where('academics_dues_pivot.course_parent', $course_id)
             ->select([
                 'academics_dues_pivot.id',

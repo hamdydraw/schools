@@ -3,12 +3,8 @@
 <script>
  app.controller('TabController', function ($scope, $http, $rootScope,httpPreConfig,$location)
   {
-     {{--@include('common.js-script-year-selection')--}}
 
-         $scope.current_year_sc = {{default_year()}};
-      $scope.current_year_sc = $scope.current_year_sc.toString();
-
-
+      @include('common.year_sems_js');
       $scope.get_branches = function () {
           $http({
               method:"GET",
@@ -26,29 +22,8 @@
       }
       $scope.get_branches();
 
-      $scope.getYears = function () {
-          $http({
-              method:"GET",
-              url:'{{PREFIX}}'+'get_years',
-              dataType:"json",
-              headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-          })
-              .then(function (response) {
-                  $scope.academic_years_sc = response.data;
-                  $scope.academic_sems_sc  = [
-                      {
-                          value : 1,
-                          title : 'الاول'
-                      },
-                      {
-                          value : 2,
-                          title : 'الثانى'
-                      }
-                  ];
-                  $scope.current_sem_sc = '1';
-                  $scope.get_categories();
-              })
-      }
+
+
 
       $scope.get_categories = function () {
           $http({
@@ -65,6 +40,7 @@
                   }
               })
       }
+      $scope.get_categories();
 
       $scope.get_courses = function () {
           $http({

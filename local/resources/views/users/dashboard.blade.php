@@ -55,10 +55,7 @@
 						<div class="card card-red text-xs-center helper_step3">
 							<div class="card-block">
 							<h4 class="card-title">
-                       {{ \App\User::join('roles', 'users.role_id', '=', 'roles.id')
-                ->join('students', 'students.user_id', '=', 'users.id')
-                ->join('courses', 'courses.id', '=', 'students.course_id')
-                ->where('courses.category_id',Auth::user()->category_id)
+                       {{ $students_count =  \App\User::join('roles', 'users.role_id', '=', 'roles.id')
                 ->where('roles.id', '=', 5)->get()->count()}}
 
 							</h4>
@@ -91,9 +88,9 @@
 					 <div class="col-md-3 ">
 						 <div class="card card-green text-xs-center helper_step4">
 							 <div class="card-block">
-								 <h4 class="card-title"><?php $staffObject =  App\User::where('role_id','=',9)->get()->count();
+								 <h4 class="card-title"><?php $staffObject2 =  App\User::where('role_id','=',9)->get()->count();
                                      ?>
-									 {{$staffObject}}
+									 {{$staffObject2}}
 								 </h4>
 								 <p class="card-text">{{ getPhrase('educational_supervisors')}}</p>
 							 </div>
@@ -106,9 +103,9 @@
 					 <div class="col-md-3 ">
 						 <div class="card card-green text-xs-center helper_step4">
 							 <div class="card-block">
-								 <h4 class="card-title"><?php $staffObject =  App\User::where('role_id','=',11)->get()->count();
+								 <h4 class="card-title"><?php $staffObject3 =  App\User::where('role_id','=',11)->get()->count();
                                      ?>
-									 {{$staffObject}}
+									 {{$staffObject3}}
 								 </h4>
 								 <p class="card-text">{{ getPhrase('student_guide')}}</p>
 							 </div>
@@ -178,7 +175,7 @@
 						<div class="card card-yellow text-xs-center helper_step7">
 							<div class="card-block">
 							<h4 class="card-title">
-								<?php $secondaryParentsObject =  App\User::where('role_id','=',10)->get()->count();
+								<?php $secondaryParentsObject =  App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('role_id','=',10)->get()->count();
 
 							 ?>
 						   {{$secondaryParentsObject}}
@@ -197,7 +194,7 @@
 					<div class="col-md-3 ">
 						<div class="card card-green text-xs-center helper_step8">
 							<div class="card-block">
-							<h4 class="card-title">{{ get_users_nu() }}</h4>
+							<h4 class="card-title">{{ $staffObject+$staffObject2+$staffObject3+$adminObject+$ownerObject+$librarianObject+$assistantlibrarianObject+$parentObject+$secondaryParentsObject+$students_count }}</h4>
 
 								<p class="card-text">{{ getPhrase('all_users')}}</p>
 							</div>

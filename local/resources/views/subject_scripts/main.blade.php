@@ -8,16 +8,6 @@
         $scope.current_subject_sc   = null;
         $scope.subject_id_sc        = {{$id}};
         $scope.academic_years_sc    = [];
-        $scope.academic_sems_sc  = [
-            {
-                value : 1,
-                title : 'الاول'
-            },
-            {
-                value : 2,
-                title : 'الثانى'
-            }
-        ];
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
 
@@ -44,33 +34,8 @@
         }
 
         
-        $scope.getYears = function () {
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'get_years',
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.academic_years_sc = response.data;
-                    $scope.get_edit_data();
-                })
-        }
-
-
-        $scope.getCourses = function () {
-            $http({
-                method:"GET",
-                url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc,
-                dataType:"json",
-                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                .then(function (response) {
-                    $scope.academic_courses_sc = response.data;
-                    $scope.getYears();
-                })
-        }
-        $scope.getCourses();
+        @include('common.year_sems_js');
+        @include('common.course_js');
 
         $scope.getSubjects = function (subject = 1) {
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){

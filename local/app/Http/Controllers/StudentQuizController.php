@@ -931,6 +931,7 @@ class StudentQuizController extends Controller
 
             $query = Quiz::join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
                 ->join('quizapplicability', 'quizapplicability.quiz_id', '=', 'quizzes.id')
+                ->join('course_subject','course_subject.id','=','quizzes.subject_id')
                 ->select([
                     'title',
                     'dueration',
@@ -945,6 +946,7 @@ class StudentQuizController extends Controller
                 ->where('quizzes.type','!=','offline')
                 ->where('start_date','<=',date('Y-m-d H:i:s'))
                 ->where('end_date','>=',date('Y-m-d H:i:s'))
+                ->where('course_subject.semister','=',default_sem(default_year()))
                 ->where('total_questions','>','0')
                 ->where('applicable_to_specific', '=', 1);
             if ($interested_categories) {
@@ -953,8 +955,6 @@ class StudentQuizController extends Controller
                 $query = $query->where('category_id', '=', '-1');
             }
             $records = $query->groupBy('quizzes.slug')->get();
-
-
 
         }
 
@@ -1153,6 +1153,7 @@ class StudentQuizController extends Controller
     public function examAttempts($slug, $exam_slug = '')
     {
         $user = User::getRecordWithSlug($slug);
+        $student = Student::where('user_id',$user->id)->first();
 
 
         if ($isValid = $this->isValidRecord($user)) {
@@ -1174,6 +1175,9 @@ class StudentQuizController extends Controller
 
         if (!$exam_slug) {
             $marks = App\QuizResult::where('user_id', '=', $user->id)
+                ->where('academic_id','=',default_year())
+                ->where('semister','=',default_sem(default_year()))
+                ->where('course_parent_id','=',$student->course_parent_id)
                 ->orderBy('updated_at', 'desc')->get();
         } else {
             $marks = App\QuizResult::where('user_id', '=', $user->id)
@@ -1413,6 +1417,7 @@ class StudentQuizController extends Controller
     public function getExamAnalysisData($slug)
     {
         $user = User::getRecordWithSlug($slug);
+        $student = Student::where('user_id',$user->id)->first();
         $records = array();
 
         $records = Quiz::join('quizresults', 'quizzes.id', '=', 'quizresults.quiz_id')
@@ -1420,18 +1425,24 @@ class StudentQuizController extends Controller
                 'title',
                 'is_paid',
                 'dueration',
+                'user_id',
+                'quizresults.slug',
                 'quizzes.total_marks',
-                \DB::raw('count(quizresults.user_id) as attempts, quizzes.slug, user_id')
+                \DB::raw('count(quizresults.user_id) as attempts')
             ])
             ->where('user_id', '=', $user->id)
-            ->where('quizzes.type', '=', 'online');
-            // ->groupBy('quizresults.quiz_id')
+            ->where('quizzes.type', '=', 'online')
+            ->where('quizresults.academic_id',default_year())
+            ->where('quizresults.semister',default_sem(default_year()))
+            ->where('quizresults.course_parent_id',$student->course_parent_id)
+
+             ->groupBy('quizresults.id');
             // ->get();
 
         return Datatables::of($records)
             ->editColumn('title', function ($records) {
                 $user = User::where('id', '=', $records->user_id)->get()->first();
-
+                return $records->user_id;
                 return '<a href="' . URL_STUDENT_EXAM_ATTEMPTS . $user->slug . '/' . $records->slug . '"">' . $records->title . '</a>';
             })
             ->editColumn('is_paid', function ($records) {

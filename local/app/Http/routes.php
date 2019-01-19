@@ -654,8 +654,8 @@ Route::get('homework/edit-homework/{slug}', 'HomeWorkController@edit');
 Route::get('homework/get-homework-data/{slug}', 'HomeWorkController@show');
 Route::post('homework/add-homework', 'HomeWorkController@store');
 Route::patch('homework/edit-homework/{slug}', 'HomeWorkController@update');
-Route::get('homework/get-homeworks/{teacher}/{course}/{subject}', 'HomeWorkController@showList');
-Route::get('homework/get-homeworks-datable/{teacher}/{course}/{subject}', 'HomeWorkController@getHomeworks');
+Route::get('homework/get-homeworks/{teacher}/{course}/{subject}/{year}/{sem}', 'HomeWorkController@showList');
+Route::get('homework/get-homeworks-datable/{teacher}/{course}/{subject}/{year}/{sem}', 'HomeWorkController@getHomeworks');
 Route::delete('homework/delete/{slug}', 'HomeWorkController@destroy');
 Route::get('homework/{slug?}', 'HomeWorkController@StudentHW');
 Route::get('homeworkDatable/{student}', 'HomeWorkController@StudentDatable');
@@ -846,6 +846,9 @@ Route::group(['middleware' => 'stopOrOn:push_notifications'], function () {
 // NOTIFICATIONS FOR STUDENT
     Route::get('notifications/list', 'NotificationsController@usersList');
     Route::get('notifications/show/{slug}', 'NotificationsController@display');
+    Route::get('notifications/destroy/{slug}', 'NotificationsController@destroy');
+    Route::get('notifications/obliviate', 'NotificationsController@obliviate');
+    //obliviate
 });
 
 //BOOKMARKS MODULE
@@ -1282,6 +1285,7 @@ Route::get('trashes/list', 'TrashesController@index');
 Route::get('trashes/getList', 'TrashesController@getDatatable');
 Route::get('trashes/retrieve/{slug}/{table}','TrashesController@retrieve');
 Route::get('trashes/destroy/{slug}/{table}','TrashesController@destroy');
+Route::get('trashes/destroy_all','TrashesController@Destroy_all');
 
 Route::get('get_categories/{id}/{table}',function ($id,$table){
    return getCategory($id,$table);
@@ -1328,7 +1332,7 @@ Route::get('users/switchAdmin/{slug}','UsersLoginController@switchAdmin');
 Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
        $quiz             = DB::table($table)->where('slug',$slug)->first();
        $current_category = QuizCategory::where('id',$quiz->category_id)->first();
-       $current_category->type = $quiz->type;
+       //$current_category->type = $quiz->type;
        return $current_category;
 });
 
@@ -1357,44 +1361,38 @@ Route::get('get_years',function (){
 });
 
 
-Route::get('get_courses/{year}',function ($year){
-    if(Auth::user()->role_id == 3){
-        return getTeacherCourses($year);
-    }
-    return getCourses($year);
+Route::get('get_courses/{year}/{sem}',function ($year,$sem){
+    return getCourses($year,$sem);
 });
 
-Route::get('get_courses_2/{year}/{staff_id?}',function ($year,$staff_id){
+Route::get('get_courses_2/{year}/{sem}/{staff_id?}',function ($year,$sem,$staff_id){
     if(Auth::user()->role_id == 3){
-        return getTeacherCourses2($year,null);
+        return getTeacherCourses2($year,$sem,null);
     }
     else if ($staff_id != "null") {
-      return getTeacherCourses2($year,$staff_id);
+      return getTeacherCourses2($year,$sem,$staff_id);
     }
     else if($staff_id == "null"){
         return 0;
     }
-    return getCourses($year);
+    return getCourses($year,$sem);
 });
 
 //getTeacherClasses
-Route::get('teacher_classes/{year}/{staff_id}/{course}',function ($year,$staff_id,$course){
+Route::get('teacher_classes/{sem}/{year}/{staff_id}/{course}',function ($sem,$year,$staff_id,$course){
     if(Auth::user()->role_id == 3){
-        return getTeacherClasses($year,null,$course);
+        return getTeacherClasses($sem,$year,null,$course);
     }
     if(checkRole(getUserGrade(2)) && $staff_id == 'null'){
         return \App\Course::where('parent_id',$course)->get();
     }
 
-    return getTeacherClasses($year,$staff_id,$course);
+    return getTeacherClasses($sem,$year,$staff_id,$course);
 
 
 });
 
 
-Route::get('get_teacher_courses/{year}',function ($year){
-    return getTeacherCourses($year,null);
-});
 
 Route::get('supervisor/teacher-courses/{slug}',function($slug){
 
@@ -1410,6 +1408,18 @@ Route::get('supervisor/teacher-courses/{slug}',function($slug){
         ->where('course_subject.staff_id',get_user_id_from_slug($slug))
         ->get();
 
+});
+
+Route::get('get_year_sems/{year}',function ($year){
+    $sems =  \App\AcademicSemester::where('academic_id',$year)->select(['id','sem_num'])->get();
+    foreach ($sems as $sem){
+        $sem->title = number_to_word($sem->sem_num);
+    }
+    return $sems;
+});
+
+Route::get('get_defualt_sem/{year}',function ($year){
+    return default_sem($year);
 });
 //get_courses_2
 

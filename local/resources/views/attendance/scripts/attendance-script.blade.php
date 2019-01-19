@@ -6,6 +6,11 @@ var app = angular.module('academia', ['ngMessages']);
 
 app.controller('attendanceController', function($scope, $http) {
 
+
+    $scope.getSubjects = function () {
+        return false;
+    }
+
     $scope.initAngData = function(data) {
       $scope.total = data;
       $scope.present = data;
