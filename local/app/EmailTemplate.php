@@ -57,6 +57,7 @@ class EmailTemplate extends Model
 
 	public function sendNotification($template, $data,$parent,$student)
     {	
+		$title=$template;
     	$template = EmailTemplate::where('title', '=', $template)->first();
 
         $template->content = strtr($template->content, $data);
@@ -66,7 +67,7 @@ class EmailTemplate extends Model
 
 		
 		$notifi = new \App\Notification();
-		$notifi->title = getPhrase('Absence_status');
+		$notifi->title =$title;// getPhrase('Absence_status');
 		$notifi->slug  = $notifi->makeSlug($notifi->title);
 		$notifi->short_description = $template->subject;
 		$notifi->description       = $content;
