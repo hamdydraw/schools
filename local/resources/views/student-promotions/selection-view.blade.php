@@ -173,6 +173,7 @@
                     <span class="text-red">*</span>
                     <select name="course_parent_id" class="form-control" required="required"
                             ng-model="current_course_sc" ng-change="getClasses()">
+                           
                       <option ng-repeat="course in academic_courses_sc"
                               value="@{{ course.id }}">@{{ course.course_title }}</option>
                     </select>
@@ -186,6 +187,7 @@
                     <span class="text-red">*</span>
                     <select name="course_id" class="form-control" required="required" ng-change="doCall()"
                             ng-model="current_sub_course">
+                            <option value="0">{{getPhrase('select')}}</option>
                       <option ng-repeat="aclass in subcourses"
                               value="@{{ aclass.id }}">@{{ aclass.course_title }}</option>
                     </select>

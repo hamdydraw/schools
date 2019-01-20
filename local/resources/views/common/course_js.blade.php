@@ -38,7 +38,8 @@ headers:{'Content-Type': 'application/x-www-form-urlencoded'}
 .then(function (response) {
 $scope.subcourses = response.data;
 if(response.data.length != 0){
-$scope.current_sub_course   = response.data[0].id.toString();
+//$scope.current_sub_course   = response.data[0].id.toString();
+$scope.current_sub_course   = "0";
 }
 })
 }
