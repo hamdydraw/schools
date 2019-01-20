@@ -882,7 +882,11 @@ class QuestionBankController extends Controller
             return back();
         }
 
-
+        if($request->marks!=$request->total_answers && $request->question_type == 'match')
+        { 
+            flash(getPhrase('Ooops'), getPhrase('total_answer_must_equal_marks'), 'error');
+            return back();
+        }
 
         DB::beginTransaction();
         try {
