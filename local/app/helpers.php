@@ -1418,7 +1418,7 @@ function getCourses($year,$sem = null){
         ->where('academic_course.academic_id',$year)
         ->where('courses.parent_id',0)
         ->where('courses.category_id',Auth::user()->category_id)
-        ->select(['courses.id','courses.slug','courses.course_title'])
+        ->select(['courses.id','courses.slug','courses.course_title','courses.graduated_course'])
         ->get();
 }
 

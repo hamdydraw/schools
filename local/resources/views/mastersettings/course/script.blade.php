@@ -20,7 +20,7 @@
                         
                         $scope.current_category    = response.data.category_id.toString();
                         console.log(response.data);
-                        if(response.data.graduated_course==="1")
+                        if(response.data.graduated_course=="1")
                         $scope.graduated_course    = true;
                         $scope.get_courses();
                       

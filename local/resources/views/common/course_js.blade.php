@@ -17,6 +17,18 @@ $scope.getSubjects();
 }
 
 $scope.getClasses = function () {
+
+    $scope.thirdYear=false;
+    var gr=$scope.academic_courses_sc.filter(function(v){
+
+    return v.id==$scope.current_course_sc;
+    });
+    console.log(gr[0].graduated_course);
+    if(gr[0].graduated_course === 1)
+    {
+    $scope.thirdYear=true;
+    }
+
 $http({
 method:"GET",
 url:'{{PREFIX}}'+'get_sub_courses/'+$scope.current_course_sc,
