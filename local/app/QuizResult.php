@@ -90,6 +90,7 @@ class QuizResult extends Model
             ->get();
 
 
+
        
 
        foreach ($records as $result) {

@@ -74,7 +74,7 @@
 							<fieldset class="form-group col-md-4">
 								<label for="">{{getPhrase('branch')}}</label>
 								<span class="text-red">*</span>
-								<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-change="getSubjects()">
+								<select name="course_id" class="form-control" required="required" ng-model="current_course_sc" ng-init="getSubjects()" ng-change="getSubjects()">
 									<option ng-repeat="course in academic_courses_sc" value="@{{ course.id }}">@{{ course.course_title }}</option>
 								</select>
 							</fieldset>

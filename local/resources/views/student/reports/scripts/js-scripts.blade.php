@@ -7,14 +7,16 @@
         @if(isset($admin))
                 @include('common.js-script-year-selection',array('user_slug'=>$user->slug,'user_id'=>$user->id))
            @else
-                @include('common.js-script-year-selection',array('user_slug'=>$user->slug))
+                {{--@include('common.js-script-year-selection',array('user_slug'=>$user->slug))--}}
                 @endif
 
             $scope.exam_categories = [];
         $scope.exam_list       = [];
         $scope.show_div = false;
 
+
         $scope.doCall     = function () {
+
             $scope.year_selected   = false;
             $scope.resetResult();
 
@@ -34,7 +36,7 @@
                 parent_course_id     = '{{prepareStudentSessionRecord($user_slug)->student->course_parent_id}}';
                 course_id            = '{{prepareStudentSessionRecord($user_slug)->student->course_id}}';
                 year                 = '{{prepareStudentSessionRecord($user_slug)->student->current_year}}';
-                semister                 = '{{default_sem(default_year())}}';
+                semister                 = '{{default_year()}}';
                 user_id          = '{{$user->id}}';
             }
             @endif
@@ -52,6 +54,7 @@
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
                 result = result.data;
+                console.log(result);
                 categories = [];
                 angular.forEach(result, function(value, key) {
                     categories.push(value);
@@ -64,14 +67,28 @@
         }
         $scope.setTab   = function(category_id){
 
+                @if(isset($admin))
+            {
+
+                academic_id      = $scope.selected_academic_id;
+                parent_course_id = $scope.selected_course_parent_id;
+                course_id        = $scope.selected_course_id;
+                year             = $scope.selected_year;
+                semister         = $scope.selected_semister;
+                user_id          = '{{$user->id}}';
+            }
+                @else
+            {
+                academic_id          = '{{default_year()}}';
+                parent_course_id     = '{{prepareStudentSessionRecord($user_slug)->student->course_parent_id}}';
+                course_id            = '{{prepareStudentSessionRecord($user_slug)->student->course_id}}';
+                year                 = '{{prepareStudentSessionRecord($user_slug)->student->current_year}}';
+                semister                 = '{{default_year()}}';
+                user_id          = '{{$user->id}}';
+            }
+            @endif
             $scope.tab      = category_id;
 
-            academic_id      = $scope.selected_academic_id;
-            parent_course_id = $scope.selected_course_parent_id;
-            course_id        = $scope.selected_course_id;
-            year             = $scope.selected_year;
-            semister         = $scope.selected_semister;
-            user_id          = '{{$user->id}}';
             route            = '{{URL_STUDENT_RESULTS_GET_EXAMS}}';
             data           = {   _method: 'post',
                 '_token':httpPreConfig.getToken(),
@@ -86,6 +103,7 @@
 
             httpPreConfig.webServiceCallPost(route, data).then(function(result){
                 result = result.data;
+                console.log(result);
                 examList = [];
                 angular.forEach(result, function(value, key) {
                     examList.push(value);
@@ -98,6 +116,7 @@
 
         };
 
+
         $scope.isSet         = function(tabNum){
             return $scope.tab === tabNum;
         };
@@ -107,7 +126,10 @@
             $scope.show_div = false;
             $scope.exam_list =[];
         }
+        $scope.doCall();
     });
+
+
 
 
 </script>

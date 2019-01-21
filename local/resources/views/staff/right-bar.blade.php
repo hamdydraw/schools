@@ -6,7 +6,7 @@
     <div class="panel-body packages">
         <?php $lessionPlanObject = new App\LessionPlan();
         $user = Auth::user();
-        $subjects = App\LessionPlan::getSubjects($user->id, 4, 'rand');
+        $subjects = App\LessionPlan::getSubjects($user->id, 20, 'rand');
         $semester = '';
         ?>
         @foreach($subjects as $subject)

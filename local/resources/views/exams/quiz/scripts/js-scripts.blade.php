@@ -46,10 +46,31 @@
         $scope.current_subject_sc   = null;
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
+        $scope.lastPart = window.location.href.split("/").pop();
+
+        $scope.ifEdit = function () {
+            if ($scope.lastPart != 'add') {
+                $http({
+                    method: "GET",
+                    url: '{{PREFIX}}' + '/get_quiz_data/' + $scope.lastPart,
+                    dataType: "json",
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                    .then(function (response) {
+                        $scope.current_year_sc = response.data.academic_id.toString();
+                        $scope.current_sem_sc = response.data.semister.toString();
+                        $scope.current_course_sc = response.data.course_parent_id.toString();
+                        $scope.current_subject_sc = response.data.subject_id.toString();
+                    })
+            }
+        }
+
         @include('common.year_sems_js');
         @include('common.course_js');
 
+
         $scope.getSubjects = function () {
+
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
                 return false;
             }
@@ -60,6 +81,8 @@
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    console.log(response.data);
+                    $scope.ifEdit();
                     $scope.academic_subjects_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
@@ -90,10 +113,10 @@
             $scope.setItem('total_marks', $scope.total_marks);
 
         }
-
         $scope.get_topics = function()
         {
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null || $scope.current_subject_sc == null){
+                $scope.ifEdit();
                 return false;
             }
             $http({
@@ -108,6 +131,7 @@
                         $scope.current_topic_sc ="";// response.data[0].id.toString();
 
                         $scope.subjectChanged();
+                        $scope.ifEdit();
                     }
                 })
         }

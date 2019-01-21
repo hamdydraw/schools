@@ -627,7 +627,8 @@ class QuizController extends Controller
                 ->orderBy('quizresults.id', 'desc')->first();
         }
         $data['results'] = $result;
-        $data['print_year']    = App\Academic::where('id',$request->academic_id)->first()->academic_year_title;
+        //return $request->all();
+        $data['print_year']    = App\Academic::where('id',$request->year_id)->first()->academic_year_title;
         $data['print_term']    = SemesterName($request->sem_id);
         $data['print_course']  = App\Course::where('id',$request->course_id)->first()->course_title;
         $data['print_class' ]  = App\Course::where('id',$request->class_id)->first()->course_title;

@@ -1336,6 +1336,13 @@ Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
        return $current_category;
 });
 
+Route::get('get_quiz_data/{slug}',function ($slug){
+    $quiz             = \App\Quiz::where('slug',$slug)->first()->subject_id;
+    $result = \App\CourseSubject::where('id',$quiz)->first();
+
+    return $result;
+});
+
 Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
     $quiz             = DB::table($table)->where('slug',$slug)->first();
     $current_category = \App\LmsCategory::where('id',$quiz->lms_category_id)->first();
@@ -1570,7 +1577,7 @@ Route::get('/test_it/{key}', function ($key){
 
 Route::get('/test_2', function () {
 
-    return $_SERVER['SERVER_NAME'];
+    return Auth::user();
 });
 
 Route::get('/fix_mails', function () {

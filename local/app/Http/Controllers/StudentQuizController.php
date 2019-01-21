@@ -490,11 +490,11 @@ class StudentQuizController extends Controller
         $record->slug = getHashCode();
         $user_record = Auth::user();
         $student_record = $user_record->student()->first();
-        $record->academic_id = $student_record->academic_id;
+        $record->academic_id = default_year();
         $record->course_parent_id = $student_record->course_parent_id;
         $record->course_id = $student_record->course_id;
-        $record->year = $student_record->current_year;
-        $record->semister = $student_record->current_semister;
+        $record->year = default_year();
+        $record->semister = default_sem(default_year());
         $content = 'You have attempted exam. The score percentage is ' . formatPercentage($record->percentage);
         $record->user_stamp($request);
         $record->save();
@@ -1240,6 +1240,7 @@ class StudentQuizController extends Controller
     {
 
         $user = User::getRecordWithSlug($slug);
+        $student = Student::where('user_id',$user->id)->first();
 
         $exam_record = false;
         if ($exam_slug) {
@@ -1261,7 +1262,10 @@ class StudentQuizController extends Controller
                     'user_id'
                 ])
                 ->where('user_id', '=', $user->id)
-                ->where('quizzes.type', '=', 'online');
+                ->where('quizzes.type', '=', 'online')
+                ->where('quizresults.academic_id','=',default_year())
+                ->where('quizresults.semister','=',default_sem(default_year()))
+                ->where('quizresults.course_parent_id','=',$student->course_parent_id);
                 // ->orderBy('quizresults.updated_at', 'desc')
                 // ->get();
         } else {

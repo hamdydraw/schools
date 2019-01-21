@@ -97,7 +97,6 @@ class ReportsController extends Controller
         $data['title'] = getPhrase('overall_subject_wise_analysis');
         $data['user'] = $user_record;
         $data['academic_years'] = addSelectToList(getAcademicYears());
-        $userid = $user_record->id;
         $data['layout'] = getLayout();
         $data['userrecord'] = $user_record;
 
@@ -147,8 +146,8 @@ class ReportsController extends Controller
 
         $quizzes = APP\QuizResult::join('quizzes', 'quizzes.id', '=', 'quizresults.quiz_id')
             ->join('quizcategories', 'quizzes.category_id', '=', 'quizcategories.id')
-            /*->where('quizresults.year', '=', $year)
-            ->where('quizresults.semister', '=', $semister)*/
+            ->where('quizresults.year', '=', $academic_id)
+            ->where('quizresults.semister', '=', $semister)
             ->where('quizresults.academic_id', '=', $academic_id)
             ->where('quizresults.course_id', '=', $course_id)
             ->where('quizresults.course_parent_id', '=', $course_parent_id)
