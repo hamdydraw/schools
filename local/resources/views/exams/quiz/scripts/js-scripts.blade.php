@@ -46,9 +46,9 @@
         $scope.current_subject_sc   = null;
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
+        $scope.parent_course_id="{{$record->details['course_parent_id']}}";
         @include('common.year_sems_js');
         @include('common.course_js');
-
         $scope.getSubjects = function () {
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
                 return false;
