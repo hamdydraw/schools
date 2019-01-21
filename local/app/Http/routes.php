@@ -1531,7 +1531,7 @@ Route::get('get_sub_topic/{id}',function ($id){
 });
 
 Route::get('get_all_topics/{subject}/{course}/{year}/{sem}', function ($subject,$course,$year,$sem) {
-    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->get();
+    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->orderBy('parent_id')->get();
 });
 
 Route::get('get_subjects_timetable/{subject}/{course}',function ($subject,$course){

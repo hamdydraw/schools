@@ -96,13 +96,15 @@ class UsersController extends Controller
                     'users.status',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
-                ->where('users.role_id','!=','5')
-                ->orWhere(
-                    [
-                        'users.role_id' => 5, 
-                        'users.category_id' => Auth::user()->category_id
-                        ]
-                );
+                ->whereNotIn('users.role_id',array(2 ,3 ,5 ,9 ,7 ,8,11 ))
+                ->orWhere(['users.role_id' => 2,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 3,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 5,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 7,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 8,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 9,'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 11,'users.category_id' => Auth::user()->category_id]);
+                
             // $records = User::join('roles', 'users.role_id', '=', 'roles.id')
             //     ->select([
             //         'users.name',
@@ -173,6 +175,7 @@ class UsersController extends Controller
                 ->join('staff', 'staff.user_id', '=', 'users.id')
                 ->join('courses', 'courses.id', '=', 'staff.course_parent_id')
                 ->where('roles.id', '=', $role)
+                ->where('users.category_id',Auth::user()->category_id)
                 ->where('users.status', '!=', 0)
                 ->select([
                     'users.name',
@@ -192,7 +195,29 @@ class UsersController extends Controller
                 ]);
                 // ->orderBy('users.updated_at', 'desc');
 
-        } else {
+        }
+        elseif ($slug == 'educational_supervisor' || $slug == 'admin'  || $slug == 'student_guide'  || $slug == 'librarian'|| $slug == 'assistant_librarian'|| $slug == 'librarian' ) {
+
+            $role = getRoleData($slug);
+
+            $records = User::join('roles', 'users.role_id', '=', 'roles.id')
+                ->where('roles.id', '=', $role)
+                ->where('users.category_id',Auth::user()->category_id)
+                ->select([
+                    'users.name',
+                    'image',
+                    'id_number',
+                    'email',
+                    'roles.name as role_name',
+                    'login_enabled',
+                    'role_id',
+                    'users.slug as slug',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
+                ]);
+                // ->orderBy('users.name', 'desc');
+
+                }
+        else {
 
             $role = getRoleData($slug);
 
