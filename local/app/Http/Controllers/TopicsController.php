@@ -397,6 +397,7 @@ class TopicsController extends Controller
      */
     public function delete($slug)
     {
+
         $record = Topic::where('slug', $slug)->first();
         /**
          * Check if any questions are related to this specific topic.
@@ -404,6 +405,8 @@ class TopicsController extends Controller
          */
         try {
             if (!env('DEMO_MODE')) {
+                //Topic::where('parent_id', $record->id)->get()->delete();
+                DB::table('topics')->where('parent_id', '=', $record->id)->delete();
                 $record->delete();
             }
             $response['status'] = 1;

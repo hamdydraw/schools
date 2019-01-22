@@ -339,7 +339,7 @@ class CourseController extends Controller
             if (!env('DEMO_MODE')) {
                 $is_eligible_to_delete = true;
                 $record = Course::where('slug', $slug)->first();
-                if ($record->parent_id == 0) {
+                /*if ($record->parent_id == 0) {
                     // This course is a parent course, so check if any
                     // child courses available with this course id.
                     // If available, do not delete this course record
@@ -347,8 +347,9 @@ class CourseController extends Controller
                     if ($count > 0) {
                         $is_eligible_to_delete = false;
                     }
-                }
+                }*/
                 if ($is_eligible_to_delete) {
+                    DB::table('topics')->where('parent_id', '=', $record->id)->delete();
                     $record->delete();
                     $response['status'] = 1;
                     $response['message'] = getPhrase('record_deleted_successfully');

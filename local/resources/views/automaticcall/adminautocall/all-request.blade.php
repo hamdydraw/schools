@@ -1,3 +1,31 @@
+<style>
+	/* Tooltip container */
+	.tooltip {
+	  position: relative;
+	  display: inline-block;
+	  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+	}
+	
+	/* Tooltip text */
+	.tooltip .tooltiptext {
+	  visibility: hidden;
+	  width: 120px;
+	  background-color: black;
+	  color: #fff;
+	  text-align: center;
+	  padding: 5px 0;
+	  border-radius: 6px;
+	 
+	  /* Position the tooltip text - see examples below! */
+	  position: absolute;
+	  z-index: 1;
+	}
+	
+	/* Show the tooltip text when you mouse over the tooltip container */
+	.tooltip:hover .tooltiptext {
+	  visibility: visible;
+	}
+	</style>
 <link href="{{CSS}}autocall-requests.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>{{$title}}</title>
@@ -19,6 +47,13 @@
 				<li ng-repeat="request in requests">
 					<div class="requestDiv">
 						<h3>@{{request.name}}
+							<div class="tooltip" ng-if="request.student_audio=='empty.mp3'">
+									<img src="../../uploads/empty.png" class="tooltip"  alt="@{{ getPhrase('no_audio_file')}}" title="@{{ getPhrase('no_audio_file')}}" />
+								<span class="tooltiptext">@{{ getPhrase('no_audio_file')}}</span>
+							  </div>
+							  
+							
+							
 							<span class="CallTime">@{{ clock | date:'hh:mm'}}</span>
 							<button class="exitButton" ng-click="leave(request.request_id,$index)" >{{ getPhrase('exit')}}</button><!-- ng-hide="request.isCalled" -->
 						</h3>
