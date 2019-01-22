@@ -46,11 +46,13 @@
         $scope.current_subject_sc   = null;
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
+        $scope.first_time = true;
 
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
             if ($scope.lastPart != 'add') {
+
                 $http({
                     method: "GET",
                     url: '{{PREFIX}}' + '/get_quiz_data/' + $scope.lastPart,
@@ -58,6 +60,7 @@
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                     .then(function (response) {
+                        console.log(response.data);
                         $scope.current_year_sc = response.data.academic_id.toString();
                         $scope.current_sem_sc = response.data.semister.toString();
                         $scope.current_course_sc = response.data.course_parent_id.toString();
@@ -84,14 +87,11 @@
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
-                    console.log(response.data);
-                    $scope.ifEdit();
+
                     $scope.academic_subjects_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
-
 						$scope.current_subject_sc = "{{$record->details['subject_realid']}}";
-
                         $scope.get_topics();
                     }
                 })
@@ -118,10 +118,11 @@
         }
         $scope.get_topics = function()
         {
+
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null || $scope.current_subject_sc == null){
-                $scope.ifEdit();
                 return false;
             }
+
             $http({
                 method:"GET",
                 url:'{{PREFIX}}'+'get_all_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc,
@@ -132,9 +133,12 @@
                     $scope.academic_topics_sc = response.data;
                     if(response.data.length != 0) {
                         $scope.current_topic_sc ="";// response.data[0].id.toString();
-
                         $scope.subjectChanged();
+                    }
+                    if($scope.first_time) {
                         $scope.ifEdit();
+                        $scope.first_time = false;
+                        return;
                     }
                 })
         }

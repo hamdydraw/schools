@@ -601,8 +601,8 @@ class StudentController extends Controller
         $course_id = $request->course_id;
         /* $course_parent_id = $request->parent_course_id;
          $course_id = $request->course_id;
-         $year = $request->year;
-         $semister = $request->semister;*/
+         $year = $request->year;*/
+         $semister = $request->semister;
 
         $records = StudentPromotion::join('users', 'users.id', '=', 'studentpromotions.user_id')
             ->join('students', 'students.id', '=', 'studentpromotions.student_id')
@@ -610,8 +610,8 @@ class StudentController extends Controller
             ->where('from_academic_id', '=', $academic_id)
             /*->where('from_course_parent_id', '=', $course_parent_id)
             */
-            /*->where('from_year','=',$year)
-            ->where('from_semister','=',$semister)*/
+            /*->where('from_year','=',$year))*/
+            ->where('from_semister','=',$semister)
             ->where('from_course_id', '=', $course_id)
             ->where('type', '=', 'completed')
             ->groupBy('students.roll_no')

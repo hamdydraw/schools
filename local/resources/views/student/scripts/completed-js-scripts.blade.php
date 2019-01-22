@@ -29,6 +29,7 @@
 
             academic_id = $scope.current_year_sc;
             course_id = $scope.current_course_sc;
+            semister_id = $scope.current_sem_sc;
 
               
             route = '{{URL_GET_STUDENTS_COURSE_COMPLETED}}';
@@ -37,6 +38,7 @@
                 '_token': httpPreConfig.getToken(),
                 'academic_id': academic_id,
                 'course_id': course_id,
+                'semister':semister_id,
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
