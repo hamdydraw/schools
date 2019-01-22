@@ -46,6 +46,7 @@
         $scope.current_subject_sc   = null;
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
+
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
@@ -65,8 +66,10 @@
             }
         }
 
+        $scope.parent_course_id="{{$record->details['course_parent_id']}}";
         @include('common.year_sems_js');
         @include('common.course_js');
+
 
 
         $scope.getSubjects = function () {

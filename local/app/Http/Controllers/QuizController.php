@@ -664,6 +664,7 @@ class QuizController extends Controller
             ->where('parent_id', '=', '0')
             ->select(['topic_name', 'id'])
             ->get();
+        
         $questions =QuestionBank::join('topics','topics.id','=','questionbank.topic_id')
             ->where('questionbank.subject_id',$subject_id)
             ->where('questionbank.course_id',$request->course_id)
@@ -682,7 +683,11 @@ class QuizController extends Controller
             'topics.topic_name'
         ]);//->get();
         if($request->topic_id!="" && $request->topic_id!=null)
+        {
         $questions = $questions->where('questionbank.topic_id',$request->topic_id);
+        $parenttopics = App\Topic::where('parent_id',$request->topic_id)->select('id')->get();
+        $questions = $questions->orWhereIn('questionbank.topic_id',$parenttopics);
+        }
 
         $result= $questions->get();
         return json_encode(array('topics' => $topics, 'questions' => $result, 'subject' => $subject));
