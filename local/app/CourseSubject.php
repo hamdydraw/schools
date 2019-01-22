@@ -10,7 +10,7 @@ class CourseSubject extends Model
 {
     protected $table = 'course_subject';
 
-    public static function getCourseSavedSubjects($academicId, $courseId, $year, $semister = 0)
+    public static function getCourseSavedSubjects($academicId, $courseId, $year, $semister=0 , $branch_id=0)
     {
         return CourseSubject::join('subjects', 'subjects.id','=','course_subject.subject_id')
 
@@ -19,6 +19,7 @@ class CourseSubject extends Model
 
             ->where('academic_id', '=', $academicId)
             ->where('semister', '=', $semister)
+            ->where('course_subject.branch_id', '=', $branch_id)
             ->get();
     }
 
