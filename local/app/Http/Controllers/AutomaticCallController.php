@@ -88,7 +88,7 @@ class AutomaticCallController extends Controller {
               return '<a href="' . URL_USER_DETAILS . $records->slug . '" title="' . $records->name . '">' . ucfirst($records->name) . '</a>';
           })
           ->editColumn('image', function ($records) {
-              return '<img src="' . getProfilePath($records->image) . '"  />';
+              return '<img src="' . getProfilePath(@$records->image) . '"  />';
           })
           ->removeColumn('slug')
           ->removeColumn('id')

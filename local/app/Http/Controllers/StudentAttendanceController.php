@@ -155,8 +155,8 @@ class StudentAttendanceController extends Controller
      * @return void
      */
     public function create(Request $request, $slug)
-    { 
-		
+    {
+
         $userData = App\User::where('slug', '=', $slug)->first();
         if(isset($request->teacherSlug)) {
           $userData = App\User::where('slug', '=', $request->teacherSlug)->first();
@@ -219,8 +219,8 @@ class StudentAttendanceController extends Controller
         $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
 		$phase_record = App\Course::where('id', '=', $course_record->parent_id)->first();
 		$subject_record = App\Subject::where('id', '=', $course_subject_record->subject_id)->first();
-		
-		
+
+
         $submitted_data = array(
             'attendance_date' => $request->attendance_date,
             'current_year' => $current_year,
@@ -232,7 +232,7 @@ class StudentAttendanceController extends Controller
             'course_record' => $course_record,
             'subject_id' => $course_subject_record->subject_id,
             'total_class' => $request->total_class,
-			
+
             'updated_by' => $user->id,
             'academic_id' => $course_subject_record->academic_id,
             'academic_title' => $academic_title
@@ -275,12 +275,12 @@ class StudentAttendanceController extends Controller
             ->where('year', '=', $year)
             ->where('semester', '=', $semister)
             ->where('subject_id', '=', $course_subject_record->subject_id)
-            ->where('student_id', '=', $student_id) 
+            ->where('student_id', '=', $student_id)
             ->where('attendance_code', '=', $attendance_code)
             ->where('attendance_date', '=', $attendance_date)
             ->where('record_status', '=', 1);
-        
-       return $data->get(); 
+
+       return $data->get();
 
     }
     public function isAttendanceAlreadyTaken($course_subject_record, $slug, $request, $delete = false)
@@ -341,7 +341,7 @@ class StudentAttendanceController extends Controller
      */
     public function updateAtt(Request $request, $slug)
     {
- 
+
 
 		$vrequest=Session::get('vrequest');
 
@@ -377,7 +377,7 @@ class StudentAttendanceController extends Controller
         $subject_id = $request->subject_id;
         $total_class = $request->total_class;
         $updated_by = $request->record_updated_by;
-        $user_id = Auth::User()->id; 
+        $user_id = Auth::User()->id;
         foreach ($attendance_code_records as $key => $value) {
 
 
@@ -386,13 +386,13 @@ class StudentAttendanceController extends Controller
                 $student = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->user_id)->first();
                 $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
                 //makeAbsNotification($parent,$student,$request);
-                
+
                 $message['{$reciver}']         = $parent->name;
                 $message['{$student}']           = $student->name;
                 $message['to_email']           = $parent->email;
                 $message['{$date}']          = $attendance_date;
                 $message['{$class}']     = $total_class;
-                sendNotification('absence',$message,$parent,$student,$request); 
+                sendNotification('absence',$message,$parent,$student,$request);
                 sendEmail('absence',$message);
             }
             if($value =='P')
@@ -409,7 +409,7 @@ class StudentAttendanceController extends Controller
                     $parent    = User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->parent_id)->first();
                     //makeAbsNotification($parent,$student,$request);
                     $secondary_parent=User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('id',$student->secondary_parent_id)->first();
-                    
+
                     $message['{$reciver}']         = $parent->name;
                     $message['{$student}']           = $student->name;
                     $message['to_email']           = $parent->email;
@@ -417,10 +417,10 @@ class StudentAttendanceController extends Controller
                     $message['{$class}']     = $total_class;
                     if($secondary_parent!=null)
                     {
-                        sendNotification('attendance',$message,$secondary_parent,$student,$request); 
+                        sendNotification('attendance',$message,$secondary_parent,$student,$request);
                     }
 
-                    sendNotification('attendance',$message,$parent,$student,$request); 
+                    sendNotification('attendance',$message,$parent,$student,$request);
                     sendEmail('attendance',$message);
                 }
             }
@@ -449,7 +449,7 @@ class StudentAttendanceController extends Controller
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
         // return redirect->guest('student/attendance/add/' . $user->slug);
 		//return redirect()->back()->withInput($vrequest);
-		
+
 		//return Redirect::route('student.attendance.add, $user->slug')->with( ['data' => $vrequest] );
 		//return redirect()->guest(route('student.attendance.add'. $user->slug));
 		//return back()->withInput(['request' => $vrequest]);
@@ -483,13 +483,13 @@ class StudentAttendanceController extends Controller
         }
 
 
-        
+
 
         /**
          * Find wether the attendance is already added for the day or not
          * @var [type]
          */
-        
+
  $att_records = $this->isAttendanceAlreadyTakenReload($course_subject_record, $userData->slug, $request);
         $data['attendance_taken'] = false;
         if (count($att_records)) {
@@ -512,8 +512,8 @@ class StudentAttendanceController extends Controller
         $course_record = App\Course::where('id', '=', $course_subject_record->course_id)->first();
 		$phase_record = App\Course::where('id', '=', $course_record->parent_id)->first();
 		$subject_record = App\Subject::where('id', '=', $course_subject_record->subject_id)->first();
-		
-		
+
+
         $submitted_data = array(
             'attendance_date' => $vrequest['attendance_date'],
             'current_year' => $current_year,
@@ -525,7 +525,7 @@ class StudentAttendanceController extends Controller
             'course_record' => $course_record,
             'subject_id' => $course_subject_record->subject_id,
             'total_class' => $vrequest['total_class'],
-			
+
             'updated_by' => $user->id,
             'academic_id' => $course_subject_record->academic_id,
             'academic_title' => $academic_title

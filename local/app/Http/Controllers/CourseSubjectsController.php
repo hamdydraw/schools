@@ -157,6 +157,7 @@ class CourseSubjectsController extends Controller
         $data['academic_years'] = addSelectToList(getAcademicYears());
         $data['layout'] = getLayout();
         $data['loadYears'] = false;
+      //  $data['branch_id'] = session()->get('branch_id');
         $data['keys'] = [];
         $data['title'] = getPhrase('add_subjects_to_course');
         $data['module_helper'] = getModuleHelper('allocate-subjects');
@@ -234,6 +235,7 @@ class CourseSubjectsController extends Controller
         $course_parent_id = $request->course_parent_id;
         $current_year = 0;
         $current_sem = 0;
+        $branch_id = session()->get('branch_id');
         $selected_list = $request->selected_list;
         $total_classes = $request->total_classes;
         $exception_occured = 0;
@@ -251,6 +253,7 @@ class CourseSubjectsController extends Controller
 
                 $this->processAndUpdateSubjects(
                     $academic_id,
+                    $branch_id,
                     /*$course_id,*/
                     $course_parent_id,
                     $current_year,
@@ -301,6 +304,7 @@ class CourseSubjectsController extends Controller
      */
     public function processAndUpdateSubjects(
         $academic_id,
+        $branch_id,
         /* $course_id,*/
         $course_parent_id,
         $current_year,
@@ -312,6 +316,7 @@ class CourseSubjectsController extends Controller
         $query = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
             ->where('year', '=', $current_year)
+            ->where('branch_id', '=', $branch_id)
             ->where('semister', '=', $current_sem)
             ->groupBy('subject_id', 'semister')->get();
 
@@ -340,7 +345,7 @@ class CourseSubjectsController extends Controller
 //                    ->where('year', '=', $current_year)
 //                    ->where('semister', '=', $current_sem)
 //                    ->where('subject_id', '=', $subject_id)->delete();
-                DB::statement("delete from course_subject where academic_id = '$academic_id' and year = '$current_year' and semister = '$current_sem' and subject_id = '$subject_id'");
+                DB::statement("delete from course_subject where academic_id = '$academic_id' and year = '$current_year' and semister = '$current_sem' and subject_id = '$subject_id' and branch_id = '$branch_id'");
 
             }
         }
@@ -377,6 +382,7 @@ class CourseSubjectsController extends Controller
                         ->where('course_parent_id', '=', $course_parent_id)
                         ->where('year', '=', $current_year)
                         ->where('semister', '=', $current_sem)
+                        ->where('branch_id', '=', $branch_id)
                         ->where('subject_id', '=', $key)
                         ->first();
                     $recordModified->sessions_needed = $value;
@@ -423,9 +429,11 @@ class CourseSubjectsController extends Controller
         $course_parent_id = isset($request->course_parent_id) ? $request->course_parent_id : $fromApi[1];
         $academic_title = App\Academic::where('id', '=', $academic_id)->first()->academic_year_title;
         $course_record = App\Course::where('id', '=', $course_parent_id)->first();
+        $branch_id = session()->get('branch_id');
         $available_data = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
+            ->where('course_subject.branch_id', '=', $branch_id)
             ->select([
                 'subjects.id as id',
                 'subject_title',
@@ -563,8 +571,9 @@ class CourseSubjectsController extends Controller
         $year = $request->year;
         $semister = $this->getSemisterFromRequest($request);
         $courseParentId = $request->courseParentId;
+        $branch_id = session()->get('branch_id');
 
-        $dta = App\CourseSubject::getCourseSavedSubjects($academicId, $courseId, $year, $semister);
+        $dta = App\CourseSubject::getCourseSavedSubjects($academicId, $courseId, $year, $semister, $branch_id);
 
         $selected_list = array_pluck($dta, 'subject_id');
         return json_encode($selected_list);
@@ -576,7 +585,7 @@ class CourseSubjectsController extends Controller
         $academic_record = App\Academic::where('id', '=', $academic_id)->first();
 
         $course_record = App\Course::where('id', '=', $course_id)->first();
-
+        $branch_id = session()->get('branch_id');
         if($course_record->parent_id != 0){
             $data['original_course'] = $course_record->parent_id;
         }
@@ -625,6 +634,7 @@ class CourseSubjectsController extends Controller
         $available_data = App\CourseSubject::join('subjects', 'subjects.id', '=', 'course_subject.subject_id')
             ->where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
+            ->where('course_subject.branch_id', '=', $branch_id)
             ->select([
                 'subjects.id as id',
                 'subject_title',
@@ -699,6 +709,7 @@ class CourseSubjectsController extends Controller
 
         $selected_list = $request->selected_list;
         $course_id = $request->course_id;
+        $branch_id = session()->get('branch_id');
         /*$course_parent_id = $request->course_parent_id;*/
         $academic_id = $request->academic_id;
         $exception_occured = 0;
@@ -713,6 +724,7 @@ class CourseSubjectsController extends Controller
                     ->where('course_id', '=', $course_id)
 //                    ->where('course_parent_id', '=', $course_id)
                     ->where('year', '=', $record->year)
+                    ->where('branch_id', '=', $branch_id)
                     ->where('semister', '=', $record->semister);
 
 

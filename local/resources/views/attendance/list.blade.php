@@ -3,7 +3,7 @@
     <link href="{{CSS}}ajax-datatables.css" rel="stylesheet">
 @stop
 @section('content')
- 
+
 <?php
 $classTitle = $submitted_data->course_record->course_title;
 
@@ -44,7 +44,7 @@ $classTitle = $submitted_data->course_record->course_title;
 							<strong>{{$submitted_data->subject_title}}</strong>
 							<strong> - </strong>
 							<strong>{{getPeriodNumber($submitted_data->total_class)}}</strong>
-							
+
 							</p>
 
                         </div>
@@ -91,7 +91,7 @@ $classTitle = $submitted_data->course_record->course_title;
                                 <thead>
                                 <tr>
                                     <th>{{ getPhrase('sno')}}</th>
-                                    
+
                                     <th>{{ getPhrase('photo')}}</th>
                                     <th style="width:20%">{{ getPhrase('name')}}</th>
                                     <th>{{ getPhrase('attendance_status')}}</th>
@@ -127,8 +127,8 @@ $classTitle = $submitted_data->course_record->course_title;
                                     <?php $user = $student->user()->first(); ?>
                                     <tr>
                                         <td>{{ $sno++ }}</td>
-                                        
-                                        <td><img src="{{getProfilePath($user->image)}}"></td>
+
+                                        <td><img src="{{getProfilePath(@$user->image)}}"></td>
                                         <td style="width:20%">{{ $student->name }}</td>
                                         <td>
                                             <div class="col-md-4">
@@ -228,9 +228,9 @@ $classTitle = $submitted_data->course_record->course_title;
         </div>
         <!-- /.container-fluid -->
     </div>
-	 
+
 @endsection
-  
+
 @section('footer_scripts')
 
     @include('attendance.scripts.attendance-script')

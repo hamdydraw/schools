@@ -73,6 +73,7 @@ function isActive($active_class = '', $value = '')
  */
 function getProfilePath($image = '', $type = 'thumb')
 {
+
     $obj = app('App\ImageSettings');
     $path = '';
 
