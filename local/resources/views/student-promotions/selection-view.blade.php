@@ -78,7 +78,7 @@
                       <input type="hidden" name="current_year"
                       value="@{{current_user.current_year}}">
                       <input type="hidden" name="current_semister"
-                      value="@{{current_user.current_semister}}">
+                      value="@{{current_sem_sc}}">
                       <input type="hidden" name="user_id"
                       value="@{{current_user.user_id}}">
 
@@ -105,7 +105,7 @@
                       </li>
                       <li ng-show="current_user.current_semister>0">
                         <strong>{{getPhrase('current_semister')}} </strong>
-                        @{{current_user.current_semister}}
+                        @{{current_sem_sc}}
                       </li>
                       <li><strong>{{getPhrase('remarks')}} </strong> <br><textarea
                         class="form-control" name="remarks"

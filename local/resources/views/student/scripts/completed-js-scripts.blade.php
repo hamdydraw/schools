@@ -42,6 +42,7 @@
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {
+                console.log(result.data);
                 $scope.selected_academic_id = false;
                 users = [];
                 angular.forEach(result.data, function (value, key) {

@@ -608,11 +608,8 @@ class StudentController extends Controller
             ->join('students', 'students.id', '=', 'studentpromotions.student_id')
             ->join('courses', 'courses.id', '=', 'students.course_id')
             ->where('from_academic_id', '=', $academic_id)
-            /*->where('from_course_parent_id', '=', $course_parent_id)
-            */
-            /*->where('from_year','=',$year))*/
             ->where('from_semister','=',$semister)
-            ->where('from_course_id', '=', $course_id)
+            ->where('from_course_parent_id', '=', $course_id)
             ->where('type', '=', 'completed')
             ->groupBy('students.roll_no')
             ->select(['users.name', 'students.id', 'students.roll_no', 'courses.course_title', 'users.slug'])
