@@ -177,7 +177,7 @@ class CourseSubjectsController extends Controller
         $course_parent_id = $request->course_parent_id;
         $course_id = $request->course_id;
         $year = $request->year;
-
+        $branch_id = session()->get('branch_id');
 
         if (!$create_new) {
             //Already data exists with the combination so delete those first
@@ -186,6 +186,7 @@ class CourseSubjectsController extends Controller
                     ->where('course_parent_id', '=', $request->course_parent_id)
                     ->where('course_id', '=', $request->course_id)
                     ->where('year', '=', $request->year)
+                    ->where('branch_id', '=', $branch_id)
                     ->where('semister', '=', $semister)
                     ->delete();
             }
@@ -199,6 +200,7 @@ class CourseSubjectsController extends Controller
             $record->year = $year;
             $record->sessions_needed = 0;
             $record->semister = $semister;
+            $record->branch_id = $branch_id;
             $record->subject_id = $subject_id;
             $record->user_stamp($request);
             $record->save();
@@ -367,6 +369,7 @@ class CourseSubjectsController extends Controller
                     $record->year = $current_year;
                     $record->semister = $current_sem;
                     $record->subject_id = $value;
+                    $record->branch_id = $branch_id;
                     $record->sessions_needed = $total_classes[$key];
                     //$record->user_stamp()
                     $record->user_stamp($request);
@@ -515,11 +518,13 @@ class CourseSubjectsController extends Controller
      */
     public function delete(Request $request)
     {
+      $branch_id = session()->get('branch_id');
         try {
             if (!env('DEMO_MODE')) {
                 CourseSubject::where('academic_id', $request->academic_id)
-                    ->where('course_parent_id', $request->course_parent_id)
-                    ->delete();
+                ->where('course_parent_id', $request->course_parent_id)
+                ->where('branch_id', $branch_id)
+                ->delete();
             }
             $response['status'] = 1;
             $response['message'] = getPhrase('record_deleted_successfully');
@@ -780,11 +785,13 @@ class CourseSubjectsController extends Controller
         $subject_id = $request->subject_id;
         $year = $request->year;
         $semister = $request->semister;
+        $branch_id = session()->get('branch_id');
         //return $course_parent_id;
         $queryToExcute = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_parent_id', '=', $course_parent_id)
             ->where('subject_id', '=', $subject_id)
             ->where('year', '=', $year)
+            ->where('branch_id', '=', $branch_id)
             ->where('semister', '=', $semister);
         /*->where('staff_id', '!=', 0)*/
 
@@ -808,10 +815,12 @@ class CourseSubjectsController extends Controller
         $year = $request->year;
         $semister = $request->semister;
         $user_id = $request->user_id;
+        $branch_id = session()->get('branch_id');
         $deleteFromSub = App\CourseSubject::where('academic_id', '=', $academic_id)
             ->where('course_id', '=', $course_id)
             ->where('subject_id', '=', $subject_id)
             ->where('year', '=', $year)
+            ->where('branch_id', '=', $branch_id)
             ->where('semister', '=', $semister)
             ->first();
         $deleteFromSub->staff_id = 0;
