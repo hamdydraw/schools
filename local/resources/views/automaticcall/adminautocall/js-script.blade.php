@@ -78,6 +78,8 @@ $http({
      $scope.audio = new Audio();
      if(angular.isDefined($scope.temp[current])) {
        $scope.audio.src = '{{UPLOADS}}/student_names/'+$scope.temp[current].student_audio;
+       
+       if($scope.temp[current].student_audio!=null)
        $scope.audio.play();
        $scope.studentInfo =  $scope.temp[current];
        if($scope.temp.length != 1) {
