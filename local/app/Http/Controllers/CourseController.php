@@ -349,7 +349,7 @@ class CourseController extends Controller
                     }
                 }*/
                 if ($is_eligible_to_delete) {
-                    DB::table('topics')->where('parent_id', '=', $record->id)->delete();
+                    DB::table('courses')->where('parent_id', '=', $record->id)->delete();
                     $record->delete();
                     $response['status'] = 1;
                     $response['message'] = getPhrase('record_deleted_successfully');

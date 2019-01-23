@@ -100,7 +100,12 @@
 
 									<select name="topic" class="form-control" id="helper_step2" required="required" ng-model="current_topic_sc" ng-change="subjectChanged()">
 										<option value="">{{getphrase('select')}}</option>
-										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}">@{{ topic.topic_name }}</option>
+										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}" ng-if="topic.parent_id == 0">
+									  	** @{{ topic.topic_name }}
+										</option>
+										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}" ng-if="topic.parent_id != 0">
+												<span>@{{ topic.topic_name }} </span>
+										</option>
 									</select>
 
 
