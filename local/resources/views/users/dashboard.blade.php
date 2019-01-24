@@ -73,7 +73,7 @@
 								
 							<h4 class="card-title"><?php $staffObject =  App\User::join('staff','staff.user_id','=','users.id')->where('staff.course_id','!=','')
 							->where('role_id','=',3)
-							->where('users.category_id','=',Auth::user()->category_id)
+							//->where('users.category_id','=',Auth::user()->category_id)
 							->where('status','!=',0)->get()->count();
 
 							 ?>

@@ -98,16 +98,15 @@
 									{{ Form::label('topic', getphrase('select_topic')) }}
 
 
-									<select name="topic" class="form-control" id="helper_step2" required="required" ng-model="current_topic_sc" ng-change="subjectChanged()">
-										<option value="">{{getphrase('select')}}</option>
-										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}" ng-if="topic.parent_id == 0">
-									  	** @{{ topic.topic_name }}
-										</option>
-										<option ng-repeat="topic in academic_topics_sc" value="@{{ topic.id }}" ng-if="topic.parent_id != 0">
-												<span>@{{ topic.topic_name }} </span>
-										</option>
-									</select>
-
+								 
+									<select  name="topic" class="form-control" required="required" ng-model="current_topic_sc"  ng-change="subjectChanged()">
+											<option value="">{{getphrase('select')}}</option>
+										    <optgroup ng-repeat="topic in main_topic" label="@{{ topic.topic_name }}">
+												<option ng-repeat="subs in topic.sub_topics" value="@{{ subs.id }}">@{{ subs.topic_name }}</option>
+											</optgroup>
+											{{--<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>--}}
+										{{--<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>--}}
+										</select>
 
 								</fieldset>
 

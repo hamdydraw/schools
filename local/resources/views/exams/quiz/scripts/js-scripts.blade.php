@@ -15,6 +15,7 @@
     });
 
     app.controller('prepareQuestions', function ($scope, $http, httpPreConfig) {
+        $scope.main_topic = [];
         @if ($settingsQuestions != null)
             var oneEl = '[';
             <?php $i=0;?>
@@ -131,6 +132,20 @@
             })
                 .then(function (response) {
                     $scope.academic_topics_sc = response.data;
+                    angular.forEach($scope.academic_topics_sc,function(item){
+                        if(item.parent_id == 0){
+                            item.topic_name = "- "+item.topic_name;
+                            $scope.main_topic.push(item);
+                        }
+                    });
+                    angular.forEach($scope.main_topic,function (item) {
+                        item.sub_topics = [];
+                        angular.forEach($scope.academic_topics_sc,function(item2){
+                           if(item.id == item2.parent_id){
+                               item.sub_topics.push(item2);
+                           }
+                        });
+                    });
                     if(response.data.length != 0) {
                         $scope.current_topic_sc ="";// response.data[0].id.toString();
                         $scope.subjectChanged();

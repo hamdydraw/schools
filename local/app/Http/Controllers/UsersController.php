@@ -175,7 +175,7 @@ class UsersController extends Controller
                 ->join('staff', 'staff.user_id', '=', 'users.id')
                 ->join('courses', 'courses.id', '=', 'staff.course_parent_id')
                 ->where('roles.id', '=', $role)
-                ->where('users.category_id',Auth::user()->category_id)
+                //->where('users.category_id',Auth::user()->category_id)
                 ->where('users.status', '!=', 0)
                 ->select([
                     'users.name',
