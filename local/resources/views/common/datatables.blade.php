@@ -75,6 +75,7 @@ if (isset($table_columns)) {
                 serverSide: true,
                 cache: true,
                 type: 'GET',
+                "pageLength": 25,
                 "language": {
                     "emptyTable": "{{getPhrase('no_data_available_in_table')}}",
                     "paginate": {

@@ -16,6 +16,7 @@
 
     app.controller('prepareQuestions', function ($scope, $http, httpPreConfig) {
         $scope.main_topic = [];
+        
         @if ($settingsQuestions != null)
             var oneEl = '[';
             <?php $i=0;?>
@@ -95,7 +96,10 @@
 						$scope.current_subject_sc = "{{$record->details['subject_realid']}}";
                         $scope.get_topics();
                     }
+                    else {$scope.ifEdit();$scope.getSubjects();}
                 })
+
+                
         }
 
         $scope.initAngData = function (data) {

@@ -37,7 +37,8 @@
 							<div class="card-block">
 					  <h4 class="card-title">
 					  	<h4 class="card-title">
-								<?php $adminObject =  App\User::where('role_id','=',2)->where('users.category_id','=',Auth::user()->category_id)->get()->count();
+								<?php $adminObject =  App\User::where('role_id','=',2)
+								/*->where('users.category_id','=',Auth::user()->category_id)*/->get()->count();
 
 							 ?>
 						   {{$adminObject}}
@@ -90,7 +91,8 @@
 					 <div class="col-md-3 ">
 						 <div class="card card-green text-xs-center helper_step4">
 							 <div class="card-block">
-								 <h4 class="card-title"><?php $staffObject2 =  App\User::where('role_id','=',9)->where('users.category_id','=',Auth::user()->category_id)->get()->count();
+								 <h4 class="card-title"><?php $staffObject2 =  App\User::where('role_id','=',9)
+								 /*->where('users.category_id','=',Auth::user()->category_id)*/->get()->count();
                                      ?>
 									 {{$staffObject2}}
 								 </h4>
@@ -105,7 +107,8 @@
 					 <div class="col-md-3 ">
 						 <div class="card card-green text-xs-center helper_step4">
 							 <div class="card-block">
-								 <h4 class="card-title"><?php $staffObject3 =  App\User::where('role_id','=',11)->where('users.category_id','=',Auth::user()->category_id)->get()->count();
+								 <h4 class="card-title"><?php $staffObject3 =  App\User::where('role_id','=',11)
+								 /*->where('users.category_id','=',Auth::user()->category_id)*/->get()->count();
                                      ?>
 									 {{$staffObject3}}
 								 </h4>
@@ -121,7 +124,8 @@
 						<div class="card card-red text-xs-center helper_step5">
 							<div class="card-block">
 							<h4 class="card-title">
-							<?php $librarianObject =  App\User::where('role_id','=',7)->where('users.category_id','=',Auth::user()->category_id)->get()->count();
+							<?php $librarianObject =  App\User::where('role_id','=',7)
+							->get()->count();
 
 							 ?>
 						   {{$librarianObject}}
@@ -138,7 +142,8 @@
 						<div class="card card-yellow text-xs-center helper_step6">
 							<div class="card-block">
 							<h4 class="card-title">
-								<?php $assistantlibrarianObject =  App\User::where('role_id','=',8)->where('users.category_id','=',Auth::user()->category_id)->get()->count();
+								<?php $assistantlibrarianObject =  App\User::where('role_id','=',8)
+								/*->where('users.category_id','=',Auth::user()->category_id)*/->get()->count();
 
 							 ?>
 						   {{$assistantlibrarianObject}}
@@ -212,7 +217,7 @@
 							<div class="card-block">
 							<h4 class="card-title">
 								<?php $staff_inactive_listobject = App\User::where('status','=',0)
-								->where('users.category_id','=',Auth::user()->category_id)->where('role_id','=',3)->get()->count();
+								->where('role_id','=',3)->get()->count();
 								  ?>
 
 								{{$staff_inactive_listobject}}

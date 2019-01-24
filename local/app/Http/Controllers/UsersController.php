@@ -196,13 +196,13 @@ class UsersController extends Controller
                 // ->orderBy('users.updated_at', 'desc');
 
         }
-        elseif ($slug == 'educational_supervisor' || $slug == 'admin'  || $slug == 'student_guide'  || $slug == 'librarian'|| $slug == 'assistant_librarian'|| $slug == 'librarian' ) {
+        elseif ($slug == 'educational_supervisor' || $slug == 'admin'  || $slug == 'student_guide'  || $slug == 'librarian'|| $slug == 'assistant_librarian' ) {
 
             $role = getRoleData($slug);
 
             $records = User::join('roles', 'users.role_id', '=', 'roles.id')
                 ->where('roles.id', '=', $role)
-                ->where('users.category_id',Auth::user()->category_id)
+                //->where('users.category_id',Auth::user()->category_id)
                 ->select([
                     'users.name',
                     'image',
