@@ -378,7 +378,8 @@ class StudentPromotionsController extends Controller
             ->get();
         $toShowerrors = false;
         foreach ($studentPromotionDetained as $student) {
-            $student->type = 'admission';
+          $student->type = 'admission';
+          $student->branch_id = session()->get('branch_id');
             if (!$student->update()) {
                 $toShowerrors = true;
             }
@@ -401,6 +402,7 @@ class StudentPromotionsController extends Controller
         if (isset($studentPromotionCompleted) and !empty($studentPromotionCompleted) and $studentPromotionCompleted != null) {
             foreach ($studentPromotionCompleted as $student) {
                 $student->type = 'admission';
+                $student->branch_id = session()->get('branch_id');
                 if (!$student->update()) {
                     $toShowerrors = true;
                 }
