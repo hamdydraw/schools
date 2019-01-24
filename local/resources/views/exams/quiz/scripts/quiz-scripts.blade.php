@@ -45,7 +45,7 @@
             if ($scope.lastPart != 'add') {
                 $http({
                     method: "GET",
-                    url: '{{PREFIX}}' + '/get_default_selectors/' + $scope.lastPart + '/quizzes',
+                    url: '{{PREFIX}}' + 'get_default_selectors/' + $scope.lastPart + '/quizzes',
                     dataType: "json",
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 })
@@ -68,6 +68,7 @@
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                     .then(function (response) {
+                        console.log(response.data);
                         $scope.current_year_sc      = response.data.year.id.toString();
                         $scope.current_sem_sc       = response.data.sem.toString();
                         $scope.current_course_sc    = response.data.course.id.toString();
@@ -83,7 +84,6 @@
 
 
         $scope.getSubjects = function (subject = 1) {
-			
             if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
                 return false;
             }

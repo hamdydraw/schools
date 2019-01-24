@@ -1333,6 +1333,9 @@ Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){
        $quiz             = DB::table($table)->where('slug',$slug)->first();
        $current_category = QuizCategory::where('id',$quiz->category_id)->first();
        //$current_category->type = $quiz->type;
+        if($table == 'quizzes'){
+            return json_encode($quiz);
+        }
        return $current_category;
 });
 

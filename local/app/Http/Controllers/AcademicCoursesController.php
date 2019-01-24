@@ -161,9 +161,10 @@ class AcademicCoursesController extends Controller
      */
     public function getParentCourses(Request $request)
     {
+        $final_records = [];
 
         if(Auth::user()->role_id == 3){
-            $records =  getTeacherCourses($request->academic_id);
+            $records =  getTeacherCourses2($request->academic_id);
         }
         else{
             $records = AcademicCourse::join('courses', 'academic_course.course_id', '=', 'courses.id')
@@ -193,6 +194,7 @@ class AcademicCoursesController extends Controller
 
             $final_records[] = $temp;
         }
+
         return $final_records;
     }
 

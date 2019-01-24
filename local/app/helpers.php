@@ -1423,13 +1423,18 @@ function getCourses($year,$sem = null){
         ->get();
 }
 
-function getTeacherCourses2($year,$sem,$staffSlug){
+
+
+function getTeacherCourses2($year,$sem = null,$staffSlug = null){
 
     if($staffSlug != null) {
       $teacher = App\User::where('slug', $staffSlug)->first();
       $staffId = $teacher->id;
     }else{
         $staffId = Auth::user()->id;
+    }
+    if($sem == null){
+        $sem = default_sem(default_year());
     }
     return \App\Course::join('course_subject','courses.id','=','course_subject.course_parent_id')
                       ->join('academic_course','courses.id','=','academic_course.course_id')

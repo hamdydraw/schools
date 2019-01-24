@@ -34,8 +34,12 @@
                   }
               })
       }
-     
-    $scope.source_items    = [];
+
+      $scope.getSubjects = function () {
+          return false;
+      }
+
+      $scope.source_items    = [];
     $scope.target_items    = [];
      
     $scope.selected_user    = null;

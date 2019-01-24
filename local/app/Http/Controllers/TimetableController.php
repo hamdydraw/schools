@@ -359,28 +359,29 @@ class TimetableController extends Controller
      */
     public function updateTimetable(Request $request)
     {
-       // return $request->all();
+
         $academic_id = $request->year_id;
         $course_id = $request->class_id;
         $subjects = $request->subject;
-        $current_year = 1;
-        $current_semister = 0;
-        if ($request->has('current_year')) {
-            $current_year = $request->year_id;
-        }
-        if ($request->has('current_semister')) {
-            $current_semister = $request->sem_id;
-        }
+        $current_year = $request->year_id;
+        $current_semister = $request->sem_id;
+
+//        if ($request->has('current_year')) {
+//            $current_year = $request->year_id;
+//        }
+//        if ($request->has('current_semister')) {
+//            $current_semister = $request->sem_id;
+//        }
 
         if ($academic_id == '' || $course_id == '' || $current_year == '') {
             flash(getPhrase('Ooops'), getPhrase('Please_Selcet_the_details'), 'overlay');
             return redirect('timetable/allot-timetable');
         }
 
-
+//        return $request->all();
         $table_elements = $request->staff;
-        DB::beginTransaction();
-        try {
+
+
             foreach ($table_elements as $code => $user_id) {
                 $decoded_items = (object)$this->decodeObject($code);
                 $day = $decoded_items->day;
@@ -407,7 +408,7 @@ class TimetableController extends Controller
                 //1st Step
                 $record = App\Timetable::where('academic_id', '=', $academic_id)
                     ->where('course_id', '=', $course_id)
-                    /*->where('year', '=', $current_year)*/
+                    ->where('year', '=', $current_year)
                     ->where('semister', '=', $current_semister)
                     ->where('day', '=', $day)
                     ->where('timingset_id', '=', $timingset_id)
@@ -461,16 +462,7 @@ class TimetableController extends Controller
             }
 
             flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            if (getSetting('show_foreign_key_constraint', 'module')) {
 
-                flash(getPhrase('Ooops'), $e->getMessage(), 'error');
-            } else {
-                flash(getPhrase('Ooops'), getPhrase('improper_data_submitted'), 'error');
-            }
-        }
         return redirect(URL_TIMETABLE_VIEW);
     }
 

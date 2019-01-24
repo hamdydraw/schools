@@ -23,12 +23,13 @@
             @endif
             <?php $semester = $subject->semister;?>
             <div class="col-md-6 text-center">
-                <div class="lesson-plane-dashboard">
+                <div class="">
+                    <a class="text-muted" href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">
                     <strong title="{{$subject->subject_title}}">
                         {{$subject->subject_title.' - '.$subject->course_title}}
                     </strong>
 
-                    <a class="text-muted" href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">
+
                         <?php   $chart = Charts::create('percentage', 'justgage')
                             ->title('')
                             ->elementLabel('')

@@ -94,7 +94,7 @@
   </div>
   <hr>
   <br><br>
-  <div class="table-responsive vertical-scroll">
+  <div  ng-show="result_data.length > 0">
     <table class="table" id="table">
       <thead>
         <th>{{getPhrase('image')}}</th>
