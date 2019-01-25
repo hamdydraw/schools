@@ -16,7 +16,7 @@
 
     app.controller('prepareQuestions', function ($scope, $http, httpPreConfig) {
         $scope.main_topic = [];
-        
+        $scope.main_topic_count = [];
         @if ($settingsQuestions != null)
             var oneEl = '[';
             <?php $i=0;?>
@@ -53,6 +53,7 @@
         $scope.lastPart = window.location.href.split("/").pop();
 
         $scope.ifEdit = function () {
+            
             if ($scope.lastPart != 'add') {
 
                 $http({
@@ -130,24 +131,51 @@
 
             $http({
                 method:"GET",
+                url:'{{PREFIX}}'+'get_all_topicscount/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.lastPart,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.main_topic_count = response.data;
+                    console.log($scope.main_topic_count );
+                })
+
+            $http({
+                method:"GET",
                 url:'{{PREFIX}}'+'get_all_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc,
                 dataType:"json",
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
                     $scope.academic_topics_sc = response.data;
+                    
                     angular.forEach($scope.academic_topics_sc,function(item){
+                    //    console.log(item.parent_id);
                         if(item.parent_id == 0){
                             item.topic_name = "- "+item.topic_name;
+                            
                             $scope.main_topic.push(item);
                         }
                     });
                     angular.forEach($scope.main_topic,function (item) {
                         item.sub_topics = [];
                         angular.forEach($scope.academic_topics_sc,function(item2){
+                            
                            if(item.id == item2.parent_id){
+                            
+                            var gr=$scope.main_topic_count.filter(function(v){
+                            return v.topic_id==item2.id;
+                            });  
+                            if(gr.length >0)
+                            {
+                                item2.total = gr[0].total.toString();
+                            }
+                            else    {
+                                item2.total ="0";}
                                item.sub_topics.push(item2);
+                               
                            }
+
                         });
                     });
                     if(response.data.length != 0) {

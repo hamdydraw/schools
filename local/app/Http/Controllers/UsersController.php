@@ -81,7 +81,7 @@ class UsersController extends Controller
         $records = array();
 
         if ($slug == 'users') {
-            $records = User::join('roles', 'users.role_id', '=', 'roles.id')
+            $records = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->join('roles', 'users.role_id', '=', 'roles.id')
                 ->select([
                     'users.name',
                     'image',
@@ -96,15 +96,43 @@ class UsersController extends Controller
                     'users.status',
                     'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
                 ])
-                ->whereNotIn('users.role_id',array(2 ,3 ,5 ,9 ,7 ,8,11 ))
-                ->orWhere(['users.role_id' => 2,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 3,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 5,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 7,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 8,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 9,'users.category_id' => Auth::user()->category_id])
-                ->orWhere(['users.role_id' => 11,'users.category_id' => Auth::user()->category_id]);
-                
+                ->whereNotIn('users.role_id',array(2,3,5,7,8,9,11))  
+                ->orWhere(['users.role_id' => 5,'users.branch_id' => session()->get('branch_id'),'users.category_id' => Auth::user()->category_id])
+                ->orWhere(['users.role_id' => 2,'users.branch_id' => session()->get('branch_id')])
+               // ->orWhere(['users.role_id' => 3,'users.branch_id' => session()->get('branch_id')])
+                ->orWhere(['users.role_id' => 7,'users.branch_id' => session()->get('branch_id')])
+                ->orWhere(['users.role_id' => 8,'users.branch_id' => session()->get('branch_id')])
+                ->orWhere(['users.role_id' => 9,'users.branch_id' => session()->get('branch_id')])
+                ->orWhere(['users.role_id' => 11,'users.branch_id' => session()->get('branch_id')])->get();
+            
+            $staffrecords = User::join('roles', 'users.role_id', '=', 'roles.id')
+            ->join('staff', 'staff.user_id', '=', 'users.id')
+            ->join('courses', 'courses.id', '=', 'staff.course_parent_id')
+            ->where('roles.id', '=', 3)
+            //->where('users.category_id',Auth::user()->category_id)
+            ->where('users.status', '!=', 0)
+            ->select([
+                'users.name',
+                'image',
+                'id_number',
+                'staff.staff_id',
+                'staff.job_title',
+                'courses.course_title',
+                'email',
+                'roles.name as role_name',
+                'login_enabled',
+                'role_id',
+                'users.slug as slug',
+                'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at',
+                'users.status',
+                'staff.user_id'
+            ])->get();
+             
+            // merge records,
+            foreach($records as $r) {
+                $staffrecords->add($r);
+            }
+            $records= $staffrecords;
             // $records = User::join('roles', 'users.role_id', '=', 'roles.id')
             //     ->select([
             //         'users.name',

@@ -1541,7 +1541,35 @@ Route::get('get_sub_topic/{id}',function ($id){
 });
 
 Route::get('get_all_topics/{subject}/{course}/{year}/{sem}', function ($subject,$course,$year,$sem) {
-    return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->orderBy('parent_id')->get();
+    return \App\Topic::where('subject_id',$subject)
+    ->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)
+    ->orderBy('parent_id') ->select('topics.*','topics.id as total')->get();
+    /*$subtopics= DB::table('questionbank')  
+    ->leftjoin('topics','questionbank.topic_id','=','topics.id')
+    ->select('topics.*', DB::raw('count(questionbank.topic_id) as total'))
+    ->groupBy('questionbank.topic_id')
+    ->where('topics.subject_id',$subject)->where('topics.course_id',$course)->where('topics.semester_num',$sem)
+    ->where('topics.academic_id',$year)->where('topics.parent_id','!=','0')->distinct()->orderBy('topics.parent_id')->get();*/
+
+});
+Route::get('get_all_topicscount/{subject}/{course}/{year}/{sem}/{quiz}', function ($subject,$course,$year,$sem,$quiz) {
+    ///return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->orderBy('parent_id')->get();
+    
+    $ids=DB::table('questionbank_quizzes')
+    ->join('quizzes','questionbank_quizzes.quize_id','=','quizzes.id')
+    ->where('quizzes.slug','=',$quiz)->pluck("questionbank_quizzes.questionbank_id");
+
+    return 
+    DB::table('questionbank')  
+  ->leftjoin('topics','questionbank.topic_id','=','topics.id')
+  ->select('questionbank.topic_id', DB::raw('count(questionbank.topic_id) as total'))
+  ->groupBy('questionbank.topic_id')
+  ->whereNotIn('questionbank.id',$ids)
+  ->where('topics.subject_id',$subject)
+  ->where('topics.course_id',$course)->where('topics.semester_num',$sem)
+  ->where('topics.academic_id',$year)->where('topics.parent_id','!=','0')->distinct()->orderBy('topics.parent_id')->get();
+
+
 });
 
 Route::get('get_subjects_timetable/{subject}/{course}',function ($subject,$course){
