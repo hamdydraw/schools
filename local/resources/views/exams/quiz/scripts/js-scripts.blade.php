@@ -67,7 +67,9 @@
                         $scope.current_year_sc = response.data.academic_id.toString();
                         $scope.current_sem_sc = response.data.semister.toString();
                         $scope.current_course_sc = response.data.course_parent_id.toString();
+                       
                         $scope.current_subject_sc = response.data.subject_id.toString();
+                        $scope.get_topics();
                     })
             }
         }
@@ -93,6 +95,7 @@
 
                     $scope.academic_subjects_sc = response.data;
                     if(response.data.length != 0) {
+                        
                         $scope.current_subject_sc = response.data[0].subject_id.toString();
 						$scope.current_subject_sc = "{{$record->details['subject_realid']}}";
                         $scope.get_topics();
@@ -137,6 +140,7 @@
             })
                 .then(function (response) {
                     $scope.main_topic_count = response.data;
+                    
                     console.log($scope.main_topic_count );
                 })
 
@@ -147,6 +151,7 @@
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    $scope.academic_topics_sc=[];
                     $scope.academic_topics_sc = response.data;
                     
                     angular.forEach($scope.academic_topics_sc,function(item){
@@ -192,11 +197,7 @@
 
 
 
-        $scope.subjectChanged = function () {
-
-
-
-
+        $scope.subjectChanged = function () { 
             route = '{{URL_QUIZ_GET_QUESTIONS}}';
             data = {
                 _method: 'post',

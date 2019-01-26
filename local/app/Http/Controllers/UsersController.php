@@ -113,19 +113,18 @@ class UsersController extends Controller
             ->where('users.status', '!=', 0)
             ->select([
                 'users.name',
-                'image',
-                'id_number',
-                'staff.staff_id',
-                'staff.job_title',
-                'courses.course_title',
-                'email',
-                'roles.name as role_name',
-                'login_enabled',
-                'role_id',
-                'users.slug as slug',
-                'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at',
-                'users.status',
-                'staff.user_id'
+                    'image',
+                    'id_number',
+                    'email',
+                    'roles.display_name',
+                    'roles.name as role_name',
+                    'login_enabled',
+                    'role_id',
+                    'users.slug',
+                    'users.id',
+                    'users.status',
+                    'users.created_by_user','users.updated_by_user','users.created_by_ip','users.updated_by_ip','users.created_at','users.updated_at'
+       
             ])->get();
              
             // merge records,
