@@ -2,7 +2,7 @@
 <script>
 
  
- app.controller('TabController', function ($scope, $http, httpPreConfig)
+ app.controller('TabController', function ($scope, $http, httpPreConfig,$location)
   {
      @include('common.js-script-year-selection')
      $scope.tab             = 1;
@@ -51,6 +51,7 @@
     }
 
  $scope.textChanged = function (text) {
+        console.log(text);
  
   route = '{{URL_STUDENT_SEARCH}}';
   data    = {   _method: 'post', 
