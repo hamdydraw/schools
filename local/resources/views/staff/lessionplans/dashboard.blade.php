@@ -62,7 +62,7 @@
 
 						 
                             <a class="card-footer text-muted"
-                                   href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">{{ getPhrase('view_subjects') }}</a>
+                                   href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">{{ getPhrase('VIEW_TOPICS') }}</a>
 
 						</div>
 
@@ -107,7 +107,7 @@
 									<div >
 
                                     <a class="card-footer text-muted"
-                                   href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">{{ getPhrase('view_subjects') }}</a>
+                                   href="{{URL_LESSION_PLANS_VIEW_TOPICS.$user->slug.'/'.$subject->slug}}">{{ getPhrase('VIEW_TOPICS') }}</a>
 
 									</div>
 

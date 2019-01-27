@@ -363,6 +363,7 @@ class LessionPlansController extends Controller
         //*********VALIDATING THE USER END*****************//
 
         $courseRecord = App\Course::where('id', '=', $courseSubjectRecord->course_id)->first();
+        $parentcourseRecord = App\Course::where('id', '=', $courseRecord->parent_id)->first();
         $subjectRecord = App\Subject::where('id', '=', $courseSubjectRecord->subject_id)->first();
 
         $available_records = App\LessionPlan::where('course_subject_id', '=', $courseSubjectRecord->id)->get();
@@ -392,10 +393,10 @@ class LessionPlansController extends Controller
         } else {
             $data['active_class'] = 'lession';
         }
-
+ 
         $data['role_name'] = getRoleData(Auth::user()->role_id);
 
-        $data['title'] = getPhrase('lesson_plans_for') . ' ' . $subjectRecord->subject_title . ' ' . getphrase('semester_' . $courseSubjectSemester);
+        $data['title'] = getPhrase('lesson_plans_for') . ' ' . $subjectRecord->subject_title  . ' ' . getphrase('semester_' . $courseSubjectSemester).' - '.$parentcourseRecord->course_title.' - '.$courseRecord->course_title;
         $data['layout'] = getLayout();
         return view('staff.lessionplans.topics', $data);
 
@@ -506,8 +507,8 @@ class LessionPlansController extends Controller
      */
     public function prepareTopicsList($subject_id, $courseSubjectId, $semester)
     {
-        $parent_topics = $this->getTopicRecord($subject_id, 0, 0, $semester);
-
+        $parent_topics = $this->getTopicRecord($subject_id, 0, $courseSubjectId, $semester);
+ 
         $topics = [];
         foreach ($parent_topics as $topic) {
 
@@ -534,13 +535,15 @@ class LessionPlansController extends Controller
      */
     public function getTopicRecord($subject_id, $parent_id = 0, $courseSubjectId = 0, $semester)
     {
-
+        $course_subject_record = App\CourseSubject::where('id', '=', $courseSubjectId)->first();
+         
         $result = App\Topic::join('subjects', 'subjects.id', '=', 'topics.subject_id')
             ->leftJoin('lessionplans', 'topic_id', '=', 'topics.id');
 
 
         $result = $result->where('subjects.id', '=', $subject_id)
             ->where('topics.parent_id', '=', $parent_id)
+            ->where('topics.course_id', '=', $course_subject_record->course_parent_id)
             ->where('topics.semester_num', '=', $semester)
             ->select(['topics.id as id', 'topic_name', 'lessionplans.is_completed', 'completed_on'])
             ->groupBy(['topics.id'])->get();
