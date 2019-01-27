@@ -283,6 +283,33 @@ class LessionPlansController extends Controller
         $course_time = App\Course::where('id', '=', $course_id)->select('course_dueration')->first();
 
         return Datatables::of($records)
+        ->addColumn('action', function ($records) {
+
+            $records->created_by_user_name = App\User::get_user_name($records->created_by_user);
+            $records->updated_by_user_name = App\User::get_user_name($records->updated_by_user);
+            
+            $current_id = '';
+
+            $link_data = '<div class="dropdown more">
+                    <a id="dLabel" type="button" class="more-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    ';
+
+            
+            //student/papers/create/{slug}
+            $papers = "<li><a href='".PREFIX."student/papers/create/$records->slug'><i class='fa fa-trophy' aria-hidden='true'></i>".getPhrase('Papers_and_achievements_of_the_student')."</a></li>";
+   
+
+            $temp = '';
+            $link_data.=$papers;
+            
+
+            $temp .= '</ul> </div>';
+            $link_data .= $temp;
+            return $link_data;
+             })
             ->editColumn('name', function ($records) {
                $data = '';
                 $data = '<a href=" '. URL_USER_DETAILS . $records->slug .'">'.$records->name .'</a>';
@@ -302,6 +329,7 @@ class LessionPlansController extends Controller
             ->removeColumn('course_id')
             ->removeColumn('last_name')
             ->removeColumn('current_semister')
+            ->removeColumn('slug')
             ->make();
     }
 

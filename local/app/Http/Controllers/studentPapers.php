@@ -126,6 +126,9 @@ class studentPapers extends Controller
         }
         $data['records'] = student_documents::where('users_id',$data['user']->id)->get();
         $role = 'student';
+        $user = getUserRecord();
+        $role = getRoleData($user->role_id);
+        $data['role']=$role;
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
         $data['heading'] = getPhrase('users');
@@ -176,13 +179,13 @@ class studentPapers extends Controller
         if(env('DEMO_MODE')) {
             return;
         }
-            $record1 = rand(1, 200000);
-            $record2 = rand(1, 200000);
-            if ($request->hasFile($file_name)) {
-                $imageObject = new App\ImageSettings();
-                $destinationPath = "uploads/student_papers/";
-                $fileName = $record1 . '-' . $file_name . '-' . $record2 . '.' . $request->file($file_name)->extension();
-            }
+        $record1 = rand(1, 200000);
+        $record2 = rand(1, 200000);
+        if ($request->hasFile($file_name)) {
+            $imageObject = new App\ImageSettings();
+            $destinationPath = "uploads/student_papers/";
+            $fileName = $record1 . '-' . $file_name . '-' . $record2 . '.' . $request->file($file_name)->extension();
+        }
         $request->file($file_name)->move($destinationPath, $fileName);
         return $fileName;
     }

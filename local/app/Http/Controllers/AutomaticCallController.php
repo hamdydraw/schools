@@ -186,8 +186,8 @@ class AutomaticCallController extends Controller {
                                         ->orderBy('autocall_requests.request_time','asc')->get();
 
 foreach($requestwithStudent as $student) {
-    $courseTitle = App\Course::where('id', $student->course_id)->first()->course_title;
-    $courseParentTitle = App\Course::where('id', $student->course_parent_id)->first()->course_title;
+    $courseTitle = App\Course::withoutGlobalScope(App\Scopes\CategoryScope::class)->where('id', $student->course_id)->first()->course_title;
+    $courseParentTitle = App\Course::withoutGlobalScope(App\Scopes\CategoryScope::class)->where('id', $student->course_parent_id)->first()->course_title;
     $student->course_id = $courseTitle;
     $student->course_parent_id = $courseParentTitle;
 }

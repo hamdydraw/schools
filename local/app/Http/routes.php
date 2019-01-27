@@ -1557,7 +1557,7 @@ Route::get('get_all_topicscount/{subject}/{course}/{year}/{sem}/{quiz}', functio
     
     $ids=DB::table('questionbank_quizzes')
     ->join('quizzes','questionbank_quizzes.quize_id','=','quizzes.id')
-    ->where('quizzes.slug','=',$quiz)->pluck("questionbank_quizzes.questionbank_id");
+    ->where('quizzes.slug','=',$quiz)->where('quizzes.record_status','!=','3')->pluck("questionbank_quizzes.questionbank_id");
 
     return 
     DB::table('questionbank')  
@@ -1566,6 +1566,7 @@ Route::get('get_all_topicscount/{subject}/{course}/{year}/{sem}/{quiz}', functio
   ->groupBy('questionbank.topic_id')
   ->whereNotIn('questionbank.id',$ids)
   ->where('topics.subject_id',$subject)
+  ->where('topics.record_status','!=','3')
   ->where('topics.course_id',$course)->where('topics.semester_num',$sem)
   ->where('topics.academic_id',$year)->where('topics.parent_id','!=','0')->distinct()->orderBy('topics.parent_id')->get();
 

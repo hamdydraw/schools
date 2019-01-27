@@ -28,7 +28,12 @@ $extn = $data->value;
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="{{PREFIX}}"><i class="mdi mdi-home"></i></a></li>
+                        @if($role=='staff')     
+                       
+                     <li><a href="{{URL_LESSION_PLANS_STUDENTLIST_DASHBOARD.Auth::user()->slug}}">{{ getPhrase('students')}}</a></li>
+                     @else
                         <li><a href="{{PREFIX}}users/student">{{ getPhrase('students')}}</a></li>
+                        @endif
                         <li class="active">{{isset($title) ? $title : ''}}</li>
                     </ol>
                 </div>

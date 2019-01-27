@@ -35,7 +35,9 @@
 									<th>{{ getPhrase('image')}}</th>
 								 	<th>{{ getPhrase('id_number')}}</th>
 								 	<th>{{ getPhrase('course')}}</th>
-									<th>{{ getPhrase('email')}}</th>
+									<th>{{ getPhrase('email')}}</th> 
+									<th>{{ getPhrase('action')}}</th>
+									
 								</tr>
 							</thead>
 						</table>
