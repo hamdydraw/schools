@@ -155,7 +155,7 @@ class SubjectsController extends Controller
         * if changed update the slug value based on the new title
         */
         if($name != $record->subject_title)
-        $record->slug               = $record->makeSlug($name, true);
+        $record->slug               = $record->makeSlug($name);
 
         $record->subject_title      = $name;
         $record->maximum_marks      = 100;
@@ -168,7 +168,7 @@ class SubjectsController extends Controller
         $record->save();
 
       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-      return redirect(URL_SUBJECTS);
+      return redirect('mastersettings/subjects/edit/'.$record->slug);
     }
 
     /**
@@ -203,7 +203,7 @@ class SubjectsController extends Controller
 
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-      return redirect(URL_SUBJECTS);
+        return redirect('mastersettings/subjects/add');
     }
 
 

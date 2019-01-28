@@ -226,7 +226,8 @@ class CourseController extends Controller
 
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('mastersettings/course');
+        
+        return redirect('mastersettings/course/edit/'.$record->slug);
     }
 
     /**
@@ -325,7 +326,7 @@ class CourseController extends Controller
         }
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect('mastersettings/course');
+        return redirect('mastersettings/course/add');
     }
 
     /**

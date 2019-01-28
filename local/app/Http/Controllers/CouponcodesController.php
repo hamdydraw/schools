@@ -236,7 +236,7 @@ class CouponcodesController extends Controller
         $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect(URL_COUPONS);
+        return redirect('coupons/edit/'.$record->slug);
     }
 
     /**
@@ -295,7 +295,7 @@ class CouponcodesController extends Controller
 
         $record->save();
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect(URL_COUPONS);
+        return redirect('coupons/add');
     }
 
     /**

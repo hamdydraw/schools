@@ -232,7 +232,7 @@ class QuizCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect(URL_QUIZ_CATEGORIES);
+    	return redirect('categories/edit/'.$record->slug);
     }
 
     /**
@@ -267,20 +267,19 @@ class QuizCategoryController extends Controller
         if ($request->hasFile($file_name))
         {
 
-            $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000' );
+            $rules = array( $file_name => 'mimes:jpeg,jpg,png,gif|max:10000');
             $this->validate($request, $rules);
 		    $this->setExamSettings();
             $examSettings = $this->getExamSettings();
 	        $path = $examSettings->categoryImagepath;
-	        $this->deleteFile($record->image, $path);
-
-              $record->image      = $this->processUpload($request, $record,$file_name);
-              $record->user_stamp($request);
-              $record->save();
-        }
-
+            $this->deleteFile($record->image, $path); 
+            
+            $record->image      = $this->processUpload($request, $record,$file_name);
+            $record->user_stamp($request);
+            $record->save();
+        } 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect(URL_QUIZ_CATEGORIES);
+    	return redirect('categories/add');
     }
 
     /**
@@ -294,7 +293,7 @@ class QuizCategoryController extends Controller
         {
           prepareBlockUserMessage();
           return back();
-        }
+        } 
 
         $record = QuizCategory::where('slug', $slug)->first();
             try{

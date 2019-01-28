@@ -134,8 +134,8 @@ class AcademicCoursesController extends Controller
             }
 
             flash(getPhrase('success'), getPhrase('records_updated_successfully'), 'success');
-
-        return redirect(URL_MASTERSETTINGS_ACADEMICS);
+ 
+        return redirect('mastersettings/academic-courses/'.$record->slug);
 
     }
     public function getSemisters(Request $request)

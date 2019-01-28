@@ -141,7 +141,8 @@ class SkillsController extends Controller
             }
         }
         flash(getPhrase('saved'), getPhrase('skills_saved_successfully'), 'success');
-        return redirect()->back();
+        
+        return redirect('mastersettings/skills/create');
     }
     public function update(Request $request,$id)
     {
@@ -161,7 +162,7 @@ class SkillsController extends Controller
             }
         }
         flash(getPhrase('updated'), getPhrase('skills_updated_successfully'), 'success');
-        return redirect()->back();
+        return redirect('mastersettings/skills/edit/'.$id);
     }
     public function delete($slug)
     {

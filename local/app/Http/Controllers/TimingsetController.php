@@ -232,10 +232,9 @@ class TimingsetController extends Controller
                 $timingset->user_stamp($request);
                 $timingset->save();
             }
-        }
-
+        } 
       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-        return redirect(URL_TIMINGSET);
+        return redirect('timetable/timing-set/edit/'.$record->slug);
     }
 
     /**
@@ -304,7 +303,7 @@ class TimingsetController extends Controller
        }
      }
 
-        return redirect(URL_TIMINGSET);
+     return redirect()->back();
     }
 
     /**

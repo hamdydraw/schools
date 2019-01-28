@@ -510,8 +510,7 @@ class UsersController extends Controller
         if (!checkRole(getUserGrade(2))) {
             prepareBlockUserMessage();
             return back();
-        }
-
+        } 
 
         $data['record'] = false;
         $data['active_class'] = 'users';
@@ -520,9 +519,7 @@ class UsersController extends Controller
         foreach ($data['roles'] as $key => $value){
             $data['roles'][$key] = getPhrase($value);
         }
-
-
-
+ 
         $data['title'] = getPhrase('add_user');
         if (checkRole(['parent'])) {
             $data['active_class'] = 'children';
@@ -711,7 +708,7 @@ class UsersController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('please_check_your_email_master_settings'), 'overlay');
             }
         }
-        return redirect(URL_USERS . "users");
+        return redirect('users/create');
 
 
     }
@@ -991,7 +988,7 @@ class UsersController extends Controller
         App\Language::resetLanguage();
 
 
-        return back();
+        return redirect('users/edit/'.$record->slug);
     }
 
 

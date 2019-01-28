@@ -319,7 +319,7 @@ class LmsContentController extends Controller
           flash(getPhrase('Ooops'),getPhrase('improper_data_file_submitted'), 'error');
        }
      }
-        return redirect()->back();
+     return redirect('lms/content/edit/'.$record->slug);
     }
 
 
@@ -450,7 +450,7 @@ class LmsContentController extends Controller
        }
      }
 
-    	return redirect(URL_LMS_CONTENT_ADD);
+    	return redirect('lms/content/add');
     }
 
     /**

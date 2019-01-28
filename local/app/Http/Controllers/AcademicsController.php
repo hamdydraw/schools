@@ -93,7 +93,9 @@ class AcademicsController extends Controller
      */
     public function edit($slug)
     {
+        
         $record = Academic::where('slug', $slug)->get()->first();
+        
         $data['record'] = $record;
         $relatedSemesters = App\AcademicSemester::where('academic_id', $record->id)->get();
         $data['relatedSemesters'] = $relatedSemesters;
@@ -184,7 +186,7 @@ class AcademicsController extends Controller
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('mastersettings/academics');
+        return redirect('mastersettings/academics/edit/'.$record->slug);
     }
 
     /**
@@ -241,7 +243,7 @@ class AcademicsController extends Controller
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect('mastersettings/academics');
+        return redirect('mastersettings/academics/add');
     }
 
     /**

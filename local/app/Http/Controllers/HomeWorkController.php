@@ -233,7 +233,7 @@ class HomeWorkController extends Controller
         }
 
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect(URL_HOMEWORK_VIEW);
+        return redirect('homework/add-homework');
     }
 
     /**

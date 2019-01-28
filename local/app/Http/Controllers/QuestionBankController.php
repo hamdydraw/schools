@@ -526,7 +526,7 @@ class QuestionBankController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect('exams/questionbank/edit/'.$slug);
 
     }
 
@@ -1052,7 +1052,8 @@ class QuestionBankController extends Controller
             }
         }
 
-        return redirect(URL_QUESTIONBANK_ADD_QUESTION);
+        //return redirect(URL_QUESTIONBANK_ADD_QUESTION);
+        return redirect()->back();
     }
 
     /**

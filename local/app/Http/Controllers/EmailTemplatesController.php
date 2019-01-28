@@ -168,7 +168,7 @@ class EmailTemplatesController extends Controller
  		$record->save();
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect(URL_EMAIL_TEMPLATES);
+    	return redirect('email/templates/edit/'.$record->slug);
     }
 
     /**
@@ -205,7 +205,7 @@ class EmailTemplatesController extends Controller
         $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect(URL_EMAIL_TEMPLATES);
+    	return redirect('email/templates/add');
     }
 
 

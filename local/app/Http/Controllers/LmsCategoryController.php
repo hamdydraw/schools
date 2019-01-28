@@ -201,7 +201,7 @@ class LmsCategoryController extends Controller
 
 
 		$rules = [
-         'category'          	   => 'bail|required|max:60' ,
+         'category' => 'bail|required|max:60' ,
           ];
          /**
         * Check if the title of the record is changed,
@@ -232,7 +232,7 @@ class LmsCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect(URL_LMS_CATEGORIES);
+    	return redirect('lms/categories/edit/'. $record->slug);
     }
 
     /**
@@ -278,7 +278,7 @@ class LmsCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect(URL_LMS_CATEGORIES);
+    	return redirect('lms/categories/add');
     }
 
     /**
