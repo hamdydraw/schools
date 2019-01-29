@@ -123,7 +123,7 @@ class ReligionsController extends Controller
         $record->update_stamp($request);
         $record->save();
     	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect('mastersettings/religions/edit/'. $record->slug);
+    	return redirect(URL_MASTERSETTINGS_RELIGIONS_EDIT.$record->slug);
     }
 
     /**
@@ -143,7 +143,7 @@ class ReligionsController extends Controller
         $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect('mastersettings/religions/add');
+    	return redirect(URL_MASTERSETTINGS_RELIGIONS_ADD);
     }
 
     /**

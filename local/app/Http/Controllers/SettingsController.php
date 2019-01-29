@@ -260,7 +260,7 @@ class SettingsController extends Controller
         }
 
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('mastersettings/settings/edit/'.$record->slug );
+        return redirect(URL_SETTINGS_EDIT.$record->slug );
     }
 
     public function processUpload(Request $request, $sfname = 'value', $isNew = true)

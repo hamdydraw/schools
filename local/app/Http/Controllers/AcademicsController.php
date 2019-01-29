@@ -186,7 +186,7 @@ class AcademicsController extends Controller
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('mastersettings/academics/edit/'.$record->slug);
+        return redirect(URL_MASTERSETTINGS_ACADEMICS_EDIT.$record->slug);
     }
 
     /**
@@ -243,7 +243,7 @@ class AcademicsController extends Controller
             $recordAcadSem->save();
         }
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect('mastersettings/academics/add');
+        return redirect(URL_MASTERSETTINGS_ACADEMICS_ADD);
     }
 
     /**

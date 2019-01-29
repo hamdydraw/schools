@@ -708,7 +708,7 @@ class UsersController extends Controller
                 flash(getPhrase('Ooops'), getPhrase('please_check_your_email_master_settings'), 'overlay');
             }
         }
-        return redirect('users/create');
+        return redirect(URL_USERS_ADD);
 
 
     }
@@ -988,7 +988,7 @@ class UsersController extends Controller
         App\Language::resetLanguage();
 
 
-        return redirect('users/edit/'.$record->slug);
+        return redirect(URL_USERS_EDIT.$record->slug);
     }
 
 

@@ -164,13 +164,15 @@ class QuizCategoryController extends Controller
      */
     public function edit($slug)
     {
+        
          if(!checkRole(getUserGrade(3)))
         {
           prepareBlockUserMessage();
           return back();
         }
 
-    	$record = QuizCategory::getRecordWithSlug($slug);
+        $record = QuizCategory::getRecordWithSlug($slug);
+        
     	if($isValid = $this->isValidRecord($record))
     		return redirect($isValid);
 
@@ -232,7 +234,8 @@ class QuizCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect('categories/edit/'.$record->slug);
+        
+    	return redirect(URL_QUIZ_CATEGORY_EDIT.'/'.$record->slug);
     }
 
     /**
@@ -279,7 +282,7 @@ class QuizCategoryController extends Controller
             $record->save();
         } 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect('categories/add');
+    	return redirect(URL_QUIZ_CATEGORY_ADD);
     }
 
     /**

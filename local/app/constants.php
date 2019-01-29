@@ -326,7 +326,7 @@ define('URL_QUESTIONBAMK_IMPORT', PREFIX.'exams/questionbank/import');
 //SUBJECTS MODULE
 define('URL_SUBJECTS', PREFIX.'mastersettings/subjects');
 define('URL_SUBJECTS_ADD', PREFIX.'mastersettings/subjects/add');
-define('URL_SUBJECTS_EDIT', PREFIX.'mastersettings/subjects/edit');
+define('URL_SUBJECTS_EDIT', PREFIX.'mastersettings/subjects/edit/');
 define('URL_SUBJECTS_DELETE', PREFIX.'mastersettings/subjects/delete/');
 
 define('URL_SUBJECTS_IMPORT', PREFIX.'mastersettings/subjects/import');
@@ -336,7 +336,7 @@ define('URL_SUBJECTS_IMPORT', PREFIX.'mastersettings/subjects/import');
 define('URL_TOPICS', PREFIX.'mastersettings/topics');
 define('URL_TOPICS_LIST', PREFIX.'mastersettings/topics/list');
 define('URL_TOPICS_ADD', PREFIX.'mastersettings/topics/add');
-define('URL_TOPICS_EDIT', PREFIX.'mastersettings/topics/edit');
+define('URL_TOPICS_EDIT', PREFIX.'mastersettings/topics/edit/');
 define('URL_TOPICS_DELETE', PREFIX.'mastersettings/topics/delete/');
 define('URL_TOPICS_GET_PARENT_TOPICS', PREFIX.'mastersettings/topics/get-parents-topics/');
 
@@ -505,7 +505,7 @@ define('URL_SUBSCRIBE', PREFIX.'subscription/subscribe/');
 define('URL_PARENT_ANALYSIS_FOR_STUDENTS', PREFIX.'children/analysis');
 //skills
 define('URL_MASTERSETTINGS_SKILLS_DELETE', PREFIX.'mastersettings/skills/delete/');
-
+define('URL_MASTERSETTINGS_SKILLS_EDIT', PREFIX.'mastersettings/skills/edit/');
 //STUDENT BOOKMARKS
 define('URL_BOOKMARKS', PREFIX.'student/bookmarks/');
 define('URL_BOOKMARK_ADD', PREFIX.'student/bookmarks/add');
@@ -829,7 +829,7 @@ define('URL_OFFLINE_EXAMS_GET_INFORMATION', PREFIX.'academicoperations/offline-e
 define('URL_TIMETABLE_DASHBOARD', PREFIX.'timetable');
 
 define('URL_TIMINGSET', PREFIX.'timetable/timing-set');
-define('URL_TIMINGSET_EDIT', PREFIX.'timetable/timing-set/edit');
+define('URL_TIMINGSET_EDIT', PREFIX.'timetable/timing-set/edit/');
 define('URL_TIMINGSET_ADD', PREFIX.'timetable/timing-set/add');
 define('URL_TIMINGSET_DELETE', PREFIX.'timetable/timing-set/delete/');
 define('URL_TIMINGSET_RECORD_DELETE', PREFIX.'timetable/timing-set/delete-timingset-record/');

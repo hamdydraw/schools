@@ -130,7 +130,7 @@ class CategoriesController extends Controller
         $record->update_stamp($request);
         $record->save();
     	flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect('mastersettings/categories/edit/'.$record->slug);
+    	return redirect(URL_MASTERSETTINGS_CATEGORIES_EDIT.$record->slug);
     }
 
     /**
@@ -150,7 +150,7 @@ class CategoriesController extends Controller
         $record->user_stamp($request);
         $record->save();
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect('mastersettings/categories/add');
+    	return redirect(URL_MASTERSETTINGS_CATEGORIES_ADD);
     }
 
     /**

@@ -277,7 +277,7 @@ class LmsSeriesController extends Controller
               $record->save();
         }
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect('lms/series/edit/'.$record->slug);
+    	return redirect(URL_LMS_SERIES_EDIT.$record->slug);
     }
 
     /**
@@ -331,7 +331,7 @@ class LmsSeriesController extends Controller
               $record->save();
         }
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect('lms/series/add');
+    	return redirect(URL_LMS_SERIES_ADD);
     }
 
     public function deleteFile($record, $path, $is_array = FALSE)
@@ -547,7 +547,7 @@ class LmsSeriesController extends Controller
         $lms_series->update_stamp($request);
         $lms_series->save();
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-        return redirect('lms/series/update-series/'.$slug);
+        return redirect(URL_LMS_SERIES_UPDATE_SERIES.$slug);
     }
 
     /**

@@ -232,7 +232,7 @@ class LmsCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-    	return redirect('lms/categories/edit/'. $record->slug);
+    	return redirect(URL_LMS_CATEGORIES_EDIT.$record->slug);
     }
 
     /**
@@ -278,7 +278,7 @@ class LmsCategoryController extends Controller
         }
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-    	return redirect('lms/categories/add');
+    	return redirect(URL_LMS_CATEGORIES_ADD);
     }
 
     /**

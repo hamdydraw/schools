@@ -168,7 +168,7 @@ class SubjectsController extends Controller
         $record->save();
 
       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-      return redirect('mastersettings/subjects/edit/'.$record->slug);
+      return redirect(URL_SUBJECTS_EDIT.$record->slug);
     }
 
     /**
@@ -203,7 +203,7 @@ class SubjectsController extends Controller
 
 
         flash(getPhrase('success'),getPhrase('record_added_successfully'), 'success');
-        return redirect('mastersettings/subjects/add');
+        return redirect(URL_SUBJECTS_ADD);
     }
 
 

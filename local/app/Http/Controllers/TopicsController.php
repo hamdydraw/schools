@@ -245,7 +245,7 @@ class TopicsController extends Controller
             return view('staff.topics.add-edit', $data);
         }
         //return view('mastersettings.topics.add-edit', $data); 
-        return redirect('mastersettings/topics/add');
+        return redirect(URL_TOPICS_ADD);
     }
 
     /**
@@ -349,7 +349,7 @@ class TopicsController extends Controller
         if (checkRole('staff')) {
             return redirect(URL_STAFF_TOPICS);
         }
-        return redirect('mastersettings/topics/edit'.$record->slug);
+        return redirect(URL_TOPICS_EDIT.$record->slug);
         
     }
 

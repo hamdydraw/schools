@@ -234,7 +234,7 @@ class TimingsetController extends Controller
             }
         } 
       flash(getPhrase('success'),getPhrase('record_updated_successfully'), 'success');
-        return redirect('timetable/timing-set/edit/'.$record->slug);
+        return redirect(URL_TIMINGSET_EDIT.$record->slug);
     }
 
     /**

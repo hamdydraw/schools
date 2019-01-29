@@ -129,7 +129,7 @@ class BranchController extends Controller
         $record->slug = $record->makeSlug($record->name, true);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
-        return redirect('branches/add');
+        return redirect(URL_BRANCHES_CREATE);
     }
 
 
@@ -148,7 +148,7 @@ class BranchController extends Controller
         $record->update_stamp($request);
         $record->save();
         flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
-        return redirect('branches/edit/'.$slug);
+        return redirect(URL_BRANCHES_EDIT.$slug);
     }
 
     /**
