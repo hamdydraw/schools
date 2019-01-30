@@ -10,9 +10,10 @@
         $scope.academic_years_sc    = [];
         $scope.academic_courses_sc  = [];
         $scope.academic_subjects_sc = [];
-
+        $scope.first_time = true;
 
         $scope.get_edit_data = function () {
+
             if($scope.subject_id_sc != 0){
                 $http({
                     method:"GET",
@@ -33,6 +34,8 @@
             }
         }
 
+
+
         
         @include('common.year_sems_js');
         @include('common.course_js');
@@ -49,6 +52,11 @@
             })
                 .then(function (response) {
                     $scope.academic_subjects_sc = response.data;
+                    if($scope.first_time == true){
+                        $scope.get_edit_data();
+                        $scope.first_time = false;
+                    }
+
                 })
         }
 
