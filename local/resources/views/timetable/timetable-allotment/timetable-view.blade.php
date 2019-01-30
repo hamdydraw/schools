@@ -38,8 +38,9 @@
                         </div>
                     </div>
 
-
-                    {!! Form::open(array('url' => URL_UPDATE_TIMETABLE, 'method' => 'POST', 'name'=>'idCards ', 'novalidate'=>'')) !!}
+ 
+                <form method="POST" ng-submit="submit(idCards)" ng-controller="TimetableController"   accept-charset="UTF-8" name="idCards" id="idCards" novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                    
                     <div class="panel panel-custom  academia_visiblelist_fix" data-spy="affix"
                          data-offset-top="0">
                         <div class="panel-heading">
@@ -74,7 +75,8 @@
                             <br>
                         </div>
                     </div>
-                    {!! Form::close() !!}
+                </form>
+                    
 
 
                     </hr>

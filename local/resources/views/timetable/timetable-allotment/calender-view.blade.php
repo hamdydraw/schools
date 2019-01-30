@@ -52,10 +52,10 @@
                             </div>
                             </div>
                           
-                            <input type="hidden" name="staff[@{{item.id}}]" 
+                            <input type="hidden" ng-model="staff" name="staff[@{{item.id}}]" 
 
                             value="@{{item.user_id}}">
-                            <input type="hidden" name="subject[@{{item.id}}]" value="@{{item.subject_id}}">
+                            <input type="hidden" ng-model="subject"  name="subject[@{{item.id}}]" value="@{{item.subject_id}}">
                         </div>
 
 

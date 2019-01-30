@@ -17,7 +17,34 @@
     $scope.courses         = [];
     $scope.parent_selected = false;
     $scope.years           = [];
-     
+    $scope.staff           = [];
+    $scope.sem_id           = 0;
+    $scope.year_id           = 0;
+    $scope.class_id           = 0;
+    $scope.subject           = [];
+
+      $scope.submit = function(idCards) {
+        route   = '{{URL_UPDATE_TIMETABLE}}';   
+        data    = {   _method: 'post', 
+                  '_token':httpPreConfig.getToken(), 
+                  'year_id':  $scope.current_year_sc  , 
+                  'class_id':  $scope.current_class_sc  ,
+                  'subject':  $scope.subject  ,
+                  'sem_id':  $scope.current_sem_sc  ,
+                  'staff': $scope.staff,
+               };
+       httpPreConfig.webServiceCallPost(route, data).then(function(result){
+           console.log(result.data);
+           if(result.data.status==0)
+          {
+            alertify.error(result.data.message);
+            return;
+          }
+          else
+          alertify.success(result.data.message);
+        });
+
+      };
     $scope.year_selected   = false;
 
       $scope.get_sub_courses = function () {

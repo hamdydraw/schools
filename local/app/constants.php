@@ -829,7 +829,7 @@ define('URL_OFFLINE_EXAMS_GET_INFORMATION', PREFIX.'academicoperations/offline-e
 define('URL_TIMETABLE_DASHBOARD', PREFIX.'timetable');
 
 define('URL_TIMINGSET', PREFIX.'timetable/timing-set');
-define('URL_TIMINGSET_EDIT', PREFIX.'timetable/timing-set/edit/');
+define('URL_TIMINGSET_EDIT', PREFIX.'timetable/timing-set/edit');
 define('URL_TIMINGSET_ADD', PREFIX.'timetable/timing-set/add');
 define('URL_TIMINGSET_DELETE', PREFIX.'timetable/timing-set/delete/');
 define('URL_TIMINGSET_RECORD_DELETE', PREFIX.'timetable/timing-set/delete-timingset-record/');

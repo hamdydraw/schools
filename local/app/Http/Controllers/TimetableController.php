@@ -360,6 +360,7 @@ class TimetableController extends Controller
     public function updateTimetable(Request $request)
     {
 
+        //dd($request->staff);
         $academic_id = $request->year_id;
         $course_id = $request->class_id;
         $subjects = $request->subject;
@@ -461,9 +462,13 @@ class TimetableController extends Controller
 
             }
 
-            flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
+          //  flash(getPhrase('success'), getPhrase('record_updated_successfully'), 'success');
 
-        return redirect(URL_TIMETABLE_VIEW);
+        //return redirect(URL_TIMETABLE_VIEW);
+        $result['status'] = 1;
+        $result['message'] =  getPhrase('record_updated_successfully');
+         
+        return json_encode($result);
     }
 
     /**
