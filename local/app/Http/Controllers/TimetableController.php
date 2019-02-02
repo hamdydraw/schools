@@ -177,7 +177,8 @@ class TimetableController extends Controller
         //Collect the set of mapping records for particular
         //academic year, course and year
         $map_records = App\TimingsetMap::
-        join('timingset', 'timingset.id', '=', 'timingset_id');
+        join('timingset', 'timingset.id', '=', 'timingset_id')
+        ->where('timingsetmap.branch_id',Auth::user()->branch_id);
 
         $map_records = $map_records->select([
             'timingsetmap.id as map_id',
@@ -360,7 +361,7 @@ class TimetableController extends Controller
     public function updateTimetable(Request $request)
     {
 
-        //dd($request->staff);
+       // dd($request->staff);
         $academic_id = $request->year_id;
         $course_id = $request->class_id;
         $subjects = $request->subject;
@@ -683,12 +684,12 @@ class TimetableController extends Controller
         $semister = $request->semister;
         $notes = $request->notes;
         $user_id = ($request->has('user_id')) ? $request->user_id : 0;
-
+        
         $academic_record = App\Academic::where('id', '=', $academic_id)
             ->select('academic_year_title')->first();
         $course_record = App\Course::where('id', '=', $course_id)
             ->select(['id', 'parent_id', 'course_title', 'course_dueration', 'is_having_semister'])->first();
-
+            
         $course_parent_record = App\Course::where('id', '=', $course_record->parent_id)
             ->select('course_title')->first();
 

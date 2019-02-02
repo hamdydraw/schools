@@ -39,7 +39,7 @@
                     </div>
 
  
-                <form method="POST" ng-submit="submit(idCards)" ng-controller="TimetableController"   accept-charset="UTF-8" name="idCards" id="idCards" novalidate="" class="ng-pristine ng-invalid ng-invalid-required">
+                <form method="POST" ng-submit="submit(idCards)" name="idCards" id="idCards" >
                     
                     <div class="panel panel-custom  academia_visiblelist_fix" data-spy="affix"
                          data-offset-top="0">
@@ -80,7 +80,7 @@
 
 
                     </hr>
-                    {!! Form::open(array('url' => URL_TIMETABLE_PRINT, 'method' => 'POST', 'name'=>'idCards ', 'novalidate'=>'','target'=>'_blank')) !!}
+                    {!! Form::open(array('url' => URL_TIMETABLE_PRINT, 'method' => 'POST', 'name'=>'idCards2', 'novalidate'=>'','target'=>'_blank')) !!}
                     <div class="modal fade" id="author_profile" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -94,10 +94,10 @@
                                     {{ Form::label('notes', getphrase('enter_notes')) }}
                                     ({{getPhrase('this_will_be_displayed_bottom_of_the_timetable')}})
                                     <textarea class="form-control ckeditor" name="notes" id="notes"></textarea>
-                                    <input type="hidden" name="academic_id" value="@{{selected_academic_id}}">
-                                    <input type="hidden" name="course_id" value="@{{selected_course_id}}">
-                                    <input type="hidden" name="year" value="@{{selected_year}}">
-                                    <input type="hidden" name="semister" value="@{{selected_semister}}">
+                                    <input type="hidden" name="academic_id" value="@{{current_year_sc}}">
+                                    <input type="hidden" name="course_id" value="@{{current_class_sc}}">
+                                    <input type="hidden" name="year" value="@{{current_sem_sc}}">
+                                    <input type="hidden" name="semister" value="@{{current_sem_sc}}">
 
                                 </div>
                                 <div class="modal-footer text-center">
