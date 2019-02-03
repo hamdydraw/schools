@@ -180,8 +180,8 @@ class TimetableController extends Controller
         //Collect the set of mapping records for particular
         //academic year, course and year
         $map_records = App\TimingsetMap::
-        join('timingset', 'timingset.id', '=', 'timingset_id')
-        ->where('timingsetmap.branch_id',Auth::user()->branch_id);
+        join('timingset', 'timingset.id', '=', 'timingset_id');
+        //->where('timingsetmap.branch_id',Auth::user()->branch_id);
 
         $map_records = $map_records->select([
             'timingsetmap.id as map_id',
