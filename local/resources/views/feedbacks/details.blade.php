@@ -38,6 +38,11 @@
                                 {!!$record->description!!}
                             </div>
                             <div class="notification-footer text-center">
+                                @foreach($record->files as $file)
+                                    <a href="{{MESSAGES_FILES.$file->file_name}}" download> <img width="35" height="35" src="{{IMAGE_FILE_ICON}}"></a>
+                                @endforeach
+                            </div>
+                            <div class="notification-footer text-center">
                                 <a type="button" href="{{URL_FEEDBACKS}}" class="btn btn-lg btn-dark button">{{getPhrase('back')}}</a>
                             </div>
                         </div>

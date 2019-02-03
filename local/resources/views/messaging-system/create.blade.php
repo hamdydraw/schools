@@ -42,7 +42,7 @@ $extn = $data->value;
 <div class="panel panel-custom">
                     <div class="panel-heading">
                     <div class="pull-right messages-buttons">
-                            <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES}}"> {{getPhrase('inbox').'('.$count = Auth::user()->newThreadsCount().')'}} </a>
+                            <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES}}"> {{getPhrase('inbox').'('.$messages_count.')'}} </a>
                             <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES_CREATE}}">
                             {{getPhrase('compose')}}</a>
 

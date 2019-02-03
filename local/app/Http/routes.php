@@ -1031,6 +1031,8 @@ Route::get('feedback/send', 'FeedbackController@create');
 Route::post('feedback/send', 'FeedbackController@store');
 Route::delete('feedback/delete/{slug}', 'FeedbackController@delete');
 Route::get('feedback/getlist', 'FeedbackController@getDatatable');
+Route::post('feedback/upload', 'FeedbackController@upload');
+Route::delete('feedback/file-delete/{file}', 'FeedbackController@deleteFile');
 
 //SMS Module
 
@@ -1053,6 +1055,9 @@ Route::group(['prefix' => 'messages', 'middleware' => 'stopOrOn:messaging'], fun
 Route::post('messages/upload', 'MessagesController@upload');
 Route::delete('message/file-delete/{file}', 'MessagesController@deleteFile');
 Route::get('messages/search/{key}', 'MessagesController@search');
+Route::get('messages/archive/{id}', 'MessagesController@archive');
+Route::get('messages/unArchive/{id}', 'MessagesController@unArchive');
+Route::get('messages/destroy/{id}', 'MessagesController@delete');
 
 
 //////////////////////

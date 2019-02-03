@@ -38,6 +38,7 @@ define('POP_UP_DATA', PREFIX.'popup_data/');
 
 
 define('MESSAGES_FILES', PREFIX.'uploads/messages/');
+define('FEEDBACK_FILES', PREFIX.'uploads/feedback/');
 define('IMAGE_STUDENT_ICON', IMAGES.'system/graduate.png');
 define('IMAGE_TEACHER_ICON', IMAGES.'system/teacher-pointing-blackboard.png');
 define('IMAGE_ADMIN_ICON', IMAGES.'system/admin.png');

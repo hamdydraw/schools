@@ -1,6 +1,21 @@
 @extends($layout)
 
 @section('content')
+	<style>
+		#progressbar {
+			background-color: black;
+			border-radius: 13px; /* (height of inner div) / 2 + padding */
+			padding: 3px;
+			margin-top: 3%;
+		}
+
+		#progressbar_2 {
+			background-color: orange;
+			width: 0%; /* Adjust with JavaScript */
+			height: 20px;
+			border-radius: 10px;
+		}
+	</style>
 <div id="page-wrapper">
 			<div class="container-fluid">
 				<!-- Page Heading -->
@@ -16,7 +31,7 @@
 					@include('errors.errors')
 				<!-- /.row -->
 
-<div class="panel panel-custom col-lg-6 col-lg-offset-3" >
+<div class="panel panel-custom col-lg-6 col-lg-offset-3" ng-controller="feedbackCtrl">
 					<div class="panel-heading">
 
 					<h1>{{ $title }}  </h1>
@@ -80,9 +95,28 @@
 						</div>
 					</fieldset>
 					</div>
+						<div class="row">
+							<div class="col-md-8">
+								<fieldset class="form-group col-md-8">
+									{{--<div ng-if="!file_name">--}}
+									<input class="form-control" id="upload1" type="file" multiple ng-model="upload1" ngf-select="upload_file($files)">
+									<span style="color: red" ng-if="valid == 'no'"> @{{ massage }}</span>
+									<span style="color: green" ng-if="valid == 'ok'"> @{{ massage }}</span>
+									{{--</div>--}}
+									<input type="hidden" name="question_file" ng-model="file_name" value="@{{file_name}}">
+									<span ng-if="file_name"><p style="color: green">@{{ file_name.length  }} {{getPhrase('files_uploaded')}}</p></span>
+									<span ng-if="file_name"><p ng-repeat="file in file_name">@{{file}}</p></span>
+									<a    ng-if="file_name" class="btn btn-danger" ng-click="deleteFile()">{{getPhrase('delete')}}</a>
+									<div id="progressbar" style="display: none;width: 250%;">
+										<div id="progressbar_2"></div>
+									</div>
+								</fieldset>
+							</div>
+
+						</div>
 						<div class="buttons text-center">
 							<button class="btn btn-lg btn-primary button"
-							ng-disabled='!formQuiz.$valid'>{{ $button_name }}</button>
+							ng-disabled='!formQuiz.$valid || bupload == false'>{{ $button_name }}</button>
 						</div>
 					{!! Form::close() !!}
 					</div>
@@ -95,7 +129,7 @@
 @stop
 
 @section('footer_scripts')
- @include('common.validations');
+@include('feedbacks.script')
 
 
 @stop

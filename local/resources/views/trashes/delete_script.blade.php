@@ -1,8 +1,6 @@
-
-
 <script>
 
-    function restore(slug,table) {
+    function restore(slug, table) {
 
         swal({
 
@@ -26,31 +24,28 @@
 
             },
 
-            function(isConfirm) {
+            function (isConfirm) {
 
                 if (isConfirm) {
 
                     var token = '{{ csrf_token()}}';
 
-                    route = '{{PREFIX}}trashes/retrieve/'+slug+'/'+table;
+                    route = '{{PREFIX}}trashes/retrieve/' + slug + '/' + table;
 
                     $.ajax({
 
-                        url:route,
+                        url: route,
 
                         type: 'post',
 
-                        data: {_method: 'get', _token :token},
+                        data: {_method: 'get', _token: token},
 
-                        success:function(msg){
-
+                        success: function (msg) {
 
 
                             result = $.parseJSON(msg);
 
-                            if(typeof result == 'object')
-
-                            {
+                            if (typeof result == 'object') {
 
                                 status_message = '{{getPhrase('recovered')}}';
 
@@ -58,7 +53,7 @@
 
                                 status_prefix_message = '';
 
-                                if(!result.status) {
+                                if (!result.status) {
 
                                     status_message = '{{getPhrase('sorry')}}';
 
@@ -68,7 +63,7 @@
 
                                 }
 
-                                swal(status_message+"!", status_prefix_message+result.message, status_symbox);
+                                swal(status_message + "!", status_prefix_message + result.message, status_symbox);
 
                             }
 
@@ -85,7 +80,6 @@
                     });
 
 
-
                 } else {
 
                     swal("{{getPhrase('cancelled')}}", "{{getPhrase('your_record_is_safe')}} :)", "error");
@@ -96,7 +90,7 @@
 
     }
 
-    function destroy(slug,table) {
+    function destroy(slug, table) {
         swal({
                 title: "{{getPhrase('are_you_sure')}}?",
                 text: "{{getPhrase('you_will_not_be_able_to_recover_this_record')}}!",
@@ -108,27 +102,26 @@
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
-            function(isConfirm) {
+            function (isConfirm) {
                 if (isConfirm) {
                     var token = '{{ csrf_token()}}';
-                    route = '{{PREFIX}}trashes/destroy/'+slug+'/'+table;
+                    route = '{{PREFIX}}trashes/destroy/' + slug + '/' + table;
                     $.ajax({
-                        url:route,
+                        url: route,
                         type: 'post',
-                        data: {_method: 'get', _token :token},
-                        success:function(msg){
+                        data: {_method: 'get', _token: token},
+                        success: function (msg) {
                             result = $.parseJSON(msg);
-                            if(typeof result == 'object')
-                            {
+                            if (typeof result == 'object') {
                                 status_message = '{{getPhrase('deleted')}}';
                                 status_symbox = 'success';
                                 status_prefix_message = '';
-                                if(!result.status) {
+                                if (!result.status) {
                                     status_message = '{{getPhrase('sorry')}}';
                                     status_prefix_message = '{{getPhrase("cannot_delete_this_record_as")}}\n';
                                     status_symbox = 'info';
                                 }
-                                swal(status_message+"!", status_prefix_message+result.message, status_symbox);
+                                swal(status_message + "!", status_prefix_message + result.message, status_symbox);
                             }
                             else {
                                 swal("{{getPhrase('deleted')}}!", "{{getPhrase('your_record_has_been_deleted')}}", "success");
@@ -154,27 +147,26 @@
                 closeOnConfirm: false,
                 closeOnCancel: false
             },
-            function(isConfirm) {
+            function (isConfirm) {
                 if (isConfirm) {
                     var token = '{{ csrf_token()}}';
                     route = '{{PREFIX}}trashes/destroy_all';
                     $.ajax({
-                        url:route,
+                        url: route,
                         type: 'post',
-                        data: {_method: 'get', _token :token},
-                        success:function(msg){
+                        data: {_method: 'get', _token: token},
+                        success: function (msg) {
                             result = $.parseJSON(msg);
-                            if(typeof result == 'object')
-                            {
+                            if (typeof result == 'object') {
                                 status_message = '{{getPhrase('deleted')}}';
                                 status_symbox = 'success';
                                 status_prefix_message = '';
-                                if(!result.status) {
+                                if (!result.status) {
                                     status_message = '{{getPhrase('sorry')}}';
                                     status_prefix_message = '{{getPhrase("cannot_delete_this_record_as")}}\n';
                                     status_symbox = 'info';
                                 }
-                                swal(status_message+"!", status_prefix_message+result.message, status_symbox);
+                                swal(status_message + "!", status_prefix_message + result.message, status_symbox);
                             }
                             else {
                                 swal("{{getPhrase('deleted')}}!", "{{getPhrase('your_records_has_been_deleted')}}", "success");
@@ -187,7 +179,6 @@
                 }
             });
     }
-
 
 
 </script>

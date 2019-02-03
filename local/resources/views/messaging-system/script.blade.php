@@ -11,7 +11,10 @@
     app.controller('homeworkCtrl', function ($scope, $http, Upload, toastr) {
 
         $scope.bupload = true;
+        $scope.me      = {{Auth::user()->id}};
+        console.log($scope.me);
         $scope.file_name = [];
+
         $scope.upload_file = function ($files) {
             console.log("function_worked")
             $scope.bupload = false;
@@ -62,7 +65,6 @@
                                 $scope.file_name.push(value)
                             });
                             $('#progressbar').hide();
-                            //$scope.massage = "file uploaded successfully";
                             $('#upload1').val('');
                         });
                     }else{
@@ -70,7 +72,6 @@
                         $scope.upload1 = "";
                         $scope.massage = "invalid file type";
                     }
-
                 })
         }
 
@@ -107,6 +108,99 @@
         }
         $scope.keyChanged();
 
+        $scope.destroy = function(id) {
+            swal({
+                    title: "{{getPhrase('are_you_sure')}}?",
+                    text: "{{getPhrase('you_will_not_be_able_to_recover_this_message')}}!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "{{getPhrase('yes').', '.getPhrase('delete_it')}}!",
+                    cancelButtonText: "{{getPhrase('no').', '.getPhrase('cancel_please')}}!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var token = '{{ csrf_token()}}';
+                        route = '{{PREFIX}}messages/destroy/' + id;
+                        $.ajax({
+                            url: route,
+                            type: 'post',
+                            data: {_method: 'get', _token: token},
+                            success: function (msg) {
+                                result = $.parseJSON(msg);
+                                if (typeof result == 'object') {
+                                    status_message = '{{getPhrase('deleted')}}';
+                                    status_symbox = 'success';
+                                    status_prefix_message = '';
+                                    if (!result.status) {
+                                        status_message = '{{getPhrase('sorry')}}';
+                                        status_prefix_message = '{{getPhrase("cannot_delete_this_record_as")}}\n';
+                                        status_symbox = 'info';
+                                    }
+                                    swal(status_message + "!", status_prefix_message + result.message, status_symbox);
+                                }
+                                else {
+                                    swal("{{getPhrase('deleted')}}!", "{{getPhrase('your_message_has_been_deleted')}}", "success");
+                                }
+                                $scope.keyChanged();
+                            }
+                        });
+                    } else {
+                        swal("{{getPhrase('cancelled')}}", "{{getPhrase('your_message_is_safe')}} :)", "error");
+                    }
+                });
+        }
+        
+        $scope.archive = function (id) {
+            swal({
+                    title: "{{getPhrase('are_you_sure')}}?",
+                    text: "{{getPhrase('this_message_will_be_archived')}}!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "{{getPhrase('yes').', '.getPhrase('archive')}}!",
+                    cancelButtonText: "{{getPhrase('no').', '.getPhrase('cancel_please')}}!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        var token = '{{ csrf_token()}}';
+                        route = '{{PREFIX}}messages/archive/' + id;
+                        $.ajax({
+                            url: route,
+                            type: 'post',
+                            data: {_method: 'get', _token: token},
+                            success: function (msg) {
+                                result = $.parseJSON(msg);
+                                if (typeof result == 'object') {
+                                    status_message = '{{getPhrase('deleted')}}';
+                                    status_symbox = 'success';
+                                    status_prefix_message = '';
+                                    if (!result.status) {
+                                        status_message = '{{getPhrase('sorry')}}';
+                                        status_prefix_message = '{{getPhrase("cannot_delete_this_record_as")}}\n';
+                                        status_symbox = 'info';
+                                    }
+                                    swal(status_message + "!", status_prefix_message + result.message, status_symbox);
+                                }
+                                else {
+                                    swal("{{getPhrase('archived')}}!", "{{getPhrase('your_message_has_been_archived')}}", "success");
+                                }
+                                $scope.keyChanged();
+                            }
+                        });
+                    } else {
+                        swal("{{getPhrase('cancelled')}}", "{{getPhrase('your_message_is_safe')}} :)", "error");
+                    }
+                });
+        }
+
     });
+
+
+
 
 </script>

@@ -28,13 +28,7 @@ class SkillsController extends Controller
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('add_skills');
         $data['manpulation_kind']='add';
-        $courses = Course::where('id', '<', '23')->select(['id', 'course_title'])->get();
-        foreach ($courses as $course) {
-            $data['course_title'][] = $course->course_title;
-            $data['course_id'][] = $course->id;
-        }
         $data['sid'] = 0;
-        $data['courses'] = array_combine($data['course_id'], $data['course_title']);
         return view('Skills.add-edit', $data);
     }
 
@@ -97,13 +91,6 @@ class SkillsController extends Controller
         $data['title'] =getPhrase('edit_skills');
         $data['record']=Skill::find($id);
         $data['manpulation_kind']='edit';
-       /* $data['subject']=Subject::find($data['record']->subject_id)->subject_title;*/
-        $courses = Course::where('id', '<', '23')->select(['id', 'course_title'])->get();
-        foreach ($courses as $course) {
-            $data['course_title'][] = $course->course_title;
-            $data['course_id'][] = $course->id;
-        }
-        $data['courses'] = array_combine($data['course_id'], $data['course_title']);
         $data['sid'] = $data['record']->subject_id;
         return view('Skills.add-edit', $data);
 
