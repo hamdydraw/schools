@@ -94,7 +94,11 @@ class TimetableController extends Controller
         $academic_id = $request->academic_id;
         $course_id = $request->course_id;
         $course_parent_id = $request->parent_course_id;
-
+        $academic_record   = App\Academic::where('id', '=', $academic_id)->first();
+        $course_record   = App\Course::where('id', '=', $course_id)->first();
+        $parent_record   = App\Course::where('id', '=', $course_parent_id)->first();
+        $data['title']= $academic_record ->academic_year_title .' - ' . getPhrase('semester') . $request->semister .' - '. $parent_record ->course_title .' - '. $course_record ->course_title;
+    
         $year = 1;
         /*$semister = new App\AcademicSemester;
         $semister =$semister->getCurrentSemeterOfAcademicYear($academic_id);*/
@@ -145,8 +149,7 @@ class TimetableController extends Controller
         }
 
         $data['staff_records'] = $staff_with_allotment_records;
-
-
+      
         $scheduled_records = (object)$this->getSchedules(
             $academic_id,
             $course_id,
@@ -361,7 +364,7 @@ class TimetableController extends Controller
     public function updateTimetable(Request $request)
     {
 
-       // dd($request->staff);
+      
         $academic_id = $request->year_id;
         $course_id = $request->class_id;
         $subjects = $request->subject;
@@ -385,6 +388,7 @@ class TimetableController extends Controller
 
 
             foreach ($table_elements as $code => $user_id) {
+             
                 $decoded_items = (object)$this->decodeObject($code);
                 $day = $decoded_items->day;
                 $timingset_id = $decoded_items->timingset_id;

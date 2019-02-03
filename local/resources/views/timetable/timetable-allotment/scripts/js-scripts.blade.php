@@ -21,17 +21,29 @@
     $scope.sem_id           = 0;
     $scope.year_id           = 0;
     $scope.class_id           = 0;
+    $scope.title="";
     $scope.subject           = [];
+    var staff = {};
+      var subject = {};
+    $scope.submit = function(idCards) {
 
-      $scope.submit = function(idCards) {
+
+          $('input[type="hidden"][name^="staff"]').map(function(){
+            return staff[this.getAttribute("name").replace("staff", "")]=this.getAttribute("value");
+    }).get();
+
+    $('input[type="hidden"][name^="subject"]').map(function(){
+            return subject[this.getAttribute("name").replace("subject", "")]=this.getAttribute("value");
+    }).get();
+     
         route   = '{{URL_UPDATE_TIMETABLE}}';   
         data    = {   _method: 'post', 
                   '_token':httpPreConfig.getToken(), 
                   'year_id':  $scope.current_year_sc  , 
                   'class_id':  $scope.current_class_sc  ,
-                  'subject':  $scope.subject  ,
+                  'subject':  subject  ,
                   'sem_id':  $scope.current_sem_sc  ,
-                  'staff': $scope.staff,
+                  'staff': staff,
                };
        httpPreConfig.webServiceCallPost(route, data).then(function(result){
            console.log(result.data);
@@ -118,7 +130,7 @@
            console.log(result.data);
         result = result.data;
         users = [];
- 
+        $scope.title=result.title;
          $scope.timings_map = result.timemaps;
         
          $scope.maximum_periods_set = result.maximum_periods_set;

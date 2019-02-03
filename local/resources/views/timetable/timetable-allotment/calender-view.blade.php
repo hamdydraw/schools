@@ -3,7 +3,7 @@
      <div id="calendar-wrap" ng-show="showCalender" >
             <header>
                 <h4>{{getPhrase('prepare_timetable')}}</h4>
-               
+              
             </header>
             <div id="calendar" >{{-- class="table-responsive table-responsive-all" --}}
             <table class="table time-table">
@@ -52,10 +52,8 @@
                             </div>
                             </div>
                           
-                            <input type="hidden" ng-model="staff" name="staff[@{{item.id}}]" 
-
-                            value="@{{item.user_id}}">
-                            <input type="hidden" ng-model="subject"  name="subject[@{{item.id}}]" value="@{{item.subject_id}}">
+                            <input type="hidden"    name="staff[@{{item.id}}]"  value="@{{item.user_id}}">
+                            <input type="hidden"   name="subject[@{{item.id}}]" value="@{{item.subject_id}}">
                         </div>
 
 

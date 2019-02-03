@@ -69,7 +69,7 @@
 
 
                             @include('timetable.timetable-allotment.selection-view')
-
+                            <h1>@{{title}}</h1>
                             @include('timetable.timetable-allotment.calender-view')
 
                             <br>
