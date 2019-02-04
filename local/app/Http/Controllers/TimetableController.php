@@ -216,7 +216,8 @@ class TimetableController extends Controller
                 $timetable_record = App\Timetable::
                 join('users', 'users.id', '=', 'timetable.user_id')
                     ->join('staff', 'users.id', '=', 'staff.user_id')
-                    ->join('subjects', 'subjects.id', '=', 'timetable.subject_id');
+                    ->join('subjects', 'subjects.id', '=', 'timetable.subject_id')
+                    ->where('timetable.branch_id',Auth::user()->branch_id);;
                 if ($user_id == 0) {
                     $timetable_record = $timetable_record
                         ->where('timetable.academic_id', '=', $academic_id)
@@ -458,6 +459,7 @@ class TimetableController extends Controller
                         $record->timingset_map_id = $timingset_map_id;
                         $record->timingset_details_id = $timingset_details_id;
                         $record->user_id = $user_id;
+                        $record->branch_id = Auth::user()->branch_id;
                         $record->subject_id = $subject_id;
                         $record->update_stamp($request);
                         $record->save();
