@@ -64,12 +64,12 @@ class Settings extends Model
     public static function get_message_extensions(){
         $record = Settings::where('slug', 'allowed_messages_files')->first();
         $values = json_decode($record->settings_data);
-        return $values->homework_allowed_files;
+        return $values->message_allowed_files;
     }
     public static function get_feedback_extensions(){
         $record = Settings::where('slug', 'allowed_feedback_files')->first();
         $values = json_decode($record->settings_data);
-        return $values->homework_allowed_files;
+        return $values->feedback_allowed_files;
     }
 
     public static function get_default_theme(){
@@ -104,7 +104,7 @@ class Settings extends Model
     }
 
     public static function get_att_logo(){
-        
+
         $settings = Settings::where('key','site_settings')->first();
         $setting_data = (array) json_decode($settings['settings_data']);
         if(Auth::user()->category_id==1){
@@ -130,12 +130,12 @@ class Settings extends Model
      */
     public static function getSetting($key, $setting_module)
     {
-         
+
        $setting_module     = trim(strtolower($setting_module));
         $key      =  trim(strtolower($key));
-       
+
         return Settings::isSettingAvailable($key, $setting_module);
-    }    
+    }
 
 
     /**
@@ -148,8 +148,8 @@ class Settings extends Model
      */
     public static function isSettingAvailable($key, $setting_module)
     {
-        
-         
+
+
         if(!session()->has('settings'))
         {
 
@@ -158,7 +158,7 @@ class Settings extends Model
         }
 
       $settings =(array) json_decode(session('settings'));
-      
+
       /**
        * Check if key exists in specified module settings data
        * If not exists return invalid setting
@@ -173,7 +173,7 @@ class Settings extends Model
 
          $settings =(array) json_decode(session('settings'));
         }
-    
+
         $sub_settings = (array) $settings[$setting_module];
         if(!array_key_exists($key, $sub_settings))
         {
@@ -183,7 +183,7 @@ class Settings extends Model
     }
 
     /**
-     * This method fetches the setting module and 
+     * This method fetches the setting module and
      * Get the record with the sent key from DB
      * Validate the record, if not valid return false
      * Append the record to existing setting varable
@@ -194,18 +194,18 @@ class Settings extends Model
     {
 
         $setting_record = Settings::where('key','=',$setting_module)->first();
-        
+
         if(!$setting_record)
             return FALSE;
-        
+
         $data = json_decode($setting_record->settings_data);
         $global_settings =(array) json_decode(session('settings'));
         unset($global_settings[$setting_module]);
         $global_settings[$setting_module] = $data;
 
-      
+
         session()->put('settings', json_encode($global_settings));
-         
+
         return TRUE;
 
     }
