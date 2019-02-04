@@ -364,8 +364,7 @@ class TimetableController extends Controller
      */
     public function updateTimetable(Request $request)
     {
-
-      
+ 
         $academic_id = $request->year_id;
         $course_id = $request->class_id;
         $subjects = $request->subject;
@@ -421,6 +420,7 @@ class TimetableController extends Controller
                     ->where('timingset_id', '=', $timingset_id)
                     ->where('timingset_map_id', '=', $timingset_map_id)
                     ->where('timingset_details_id', '=', $timingset_details_id)
+                    ->where('timetable.branch_id',Auth::user()->branch_id)
                     ->first();
 
                 if ($record) {
