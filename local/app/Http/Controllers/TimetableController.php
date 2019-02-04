@@ -433,6 +433,7 @@ class TimetableController extends Controller
 
                         $record->user_id = $user_id;
                         $record->subject_id = $subject_id;
+                        $record->branch_id = Auth::user()->branch_id;
                         $record->timingset_details_id = $timingset_details_id;
                         $record->update_stamp($request);
                         $record->save();
@@ -528,6 +529,7 @@ class TimetableController extends Controller
             ->where('timingset_map_id', '=', $data->timingset_map_id)
             ->where('timingset_details_id', '=', $data->timingset_details_id)
             ->where('user_id', '=', $request->user_id)
+            ->where('timetable.branch_id',Auth::user()->branch_id)
             ->first();
         $result['status'] = 1;
         $result['message'] = '';

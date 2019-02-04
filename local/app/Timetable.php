@@ -77,8 +77,7 @@ class Timetable extends Model
 
         return Timetable::join('subjects', 'subjects.id','=','timetable.subject_id')
                         ->join('courses','courses.id','=', 'timetable.course_id')
-                        ->join('timingsetdetails','timingsetdetails.id', 
-                            '=', 'timetable.timingset_details_id')
+                        ->join('timingsetdetails','timingsetdetails.id', '=', 'timetable.timingset_details_id')
                         ->where('academic_id','=',$academic_id)
                         ->where('course_id', '=', $student_record->course_id)
                         ->where('year', '=', $student_record->current_year)
