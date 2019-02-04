@@ -1370,6 +1370,12 @@ Route::get('available_Massages_extn',function (){
     return $extn;
 });
 
+Route::get('available_FeedBack_extn',function (){
+    $data =  \App\Settings::get_feedback_extensions();
+    $extn = $data->value;
+    return $extn;
+});
+
 //subject and course routes
 Route::get('get_years',function (){
     return \App\Academic::where('show_in_list',1)->get();

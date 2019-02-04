@@ -66,6 +66,11 @@ class Settings extends Model
         $values = json_decode($record->settings_data);
         return $values->homework_allowed_files;
     }
+    public static function get_feedback_extensions(){
+        $record = Settings::where('slug', 'allowed_feedback_files')->first();
+        $values = json_decode($record->settings_data);
+        return $values->homework_allowed_files;
+    }
 
     public static function get_default_theme(){
         $record = Settings::where('slug', 'site-settings')->first();

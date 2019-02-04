@@ -16,7 +16,6 @@
         $scope.file_name = [];
 
         $scope.upload_file = function ($files) {
-            console.log("function_worked")
             $scope.bupload = false;
             var file = $files;
             extn = [];
