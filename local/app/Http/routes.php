@@ -1058,6 +1058,7 @@ Route::get('messages/search/{key}', 'MessagesController@search');
 Route::get('messages/archive/{id}', 'MessagesController@archive');
 Route::get('messages/unArchive/{id}', 'MessagesController@unArchive');
 Route::get('messages/destroy/{id}', 'MessagesController@delete');
+Route::get('messages/archived/messages','MessagesController@archived_index');
 
 
 //////////////////////

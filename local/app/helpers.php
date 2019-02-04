@@ -585,7 +585,12 @@ function isSubscribed($type = 'main', $user_slug = '')
 }
 
 function getUserName($claw){
-    return User::where('slug',$claw)->orWhere('id',$claw)->first()->name;
+
+    $user =  User::where('slug',$claw)->orWhere('id',$claw)->first();
+    if($user){
+        return $user->name;
+    }
+    return "";
 }
 function is_student(){
     if(Auth::user()->role_id == 5){

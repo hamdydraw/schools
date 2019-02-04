@@ -38,10 +38,8 @@ class MessagesController extends Controller
             pageNotFound();
             return back();
         }
-
         $current_user =     Auth::user();
         $available_types = App\Settings::getMassages();
-
         if(!in_array($current_user->role_id,$available_types))
         {
                 pageNotFound();
@@ -50,19 +48,79 @@ class MessagesController extends Controller
 
         $currentUserId = $current_user->id;
 
-        // All threads that user is participating in
         $threads = Thread::forUser($currentUserId)->latest('updated_at')->paginate(getRecordsPerPage());
         // All threads that user is participating in, with new messages
         $data['title']        = getPhrase('create_message');
         $data['active_class'] = 'messages';
         $data['currentUserId']= $currentUserId;
         $data['messages_count'] = DB::table('messenger_participants')->where('user_id',Auth::user()->id)->where('is_archived',0)->count();
+        $data['archive_count']  = DB::table('messenger_participants')->where('user_id',Auth::user()->id)->where('is_archived',1)->count();
         $data['threads'] 	  = $threads;
         $data['layout']       = getLayout();
+        $data['inbox'] = true;
 
         return view('messaging-system.index', $data);
     }
 
+    public function archived_index()
+    {
+        if(!getSetting('messaging', 'module'))
+        {
+            pageNotFound();
+            return back();
+        }
+
+        if(!getUserGrade(14))
+        {
+            pageNotFound();
+            return back();
+        }
+        $current_user =     Auth::user();
+        $available_types = App\Settings::getMassages();
+        if(!in_array($current_user->role_id,$available_types))
+        {
+            pageNotFound();
+            return back();
+        }
+
+        $currentUserId = $current_user->id;
+
+        // All threads that user is participating in, with new messages
+        $data['title']        = getPhrase('create_message');
+        $data['active_class'] = 'messages';
+        $data['currentUserId']= $currentUserId;
+        $data['messages_count'] = DB::table('messenger_participants')->where('user_id',Auth::user()->id)->where('is_archived',0)->count();
+        $data['archive_count']  = DB::table('messenger_participants')->where('user_id',Auth::user()->id)->where('is_archived',1)->count();
+        $data['threads'] 	  = $this->get_Archived_messages();
+        $data['layout']       = getLayout();
+        $data['inbox'] = false;
+
+        return view('messaging-system.archive', $data);
+    }
+
+    public function get_Archived_messages()
+    {
+        $threads = Thread::forUser(Auth::user()->id)
+            ->where('messenger_participants.is_archived',1)
+            ->select('messenger_threads.id','messenger_participants.id as my_id','sender','subject')
+            ->latest('messenger_threads.updated_at')->get();
+        foreach ($threads as $thread){
+            $thread->last_time = $thread->latestMessage->updated_at->diffForHumans();
+            $thread->last_time = getPhrase(str_replace(' ','_',$thread->last_time));
+            $thread->body      = $thread->latestMessage->body;
+            $thread->username  = getUserName($thread->sender);
+            $thread->role      = getPhrase(getRole($thread->sender));
+            $thread->to        = DB::table('messenger_participants')
+                ->join('users','users.id','=','messenger_participants.user_id')
+                ->select('messenger_participants.user_id','users.name')
+                ->where('thread_id',$thread->id)->where('user_id','!=',$thread->sender)
+                ->get();
+            $sender = getUserRecord($thread->latestMessage->user_id);
+            $thread->image     = getProfilePath($sender->image);
+            $thread->hasfile   = $this->ThreadHasFile($thread->id);
+        }
+        return $threads;
+    }
     public function search($key)
     {
         if($key == "all"){
@@ -86,7 +144,7 @@ class MessagesController extends Controller
             $thread->to        = DB::table('messenger_participants')
                 ->join('users','users.id','=','messenger_participants.user_id')
                 ->select('messenger_participants.user_id','users.name')
-                ->where('thread_id',$thread->id)->where('user_id','!=',Auth::user()->id)
+                ->where('thread_id',$thread->id)->where('user_id','!=',$thread->sender)
                 ->get();
             $sender = getUserRecord($thread->latestMessage->user_id);
             $thread->image     = getProfilePath($sender->image);

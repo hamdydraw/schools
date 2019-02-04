@@ -18,16 +18,20 @@
 
                 <div class="pull-right messages-buttons">
                     <a class="btn btn-lg btn-info button"
+                       href="{{URL_MESSAGES_ARCHIVE}}"> {{getPhrase('Archive').'('.$archive_count.')'}} </a>
+                    <a class="btn btn-lg btn-info button"
                        href="{{URL_MESSAGES}}"> {{getPhrase('inbox').'('.$messages_count.')'}} </a>
                     <a class="btn btn-lg btn-info button" href="{{URL_MESSAGES_CREATE}}">
                         {{getPhrase('compose')}}</a>
                 </div>
                 <div class="col-md-3 col-md-offset-3 pull-right">
+                    @if($inbox == true)
                     <fieldset class="form-group">
                         <input type="text" placeholder="{{getPhrase('search_in_inbox')}}" ng-model="key"
                                ng-change="keyChanged()" name="search"
                                class="form-control ng-valid ng-touched ng-dirty ng-valid-parse ng-empty">
                     </fieldset>
+                        @endif
                 </div>
                 <h1>{{getPhrase('inbox')}}</h1>
 

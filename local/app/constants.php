@@ -625,6 +625,8 @@ define('URL_FEEDBACKS_GETLIST', PREFIX.'feedback/getlist');
 
 //MESSAGES
 define('URL_MESSAGES', PREFIX.'messages');
+define('URL_MESSAGES_ARCHIVE', PREFIX.'messages/archived/messages');
+//URL_MESSAGES_ARCHIVE
 define('URL_MESSAGES_SHOW', PREFIX.'messages/');
 define('URL_MESSAGES_CREATE', PREFIX.'messages/create');
 define('URL_MESSAGES_SEARCH', PREFIX.'messages/search/');
