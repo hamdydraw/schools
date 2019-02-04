@@ -16,7 +16,7 @@
                         </ol>
                     </div>
                 </div>
-                
+
          		 <div class="panel panel-custom col-lg-6 col-lg-offset-3">
                     <div class="panel-body">
                         <div class="notification-details">
@@ -39,7 +39,7 @@
                             </div>
                             <div class="notification-footer text-center">
                                 @foreach($record->files as $file)
-                                    <a href="{{MESSAGES_FILES.$file->file_name}}" download> <img width="35" height="35" src="{{IMAGE_FILE_ICON}}"></a>
+                                    <a href="{{FEEDBACK_FILES.$file->file_name}}" download> <img width="35" height="35" src="{{IMAGE_FILE_ICON}}"></a>
                                 @endforeach
                             </div>
                             <div class="notification-footer text-center">
@@ -52,9 +52,9 @@
             </div>
             <!-- /.container-fluid -->
         </div>
-        
+
 @endsection
- 
+
 @section('footer_scripts')
- 
+
 @stop
