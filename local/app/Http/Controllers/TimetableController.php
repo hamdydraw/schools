@@ -518,7 +518,9 @@ class TimetableController extends Controller
      */
     public function checkStaffIsAvailable(Request $request)
     {
+       
         $data = (object)$this->decodeObject($request->id);
+     
         $record = App\Timetable::
         where('academic_id', '=', $data->academic_id)
             //->where('course_id', '=', $data->course_id)
@@ -530,6 +532,7 @@ class TimetableController extends Controller
             ->where('timingset_details_id', '=', $data->timingset_details_id)
             ->where('user_id', '=', $request->user_id)
             ->where('timetable.branch_id',Auth::user()->branch_id)
+            ->where('timetable.semister',$data->semister)
             ->first();
         $result['status'] = 1;
         $result['message'] = '';
