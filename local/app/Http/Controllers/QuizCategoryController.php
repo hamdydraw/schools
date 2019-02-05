@@ -214,7 +214,7 @@ class QuizCategoryController extends Controller
             $record->slug = $record->makeSlug($name);
 
        //Validate the overall request
-       $this->validate($request, $rules);
+        $this->validate($request, $rules);
     	$record->category 			= $name;
         $record->description		= $request->description;
         $record->record_updated_by 	= Auth::user()->id;

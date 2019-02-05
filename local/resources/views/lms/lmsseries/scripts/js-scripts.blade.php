@@ -18,8 +18,14 @@ app.controller('prepareQuestions', function( $scope, $http) {
     $scope.current_subject_sc   = null;
     $scope.academic_courses_sc  = [];
     $scope.academic_subjects_sc = [];
+    $scope.branchtitle="";
+    $scope.main_topic = [];
+        $scope.main_topic_count = [];
         @include('common.year_sems_js');
         @include('common.course_js');
+
+    
+      
 
     if($scope.lastPart != 'add'){
         $http({
@@ -29,10 +35,22 @@ app.controller('prepareQuestions', function( $scope, $http) {
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })
             .then(function (response) {
-                $scope.branch = response.data.course_id.toString();
+                $scope.branch = response.data.course_id.toString(); 
+                
                 $scope.getCategories($scope.branch);
                 $scope.categorii = response.data.id.toString();
                 console.log($scope.categorii);
+            })
+            $http({
+            method:"GET",
+            url:'{{PREFIX}}'+'/get_series_data/'+$scope.lastPart,
+            dataType:"json",
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+            .then(function (response) {
+                
+                $scope.branchtitle = response.data.course_title; 
+                 
             })
     }
 
@@ -46,7 +64,9 @@ app.controller('prepareQuestions', function( $scope, $http) {
             .then(function (response) {
                 $scope.categories = response.data;
                 $scope.categorii   = $scope.categorii;
+                
                 console.log($scope.categorii,$scope.categories);
+                
             })
     }
    
@@ -71,7 +91,75 @@ app.controller('prepareQuestions', function( $scope, $http) {
  
     }
 
+    $scope.get_topics = function()
+        {
 
+            if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null || $scope.current_subject_sc == null){
+                return false;
+            }
+
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_all_series_topicscount/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.lastPart,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.main_topic_count = response.data;
+                    
+                    console.log($scope.main_topic_count );
+                })
+
+            $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_all_topics/'+$scope.current_subject_sc+'/'+$scope.current_course_sc+'/'+$scope.current_year_sc+'/'+$scope.current_sem_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                .then(function (response) {
+                    $scope.academic_topics_sc=[];
+                    $scope.academic_topics_sc = response.data;
+                    
+                    angular.forEach($scope.academic_topics_sc,function(item){
+                    //    console.log(item.parent_id);
+                        if(item.parent_id == 0){
+                            item.topic_name = "- "+item.topic_name;
+                            
+                            $scope.main_topic.push(item);
+                        }
+                    });
+                    angular.forEach($scope.main_topic,function (item) {
+                        item.sub_topics = [];
+                        angular.forEach($scope.academic_topics_sc,function(item2){
+                            
+                           if(item.id == item2.parent_id){
+                            
+                            var gr=$scope.main_topic_count.filter(function(v){
+                            return v.topic_id==item2.id;
+                            });  
+                            if(gr.length >0)
+                            {
+                                item2.total = gr[0].total.toString();
+                            }
+                            else    {
+                                item2.total ="0";}
+                               item.sub_topics.push(item2);
+                               
+                           }
+
+                        });
+                    });
+                    if(response.data.length != 0) {
+                        $scope.current_topic_sc ="";// response.data[0].id.toString();
+                        $scope.categoryChanged($scope.current_subject_sc);
+                    }
+                    if($scope.first_time) {
+                        $scope.ifEdit();
+                        $scope.first_time = false;
+                        return;
+                    }
+                })
+        }
 
     $scope.getSubjects = function () {
         if($scope.current_course_sc == null || $scope.current_year_sc == null || $scope.current_sem_sc == null){
@@ -87,11 +175,17 @@ app.controller('prepareQuestions', function( $scope, $http) {
                 $scope.academic_subjects_sc = response.data;
                 if(response.data.length != 0) {
                     $scope.current_subject_sc = response.data[0].subject_id.toString();
+                    $scope.get_topics();
                 }
+                else {$scope.getSubjects2();}
                 $scope.categoryChanged($scope.current_subject_sc);
             })
     }
     
+    $scope.getSubjects2 = function () {
+        $scope.current_course_sc = $scope.branch;
+        $scope.getSubjects();
+    }
      $scope.categoryChanged = function(selected_number) {
 
         if(selected_number=='')

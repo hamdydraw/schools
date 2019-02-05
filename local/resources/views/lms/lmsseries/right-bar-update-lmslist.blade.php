@@ -1,12 +1,13 @@
 <div class="panel-heading">
 		<h2>{{getPhrase('saved_items')}}</h2>
 	<div ng-if="savedSeries.length>0" class="crearfix selected-questions-details">
-
+		
 		<span class="pull-right">{{getPhrase('total_items')}}: @{{ savedSeries.length }}</span>
 	</div>
 	<div ng-if="savedSeries.length==0" class="crearfix selected-questions-details">
 		<span class="pull-left">{{getPhrase('no_data_available')}}</span>
 	</div>
+<center><span> @{{branchtitle}}</span></center>
 	</div>
 	{!! Form::open(array('url' => URL_LMS_SERIES_UPDATE_SERIES.$record->slug, 'method' => 'POST')) !!}
 					 	<input type="hidden" name="saved_series" value="@{{savedSeries}}">

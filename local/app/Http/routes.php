@@ -1351,6 +1351,12 @@ Route::get('get_quiz_data/{slug}',function ($slug){
 
     return $result;
 });
+Route::get('get_series_data/{slug}',function ($slug){
+    $lms             = \App\LmsSeries::where('slug',$slug)->first()->lms_category_id;
+    $result = \App\LmsCategory::where('id',$lms)->first();
+    $course=\App\Course::where('id',$result->course_id)->first();
+    return $course;
+});
 
 Route::get('get_default_selectors2/{slug}/{table}',function ($slug,$table){
     $quiz             = DB::table($table)->where('slug',$slug)->first();
@@ -1577,6 +1583,27 @@ Route::get('get_all_topicscount/{subject}/{course}/{year}/{sem}/{quiz}', functio
   ->select('questionbank.topic_id', DB::raw('count(questionbank.topic_id) as total'))
   ->groupBy('questionbank.topic_id')
   ->whereNotIn('questionbank.id',$ids)
+  ->where('topics.subject_id',$subject)
+  ->where('topics.record_status','!=','3')
+  ->where('topics.course_id',$course)->where('topics.semester_num',$sem)
+  ->where('topics.academic_id',$year)->where('topics.parent_id','!=','0')->distinct()->orderBy('topics.parent_id')->get();
+
+
+});
+
+Route::get('get_all_series_topicscount/{subject}/{course}/{year}/{sem}/{slug}', function ($subject,$course,$year,$sem,$slug) {
+    ///return \App\Topic::where('subject_id',$subject)->where('course_id',$course)->where('semester_num',$sem)->where('academic_id',$year)->orderBy('parent_id')->get();
+    
+    $ids=DB::table('lmsseries_data')
+    ->join('lmsseries','lmsseries_data.lmsseries_id','=','lmsseries.id')
+    ->where('lmsseries.slug','=',$slug)->where('lmsseries.record_status','!=','3')->pluck("lmsseries_data.lmscontent_id");
+
+    return 
+    DB::table('lmscontents')  
+  ->leftjoin('topics','lmscontents.topic_id','=','topics.id')
+  ->select('lmscontents.topic_id', DB::raw('count(lmscontents.topic_id) as total'))
+  ->groupBy('lmscontents.topic_id')
+  ->whereNotIn('lmscontents.id',$ids)
   ->where('topics.subject_id',$subject)
   ->where('topics.record_status','!=','3')
   ->where('topics.course_id',$course)->where('topics.semester_num',$sem)

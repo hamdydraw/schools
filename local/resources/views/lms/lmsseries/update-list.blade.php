@@ -81,21 +81,34 @@
 
 					 		<div class="row">
 
-							<fieldset class="form-group col-md-6">
+							<fieldset class="form-group col-md-4">
 
 								{{ Form::label('select_subject', getphrase('select_subject')) }}
 
 
-								<select name="select_subject" class="form-control" required="required" ng-model="current_subject_sc" ng-change="categoryChanged(current_subject_sc)">
+								<select name="select_subject" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics();categoryChanged(current_subject_sc)">
 									<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
 								</select>
 
 
 							</fieldset>
+							<fieldset class="form-group col-md-4">
+
+								{{ Form::label('topic', getphrase('select_topic')) }} 
+								<select  name="topic" class="form-control" required="required" ng-model="current_topic_sc"  ng-change="categoryChanged(current_subject_sc)">
+										<option value="">{{getphrase('select')}}</option>
+										<optgroup ng-repeat="topic in main_topic" label="@{{ topic.topic_name }}">
+											<option ng-repeat="subs in topic.sub_topics" value="@{{ subs.id }}">@{{ subs.topic_name }} (@{{ subs.total }})</option>
+										</optgroup>
+										{{--<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>--}}
+									{{--<option ng-repeat="topic in topics_sc" ng-class="topic.parent_id == 0 ? 'optionGroup' : 'optionChild' " value="@{{ topic.id }}">@{{ topic.topic_name }}</option>--}}
+									</select>
+
+							</fieldset>
 
 						<?php $lmssettings = getSettings('lms');?>
 
-							<fieldset class="form-group col-md-6">
+							<fieldset class="form-group col-md-4">
 
 								{{ Form::label('file_type', getphrase('file_type')) }}
 

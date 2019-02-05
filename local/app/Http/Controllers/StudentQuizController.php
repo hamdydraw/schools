@@ -60,7 +60,7 @@ class StudentQuizController extends Controller
         $data['title'] = getPhrase('quiz_categories');
         $data['categories'] = [];
         $user = Auth::user();
-        $interested_categories = null;
+        /*$interested_categories = null;
         if ($user->settings) {
             $interested_categories = json_decode($user->settings)->user_preferences;
         }
@@ -70,7 +70,12 @@ class StudentQuizController extends Controller
                 whereIn('id', (array)$interested_categories->quiz_categories)
                     ->paginate(getRecordsPerPage());
             }
-        }
+        }*/
+        $courses = get_courses();
+        
+        $data['categories'] = QuizCategory::
+        whereIn('course_id',(array)$courses)
+            ->paginate(getRecordsPerPage());
 
         $data['layout'] = getLayout();
         return view('student.exams.categories', $data);

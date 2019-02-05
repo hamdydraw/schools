@@ -212,7 +212,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                         </a>
 
                     </li>
-
+                <!--
                     <li>
 
                         <a href="{{URL_USERS_SETTINGS.Auth::user()->slug}}">
@@ -222,6 +222,7 @@ if($settings->push_notifications->value == 1){$total+=\App\user_notifications::g
                         </a>
 
                     </li>
+                     -->
 
 
                     <li>

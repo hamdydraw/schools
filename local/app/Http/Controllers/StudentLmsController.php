@@ -41,8 +41,8 @@ class StudentLmsController extends Controller
         $data['layout']              = getLayout();
         $data['categories']         = [];
 
-         $user = Auth::user();
-        $interested_categories      = null;
+        $user = Auth::user();
+        /*$interested_categories      = null;
         if($user->settings)
         {
           $interested_categories =  json_decode($user->settings)->user_preferences;
@@ -53,8 +53,11 @@ class StudentLmsController extends Controller
         $data['categories']         = Lmscategory::
                                       whereIn('id',(array) $interested_categories->lms_categories)
                                       ->paginate(getRecordsPerPage());
-        }
-
+        }*/
+        $courses = get_courses();
+        $data['categories']         = Lmscategory::
+        whereIn('course_id',(array) $courses)
+        ->paginate(getRecordsPerPage());
         $data['user'] = $user;
         return view('student.lms.categories', $data);
     }
