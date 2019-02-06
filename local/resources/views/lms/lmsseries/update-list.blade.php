@@ -86,7 +86,7 @@
 								{{ Form::label('select_subject', getphrase('select_subject')) }}
 
 
-								<select name="select_subject" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics();categoryChanged(current_subject_sc)">
+								<select name="select_subject" class="form-control" required="required" ng-model="current_subject_sc" ng-change="get_topics();">
 									<option ng-repeat="subject in academic_subjects_sc" value="@{{ subject.subject_id }}">@{{ subject.subject_title }}</option>
 								</select>
 

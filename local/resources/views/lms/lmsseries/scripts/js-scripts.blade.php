@@ -8,6 +8,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
    $scope.savedItems = [];
     $scope.savedSeries =  [];
     $scope.total_items = 0;
+    $scope.current_topic_sc="";
     $scope.is_paid     = '0';
     @if(isset($record->is_paid))
         $scope.is_paid     = {{$record->is_paid}};
@@ -150,7 +151,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
                         });
                     });
                     if(response.data.length != 0) {
-                        $scope.current_topic_sc ="";// response.data[0].id.toString();
+                        $scope.current_topic_sc ="0";// response.data[0].id.toString();
                         $scope.categoryChanged($scope.current_subject_sc);
                     }
                     if($scope.first_time) {
@@ -178,6 +179,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
                     $scope.get_topics();
                 }
                 else {$scope.getSubjects2();}
+                $scope.current_topic_sc ="0";
                 $scope.categoryChanged($scope.current_subject_sc);
             })
     }
@@ -187,7 +189,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
         $scope.getSubjects();
     }
      $scope.categoryChanged = function(selected_number) {
-
+ 
         if(selected_number=='')
             selected_number = $scope.category_id;
         category_id = selected_number;
@@ -195,7 +197,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
             return;
          $http({
              method:"GET",
-             url:'{{PREFIX}}'+'get_series/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+category_id,
+             url:'{{PREFIX}}'+'get_series/'+$scope.current_year_sc+'/'+$scope.current_sem_sc+'/'+$scope.current_course_sc+'/'+category_id+'/'+ $scope.current_topic_sc,
              dataType:"json",
              headers:{'Content-Type': 'application/x-www-form-urlencoded'}
          })
@@ -260,6 +262,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
                       $scope.categoryItems.push(item);     
                 return;
              }
+             $scope.current_topic_sc ="0";
              $scope.categoryChanged($scope.category_id);
         }
 
@@ -315,6 +318,7 @@ app.controller('prepareQuestions', function( $scope, $http) {
             $scope.totalQuestions       = 0;
             $scope.setItem('saved_questions', $scope.savedSeries);
             $scope.setItem('total_questions', $scope.totalQuestions);
+            $scope.current_topic_sc ="0";
             $scope.categoryChanged($scope.category_id);
             // localStorage.removeItem('saved_questions');
             // localStorage.removeItem('total_marks');

@@ -34,6 +34,7 @@ class QuizCategory extends Model
         ->where('total_questions','>','0')
         ->where('applicable_to_specific', '=', 1)
         ->where('type','=','online')
+        ->where('record_status','!=','3')
         ->get();
 
 

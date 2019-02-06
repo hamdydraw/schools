@@ -1518,9 +1518,21 @@ Route::get('current_year_sem',function (){
 });
 
 
-Route::get('get_series/{year}/{sem}/{course}/{subject}',function ($year,$sem,$course,$subject){
-    $items 			= App\LmsContent::where('academic_id','=',$year)->where('sem_id','=',$sem)->where('course_id','=',$course)->where('subject_id','=',$subject)->get();
-    return json_encode(array('items'=>$items));
+Route::get('get_series/{year}/{sem}/{course}/{subject}/{topic}',function ($year,$sem,$course,$subject,$topic){
+    $items 			= App\LmsContent::where('academic_id','=',$year)->where('sem_id','=',$sem)
+    ->where('course_id','=',$course)
+    ->where('subject_id','=',$subject);
+   // ->where('topic_id','=',$topic)
+   //->get();
+   
+    if($topic!="" && $topic!="0" && $topic!=null)
+    { 
+    $parenttopics = App\Topic::where('parent_id',$topic)->select('id')->get();
+   
+    $items = $items->where('topic_id',$topic);
+    }
+    $results=$items->get();
+    return json_encode(array('items'=>$results));
 });
 
 
