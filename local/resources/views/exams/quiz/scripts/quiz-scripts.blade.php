@@ -53,7 +53,8 @@
                         $scope.branch = response.data.course_id.toString();
                         $scope.quiz_type = response.data.type;
                         $scope.getCategories($scope.branch);
-                        $scope.current_category = response.data.id.toString();
+                        $scope.current_category = response.data.category_id.toString();
+                        //alert($scope.current_category);
                         $rootScope.setten_cat = $scope.current_category;
                     })
             }

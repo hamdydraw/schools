@@ -954,11 +954,11 @@ class StudentQuizController extends Controller
                 ->where('course_subject.semister','=',default_sem(default_year()))
                 ->where('total_questions','>','0')
                 ->where('applicable_to_specific', '=', 1);
-            if ($interested_categories) {
+           /* if ($interested_categories) {
                 $query = $query->whereIn('category_id', (array)$interested_categories->quiz_categories);
             } else {
                 $query = $query->where('category_id', '=', '-1');
-            }
+            }*/
             $records = $query->groupBy('quizzes.slug')->get();
 
         }
