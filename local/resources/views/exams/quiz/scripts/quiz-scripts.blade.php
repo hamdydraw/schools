@@ -124,7 +124,7 @@
             })
                 .then(function (response) {
                     console.log(response.data)
-                    $scope.categories = response.data;
+yy                    $scope.categories = response.data;
 //                    if($scope.categories.length != 0){
 //                        $scope.current_category    = $scope.categories[0].id.toString();
 //                    }
