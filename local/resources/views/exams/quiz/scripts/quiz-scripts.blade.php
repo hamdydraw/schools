@@ -53,7 +53,7 @@
                         $scope.branch = response.data.course_id.toString();
                         $scope.quiz_type = response.data.type;
                         $scope.getCategories($scope.branch);
-                        $scope.current_category = response.data.id.toString();
+                        $scope.current_category = response.data.category_id.toString();
                         $rootScope.setten_cat = $scope.current_category;
                     })
             }
@@ -68,7 +68,6 @@
                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
                 })
                     .then(function (response) {
-                        console.log(response.data);
                         $scope.current_year_sc      = response.data.year.id.toString();
                         $scope.current_sem_sc       = response.data.sem.toString();
                         $scope.current_course_sc    = response.data.course.id.toString();
@@ -124,6 +123,7 @@
                 headers:{'Content-Type': 'application/x-www-form-urlencoded'}
             })
                 .then(function (response) {
+                    console.log(response.data)
                     $scope.categories = response.data;
 //                    if($scope.categories.length != 0){
 //                        $scope.current_category    = $scope.categories[0].id.toString();
