@@ -326,6 +326,7 @@ class QuizController extends Controller
             flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
             return $this->getRedirectUrl();
         }
+
         return false;
     }
 
