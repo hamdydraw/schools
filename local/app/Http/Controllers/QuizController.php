@@ -443,7 +443,7 @@ class QuizController extends Controller
         if ($type == 'offline') {
             return redirect(URL_OFFLINE_EXAMS);
         } else {
-            return redirect(URL_QUIZZES);
+            return redirect()->back();
         }
     }
 
