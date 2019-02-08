@@ -1333,6 +1333,8 @@ Route::get('userslogged/getList', 'UsersLoginController@getDatatable');
 Route::get('userslogged/destroy','UsersLoginController@deleteRecords');
 Route::get('users/switchUser/{slug}','UsersLoginController@switchUser');
 Route::get('users/switchAdmin/{slug}','UsersLoginController@switchAdmin');
+Route::get('users/switchStaff/{slug}','UsersLoginController@switchStaff');
+Route::get('users/switchSupervisor/{slug}','UsersLoginController@switchSupervisor');
 //get_default_selectors
 
 Route::get('get_default_selectors/{slug}/{table}',function ($slug,$table){

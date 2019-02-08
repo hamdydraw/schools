@@ -8,7 +8,7 @@ use Auth;
 use Charts;
 use DB;
 use SMS;
-
+use App\User;
 // use Codedge\Fpdf\Facades\Fpdf;
 
 // use Illuminate\Support\Facades\App;
@@ -109,6 +109,16 @@ class DashboardController extends Controller
 
                 if ($role == 'educational_supervisor')
                 {
+                    $user = getUserWithSlug();
+                    $allocated_staff = User::join('supervisors_staff', 'supervisors_staff.staff_id', '=', 'users.id')
+                    ->where('supervisors_staff.supervisor_id', $user->id)
+                    ->where('supervisors_staff.record_status','!=', '3')->get([
+                        'users.id',
+                        'users.name',
+                        'users.username',
+                        'users.slug'
+                    ]);
+                    $data['allocated_staff']=$allocated_staff;
                     $data['role']='educational_supervisor';
                 }
 

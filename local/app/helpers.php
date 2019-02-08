@@ -289,7 +289,7 @@ function urlHasString($str)
 }*/
 
 function checkRole($roles)
-{
+{ 
     if(Entrust::hasRole($roles))
        return TRUE;
    return FALSE;
@@ -405,10 +405,12 @@ function getUserGrade($grade = 5)
             return ['parent','secondary_parent'];
             break;
         case 17:
-            return ['admin','owner','student_guide'];
+            return ['admin','owner','student_guide','educational_supervisor'];
         case 18:
             return ['admin','owner','student_guide','staff'];
-
+        case 19:
+        return ['educational_supervisor','owner', 'admin', 'staff'];
+        break;
 
     }
 }

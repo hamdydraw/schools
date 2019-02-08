@@ -4,7 +4,43 @@
 @stop
 
 @section('content')
-    @if($role == 'educational_supervisor' || $role == 'student_guide')
+    @if($role == 'educational_supervisor')
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+
+                        <li><i class="fa fa-home"></i> {{ $title}}</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+
+                @foreach($allocated_staff as $record)
+                <div class="col-md-3">
+                    <div class="card {{getDashboardBoxColor()}} text-xs-center">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <i class="fa fa-archive"></i>
+                            </h4>
+                        <p class="card-text">{{$record->name}}</p>
+                        </div>
+                        <a class="card-footer text-muted"
+                           href="{{url(URL_STAFF_DETAILS.$record->slug)}}">
+                            {{ getPhrase('VIEW_STAFF')}}
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+                
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    @endif
+    @if(/*$role == 'educational_supervisor' ||*/ $role == 'student_guide')
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">

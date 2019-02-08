@@ -169,7 +169,15 @@ $role = getRoleData($user->role_id);
                         </a> 
                         </li>
                     @endif
+                    @if(Session::has('restore_staff') && Session::get('restore_staff') !=null )
+                    <li> 
+                    <a href="{{URL_USERS_SWITCH_SUPERVISOR.Auth::user()->slug}}">
 
+                        <sapn><i class="fa fa-sign-out" aria-hidden="true"></i> {{ getPhrase('back_to_supervisor') }}</sapn>
+
+                    </a> 
+                    </li>
+                     @endif
                     <li>
                         <a href="{{URL_USERS_LOGOUT}}">
                             <sapn><i class="fa fa-sign-out" aria-hidden="true"></i> {{ getPhrase('logout') }}</sapn>
@@ -304,7 +312,7 @@ $role = getRoleData($user->role_id);
 
                         </li>
                     @endif
-                @elseif($role == 'educational_supervisor' || $role == 'student_guide')
+                @elseif(/*$role == 'educational_supervisor' ||*/ $role == 'student_guide')
                     <li {{ isActive($active_class, 'teachers-subjects') }} >
                         <a href="{{url('supervisor/staff/teachers-subjects')}}">
                             <i class="fa fa-archive"></i>{{ getPhrase('specify_subjects_to_teachers') }}</a></li>

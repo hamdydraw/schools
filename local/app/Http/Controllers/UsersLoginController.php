@@ -70,4 +70,26 @@ class UsersLoginController extends Controller
         session()->put('restore_slug', null);
         return redirect('dashboard');
     }
+
+    public function switchStaff($slug)
+    {   
+        //dd(Auth::user()->slug);
+        session()->put('restore_staff', Auth::user()->slug);
+        Auth::logout(); 
+        $user = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
+        Auth::login($user);
+     
+        //$vrequest=Session::get('restore_slug');
+        return redirect('dashboard');
+    }
+    public function switchSupervisor($slug='')
+    {    
+       
+        Auth::logout(); 
+        $user = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', Session::get('restore_staff'))->get()->first();
+        Auth::login($user); 
+        session()->put('restore_staff', null);
+        return redirect('dashboard');
+    }
+
 }

@@ -1332,7 +1332,7 @@ class UsersController extends Controller
     {
 
 
-        if (!checkRole(getUserGrade(3))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -1341,15 +1341,16 @@ class UsersController extends Controller
             return back();
         }
 
-        $record = User::where('slug', $slug)->get()->first();
+        $record = User::join('staff', 'staff.user_id', '=', 'users.id')->where('slug', $slug)
+        ->select('users.*','staff.mobile')->get()->first();
         if ($record == null) {
             flash(getPhrase('Ooops'), getPhrase('Undefined_User'), 'overlay');
             return back();
         }
-        if ($record->role_id != 3) {
+        /*if ($record->role_id != 3) {
             flash(getPhrase('Ooops'), getPhrase('You_Have_No_Permission_To_Access'), 'overlay');
             return back();
-        }
+        }*/
 
         if ($isValid = $this->isValidRecord($record)) {
             return redirect($isValid);
@@ -1360,15 +1361,17 @@ class UsersController extends Controller
          * If so return the user back to previous page with message
          */
 
-        if (!isEligible($slug)) {
+        /*if (!isEligible($slug)) {
             return back();
-        }
-        $data['role_name'] = getRoleData($record->role_id);
+        }*/
+        $user = \Auth::user();
+        $data['role_name'] = getRoleData($user->role_id);
+        $data['role'] = $record->role_id;
         $data['record'] = $record;
         $data['title'] = $record->name . ' ' . getPhrase('details');
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
-
+ 
 
         return view('users.staff-details', $data);
 

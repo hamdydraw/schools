@@ -411,6 +411,8 @@ define('URL_STAFF_DETAILS', PREFIX.'staff/details/');
 define('URL_USERS_EDIT', PREFIX.'users/edit/');
 define('URL_USERS_SWITCH', PREFIX.'users/switchUser/');
 define('URL_USERS_SWITCH_ADMIN', PREFIX.'users/switchAdmin/');
+define('URL_USERS_SWITCH_STAFF', PREFIX.'users/switchStaff/');
+define('URL_USERS_SWITCH_SUPERVISOR', PREFIX.'users/switchSupervisor/');
 define('URL_USERS_ADD', PREFIX.'users/create');
 define('URL_USERS_DELETE', PREFIX.'users/delete/');
 define('URL_USERS_SETTINGS', PREFIX.'users/settings/');
