@@ -1436,7 +1436,7 @@ Route::get('supervisor/teacher-courses/{slug}',function($slug){
         ->where('courses.parent_id',0)
         ->where('course_subject.semister',$current_semster)
         ->where('course_subject.staff_id',get_user_id_from_slug($slug))
-        ->get();
+        ->distinct()->get();
 
 });
 

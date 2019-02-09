@@ -588,9 +588,9 @@ function isSubscribed($type = 'main', $user_slug = '')
 
 function getUserName($claw){
 
-    $user =  User::where('slug',$claw)->orWhere('id',$claw)->first();
+    $user =  User::withoutGlobalScope(App\Scopes\BranchScope::class)->where('slug',$claw)->orWhere('id',$claw)->first();
     if($user){
-        return $user->name;
+        return $user->username;
     }
     return "";
 }
