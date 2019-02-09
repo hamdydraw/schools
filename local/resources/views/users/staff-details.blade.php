@@ -53,14 +53,18 @@
 							<div class="profile-details">
 								@if($role_name=="educational_supervisor")
 								<table class="table">
+							 
+								@foreach($courses->groupBy('id') as $course)
 									<tr>
-										<td>asd</td>
-										<td>3324</td>
+									<td>{{$course[0]->course_title}}</td>
+									
+										<td>	@foreach($course  as $c)
+										<span style="padding-right:50px;"> {{$c->child_title}}	@endforeach </span>
+										</td>
+									
 									</tr>
-									<tr>
-										<td>asd</td>
-										<td>3324</td>
-									</tr>
+								@endforeach
+									 
 								</table> @endif
 
 							</div>
@@ -135,7 +139,7 @@
 
 									<p class="card-text">{{ getPhrase('Attendance_and_departure_report')}}</p>
 								</div>
-								<a class="card-footer text-muted" href="{{ATTENDANCE_REPORT_VIEW}}">
+								<a class="card-footer text-muted" href="{{ATTENDANCE_REPORT_VIEW.'/'.$record->slug}}">
 											{{ getPhrase('view_all')}}
 										</a>
 							</div>
@@ -150,7 +154,7 @@
 
 									<p class="card-text">{{ getPhrase('class_attendance_report')}}</p>
 								</div>
-								<a class="card-footer text-muted" href="{{URL_STUDENT_CLASS_ATTENDANCE}}">
+								<a class="card-footer text-muted" href="{{URL_STUDENT_CLASS_ATTENDANCE.'/'.$record->slug}}">
 												{{ getPhrase('view_all')}}
 											</a>
 							</div>
@@ -165,7 +169,7 @@
 										<p class="card-text">{{ getPhrase('REPORT_OF_QUIZ_RESULTS')}}</p>
 									</div>
 									<a class="card-footer text-muted"
-									href="{{URL_QUIZ_REPORT_VIEW}}">
+									href="{{URL_QUIZ_REPORT_VIEW.'/'.$record->slug}}">
 										{{ getPhrase('view_all')}}
 									</a>
 								</div>

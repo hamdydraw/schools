@@ -46,7 +46,7 @@
 							<div class="card-lg-padding">
 								<h4 class="card-title card-title-sm">{{ $subject->subject_title}}</h4>
 								<p class="card-text">{{ $subject->course_title}}</p>
-
+								<input type="hidden" name="slug" value="{{$slug}}" >
 										  <input type="hidden" name="academic_id" value="{{$subject->academic_id}}" >
 						                  <input type="hidden" name="course_id"   value="{{$subject->course_id}}" >
 						                  <input type="hidden" name="course_parent_id"   value="{{$subject->course_parent_id}}" >
@@ -93,7 +93,7 @@
 									<div class="card-lg-padding">
 										<h4 class="card-title card-title-sm">{{ $subject->subject_title}}</h4>
 										<p class="card-text">{{ $subject->course_title}}</p>
-
+										<input type="hidden" name="slug" value="{{$slug}}" >
 										<input type="hidden" name="academic_id" value="{{$subject->academic_id}}" >
 										<input type="hidden" name="course_id"   value="{{$subject->course_id}}" >
 										<input type="hidden" name="course_parent_id"   value="{{$subject->course_parent_id}}" >

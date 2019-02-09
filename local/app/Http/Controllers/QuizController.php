@@ -587,7 +587,7 @@ class QuizController extends Controller
 
     public function quiz_results()
     {
-        if (!checkRole(getUserGrade(3))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }

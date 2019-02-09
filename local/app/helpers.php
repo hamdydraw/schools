@@ -383,7 +383,7 @@ function getUserGrade($grade = 5)
             return ['assistant_librarian', 'librarian','owner', 'admin',];
             break;
        case 10:
-            return ['owner', 'admin', 'parent','student','student_guide'];
+            return ['owner', 'admin', 'parent','student','student_guide','educational_supervisor'];
             break;
 
        case 11:
@@ -1455,7 +1455,7 @@ function getTeacherCourses2($year,$sem = null,$staffSlug = null){
 }
 
 function getTeacherClasses($sem,$year,$staffSlug,$course){
-
+ 
     if($staffSlug != null) {
         $teacher = App\User::where('slug', $staffSlug)->first();
         $staffId = $teacher->id;

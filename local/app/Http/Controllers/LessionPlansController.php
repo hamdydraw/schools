@@ -33,7 +33,7 @@ class LessionPlansController extends Controller
             return redirect($isValid);
         }
 
-        if (!checkRole(getUserGrade(11))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -129,14 +129,14 @@ class LessionPlansController extends Controller
      */
     public function studentlist($slug)
     {
-
+ 
         $user = App\User::where('slug', '=', $slug)->first();
 
         if ($isValid = $this->isValidRecord($user)) {
             return redirect($isValid);
         }
 
-        if (!checkRole(getUserGrade(11))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }
@@ -205,7 +205,7 @@ class LessionPlansController extends Controller
         $data['subjects_second'] = $subjects_second;
         $data['title'] = getPhrase('students_dashboard');
         $data['layout'] = getLayout();
-
+        $data['slug'] = $slug;
         if (count($subjects_first) || count($subjects_second)) {
             return view('staff.lessionplans.studentlist-dashboard', $data);
         } else {
@@ -226,15 +226,16 @@ class LessionPlansController extends Controller
     {
 
         //Check the user Grade
-        if (!checkRole(getUserGrade(3))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }
-
+        $user = App\User::where('slug', '=', $request->slug)->first();
+        
         $course_time = App\Course::where('id', '=', $request->course_id)->select('course_dueration')->first();
         $academic_title = App\Academic::where('id', '=', $request->academic_id)->select('academic_year_title')->first();
         $course_name = App\Course::where('id', '=', $request->course_id)->select('course_title')->first();
-        $course_id = App\Staff::where('user_id', Auth::user()->id)->select('course_id')->first()->course_id;
+        $course_id = App\Staff::where('user_id', $user->id)->select('course_id')->first()->course_id;
         $data['active_class'] = 'academic';
         $data['title'] = getPhrase('student_list');
         $data['academic_id'] = $request->academic_id;

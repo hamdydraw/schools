@@ -1342,7 +1342,7 @@ class UsersController extends Controller
         }
 
         $record = User::join('staff', 'staff.user_id', '=', 'users.id')->where('slug', $slug)
-        ->select('users.*','staff.mobile')->get()->first();
+        ->select('users.*','staff.mobile', 'staff.id as staffid')->get()->first();
         if ($record == null) {
             flash(getPhrase('Ooops'), getPhrase('Undefined_User'), 'overlay');
             return back();
@@ -1371,8 +1371,20 @@ class UsersController extends Controller
         $data['title'] = $record->name . ' ' . getPhrase('details');
         $data['layout'] = getLayout();
         $data['active_class'] = 'users';
+        $year=default_year();
  
-
+        $data['courses']  = \App\Course::join('academic_course','courses.id','=','academic_course.course_id')
+        ->join('course_subject','courses.id','=','course_subject.course_parent_id')
+        ->leftjoin('courses as child','child.id','=','course_subject.course_id')
+        ->where('course_subject.academic_id',$year)
+        ->where('course_subject.semister',default_sem($year))
+        ->where('courses.parent_id',0)
+        ->where('courses.category_id',$record->category_id) 
+        ->where('course_subject.staff_id',$record->id)
+        ->select(['courses.id','courses.slug','courses.course_title','child.course_title as child_title'])
+        ->groupBy('child.id')
+        ->get();
+        // dd($data['courses']->groupBy('id'));
         return view('users.staff-details', $data);
 
     }

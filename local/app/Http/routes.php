@@ -748,7 +748,7 @@ Route::post('student/results/get-exams', 'ReportsController@getExamsByCategory')
 
 //Exams ---dashboard
 Route::get('exams/dashboard', 'QuizController@quizdashboard');
-Route::get('exams/quiz/results/view', 'QuizController@quiz_results');
+Route::get('exams/quiz/results/view/{slug?}', 'QuizController@quiz_results');
 Route::post('exams/quiz/report', 'QuizController@report_result');
 //exams/quiz/result/view
 Route::get('exams/quizzes', 'QuizController@index');
@@ -1078,7 +1078,7 @@ Route::get('student/attendance/getList', [
     'uses' => 'StudentAttendanceController@getDatatable'
 ]);
 
-Route::get('student/attendance-report', 'StudentAttendanceController@attendance_report');
+Route::get('student/attendance-report/{slug?}', 'StudentAttendanceController@attendance_report');
 
 Route::post('student/attendance-report', 'StudentAttendanceController@makeReport');
 //Student Attendence Report
@@ -1088,7 +1088,7 @@ Route::get('student/attendance/reports/{slug}', 'StudentAttendanceReportControll
 Route::post('student/attendance/reports/get-attendance', 'StudentAttendanceReportController@getAttendance');
 Route::post('student/attendance/reports/count-attendance', 'StudentAttendanceReportController@countAttendance');
 
-Route::get('student/class-attendance', 'StudentAttendanceReportController@classAttendance');
+Route::get('student/class-attendance/{slug?}', 'StudentAttendanceReportController@classAttendance');
 Route::post('student/class-attendance', 'StudentAttendanceReportController@getClassAttendance');
 Route::post('student/class-attendance/print', 'StudentAttendanceReportController@printClassAttendance');
 Route::post('lessionplan/by-attendance', 'StudentAttendanceReportController@getLessionPlansLatestRecords');

@@ -1,5 +1,26 @@
+$scope.lastPart = window.location.href.split("/").pop();
+$scope.role_sc        = {{Auth::user()->role_id}};
+$scope.current_teacher = window.location.href.split("/").pop();
 $scope.getCourses = function () {
+    if($scope.role_sc == 9){
+ 
+                 //supervisor/teacher-courses/{slug}
+                 $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'supervisor/teacher-courses/'+$scope.lastPart,
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                 })
+                     .then(function (response) {
+                      
+                         $scope.academic_courses_sc = response.data;
+                       
+                     })
+             }
+             else{
+    
 $http({
+ 
 method:"GET",
 url:'{{PREFIX}}'+'get_courses/'+$scope.current_year_sc+'/'+$scope.current_sem_sc,
 dataType:"json",
@@ -14,6 +35,8 @@ $scope.getClasses();
 $scope.getSubjects();
 
 })
+             }
+
 }
 
 $scope.getClasses = function () {
