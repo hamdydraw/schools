@@ -30,7 +30,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
-						@if($role_name=="educational_supervisor")
+						@if($role_name=="educational_supervisor" || $role_name=="owner")
 						<div class="profile-details">
 							@else
 							<div class="profile-details text-center">
@@ -40,10 +40,10 @@
 								<div class="aouther-school">
 									<h2>{{ $record->name}}</h2>
 									<p><span>{{$record->email}}</span></p>
-									@if($role_name=="educational_supervisor")
+									@if($role_name=="educational_supervisor" || $role_name=="owner")
 									<p><span>{{$record->mobile}}</span></p>
 									<a href="{{ URL_USERS_SWITCH_STAFF.$record->slug}}">
-										<sapn><i class="fa fa-sign-out" aria-hidden="true"></i> {{ getPhrase('switch_staff') }}</sapn>
+										<sapn><i class="fa fa-sign-out" aria-hidden="true"></i> {{ getPhrase('switch_to_staff') }}</sapn>
 									</a>
 									@endif
 								</div>
@@ -51,7 +51,7 @@
 						</div>
 						<div class="col-lg-6 col-md-6">
 							<div class="profile-details">
-								@if($role_name=="educational_supervisor")
+									@if($role_name=="educational_supervisor" || $role_name=="owner")
 								<table class="table">
 							 
 								@foreach($courses->groupBy('id') as $course)
@@ -106,7 +106,7 @@
 								<a class="card-footer text-muted" href="{{URL_TIMETABLE_STAFF.$record->slug}}">{{ getPhrase('view_details')}}</a>
 							</div>
 						</div>
-						@endif @if($role_name=="educational_supervisor")
+						@endif @if($role_name=="educational_supervisor" || $role_name=="owner")
 						<div class="col-lg-3 col-md-6">
 							<div class="card card-default text-xs-center">
 								<div class="card-block">
@@ -123,7 +123,7 @@
 									<h4 class="card-title"><i class="fa fa-users"></i></h4>
 									<p class="card-text">{{ getPhrase('teacher_students_marks') }}</p>
 								</div>
-								<a class="card-footer text-muted" href="{{url('supervisor/staff/students-marks')}}">
+								<a class="card-footer text-muted" href="{{url('supervisor/staff/students-marks/'.$record->slug)}}">
 											{{ getPhrase('view_all')}}
 										</a>
 							</div>

@@ -33,15 +33,39 @@
             <div class="panel panel-custom">
                 <div class="panel-heading">
                     <div class="pull-right">
+                        @if(Auth::user()->role_id!=9)
                         <a class="btn btn-primary"
                            href="{{url('supervisor/staff/students-marks')}}">{{getPhrase('teachers')}}</a> &nbsp;
+                        @endif
                     </div>
                     <h1>{{getPhrase('outstanding_students_report')}}</h1>
                 </div>
                 <div class="panel-body instruction" style="margin-top: -120px;">
                     <hr>
                     <div class="row">
-                        <fieldset class="form-group col-md-4">
+                        <div class="col-md-6">
+                                <fieldset class="form-group">
+                                    <label for="">{{getPhrase('branch')}}</label>
+                                    <span class="text-red">*</span>
+                                    <select name="course_parent_id" class="form-control" required="required"
+                                            ng-model="current_course_sc" ng-change="getClasses()">
+                                    <option ng-repeat="course in academic_courses_sc"
+                                            value="@{{ course.id }}">@{{ course.course_title }}</option>
+                                    </select>
+                                </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                                <fieldset class="form-group">
+                                  <label for="">{{getPhrase('classes')}}</label>
+                                  <span class="text-red">*</span>
+                                  <select name="course_id" class="form-control" required="required"  ng-change="getStudentMarks112()"
+                                  ng-model='default'>
+                                    <option ng-repeat="aclass in subcourses"
+                                            value="@{{ aclass.id }}">@{{ aclass.course_title }}</option>
+                                  </select>
+                                </fieldset>
+                              </div>
+                        <fieldset class="form-group col-md-6" ng-hide="true">
                             {{ Form::label('classes', getphrase('classes')) }}
                             <span class="text-red">*</span>
                             <select name="classes" class="form-control" id="classes" required="required"

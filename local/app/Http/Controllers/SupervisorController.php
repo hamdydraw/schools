@@ -112,6 +112,7 @@ class SupervisorController extends Controller
 
     public function getStudentsView($slug)
     {
+        
         $user = User::where('slug', $slug)->first(['id', 'name', 'slug']);
         $classes = Staff::join('courses', 'courses.id', '=', 'staff.course_id')
             ->where('staff.user_id', $user->id)

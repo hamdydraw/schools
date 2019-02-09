@@ -17,6 +17,21 @@
         $scope.course_title = '';
         $scope.default='select';
 
+        $scope.getClasses=function(){
+
+            $http({
+                     method:"GET",
+                     url:'{{PREFIX}}'+'supervisor/teacher-courses/'+window.location.href.split("/").pop(),
+                     dataType:"json",
+                     headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                 })
+                     .then(function (response) {
+                      
+                         $scope.academic_courses_sc = response.data;
+                         $scope.getCourses();
+                       
+                     })
+        }
         $scope.getStudentMarks112 = function () {
             $('#classNumber').val($('#classes').val())
             route = '{{url("supervisor/staff/students-marks/".$slug->slug)}}';
@@ -40,6 +55,24 @@
             $('#html_data').val(dta);
             $('#htmlform').submit();
         }
+        $scope.getCourses = function () {
+
+               
+                $http({
+                method:"GET",
+                url:'{{PREFIX}}'+'get_sub_courses/'+$scope.current_course_sc,
+                dataType:"json",
+                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                })
+                .then(function (response) {
+                $scope.subcourses = response.data;
+                if(response.data.length != 0){
+                //$scope.current_sub_course   = response.data[0].id.toString();
+                $scope.current_sub_course   = "0";
+                }
+                })
+        }
+        $scope.getClasses();
     });
 
 
