@@ -38,7 +38,7 @@
             data = {
                 _method: 'post',
                 '_token': httpPreConfig.getToken(),
-                'course_id':$('#classes').val()
+                'course_id':$scope.default
             };
 
             httpPreConfig.webServiceCallPost(route, data).then(function (result) {

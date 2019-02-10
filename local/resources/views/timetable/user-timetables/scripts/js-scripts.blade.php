@@ -190,7 +190,7 @@
          * @return {[type]}      [description]
          */
         $scope.getSyllabus = function (item) {
-
+ 
             route = '{{URL_LESSION_PLANS_GET_LASTUPDATED_RECORDS}}';
             request_data = {
                 _method: 'post',

@@ -74,6 +74,7 @@ class UsersLoginController extends Controller
     public function switchStaff($slug)
     {   
         //dd(Auth::user()->slug);
+        if(Auth::user()->role_id==9){
         session()->put('restore_staff', Auth::user()->slug);
         Auth::logout(); 
         $user = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
@@ -81,6 +82,8 @@ class UsersLoginController extends Controller
      
         //$vrequest=Session::get('restore_slug');
         return redirect('dashboard');
+    }
+    return $this->switchUser($slug);
     }
     public function switchSupervisor($slug='')
     {    

@@ -655,6 +655,7 @@ class LessionPlansController extends Controller
      */
     public function getLastUpdatedRecords(Request $request)
     {
+        
         $id = $request->id;
         $subject_id = $request->subject_id;
         $user_id = $request->user_id;
@@ -662,6 +663,7 @@ class LessionPlansController extends Controller
         $academic_id = $academic_id->getCurrentAcademic()['id'];
         $academicSemester = new App\AcademicSemester();
         $currentSemester = $academicSemester->getCurrentSemeterOfAcademicYear($academic_id)['sem_num'];
+       
         $timetableObject = new App\Timetable();
         $decoded_items = (object)$timetableObject->decodeObject($id);
         $topics = App\CourseSubject::join('lessionplans', 'course_subject.id', '=', 'lessionplans.course_subject_id')
