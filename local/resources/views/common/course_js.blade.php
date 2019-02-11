@@ -3,7 +3,7 @@ $scope.role_sc        = {{Auth::user()->role_id}};
 $scope.current_teacher = window.location.href.split("/").pop();
 
 $scope.getCourses = function () {
-    if(($scope.role_sc == 9 || $scope.role_sc == 1) && $scope.lastPart !='attendance-report' && $scope.lastPart !='view'  && $scope.lastPart !='class-attendance'){
+    if(($scope.role_sc == 9 || $scope.role_sc == 1) && /\d/.test($scope.lastPart)){
  
                  //supervisor/teacher-courses/{slug}
                  $http({
