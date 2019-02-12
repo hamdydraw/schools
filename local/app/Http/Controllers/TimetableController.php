@@ -652,13 +652,13 @@ class TimetableController extends Controller
         $days = getDay();
         $data['allocated_periods'] = json_encode($allocated_periods);
         $data['layout'] = getLayout();
-        if ($user_id) {
+        /*if ($user_id) {
             $data['right_bar'] = true;
             $data['right_bar_path'] = 'timetable.user-timetables.item-view-right-bar';
             $data['right_bar_data'] = array(
                 'item' => [],
             );
-        }
+        }*/
         return view('timetable.user-timetables.timetable-staff-view', $data);
     }
 
