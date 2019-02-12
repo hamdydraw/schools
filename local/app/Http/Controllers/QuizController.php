@@ -606,7 +606,7 @@ class QuizController extends Controller
 		flash(getPhrase('Ooops'), getPhrase("page_not_found"), 'error');
 		return back()->withInput();
 		}
-        if (!checkRole(getUserGrade(3))) {
+        if (!checkRole(getUserGrade(19))) {
             prepareBlockUserMessage();
             return back();
         }

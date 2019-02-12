@@ -19,7 +19,7 @@ $scope.getCourses = function () {
                      })
              }
              else{
-    
+                $scope.current_teacher=null;
 $http({
  
 method:"GET",
