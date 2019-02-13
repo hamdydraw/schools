@@ -260,7 +260,7 @@ function getUserRecord($user_id = 0)
 function getUserWithSlug($slug = '')
 {
     if ($slug) {
-        return App\User::where('slug', $slug)->first();
+        return App\User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->first();
     }
     return Auth::user();
 }

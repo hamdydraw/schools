@@ -108,7 +108,7 @@ if (isset($user_slug)) {
             </select>
         </fieldset>
 
-
+{{--
         <fieldset ng-if="have_semisters" class="form-group">
 
             <label for="semister">{{getPhrase('semester')}}</label>
@@ -124,7 +124,7 @@ if (isset($user_slug)) {
 
 
         </fieldset>
-
+--}}
     </div>
 
 </div>

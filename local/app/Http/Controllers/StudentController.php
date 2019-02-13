@@ -44,7 +44,7 @@ class StudentController extends Controller
     public function edit($slug, $tab = 'general')
     {
 
-        $userRecord = User::where('slug', $slug)->first();
+        $userRecord = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->first();
         if(!$userRecord){
             pageNotFound();
             return back();
@@ -227,8 +227,8 @@ class StudentController extends Controller
 
         $user_record = getUserWithSlug($slug);
 
-        $student = Student::where('user_id', '=', $user_record->id)->first();
-        $user    = User::where('id','=',$user_record->id)->first();
+        $student = Student::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('user_id', '=', $user_record->id)->first();
+        $user    = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id','=',$user_record->id)->first();
 
         if ($student->roll_no == null) {
             $current_year = 1;
@@ -735,7 +735,7 @@ class StudentController extends Controller
     {
         $term = $request->search_text;
         $role_id = getRoleData('parent');
-        $records = App\User::
+        $records = App\User::withoutGlobalScope(App\Scopes\BranchScope::class)->
         where('name', 'LIKE', '%' . $term . '%')
             ->orWhere('username', 'LIKE', '%' . $term . '%')
             ->orWhere('phone', 'LIKE', '%' . $term . '%')

@@ -39,7 +39,7 @@ class StaffController extends Controller
     public function edit($slug, $tab = 'general')
     {
 
-        $userRecord = User::where('slug', $slug)->get()->first();
+        $userRecord = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
 
         $data['userRecord']         = $userRecord;
         $phone_number               = $userRecord->phone;
@@ -98,8 +98,8 @@ class StaffController extends Controller
                         => 'bail|required|between:0,12|'
         ]);
 
-        $staff          = Staff::find($id);
-        $slug           = User::where('id',$staff->user_id)
+        $staff          = Staff::withoutGlobalScope(\App\Scopes\BranchScope::class)->find($id);
+        $slug           = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('id',$staff->user_id)
                              ->pluck('slug')->first();
 
         $staff->date_of_join             = $request->date_of_join;

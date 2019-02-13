@@ -631,7 +631,7 @@ class UsersController extends Controller
             $user->slug = $slug;
             $user->phone = $request->phone;
             $user->address = $request->address;
-
+            $user->category_id = $request->category_id;
             if(isset($request->branch) && checkRole(getUserGrade(2))){
                 $user->branch_id = $request->branch;
             }
@@ -677,8 +677,8 @@ class UsersController extends Controller
             DB::commit();
             $message = getPhrase('record_added_successfully_with_password') . ' ' . $password;
             $exception = 0;
-
-
+            
+          /*
             if (!sendEmail('registration', array(
                 'user_name' => $user->name,
                 'username' => $user->username,
@@ -687,8 +687,14 @@ class UsersController extends Controller
             ))) {
                 $message = getPhrase('record_added_successfully_with_password') . ' ' . $password;
                 $message .= getPhrase('Cannot_send_email_to_user_please_check_your_server_settings');
+            }*/
+            if ($user_type == 'student') {
+                
+                return redirect(URL_STUDENT_EDIT_PROFILE.$user->slug);
             }
-
+            if ($user_type == 'staff') {
+                return redirect(URL_STAFF_EDIT_PROFILE.$user->slug);
+            }
             $exception = 1;
 
             $flash = app('App\Http\Flash');
@@ -889,7 +895,7 @@ class UsersController extends Controller
     public function update(Request $request, $slug)
     {
 
-        $record = User::where('slug', $slug)->get()->first();
+        $record = User::withoutGlobalScope(\App\Scopes\BranchScope::class)->where('slug', $slug)->get()->first();
         //$role_name = getRoleData($record->role_id);
 
          //dd($role_name);
@@ -902,7 +908,7 @@ class UsersController extends Controller
 
 
 
-
+ 
 
         if (!isEligible($slug)) {
             return back();
@@ -925,7 +931,7 @@ class UsersController extends Controller
             }
         }
 
-        if($record->id == Auth::user()->id && (checkRole(getUserGrade(17))|| checkRole(getUserGrade(3))) ){
+        if( (checkRole(getUserGrade(17))|| checkRole(getUserGrade(3))) ){
             $record->category_id = $request->category_id;
         }
 

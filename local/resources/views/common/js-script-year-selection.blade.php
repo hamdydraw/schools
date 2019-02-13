@@ -150,11 +150,12 @@ var gr=$scope.parent_courses.filter(function(v){
 
     return v.id==parent_course_id;
 });
-console.log(gr[0].graduated_course);
+ if(gr.length>0){
 if(gr[0].graduated_course === 1)
 {
 $scope.thirdYear=true;
 }
+ }
 if(academic_id=='')
 return;
 

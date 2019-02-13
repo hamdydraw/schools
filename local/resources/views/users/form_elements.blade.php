@@ -196,21 +196,37 @@ if ($record) {
  ])}}
 </fieldset>
 @endif
-@if((checkRole(getUserGrade(17)) || checkRole(getUserGrade(3))) && $record != false)
-    @if($record->id == Auth::user()->id)
+@if($record != false)
+   
 <fieldset class="form-group">
     {{ Form::label('category', getphrase('category')) }}
 
     <span class="text-red">*</span>
 
-    {{Form::select('category_id', $categories, null, ['placeholder' => getPhrase('select_category'),'class'=>'form-control',
+    {{Form::select('category_id', $categories, $record->category_id, ['placeholder' => getPhrase('select_category'),'class'=>'form-control',
 
 
     'required'=> 'true',
 
  ])}}
 </fieldset>
-        @endif
+       
+@endif
+@if($record == false)
+   
+<fieldset class="form-group">
+    {{ Form::label('category', getphrase('category')) }}
+
+    <span class="text-red">*</span>
+
+    {{Form::select('category_id', $categories, Auth::user()->category_id, ['placeholder' => getPhrase('select_category'),'class'=>'form-control',
+
+
+    'required'=> 'true',
+
+ ])}}
+</fieldset>
+       
 @endif
 
 
