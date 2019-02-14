@@ -82,7 +82,7 @@ $extn = $data->value;
             <fieldset class="form-group col-md-8">
                 <label for="">{{getPhrase('class')}}</label>
                 <span class="text-red">*</span>
-                <select name="class_id" class="form-control" required="required"
+                <select name="class_id[]" class="form-control" required="required" multiple
                         ng-model="current_class_sc" ng-change="getSubjects()">
                     <option ng-repeat="aclass in academic_classes_sc"
                             value="@{{ aclass.id }}">@{{ aclass.course_title }}</option>
