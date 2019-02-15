@@ -213,12 +213,12 @@ class HomeWorkController extends Controller
             'course_subject_id' => 'required',
         ]);
 
-        $students = Student::select('user_id')->whereIn('course_id',$request->class_id)->get();
        
         foreach($request->class_id as $course)
         {
             //$courses=$courses.$course.",";
-        
+        $students = Student::select('user_id')->where('course_id',$course)->get();
+       
         $record = new HomeWork();
         $record->title = $request->title;
         $record->slug = $record->makeSlug( $record->title, true);
@@ -481,8 +481,7 @@ class HomeWorkController extends Controller
     {
         $records  = array();
         $homework = HomeWork::where('slug',$slug)->first();
-        $records  = HomeWorkReplay::join('homeworks_student','homeworks_student.id','=','homeworks_student_replay.homeworks_student_id')
-         ->where('homeworks_student.homework_id','=',$homework->id)->select('homeworks_student.id','homeworks_student.student_id','homeworks_student.slug');
+        $records  = HomeworkStudent::where('homeworks_student.homework_id','=',$homework->id)->select('homeworks_student.id','homeworks_student.student_id','homeworks_student.slug');
         return Datatables::of($records)
             ->editColumn('id', function ($records) {
                 $last_update = HomeWorkReplay::where('homeworks_student_id',$records->id)->orderBy('id','desc')->first();
