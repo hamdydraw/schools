@@ -241,7 +241,7 @@ class HomeWorkController extends Controller
         $record->file        = $request->question_file;
         $record->user_stamp($request);
         $record->save();
-        }
+        
         foreach ($students as $student){
             $homework = new HomeworkStudent();
             $homework->homework_id = $record->id;
@@ -249,7 +249,7 @@ class HomeWorkController extends Controller
             $homework->student_id  = $student->user_id;
             $homework->save();
         }
-    
+    }
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_HOMEWORK_ADD);
     }
