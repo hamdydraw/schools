@@ -80,8 +80,8 @@ class HomeWorkController extends Controller
         $teacher_id = User::where('slug',$teacher)->pluck('id')->first();
         $records    = HomeWork::select(['id','slug','title','subject_id','course_parent_id','course_id','explanation','file','created_by_user','updated_by_user','created_by_ip','updated_by_ip','created_at'])
             ->where('subject_id',$subject_id)
-            //->where('course_id',$course_id)
-            ->whereRaw("find_in_set($course_id , coursesids)")
+            ->where('course_id',$course_id)
+            //->whereRaw("find_in_set($course_id , coursesids)")
             ->where('staff_id',$teacher_id)->where('year',$year)->where('sem',$sem);
         return Datatables::of($records)
             ->addColumn('action', function ($records) {
@@ -214,7 +214,11 @@ class HomeWorkController extends Controller
         ]);
 
         $students = Student::select('user_id')->whereIn('course_id',$request->class_id)->get();
-
+       
+        foreach($request->class_id as $course)
+        {
+            //$courses=$courses.$course.",";
+        
         $record = new HomeWork();
         $record->title = $request->title;
         $record->slug = $record->makeSlug( $record->title, true);
@@ -226,14 +230,10 @@ class HomeWorkController extends Controller
 
         }
         //dd($students);
-        $courses="";
-        foreach($request->class_id as $course)
-        {
-            $courses=$courses.$course.",";
-        }
+       
         //dd($courses);
         $record->course_parent_id = $request->course_id;
-        $record->coursesids =$courses;// $request->class_id;
+        $record->course_id =$course;// $request->class_id;
         $record->subject_id = $request->course_subject_id;
         $record->explanation = $request->explanation;
         $record->year = $request->academic_id;
@@ -241,6 +241,7 @@ class HomeWorkController extends Controller
         $record->file        = $request->question_file;
         $record->user_stamp($request);
         $record->save();
+        }
         foreach ($students as $student){
             $homework = new HomeworkStudent();
             $homework->homework_id = $record->id;
@@ -248,7 +249,7 @@ class HomeWorkController extends Controller
             $homework->student_id  = $student->user_id;
             $homework->save();
         }
-
+    
         flash(getPhrase('success'), getPhrase('record_added_successfully'), 'success');
         return redirect(URL_HOMEWORK_ADD);
     }
@@ -367,8 +368,8 @@ class HomeWorkController extends Controller
             ->select(['home_works.id','homeworks_student.slug','home_works.title','home_works.subject_id','home_works.staff_id','home_works.file','home_works.created_at'])
             ->where('home_works.year',default_year())
             ->where('home_works.sem',default_sem(default_year()))
-            //->where('home_works.course_id',$student_data->course_id)
-            ->whereRaw("find_in_set($student_data->course_id , coursesids)")
+            ->where('home_works.course_id',$student_data->course_id)
+            //->whereRaw("find_in_set($student_data->course_id , coursesids)")
             ->where('homeworks_student.student_id',$student_id);
         return Datatables::of($records)
             ->editColumn('subject_id', function ($records) {
