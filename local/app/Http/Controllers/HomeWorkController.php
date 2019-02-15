@@ -481,21 +481,28 @@ class HomeWorkController extends Controller
     {
         $records  = array();
         $homework = HomeWork::where('slug',$slug)->first();
-        $records  = HomeworkStudent::where('homeworks_student.homework_id','=',$homework->id)->select('homeworks_student.id','homeworks_student.student_id','homeworks_student.slug');
+        $records  = HomeworkStudent::leftjoin('homeworks_student_replay','homeworks_student.id','=','homeworks_student_replay.homeworks_student_id')
+         ->where('homeworks_student.homework_id','=',$homework->id) 
+         ->orderBy('homeworks_student_replay.id','desc')
+         ->orderBy('homeworks_student_replay.visited','desc')
+         ->select('homeworks_student.id','homeworks_student.student_id','homeworks_student.slug');
         return Datatables::of($records)
             ->editColumn('id', function ($records) {
+                $link="";
                 $last_update = HomeWorkReplay::where('homeworks_student_id',$records->id)->orderBy('id','desc')->first();
                 $visited=0;
                 if(!$last_update){
                     $last_update = HomeworkStudent::where('id',$records->id)->first()->created_at;
+                    $link=$last_update;
                 }else { 
                     $visited=     $last_update->visited;
                     $last_update = $last_update->created_at;
+                    $link=$visited==0? "<span style='font-weight:bold;'>".$last_update." <span>" :$last_update.' &#10003;';
                     
                     
                 }
               
-                return $visited==0? "<span style='font-weight:bold;'>".$last_update."<span>" :$last_update;
+                return $link;
             })
             ->editColumn('student_id', function ($records) {
                 return getUserName($records->student_id);
