@@ -28,10 +28,10 @@
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-
-                                <th>{{getPhrase('last_update')}}</th>
-                                <th>{{getPhrase('student_name')}}</th>
-                                <th>{{getPhrase('show')}}</th>
+                            <th>{{getPhrase('student_name')}}</th>
+                            <th>{{getPhrase('ID_number')}}</th>
+                            <th>{{getPhrase('last_update')}}</th>
+                            <th>{{getPhrase('show')}}</th>
 
                             </tr>
                             </thead>
